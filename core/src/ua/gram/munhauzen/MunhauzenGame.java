@@ -2,11 +2,14 @@ package ua.gram.munhauzen;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.screen.LoadingScreen;
 
 public class MunhauzenGame extends Game {
@@ -21,6 +24,7 @@ public class MunhauzenGame extends Game {
     public Viewport view;
     public FontProvider fontProvider;
     public ButtonBuilder buttonBuilder;
+    public AssetManager assetManager;
 
     public static void pauseGame() {
         PAUSED = true;
@@ -32,25 +36,20 @@ public class MunhauzenGame extends Game {
 
     @Override
     public void create() {
+        Gdx.app.log("MunhauzenGame", "create");
 
         WORLD_WIDTH = Gdx.graphics.getWidth();
         WORLD_HEIGHT = Gdx.graphics.getHeight();
 
-        buttonBuilder = new ButtonBuilder(this);
+        loadGlobalAssets();
 
         createCamera();
         createBatch();
         createViewport();
 
-        loadGlobalAssets();
+        buttonBuilder = new ButtonBuilder(this);
 
-        setScreen(new LoadingScreen(this));
-    }
-
-    @Override
-    public void render() {
-        super.render();
-
+        setScreen(new GameScreen(this));
     }
 
     @Override
@@ -71,10 +70,14 @@ public class MunhauzenGame extends Game {
     }
 
     private void loadGlobalAssets() {
-        if (fontProvider != null) return;
-
         fontProvider = new FontProvider();
         fontProvider.load();
+
+        assetManager = new AssetManager();
+        assetManager.load("a0.jpg", Texture.class);
+        assetManager.load("ui/b_primary_enabled.9.png", Texture.class);
+
+        assetManager.finishLoading();
     }
 
     private void createCamera() {

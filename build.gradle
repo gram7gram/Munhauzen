@@ -19,7 +19,6 @@ buildscript {
 }
 
 allprojects {
-    apply plugin: "eclipse"
     apply plugin: "idea"
 
     version = '1.0'
@@ -113,8 +112,4 @@ project(":ios-moe") {
         natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-ios"
         
     }
-}
-
-tasks.eclipse.doLast {
-    delete ".project"
 }

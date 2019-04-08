@@ -33,14 +33,14 @@ public class LogoScreen implements Screen {
     public void show() {
         ui = new MunhauzenStage(game);
 
-        background = new Texture("a0.jpg");
+        background = game.assetManager.get("a0.jpg", Texture.class);
+
         Image logo = new Image(new Texture("logo_500.png"));
 
-        Label.LabelStyle labelStyle = new Label.LabelStyle(
+        Label title = new Label("FingerTips and Co\nPresents", new Label.LabelStyle(
                 game.fontProvider.getFont(FontProvider.Arnold, FontProvider.h2),
                 Color.BLACK
-        );
-        Label title = new Label("FingerTips and Co\nPresents", labelStyle);
+        ));
         title.setAlignment(Align.center);
 
         Container<Label> titleContainer = new Container<Label>(title);
