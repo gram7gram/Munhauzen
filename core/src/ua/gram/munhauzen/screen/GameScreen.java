@@ -18,16 +18,20 @@ import com.badlogic.gdx.utils.Align;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.MunhauzenStage;
+import ua.gram.munhauzen.service.ScenarioManager;
+import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
  */
 public class GameScreen implements Screen {
 
+    private final String tag = getClass().getSimpleName();
     private final MunhauzenGame game;
     private Texture background;
     private MunhauzenStage ui;
     private AssetManager assetManager;
+    private ScenarioManager scenarioManager;
 
     public GameScreen(MunhauzenGame game) {
         this.game = game;
@@ -36,8 +40,10 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
 
-        Gdx.app.log("GameScreen", "show");
+        Log.i(tag, "show");
+
         ui = new MunhauzenStage(game);
+        scenarioManager = new ScenarioManager(game.gameState);
 
         assetManager = new AssetManager();
 
@@ -139,6 +145,9 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
+
+        Log.i(tag, "dispose");
+
         if (assetManager != null) {
             assetManager.dispose();
         }

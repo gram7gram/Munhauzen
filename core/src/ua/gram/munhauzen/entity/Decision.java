@@ -1,9 +1,9 @@
 package ua.gram.munhauzen.entity;
 
-import java.util.List;
+import com.badlogic.gdx.utils.Array;
 
 public class Decision {
     public String option;
-    public List<String> inventoryRequired;
-    public List<String> inventoryAbsent;
+    public Array<String> inventoryRequired;
+    public Array<String> inventoryAbsent;
 }

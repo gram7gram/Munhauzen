@@ -41,7 +41,7 @@ public class Save {
      */
     public ArrayList<Entry> inventory;
     /**
-     * Visited branches on current iteration
+     * Visited options on current iteration
      */
     public Stack<Entry> steps;
     /**
@@ -49,7 +49,7 @@ public class Save {
      */
     public Set<String> disabledOptions;
     /**
-     * Completed actions in visited branches on current iteration
+     * Completed actions in visited options on current iteration
      */
     public ArrayList<OptionActionEntry> completedOptionActions;
     /**

@@ -6,7 +6,7 @@ public class OptionRepository {
     public static Option find(GameState gameState, String id) {
         if (id == null) return null;
 
-        for (Option o : gameState.getOptionRegistry()) {
+        for (Option o : gameState.optionRegistry) {
             if (o.id.equals(id)) {
                 return o;
             }

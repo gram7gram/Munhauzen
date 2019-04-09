@@ -26,12 +26,12 @@ public class FontProvider implements Disposable {
         String[] fonts = new String[]{Arnold, BuxtonSketch};
         int[] sizes = new int[]{small, p, h1, h2, h3, h4, h5};
 
-        map = new HashMap<String, HashMap<Integer, BitmapFont>>(fonts.length);
+        map = new HashMap<>(fonts.length);
 
         for (String font : fonts) {
             FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(font + ".ttf"));
 
-            HashMap<Integer, BitmapFont> variants = new HashMap<Integer, BitmapFont>(sizes.length);
+            HashMap<Integer, BitmapFont> variants = new HashMap<>(sizes.length);
 
             for (int size : sizes) {
                 FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();

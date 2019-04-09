@@ -5,7 +5,7 @@ public class AudioRepository {
     public static Audio find(GameState gameState, String id) {
         if (id == null) return null;
 
-        for (Audio image : gameState.getAudioRegistry()) {
+        for (Audio image : gameState.audioRegistry) {
             if (id.equals(image.id)) {
                 return image;
             }
