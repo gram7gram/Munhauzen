@@ -26,9 +26,9 @@ android {
     signingConfigs {
         debug {
             storeFile file('debug.keystore')
-            storePassword 'fenix3452' //'androiddebug
+            storePassword 'androiddebug'
             keyAlias 'androiddebugkey'
-            keyPassword 'fenix3452' //'androiddebug
+            keyPassword 'androiddebug'
         }
     }
     buildTypes {

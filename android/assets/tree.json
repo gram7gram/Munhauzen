@@ -1,66 +1,66 @@
 [
 	{
-		"id_option": "BEGIN",
-		"description_option": "Начало",
+		"id": "BEGIN",
+		"text": "Начало",
 		"inventory_add": "BEGIN_ITEM",
-		"pictures": [
+		"images": [
 			{"id": "image1", "duration": 1000},
 			{"id": "image2", "duration": 1000},
 		],
-		"audios": ["audio1", "audio2"],
-		"background_audios": [
+		"audio": ["audio1", "audio2"],
+		"background_audio": [
 			{"id": "audio3", "start_time":2000, "end_time": 4000},
 		],
 		"action": "CLICK",
 		"decisions": [
-			{"id": "option1", "inventory_required": ["DEFAULT"]},
-			{"id": "option2", "inventory_required": ["OPTION_2_ITEM"]},
-			{"id": "option3", "inventory_required": ["DEFAULT"]},
+			{"id": "option1", "inventoryRequired": ["DEFAULT"]},
+			{"id": "option2", "inventoryRequired": ["OPTION_2_ITEM"]},
+			{"id": "option3", "inventoryRequired": ["DEFAULT"]},
 		]
 	},
 	{
-		"id_option": "option1",
-		"description_option": "Опция 1",
-		"pictures": [
+		"id": "option1",
+		"text": "Опция 1",
+		"images": [
 			{"id": "image3", "duration": 1000},
 			{"id": "image4", "duration": 1000},
 		],
-		"audios": ["audio3"],
+		"audio": ["audio3"],
 		"action": "CLICK",
 		"decisions": [
-			{"id": "option1", "inventory_required": ["DEFAULT"]},
-			{"id": "option2", "inventory_required": ["DEFAULT"]},
-			{"id": "option3", "inventory_required": ["DEFAULT"]},
+			{"id": "option1", "inventoryRequired": ["DEFAULT"]},
+			{"id": "option2", "inventoryRequired": ["DEFAULT"]},
+			{"id": "option3", "inventoryRequired": ["DEFAULT"]},
 		]
 	},
 	{
-		"id_option": "option2",
-		"description_option": "Опция 2",
+		"id": "option2",
+		"text": "Опция 2",
 		"inventory_add": "OPTION_2_ITEM",
-		"pictures": [
+		"images": [
 			{"id": "image5", "duration": 1000},
 		],
-		"audios": ["audio4", "audio5"],
+		"audio": ["audio4", "audio5"],
 		"action": "CLICK",
 		"decisions": [
-			{"id": "option1", "inventory_required": ["DEFAULT"]},
-			{"id": "BEGIN", "inventory_required": ["DEFAULT"]},
-			{"id": "option3", "inventory_required": ["DEFAULT"]},
+			{"id": "option1", "inventoryRequired": ["DEFAULT"]},
+			{"id": "BEGIN", "inventoryRequired": ["DEFAULT"]},
+			{"id": "option3", "inventoryRequired": ["DEFAULT"]},
 		]
 	},
 	{
-		"id_option": "option3",
-		"description_option": "Опция 3",
-		"pictures": [
+		"id": "option3",
+		"text": "Опция 3",
+		"images": [
 			{"id": "image6", "duration": 1000},
 			{"id": "image7", "duration": 1000},
 		],
-		"audios": ["audio6"],
+		"audio": ["audio6"],
 		"action": "CLICK",
 		"decisions": [
-			{"id": "option1", "inventory_required": ["DEFAULT"]},
-			{"id": "option2", "inventory_required": ["DEFAULT"]},
-			{"id": "BEGIN", "inventory_required": ["DEFAULT"]},
+			{"id": "option1", "inventoryRequired": ["DEFAULT"]},
+			{"id": "option2", "inventoryRequired": ["DEFAULT"]},
+			{"id": "BEGIN", "inventoryRequired": ["DEFAULT"]},
 		]
 	}
 ]

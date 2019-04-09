@@ -10,7 +10,6 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import ua.gram.munhauzen.screen.GameScreen;
-import ua.gram.munhauzen.screen.LoadingScreen;
 
 public class MunhauzenGame extends Game {
 
