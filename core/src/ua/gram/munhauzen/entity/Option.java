@@ -11,8 +11,8 @@ public class Option extends Entity {
     public static final String DEATH = "DEATH";
     public static final String VICTORY = "VICTORY";
 
-    public Array<Image> images;
-    public Array<Audio> audio;
+    public Array<OptionImage> images;
+    public Array<OptionAudio> audio;
     public Array<BackgroundAudio> backgroundAudio;
     public Array<Decision> decisions;
     public String type;

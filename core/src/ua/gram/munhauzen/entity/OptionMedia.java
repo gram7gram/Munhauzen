@@ -9,7 +9,9 @@ public abstract class OptionMedia extends Entity {
     public int finishesAt;
     public boolean isLocked;
     public boolean isCompleted;
-    public int progress;
+    public float progress;
     public OptionMedia previous;
     public OptionMedia next;
+    public boolean isPrepared;
+    public boolean isPreparing;
 }

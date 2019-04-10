@@ -1,5 +1,7 @@
 package ua.gram.munhauzen.history;
 
+import com.badlogic.gdx.utils.Array;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -39,7 +41,7 @@ public class Save {
     /**
      * Obtained items on current iteration
      */
-    public ArrayList<Entry> inventory;
+    public Array<Entry> inventory;
     /**
      * Visited options on current iteration
      */
@@ -51,7 +53,7 @@ public class Save {
     /**
      * Completed actions in visited options on current iteration
      */
-    public ArrayList<OptionActionEntry> completedOptionActions;
+    public Array<OptionActionEntry> completedOptionActions;
     /**
      * Current background image
      */
@@ -67,17 +69,17 @@ public class Save {
     /**
      * Opened interactions on current iteration
      */
-    public ArrayList<InteractionEntry> completedInteractions;
+    public Array<InteractionEntry> completedInteractions;
 
     public Save() {
 
         id = StringUtils.cid();
         order = 0;
         steps = new Stack<>();
-        inventory = new ArrayList<>();
+        inventory = new Array<>();
         disabledOptions = new HashSet<>();
-        completedOptionActions = new ArrayList<>();
-        completedInteractions = new ArrayList<>();
+        completedOptionActions = new Array<>();
+        completedInteractions = new Array<>();
         scenario = new Scenario();
         clickedBranches = new Stack<>();
     }
@@ -92,6 +94,18 @@ public class Save {
         scenario = new Scenario();
 
         clickedBranches.clear();
+    }
+
+    public Set<String> getUniqueInventory() {
+        HashSet<String> values = new HashSet<>(inventory.size);
+
+        values.add("DEFAULT");
+
+        for (Entry entry : inventory) {
+            values.add(entry.name);
+        }
+
+        return values;
     }
 
 }

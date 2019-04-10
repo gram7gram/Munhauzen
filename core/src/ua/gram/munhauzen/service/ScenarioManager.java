@@ -1,22 +1,37 @@
 package ua.gram.munhauzen.service;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
+
+import java.util.ArrayList;
+import java.util.Set;
+
+import ua.gram.munhauzen.entity.Decision;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.Option;
+import ua.gram.munhauzen.entity.OptionAudio;
+import ua.gram.munhauzen.entity.OptionImage;
 import ua.gram.munhauzen.entity.OptionRepository;
 import ua.gram.munhauzen.entity.Scenario;
+import ua.gram.munhauzen.entity.ScenarioOption;
+import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.utils.Log;
 import ua.gram.munhauzen.utils.StringUtils;
 
 public class ScenarioManager {
 
     private final String tag = getClass().getSimpleName();
+    private final GameScreen gameScreen;
     private final GameState gameState;
 
-    public ScenarioManager(GameState gameState) {
+    public ScenarioManager(GameScreen gameScreen, GameState gameState) {
+        this.gameScreen = gameScreen;
         this.gameState = gameState;
     }
 
     public Scenario createScenario(String cid) {
+
+        resetScenario();
+
         Scenario scenario = new Scenario();
         scenario.cid = StringUtils.cid();
 
@@ -40,7 +55,7 @@ public class ScenarioManager {
         try {
 
             Scenario scenario = gameState.history.activeSave.scenario;
-            if (!scenario.isValid()) {
+            if (scenario == null || !scenario.isValid()) {
                 Log.e(tag, "Scenario is not valid. Resetting");
                 Option start = OptionRepository.find(gameState, GameState.INITIAL_OPTION);
 
@@ -49,9 +64,6 @@ public class ScenarioManager {
                 gameState.history.activeSave.scenario = scenario;
             }
 
-//                presenter.getProgressBarManager().start(scenario);
-
-
         } catch (Throwable e) {
             Log.e(tag, e);
         }
@@ -59,78 +71,42 @@ public class ScenarioManager {
 
     private void findScenario(Option from, Scenario scenario) {
 
-        Log.i(tag, "findScenario " + from + " #" + scenario.options.size);
+        Log.i(tag, "findScenario " + from.id + " #" + scenario.options.size);
 
-//        BranchDecisionManager decisionManager = new BranchDecisionManager(gameBase);
-//
-//        Branch altBranch = decisionManager.decideCurrentBranch(from);
-//        Option option = OptionRepository.find(gameBase, altBranch.getOption());
-//
-//        // NOTE Can be executed outside the Branch Activity
-//        if (option != null && BranchPresenter.isCreated()) {
-//
-//            BranchPresenter presenter = BranchPresenter.getInstance();
-//            RobinzonActivity activity = presenter.getActivity();
-//            History history = gameBase.getHistory();
-//
-//            if (option.isInteraction() && !history.isInteractionCompleted(option.interaction, option.id)) {
-//                InteractionStrategy strategy = InteractionFactory.createInstance(option.interaction);
-//
-//                if (!strategy.isSupported(activity)) {
-//                    Branch nextBranch = TreeParser.findNextBranchByInventory(gameBase, altBranch);
-//                    if (nextBranch != null) {
-//                        findScenario(gameBase, nextBranch, scenario);
-//                        return;
-//                    }
-//                }
-//            }
-//        }
-//
-//        if (!canStartScenario(scenario, option)) {
-//
-//            //NOTE Scenario is completed due to INCREMENT_DAY action in option.
-//            //But new scenario will be created after.
-//            TrackBranch lastBranch = scenario.last();
-//            if (lastBranch != null) {
-//                lastBranch.isBeforeNewScenario = true;
-//            }
-//            return;
-//        }
-//
-//        TrackBranch trackBranch = new TrackBranch();
-//        trackBranch.id = altBranch.cid;
-//
-//        scenario.branches.add(trackBranch);
-//
-//        if (option != null) {
-//            trackBranch.duration = option.getDuration();
-//            trackBranch.option = option.getId();
-//            trackBranch.optionType = option.getType();
-//            trackBranch.containsDayAction = option.containsDayAction();
-//        }
-//
-//        if (canFinishScenario(altBranch, option)) return;
-//
-//        Option match = TreeParser.findNextBranchByInventory(gameBase, altBranch);
-//
-//        if (match != null) {
-//
-//            if (!match.isFinal() && match.isReference()) {
-//                Branch reference = TreeParser.findBranchByOption(
-//                        gameBase, match.getOption(), true, null);
-//
-//                if (reference == null) {
-//                    throw new NullPointerException("Branch reference not found for " + match);
-//                }
-//
-//                match = reference;
-//            }
-//
-//            findScenario(match, scenario);
-//        }
+        Set<String> inventory = gameState.history.activeSave.getUniqueInventory();
+
+        ScenarioOption scenarioOption = new ScenarioOption();
+        scenarioOption.option = from;
+        scenarioOption.duration = 0;
+
+        scenario.options.add(scenarioOption);
+
+        switch (from.action) {
+            case "GOTO":
+
+                for (Decision decision : from.decisions) {
+                    if (isDecisionAvailable(decision, inventory)) {
+
+                        Option next = OptionRepository.find(gameState, decision.option);
+
+                        findScenario(next, scenario);
+                    }
+                }
+        }
     }
 
-//    public void onBranchCompleted(TrackBranch trackBranch, GameBase gameBase) {
+    public void updateScenario(float progress, int duration) {
+
+        Scenario scenario = gameState.history.activeSave.scenario;
+
+        scenario.update(progress, duration);
+
+        for (ScenarioOption scenarioOption : scenario.options) {
+            scenarioOption.update(progress, duration);
+        }
+    }
+
+    //    public void onBranchCompleted(TrackBranch trackBranch, GameBase gameBase) {
 //
 //        if (trackBranch == null) return;
 //
@@ -284,16 +260,31 @@ public class ScenarioManager {
 //
 //    }
 //
-//    public void onScenarioCompleted() {
-//        Log.i(tag, "Scenario completed");
-//
-//        if (!BranchPresenter.isCreated()) return;
-//
-//        final BranchPresenter presenter = BranchPresenter.getInstance();
-//
-//        presenter.dispatch(Event.TRACK_COMPLETED);
-//    }
-//
+    public void onScenarioCompleted() {
+        Log.i(tag, "onScenarioCompleted");
+
+        Scenario scenario = gameState.history.activeSave.scenario;
+        Set<String> inventory = gameState.history.activeSave.getUniqueInventory();
+
+        for (OptionAudio audio : scenario.currentOption.option.audio) {
+            if (audio.player != null) {
+                audio.player.stop();
+            }
+        }
+
+        ArrayList<Decision> availableDecisions = new ArrayList<>();
+        for (Decision decision : scenario.currentOption.option.decisions) {
+            if (isDecisionAvailable(decision, inventory)) {
+                availableDecisions.add(decision);
+            }
+        }
+
+        Actor container = gameScreen.prepareScenarioOptions(availableDecisions);
+
+        gameScreen.setScenarioOptionsLayer(container);
+    }
+
+    //
 //    public void onInteractionReached(Scenario scenario) {
 //
 //        Log.i(tag, "onInteractionReached");
@@ -365,31 +356,48 @@ public class ScenarioManager {
 //        return option == null || !option.containsDayAction();
 //    }
 //
-//    public boolean updateScenario(GameBase gameBase, Scenario scenario, int progress, int duration) {
 //
-//        boolean hasChanged = scenario.update(progress, duration);
-//
-//        for (TrackBranch branch : scenario.branches) {
-//            Option option = OptionRepository.find(gameBase, branch.option);
-//            if (option == null) continue;
-//
-//            if (!option.isInitialized) {
-//                option.init(branch.startsAt);
-//            }
-//
-//            option.update(progress, duration);
-//        }
-//
-//        return hasChanged;
-//    }
-//
-//    public void resetScenario(GameBase gameBase, Scenario scenario) {
-//        if (gameBase == null) return;
-//
-//        for (TrackBranch branch : scenario.branches) {
-//            Option option = OptionRepository.find(gameBase, branch.option);
-//            if (option != null)
-//                option.reset();
-//        }
-//    }
+    public void resetScenario() {
+
+        Scenario scenario = gameState.history.activeSave.scenario;
+        if (scenario == null) return;
+
+        for (ScenarioOption scenarioOption : scenario.options) {
+
+            for (OptionAudio audio : scenarioOption.option.audio) {
+                gameScreen.assetManager.unload("audio/" + audio.id + ".ogg");
+            }
+
+            for (OptionImage image : scenarioOption.option.images) {
+                gameScreen.assetManager.unload("images/" + image.id + ".jpg");
+            }
+
+            scenarioOption.reset();
+        }
+    }
+
+    private boolean isDecisionAvailable(Decision decision, Set<String> inventory)
+    {
+        boolean hasRequired = true;
+        if (decision.inventoryRequired != null) {
+            for (String item : decision.inventoryRequired) {
+                if (!inventory.contains(item)) {
+                    hasRequired = false;
+                    break;
+                }
+            }
+        }
+
+        boolean hasAbsent = false;
+        if (decision.inventoryAbsent != null) {
+            for (String item : decision.inventoryAbsent) {
+                if (inventory.contains(item)) {
+                    hasAbsent = true;
+                    break;
+                }
+            }
+        }
+
+        return hasRequired && !hasAbsent;
+    }
 }

@@ -6,19 +6,21 @@
     "images": [
       {
         "id": "image1",
-        "duration": 1000
+        "duration": 2500
       },
       {
         "id": "image2",
-        "duration": 1000
+        "duration": 2500
       }
     ],
     "audio": [
       {
-        "id": "audio1"
+        "id": "audio1",
+        "duration": 2500
       },
       {
-        "id": "audio2"
+        "id": "audio2",
+        "duration": 2500
       }
     ],
     "backgroundAudio": [
@@ -56,16 +58,17 @@
     "images": [
       {
         "id": "image3",
-        "duration": 1000
+        "duration": 2500
       },
       {
         "id": "image4",
-        "duration": 1000
+        "duration": 2500
       }
     ],
     "audio": [
       {
-        "id": "audio3"
+        "id": "audio3",
+        "duration": 2500
       }
     ],
     "action": "CLICK",
@@ -97,15 +100,17 @@
     "images": [
       {
         "id": "image5",
-        "duration": 1000
+        "duration": 2500
       }
     ],
     "audio": [
       {
-        "id": "audio4"
+        "id": "audio4",
+        "duration": 2500
       },
       {
-        "id": "audio5"
+        "id": "audio5",
+        "duration": 2500
       }
     ],
     "action": "CLICK",
@@ -136,16 +141,17 @@
     "images": [
       {
         "id": "image6",
-        "duration": 1000
+        "duration": 2500
       },
       {
         "id": "image7",
-        "duration": 1000
+        "duration": 2500
       }
     ],
     "audio": [
       {
-        "id": "audio6"
+        "id": "audio6",
+        "duration": 2500
       }
     ],
     "action": "CLICK",

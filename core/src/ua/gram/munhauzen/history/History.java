@@ -117,7 +117,7 @@ public class History {
         Save save = getActiveSave();
         for (Entry item : save.inventory) {
             if (item.name.equals(id)) {
-                save.inventory.remove(item);
+                save.inventory.removeValue(item, true);
                 return;
             }
         }
@@ -125,7 +125,7 @@ public class History {
 
     public HashSet<String> getUniqueInventory() {
         Save save = getActiveSave();
-        HashSet<String> uniqueItems = new HashSet<>(save.inventory.size());
+        HashSet<String> uniqueItems = new HashSet<>(save.inventory.size);
         for (Entry entry : save.inventory) {
             uniqueItems.add(entry.name);
         }

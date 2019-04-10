@@ -4,8 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
@@ -24,7 +24,7 @@ public class ButtonBuilder implements Disposable {
         decoration = game.assetManager.get("ui/b_primary_enabled.9.png", Texture.class);
     }
 
-    public Actor primary(String text, final Runnable onClick) {
+    public Button primary(String text, final Runnable onClick) {
 
         NinePatchDrawable background = new NinePatchDrawable(new NinePatch(decoration, 90, 90, 0, 0));
 

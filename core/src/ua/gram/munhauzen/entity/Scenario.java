@@ -7,7 +7,7 @@ public class Scenario {
     public String cid;
     public int totalDuration;
     public boolean isCompleted;
-    public int progress;
+    public float progress;
     public final Array<ScenarioOption> options;
     public ScenarioOption currentOption;
     private boolean isInit;
@@ -17,7 +17,13 @@ public class Scenario {
     }
 
     public boolean isValid() {
-        return isInit && options.size > 0
+
+        if (options.size == 0) return false;
+
+        ScenarioOption last = options.get(options.size - 1);
+
+        return isInit
+                && (last.option.action.equals("CLICK")) // || last.option.interaction ...
                 && progress >= 0 && totalDuration >= 0
                 && currentOption != null;
     }
@@ -42,6 +48,8 @@ public class Scenario {
                     prev = options.get(i - 1);
                 }
             }
+
+            current.init(offset);
 
             current.previous = prev;
             current.next = next;
@@ -69,7 +77,7 @@ public class Scenario {
         return options.get(options.size - 1);
     }
 
-    public boolean update(int progress, int duration) {
+    public void update(float progress, int duration) {
 
         if (progress > duration) {
             progress = duration;
@@ -80,7 +88,7 @@ public class Scenario {
 
         isCompleted = progress >= duration;
 
-        return update();
+        update();
     }
 
     public void unlock() {
@@ -89,33 +97,33 @@ public class Scenario {
         }
     }
 
-    public boolean update() {
-        String prevBranch = currentOption != null ? currentOption.id : null;
+    public void update() {
+
+        int currentProgress = (int) progress;
 
         currentOption = null;
 
-        if (progress == 0) {
+        if (currentProgress == 0) {
             currentOption = first();
-        } else if (progress == totalDuration) {
+        } else if (currentProgress == totalDuration) {
             currentOption = last();
         }
 
-        for (ScenarioOption trackBranch : options) {
+        for (ScenarioOption scenarioOption : options) {
 
-            trackBranch.isCompleted = false;
-            trackBranch.isLocked = false;
-            trackBranch.progress = progress;
+            scenarioOption.isCompleted = false;
+            scenarioOption.isLocked = false;
+            scenarioOption.progress = progress;
 
-            if (trackBranch.startsAt <= progress && progress < trackBranch.finishesAt) {
-                trackBranch.isLocked = true;
+            if (scenarioOption.startsAt <= progress && progress < scenarioOption.finishesAt) {
+                scenarioOption.isLocked = true;
 
-                currentOption = trackBranch;
+                currentOption = scenarioOption;
 
-            } else if (trackBranch.finishesAt <= progress) {
-                trackBranch.isCompleted = true;
+            } else if (scenarioOption.finishesAt <= progress) {
+                scenarioOption.isCompleted = true;
             }
         }
 
-        return currentOption != null && !currentOption.id.equals(prevBranch);
     }
 }

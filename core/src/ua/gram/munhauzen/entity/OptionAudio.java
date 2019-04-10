@@ -6,7 +6,5 @@ public class OptionAudio extends OptionMedia {
 
     public int duration;
     public Music player;
-    public boolean isPrepared;
-    public boolean isPreparing;
 
 }
