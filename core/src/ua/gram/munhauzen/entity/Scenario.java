@@ -18,7 +18,7 @@ public class Scenario {
 
     public boolean isValid() {
 
-        if (options.size == 0) return false;
+        if (cid == null || options.size == 0) return false;
 
         ScenarioOption last = options.get(options.size - 1);
 
@@ -29,6 +29,9 @@ public class Scenario {
     }
 
     public void init() {
+
+        reset();
+
         int offset = 0;
         int size = options.size;
         totalDuration = 0;
@@ -91,10 +94,9 @@ public class Scenario {
         update();
     }
 
-    public void unlock() {
-        for (ScenarioOption trackBranch : options) {
-            trackBranch.isLocked = false;
-        }
+    public void reset() {
+        progress = 0;
+        isCompleted = false;
     }
 
     public void update() {
