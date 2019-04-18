@@ -2,7 +2,6 @@ package ua.gram.munhauzen.history;
 
 import com.badlogic.gdx.utils.Array;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Stack;
@@ -41,7 +40,7 @@ public class Save {
     /**
      * Obtained items on current iteration
      */
-    public Array<Entry> inventory;
+    public Set<String> inventory;
     /**
      * Visited options on current iteration
      */
@@ -76,7 +75,7 @@ public class Save {
         id = StringUtils.cid();
         order = 0;
         steps = new Stack<>();
-        inventory = new Array<>();
+        inventory = new HashSet<>();
         disabledOptions = new HashSet<>();
         completedOptionActions = new Array<>();
         completedInteractions = new Array<>();
@@ -97,13 +96,11 @@ public class Save {
     }
 
     public Set<String> getUniqueInventory() {
-        HashSet<String> values = new HashSet<>(inventory.size);
+        HashSet<String> values = new HashSet<>(inventory.size());
+
+        values.addAll(inventory);
 
         values.add("DEFAULT");
-
-        for (Entry entry : inventory) {
-            values.add(entry.name);
-        }
 
         return values;
     }

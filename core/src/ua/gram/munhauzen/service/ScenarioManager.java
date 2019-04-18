@@ -41,6 +41,8 @@ public class ScenarioManager {
 
         scenario.init();
 
+        Log.i(tag, "createScenario " + scenario.cid + " x" + scenario.options.size);
+
         if (!scenario.isValid()) {
             throw new IllegalArgumentException("Created scenario is not valid!");
         }
@@ -49,8 +51,6 @@ public class ScenarioManager {
     }
 
     public void resumeScenario() {
-
-        Log.i(tag, "resumeScenario");
 
         try {
 
@@ -63,6 +63,8 @@ public class ScenarioManager {
 
                 gameState.history.activeSave.scenario = scenario;
             }
+
+            Log.i(tag, "resumeScenario " + scenario.cid);
 
         } catch (Throwable e) {
             Log.e(tag, e);
@@ -264,6 +266,19 @@ public class ScenarioManager {
         Log.i(tag, "onScenarioCompleted");
 
         Scenario scenario = gameState.history.activeSave.scenario;
+        for (ScenarioOption scenarioOption : scenario.options) {
+
+            String newInventory = scenarioOption.option.inventoryAdd;
+            if (newInventory != null) {
+                gameState.history.activeSave.inventory.add(newInventory);
+            }
+
+            String newGlobalInventory = scenarioOption.option.inventoryGlobalAdd;
+            if (newGlobalInventory != null) {
+                gameState.history.globalInventory.add(newGlobalInventory);
+            }
+        }
+
         Set<String> inventory = gameState.history.activeSave.getUniqueInventory();
 
         for (OptionAudio audio : scenario.currentOption.option.audio) {
@@ -376,8 +391,7 @@ public class ScenarioManager {
         }
     }
 
-    private boolean isDecisionAvailable(Decision decision, Set<String> inventory)
-    {
+    private boolean isDecisionAvailable(Decision decision, Set<String> inventory) {
         boolean hasRequired = true;
         if (decision.inventoryRequired != null) {
             for (String item : decision.inventoryRequired) {

@@ -7,6 +7,8 @@ import com.badlogic.gdx.Gdx;
  */
 public class Log {
 
+    private static final String prefix = "gamelog.";
+
     public static void e(String tag, Throwable e) {
 
 //        ErrorMonitoring.capture(e);
@@ -16,10 +18,10 @@ public class Log {
     }
 
     public static void e(String tag, String message) {
-        Gdx.app.error(tag, message);
+        Gdx.app.error(prefix + tag, message);
     }
 
     public static void i(String tag, String message) {
-        Gdx.app.log(tag, message);
+        Gdx.app.log(prefix + tag, message);
     }
 }

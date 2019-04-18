@@ -19,6 +19,7 @@ public class Option extends Entity {
     public String interaction;
     public String text;
     public String inventoryAdd;
+    public String inventoryGlobalAdd;
     public String action;
 
     public boolean isFinal() {

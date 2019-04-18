@@ -1,20 +1,16 @@
 package ua.gram.munhauzen.history;
 
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Stack;
 
-import ua.gram.munhauzen.entity.Item;
 import ua.gram.munhauzen.entity.Player;
-import ua.gram.munhauzen.entity.Scenario;
 
 /**
  * @author Gram <gram7gram@gmail.com>
  */
 public class History {
 
-    public static final int DEFAULT_DAY = 1;
     public static final int SAVE_LIMIT = 4;
 
     /**
@@ -82,57 +78,6 @@ public class History {
         return activeSave;
     }
 
-    public void clear() {
-        Save save = getActiveSave();
-
-        save.reset();
-
-        save.scenario.cid = null;
-    }
-
-    public boolean addItem(Item item) {
-
-        if (item.isGlobal) {
-            globalInventory.add(item.id);
-        }
-
-        return addItem(item.id);
-    }
-
-    public boolean addItem(final String id) {
-        Save save = getActiveSave();
-        for (Entry input : save.inventory) {
-            if (id.equals(input.name)) {
-                return false;
-            }
-        }
-
-        save.inventory.add(new Entry(id));
-
-
-        return true;
-    }
-
-    public void removeItem(String id) {
-        Save save = getActiveSave();
-        for (Entry item : save.inventory) {
-            if (item.name.equals(id)) {
-                save.inventory.removeValue(item, true);
-                return;
-            }
-        }
-    }
-
-    public HashSet<String> getUniqueInventory() {
-        Save save = getActiveSave();
-        HashSet<String> uniqueItems = new HashSet<>(save.inventory.size);
-        for (Entry entry : save.inventory) {
-            uniqueItems.add(entry.name);
-        }
-
-        return uniqueItems;
-    }
-
     public void incrementDay() {
         Save save = getActiveSave();
         save.day += 1;
@@ -158,9 +103,5 @@ public class History {
     public Stack<Entry> getSteps() {
         Save save = getActiveSave();
         return save.steps;
-    }
-
-    public Scenario getScenario() {
-        return getActiveSave().scenario;
     }
 }

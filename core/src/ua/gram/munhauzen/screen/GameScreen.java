@@ -22,16 +22,20 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.MunhauzenStage;
 import ua.gram.munhauzen.entity.Decision;
+import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.Option;
 import ua.gram.munhauzen.entity.OptionAudio;
 import ua.gram.munhauzen.entity.OptionImage;
 import ua.gram.munhauzen.entity.OptionRepository;
 import ua.gram.munhauzen.entity.Scenario;
 import ua.gram.munhauzen.service.ScenarioManager;
+import ua.gram.munhauzen.utils.DateUtils;
 import ua.gram.munhauzen.utils.Log;
 
 /**
@@ -144,9 +148,19 @@ public class GameScreen implements Screen {
                 scenarioManager.onScenarioCompleted();
 
             } else {
-                prepareImage(scenario.currentOption.currentImage);
+                OptionImage image = scenario.currentOption.currentImage;
+                prepareImage(image);
 
-                prepareAudio(scenario.currentOption.currentAudio);
+                OptionAudio audio = scenario.currentOption.currentAudio;
+                prepareAudio(audio);
+
+                if (image.next != null) {
+                    prepareImage((OptionImage) image.next);
+                }
+
+                if (audio.next != null) {
+                    prepareAudio((OptionAudio) audio.next);
+                }
             }
         }
 
@@ -173,14 +187,13 @@ public class GameScreen implements Screen {
     private void prepareAudio(OptionAudio item) {
         if (item.isPrepared) return;
 
-        Log.i(tag, "prepareAudio " + item.id);
-
         String resource = "audio/" + item.id + ".ogg";
 
         if (!item.isPreparing) {
 
             if (!assetManager.isLoaded(resource, Music.class)) {
                 item.isPreparing = true;
+                item.prepareStartedAt = new Date();
 
                 assetManager.load(resource, Music.class);
             }
@@ -191,6 +204,7 @@ public class GameScreen implements Screen {
 
                 item.isPreparing = false;
                 item.isPrepared = true;
+                item.prepareCompletedAt = new Date();
                 item.player = assetManager.get(resource, Music.class);
 
                 onAudioPrepared(item);
@@ -201,14 +215,13 @@ public class GameScreen implements Screen {
     private void prepareImage(OptionImage item) {
         if (item.isPrepared) return;
 
-        Log.i(tag, "prepareImage " + item.id);
-
         String resource = "images/" + item.id + ".jpg";
 
         if (!item.isPreparing) {
 
             if (!assetManager.isLoaded(resource, Texture.class)) {
                 item.isPreparing = true;
+                item.prepareStartedAt = new Date();
 
                 assetManager.load(resource, Texture.class);
             }
@@ -219,6 +232,7 @@ public class GameScreen implements Screen {
 
                 item.isPreparing = false;
                 item.isPrepared = true;
+                item.prepareCompletedAt = new Date();
 
                 item.image = assetManager.get(resource, Texture.class);
 
@@ -229,7 +243,8 @@ public class GameScreen implements Screen {
 
     private void onAudioPrepared(OptionAudio item) {
 
-        Log.i(tag, "onAudioPrepared " + item.id);
+        Log.i(tag, "onAudioPrepared " + item.id
+                + " in " + DateUtils.getDateDiff(item.prepareCompletedAt, item.prepareStartedAt, TimeUnit.MILLISECONDS) + "ms");
 
         Scenario scenario = game.gameState.history.activeSave.scenario;
 
@@ -241,12 +256,17 @@ public class GameScreen implements Screen {
             }
         }
 
-//        item.player.play();
+        float delta = Math.max(0, (item.progress - item.startsAt) / 1000);
+
+        item.player.setPosition(delta);
+        item.player.setVolume(GameState.isMute ? 0 : 1);
+        item.player.play();
     }
 
     private void onImagePrepared(OptionImage item) {
 
-        Log.i(tag, "onImagePrepared " + item.id);
+        Log.i(tag, "onImagePrepared " + item.id
+                + " in " + DateUtils.getDateDiff(item.prepareCompletedAt, item.prepareStartedAt, TimeUnit.MILLISECONDS) + "ms");
 
         backgroundTop.setDrawable(new SpriteDrawable(new Sprite(item.image)));
 
@@ -290,7 +310,8 @@ public class GameScreen implements Screen {
                 assetManager.get("ui/player_progress_bar_progress.9.jpg", Texture.class),
                 10, 10, 0, 0
         ));
-        barStyle.knob = new SpriteDrawable(new Sprite(assetManager.get("ui/player_progress_bar_knob.png", Texture.class)));
+        barStyle.knob = new SpriteDrawable(new Sprite(
+                assetManager.get("ui/player_progress_bar_knob.png", Texture.class)));
         bar = new ProgressBar(0, 100, 1, false, barStyle);
 
         Image barBackground = new Image(new NinePatchDrawable(new NinePatch(
