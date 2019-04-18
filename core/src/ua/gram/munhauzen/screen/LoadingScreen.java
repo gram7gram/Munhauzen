@@ -70,8 +70,8 @@ public class LoadingScreen implements Screen {
         });
 
         Table container = new Table();
-        container.add(offlineButton).expandX();
-        container.add(onlineButton).width(900).expandX();
+        container.add(offlineButton).width(650).expandX().row();
+        container.add(onlineButton).width(650).expandX();
 
         Table rootContainer = new Table();
         rootContainer.setFillParent(true);

@@ -312,6 +312,7 @@ public class GameScreen implements Screen {
         ));
         barStyle.knob = new SpriteDrawable(new Sprite(
                 assetManager.get("ui/player_progress_bar_knob.png", Texture.class)));
+
         bar = new ProgressBar(0, 100, 1, false, barStyle);
 
         Image barBackground = new Image(new NinePatchDrawable(new NinePatch(
@@ -362,13 +363,15 @@ public class GameScreen implements Screen {
             Button button = game.buttonBuilder.primary(option.text, new Runnable() {
                 @Override
                 public void run() {
-                    uiLayers.removeActor(stack);
+                    uiLayers.removeActor(stack); //animate removal
 
-                    scenarioManager.createScenario(decision.option);
+                    Scenario scenario = scenarioManager.createScenario(decision.option);
+
+                    game.gameState.history.activeSave.scenario = scenario;
                 }
             });
 
-            table.add(button).width(600).height(50).pad(10).row();
+            table.add(button).width(600).height(150).pad(10).row();
         }
 
         ScrollPane scrollPane = new ScrollPane(table);

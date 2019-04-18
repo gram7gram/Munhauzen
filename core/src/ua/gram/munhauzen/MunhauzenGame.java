@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.service.DatabaseManager;
+import ua.gram.munhauzen.utils.Log;
 
 public class MunhauzenGame extends Game {
 
@@ -19,6 +20,8 @@ public class MunhauzenGame extends Game {
     public static int WORLD_HEIGHT;
     public static boolean PAUSED = false;
     public static final boolean DEBUG = true;
+
+    private final String tag = getClass().getSimpleName();
 
     public GameState gameState;
     public SpriteBatch batch;
@@ -38,7 +41,7 @@ public class MunhauzenGame extends Game {
 
     @Override
     public void create() {
-        Gdx.app.log("MunhauzenGame", "create");
+        Log.i(tag, "create");
 
         WORLD_WIDTH = Gdx.graphics.getWidth();
         WORLD_HEIGHT = Gdx.graphics.getHeight();
@@ -49,6 +52,8 @@ public class MunhauzenGame extends Game {
         createCamera();
         createBatch();
         createViewport();
+
+        assetManager.finishLoading();
 
         buttonBuilder = new ButtonBuilder(this);
 
@@ -85,8 +90,6 @@ public class MunhauzenGame extends Game {
         assetManager = new AssetManager();
         assetManager.load("a0.jpg", Texture.class);
         assetManager.load("ui/b_primary_enabled.9.png", Texture.class);
-
-        assetManager.finishLoading();
     }
 
     private void createCamera() {

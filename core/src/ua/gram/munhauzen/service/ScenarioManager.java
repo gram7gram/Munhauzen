@@ -1,5 +1,7 @@
 package ua.gram.munhauzen.service;
 
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import java.util.ArrayList;
@@ -35,6 +37,8 @@ public class ScenarioManager {
         Scenario scenario = new Scenario();
         scenario.cid = StringUtils.cid();
 
+        Log.i(tag, "createScenario " + scenario.cid);
+
         Option option = OptionRepository.find(gameState, cid);
 
         findScenario(option, scenario);
@@ -59,9 +63,7 @@ public class ScenarioManager {
                 Log.e(tag, "Scenario is not valid. Resetting");
                 Option start = OptionRepository.find(gameState, GameState.INITIAL_OPTION);
 
-                scenario = createScenario(start.id);
-
-                gameState.history.activeSave.scenario = scenario;
+                gameState.history.activeSave.scenario = createScenario(start.id);
             }
 
             Log.i(tag, "resumeScenario " + scenario.cid);
@@ -263,9 +265,10 @@ public class ScenarioManager {
 //    }
 //
     public void onScenarioCompleted() {
-        Log.i(tag, "onScenarioCompleted");
 
         Scenario scenario = gameState.history.activeSave.scenario;
+        Log.i(tag, "onScenarioCompleted " + scenario.cid);
+
         for (ScenarioOption scenarioOption : scenario.options) {
 
             String newInventory = scenarioOption.option.inventoryAdd;
@@ -377,18 +380,30 @@ public class ScenarioManager {
         Scenario scenario = gameState.history.activeSave.scenario;
         if (scenario == null) return;
 
+        Log.i(tag, "resetScenario " + scenario.cid);
+
         for (ScenarioOption scenarioOption : scenario.options) {
 
             for (OptionAudio audio : scenarioOption.option.audio) {
-                gameScreen.assetManager.unload("audio/" + audio.id + ".ogg");
+                String resource = "audio/" + audio.id + ".ogg";
+                if (gameScreen.assetManager.isLoaded(resource, Music.class)) {
+                    gameScreen.assetManager.unload(resource);
+                }
             }
 
             for (OptionImage image : scenarioOption.option.images) {
-                gameScreen.assetManager.unload("images/" + image.id + ".jpg");
+                String resource = "images/" + image.id + ".jpg";
+                if (gameScreen.assetManager.isLoaded(resource, Texture.class)) {
+                    gameScreen.assetManager.unload(resource);
+                }
             }
 
             scenarioOption.reset();
         }
+
+        gameScreen.assetManager.finishLoading();
+
+        scenario.reset();
     }
 
     private boolean isDecisionAvailable(Decision decision, Set<String> inventory) {
