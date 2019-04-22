@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
@@ -36,6 +35,7 @@ import ua.gram.munhauzen.entity.OptionRepository;
 import ua.gram.munhauzen.entity.Scenario;
 import ua.gram.munhauzen.service.ScenarioManager;
 import ua.gram.munhauzen.utils.DateUtils;
+import ua.gram.munhauzen.utils.ExceptionHandler;
 import ua.gram.munhauzen.utils.Log;
 
 /**
@@ -50,8 +50,10 @@ public class GameScreen implements Screen {
     public AssetManager assetManager;
     private ScenarioManager scenarioManager;
     private ProgressBar bar;
-    private Image backgroundTop;
-    private Stack uiLayers;
+    private Table currentImageTable, overlayTableTop, overlayTableBottom;
+    private Image currentImage, overlayTop, overlayBottom;
+    private Stack uiLayers, uiControlsLayer, uiImageLayer;
+    private boolean isLoaded;
 
     public GameScreen(MunhauzenGame game) {
         this.game = game;
@@ -60,14 +62,18 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
 
+        ExceptionHandler.create();
+
         Log.i(tag, "show");
 
         ui = new MunhauzenStage(game);
         scenarioManager = new ScenarioManager(this, game.gameState);
 
+        isLoaded = false;
         assetManager = new AssetManager();
 
         assetManager.load("ui/player_progress_bar.9.png", Texture.class);
+        assetManager.load("ui/player_progress_bar_right.9.png", Texture.class);
         assetManager.load("ui/player_progress_bar_progress.9.jpg", Texture.class);
         assetManager.load("ui/player_progress_bar_knob.png", Texture.class);
         assetManager.load("GameScreen/b_bookmenu.png", Texture.class);
@@ -75,10 +81,17 @@ public class GameScreen implements Screen {
         assetManager.load("GameScreen/b_booksound_off.png", Texture.class);
         assetManager.load("GameScreen/b_star_game.png", Texture.class);
         assetManager.load("GameScreen/b_tulip_1.png", Texture.class);
+        assetManager.load("GameScreen/t_putty.png", Texture.class);
+    }
 
-        assetManager.finishLoading();
+    private void onResourcesLoaded() {
+
+        Log.i(tag, "onResourcesLoaded");
+
+        isLoaded = true;
 
         background = game.assetManager.get("a0.jpg", Texture.class);
+        Texture overlay = assetManager.get("GameScreen/t_putty.png", Texture.class);
 
         Stack barContainer = prepareProgressBar();
 
@@ -89,34 +102,58 @@ public class GameScreen implements Screen {
         scenarioContainer.add(actionsContainer).align(Align.topRight).expandX().row();
         scenarioContainer.add(barContainer).align(Align.bottom).fillX().expand().row();
 
-        backgroundTop = new Image();
+        uiControlsLayer = new Stack();
+        uiControlsLayer.setFillParent(true);
+        uiControlsLayer.add(scenarioContainer);
 
-        Container<Image> backgroundTopContainer = new Container<>(backgroundTop);
-        backgroundTopContainer.setFillParent(true);
+        overlayBottom = new Image(overlay);
+        overlayTop = new Image(overlay);
+
+        overlayTop.setVisible(false);
+        overlayBottom.setVisible(false);
+
+        currentImage = new Image();
+
+        overlayTableTop = new Table();
+        overlayTableTop.add(overlayTop).expandX().fillX();
+
+        overlayTableBottom = new Table();
+        overlayTableBottom.add(overlayBottom).expandX().fillX();
+
+        currentImageTable = new Table();
+        currentImageTable.setFillParent(true);
+        currentImageTable.add(currentImage);
+
+        uiImageLayer = new Stack();
+        uiImageLayer.setFillParent(true);
+        uiImageLayer.add(currentImageTable);
+        uiImageLayer.add(overlayTableTop);
+        uiImageLayer.add(overlayTableBottom);
 
         uiLayers = new Stack();
         uiLayers.setFillParent(true);
 
-        setBackgroundImageLayer(backgroundTopContainer);
+        setBackgroundImageLayer(uiImageLayer);
 
-        setScenarioUILayer(scenarioContainer);
+        setScenarioUILayer(uiControlsLayer);
 
         ui.addActor(uiLayers);
 
         Gdx.input.setInputProcessor(ui);
 
         scenarioManager.resumeScenario();
+
     }
 
-    public void setBackgroundImageLayer(Actor actor) {
+    public void setBackgroundImageLayer(Stack actor) {
         uiLayers.addActorAt(0, actor);
     }
 
-    public void setScenarioOptionsLayer(Actor actor) {
+    public void setScenarioOptionsLayer(Stack actor) {
         uiLayers.addActorAt(1, actor);
     }
 
-    public void setScenarioUILayer(Actor actor) {
+    public void setScenarioUILayer(Stack actor) {
         uiLayers.addActorAt(2, actor);
     }
 
@@ -127,10 +164,17 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(1, 0, 0, 1);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
         assetManager.update();
+
+        if (!isLoaded) {
+            if (assetManager.isFinished()) {
+                onResourcesLoaded();
+            }
+            return;
+        }
 
         drawBackground();
 
@@ -268,12 +312,28 @@ public class GameScreen implements Screen {
         Log.i(tag, "onImagePrepared " + item.id
                 + " in " + DateUtils.getDateDiff(item.prepareCompletedAt, item.prepareStartedAt, TimeUnit.MILLISECONDS) + "ms");
 
-        backgroundTop.setDrawable(new SpriteDrawable(new Sprite(item.image)));
+        currentImage.setDrawable(new SpriteDrawable(new Sprite(item.image)));
 
         float scale = 1f * MunhauzenGame.WORLD_WIDTH / item.image.getWidth();
 
-        backgroundTop.setWidth(MunhauzenGame.WORLD_WIDTH);
-        backgroundTop.setHeight(item.image.getHeight() * scale);
+        Log.i(tag, item.image.getHeight() + "*" + scale + "=" + (item.image.getHeight() * scale));
+
+        float height = 1f * item.image.getHeight() * scale;
+
+        currentImageTable.getCell(currentImage).width(MunhauzenGame.WORLD_WIDTH).height(height);
+
+        boolean isOverlayVisible = height < MunhauzenGame.WORLD_HEIGHT;
+        overlayTop.setVisible(isOverlayVisible);
+        overlayBottom.setVisible(isOverlayVisible);
+
+        if (isOverlayVisible) {
+
+            overlayTableBottom.getCell(overlayBottom).width(MunhauzenGame.WORLD_WIDTH).height(150);
+            overlayTableTop.getCell(overlayTop).width(MunhauzenGame.WORLD_WIDTH).height(150);
+
+            overlayTop.setPosition(0, currentImage.getY() - overlayTop.getHeight() / 2f);
+            overlayBottom.setPosition(0, currentImage.getY() + currentImage.getHeight() - overlayTop.getHeight() / 2f);
+        }
     }
 
     @Override
@@ -296,12 +356,16 @@ public class GameScreen implements Screen {
 
         Log.i(tag, "dispose");
 
+        isLoaded = false;
+
         if (assetManager != null) {
             assetManager.dispose();
         }
         if (ui != null) {
             ui.dispose();
         }
+
+        ExceptionHandler.dispose();
     }
 
     private Stack prepareProgressBar() {
@@ -315,9 +379,14 @@ public class GameScreen implements Screen {
 
         bar = new ProgressBar(0, 100, 1, false, barStyle);
 
-        Image barBackground = new Image(new NinePatchDrawable(new NinePatch(
+        Image barBackgroundImageLeft = new Image(new NinePatchDrawable(new NinePatch(
                 assetManager.get("ui/player_progress_bar.9.png", Texture.class),
-                130, 1000 - 270, 0, 0
+                130, 500 - 270, 0, 0
+        )));
+
+        Image barBackgroundImageRight = new Image(new NinePatchDrawable(new NinePatch(
+                assetManager.get("ui/player_progress_bar_right.9.png", Texture.class),
+                260, 500 - 360, 0, 0
         )));
 
         Table barTable = new Table();
@@ -325,17 +394,25 @@ public class GameScreen implements Screen {
         barTable.add().expandX().height(100).row();
         barTable.add(bar).fillX().expandX().height(100).row();
 
-        barBackground.setWidth(barTable.getWidth());
-        barBackground.setHeight(barTable.getHeight());
+        Table backgroundContainer = new Table();
+
+        backgroundContainer.add(barBackgroundImageLeft).fillX()
+                .width(1f * MunhauzenGame.WORLD_WIDTH / 2)
+                .height(250);
+
+        backgroundContainer.add(barBackgroundImageRight).fillX()
+                .width(1f * MunhauzenGame.WORLD_WIDTH / 2)
+                .height(250);
 
         Stack barContainer = new Stack();
-        barContainer.addActor(barBackground);
+        barContainer.addActor(backgroundContainer);
         barContainer.addActor(barTable);
 
         return barContainer;
     }
 
     private Table prepareTitleActions() {
+
         ImageButton soundButton = new ImageButton(new SpriteDrawable(new Sprite(
                 assetManager.get("GameScreen/b_booksound_off.png", Texture.class))));
 
@@ -349,7 +426,7 @@ public class GameScreen implements Screen {
         return actionsContainer;
     }
 
-    public Actor prepareScenarioOptions(ArrayList<Decision> decisions) {
+    public Stack prepareScenarioOptions(ArrayList<Decision> decisions) {
         final Stack stack = new Stack();
         stack.setFillParent(true);
 
@@ -377,11 +454,19 @@ public class GameScreen implements Screen {
         ScrollPane scrollPane = new ScrollPane(table);
         scrollPane.setScrollingDisabled(true, false);
 
-        Image decorLeft = new Image(assetManager.get("GameScreen/b_tulip_1.png", Texture.class));
-        Image decorRight = new Image(assetManager.get("GameScreen/b_tulip_1.png", Texture.class));
+        Texture borderDecoration = assetManager.get("GameScreen/b_tulip_1.png", Texture.class);
+
+        Sprite borderDecorationLeft = new Sprite(borderDecoration);
+
+        Sprite borderDecorationRight = new Sprite(borderDecoration);
+        borderDecorationRight.setFlip(true, false);
+
+        Image decorLeft = new Image(new SpriteDrawable(borderDecorationLeft));
+        Image decorRight = new Image(new SpriteDrawable(borderDecorationRight));
         Image decorTop = new Image(assetManager.get("GameScreen/b_star_game.png", Texture.class));
 
         Table decoration = new Table();
+        decoration.setFillParent(true);
         decoration.add(decorLeft).left().expandX();
         decoration.add(decorTop).top().expandX();
         decoration.add(decorRight).right().expandX();

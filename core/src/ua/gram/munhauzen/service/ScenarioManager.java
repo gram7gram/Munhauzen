@@ -3,6 +3,7 @@ package ua.gram.munhauzen.service;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -297,7 +298,7 @@ public class ScenarioManager {
             }
         }
 
-        Actor container = gameScreen.prepareScenarioOptions(availableDecisions);
+        Stack container = gameScreen.prepareScenarioOptions(availableDecisions);
 
         gameScreen.setScenarioOptionsLayer(container);
     }
