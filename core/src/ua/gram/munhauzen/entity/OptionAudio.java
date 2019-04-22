@@ -7,4 +7,7 @@ public class OptionAudio extends OptionMedia {
     public int duration;
     public Music player;
 
+    public String getResource() {
+        return "audio/" + id + ".ogg";
+    }
 }

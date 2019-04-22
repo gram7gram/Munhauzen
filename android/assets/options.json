@@ -6,21 +6,21 @@
     "images": [
       {
         "id": "image1",
-        "duration": 2500
+        "duration": 1000
       },
       {
         "id": "image2",
-        "duration": 2500
+        "duration": 1000
       }
     ],
     "audio": [
       {
         "id": "audio1",
-        "duration": 2500
+        "duration": 1000
       },
       {
         "id": "audio2",
-        "duration": 2500
+        "duration": 1000
       }
     ],
     "backgroundAudio": [

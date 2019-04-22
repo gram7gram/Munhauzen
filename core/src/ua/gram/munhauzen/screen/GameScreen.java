@@ -8,34 +8,27 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.MunhauzenStage;
-import ua.gram.munhauzen.entity.Decision;
 import ua.gram.munhauzen.entity.GameState;
-import ua.gram.munhauzen.entity.Option;
 import ua.gram.munhauzen.entity.OptionAudio;
 import ua.gram.munhauzen.entity.OptionImage;
-import ua.gram.munhauzen.entity.OptionRepository;
 import ua.gram.munhauzen.entity.Scenario;
+import ua.gram.munhauzen.fragment.ScenarioFragment;
 import ua.gram.munhauzen.service.ScenarioManager;
 import ua.gram.munhauzen.utils.DateUtils;
-import ua.gram.munhauzen.utils.ExceptionHandler;
 import ua.gram.munhauzen.utils.Log;
 
 /**
@@ -44,15 +37,18 @@ import ua.gram.munhauzen.utils.Log;
 public class GameScreen implements Screen {
 
     private final String tag = getClass().getSimpleName();
-    private final MunhauzenGame game;
+    public final MunhauzenGame game;
     private Texture background;
     private MunhauzenStage ui;
     public AssetManager assetManager;
-    private ScenarioManager scenarioManager;
+    public ScenarioManager scenarioManager;
     private ProgressBar bar;
     private Table currentImageTable, overlayTableTop, overlayTableBottom;
     private Image currentImage, overlayTop, overlayBottom;
-    private Stack uiLayers, uiControlsLayer, uiImageLayer;
+    public Stack uiLayers;
+    private Stack uiControlsLayer;
+    private Stack uiImageLayer;
+    public ScenarioFragment scenarioFragment;
     private boolean isLoaded;
 
     public GameScreen(MunhauzenGame game) {
@@ -61,8 +57,6 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-
-        ExceptionHandler.create();
 
         Log.i(tag, "show");
 
@@ -82,6 +76,11 @@ public class GameScreen implements Screen {
         assetManager.load("GameScreen/b_star_game.png", Texture.class);
         assetManager.load("GameScreen/b_tulip_1.png", Texture.class);
         assetManager.load("GameScreen/t_putty.png", Texture.class);
+
+        Scenario scenario = game.gameState.history.activeSave.scenario;
+        if (scenario != null && scenario.isValid()) {
+            scenarioManager.startLoadingResources(scenario);
+        }
     }
 
     private void onResourcesLoaded() {
@@ -192,19 +191,7 @@ public class GameScreen implements Screen {
                 scenarioManager.onScenarioCompleted();
 
             } else {
-                OptionImage image = scenario.currentOption.currentImage;
-                prepareImage(image);
-
-                OptionAudio audio = scenario.currentOption.currentAudio;
-                prepareAudio(audio);
-
-                if (image.next != null) {
-                    prepareImage((OptionImage) image.next);
-                }
-
-                if (audio.next != null) {
-                    prepareAudio((OptionAudio) audio.next);
-                }
+                scenarioManager.startLoadingResources(scenario);
             }
         }
 
@@ -228,10 +215,10 @@ public class GameScreen implements Screen {
         game.batch.end();
     }
 
-    private void prepareAudio(OptionAudio item) {
+    public void prepareAudio(OptionAudio item) {
         if (item.isPrepared) return;
 
-        String resource = "audio/" + item.id + ".ogg";
+        String resource = item.getResource();
 
         if (!item.isPreparing) {
 
@@ -256,10 +243,10 @@ public class GameScreen implements Screen {
         }
     }
 
-    private void prepareImage(OptionImage item) {
+    public void prepareImage(OptionImage item) {
         if (item.isPrepared) return;
 
-        String resource = "images/" + item.id + ".jpg";
+        String resource = item.getResource();
 
         if (!item.isPreparing) {
 
@@ -364,8 +351,6 @@ public class GameScreen implements Screen {
         if (ui != null) {
             ui.dispose();
         }
-
-        ExceptionHandler.dispose();
     }
 
     private Stack prepareProgressBar() {
@@ -424,56 +409,5 @@ public class GameScreen implements Screen {
         actionsContainer.add(menuButton).width(150).height(300);
 
         return actionsContainer;
-    }
-
-    public Stack prepareScenarioOptions(ArrayList<Decision> decisions) {
-        final Stack stack = new Stack();
-        stack.setFillParent(true);
-
-        Table table = new Table();
-        table.setFillParent(true);
-
-        for (final Decision decision : decisions) {
-
-            Option option = OptionRepository.find(game.gameState, decision.option);
-
-            Button button = game.buttonBuilder.primary(option.text, new Runnable() {
-                @Override
-                public void run() {
-                    uiLayers.removeActor(stack); //animate removal
-
-                    Scenario scenario = scenarioManager.createScenario(decision.option);
-
-                    game.gameState.history.activeSave.scenario = scenario;
-                }
-            });
-
-            table.add(button).width(600).height(150).pad(10).row();
-        }
-
-        ScrollPane scrollPane = new ScrollPane(table);
-        scrollPane.setScrollingDisabled(true, false);
-
-        Texture borderDecoration = assetManager.get("GameScreen/b_tulip_1.png", Texture.class);
-
-        Sprite borderDecorationLeft = new Sprite(borderDecoration);
-
-        Sprite borderDecorationRight = new Sprite(borderDecoration);
-        borderDecorationRight.setFlip(true, false);
-
-        Image decorLeft = new Image(new SpriteDrawable(borderDecorationLeft));
-        Image decorRight = new Image(new SpriteDrawable(borderDecorationRight));
-        Image decorTop = new Image(assetManager.get("GameScreen/b_star_game.png", Texture.class));
-
-        Table decoration = new Table();
-        decoration.setFillParent(true);
-        decoration.add(decorLeft).left().expandX();
-        decoration.add(decorTop).top().expandX();
-        decoration.add(decorRight).right().expandX();
-
-        stack.addActorAt(0, decoration);
-        stack.addActorAt(1, scrollPane);
-
-        return stack;
     }
 }

@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.service.DatabaseManager;
+import ua.gram.munhauzen.utils.ExceptionHandler;
 import ua.gram.munhauzen.utils.Log;
 
 public class MunhauzenGame extends Game {
@@ -43,6 +44,8 @@ public class MunhauzenGame extends Game {
     public void create() {
         Log.i(tag, "create");
 
+        ExceptionHandler.create();
+
         WORLD_WIDTH = Gdx.graphics.getWidth();
         WORLD_HEIGHT = Gdx.graphics.getHeight();
 
@@ -70,6 +73,8 @@ public class MunhauzenGame extends Game {
 
         if (buttonBuilder != null)
             buttonBuilder.dispose();
+
+        ExceptionHandler.dispose();
     }
 
     @Override

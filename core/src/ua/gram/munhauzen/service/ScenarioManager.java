@@ -2,8 +2,6 @@ package ua.gram.munhauzen.service;
 
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -16,6 +14,8 @@ import ua.gram.munhauzen.entity.OptionImage;
 import ua.gram.munhauzen.entity.OptionRepository;
 import ua.gram.munhauzen.entity.Scenario;
 import ua.gram.munhauzen.entity.ScenarioOption;
+import ua.gram.munhauzen.fragment.ScenarioFragment;
+import ua.gram.munhauzen.history.Save;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.utils.Log;
 import ua.gram.munhauzen.utils.StringUtils;
@@ -57,21 +57,16 @@ public class ScenarioManager {
 
     public void resumeScenario() {
 
-        try {
+        Scenario scenario = gameState.history.activeSave.scenario;
+        if (scenario == null || !scenario.isValid()) {
+            Log.e(tag, "Scenario is not valid. Resetting");
+            Option start = OptionRepository.find(gameState, GameState.INITIAL_OPTION);
 
-            Scenario scenario = gameState.history.activeSave.scenario;
-            if (scenario == null || !scenario.isValid()) {
-                Log.e(tag, "Scenario is not valid. Resetting");
-                Option start = OptionRepository.find(gameState, GameState.INITIAL_OPTION);
-
-                gameState.history.activeSave.scenario = createScenario(start.id);
-            }
-
-            Log.i(tag, "resumeScenario " + scenario.cid);
-
-        } catch (Throwable e) {
-            Log.e(tag, e);
+            gameState.history.activeSave.scenario = createScenario(start.id);
         }
+
+        Log.i(tag, "resumeScenario " + gameState.history.activeSave.scenario.cid);
+
     }
 
     private void findScenario(Option from, Scenario scenario) {
@@ -86,17 +81,15 @@ public class ScenarioManager {
 
         scenario.options.add(scenarioOption);
 
-        switch (from.action) {
-            case "GOTO":
+        if ("GOTO".equals(from.action)) {
+            for (Decision decision : from.decisions) {
+                if (isDecisionAvailable(decision, inventory)) {
 
-                for (Decision decision : from.decisions) {
-                    if (isDecisionAvailable(decision, inventory)) {
+                    Option next = OptionRepository.find(gameState, decision.option);
 
-                        Option next = OptionRepository.find(gameState, decision.option);
-
-                        findScenario(next, scenario);
-                    }
+                    findScenario(next, scenario);
                 }
+            }
         }
     }
 
@@ -109,6 +102,33 @@ public class ScenarioManager {
         for (ScenarioOption scenarioOption : scenario.options) {
             scenarioOption.update(progress, duration);
         }
+    }
+
+    public void startLoadingResources(Scenario scenario) {
+        ScenarioOption option = scenario.currentOption;
+
+        if (option == null) {
+            throw new NullPointerException("Missing current option in scenario " + scenario.cid);
+        }
+
+        OptionAudio optionAudio = option.currentAudio;
+        if (optionAudio != null) {
+            gameScreen.prepareAudio(optionAudio);
+
+            if (optionAudio.next != null) {
+                gameScreen.prepareAudio((OptionAudio) optionAudio.next);
+            }
+        }
+
+        OptionImage optionImage = option.currentImage;
+        if (optionImage != null) {
+            gameScreen.prepareImage(optionImage);
+
+            if (optionImage.next != null) {
+                gameScreen.prepareImage((OptionImage) optionImage.next);
+            }
+        }
+
     }
 
     //    public void onBranchCompleted(TrackBranch trackBranch, GameBase gameBase) {
@@ -298,9 +318,11 @@ public class ScenarioManager {
             }
         }
 
-        Stack container = gameScreen.prepareScenarioOptions(availableDecisions);
+        gameScreen.scenarioFragment = new ScenarioFragment(gameScreen);
 
-        gameScreen.setScenarioOptionsLayer(container);
+        gameScreen.setScenarioOptionsLayer(
+                gameScreen.scenarioFragment.create(availableDecisions)
+        );
     }
 
     //
@@ -378,24 +400,34 @@ public class ScenarioManager {
 //
     public void resetScenario() {
 
-        Scenario scenario = gameState.history.activeSave.scenario;
+        Save save = gameState.history.activeSave;
+
+        Scenario scenario = save.scenario;
         if (scenario == null) return;
 
         Log.i(tag, "resetScenario " + scenario.cid);
 
+        if (!save.scenarioStack.contains(scenario)) {
+            save.scenarioStack.push(scenario);
+        }
+
         for (ScenarioOption scenarioOption : scenario.options) {
 
             for (OptionAudio audio : scenarioOption.option.audio) {
-                String resource = "audio/" + audio.id + ".ogg";
+                String resource = audio.getResource();
                 if (gameScreen.assetManager.isLoaded(resource, Music.class)) {
-                    gameScreen.assetManager.unload(resource);
+                    if (gameScreen.assetManager.getReferenceCount(resource) == 0) {
+                        gameScreen.assetManager.unload(resource);
+                    }
                 }
             }
 
             for (OptionImage image : scenarioOption.option.images) {
-                String resource = "images/" + image.id + ".jpg";
+                String resource = image.getResource();
                 if (gameScreen.assetManager.isLoaded(resource, Texture.class)) {
-                    gameScreen.assetManager.unload(resource);
+                    if (gameScreen.assetManager.getReferenceCount(resource) == 0) {
+                        gameScreen.assetManager.unload(resource);
+                    }
                 }
             }
 

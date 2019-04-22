@@ -7,4 +7,8 @@ public class OptionImage extends OptionMedia {
     public Texture image;
     public String interaction;
     public String transition;
+
+    public String getResource() {
+        return "images/" + id + ".jpg";
+    }
 }

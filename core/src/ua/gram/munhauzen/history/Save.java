@@ -30,6 +30,10 @@ public class Save {
      */
     public int order;
     /**
+     * List of completed scenario
+     */
+    public Stack<Scenario> scenarioStack;
+    /**
      * Information about current scenario
      */
     public Scenario scenario;
@@ -81,6 +85,7 @@ public class Save {
         completedInteractions = new Array<>();
         scenario = new Scenario();
         clickedBranches = new Stack<>();
+        scenarioStack = new Stack<>();
     }
 
     public void reset() {
