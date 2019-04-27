@@ -6,14 +6,10 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 
@@ -26,6 +22,8 @@ import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.OptionAudio;
 import ua.gram.munhauzen.entity.OptionImage;
 import ua.gram.munhauzen.entity.Scenario;
+import ua.gram.munhauzen.fragment.GameControlsFragment;
+import ua.gram.munhauzen.fragment.ProgressBarFragment;
 import ua.gram.munhauzen.fragment.ScenarioFragment;
 import ua.gram.munhauzen.service.ScenarioManager;
 import ua.gram.munhauzen.utils.DateUtils;
@@ -38,17 +36,19 @@ public class GameScreen implements Screen {
 
     private final String tag = getClass().getSimpleName();
     public final MunhauzenGame game;
-    private Texture background;
-    private MunhauzenStage ui;
+    public MunhauzenStage ui;
+    public Stack uiLayers;
+    public Stack uiControlsLayer;
+    public Stack uiImageLayer;
     public AssetManager assetManager;
     public ScenarioManager scenarioManager;
-    private ProgressBar bar;
+    public ScenarioFragment scenarioFragment;
+    public ProgressBarFragment progressBarFragment;
+    public GameControlsFragment gameControlsFragment;
+
+    private Texture background;
     private Table currentImageTable, overlayTableTop, overlayTableBottom;
     private Image currentImage, overlayTop, overlayBottom;
-    public Stack uiLayers;
-    private Stack uiControlsLayer;
-    private Stack uiImageLayer;
-    public ScenarioFragment scenarioFragment;
     private boolean isLoaded;
 
     public GameScreen(MunhauzenGame game) {
@@ -89,20 +89,35 @@ public class GameScreen implements Screen {
 
         isLoaded = true;
 
-        background = game.assetManager.get("a0.jpg", Texture.class);
-        Texture overlay = assetManager.get("GameScreen/t_putty.png", Texture.class);
-
-        Stack barContainer = prepareProgressBar();
-
-        Table actionsContainer = prepareTitleActions();
-
-        Table scenarioContainer = new Table();
-        scenarioContainer.setFillParent(true);
-        scenarioContainer.add(actionsContainer).align(Align.topRight).expandX().row();
-        scenarioContainer.add(barContainer).align(Align.bottom).fillX().expand().row();
+        uiLayers = new Stack();
+        uiLayers.setFillParent(true);
 
         uiControlsLayer = new Stack();
         uiControlsLayer.setFillParent(true);
+
+        uiImageLayer = new Stack();
+        uiImageLayer.setFillParent(true);
+
+        setBackgroundImageLayer(uiImageLayer);
+
+        setScenarioUILayer(uiControlsLayer);
+
+        ui.addActor(uiLayers);
+
+        background = game.assetManager.get("a0.jpg", Texture.class);
+        Texture overlay = assetManager.get("GameScreen/t_putty.png", Texture.class);
+
+        progressBarFragment = new ProgressBarFragment(this);
+        Stack barContainer = progressBarFragment.create();
+
+        gameControlsFragment = new GameControlsFragment(this);
+        gameControlsFragment.create();
+
+        Table scenarioContainer = new Table();
+        scenarioContainer.setFillParent(true);
+//        scenarioContainer.add(actionsContainer).align(Align.topRight).expandX().row();
+        scenarioContainer.add(barContainer).align(Align.bottom).fillX().expand().row();
+
         uiControlsLayer.add(scenarioContainer);
 
         overlayBottom = new Image(overlay);
@@ -123,20 +138,9 @@ public class GameScreen implements Screen {
         currentImageTable.setFillParent(true);
         currentImageTable.add(currentImage);
 
-        uiImageLayer = new Stack();
-        uiImageLayer.setFillParent(true);
         uiImageLayer.add(currentImageTable);
         uiImageLayer.add(overlayTableTop);
         uiImageLayer.add(overlayTableBottom);
-
-        uiLayers = new Stack();
-        uiLayers.setFillParent(true);
-
-        setBackgroundImageLayer(uiImageLayer);
-
-        setScenarioUILayer(uiControlsLayer);
-
-        ui.addActor(uiLayers);
 
         Gdx.input.setInputProcessor(ui);
 
@@ -195,8 +199,8 @@ public class GameScreen implements Screen {
             }
         }
 
-        bar.setRange(0, scenario.totalDuration);
-        bar.setValue(scenario.progress);
+        progressBarFragment.bar.setRange(0, scenario.totalDuration);
+        progressBarFragment.bar.setValue(scenario.progress);
 
         ui.act(delta);
         ui.draw();
@@ -351,63 +355,5 @@ public class GameScreen implements Screen {
         if (ui != null) {
             ui.dispose();
         }
-    }
-
-    private Stack prepareProgressBar() {
-        ProgressBar.ProgressBarStyle barStyle = new ProgressBar.ProgressBarStyle();
-        barStyle.background = new NinePatchDrawable(new NinePatch(
-                assetManager.get("ui/player_progress_bar_progress.9.jpg", Texture.class),
-                10, 10, 0, 0
-        ));
-        barStyle.knob = new SpriteDrawable(new Sprite(
-                assetManager.get("ui/player_progress_bar_knob.png", Texture.class)));
-
-        bar = new ProgressBar(0, 100, 1, false, barStyle);
-
-        Image barBackgroundImageLeft = new Image(new NinePatchDrawable(new NinePatch(
-                assetManager.get("ui/player_progress_bar.9.png", Texture.class),
-                130, 500 - 270, 0, 0
-        )));
-
-        Image barBackgroundImageRight = new Image(new NinePatchDrawable(new NinePatch(
-                assetManager.get("ui/player_progress_bar_right.9.png", Texture.class),
-                260, 500 - 360, 0, 0
-        )));
-
-        Table barTable = new Table();
-        barTable.pad(40, 100, 40, 100);
-        barTable.add().expandX().height(100).row();
-        barTable.add(bar).fillX().expandX().height(100).row();
-
-        Table backgroundContainer = new Table();
-
-        backgroundContainer.add(barBackgroundImageLeft).fillX()
-                .width(1f * MunhauzenGame.WORLD_WIDTH / 2)
-                .height(250);
-
-        backgroundContainer.add(barBackgroundImageRight).fillX()
-                .width(1f * MunhauzenGame.WORLD_WIDTH / 2)
-                .height(250);
-
-        Stack barContainer = new Stack();
-        barContainer.addActor(backgroundContainer);
-        barContainer.addActor(barTable);
-
-        return barContainer;
-    }
-
-    private Table prepareTitleActions() {
-
-        ImageButton soundButton = new ImageButton(new SpriteDrawable(new Sprite(
-                assetManager.get("GameScreen/b_booksound_off.png", Texture.class))));
-
-        ImageButton menuButton = new ImageButton(new SpriteDrawable(new Sprite(
-                assetManager.get("GameScreen/b_bookmenu.png", Texture.class))));
-
-        Table actionsContainer = new Table();
-        actionsContainer.add(soundButton).width(150).height(300);
-        actionsContainer.add(menuButton).width(150).height(300);
-
-        return actionsContainer;
     }
 }
