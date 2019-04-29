@@ -73,8 +73,6 @@ public class GameScreen implements Screen {
         assetManager.load("GameScreen/b_bookmenu.png", Texture.class);
         assetManager.load("GameScreen/b_booksound_on.png", Texture.class);
         assetManager.load("GameScreen/b_booksound_off.png", Texture.class);
-        assetManager.load("GameScreen/b_star_game.png", Texture.class);
-        assetManager.load("GameScreen/b_tulip_1.png", Texture.class);
         assetManager.load("GameScreen/t_putty.png", Texture.class);
 
         Scenario scenario = game.gameState.history.activeSave.scenario;

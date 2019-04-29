@@ -7,9 +7,11 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.Align;
 
@@ -53,17 +55,21 @@ public class LoadingScreen implements Screen {
         footer.setWrap(true);
         footer.setAlignment(Align.center);
 
-        Actor offlineButton = game.buttonBuilder.primary("Оффлайн", new Runnable() {
+        Actor offlineButton = game.buttonBuilder.primary("Оффлайн", new ClickListener() {
             @Override
-            public void run() {
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
                 game.setScreen(new MainMenuScreen(game));
                 dispose();
             }
         });
 
-        Actor onlineButton = game.buttonBuilder.primary("Онлайн", new Runnable() {
+        Actor onlineButton = game.buttonBuilder.primary("Онлайн", new ClickListener() {
             @Override
-            public void run() {
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
                 game.setScreen(new MainMenuScreen(game));
                 dispose();
             }

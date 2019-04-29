@@ -5,7 +5,9 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.MunhauzenStage;
@@ -29,9 +31,11 @@ public class MainMenuScreen implements Screen {
 
         background = game.assetManager.get("a0.jpg", Texture.class);
 
-        Actor startButton = game.buttonBuilder.primary("Начать", new Runnable() {
+        Actor startButton = game.buttonBuilder.primary("Начать", new ClickListener() {
             @Override
-            public void run() {
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
                 game.setScreen(new GameScreen(game));
                 dispose();
             }

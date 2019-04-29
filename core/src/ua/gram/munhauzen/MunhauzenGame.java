@@ -71,9 +71,6 @@ public class MunhauzenGame extends Game {
         if (fontProvider != null)
             fontProvider.dispose();
 
-        if (buttonBuilder != null)
-            buttonBuilder.dispose();
-
         ExceptionHandler.dispose();
     }
 
