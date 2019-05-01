@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Timer;
 
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -26,6 +27,7 @@ import ua.gram.munhauzen.fragment.GameControlsFragment;
 import ua.gram.munhauzen.fragment.ProgressBarFragment;
 import ua.gram.munhauzen.fragment.ScenarioFragment;
 import ua.gram.munhauzen.service.ScenarioManager;
+import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.utils.DateUtils;
 import ua.gram.munhauzen.utils.Log;
 
@@ -46,6 +48,7 @@ public class GameScreen implements Screen {
     public ProgressBarFragment progressBarFragment;
     public GameControlsFragment gameControlsFragment;
 
+    private Timer.Task saveTask;
     private Texture background;
     private Table currentImageTable, overlayTableTop, overlayTableBottom;
     private Image currentImage, overlayTop, overlayBottom;
@@ -74,6 +77,13 @@ public class GameScreen implements Screen {
         assetManager.load("GameScreen/b_booksound_on.png", Texture.class);
         assetManager.load("GameScreen/b_booksound_off.png", Texture.class);
         assetManager.load("GameScreen/t_putty.png", Texture.class);
+
+        saveTask = Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+
+            }
+        }, 5, 5);
 
         Scenario scenario = game.gameState.history.activeSave.scenario;
         if (scenario != null && scenario.isValid()) {
@@ -113,7 +123,6 @@ public class GameScreen implements Screen {
 
         Table scenarioContainer = new Table();
         scenarioContainer.setFillParent(true);
-//        scenarioContainer.add(actionsContainer).align(Align.topRight).expandX().row();
         scenarioContainer.add(barContainer).align(Align.bottom).fillX().expand().row();
 
         uiControlsLayer.add(scenarioContainer);
@@ -124,7 +133,7 @@ public class GameScreen implements Screen {
         overlayTop.setVisible(false);
         overlayBottom.setVisible(false);
 
-        currentImage = new Image();
+        currentImage = new FitImage();
 
         overlayTableTop = new Table();
         overlayTableTop.add(overlayTop).expandX().fillX();
@@ -134,7 +143,7 @@ public class GameScreen implements Screen {
 
         currentImageTable = new Table();
         currentImageTable.setFillParent(true);
-        currentImageTable.add(currentImage);
+        currentImageTable.add(currentImage).center().expand().fill();
 
         uiImageLayer.add(currentImageTable);
         uiImageLayer.add(overlayTableTop);
@@ -299,19 +308,21 @@ public class GameScreen implements Screen {
     private void onImagePrepared(OptionImage item) {
 
         Log.i(tag, "onImagePrepared " + item.id
+                + " " + item.image.getWidth() + "x" + item.image.getHeight()
+                + " (" + MunhauzenGame.WORLD_WIDTH + "x" + MunhauzenGame.WORLD_HEIGHT + ")"
                 + " in " + DateUtils.getDateDiff(item.prepareCompletedAt, item.prepareStartedAt, TimeUnit.MILLISECONDS) + "ms");
 
         currentImage.setDrawable(new SpriteDrawable(new Sprite(item.image)));
 
         float scale = 1f * MunhauzenGame.WORLD_WIDTH / item.image.getWidth();
-
-        Log.i(tag, item.image.getHeight() + "*" + scale + "=" + (item.image.getHeight() * scale));
-
         float height = 1f * item.image.getHeight() * scale;
 
         currentImageTable.getCell(currentImage).width(MunhauzenGame.WORLD_WIDTH).height(height);
 
-        boolean isOverlayVisible = height < MunhauzenGame.WORLD_HEIGHT;
+        Log.i(tag, "currentImage " + currentImage.getWidth() + "x" + currentImage.getHeight());
+
+
+        boolean isOverlayVisible = currentImage.getHeight() < MunhauzenGame.WORLD_HEIGHT;
         overlayTop.setVisible(isOverlayVisible);
         overlayBottom.setVisible(isOverlayVisible);
 
@@ -344,6 +355,11 @@ public class GameScreen implements Screen {
     public void dispose() {
 
         Log.i(tag, "dispose");
+
+        if (saveTask != null) {
+            saveTask.cancel();
+            saveTask = null;
+        }
 
         isLoaded = false;
 

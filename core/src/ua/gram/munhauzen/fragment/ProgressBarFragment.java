@@ -20,6 +20,7 @@ public class ProgressBarFragment {
 
     private final GameScreen gameScreen;
     public ProgressBar bar;
+    public Stack barContainer;
 
     public ProgressBarFragment(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
@@ -62,7 +63,7 @@ public class ProgressBarFragment {
                 .width(1f * MunhauzenGame.WORLD_WIDTH / 2)
                 .height(250);
 
-        Stack barContainer = new Stack();
+        barContainer = new Stack();
         barContainer.addActor(backgroundContainer);
         barContainer.addActor(barTable);
 

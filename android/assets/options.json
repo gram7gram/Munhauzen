@@ -49,6 +49,30 @@
         "inventoryRequired": [
           "DEFAULT"
         ]
+      },
+      {
+        "option": "option3",
+        "inventoryRequired": [
+          "DEFAULT"
+        ]
+      },
+      {
+        "option": "option3",
+        "inventoryRequired": [
+          "DEFAULT"
+        ]
+      },
+      {
+        "option": "option3",
+        "inventoryRequired": [
+          "DEFAULT"
+        ]
+      },
+      {
+        "option": "option3",
+        "inventoryRequired": [
+          "DEFAULT"
+        ]
       }
     ]
   },

@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Scaling;
 
 /**
  * @author Gram <gram7gram@gmail.com>
@@ -20,6 +21,8 @@ public class CannonAnimation extends Image {
     public CannonAnimation(Texture texture) {
 
         super(new SpriteDrawable(new Sprite(texture)));
+
+        setScaling(Scaling.fit);
 
         duration = 0;
         animation = animate(texture);

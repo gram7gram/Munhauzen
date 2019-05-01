@@ -22,6 +22,7 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.Timer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
@@ -32,6 +33,7 @@ import ua.gram.munhauzen.entity.Option;
 import ua.gram.munhauzen.entity.OptionRepository;
 import ua.gram.munhauzen.entity.Scenario;
 import ua.gram.munhauzen.screen.GameScreen;
+import ua.gram.munhauzen.ui.FitImage;
 
 /**
  * @author Gram <gram7gram@gmail.com>
@@ -44,11 +46,30 @@ public class ScenarioFragment implements Disposable {
     private VerticalGroup group2, group1, group3;
     private Texture decorationTop;
     private Sprite decorLeft, decorRight;
+    private final HashMap<Integer, String> map = new HashMap<>();
+    private final HashMap<Integer, String> animatedMap = new HashMap<>();
 
     public ScenarioFragment(GameScreen gameScreen) {
         this.game = gameScreen.game;
         this.gameScreen = gameScreen;
         assetManager = new AssetManager();
+
+
+        animatedMap.put(0, "GameScreen/an_letter_sheet_A.png");
+        animatedMap.put(1, "GameScreen/an_letter_sheet_B.png");
+        animatedMap.put(2, "GameScreen/an_letter_sheet_C.png");
+        animatedMap.put(3, "GameScreen/an_letter_sheet_D.png");
+        animatedMap.put(4, "GameScreen/an_letter_sheet_E.png");
+        animatedMap.put(5, "GameScreen/an_letter_sheet_F.png");
+        animatedMap.put(6, "GameScreen/an_letter_sheet_G.png");
+
+        map.put(0, "GameScreen/an_letter_A_main.png");
+        map.put(1, "GameScreen/an_letter_B_main.png");
+        map.put(2, "GameScreen/an_letter_C_main.png");
+        map.put(3, "GameScreen/an_letter_D_main.png");
+        map.put(4, "GameScreen/an_letter_E_main.png");
+        map.put(5, "GameScreen/an_letter_F_main.png");
+        map.put(6, "GameScreen/an_letter_G_main.png");
     }
 
     @Override
@@ -58,20 +79,12 @@ public class ScenarioFragment implements Disposable {
 
     public Stack create(ArrayList<Decision> decisions) {
 
+        assetManager.load("GameScreen/an_cannons_main.png", Texture.class);
         assetManager.load("GameScreen/b_star_game.png", Texture.class);
         assetManager.load("GameScreen/b_tulip_1.png", Texture.class);
         assetManager.load("GameScreen/b_decision_add_line.png", Texture.class);
         assetManager.load("GameScreen/b_decision_first_line.png", Texture.class);
         assetManager.load("GameScreen/b_decision_last_line.png", Texture.class);
-        assetManager.load("GameScreen/an_cannons_sheet.png", Texture.class);
-        assetManager.load("GameScreen/an_cannons_left_sheet.png", Texture.class);
-        assetManager.load("GameScreen/an_letter_sheet_A.png", Texture.class);
-        assetManager.load("GameScreen/an_letter_sheet_B.png", Texture.class);
-        assetManager.load("GameScreen/an_letter_sheet_C.png", Texture.class);
-        assetManager.load("GameScreen/an_letter_sheet_D.png", Texture.class);
-        assetManager.load("GameScreen/an_letter_sheet_E.png", Texture.class);
-        assetManager.load("GameScreen/an_letter_sheet_F.png", Texture.class);
-        assetManager.load("GameScreen/an_letter_sheet_G.png", Texture.class);
 
         assetManager.finishLoading();
 
@@ -82,7 +95,6 @@ public class ScenarioFragment implements Disposable {
         stack.setFillParent(true);
 
         Table table = new Table();
-        table.setFillParent(true);
 
         for (int i = 0; i < decisions.size(); i++) {
 
@@ -113,7 +125,7 @@ public class ScenarioFragment implements Disposable {
             });
 
             table.add(button)
-                    .minWidth(600)
+                    .minWidth(500)
                     .width(MunhauzenGame.WORLD_WIDTH * 3 / 4f)
                     .maxWidth(1000)
                     .pad(10).row();
@@ -127,9 +139,9 @@ public class ScenarioFragment implements Disposable {
         decorRight = new Sprite(borders);
         decorRight.setFlip(true, false);
 
-        Image decor1 = new Image(new SpriteDrawable(decorLeft));
-        Image decor2 = new Image(new SpriteDrawable(decorRight));
-        Image decor3 = new Image(decorationTop);
+        Image decor1 = new FitImage(new SpriteDrawable(decorLeft));
+        Image decor2 = new FitImage(new SpriteDrawable(decorRight));
+        Image decor3 = new FitImage(decorationTop);
 
         group1 = new VerticalGroup();
         group1.align(Align.topLeft);
@@ -143,10 +155,17 @@ public class ScenarioFragment implements Disposable {
         group3.align(Align.topRight);
         group3.addActor(decor2);
 
+        Table scrollContainer = new Table();
+        scrollContainer.setFillParent(true);
+        scrollContainer.add(scrollPane)
+                .top().expand().fill()
+                .padTop(gameScreen.progressBarFragment.barContainer.getHeight() - 20)
+                .padBottom(gameScreen.progressBarFragment.barContainer.getHeight() - 20);
+
         stack.addActorAt(0, group1);
         stack.addActorAt(1, group2);
         stack.addActorAt(2, group3);
-        stack.addActorAt(3, scrollPane);
+        stack.addActorAt(3, scrollContainer);
 
         fadeIn();
 
@@ -208,46 +227,32 @@ public class ScenarioFragment implements Disposable {
         ));
     }
 
-    public Actor primaryDecision(String text, int index, final ClickListener onClick) {
+    public Actor primaryDecision(String text, final int index, final ClickListener onClick) {
 
         Texture top = assetManager.get("GameScreen/b_decision_first_line.png", Texture.class);
         Texture bottom = assetManager.get("GameScreen/b_decision_last_line.png", Texture.class);
         Texture middle = assetManager.get("GameScreen/b_decision_add_line.png", Texture.class);
-        Texture sheet = assetManager.get("GameScreen/an_cannons_sheet.png", Texture.class);
-        Texture sheetLeft = assetManager.get("GameScreen/an_cannons_left_sheet.png", Texture.class);
+        Texture cannon = assetManager.get("GameScreen/an_cannons_main.png", Texture.class);
 
-        Texture letter;
-        switch (index) {
-            case 0:
-                letter = assetManager.get("GameScreen/an_letter_sheet_A.png", Texture.class);
-                break;
-            case 1:
-                letter = assetManager.get("GameScreen/an_letter_sheet_B.png", Texture.class);
-                break;
-            case 2:
-                letter = assetManager.get("GameScreen/an_letter_sheet_C.png", Texture.class);
-                break;
-            case 3:
-                letter = assetManager.get("GameScreen/an_letter_sheet_D.png", Texture.class);
-                break;
-            case 4:
-                letter = assetManager.get("GameScreen/an_letter_sheet_E.png", Texture.class);
-                break;
-            case 5:
-                letter = assetManager.get("GameScreen/an_letter_sheet_F.png", Texture.class);
-                break;
-            case 6:
-                letter = assetManager.get("GameScreen/an_letter_sheet_G.png", Texture.class);
-                break;
-            default:
-                throw new NullPointerException("Missing letter for decision at " + index);
+        SpriteDrawable cannonDrawable = new SpriteDrawable(new Sprite(cannon));
+        SpriteDrawable cannonDrawableRight = new SpriteDrawable(new Sprite(cannon));
+        cannonDrawableRight.getSprite().setFlip(true, false);
+
+        if (!map.containsKey(index)) {
+            throw new NullPointerException("Missing letter for decision at " + index);
         }
 
-        final CannonAnimation cannonAnimationLeft = new CannonAnimation(sheet);
-        final CannonAnimation cannonAnimationRight = new CannonAnimation(sheetLeft);
-//        cannonAnimationRight.flipX = true;
+        String letterResource = map.get(index);
 
-        final CannonLetterAnimation cannonLetterAnimation = new CannonLetterAnimation(letter);
+        assetManager.load(letterResource, Texture.class);
+
+        assetManager.finishLoading();
+
+        Texture letter = assetManager.get(letterResource, Texture.class);
+
+        Image cannonLeft = new FitImage(cannonDrawable);
+        Image cannonRight = new FitImage(cannonDrawableRight);
+        Image cannonLetter = new FitImage(letter);
 
         final NinePatchDrawable middleBackground = new NinePatchDrawable(new NinePatch(
                 middle, 0, 0, 5, 5
@@ -264,27 +269,77 @@ public class ScenarioFragment implements Disposable {
         label.setWrap(true);
 
         final Table cannonTable = new Table();
-        cannonTable.add(cannonAnimationLeft).right().padLeft(80);
-        cannonTable.add(cannonAnimationRight).left().padRight(80);
+        cannonTable.add(cannonLeft).right().padLeft(80);
+        cannonTable.add(cannonRight).left().padRight(80);
 
-        Stack stackTop = new Stack();
-        stackTop.addActor(backTop);
-        stackTop.addActor(cannonTable);
+        Table labelContainer = new Table();
+        labelContainer.setFillParent(true);
+        labelContainer.add(label).fill().expand().padLeft(15).padRight(15);
+
+        final Stack cannonStack = new Stack();
+        cannonStack.add(backTop);
+        cannonStack.add(cannonTable);
 
         Stack stackMiddle = new Stack();
         stackMiddle.addActor(backMiddle);
-        stackMiddle.addActor(label);
+        stackMiddle.addActor(labelContainer);
 
-        Table tableBack = new Table();
+        final Table tableBack = new Table();
 
-        tableBack.add(stackTop).fillX().expandX().height(100).row();
-        tableBack.add(stackMiddle).fillX().expandX().row();
+        tableBack.add(cannonStack).fillX().expandX().height(100).row();
+        tableBack.add(stackMiddle)
+                .minHeight(MunhauzenGame.WORLD_HEIGHT / 10f)
+                .fillX().expandX().row();
         tableBack.add(backBottom).fillX().expandX().height(65).row();
+
+        final Table letterTable = new Table();
+        letterTable.setFillParent(true);
+        letterTable.add(cannonLetter).width(85).height(85).expand().top();
+
+        final Stack button = new Stack();
+        button.add(tableBack);
+        button.add(letterTable);
 
         tableBack.addListener(new ClickListener() {
             @Override
             public void clicked(final InputEvent event, final float x, final float y) {
                 super.clicked(event, x, y);
+
+                tableBack.clearListeners();
+
+                if (!animatedMap.containsKey(index)) {
+                    throw new NullPointerException("Missing letter for decision at " + index);
+                }
+
+                String letterResource = animatedMap.get(index);
+
+                assetManager.load(letterResource, Texture.class);
+                assetManager.load("GameScreen/an_cannons_sheet.png", Texture.class);
+                assetManager.load("GameScreen/an_cannons_left_sheet.png", Texture.class);
+
+                assetManager.finishLoading();
+
+                Texture letter = assetManager.get(letterResource, Texture.class);
+                Texture sheet = assetManager.get("GameScreen/an_cannons_sheet.png", Texture.class);
+                Texture sheetLeft = assetManager.get("GameScreen/an_cannons_left_sheet.png", Texture.class);
+
+                CannonLetterAnimation cannonLetterAnimation = new CannonLetterAnimation(letter);
+                CannonAnimation cannonAnimationLeft = new CannonAnimation(sheet);
+                CannonAnimation cannonAnimationRight = new CannonAnimation(sheetLeft);
+
+                final Table animatedCannonTable = new Table();
+                animatedCannonTable.add(cannonAnimationLeft).right().padLeft(80);
+                animatedCannonTable.add(cannonAnimationRight).left().padRight(80);
+
+                cannonTable.remove();
+                cannonStack.add(animatedCannonTable);
+
+                Table animatedLetterTable = new Table();
+                animatedLetterTable.setFillParent(true);
+                animatedLetterTable.add(cannonLetterAnimation).expand().top().padLeft(30);
+
+                letterTable.remove();
+                button.add(animatedLetterTable);
 
                 cannonAnimationLeft.start();
                 cannonAnimationRight.start();
@@ -300,14 +355,6 @@ public class ScenarioFragment implements Disposable {
             }
         });
 
-        Table letterTable = new Table();
-        letterTable.setFillParent(true);
-        letterTable.add(cannonLetterAnimation).expand().top().padLeft(30);
-
-        Stack stack = new Stack();
-        stack.add(tableBack);
-        stack.add(letterTable);
-
-        return stack;
+        return button;
     }
 }

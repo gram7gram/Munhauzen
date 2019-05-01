@@ -14,6 +14,7 @@ import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.screen.MainMenuScreen;
+import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.utils.Log;
 
 /**
@@ -31,18 +32,14 @@ public class GameControlsFragment {
 
     public void create() {
 
-        soundButton = new Image(getSoundButtonBackground());
+        soundButton = new FitImage(getSoundButtonBackground());
 
-        menuButton = new Image(new SpriteDrawable(new Sprite(
+        menuButton = new FitImage(new SpriteDrawable(new Sprite(
                 gameScreen.assetManager.get("GameScreen/b_bookmenu.png", Texture.class))));
 
-        float scale1 = 1f * menuButton.getHeight() / 300;
-        menuButton.setWidth(menuButton.getWidth() / scale1);
-        menuButton.setHeight(300);
+        menuButton.setHeight(MunhauzenGame.WORLD_HEIGHT / 6f);
 
-        float scale2 = 1f * soundButton.getHeight() / 300;
-        soundButton.setWidth(soundButton.getWidth() / scale2);
-        soundButton.setHeight(300);
+        soundButton.setHeight(MunhauzenGame.WORLD_HEIGHT / 6f);
 
         soundButton.setPosition(
                 MunhauzenGame.WORLD_WIDTH - soundButton.getWidth() - menuButton.getWidth() - 10,
