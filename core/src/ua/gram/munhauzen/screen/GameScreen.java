@@ -12,6 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.Timer;
 
 import java.util.Date;
@@ -42,7 +44,7 @@ public class GameScreen implements Screen {
     public Stack uiLayers;
     public Stack uiControlsLayer;
     public Stack uiImageLayer;
-    public AssetManager assetManager;
+    public final AssetManager assetManager;
     public ScenarioManager scenarioManager;
     public ScenarioFragment scenarioFragment;
     public ProgressBarFragment progressBarFragment;
@@ -56,6 +58,11 @@ public class GameScreen implements Screen {
 
     public GameScreen(MunhauzenGame game) {
         this.game = game;
+        assetManager = new AssetManager();
+    }
+
+    public Scenario getScenario() {
+        return game.gameState.history.activeSave.scenario;
     }
 
     @Override
@@ -67,23 +74,9 @@ public class GameScreen implements Screen {
         scenarioManager = new ScenarioManager(this, game.gameState);
 
         isLoaded = false;
-        assetManager = new AssetManager();
+        GameState.isPaused = false;
 
-        assetManager.load("ui/player_progress_bar.9.png", Texture.class);
-        assetManager.load("ui/player_progress_bar_right.9.png", Texture.class);
-        assetManager.load("ui/player_progress_bar_progress.9.jpg", Texture.class);
-        assetManager.load("ui/player_progress_bar_knob.png", Texture.class);
-        assetManager.load("GameScreen/b_bookmenu.png", Texture.class);
-        assetManager.load("GameScreen/b_booksound_on.png", Texture.class);
-        assetManager.load("GameScreen/b_booksound_off.png", Texture.class);
         assetManager.load("GameScreen/t_putty.png", Texture.class);
-
-        saveTask = Timer.schedule(new Timer.Task() {
-            @Override
-            public void run() {
-
-            }
-        }, 5, 5);
 
         Scenario scenario = game.gameState.history.activeSave.scenario;
         if (scenario != null && scenario.isValid()) {
@@ -153,6 +146,25 @@ public class GameScreen implements Screen {
 
         scenarioManager.resumeScenario();
 
+        saveTask = Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                Json json = new Json();
+                json.setOutputType(JsonWriter.OutputType.json);
+
+//                try {
+//                    String content = json.prettyPrint(game.gameState.history);
+//
+//                    FileHandle history = Files.getHistoryFile();
+//
+//                    history.writeString(content, false, "UTF-8");
+
+//                    Log.i(tag, "History saved to: " + history.path());
+//                } catch (Throwable e) {
+//                    Log.e(tag, e);
+//                }
+            }
+        }, 5, 5);
     }
 
     public void setBackgroundImageLayer(Stack actor) {
@@ -192,10 +204,12 @@ public class GameScreen implements Screen {
 
         if (!scenario.isCompleted) {
 
-            scenarioManager.updateScenario(
-                    scenario.progress + (delta * 1000),
-                    scenario.totalDuration
-            );
+            if (!GameState.isPaused) {
+                scenarioManager.updateScenario(
+                        scenario.progress + (delta * 1000),
+                        scenario.totalDuration
+                );
+            }
 
             if (scenario.isCompleted) {
 
@@ -204,10 +218,20 @@ public class GameScreen implements Screen {
             } else {
                 scenarioManager.startLoadingResources(scenario);
             }
+
+            if (scenario.currentOption.currentAudio.isPrepared) {
+                Music player = scenario.currentOption.currentAudio.player;
+                if (player != null) {
+                    if (GameState.isPaused) {
+                        player.pause();
+                    } else if (!player.isPlaying()) {
+                        player.play();
+                    }
+                }
+            }
         }
 
-        progressBarFragment.bar.setRange(0, scenario.totalDuration);
-        progressBarFragment.bar.setValue(scenario.progress);
+        progressBarFragment.update();
 
         ui.act(delta);
         ui.draw();
@@ -302,7 +326,10 @@ public class GameScreen implements Screen {
 
         item.player.setPosition(delta);
         item.player.setVolume(GameState.isMute ? 0 : 1);
-        item.player.play();
+
+        if (!GameState.isPaused) {
+            item.player.play();
+        }
     }
 
     private void onImagePrepared(OptionImage item) {
@@ -363,11 +390,14 @@ public class GameScreen implements Screen {
 
         isLoaded = false;
 
-        if (assetManager != null) {
-            assetManager.dispose();
-        }
+        assetManager.dispose();
+
         if (ui != null) {
             ui.dispose();
         }
+
+        progressBarFragment.dispose();
+        scenarioFragment.dispose();
+        gameControlsFragment.dispose();
     }
 }

@@ -1,5 +1,6 @@
 package ua.gram.munhauzen.fragment;
 
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -9,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
+import com.badlogic.gdx.utils.Disposable;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.GameState;
@@ -20,22 +22,30 @@ import ua.gram.munhauzen.utils.Log;
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class GameControlsFragment {
+public class GameControlsFragment implements Disposable {
 
     private final String tag = getClass().getSimpleName();
     private final GameScreen gameScreen;
+    private final AssetManager assetManager;
     public Image soundButton, menuButton;
 
     public GameControlsFragment(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
+        assetManager = new AssetManager();
     }
 
     public void create() {
 
+        assetManager.load("GameScreen/b_booksound_off.png", Texture.class);
+        assetManager.load("GameScreen/b_booksound_on.png", Texture.class);
+        assetManager.load("GameScreen/b_bookmenu.png", Texture.class);
+
+        assetManager.finishLoading();
+
         soundButton = new FitImage(getSoundButtonBackground());
 
         menuButton = new FitImage(new SpriteDrawable(new Sprite(
-                gameScreen.assetManager.get("GameScreen/b_bookmenu.png", Texture.class))));
+                assetManager.get("GameScreen/b_bookmenu.png", Texture.class))));
 
         menuButton.setHeight(MunhauzenGame.WORLD_HEIGHT / 6f);
 
@@ -63,8 +73,8 @@ public class GameControlsFragment {
 
     private Drawable getSoundButtonBackground() {
         Texture texture = GameState.isMute
-                ? gameScreen.assetManager.get("GameScreen/b_booksound_off.png", Texture.class)
-                : gameScreen.assetManager.get("GameScreen/b_booksound_on.png", Texture.class);
+                ? assetManager.get("GameScreen/b_booksound_off.png", Texture.class)
+                : assetManager.get("GameScreen/b_booksound_on.png", Texture.class);
 
         return new SpriteDrawable(new Sprite(texture));
     }
@@ -219,5 +229,10 @@ public class GameControlsFragment {
         soundButton.setTouchable(Touchable.enabled);
         soundButton.clearListeners();
         soundButton.addListener(slideDown);
+    }
+
+    @Override
+    public void dispose() {
+        assetManager.dispose();
     }
 }

@@ -31,7 +31,7 @@ public class ScenarioManager {
         this.gameState = gameState;
     }
 
-    public Scenario createScenario(String cid) {
+    public Scenario createScenario(String optionId) {
 
         resetScenario();
 
@@ -40,13 +40,19 @@ public class ScenarioManager {
 
         Log.i(tag, "createScenario " + scenario.cid);
 
-        Option option = OptionRepository.find(gameState, cid);
+        Option option = OptionRepository.find(gameState, optionId);
 
         findScenario(option, scenario);
 
         scenario.init();
 
-        Log.i(tag, "createScenario " + scenario.cid + " x" + scenario.options.size);
+        String log = "createScenario " + scenario.cid + " x" + scenario.options.size;
+
+        for (ScenarioOption scenarioOption : scenario.options) {
+            log += scenarioOption.startsAt + "-" + scenarioOption.finishesAt + " " + scenarioOption.option.id + "\r\n";
+        }
+
+        Log.i(tag, log);
 
         if (!scenario.isValid()) {
             throw new IllegalArgumentException("Created scenario is not valid!");
@@ -116,7 +122,7 @@ public class ScenarioManager {
             gameScreen.prepareAudio(optionAudio);
 
             if (optionAudio.next != null) {
-                gameScreen.prepareAudio((OptionAudio) optionAudio.next);
+                gameScreen.prepareAudio(optionAudio.next);
             }
         }
 
@@ -125,7 +131,7 @@ public class ScenarioManager {
             gameScreen.prepareImage(optionImage);
 
             if (optionImage.next != null) {
-                gameScreen.prepareImage((OptionImage) optionImage.next);
+                gameScreen.prepareImage(optionImage.next);
             }
         }
 

@@ -1,57 +1,159 @@
 package ua.gram.munhauzen.fragment;
 
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
+import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.entity.GameState;
+import ua.gram.munhauzen.entity.Scenario;
+import ua.gram.munhauzen.entity.ScenarioOption;
 import ua.gram.munhauzen.screen.GameScreen;
+import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class ProgressBarFragment {
+public class ProgressBarFragment implements Disposable {
 
+    private final String tag = getClass().getSimpleName();
     private final GameScreen gameScreen;
     public ProgressBar bar;
     public Stack barContainer;
+    public Table controlsTable;
+    public ImageButton skipBackButton, rewindBackButton, skipForwardButton, rewindForwardButton, pauseButton, playButton;
+    public final AssetManager assetManager;
 
     public ProgressBarFragment(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
+        assetManager = new AssetManager();
     }
 
     public Stack create() {
 
+        assetManager.load("ui/playbar_pause.png", Texture.class);
+        assetManager.load("ui/playbar_play.png", Texture.class);
+
+        assetManager.load("ui/playbar_rewind_backward.png", Texture.class);
+        assetManager.load("ui/playbar_rewind_backward_off.png", Texture.class);
+
+        assetManager.load("ui/playbar_rewind_forward.png", Texture.class);
+        assetManager.load("ui/playbar_rewind_forward_off.png", Texture.class);
+
+        assetManager.load("ui/playbar_skip_backward.png", Texture.class);
+        assetManager.load("ui/playbar_skip_backward_off.png", Texture.class);
+
+        assetManager.load("ui/playbar_skip_forward.png", Texture.class);
+        assetManager.load("ui/playbar_skip_forward_off.png", Texture.class);
+
+        assetManager.load("ui/player_progress_bar.9.png", Texture.class);
+        assetManager.load("ui/player_progress_bar_right.9.png", Texture.class);
+        assetManager.load("ui/player_progress_bar_progress.9.jpg", Texture.class);
+        assetManager.load("ui/player_progress_bar_knob.png", Texture.class);
+
+        assetManager.finishLoading();
+
+        Texture line = assetManager.get("ui/player_progress_bar_progress.9.jpg", Texture.class);
+        Texture knob = assetManager.get("ui/player_progress_bar_knob.png", Texture.class);
+        Texture backLeft = assetManager.get("ui/player_progress_bar.9.png", Texture.class);
+        Texture backRight = assetManager.get("ui/player_progress_bar_right.9.png", Texture.class);
+        Texture pause = assetManager.get("ui/playbar_pause.png", Texture.class);
+        Texture play = assetManager.get("ui/playbar_play.png", Texture.class);
+        Texture rewindBack = assetManager.get("ui/playbar_rewind_backward.png", Texture.class);
+        Texture rewindBackOff = assetManager.get("ui/playbar_rewind_backward_off.png", Texture.class);
+        Texture rewindForward = assetManager.get("ui/playbar_rewind_forward.png", Texture.class);
+        Texture rewindForwardOff = assetManager.get("ui/playbar_rewind_forward_off.png", Texture.class);
+        Texture skipBack = assetManager.get("ui/playbar_skip_backward.png", Texture.class);
+        Texture skipBackOff = assetManager.get("ui/playbar_skip_backward_off.png", Texture.class);
+        Texture skipForward = assetManager.get("ui/playbar_skip_forward.png", Texture.class);
+        Texture skipForwardOff = assetManager.get("ui/playbar_skip_forward_off.png", Texture.class);
+
         ProgressBar.ProgressBarStyle barStyle = new ProgressBar.ProgressBarStyle();
         barStyle.background = new NinePatchDrawable(new NinePatch(
-                gameScreen.assetManager.get("ui/player_progress_bar_progress.9.jpg", Texture.class),
+                line,
                 10, 10, 0, 0
         ));
-        barStyle.knob = new SpriteDrawable(new Sprite(
-                gameScreen.assetManager.get("ui/player_progress_bar_knob.png", Texture.class)));
+        barStyle.knob = new SpriteDrawable(new Sprite(knob));
 
         bar = new ProgressBar(0, 100, 1, false, barStyle);
 
         Image barBackgroundImageLeft = new Image(new NinePatchDrawable(new NinePatch(
-                gameScreen.assetManager.get("ui/player_progress_bar.9.png", Texture.class),
+                backLeft,
                 130, 500 - 270, 0, 0
         )));
 
         Image barBackgroundImageRight = new Image(new NinePatchDrawable(new NinePatch(
-                gameScreen.assetManager.get("ui/player_progress_bar_right.9.png", Texture.class),
+                backRight,
                 260, 500 - 360, 0, 0
         )));
 
+        ImageButton.ImageButtonStyle skipBackStyle = new ImageButton.ImageButtonStyle();
+        skipBackStyle.up = new SpriteDrawable(new Sprite(skipBack));
+        skipBackStyle.down = new SpriteDrawable(new Sprite(skipBack));
+        skipBackStyle.disabled = new SpriteDrawable(new Sprite(skipBackOff));
+
+        ImageButton.ImageButtonStyle rewindBackStyle = new ImageButton.ImageButtonStyle();
+        rewindBackStyle.up = new SpriteDrawable(new Sprite(rewindBack));
+        rewindBackStyle.down = new SpriteDrawable(new Sprite(rewindBack));
+        rewindBackStyle.disabled = new SpriteDrawable(new Sprite(rewindBackOff));
+
+        ImageButton.ImageButtonStyle playStyle = new ImageButton.ImageButtonStyle();
+        playStyle.up = new SpriteDrawable(new Sprite(play));
+        playStyle.down = new SpriteDrawable(new Sprite(play));
+        playStyle.disabled = new SpriteDrawable(new Sprite(play));
+
+        ImageButton.ImageButtonStyle pauseStyle = new ImageButton.ImageButtonStyle();
+        pauseStyle.up = new SpriteDrawable(new Sprite(pause));
+        pauseStyle.down = new SpriteDrawable(new Sprite(pause));
+        pauseStyle.disabled = new SpriteDrawable(new Sprite(pause));
+
+        ImageButton.ImageButtonStyle rewindForwardStyle = new ImageButton.ImageButtonStyle();
+        rewindForwardStyle.up = new SpriteDrawable(new Sprite(rewindForward));
+        rewindForwardStyle.down = new SpriteDrawable(new Sprite(rewindForward));
+        rewindForwardStyle.disabled = new SpriteDrawable(new Sprite(rewindForwardOff));
+
+        ImageButton.ImageButtonStyle skipForwardStyle = new ImageButton.ImageButtonStyle();
+        skipForwardStyle.up = new SpriteDrawable(new Sprite(skipForward));
+        skipForwardStyle.down = new SpriteDrawable(new Sprite(skipForward));
+        skipForwardStyle.disabled = new SpriteDrawable(new Sprite(skipForwardOff));
+
+        skipBackButton = new ImageButton(skipBackStyle);
+        rewindBackButton = new ImageButton(rewindBackStyle);
+        playButton = new ImageButton(playStyle);
+        pauseButton = new ImageButton(pauseStyle);
+        rewindForwardButton = new ImageButton(rewindForwardStyle);
+        skipForwardButton = new ImageButton(skipForwardStyle);
+
+        Stack playPauseGroup = new Stack();
+        playPauseGroup.add(playButton);
+        playPauseGroup.add(pauseButton);
+
+        controlsTable = new Table();
+        controlsTable.add(skipBackButton).expandX().left().width(80).height(80);
+        controlsTable.add(rewindBackButton).expandX().right().width(80).height(80);
+        controlsTable.add(playPauseGroup).expandX().center().width(80).height(80);
+        controlsTable.add(rewindForwardButton).expandX().left().width(80).height(80);
+        controlsTable.add(skipForwardButton).expandX().right().width(80).height(80);
+
         Table barTable = new Table();
         barTable.pad(40, 100, 40, 100);
-        barTable.add().expandX().height(100).row();
-        barTable.add(bar).fillX().expandX().height(100).row();
+        barTable.add(controlsTable).padTop(5).padBottom(5).fillX().expandX().row();
+        barTable.add(bar).fillX().expandX().height(80).row();
 
         Table backgroundContainer = new Table();
 
@@ -67,6 +169,204 @@ public class ProgressBarFragment {
         barContainer.addActor(backgroundContainer);
         barContainer.addActor(barTable);
 
+        playButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                Log.i(tag, "playButton clicked");
+
+                GameState.isPaused = false;
+            }
+        });
+
+        pauseButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                Log.i(tag, "pauseButton clicked");
+
+                GameState.isPaused = true;
+            }
+        });
+
+        skipBackButton.addListener(new InputListener() {
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                super.enter(event, x, y, pointer, fromActor);
+
+                Scenario scenario = gameScreen.getScenario();
+                if (scenario.currentOption == null) return;
+
+                ScenarioOption previous = scenario.currentOption.previous;
+                if (previous == null) {
+                    return;
+                }
+
+                Log.i(tag, "skipBackButton to " + previous.option.id + " at " + previous.startsAt + " ms");
+
+                scenario.update(previous.startsAt, scenario.totalDuration);
+            }
+        });
+
+        skipForwardButton.addListener(new InputListener() {
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                super.enter(event, x, y, pointer, fromActor);
+
+                Scenario scenario = gameScreen.getScenario();
+                if (scenario.currentOption == null) return;
+
+                ScenarioOption next = scenario.currentOption.next;
+                if (next == null) {
+                    return;
+                }
+
+                Log.i(tag, "skipForwardButton to " + next.option.id + " at " + next.startsAt + " ms");
+
+                scenario.update(next.startsAt, scenario.totalDuration);
+            }
+        });
+
+        rewindBackButton.addListener(new InputListener() {
+
+            Timer.Task progressTask;
+
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                super.enter(event, x, y, pointer, fromActor);
+
+                Log.i(tag, "rewindBackButton enter");
+
+                if (gameScreen.scenarioFragment != null) {
+                    gameScreen.scenarioFragment.fadeOut(new Runnable() {
+                        @Override
+                        public void run() {
+                            gameScreen.scenarioFragment = null;
+                        }
+                    });
+                }
+
+                progressTask = Timer.schedule(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        Scenario scenario = gameScreen.getScenario();
+
+                        GameState.isPaused = true;
+                        scenario.isCompleted = false;
+                        scenario.progress -= 100;
+
+                        scenario.progress = Math.max(0, scenario.progress);
+                    }
+                }, 0, 0.05f);
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                super.exit(event, x, y, pointer, toActor);
+
+                Log.i(tag, "rewindBackButton enter");
+
+                GameState.isPaused = false;
+
+                progressTask.cancel();
+                progressTask = null;
+            }
+
+        });
+
+        rewindForwardButton.addListener(new InputListener() {
+
+            Timer.Task progressTask;
+
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                super.enter(event, x, y, pointer, fromActor);
+
+                Log.i(tag, "rewindForwardButton enter");
+
+                progressTask = Timer.schedule(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        Scenario scenario = gameScreen.getScenario();
+
+                        GameState.isPaused = true;
+                        scenario.isCompleted = false;
+                        scenario.progress += 100;
+
+                        scenario.progress = Math.min(scenario.progress, scenario.totalDuration);
+                    }
+                }, 0, 0.05f);
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                super.exit(event, x, y, pointer, toActor);
+
+                Log.i(tag, "rewindForwardButton exit");
+
+                GameState.isPaused = false;
+
+                progressTask.cancel();
+                progressTask = null;
+            }
+
+        });
+
+        bar.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                float totalLength = Math.max(1, bar.getWidth());
+
+                float percent = x / totalLength;
+
+                Scenario scenario = gameScreen.getScenario();
+
+                Log.i(tag, "percent=" + percent + " new progress=" + (scenario.totalDuration * percent));
+
+                scenario.isCompleted = false;
+                scenario.update(scenario.totalDuration * percent, scenario.totalDuration);
+            }
+        });
+
         return barContainer;
+    }
+
+    public void update() {
+        Scenario scenario = gameScreen.getScenario();
+
+        boolean hasPrevious = false, hasNext = false;
+
+        if (scenario.currentOption != null) {
+            hasPrevious = scenario.currentOption.previous != null;
+            hasNext = scenario.currentOption.next != null;
+        }
+
+        pauseButton.setVisible(!GameState.isPaused);
+        playButton.setVisible(GameState.isPaused);
+
+        skipForwardButton.setDisabled(scenario.isCompleted || !hasNext);
+        rewindForwardButton.setDisabled(scenario.isCompleted);
+
+        skipForwardButton.setTouchable(skipForwardButton.isDisabled() ? Touchable.disabled : Touchable.enabled);
+        rewindForwardButton.setTouchable(rewindForwardButton.isDisabled() ? Touchable.disabled : Touchable.enabled);
+
+        skipBackButton.setDisabled(scenario.progress == 0 || !hasPrevious);
+        rewindBackButton.setDisabled(scenario.progress == 0);
+
+        skipBackButton.setTouchable(skipBackButton.isDisabled() ? Touchable.disabled : Touchable.enabled);
+        rewindBackButton.setTouchable(rewindBackButton.isDisabled() ? Touchable.disabled : Touchable.enabled);
+
+        bar.setRange(0, scenario.totalDuration);
+        bar.setValue(scenario.progress);
+
+    }
+
+    @Override
+    public void dispose() {
+        assetManager.dispose();
     }
 }

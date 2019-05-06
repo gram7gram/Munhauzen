@@ -46,6 +46,7 @@ public class ScenarioFragment implements Disposable {
     private VerticalGroup group2, group1, group3;
     private Texture decorationTop;
     private Sprite decorLeft, decorRight;
+    private Stack stack;
     private final HashMap<Integer, String> map = new HashMap<>();
     private final HashMap<Integer, String> animatedMap = new HashMap<>();
 
@@ -91,7 +92,7 @@ public class ScenarioFragment implements Disposable {
         Texture borders = assetManager.get("GameScreen/b_tulip_1.png", Texture.class);
         decorationTop = assetManager.get("GameScreen/b_star_game.png", Texture.class);
 
-        final Stack stack = new Stack();
+        stack = new Stack();
         stack.setFillParent(true);
 
         Table table = new Table();
@@ -111,12 +112,11 @@ public class ScenarioFragment implements Disposable {
 
                     gameScreen.scenarioManager.startLoadingResources(newScenario);
 
-                    gameScreen.scenarioFragment.fadeOut(new Runnable() {
+
+                    fadeOut(new Runnable() {
                         @Override
                         public void run() {
                             gameScreen.scenarioFragment = null;
-
-                            gameScreen.uiLayers.removeActor(stack); //animate removal
 
                             game.gameState.history.activeSave.scenario = newScenario;
                         }
@@ -172,8 +172,24 @@ public class ScenarioFragment implements Disposable {
         return stack;
     }
 
-    private void fadeOut(Runnable task) {
-        float duration = .5f;
+    public void fadeOutDecisions() {
+        float duration = .3f;
+
+        stack.addAction(Actions.sequence(
+                Actions.alpha(0, duration),
+                Actions.run(new Runnable() {
+                    @Override
+                    public void run() {
+                        stack.remove();
+                    }
+                })
+        ));
+    }
+
+    public void fadeOut(Runnable task) {
+        float duration = .3f;
+
+        fadeOutDecisions();
 
         group1.addAction(Actions.parallel(
                 Actions.moveTo(-decorLeft.getWidth(), 0, duration),
@@ -202,7 +218,7 @@ public class ScenarioFragment implements Disposable {
         );
     }
 
-    private void fadeIn() {
+    public void fadeIn() {
         float duration = .5f;
 
         group1.setX(group1.getX() - decorLeft.getWidth());
@@ -227,7 +243,7 @@ public class ScenarioFragment implements Disposable {
         ));
     }
 
-    public Actor primaryDecision(String text, final int index, final ClickListener onClick) {
+    private Actor primaryDecision(String text, final int index, final ClickListener onClick) {
 
         Texture top = assetManager.get("GameScreen/b_decision_first_line.png", Texture.class);
         Texture bottom = assetManager.get("GameScreen/b_decision_last_line.png", Texture.class);

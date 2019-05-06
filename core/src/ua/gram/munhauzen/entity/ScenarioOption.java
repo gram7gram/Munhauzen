@@ -1,6 +1,6 @@
 package ua.gram.munhauzen.entity;
 
-public class ScenarioOption extends OptionMedia {
+public class ScenarioOption extends OptionMedia<ScenarioOption> {
 
     public int duration;
     public Option option;

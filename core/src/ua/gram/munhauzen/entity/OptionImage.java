@@ -2,7 +2,7 @@ package ua.gram.munhauzen.entity;
 
 import com.badlogic.gdx.graphics.Texture;
 
-public class OptionImage extends OptionMedia {
+public class OptionImage extends OptionMedia<OptionImage> {
     public int duration;
     public Texture image;
     public String interaction;
