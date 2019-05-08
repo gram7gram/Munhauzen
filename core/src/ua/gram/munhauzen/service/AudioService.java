@@ -81,4 +81,16 @@ public class AudioService {
             }
         }
     }
+
+    public void updateVolume() {
+        Scenario scenario = gameScreen.getScenario();
+
+        for (ScenarioOption option : scenario.options) {
+            for (OptionAudio audio : option.option.audio) {
+                if (audio.player != null) {
+                    audio.player.setVolume(GameState.isMute ? 0 : 1);
+                }
+            }
+        }
+    }
 }

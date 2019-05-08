@@ -20,7 +20,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.Timer;
 
-import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.Scenario;
 import ua.gram.munhauzen.entity.ScenarioOption;
@@ -84,12 +83,14 @@ public class ProgressBarFragment implements Disposable {
         Texture skipForward = assetManager.get("ui/playbar_skip_forward.png", Texture.class);
         Texture skipForwardOff = assetManager.get("ui/playbar_skip_forward_off.png", Texture.class);
 
+        Sprite knobSprite = new Sprite(knob);
+
         ProgressBar.ProgressBarStyle barStyle = new ProgressBar.ProgressBarStyle();
         barStyle.background = new NinePatchDrawable(new NinePatch(
                 line,
                 10, 10, 0, 0
         ));
-        barStyle.knob = new SpriteDrawable(new Sprite(knob));
+        barStyle.knob = new SpriteDrawable(knobSprite);
 
         bar = new ProgressBar(0, 100, 1, false, barStyle);
 
@@ -144,27 +145,30 @@ public class ProgressBarFragment implements Disposable {
         playPauseGroup.add(playButton);
         playPauseGroup.add(pauseButton);
 
+        int controlsSize = 50;
+        int fragmentHeight = controlsSize * 4;
+
+        float originalKnobHeight = barStyle.knob.getMinHeight();
+        float knobScale = originalKnobHeight > 0 ? 1f * controlsSize / originalKnobHeight : 1;
+
+        barStyle.knob.setMinHeight(controlsSize);
+        barStyle.knob.setMinWidth(barStyle.knob.getMinWidth() * knobScale);
+
         controlsTable = new Table();
-        controlsTable.add(skipBackButton).expandX().left().width(80).height(80);
-        controlsTable.add(rewindBackButton).expandX().right().width(80).height(80);
-        controlsTable.add(playPauseGroup).expandX().center().width(80).height(80);
-        controlsTable.add(rewindForwardButton).expandX().left().width(80).height(80);
-        controlsTable.add(skipForwardButton).expandX().right().width(80).height(80);
+        controlsTable.add(skipBackButton).expandX().left().width(controlsSize).height(controlsSize);
+        controlsTable.add(rewindBackButton).expandX().right().width(controlsSize).height(controlsSize);
+        controlsTable.add(playPauseGroup).expandX().center().width(controlsSize).height(controlsSize);
+        controlsTable.add(rewindForwardButton).expandX().left().width(controlsSize).height(controlsSize);
+        controlsTable.add(skipForwardButton).expandX().right().width(controlsSize).height(controlsSize);
 
         Table barTable = new Table();
         barTable.pad(40, 100, 40, 100);
         barTable.add(controlsTable).padTop(5).padBottom(5).fillX().expandX().row();
-        barTable.add(bar).fillX().expandX().height(80).row();
+        barTable.add(bar).fillX().expandX().height(controlsSize).row();
 
         Table backgroundContainer = new Table();
-
-        backgroundContainer.add(barBackgroundImageLeft).fillX()
-                .width(1f * MunhauzenGame.WORLD_WIDTH / 2)
-                .height(250);
-
-        backgroundContainer.add(barBackgroundImageRight).fillX()
-                .width(1f * MunhauzenGame.WORLD_WIDTH / 2)
-                .height(250);
+        backgroundContainer.add(barBackgroundImageLeft).fillX().height(fragmentHeight);
+        backgroundContainer.add(barBackgroundImageRight).fillX().height(fragmentHeight);
 
         barContainer = new Stack();
         barContainer.addActor(backgroundContainer);

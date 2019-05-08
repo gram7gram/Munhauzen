@@ -226,6 +226,8 @@ public class GameScreen implements Screen {
 
         progressBarFragment.update();
 
+        audioService.updateVolume();
+
         ui.act(delta);
         ui.draw();
     }
