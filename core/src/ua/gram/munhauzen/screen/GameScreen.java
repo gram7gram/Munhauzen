@@ -3,34 +3,27 @@ package ua.gram.munhauzen.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.Timer;
 
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
-
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.MunhauzenStage;
 import ua.gram.munhauzen.entity.GameState;
-import ua.gram.munhauzen.entity.OptionAudio;
-import ua.gram.munhauzen.entity.OptionImage;
 import ua.gram.munhauzen.entity.Scenario;
 import ua.gram.munhauzen.fragment.GameControlsFragment;
 import ua.gram.munhauzen.fragment.ProgressBarFragment;
 import ua.gram.munhauzen.fragment.ScenarioFragment;
+import ua.gram.munhauzen.service.AudioService;
+import ua.gram.munhauzen.service.ImageService;
 import ua.gram.munhauzen.service.ScenarioManager;
 import ua.gram.munhauzen.ui.FitImage;
-import ua.gram.munhauzen.utils.DateUtils;
 import ua.gram.munhauzen.utils.Log;
 
 /**
@@ -49,11 +42,17 @@ public class GameScreen implements Screen {
     public ScenarioFragment scenarioFragment;
     public ProgressBarFragment progressBarFragment;
     public GameControlsFragment gameControlsFragment;
+    public AudioService audioService;
+    public ImageService imageService;
 
     private Timer.Task saveTask;
     private Texture background;
-    private Table currentImageTable, overlayTableTop, overlayTableBottom;
-    private Image currentImage, overlayTop, overlayBottom;
+    public Table currentImageTable;
+    public Table overlayTableTop;
+    public Table overlayTableBottom;
+    public Image currentImage;
+    public Image overlayTop;
+    public Image overlayBottom;
     private boolean isLoaded;
 
     public GameScreen(MunhauzenGame game) {
@@ -69,6 +68,9 @@ public class GameScreen implements Screen {
     public void show() {
 
         Log.i(tag, "show");
+
+        audioService = new AudioService(this);
+        imageService = new ImageService(this);
 
         ui = new MunhauzenStage(game);
         scenarioManager = new ScenarioManager(this, game.gameState);
@@ -200,7 +202,7 @@ public class GameScreen implements Screen {
 
         drawBackground();
 
-        Scenario scenario = game.gameState.history.activeSave.scenario;
+        Scenario scenario = getScenario();
 
         if (!scenario.isCompleted) {
 
@@ -218,18 +220,9 @@ public class GameScreen implements Screen {
             } else {
                 scenarioManager.startLoadingResources(scenario);
             }
-
-            if (scenario.currentOption.currentAudio.isPrepared) {
-                Music player = scenario.currentOption.currentAudio.player;
-                if (player != null) {
-                    if (GameState.isPaused) {
-                        player.pause();
-                    } else if (!player.isPlaying()) {
-                        player.play();
-                    }
-                }
-            }
         }
+
+        scenarioManager.postUpdate(scenario);
 
         progressBarFragment.update();
 
@@ -248,119 +241,6 @@ public class GameScreen implements Screen {
 
         game.batch.enableBlending();
         game.batch.end();
-    }
-
-    public void prepareAudio(OptionAudio item) {
-        if (item.isPrepared) return;
-
-        String resource = item.getResource();
-
-        if (!item.isPreparing) {
-
-            if (!assetManager.isLoaded(resource, Music.class)) {
-                item.isPreparing = true;
-                item.prepareStartedAt = new Date();
-
-                assetManager.load(resource, Music.class);
-            }
-
-        } else {
-
-            if (assetManager.isLoaded(resource, Music.class)) {
-
-                item.isPreparing = false;
-                item.isPrepared = true;
-                item.prepareCompletedAt = new Date();
-                item.player = assetManager.get(resource, Music.class);
-
-                onAudioPrepared(item);
-            }
-        }
-    }
-
-    public void prepareImage(OptionImage item) {
-        if (item.isPrepared) return;
-
-        String resource = item.getResource();
-
-        if (!item.isPreparing) {
-
-            if (!assetManager.isLoaded(resource, Texture.class)) {
-                item.isPreparing = true;
-                item.prepareStartedAt = new Date();
-
-                assetManager.load(resource, Texture.class);
-            }
-
-        } else {
-
-            if (assetManager.isLoaded(resource, Texture.class)) {
-
-                item.isPreparing = false;
-                item.isPrepared = true;
-                item.prepareCompletedAt = new Date();
-
-                item.image = assetManager.get(resource, Texture.class);
-
-                onImagePrepared(item);
-            }
-        }
-    }
-
-    private void onAudioPrepared(OptionAudio item) {
-
-        Log.i(tag, "onAudioPrepared " + item.id
-                + " in " + DateUtils.getDateDiff(item.prepareCompletedAt, item.prepareStartedAt, TimeUnit.MILLISECONDS) + "ms");
-
-        Scenario scenario = game.gameState.history.activeSave.scenario;
-
-        for (OptionAudio audio : scenario.currentOption.option.audio) {
-            if (audio != item) {
-                if (audio.player != null) {
-                    audio.player.stop();
-                }
-            }
-        }
-
-        float delta = Math.max(0, (item.progress - item.startsAt) / 1000);
-
-        item.player.setPosition(delta);
-        item.player.setVolume(GameState.isMute ? 0 : 1);
-
-        if (!GameState.isPaused) {
-            item.player.play();
-        }
-    }
-
-    private void onImagePrepared(OptionImage item) {
-
-        Log.i(tag, "onImagePrepared " + item.id
-                + " " + item.image.getWidth() + "x" + item.image.getHeight()
-                + " (" + MunhauzenGame.WORLD_WIDTH + "x" + MunhauzenGame.WORLD_HEIGHT + ")"
-                + " in " + DateUtils.getDateDiff(item.prepareCompletedAt, item.prepareStartedAt, TimeUnit.MILLISECONDS) + "ms");
-
-        currentImage.setDrawable(new SpriteDrawable(new Sprite(item.image)));
-
-        float scale = 1f * MunhauzenGame.WORLD_WIDTH / item.image.getWidth();
-        float height = 1f * item.image.getHeight() * scale;
-
-        currentImageTable.getCell(currentImage).width(MunhauzenGame.WORLD_WIDTH).height(height);
-
-        Log.i(tag, "currentImage " + currentImage.getWidth() + "x" + currentImage.getHeight());
-
-
-        boolean isOverlayVisible = currentImage.getHeight() < MunhauzenGame.WORLD_HEIGHT;
-        overlayTop.setVisible(isOverlayVisible);
-        overlayBottom.setVisible(isOverlayVisible);
-
-        if (isOverlayVisible) {
-
-            overlayTableBottom.getCell(overlayBottom).width(MunhauzenGame.WORLD_WIDTH).height(150);
-            overlayTableTop.getCell(overlayTop).width(MunhauzenGame.WORLD_WIDTH).height(150);
-
-            overlayTop.setPosition(0, currentImage.getY() - overlayTop.getHeight() / 2f);
-            overlayBottom.setPosition(0, currentImage.getY() + currentImage.getHeight() - overlayTop.getHeight() / 2f);
-        }
     }
 
     @Override
@@ -395,6 +275,9 @@ public class GameScreen implements Screen {
         if (ui != null) {
             ui.dispose();
         }
+
+        audioService = null;
+        imageService = null;
 
         progressBarFragment.dispose();
         scenarioFragment.dispose();

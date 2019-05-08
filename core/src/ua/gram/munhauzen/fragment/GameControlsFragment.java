@@ -47,9 +47,15 @@ public class GameControlsFragment implements Disposable {
         menuButton = new FitImage(new SpriteDrawable(new Sprite(
                 assetManager.get("GameScreen/b_bookmenu.png", Texture.class))));
 
-        menuButton.setHeight(MunhauzenGame.WORLD_HEIGHT / 6f);
+        float width = MunhauzenGame.WORLD_WIDTH * .15f;
+        float menuScale = 1f * width / menuButton.getWidth();
+        float soundScale = 1f * width / soundButton.getWidth();
 
-        soundButton.setHeight(MunhauzenGame.WORLD_HEIGHT / 6f);
+        menuButton.setWidth(width);
+        menuButton.setHeight(menuButton.getHeight() * menuScale);
+
+        soundButton.setWidth(width);
+        soundButton.setHeight(soundButton.getHeight() * soundScale);
 
         soundButton.setPosition(
                 MunhauzenGame.WORLD_WIDTH - soundButton.getWidth() - menuButton.getWidth() - 10,
@@ -162,7 +168,7 @@ public class GameControlsFragment implements Disposable {
 
                         GameState.isMute = !GameState.isMute;
 
-                        Log.i(tag, "Sound is " + (GameState.isMute ? "ON" : "OFF"));
+                        Log.i(tag, "Sound is " + (!GameState.isMute ? "ON" : "OFF"));
 
                         soundButton.setDrawable(getSoundButtonBackground());
 

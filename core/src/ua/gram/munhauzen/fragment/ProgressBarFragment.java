@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
@@ -187,6 +188,10 @@ public class ProgressBarFragment implements Disposable {
 
                 Log.i(tag, "pauseButton clicked");
 
+                if (gameScreen.audioService != null) {
+                    gameScreen.audioService.pause();
+                }
+
                 GameState.isPaused = true;
             }
         });
@@ -195,6 +200,19 @@ public class ProgressBarFragment implements Disposable {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 super.enter(event, x, y, pointer, fromActor);
+
+                if (gameScreen.audioService != null) {
+                    gameScreen.audioService.pause();
+                }
+
+                if (gameScreen.scenarioFragment != null) {
+                    gameScreen.scenarioFragment.fadeOut(new Runnable() {
+                        @Override
+                        public void run() {
+                            gameScreen.scenarioFragment = null;
+                        }
+                    });
+                }
 
                 Scenario scenario = gameScreen.getScenario();
                 if (scenario.currentOption == null) return;
@@ -214,6 +232,10 @@ public class ProgressBarFragment implements Disposable {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 super.enter(event, x, y, pointer, fromActor);
+
+                if (gameScreen.audioService != null) {
+                    gameScreen.audioService.pause();
+                }
 
                 Scenario scenario = gameScreen.getScenario();
                 if (scenario.currentOption == null) return;
@@ -238,6 +260,10 @@ public class ProgressBarFragment implements Disposable {
                 super.enter(event, x, y, pointer, fromActor);
 
                 Log.i(tag, "rewindBackButton enter");
+
+                if (gameScreen.audioService != null) {
+                    gameScreen.audioService.pause();
+                }
 
                 if (gameScreen.scenarioFragment != null) {
                     gameScreen.scenarioFragment.fadeOut(new Runnable() {
@@ -286,6 +312,10 @@ public class ProgressBarFragment implements Disposable {
 
                 Log.i(tag, "rewindForwardButton enter");
 
+                if (gameScreen.audioService != null) {
+                    gameScreen.audioService.pause();
+                }
+
                 progressTask = Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
@@ -314,21 +344,60 @@ public class ProgressBarFragment implements Disposable {
 
         });
 
-        bar.addListener(new ClickListener() {
+        bar.addListener(new ActorGestureListener() {
+
+            private void scrollTo(float percent) {
+
+                if (gameScreen.audioService != null) {
+                    gameScreen.audioService.pause();
+                }
+
+                if (gameScreen.scenarioFragment != null) {
+                    gameScreen.scenarioFragment.fadeOut(new Runnable() {
+                        @Override
+                        public void run() {
+                            gameScreen.scenarioFragment = null;
+                        }
+                    });
+                }
+
+                Scenario scenario = gameScreen.getScenario();
+
+                scenario.isCompleted = false;
+                scenario.update(scenario.totalDuration * percent, scenario.totalDuration);
+            }
+
             @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                super.touchUp(event, x, y, pointer, button);
+
+                GameState.isPaused = false;
+            }
+
+            @Override
+            public void tap(InputEvent event, float x, float y, int count, int button) {
+                super.tap(event, x, y, count, button);
 
                 float totalLength = Math.max(1, bar.getWidth());
 
                 float percent = x / totalLength;
 
-                Scenario scenario = gameScreen.getScenario();
+                GameState.isPaused = true;
 
-                Log.i(tag, "percent=" + percent + " new progress=" + (scenario.totalDuration * percent));
+                scrollTo(percent);
+            }
 
-                scenario.isCompleted = false;
-                scenario.update(scenario.totalDuration * percent, scenario.totalDuration);
+            @Override
+            public void pan(InputEvent event, float x, float y, float deltaX, float deltaY) {
+                super.pan(event, x, y, deltaX, deltaY);
+
+                float totalLength = Math.max(1, bar.getWidth());
+
+                float percent = x / totalLength;
+
+                GameState.isPaused = true;
+
+                scrollTo(percent);
             }
         });
 

@@ -2,6 +2,7 @@ package ua.gram.munhauzen.service;
 
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.Timer;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -50,6 +51,14 @@ public class ScenarioManager {
 
         for (ScenarioOption scenarioOption : scenario.options) {
             log += scenarioOption.startsAt + "-" + scenarioOption.finishesAt + " " + scenarioOption.option.id + "\r\n";
+
+            for (OptionAudio audio : scenarioOption.option.audio) {
+                log += " - audio " + audio.id + " " + audio.startsAt + "-" + audio.finishesAt + "\r\n";
+            }
+
+            for (OptionImage image : scenarioOption.option.images) {
+                log += " - image " + image.id + " " + image.startsAt + "-" + image.finishesAt + "\r\n";
+            }
         }
 
         Log.i(tag, log);
@@ -117,21 +126,41 @@ public class ScenarioManager {
             throw new NullPointerException("Missing current option in scenario " + scenario.cid);
         }
 
-        OptionAudio optionAudio = option.currentAudio;
+        final OptionAudio optionAudio = option.currentAudio;
         if (optionAudio != null) {
-            gameScreen.prepareAudio(optionAudio);
+            gameScreen.audioService.prepare(optionAudio, new Timer.Task() {
+                @Override
+                public void run() {
+                    gameScreen.audioService.onPrepared(optionAudio);
+                }
+            });
 
             if (optionAudio.next != null) {
-                gameScreen.prepareAudio(optionAudio.next);
+                gameScreen.audioService.prepare(optionAudio.next, new Timer.Task() {
+                    @Override
+                    public void run() {
+
+                    }
+                });
             }
         }
 
-        OptionImage optionImage = option.currentImage;
+        final OptionImage optionImage = option.currentImage;
         if (optionImage != null) {
-            gameScreen.prepareImage(optionImage);
+            gameScreen.imageService.prepare(optionImage, new Timer.Task() {
+                @Override
+                public void run() {
+                    gameScreen.imageService.onPrepared(optionImage);
+                }
+            });
 
             if (optionImage.next != null) {
-                gameScreen.prepareImage(optionImage.next);
+                gameScreen.imageService.prepare(optionImage.next, new Timer.Task() {
+                    @Override
+                    public void run() {
+
+                    }
+                });
             }
         }
 
@@ -467,5 +496,34 @@ public class ScenarioManager {
         }
 
         return hasRequired && !hasAbsent;
+    }
+
+    public void postUpdate(Scenario scenario) {
+
+        for (ScenarioOption option : scenario.options) {
+            if (option != scenario.currentOption) {
+                for (OptionAudio audio : option.option.audio) {
+                    Music player = audio.player;
+                    if (player != null) {
+                        if (player.isPlaying()) {
+                            player.stop();
+                        }
+                    }
+                }
+            }
+        }
+
+        if (scenario.currentOption != null) {
+            if (scenario.currentOption.currentAudio != null) {
+                Music player = scenario.currentOption.currentAudio.player;
+                if (player != null) {
+                    if (GameState.isPaused) {
+                        player.pause();
+                    } else if (!scenario.isCompleted && !player.isPlaying()) {
+                        player.play();
+                    }
+                }
+            }
+        }
     }
 }
