@@ -55,10 +55,10 @@ public class GameScreen implements Screen {
 
     private Timer.Task saveTask;
     private Texture background;
-    public Table currentImageTable;
     public Table overlayTableTop;
     public Table overlayTableBottom;
-    public Image currentImage;
+    public Image layer1Image, layer2Image;
+    public Table layer1ImageTable, layer2ImageTable;
     public Image overlayTop;
     public Image overlayBottom;
     private boolean isLoaded;
@@ -140,7 +140,8 @@ public class GameScreen implements Screen {
         overlayTop.setVisible(false);
         overlayBottom.setVisible(false);
 
-        currentImage = new FitImage();
+        layer1Image = new FitImage();
+        layer2Image = new FitImage();
 
         overlayTableTop = new Table();
         overlayTableTop.add(overlayTop).expandX().fillX();
@@ -148,11 +149,16 @@ public class GameScreen implements Screen {
         overlayTableBottom = new Table();
         overlayTableBottom.add(overlayBottom).expandX().fillX();
 
-        currentImageTable = new Table();
-        currentImageTable.setFillParent(true);
-        currentImageTable.add(currentImage).center().expand().fill();
+        layer1ImageTable = new Table();
+        layer1ImageTable.setFillParent(true);
+        layer1ImageTable.add(layer1Image).center().expand().fill();
 
-        uiImageLayer.add(currentImageTable);
+        layer2ImageTable = new Table();
+        layer2ImageTable.setFillParent(true);
+        layer2ImageTable.add(layer2Image).center().expand().fill();
+
+        uiImageLayer.add(layer1ImageTable);
+        uiImageLayer.add(layer2ImageTable);
         uiImageLayer.add(overlayTableTop);
         uiImageLayer.add(overlayTableBottom);
 

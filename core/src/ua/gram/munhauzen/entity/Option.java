@@ -10,6 +10,7 @@ public class Option extends Entity {
     public static final String BEGIN = "BEGIN";
     public static final String DEATH = "DEATH";
     public static final String VICTORY = "VICTORY";
+    public static final String FADE_IN = "FADE_IN";
 
     public Array<OptionImage> images;
     public Array<OptionAudio> audio;

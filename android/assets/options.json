@@ -5,8 +5,32 @@
     "inventoryAdd": "BEGIN_ITEM",
     "images": [
       {
-        "id": "image5_land",
-        "duration": 10000
+        "id": "image5",
+        "duration": 2000
+      },
+      {
+        "id": "image1",
+        "transition": "FADE_IN",
+        "duration": 2000
+      },
+      {
+        "id": "image5",
+        "duration": 2000
+      },
+      {
+        "id": "image1",
+        "transition": "FADE_IN",
+        "duration": 2000
+      },
+      {
+        "id": "image5",
+        "transition": "FADE_IN",
+        "duration": 2000
+      },
+      {
+        "id": "image1",
+        "transition": "FADE_IN",
+        "duration": 2000
       }
     ],
     "audio": [
