@@ -5,20 +5,8 @@
     "inventoryAdd": "BEGIN_ITEM",
     "images": [
       {
-        "id": "image1",
-        "duration": 2000
-      },
-      {
-        "id": "image2",
-        "duration": 3000
-      },
-      {
-        "id": "image1",
-        "duration": 3000
-      },
-      {
-        "id": "image2",
-        "duration": 2000
+        "id": "image5_land",
+        "duration": 10000
       }
     ],
     "audio": [

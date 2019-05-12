@@ -2,6 +2,9 @@ package ua.gram.munhauzen.service;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Timer;
 
@@ -77,7 +80,7 @@ public class ImageService {
         displayImage(item);
     }
 
-    public void displayImage(OptionImage item) {
+    public void displayImage(final OptionImage item) {
 
         Log.i(tag, "displayImage " + item.id);
 
@@ -91,11 +94,43 @@ public class ImageService {
         item.isActive = true;
         gameScreen.currentImage.setDrawable(item.image);
 
-        float scale = 1f * MunhauzenGame.WORLD_WIDTH / item.image.getMinWidth();
-        float height = 1f * item.image.getMinHeight() * scale;
+        gameScreen.currentImage.clearListeners();
 
-        item.width = MunhauzenGame.WORLD_WIDTH;
-        item.height = height;
+        if (item.image.getMinWidth() > item.image.getMinHeight()) {
+
+            float scale = 1f * MunhauzenGame.WORLD_HEIGHT / item.image.getMinHeight();
+            float width = 1f * item.image.getMinWidth() * scale;
+
+            item.height = MunhauzenGame.WORLD_HEIGHT;
+            item.width = width;
+
+            gameScreen.currentImage.addListener(new ActorGestureListener() {
+                @Override
+                public void pan(InputEvent event, float x, float y, float deltaX, float deltaY) {
+                    super.pan(event, x, y, deltaX, deltaY);
+
+                    float newX = gameScreen.currentImage.getX() + deltaX;
+                    float currentWidth = item.width;
+                    int viewportWidth = gameScreen.game.view.getScreenWidth();
+
+                    float leftBound = -currentWidth + viewportWidth;
+                    float rightBound = 0;
+
+                    if (leftBound < newX && newX < rightBound) {
+                        gameScreen.currentImage.addAction(Actions.moveBy(deltaX, 0));
+                    }
+
+                }
+            });
+
+        } else {
+
+            float scale = 1f * MunhauzenGame.WORLD_WIDTH / item.image.getMinWidth();
+            float height = 1f * item.image.getMinHeight() * scale;
+
+            item.width = MunhauzenGame.WORLD_WIDTH;
+            item.height = height;
+        }
 
         gameScreen.currentImageTable.getCell(gameScreen.currentImage)
                 .width(item.width)
