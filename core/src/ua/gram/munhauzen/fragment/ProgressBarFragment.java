@@ -1,6 +1,7 @@
 package ua.gram.munhauzen.fragment;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -21,6 +22,7 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.entity.GameState;
+import ua.gram.munhauzen.entity.OptionAudio;
 import ua.gram.munhauzen.entity.Scenario;
 import ua.gram.munhauzen.entity.ScenarioOption;
 import ua.gram.munhauzen.screen.GameScreen;
@@ -182,6 +184,8 @@ public class ProgressBarFragment implements Disposable {
                 Log.i(tag, "playButton clicked");
 
                 GameState.isPaused = false;
+
+                startCurrentMusicIfPaused();
             }
         });
 
@@ -192,9 +196,7 @@ public class ProgressBarFragment implements Disposable {
 
                 Log.i(tag, "pauseButton clicked");
 
-                if (gameScreen.audioService != null) {
-                    gameScreen.audioService.pause();
-                }
+                gameScreen.audioService.stop();
 
                 GameState.isPaused = true;
             }
@@ -205,9 +207,7 @@ public class ProgressBarFragment implements Disposable {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 super.enter(event, x, y, pointer, fromActor);
 
-                if (gameScreen.audioService != null) {
-                    gameScreen.audioService.pause();
-                }
+                gameScreen.audioService.stop();
 
                 if (gameScreen.scenarioFragment != null) {
                     gameScreen.scenarioFragment.fadeOut(new Runnable() {
@@ -228,7 +228,18 @@ public class ProgressBarFragment implements Disposable {
 
                 Log.i(tag, "skipBackButton to " + previous.option.id + " at " + previous.startsAt + " ms");
 
+                GameState.isPaused = true;
+
                 scenario.update(previous.startsAt, scenario.totalDuration);
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                super.exit(event, x, y, pointer, toActor);
+
+                GameState.isPaused = false;
+
+                startCurrentMusicIfPaused();
             }
         });
 
@@ -237,9 +248,7 @@ public class ProgressBarFragment implements Disposable {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 super.enter(event, x, y, pointer, fromActor);
 
-                if (gameScreen.audioService != null) {
-                    gameScreen.audioService.pause();
-                }
+                gameScreen.audioService.stop();
 
                 Scenario scenario = gameScreen.getScenario();
                 if (scenario.currentOption == null) return;
@@ -251,7 +260,18 @@ public class ProgressBarFragment implements Disposable {
 
                 Log.i(tag, "skipForwardButton to " + next.option.id + " at " + next.startsAt + " ms");
 
+                GameState.isPaused = true;
+
                 scenario.update(next.startsAt, scenario.totalDuration);
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                super.exit(event, x, y, pointer, toActor);
+
+                GameState.isPaused = false;
+
+                startCurrentMusicIfPaused();
             }
         });
 
@@ -265,9 +285,7 @@ public class ProgressBarFragment implements Disposable {
 
                 Log.i(tag, "rewindBackButton enter");
 
-                if (gameScreen.audioService != null) {
-                    gameScreen.audioService.pause();
-                }
+                gameScreen.audioService.stop();
 
                 if (gameScreen.scenarioFragment != null) {
                     gameScreen.scenarioFragment.fadeOut(new Runnable() {
@@ -302,6 +320,8 @@ public class ProgressBarFragment implements Disposable {
 
                 progressTask.cancel();
                 progressTask = null;
+
+                startCurrentMusicIfPaused();
             }
 
         });
@@ -316,9 +336,7 @@ public class ProgressBarFragment implements Disposable {
 
                 Log.i(tag, "rewindForwardButton enter");
 
-                if (gameScreen.audioService != null) {
-                    gameScreen.audioService.pause();
-                }
+                gameScreen.audioService.stop();
 
                 progressTask = Timer.schedule(new Timer.Task() {
                     @Override
@@ -344,6 +362,8 @@ public class ProgressBarFragment implements Disposable {
 
                 progressTask.cancel();
                 progressTask = null;
+
+                startCurrentMusicIfPaused();
             }
 
         });
@@ -352,9 +372,7 @@ public class ProgressBarFragment implements Disposable {
 
             private void scrollTo(float percent) {
 
-                if (gameScreen.audioService != null) {
-                    gameScreen.audioService.pause();
-                }
+                gameScreen.audioService.stop();
 
                 if (gameScreen.scenarioFragment != null) {
                     gameScreen.scenarioFragment.fadeOut(new Runnable() {
@@ -376,6 +394,8 @@ public class ProgressBarFragment implements Disposable {
                 super.touchUp(event, x, y, pointer, button);
 
                 GameState.isPaused = false;
+
+                startCurrentMusicIfPaused();
             }
 
             @Override
@@ -436,6 +456,37 @@ public class ProgressBarFragment implements Disposable {
         bar.setRange(0, scenario.totalDuration);
         bar.setValue(scenario.progress);
 
+    }
+
+    public void startCurrentMusicIfPaused() {
+
+        Scenario scenario = gameScreen.getScenario();
+
+        for (ScenarioOption scenarioOption : scenario.options) {
+            if (scenarioOption != scenario.currentOption) {
+                for (OptionAudio audio : scenarioOption.option.audio) {
+                    Music player = audio.player;
+                    if (player != null) {
+                        audio.isActive = false;
+                        player.pause();
+                    }
+                }
+            } else {
+                for (OptionAudio audio : scenarioOption.option.audio) {
+                    Music player = audio.player;
+                    if (player != null) {
+                        if (audio.isLocked) {
+                            if (!scenario.isCompleted && !audio.isActive) {
+                                gameScreen.audioService.playAudio(audio);
+                            }
+                        } else {
+                            audio.isActive = false;
+                            player.pause();
+                        }
+                    }
+                }
+            }
+        }
     }
 
     @Override

@@ -27,7 +27,12 @@ public class AudioService {
     }
 
     public void prepare(OptionAudio item, Timer.Task onComplete) {
-        if (item.isPrepared) return;
+        if (item.isPrepared) {
+            if (item.isLocked && !item.isActive) {
+                Timer.post(onComplete);
+            }
+            return;
+        }
 
         String resource = item.getResource();
 
@@ -56,26 +61,40 @@ public class AudioService {
 
     public void onPrepared(OptionAudio item) {
 
-        float delta = Math.max(0, (item.progress - item.startsAt) / 1000);
+        if (!item.isLocked) return;
+        if (GameState.isPaused) return;
 
         Log.i(tag, "onPrepared " + item.id
-                + " in " + DateUtils.getDateDiff(item.prepareCompletedAt, item.prepareStartedAt, TimeUnit.MILLISECONDS) + "ms"
-                + " with delta=" + delta + "s");
+                + " in " + DateUtils.getDateDiff(item.prepareCompletedAt, item.prepareStartedAt, TimeUnit.MILLISECONDS) + "ms");
 
-        item.player.setPosition(delta);
-        item.player.setVolume(GameState.isMute ? 0 : 1);
-
-        if (!GameState.isPaused) {
-            item.player.play();
-        }
+        playAudio(item);
     }
 
-    public void pause() {
+    public void playAudio(OptionAudio item) {
+
+        if (GameState.isPaused) return;
+
+        float delay = Math.max(0, (item.progress - item.startsAt) / 1000);
+
+        item.player.setPosition(delay);
+        item.player.setVolume(GameState.isMute ? 0 : 1);
+
+        Log.i(tag, "playAudio " + item.id
+                + " with delay=" + item.player.getPosition() + "s"
+                + " duration=" + (item.duration / 1000) + "s"
+                + " volume=" + item.player.getVolume());
+
+        item.isActive = true;
+        item.player.play();
+    }
+
+    public void stop() {
         Scenario scenario = gameScreen.getScenario();
 
         for (ScenarioOption option : scenario.options) {
             for (OptionAudio audio : option.option.audio) {
                 if (audio.player != null) {
+                    audio.isActive = false;
                     audio.player.pause();
                 }
             }
@@ -89,6 +108,31 @@ public class AudioService {
             for (OptionAudio audio : option.option.audio) {
                 if (audio.player != null) {
                     audio.player.setVolume(GameState.isMute ? 0 : 1);
+                }
+            }
+        }
+    }
+
+    public void updateMusicState() {
+        Scenario scenario = gameScreen.getScenario();
+
+        if (scenario.isCompleted) {
+            stop();
+            return;
+        }
+
+        for (ScenarioOption option : scenario.options) {
+            for (OptionAudio audio : option.option.audio) {
+                if (audio.player != null) {
+                    if (GameState.isPaused) {
+                        audio.isActive = false;
+                        audio.player.pause();
+                    } else {
+                        if (audio.isActive && !audio.isLocked) {
+                            audio.isActive = false;
+                            audio.player.pause();
+                        }
+                    }
                 }
             }
         }

@@ -10,6 +10,8 @@ import java.util.concurrent.TimeUnit;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.OptionImage;
+import ua.gram.munhauzen.entity.Scenario;
+import ua.gram.munhauzen.entity.ScenarioOption;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.utils.DateUtils;
 import ua.gram.munhauzen.utils.Log;
@@ -27,7 +29,12 @@ public class ImageService {
     }
 
     public void prepare(OptionImage item, Timer.Task onComplete) {
-        if (item.isPrepared) return;
+        if (item.isPrepared) {
+            if (item.isLocked && !item.isActive) {
+                Timer.post(onComplete);
+            }
+            return;
+        }
 
         String resource = item.getResource();
 
@@ -48,7 +55,7 @@ public class ImageService {
                 item.isPrepared = true;
                 item.prepareCompletedAt = new Date();
 
-                item.image = gameScreen.assetManager.get(resource, Texture.class);
+                item.image = new SpriteDrawable(new Sprite(gameScreen.assetManager.get(resource, Texture.class)));
 
                 Timer.post(onComplete);
             }
@@ -57,19 +64,40 @@ public class ImageService {
 
     public void onPrepared(OptionImage item) {
 
+        if (!item.isLocked) return;
+
         Log.i(tag, "onPrepared " + item.id
-                + " " + item.image.getWidth() + "x" + item.image.getHeight()
+                + " " + item.image.getMinWidth() + "x" + item.image.getMinHeight()
                 + " (" + MunhauzenGame.WORLD_WIDTH + "x" + MunhauzenGame.WORLD_HEIGHT + ")"
                 + " in " + DateUtils.getDateDiff(item.prepareCompletedAt, item.prepareStartedAt, TimeUnit.MILLISECONDS) + "ms");
 
-        gameScreen.currentImage.setDrawable(new SpriteDrawable(new Sprite(item.image)));
+        displayImage(item);
+    }
 
-        float scale = 1f * MunhauzenGame.WORLD_WIDTH / item.image.getWidth();
-        float height = 1f * item.image.getHeight() * scale;
+    public void displayImage(OptionImage item) {
+
+        Log.i(tag, "displayImage " + item.id);
+
+        Scenario scenario = gameScreen.getScenario();
+        for (ScenarioOption scenarioOption : scenario.options) {
+            for (OptionImage image : scenarioOption.option.images) {
+                image.isActive = false;
+            }
+        }
+
+        item.isActive = true;
+        gameScreen.currentImage.setDrawable(item.image);
+
+        float scale = 1f * MunhauzenGame.WORLD_WIDTH / item.image.getMinWidth();
+        float height = 1f * item.image.getMinHeight() * scale;
 
         gameScreen.currentImageTable.getCell(gameScreen.currentImage).width(MunhauzenGame.WORLD_WIDTH).height(height);
 
-        Log.i(tag, "currentImage " + gameScreen.currentImage.getWidth() + "x" + gameScreen.currentImage.getHeight());
+        toggleOverlay();
+
+    }
+
+    public void toggleOverlay() {
 
         boolean isOverlayVisible = gameScreen.currentImage.getHeight() < MunhauzenGame.WORLD_HEIGHT;
         gameScreen.overlayTop.setVisible(isOverlayVisible);

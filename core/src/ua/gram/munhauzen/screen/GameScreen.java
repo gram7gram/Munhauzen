@@ -3,8 +3,10 @@ package ua.gram.munhauzen.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -13,10 +15,16 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.Timer;
 
+import java.util.ArrayList;
+
+import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.MunhauzenStage;
 import ua.gram.munhauzen.entity.GameState;
+import ua.gram.munhauzen.entity.OptionAudio;
+import ua.gram.munhauzen.entity.OptionImage;
 import ua.gram.munhauzen.entity.Scenario;
+import ua.gram.munhauzen.entity.ScenarioOption;
 import ua.gram.munhauzen.fragment.GameControlsFragment;
 import ua.gram.munhauzen.fragment.ProgressBarFragment;
 import ua.gram.munhauzen.fragment.ScenarioFragment;
@@ -62,6 +70,10 @@ public class GameScreen implements Screen {
 
     public Scenario getScenario() {
         return game.gameState.history.activeSave.scenario;
+    }
+
+    public void setScenario(Scenario scenario) {
+        game.gameState.history.activeSave.scenario = scenario;
     }
 
     @Override
@@ -194,6 +206,7 @@ public class GameScreen implements Screen {
         assetManager.update();
 
         if (!isLoaded) {
+
             if (assetManager.isFinished()) {
                 onResourcesLoaded();
             }
@@ -222,14 +235,56 @@ public class GameScreen implements Screen {
             }
         }
 
-        scenarioManager.postUpdate(scenario);
-
         progressBarFragment.update();
 
         audioService.updateVolume();
 
+        audioService.updateMusicState();
+
         ui.act(delta);
         ui.draw();
+
+        drawDebugInfo();
+    }
+
+    private void drawDebugInfo() {
+
+        Scenario scenario = getScenario();
+
+        BitmapFont font = game.fontProvider.getFont(FontProvider.Arnold, FontProvider.p);
+        if (font != null) {
+
+            font.setColor(Color.RED);
+
+
+            ArrayList<String> strings = new ArrayList<>();
+            strings.add("scenario:" + scenario.cid);
+            strings.add("progress:" + scenario.totalDuration + "/" + ((int) scenario.progress));
+
+            for (ScenarioOption scenarioOption : scenario.options) {
+                strings.add("-option:" + scenarioOption.option.id + "" + (scenarioOption.isLocked ? " lock" : ""));
+                strings.add("--audios");
+
+                for (OptionAudio audio : scenarioOption.option.audio) {
+                    strings.add("---audio:" + audio.id + "" + (audio.isActive ? " active" : "") + "" + (audio.isLocked ? " lock" : ""));
+                }
+
+                strings.add("--images");
+                for (OptionImage image : scenarioOption.option.images) {
+                    strings.add("---image:" + image.id + "" + (image.isActive ? " active" : "") + "" + (image.isLocked ? " lock" : ""));
+                }
+            }
+
+
+            int offset = FontProvider.p + 2;
+            int row = -1;
+
+            game.batch.begin();
+            for (String string : strings) {
+                font.draw(game.batch, string, 10, MunhauzenGame.WORLD_HEIGHT - 10 - (++row) * offset);
+            }
+            game.batch.end();
+        }
     }
 
     private void drawBackground() {

@@ -87,39 +87,44 @@ public class ScenarioOption extends OptionMedia<ScenarioOption> {
     }
 
     public void update(float progress, int max) {
-        currentImage = option.images.get(0);
-        currentAudio = option.audio.get(0);
 
-        if (progress == max) {
+        if ((int) progress == max) {
             currentImage = option.images.get(option.images.size - 1);
             currentAudio = option.audio.get(option.audio.size - 1);
+        } else {
+            currentImage = option.images.get(0);
+            currentAudio = option.audio.get(0);
         }
 
-        for (OptionImage optionImage : option.images) {
+        for (OptionImage item : option.images) {
 
-            optionImage.isCompleted = false;
-            optionImage.progress = progress;
+            item.isCompleted = false;
+            item.isLocked = false;
+            item.progress = progress;
 
-            if (optionImage.startsAt <= progress && progress < optionImage.finishesAt) {
-                currentImage = optionImage;
+            if (item.startsAt <= progress && progress < item.finishesAt) {
+                item.isLocked = true;
+                currentImage = item;
             }
 
-            if (progress >= optionImage.finishesAt) {
-                optionImage.isCompleted = true;
+            if (progress >= item.finishesAt) {
+                item.isCompleted = true;
             }
         }
 
-        for (OptionAudio optionAudio : option.audio) {
+        for (OptionAudio item : option.audio) {
 
-            optionAudio.isCompleted = false;
-            optionAudio.progress = progress;
+            item.isCompleted = false;
+            item.isLocked = false;
+            item.progress = progress;
 
-            if (optionAudio.startsAt <= progress && progress < optionAudio.finishesAt) {
-                currentAudio = optionAudio;
+            if (item.startsAt <= progress && progress < item.finishesAt) {
+                item.isLocked = true;
+                currentAudio = item;
             }
 
-            if (progress >= optionAudio.finishesAt) {
-                optionAudio.isCompleted = true;
+            if (progress >= item.finishesAt) {
+                item.isCompleted = true;
             }
         }
     }
@@ -128,14 +133,19 @@ public class ScenarioOption extends OptionMedia<ScenarioOption> {
         currentImage = null;
         currentAudio = null;
 
+        isLocked = false;
+        isCompleted = false;
+
         for (OptionImage image : option.images) {
             image.image = null;
+            image.isActive = false;
             image.isLocked = false;
             image.isCompleted = false;
         }
 
         for (OptionAudio audio : option.audio) {
             audio.player = null;
+            audio.isActive = false;
             audio.isLocked = false;
             audio.isCompleted = false;
         }

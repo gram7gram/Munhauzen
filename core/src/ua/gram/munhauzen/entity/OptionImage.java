@@ -1,10 +1,11 @@
 package ua.gram.munhauzen.entity;
 
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 
 public class OptionImage extends OptionMedia<OptionImage> {
+
     public int duration;
-    public Texture image;
+    public SpriteDrawable image;
     public String interaction;
     public String transition;
 

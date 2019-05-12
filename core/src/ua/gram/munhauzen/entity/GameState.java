@@ -10,7 +10,6 @@ import ua.gram.munhauzen.utils.Log;
  */
 public class GameState {
 
-    public static final String INITIAL_OPTION = "BEGIN";
     private static final String tag = GameState.class.getSimpleName();
 
     public static boolean isPaused = false;

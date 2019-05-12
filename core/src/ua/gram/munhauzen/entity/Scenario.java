@@ -125,6 +125,8 @@ public class Scenario {
             } else if (scenarioOption.finishesAt <= progress) {
                 scenarioOption.isCompleted = true;
             }
+
+            scenarioOption.update(progress, totalDuration);
         }
 
     }
