@@ -31,6 +31,8 @@ public class DateUtils {
     }
 
     public static long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
+        if (date1 == null || date2 == null) return 0;
+
         long diffInMillies = Math.abs(date2.getTime() - date1.getTime());
         return timeUnit.convert(diffInMillies, TimeUnit.MILLISECONDS);
     }

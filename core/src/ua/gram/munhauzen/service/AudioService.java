@@ -36,27 +36,30 @@ public class AudioService {
 
         String resource = item.getResource();
 
+        boolean isLoaded = gameScreen.assetManager.isLoaded(resource, Music.class);
+
         if (!item.isPreparing) {
 
-            if (!gameScreen.assetManager.isLoaded(resource, Music.class)) {
+            if (!isLoaded) {
                 item.isPreparing = true;
                 item.prepareStartedAt = new Date();
 
                 gameScreen.assetManager.load(resource, Music.class);
+                return;
             }
 
-        } else {
-
-            if (gameScreen.assetManager.isLoaded(resource, Music.class)) {
-
-                item.isPreparing = false;
-                item.isPrepared = true;
-                item.prepareCompletedAt = new Date();
-                item.player = gameScreen.assetManager.get(resource, Music.class);
-
-                Timer.post(onComplete);
-            }
         }
+
+        if (isLoaded) {
+
+            item.isPreparing = false;
+            item.isPrepared = true;
+            item.prepareCompletedAt = new Date();
+            item.player = gameScreen.assetManager.get(resource, Music.class);
+
+            Timer.post(onComplete);
+        }
+
     }
 
     public void onPrepared(OptionAudio item) {
@@ -104,10 +107,14 @@ public class AudioService {
     public void updateVolume() {
         Scenario scenario = gameScreen.getScenario();
 
+        int volume = GameState.isMute ? 0 : 1;
+
         for (ScenarioOption option : scenario.options) {
             for (OptionAudio audio : option.option.audio) {
                 if (audio.player != null) {
-                    audio.player.setVolume(GameState.isMute ? 0 : 1);
+                    if (audio.player.getVolume() != volume) {
+                        audio.player.setVolume(volume);
+                    }
                 }
             }
         }

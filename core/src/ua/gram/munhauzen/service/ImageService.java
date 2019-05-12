@@ -38,29 +38,32 @@ public class ImageService {
 
         String resource = item.getResource();
 
+        boolean isLoaded = gameScreen.assetManager.isLoaded(resource, Texture.class);
+
         if (!item.isPreparing) {
 
-            if (!gameScreen.assetManager.isLoaded(resource, Texture.class)) {
+            if (!isLoaded) {
                 item.isPreparing = true;
                 item.prepareStartedAt = new Date();
 
                 gameScreen.assetManager.load(resource, Texture.class);
+                return;
             }
 
-        } else {
+        }
 
-            if (gameScreen.assetManager.isLoaded(resource, Texture.class)) {
+        if (isLoaded) {
 
-                item.isPreparing = false;
-                item.isPrepared = true;
-                item.prepareCompletedAt = new Date();
+            item.isPreparing = false;
+            item.isPrepared = true;
+            item.prepareCompletedAt = new Date();
 
-                item.image = new SpriteDrawable(new Sprite(gameScreen.assetManager.get(resource, Texture.class)));
+            item.image = new SpriteDrawable(new Sprite(gameScreen.assetManager.get(resource, Texture.class)));
 
-                Timer.post(onComplete);
-            }
+            Timer.post(onComplete);
         }
     }
+
 
     public void onPrepared(OptionImage item) {
 
@@ -91,7 +94,12 @@ public class ImageService {
         float scale = 1f * MunhauzenGame.WORLD_WIDTH / item.image.getMinWidth();
         float height = 1f * item.image.getMinHeight() * scale;
 
-        gameScreen.currentImageTable.getCell(gameScreen.currentImage).width(MunhauzenGame.WORLD_WIDTH).height(height);
+        item.width = MunhauzenGame.WORLD_WIDTH;
+        item.height = height;
+
+        gameScreen.currentImageTable.getCell(gameScreen.currentImage)
+                .width(item.width)
+                .height(item.height);
 
         toggleOverlay();
 
@@ -99,7 +107,16 @@ public class ImageService {
 
     public void toggleOverlay() {
 
-        boolean isOverlayVisible = gameScreen.currentImage.getHeight() < MunhauzenGame.WORLD_HEIGHT;
+        Scenario scenario = gameScreen.getScenario();
+
+        boolean isOverlayVisible = false;
+
+        if (scenario.currentOption != null) {
+            if (scenario.currentOption.currentImage != null) {
+                isOverlayVisible = scenario.currentOption.currentImage.height < MunhauzenGame.WORLD_HEIGHT;
+            }
+        }
+
         gameScreen.overlayTop.setVisible(isOverlayVisible);
         gameScreen.overlayBottom.setVisible(isOverlayVisible);
 

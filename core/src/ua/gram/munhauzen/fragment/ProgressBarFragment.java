@@ -169,8 +169,8 @@ public class ProgressBarFragment implements Disposable {
         barTable.add(bar).fillX().expandX().height(controlsSize).row();
 
         Table backgroundContainer = new Table();
-        backgroundContainer.add(barBackgroundImageLeft).fillX().height(fragmentHeight);
-        backgroundContainer.add(barBackgroundImageRight).fillX().height(fragmentHeight);
+        backgroundContainer.add(barBackgroundImageLeft).fillX().expandX().height(fragmentHeight);
+        backgroundContainer.add(barBackgroundImageRight).fillX().expandX().height(fragmentHeight);
 
         barContainer = new Stack();
         barContainer.addActor(backgroundContainer);

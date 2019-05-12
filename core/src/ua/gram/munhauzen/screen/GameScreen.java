@@ -251,7 +251,8 @@ public class GameScreen implements Screen {
 
         Scenario scenario = getScenario();
 
-        BitmapFont font = game.fontProvider.getFont(FontProvider.Arnold, FontProvider.p);
+        int fontSize = FontProvider.h3;
+        BitmapFont font = game.fontProvider.getFont(FontProvider.Arnold, fontSize);
         if (font != null) {
 
             font.setColor(Color.RED);
@@ -266,17 +267,23 @@ public class GameScreen implements Screen {
                 strings.add("--audios");
 
                 for (OptionAudio audio : scenarioOption.option.audio) {
-                    strings.add("---audio:" + audio.id + "" + (audio.isActive ? " active" : "") + "" + (audio.isLocked ? " lock" : ""));
+                    strings.add("---audio:" + audio.id
+                            + "" + (audio.isPrepared ? " +" : " -")
+                            + "" + (audio.isActive ? " active" : "")
+                            + "" + (audio.isLocked ? " lock" : ""));
                 }
 
                 strings.add("--images");
                 for (OptionImage image : scenarioOption.option.images) {
-                    strings.add("---image:" + image.id + "" + (image.isActive ? " active" : "") + "" + (image.isLocked ? " lock" : ""));
+                    strings.add("---image:" + image.id
+                            + "" + (image.isPrepared ? " +" : " -")
+                            + "" + (image.isActive ? " active" : "")
+                            + "" + (image.isLocked ? " lock" : ""));
                 }
             }
 
 
-            int offset = FontProvider.p + 2;
+            int offset = fontSize + 2;
             int row = -1;
 
             game.batch.begin();
