@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -55,12 +56,10 @@ public class GameScreen implements Screen {
 
     private Timer.Task saveTask;
     private Texture background;
-    public Table overlayTableTop;
-    public Table overlayTableBottom;
     public Image layer1Image, layer2Image;
     public Table layer1ImageTable, layer2ImageTable;
-    public Image overlayTop;
-    public Image overlayBottom;
+    public Group layer1ImageGroup, layer2ImageGroup;
+    public Image layer1OverlayTop, layer1OverlayBottom, layer2OverlayTop, layer2OverlayBottom;
     private boolean isLoaded;
 
     public GameScreen(MunhauzenGame game) {
@@ -134,20 +133,18 @@ public class GameScreen implements Screen {
 
         uiControlsLayer.add(scenarioContainer);
 
-        overlayBottom = new Image(overlay);
-        overlayTop = new Image(overlay);
+        layer1OverlayBottom = new Image(overlay);
+        layer1OverlayTop = new Image(overlay);
+        layer2OverlayBottom = new Image(overlay);
+        layer2OverlayTop = new Image(overlay);
 
-        overlayTop.setVisible(false);
-        overlayBottom.setVisible(false);
+        layer1OverlayTop.setVisible(false);
+        layer1OverlayBottom.setVisible(false);
+        layer2OverlayTop.setVisible(false);
+        layer2OverlayBottom.setVisible(false);
 
         layer1Image = new FitImage();
         layer2Image = new FitImage();
-
-        overlayTableTop = new Table();
-        overlayTableTop.add(overlayTop).expandX().fillX();
-
-        overlayTableBottom = new Table();
-        overlayTableBottom.add(overlayBottom).expandX().fillX();
 
         layer1ImageTable = new Table();
         layer1ImageTable.setFillParent(true);
@@ -157,10 +154,18 @@ public class GameScreen implements Screen {
         layer2ImageTable.setFillParent(true);
         layer2ImageTable.add(layer2Image).center().expand().fill();
 
-        uiImageLayer.add(layer1ImageTable);
-        uiImageLayer.add(layer2ImageTable);
-        uiImageLayer.add(overlayTableTop);
-        uiImageLayer.add(overlayTableBottom);
+        layer1ImageGroup = new Group();
+        layer1ImageGroup.addActor(layer1ImageTable);
+        layer1ImageGroup.addActor(layer1OverlayTop);
+        layer1ImageGroup.addActor(layer1OverlayBottom);
+
+        layer2ImageGroup = new Group();
+        layer2ImageGroup.addActor(layer2ImageTable);
+        layer2ImageGroup.addActor(layer2OverlayTop);
+        layer2ImageGroup.addActor(layer2OverlayBottom);
+
+        uiImageLayer.add(layer1ImageGroup);
+        uiImageLayer.add(layer2ImageGroup);
 
         Gdx.input.setInputProcessor(ui);
 
@@ -247,10 +252,13 @@ public class GameScreen implements Screen {
 
         audioService.updateMusicState();
 
+        imageService.update();
+
         ui.act(delta);
         ui.draw();
 
-        drawDebugInfo();
+        if (MunhauzenGame.DEBUG)
+            drawDebugInfo();
     }
 
     private void drawDebugInfo() {

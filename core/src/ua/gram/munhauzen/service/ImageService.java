@@ -104,4 +104,65 @@ public class ImageService {
 
         transition.prepare(item);
     }
+
+    public void update() {
+        toggleLevel1Overlay();
+        toggleLevel2Overlay();
+    }
+
+    public void toggleLevel1Overlay() {
+
+        int height = 150;
+
+        boolean isOverlayVisible = gameScreen.layer1Image.getHeight() < MunhauzenGame.WORLD_HEIGHT;
+
+        gameScreen.layer1OverlayBottom.setVisible(isOverlayVisible);
+        gameScreen.layer1OverlayTop.setVisible(isOverlayVisible);
+
+        if (isOverlayVisible) {
+
+            gameScreen.layer1OverlayBottom.setWidth(MunhauzenGame.WORLD_WIDTH);
+            gameScreen.layer1OverlayBottom.setHeight(height);
+
+            gameScreen.layer1OverlayTop.setWidth(MunhauzenGame.WORLD_WIDTH);
+            gameScreen.layer1OverlayTop.setHeight(height);
+
+            gameScreen.layer1OverlayBottom.setPosition(
+                    0,
+                    gameScreen.layer1Image.getY() - height / 2f);
+
+            gameScreen.layer1OverlayTop.setPosition(
+                    0,
+                    gameScreen.layer1Image.getY() + gameScreen.layer1Image.getHeight() - height / 2f);
+
+        }
+    }
+
+    public void toggleLevel2Overlay() {
+
+        int height = 150;
+
+        boolean isOverlayVisible = gameScreen.layer2Image.getHeight() < MunhauzenGame.WORLD_HEIGHT;
+
+        gameScreen.layer2OverlayBottom.setVisible(isOverlayVisible);
+        gameScreen.layer2OverlayTop.setVisible(isOverlayVisible);
+
+        if (isOverlayVisible) {
+
+            gameScreen.layer2OverlayBottom.setWidth(MunhauzenGame.WORLD_WIDTH);
+            gameScreen.layer2OverlayBottom.setHeight(height);
+
+            gameScreen.layer2OverlayTop.setWidth(MunhauzenGame.WORLD_WIDTH);
+            gameScreen.layer2OverlayTop.setHeight(height);
+
+            gameScreen.layer2OverlayBottom.setPosition(
+                    0,
+                    gameScreen.layer2Image.getY() - height / 2f);
+
+            gameScreen.layer2OverlayTop.setPosition(
+                    0,
+                    gameScreen.layer2Image.getY() + gameScreen.layer2Image.getHeight() - height / 2f);
+
+        }
+    }
 }

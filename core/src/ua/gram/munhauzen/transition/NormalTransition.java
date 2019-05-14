@@ -8,12 +8,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.OptionImage;
 import ua.gram.munhauzen.screen.GameScreen;
-import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
  */
 public class NormalTransition extends Transition {
+
+    Image targetImage;
 
     public NormalTransition(GameScreen gameScreen) {
         super(gameScreen);
@@ -22,20 +23,18 @@ public class NormalTransition extends Transition {
     @Override
     public void prepare(final OptionImage item) {
 
-        Log.i(tag, "normal");
-
         gameScreen.layer2Image.clearListeners();
         gameScreen.layer2Image.clearActions();
         gameScreen.layer1Image.clearListeners();
         gameScreen.layer1Image.clearActions();
 
-        gameScreen.layer1ImageTable.setVisible(true);
-        gameScreen.layer2ImageTable.setVisible(false);
+        gameScreen.layer1ImageGroup.setVisible(true);
+        gameScreen.layer2ImageGroup.setVisible(false);
 
         gameScreen.layer1Image.addAction(Actions.alpha(1));
-        gameScreen.layer2Image.addAction(Actions.alpha(1));
+        //gameScreen.layer2Image.addAction(Actions.alpha(1));
 
-        final Image targetImage = gameScreen.layer1Image;
+        targetImage = gameScreen.layer1Image;
 
         targetImage.setDrawable(item.image);
 
@@ -79,6 +78,5 @@ public class NormalTransition extends Transition {
                 .width(item.width)
                 .height(item.height);
 
-        toggleOverlay();
     }
 }
