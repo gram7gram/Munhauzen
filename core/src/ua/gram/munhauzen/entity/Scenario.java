@@ -7,7 +7,6 @@ import com.badlogic.gdx.utils.Array;
  */
 public class Scenario {
 
-    public static final String BEGIN = "a1_0";
     public static final String DEATH = "DEATH";
     public static final String VICTORY = "VICTORY";
     public static final String FADE_IN = "FADE_IN";
@@ -16,11 +15,11 @@ public class Scenario {
     public Array<StoryAudio> audio;
     public Array<Decision> decisions;
     public Array<ScenarioTranslation> translations;
+    public boolean isBegin;
     public String name;
     public String chapter;
     public String type;
     public String interaction;
-    public String text;
     public String inventoryAdd;
     public String inventoryGlobalAdd;
     public String action;

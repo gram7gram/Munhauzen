@@ -67,7 +67,7 @@ public class AudioService {
         if (!item.isLocked) return;
         if (GameState.isPaused) return;
 
-        Log.i(tag, "onPrepared " + item.id
+        Log.i(tag, "onPrepared " + item.audio
                 + " in " + DateUtils.getDateDiff(item.prepareCompletedAt, item.prepareStartedAt, TimeUnit.MILLISECONDS) + "ms");
 
         playAudio(item);
@@ -82,7 +82,7 @@ public class AudioService {
         item.player.setPosition(delay);
         item.player.setVolume(GameState.isMute ? 0 : 1);
 
-        Log.i(tag, "playAudio " + item.id
+        Log.i(tag, "playAudio " + item.audio
                 + " with delay=" + item.player.getPosition() + "s"
                 + " duration=" + (item.duration / 1000) + "s"
                 + " volume=" + item.player.getVolume());

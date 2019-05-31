@@ -50,12 +50,12 @@ public class StoryManager {
         for (StoryScenario storyScenario : story.scenarios) {
             log += storyScenario.startsAt + "-" + storyScenario.finishesAt + " " + storyScenario.scenario.name + "\r\n";
 
-            for (StoryAudio audio : storyScenario.scenario.audio) {
-                log += " - audio " + audio.name + " " + audio.startsAt + "-" + audio.finishesAt + "\r\n";
+            for (StoryAudio item : storyScenario.scenario.audio) {
+                log += " - audio " + item.audio + " " + item.startsAt + "-" + item.finishesAt + "\r\n";
             }
 
-            for (StoryImage image : storyScenario.scenario.images) {
-                log += " - drawable " + image.name + " " + image.startsAt + "-" + image.finishesAt + "\r\n";
+            for (StoryImage item : storyScenario.scenario.images) {
+                log += " - image " + item.image + " " + item.startsAt + "-" + item.finishesAt + "\r\n";
             }
         }
 
@@ -74,7 +74,7 @@ public class StoryManager {
         if (story == null || !story.isValid()) {
             Log.e(tag, "Story is not valid. Resetting");
 
-            Scenario start = ScenarioRepository.find(gameState, Scenario.BEGIN);
+            Scenario start = ScenarioRepository.findBegin(gameState);
 
             gameScreen.setStory(
                     create(start.name)
@@ -91,11 +91,11 @@ public class StoryManager {
 
         Set<String> inventory = gameState.history.activeSave.getUniqueInventory();
 
-        StoryScenario scenarioOption = new StoryScenario();
-        scenarioOption.scenario = from;
-        scenarioOption.duration = 0;
+        StoryScenario storyScenario = new StoryScenario();
+        storyScenario.scenario = from;
+        storyScenario.duration = 0;
 
-        story.scenarios.add(scenarioOption);
+        story.scenarios.add(storyScenario);
 
         if ("GOTO".equals(from.action)) {
             for (Decision decision : from.decisions) {

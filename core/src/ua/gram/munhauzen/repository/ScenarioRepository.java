@@ -8,6 +8,17 @@ import ua.gram.munhauzen.entity.Scenario;
 
 public class ScenarioRepository {
 
+    public static Scenario findBegin(GameState gameState) {
+
+        for (Scenario o : gameState.scenarioRegistry) {
+            if (o.isBegin) {
+                return o;
+            }
+        }
+
+        throw new GdxRuntimeException("Missing begin scenario");
+    }
+
     public static Scenario find(GameState gameState, String id) {
 
         for (Scenario o : gameState.scenarioRegistry) {

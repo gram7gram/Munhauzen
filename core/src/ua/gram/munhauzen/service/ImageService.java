@@ -73,7 +73,7 @@ public class ImageService {
 
         if (!item.isLocked) return;
 
-        Log.i(tag, "onPrepared " + item.id
+        Log.i(tag, "onPrepared " + item.image
                 + " " + item.drawable.getMinWidth() + "x" + item.drawable.getMinHeight()
                 + " (" + MunhauzenGame.WORLD_WIDTH + "x" + MunhauzenGame.WORLD_HEIGHT + ")"
                 + " in " + DateUtils.getDateDiff(item.prepareCompletedAt, item.prepareStartedAt, TimeUnit.MILLISECONDS) + "ms");
@@ -83,7 +83,7 @@ public class ImageService {
 
     public void displayImage(final StoryImage item) {
 
-        Log.i(tag, "displayImage " + item.id);
+        Log.i(tag, "displayImage " + item.image);
 
         Story story = gameScreen.getStory();
         for (StoryScenario scenarioOption : story.scenarios) {

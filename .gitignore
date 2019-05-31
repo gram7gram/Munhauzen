@@ -32,7 +32,7 @@ Elements
 
 /local.properties
 .gradle/
-gradle-app.setting
+gradle-app.settingk
 /build/
 /core/build/
 /desktop/build/

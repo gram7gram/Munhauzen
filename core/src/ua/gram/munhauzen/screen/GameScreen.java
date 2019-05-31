@@ -277,22 +277,22 @@ public class GameScreen implements Screen {
             strings.add("progress:" + story.totalDuration + "/" + ((int) story.progress));
 
             for (StoryScenario scenarioOption : story.scenarios) {
-                strings.add("-story:" + scenarioOption.scenario.name + "" + (scenarioOption.isLocked ? " lock" : ""));
+                strings.add("-scenario:" + scenarioOption.scenario.name + "" + (scenarioOption.isLocked ? " lock" : ""));
                 strings.add("--audios");
 
-                for (StoryAudio audio : scenarioOption.scenario.audio) {
-                    strings.add("---audio:" + audio.id
-                            + "" + (audio.isPrepared ? " +" : " -")
-                            + "" + (audio.isActive ? " active" : "")
-                            + "" + (audio.isLocked ? " lock" : ""));
+                for (StoryAudio item : scenarioOption.scenario.audio) {
+                    strings.add("---audio:" + item.audio
+                            + "" + (item.isPrepared ? " +" : " -")
+                            + "" + (item.isActive ? " active" : "")
+                            + "" + (item.isLocked ? " lock" : ""));
                 }
 
                 strings.add("--images");
-                for (StoryImage image : scenarioOption.scenario.images) {
-                    strings.add("---drawable:" + image.id
-                            + "" + (image.isPrepared ? " +" : " -")
-                            + "" + (image.isActive ? " active" : "")
-                            + "" + (image.isLocked ? " lock" : ""));
+                for (StoryImage item : scenarioOption.scenario.images) {
+                    strings.add("---image:" + item.image
+                            + "" + (item.isPrepared ? " +" : " -")
+                            + "" + (item.isActive ? " active" : "")
+                            + "" + (item.isLocked ? " lock" : ""));
                 }
             }
 
@@ -302,7 +302,7 @@ public class GameScreen implements Screen {
 
             game.batch.begin();
             for (String string : strings) {
-                font.draw(game.batch, string, 10, MunhauzenGame.WORLD_HEIGHT - 10 - (++row) * offset);
+                font.draw(game.batch, string.replace("_", "-"), 10, MunhauzenGame.WORLD_HEIGHT - 10 - (++row) * offset);
             }
             game.batch.end();
         }

@@ -20,7 +20,7 @@ public class MunhauzenGame extends Game {
     public static int WORLD_WIDTH;
     public static int WORLD_HEIGHT;
     public static boolean PAUSED = false;
-    public static final boolean DEBUG = false;
+    public static final boolean DEBUG = true;
 
     private final String tag = getClass().getSimpleName();
 

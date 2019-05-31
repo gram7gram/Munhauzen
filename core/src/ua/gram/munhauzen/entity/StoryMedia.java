@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public abstract class StoryMedia<T> extends Entity {
+public abstract class StoryMedia<T> {
 
     public int startsAt;
     public int finishesAt;
