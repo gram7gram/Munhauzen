@@ -6,7 +6,6 @@ package ua.gram.munhauzen.entity;
 public class Audio extends Entity {
 
     public String file;
-    public String description;
     public int duration;
 
 }

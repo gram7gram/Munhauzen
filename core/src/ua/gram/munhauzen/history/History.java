@@ -14,7 +14,7 @@ public class History {
     public static final int SAVE_LIMIT = 4;
 
     /**
-     * Unique completed options on all iterations
+     * Unique completed scenarios on all iterations
      */
     public HashSet<String> completedOptions;
     /**
@@ -88,14 +88,14 @@ public class History {
 //
 //        Save save = getActiveSave();
 //
-//        String cid = branch.cid;
+//        String id = branch.id;
 //        if (save.steps.size() > 0) {
 //            Entry last = save.steps.get(save.steps.size() - 1);
-//            if (last.name.equals(cid))
+//            if (last.name.equals(id))
 //                return false;
 //        }
 //
-//        save.steps.push(new Entry(cid));
+//        save.steps.push(new Entry(id));
 //
 //        return true;
 //    }

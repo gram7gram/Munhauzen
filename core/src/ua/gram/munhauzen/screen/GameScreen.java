@@ -22,16 +22,16 @@ import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.MunhauzenStage;
 import ua.gram.munhauzen.entity.GameState;
-import ua.gram.munhauzen.entity.OptionAudio;
-import ua.gram.munhauzen.entity.OptionImage;
-import ua.gram.munhauzen.entity.Scenario;
-import ua.gram.munhauzen.entity.ScenarioOption;
+import ua.gram.munhauzen.entity.StoryAudio;
+import ua.gram.munhauzen.entity.StoryImage;
+import ua.gram.munhauzen.entity.Story;
+import ua.gram.munhauzen.entity.StoryScenario;
 import ua.gram.munhauzen.fragment.GameControlsFragment;
 import ua.gram.munhauzen.fragment.ProgressBarFragment;
 import ua.gram.munhauzen.fragment.ScenarioFragment;
 import ua.gram.munhauzen.service.AudioService;
 import ua.gram.munhauzen.service.ImageService;
-import ua.gram.munhauzen.service.ScenarioManager;
+import ua.gram.munhauzen.service.StoryManager;
 import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.utils.Log;
 
@@ -47,7 +47,7 @@ public class GameScreen implements Screen {
     public Stack uiControlsLayer;
     public Stack uiImageLayer;
     public final AssetManager assetManager;
-    public ScenarioManager scenarioManager;
+    public StoryManager scenarioManager;
     public ScenarioFragment scenarioFragment;
     public ProgressBarFragment progressBarFragment;
     public GameControlsFragment gameControlsFragment;
@@ -67,12 +67,12 @@ public class GameScreen implements Screen {
         assetManager = new AssetManager();
     }
 
-    public Scenario getScenario() {
-        return game.gameState.history.activeSave.scenario;
+    public Story getStory() {
+        return game.gameState.history.activeSave.story;
     }
 
-    public void setScenario(Scenario scenario) {
-        game.gameState.history.activeSave.scenario = scenario;
+    public void setStory(Story story) {
+        game.gameState.history.activeSave.story = story;
     }
 
     @Override
@@ -84,16 +84,16 @@ public class GameScreen implements Screen {
         imageService = new ImageService(this);
 
         ui = new MunhauzenStage(game);
-        scenarioManager = new ScenarioManager(this, game.gameState);
+        scenarioManager = new StoryManager(this, game.gameState);
 
         isLoaded = false;
         GameState.isPaused = false;
 
         assetManager.load("GameScreen/t_putty.png", Texture.class);
 
-        Scenario scenario = game.gameState.history.activeSave.scenario;
-        if (scenario != null && scenario.isValid()) {
-            scenarioManager.startLoadingResources(scenario);
+        Story story = game.gameState.history.activeSave.story;
+        if (story != null && story.isValid()) {
+            scenarioManager.startLoadingResources(story);
         }
     }
 
@@ -114,7 +114,7 @@ public class GameScreen implements Screen {
 
         setBackgroundImageLayer(uiImageLayer);
 
-        setScenarioUILayer(uiControlsLayer);
+        setStoryUILayer(uiControlsLayer);
 
         ui.addActor(uiLayers);
 
@@ -169,7 +169,7 @@ public class GameScreen implements Screen {
 
         Gdx.input.setInputProcessor(ui);
 
-        scenarioManager.resumeScenario();
+        scenarioManager.resume();
 
         saveTask = Timer.schedule(new Timer.Task() {
             @Override
@@ -196,11 +196,11 @@ public class GameScreen implements Screen {
         uiLayers.addActorAt(0, actor);
     }
 
-    public void setScenarioOptionsLayer(Stack actor) {
+    public void setStoryOptionsLayer(Stack actor) {
         uiLayers.addActorAt(1, actor);
     }
 
-    public void setScenarioUILayer(Stack actor) {
+    public void setStoryUILayer(Stack actor) {
         uiLayers.addActorAt(2, actor);
     }
 
@@ -226,23 +226,23 @@ public class GameScreen implements Screen {
 
         drawBackground();
 
-        Scenario scenario = getScenario();
+        Story story = getStory();
 
-        if (!scenario.isCompleted) {
+        if (!story.isCompleted) {
 
             if (!GameState.isPaused) {
-                scenarioManager.updateScenario(
-                        scenario.progress + (delta * 1000),
-                        scenario.totalDuration
+                scenarioManager.update(
+                        story.progress + (delta * 1000),
+                        story.totalDuration
                 );
             }
 
-            if (scenario.isCompleted) {
+            if (story.isCompleted) {
 
-                scenarioManager.onScenarioCompleted();
+                scenarioManager.onCompleted();
 
             } else {
-                scenarioManager.startLoadingResources(scenario);
+                scenarioManager.startLoadingResources(story);
             }
         }
 
@@ -263,7 +263,7 @@ public class GameScreen implements Screen {
 
     private void drawDebugInfo() {
 
-        Scenario scenario = getScenario();
+        Story story = getStory();
 
         int fontSize = FontProvider.h3;
         BitmapFont font = game.fontProvider.getFont(FontProvider.Arnold, fontSize);
@@ -273,14 +273,14 @@ public class GameScreen implements Screen {
 
 
             ArrayList<String> strings = new ArrayList<>();
-            strings.add("scenario:" + scenario.cid);
-            strings.add("progress:" + scenario.totalDuration + "/" + ((int) scenario.progress));
+            strings.add("story:" + story.id);
+            strings.add("progress:" + story.totalDuration + "/" + ((int) story.progress));
 
-            for (ScenarioOption scenarioOption : scenario.options) {
-                strings.add("-option:" + scenarioOption.option.id + "" + (scenarioOption.isLocked ? " lock" : ""));
+            for (StoryScenario scenarioOption : story.scenarios) {
+                strings.add("-story:" + scenarioOption.scenario.name + "" + (scenarioOption.isLocked ? " lock" : ""));
                 strings.add("--audios");
 
-                for (OptionAudio audio : scenarioOption.option.audio) {
+                for (StoryAudio audio : scenarioOption.scenario.audio) {
                     strings.add("---audio:" + audio.id
                             + "" + (audio.isPrepared ? " +" : " -")
                             + "" + (audio.isActive ? " active" : "")
@@ -288,8 +288,8 @@ public class GameScreen implements Screen {
                 }
 
                 strings.add("--images");
-                for (OptionImage image : scenarioOption.option.images) {
-                    strings.add("---image:" + image.id
+                for (StoryImage image : scenarioOption.scenario.images) {
+                    strings.add("---drawable:" + image.id
                             + "" + (image.isPrepared ? " +" : " -")
                             + "" + (image.isActive ? " active" : "")
                             + "" + (image.isLocked ? " lock" : ""));

@@ -1,19 +1,18 @@
 package ua.gram.munhauzen.entity;
 
+import com.badlogic.gdx.utils.Array;
+
 /**
  * @author Gram <gram7gram@gmail.com>
  */
 public class Image extends Entity {
 
+    public String type;
     public String file;
     public String description;
-    public boolean isHidden;
+    public boolean isHiddenFromGallery;
     public boolean isAnimation;
-    public boolean isCompleteBonus;
-    public boolean isSuperBonus;
-    public boolean isSpecialBonus;
+    public Array<ImageTranslation> translations;
 
-    public boolean isBonus() {
-        return isSuperBonus || isCompleteBonus || isSpecialBonus;
-    }
+
 }

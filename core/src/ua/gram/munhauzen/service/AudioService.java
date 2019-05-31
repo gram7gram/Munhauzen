@@ -7,9 +7,9 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import ua.gram.munhauzen.entity.GameState;
-import ua.gram.munhauzen.entity.OptionAudio;
-import ua.gram.munhauzen.entity.Scenario;
-import ua.gram.munhauzen.entity.ScenarioOption;
+import ua.gram.munhauzen.entity.StoryAudio;
+import ua.gram.munhauzen.entity.Story;
+import ua.gram.munhauzen.entity.StoryScenario;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.utils.DateUtils;
 import ua.gram.munhauzen.utils.Log;
@@ -26,7 +26,7 @@ public class AudioService {
         this.gameScreen = gameScreen;
     }
 
-    public void prepare(OptionAudio item, Timer.Task onComplete) {
+    public void prepare(StoryAudio item, Timer.Task onComplete) {
         if (item.isPrepared) {
             if (item.isLocked && !item.isActive) {
                 Timer.post(onComplete);
@@ -62,7 +62,7 @@ public class AudioService {
 
     }
 
-    public void onPrepared(OptionAudio item) {
+    public void onPrepared(StoryAudio item) {
 
         if (!item.isLocked) return;
         if (GameState.isPaused) return;
@@ -73,7 +73,7 @@ public class AudioService {
         playAudio(item);
     }
 
-    public void playAudio(OptionAudio item) {
+    public void playAudio(StoryAudio item) {
 
         if (GameState.isPaused) return;
 
@@ -92,10 +92,10 @@ public class AudioService {
     }
 
     public void stop() {
-        Scenario scenario = gameScreen.getScenario();
+        Story story = gameScreen.getStory();
 
-        for (ScenarioOption option : scenario.options) {
-            for (OptionAudio audio : option.option.audio) {
+        for (StoryScenario option : story.scenarios) {
+            for (StoryAudio audio : option.scenario.audio) {
                 if (audio.player != null) {
                     audio.isActive = false;
                     audio.player.pause();
@@ -105,12 +105,12 @@ public class AudioService {
     }
 
     public void updateVolume() {
-        Scenario scenario = gameScreen.getScenario();
+        Story story = gameScreen.getStory();
 
         int volume = GameState.isMute ? 0 : 1;
 
-        for (ScenarioOption option : scenario.options) {
-            for (OptionAudio audio : option.option.audio) {
+        for (StoryScenario option : story.scenarios) {
+            for (StoryAudio audio : option.scenario.audio) {
                 if (audio.player != null) {
                     if (audio.player.getVolume() != volume) {
                         audio.player.setVolume(volume);
@@ -121,15 +121,15 @@ public class AudioService {
     }
 
     public void updateMusicState() {
-        Scenario scenario = gameScreen.getScenario();
+        Story story = gameScreen.getStory();
 
-        if (scenario.isCompleted) {
+        if (story.isCompleted) {
             stop();
             return;
         }
 
-        for (ScenarioOption option : scenario.options) {
-            for (OptionAudio audio : option.option.audio) {
+        for (StoryScenario option : story.scenarios) {
+            for (StoryAudio audio : option.scenario.audio) {
                 if (audio.player != null) {
                     if (GameState.isPaused) {
                         audio.isActive = false;

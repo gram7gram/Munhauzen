@@ -9,10 +9,10 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import ua.gram.munhauzen.MunhauzenGame;
-import ua.gram.munhauzen.entity.Option;
-import ua.gram.munhauzen.entity.OptionImage;
 import ua.gram.munhauzen.entity.Scenario;
-import ua.gram.munhauzen.entity.ScenarioOption;
+import ua.gram.munhauzen.entity.StoryImage;
+import ua.gram.munhauzen.entity.Story;
+import ua.gram.munhauzen.entity.StoryScenario;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.transition.FadeTransition;
 import ua.gram.munhauzen.transition.NormalTransition;
@@ -32,7 +32,7 @@ public class ImageService {
         this.gameScreen = gameScreen;
     }
 
-    public void prepare(OptionImage item, Timer.Task onComplete) {
+    public void prepare(StoryImage item, Timer.Task onComplete) {
         if (item.isPrepared) {
             if (item.isLocked && !item.isActive) {
                 Timer.post(onComplete);
@@ -62,32 +62,32 @@ public class ImageService {
             item.isPrepared = true;
             item.prepareCompletedAt = new Date();
 
-            item.image = new SpriteDrawable(new Sprite(gameScreen.assetManager.get(resource, Texture.class)));
+            item.drawable = new SpriteDrawable(new Sprite(gameScreen.assetManager.get(resource, Texture.class)));
 
             Timer.post(onComplete);
         }
     }
 
 
-    public void onPrepared(OptionImage item) {
+    public void onPrepared(StoryImage item) {
 
         if (!item.isLocked) return;
 
         Log.i(tag, "onPrepared " + item.id
-                + " " + item.image.getMinWidth() + "x" + item.image.getMinHeight()
+                + " " + item.drawable.getMinWidth() + "x" + item.drawable.getMinHeight()
                 + " (" + MunhauzenGame.WORLD_WIDTH + "x" + MunhauzenGame.WORLD_HEIGHT + ")"
                 + " in " + DateUtils.getDateDiff(item.prepareCompletedAt, item.prepareStartedAt, TimeUnit.MILLISECONDS) + "ms");
 
         displayImage(item);
     }
 
-    public void displayImage(final OptionImage item) {
+    public void displayImage(final StoryImage item) {
 
         Log.i(tag, "displayImage " + item.id);
 
-        Scenario scenario = gameScreen.getScenario();
-        for (ScenarioOption scenarioOption : scenario.options) {
-            for (OptionImage image : scenarioOption.option.images) {
+        Story story = gameScreen.getStory();
+        for (StoryScenario scenarioOption : story.scenarios) {
+            for (StoryImage image : scenarioOption.scenario.images) {
                 image.isActive = false;
             }
         }
@@ -96,7 +96,7 @@ public class ImageService {
 
         Transition transition;
 
-        if (Option.FADE_IN.equals(item.transition)) {
+        if (Scenario.FADE_IN.equals(item.transition)) {
             transition = new FadeTransition(gameScreen);
         } else {
             transition = new NormalTransition(gameScreen);

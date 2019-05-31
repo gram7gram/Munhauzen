@@ -2,6 +2,7 @@ package ua.gram.munhauzen.utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 
 /**
  * @author Gram <gram7gram@gmail.com>
@@ -17,18 +18,34 @@ public class Files {
     }
 
     public static FileHandle getImagesFile() {
-        return Gdx.files.internal("images.json");
+        return getInternalConfig("game/images.json");
     }
 
     public static FileHandle getAudioFile() {
-        return Gdx.files.internal("audio.json");
+        return getInternalConfig("game/audio.json");
     }
 
-    public static FileHandle getItemsFile() {
-        return Gdx.files.internal("items.json");
+    public static FileHandle getAudioFailsFile() {
+        return getInternalConfig("game/audio-fails.json");
     }
 
-    public static FileHandle getOptionsFile() {
-        return Gdx.files.internal("options.json");
+    public static FileHandle getInventoryFile() {
+        return getInternalConfig("game/inventory.json");
+    }
+
+    public static FileHandle getChaptersFile() {
+        return getInternalConfig("game/chapters.json");
+    }
+
+    public static FileHandle getScenarioFile() {
+        return getInternalConfig("game/scenario.json");
+    }
+
+    private static FileHandle getInternalConfig(String name) {
+        FileHandle file = Gdx.files.internal(name);
+        if (!file.exists()) {
+            throw new GdxRuntimeException(name + " does not exist");
+        }
+        return file;
     }
 }

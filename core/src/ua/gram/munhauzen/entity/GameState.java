@@ -18,16 +18,20 @@ public class GameState {
     public static boolean isHighEndDevice = true;
 
     public History history;
-    public Array<Option> optionRegistry;
+    public Array<Scenario> scenarioRegistry;
     public Array<Image> imageRegistry;
     public Array<Audio> audioRegistry;
-    public Array<Item> itemRegistry;
+    public Array<AudioFail> audioFailRegistry;
+    public Array<Inventory> inventoryRegistry;
+    public Array<Chapter> chapterRegistry;
 
     public GameState() {
-        optionRegistry = new Array<>();
+        scenarioRegistry = new Array<>();
         imageRegistry = new Array<>();
         audioRegistry = new Array<>();
-        itemRegistry = new Array<>();
+        audioFailRegistry = new Array<>();
+        inventoryRegistry = new Array<>();
+        chapterRegistry = new Array<>();
     }
 
     public boolean hasHistory() {

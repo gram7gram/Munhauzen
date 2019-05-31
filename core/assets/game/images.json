@@ -1,0 +1,222 @@
+[
+  {
+    "_id": "5cefce90cf641e6bf6624441",
+    "name": "Last",
+    "__v": 0,
+    "isReserved": true
+  },
+  {
+    "_id": "5cefce8fcf641e6bf662424e",
+    "name": "a3",
+    "__v": 0,
+    "file": "a3",
+    "isAnimation": false,
+    "isHiddenFromGallery": false,
+    "translations": [
+      {
+        "_id": "5cefce8e9050750029bea8bd",
+        "locale": "ua",
+        "description": "УКР"
+      },
+      {
+        "_id": "5cefce8e9050750029bea8bc",
+        "locale": "ru",
+        "description": "вот так друзья"
+      },
+      {
+        "_id": "5cefce8e9050750029bea8bb",
+        "locale": "en",
+        "description": "вот так друзья"
+      }
+    ],
+    "type": "default"
+  },
+  {
+    "_id": "5cefce8fcf641e6bf6624256",
+    "name": "a3_a",
+    "__v": 0,
+    "file": "a3_a",
+    "isAnimation": true,
+    "isHiddenFromGallery": false,
+    "translations": [
+      {
+        "_id": "5cefce8e9050750029bea8c0",
+        "locale": "ua",
+        "description": "УКР"
+      },
+      {
+        "_id": "5cefce8e9050750029bea8bf",
+        "locale": "ru",
+        "description": "взялся за лапу - окрытый бонус"
+      },
+      {
+        "_id": "5cefce8e9050750029bea8be",
+        "locale": "en",
+        "description": "взялся за лапу - окрытый бонус"
+      }
+    ],
+    "type": "bonus"
+  },
+  {
+    "_id": "5cefce8fcf641e6bf662425d",
+    "name": "a4_b",
+    "__v": 0,
+    "file": "a4_b",
+    "isAnimation": false,
+    "isHiddenFromGallery": false,
+    "translations": [
+      {
+        "_id": "5cefce8e9050750029bea8cf",
+        "locale": "ua",
+        "description": "УКР"
+      },
+      {
+        "_id": "5cefce8e9050750029bea8ce",
+        "locale": "ru",
+        "description": "ура"
+      },
+      {
+        "_id": "5cefce8e9050750029bea8cd",
+        "locale": "en",
+        "description": "ура"
+      }
+    ],
+    "type": "default"
+  },
+  {
+    "_id": "5cefce8fcf641e6bf662429b",
+    "name": "a4_da",
+    "__v": 0,
+    "file": "a4_da",
+    "isAnimation": false,
+    "isHiddenFromGallery": true,
+    "translations": [
+      {
+        "_id": "5cefce8e9050750029bea8d2",
+        "locale": "ua",
+        "description": "УКР"
+      },
+      {
+        "_id": "5cefce8e9050750029bea8d1",
+        "locale": "ru",
+        "description": "гейгейгоп"
+      },
+      {
+        "_id": "5cefce8e9050750029bea8d0",
+        "locale": "en",
+        "description": "гейгейгоп"
+      }
+    ],
+    "type": "default"
+  },
+  {
+    "_id": "5cefce8fcf641e6bf6624293",
+    "name": "abrougham",
+    "__v": 0,
+    "file": "abrougham",
+    "isAnimation": false,
+    "isHiddenFromGallery": false,
+    "translations": [
+      {
+        "_id": "5cefce8e9050750029bea8c3",
+        "locale": "ua",
+        "description": "УКР"
+      },
+      {
+        "_id": "5cefce8e9050750029bea8c2",
+        "locale": "ru",
+        "description": "Это ведь закрытый бонус"
+      },
+      {
+        "_id": "5cefce8e9050750029bea8c1",
+        "locale": "en",
+        "description": "Это ведь закрытый бонус"
+      }
+    ],
+    "type": "color"
+  },
+  {
+    "_id": "5cefce8fcf641e6bf66242eb",
+    "name": "abrougham_b",
+    "__v": 0,
+    "file": "abrougham_b",
+    "isAnimation": false,
+    "isHiddenFromGallery": false,
+    "translations": [
+      {
+        "_id": "5cefce8e9050750029bea8c6",
+        "locale": "ua",
+        "description": "УКР",
+        "statueTitle": "вот так вони і подружилися! Дуже добре!. Молодець"
+      },
+      {
+        "_id": "5cefce8e9050750029bea8c5",
+        "locale": "ru",
+        "description": "вот так дедшука",
+        "statueTitle": "по русски описание"
+      },
+      {
+        "_id": "5cefce8e9050750029bea8c4",
+        "locale": "en",
+        "description": "вот так дедшука",
+        "statueTitle": "ENGLISH text"
+      }
+    ],
+    "type": "statue"
+  },
+  {
+    "_id": "5cefce8fcf641e6bf662425a",
+    "name": "amarriage_b",
+    "__v": 0,
+    "file": "amarriage_b",
+    "isAnimation": false,
+    "isHiddenFromGallery": false,
+    "translations": [
+      {
+        "_id": "5cefce8e9050750029bea8cc",
+        "locale": "ua",
+        "description": "УКР",
+        "statueTitle": "вот так вони і подружилися! Дуже добре!. Молодець"
+      },
+      {
+        "_id": "5cefce8e9050750029bea8cb",
+        "locale": "ru",
+        "description": "прыгь",
+        "statueTitle": "по русски описание"
+      },
+      {
+        "_id": "5cefce8e9050750029bea8ca",
+        "locale": "en",
+        "description": "прыгь",
+        "statueTitle": "ENGLISH text"
+      }
+    ],
+    "type": "statue"
+  },
+  {
+    "_id": "5cefce8fcf641e6bf6624258",
+    "name": "amarriage_c",
+    "__v": 0,
+    "file": "amarriage_c",
+    "isAnimation": false,
+    "isHiddenFromGallery": false,
+    "translations": [
+      {
+        "_id": "5cefce8e9050750029bea8c9",
+        "locale": "ua",
+        "description": "УКР"
+      },
+      {
+        "_id": "5cefce8e9050750029bea8c8",
+        "locale": "ru",
+        "description": "взялся за космы"
+      },
+      {
+        "_id": "5cefce8e9050750029bea8c7",
+        "locale": "en",
+        "description": "взялся за космы"
+      }
+    ],
+    "type": "color"
+  }
+]

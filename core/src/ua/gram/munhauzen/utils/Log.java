@@ -13,8 +13,11 @@ public class Log {
 
 //        ErrorMonitoring.capture(e);
 
-        Log.e(tag, e.getClass().getSimpleName() + ": " + e.getMessage());
-        e.printStackTrace(System.err);
+        String trace = "";
+        for (StackTraceElement tr : e.getStackTrace()) {
+            trace += "\r\n" + prefix + "trace "+ tr.toString();
+        }
+        Log.e(tag, e.getClass().getSimpleName() + ": " + e.getMessage() + trace);
     }
 
     public static void e(String tag, String message) {

@@ -24,6 +24,7 @@ public class MunhauzenGame extends Game {
 
     private final String tag = getClass().getSimpleName();
 
+    public final PlatformParams params;
     public GameState gameState;
     public SpriteBatch batch;
     public OrthographicCamera camera;
@@ -31,6 +32,10 @@ public class MunhauzenGame extends Game {
     public FontProvider fontProvider;
     public ButtonBuilder buttonBuilder;
     public AssetManager assetManager;
+
+    public MunhauzenGame(PlatformParams params) {
+        this.params = params;
+    }
 
     public static void pauseGame() {
         PAUSED = true;

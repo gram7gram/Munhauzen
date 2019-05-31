@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 
 import ua.gram.munhauzen.MunhauzenGame;
-import ua.gram.munhauzen.entity.OptionImage;
+import ua.gram.munhauzen.entity.StoryImage;
 import ua.gram.munhauzen.screen.GameScreen;
 
 /**
@@ -21,7 +21,7 @@ public class NormalTransition extends Transition {
     }
 
     @Override
-    public void prepare(final OptionImage item) {
+    public void prepare(final StoryImage item) {
 
         gameScreen.layer2Image.clearListeners();
         gameScreen.layer2Image.clearActions();
@@ -36,12 +36,12 @@ public class NormalTransition extends Transition {
 
         targetImage = gameScreen.layer1Image;
 
-        targetImage.setDrawable(item.image);
+        targetImage.setDrawable(item.drawable);
 
-        if (item.image.getMinWidth() > item.image.getMinHeight()) {
+        if (item.drawable.getMinWidth() > item.drawable.getMinHeight()) {
 
-            float scale = 1f * MunhauzenGame.WORLD_HEIGHT / item.image.getMinHeight();
-            float width = 1f * item.image.getMinWidth() * scale;
+            float scale = 1f * MunhauzenGame.WORLD_HEIGHT / item.drawable.getMinHeight();
+            float width = 1f * item.drawable.getMinWidth() * scale;
 
             item.height = MunhauzenGame.WORLD_HEIGHT;
             item.width = width;
@@ -67,8 +67,8 @@ public class NormalTransition extends Transition {
 
         } else {
 
-            float scale = 1f * MunhauzenGame.WORLD_WIDTH / item.image.getMinWidth();
-            float height = 1f * item.image.getMinHeight() * scale;
+            float scale = 1f * MunhauzenGame.WORLD_WIDTH / item.drawable.getMinWidth();
+            float height = 1f * item.drawable.getMinHeight() * scale;
 
             item.width = MunhauzenGame.WORLD_WIDTH;
             item.height = height;

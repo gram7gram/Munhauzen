@@ -29,9 +29,10 @@ import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.animation.CannonAnimation;
 import ua.gram.munhauzen.animation.CannonLetterAnimation;
 import ua.gram.munhauzen.entity.Decision;
-import ua.gram.munhauzen.entity.Option;
-import ua.gram.munhauzen.entity.OptionRepository;
 import ua.gram.munhauzen.entity.Scenario;
+import ua.gram.munhauzen.repository.ScenarioRepository;
+import ua.gram.munhauzen.entity.ScenarioTranslation;
+import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.ui.FitImage;
 
@@ -101,34 +102,46 @@ public class ScenarioFragment implements Disposable {
 
             final Decision decision = decisions.get(i);
 
-            Option option = OptionRepository.find(game.gameState, decision.option);
+            Scenario scenario = ScenarioRepository.find(game.gameState, decision.scenario);
 
-            Actor button = primaryDecision(option.text, i, new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    super.clicked(event, x, y);
+            ScenarioTranslation translation = null;
 
-                    final Scenario newScenario = gameScreen.scenarioManager.createScenario(decision.option);
-
-                    gameScreen.scenarioManager.startLoadingResources(newScenario);
-
-
-                    fadeOut(new Runnable() {
-                        @Override
-                        public void run() {
-                            gameScreen.scenarioFragment = null;
-
-                            game.gameState.history.activeSave.scenario = newScenario;
-                        }
-                    });
+            for (ScenarioTranslation item: scenario.translations) {
+                if (game.params.locale.equals(item.locale)) {
+                    translation = item;
+                    break;
                 }
-            });
+            }
 
-            table.add(button)
-                    .minWidth(500)
-                    .width(MunhauzenGame.WORLD_WIDTH * 3 / 4f)
-                    .maxWidth(1000)
-                    .pad(10).row();
+            if (translation != null) {
+
+                Actor button = primaryDecision(translation.text, i, new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        super.clicked(event, x, y);
+
+                        final Story newScenario = gameScreen.scenarioManager.create(decision.scenario);
+
+                        gameScreen.scenarioManager.startLoadingResources(newScenario);
+
+
+                        fadeOut(new Runnable() {
+                            @Override
+                            public void run() {
+                                gameScreen.scenarioFragment = null;
+
+                                game.gameState.history.activeSave.story = newScenario;
+                            }
+                        });
+                    }
+                });
+
+                table.add(button)
+                        .minWidth(500)
+                        .width(MunhauzenGame.WORLD_WIDTH * 3 / 4f)
+                        .maxWidth(1000)
+                        .pad(10).row();
+            }
         }
 
         ScrollPane scrollPane = new ScrollPane(table);

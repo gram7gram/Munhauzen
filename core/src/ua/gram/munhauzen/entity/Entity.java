@@ -6,6 +6,7 @@ package ua.gram.munhauzen.entity;
 public class Entity {
 
     public String id;
+    public String name;
 
     public Entity() {
     }

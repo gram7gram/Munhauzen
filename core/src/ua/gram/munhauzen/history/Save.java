@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Stack;
 
-import ua.gram.munhauzen.entity.Scenario;
+import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.utils.StringUtils;
 
 /**
@@ -30,13 +30,13 @@ public class Save {
      */
     public int order;
     /**
-     * List of completed scenario
+     * List of completed story
      */
-    public Stack<Scenario> scenarioStack;
+    public Stack<Story> storyStack;
     /**
-     * Information about current scenario
+     * Information about current story
      */
-    public Scenario scenario;
+    public Story story;
     /**
      * Day count on current iteration
      */
@@ -46,23 +46,23 @@ public class Save {
      */
     public Set<String> inventory;
     /**
-     * Visited options on current iteration
+     * Visited scenarios on current iteration
      */
     public Stack<Entry> steps;
     /**
-     * Disabled options on current iteration
+     * Disabled scenarios on current iteration
      */
     public Set<String> disabledOptions;
     /**
-     * Completed actions in visited options on current iteration
+     * Completed actions in visited scenarios on current iteration
      */
     public Array<OptionActionEntry> completedOptionActions;
     /**
-     * Current background image
+     * Current background drawable
      */
     public String currentBackground;
     /**
-     * Last background image that was used instead of `unknown`
+     * Last background drawable that was used instead of `unknown`
      */
     public String lastUnknownBackground;
     /**
@@ -83,9 +83,9 @@ public class Save {
         disabledOptions = new HashSet<>();
         completedOptionActions = new Array<>();
         completedInteractions = new Array<>();
-        scenario = new Scenario();
+        story = new Story();
         clickedBranches = new Stack<>();
-        scenarioStack = new Stack<>();
+        storyStack = new Stack<>();
     }
 
     public void reset() {
@@ -95,7 +95,7 @@ public class Save {
         completedOptionActions.clear();
         completedInteractions.clear();
 
-        scenario = new Scenario();
+        story = new Story();
 
         clickedBranches.clear();
     }

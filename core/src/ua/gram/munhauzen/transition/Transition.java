@@ -1,6 +1,6 @@
 package ua.gram.munhauzen.transition;
 
-import ua.gram.munhauzen.entity.OptionImage;
+import ua.gram.munhauzen.entity.StoryImage;
 import ua.gram.munhauzen.screen.GameScreen;
 
 /**
@@ -14,5 +14,5 @@ public abstract class Transition {
         this.gameScreen = gameScreen;
     }
 
-    public abstract void prepare(OptionImage item);
+    public abstract void prepare(StoryImage item);
 }

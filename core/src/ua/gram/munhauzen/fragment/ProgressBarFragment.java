@@ -22,9 +22,9 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.entity.GameState;
-import ua.gram.munhauzen.entity.OptionAudio;
-import ua.gram.munhauzen.entity.Scenario;
-import ua.gram.munhauzen.entity.ScenarioOption;
+import ua.gram.munhauzen.entity.StoryAudio;
+import ua.gram.munhauzen.entity.Story;
+import ua.gram.munhauzen.entity.StoryScenario;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.utils.Log;
 
@@ -218,19 +218,19 @@ public class ProgressBarFragment implements Disposable {
                     });
                 }
 
-                Scenario scenario = gameScreen.getScenario();
-                if (scenario.currentOption == null) return;
+                Story story = gameScreen.getStory();
+                if (story.currentScenario == null) return;
 
-                ScenarioOption previous = scenario.currentOption.previous;
+                StoryScenario previous = story.currentScenario.previous;
                 if (previous == null) {
                     return;
                 }
 
-                Log.i(tag, "skipBackButton to " + previous.option.id + " at " + previous.startsAt + " ms");
+                Log.i(tag, "skipBackButton to " + previous.scenario.name + " at " + previous.startsAt + " ms");
 
                 GameState.isPaused = true;
 
-                scenario.update(previous.startsAt, scenario.totalDuration);
+                story.update(previous.startsAt, story.totalDuration);
             }
 
             @Override
@@ -250,19 +250,19 @@ public class ProgressBarFragment implements Disposable {
 
                 gameScreen.audioService.stop();
 
-                Scenario scenario = gameScreen.getScenario();
-                if (scenario.currentOption == null) return;
+                Story story = gameScreen.getStory();
+                if (story.currentScenario == null) return;
 
-                ScenarioOption next = scenario.currentOption.next;
+                StoryScenario next = story.currentScenario.next;
                 if (next == null) {
                     return;
                 }
 
-                Log.i(tag, "skipForwardButton to " + next.option.id + " at " + next.startsAt + " ms");
+                Log.i(tag, "skipForwardButton to " + next.scenario.name + " at " + next.startsAt + " ms");
 
                 GameState.isPaused = true;
 
-                scenario.update(next.startsAt, scenario.totalDuration);
+                story.update(next.startsAt, story.totalDuration);
             }
 
             @Override
@@ -299,13 +299,13 @@ public class ProgressBarFragment implements Disposable {
                 progressTask = Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
-                        Scenario scenario = gameScreen.getScenario();
+                        Story story = gameScreen.getStory();
 
                         GameState.isPaused = true;
-                        scenario.isCompleted = false;
-                        scenario.progress -= 100;
+                        story.isCompleted = false;
+                        story.progress -= 100;
 
-                        scenario.progress = Math.max(0, scenario.progress);
+                        story.progress = Math.max(0, story.progress);
                     }
                 }, 0, 0.05f);
             }
@@ -341,13 +341,13 @@ public class ProgressBarFragment implements Disposable {
                 progressTask = Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
-                        Scenario scenario = gameScreen.getScenario();
+                        Story story = gameScreen.getStory();
 
                         GameState.isPaused = true;
-                        scenario.isCompleted = false;
-                        scenario.progress += 100;
+                        story.isCompleted = false;
+                        story.progress += 100;
 
-                        scenario.progress = Math.min(scenario.progress, scenario.totalDuration);
+                        story.progress = Math.min(story.progress, story.totalDuration);
                     }
                 }, 0, 0.05f);
             }
@@ -383,10 +383,10 @@ public class ProgressBarFragment implements Disposable {
                     });
                 }
 
-                Scenario scenario = gameScreen.getScenario();
+                Story story = gameScreen.getStory();
 
-                scenario.isCompleted = false;
-                scenario.update(scenario.totalDuration * percent, scenario.totalDuration);
+                story.isCompleted = false;
+                story.update(story.totalDuration * percent, story.totalDuration);
             }
 
             @Override
@@ -429,42 +429,42 @@ public class ProgressBarFragment implements Disposable {
     }
 
     public void update() {
-        Scenario scenario = gameScreen.getScenario();
+        Story story = gameScreen.getStory();
 
         boolean hasPrevious = false, hasNext = false;
 
-        if (scenario.currentOption != null) {
-            hasPrevious = scenario.currentOption.previous != null;
-            hasNext = scenario.currentOption.next != null;
+        if (story.currentScenario != null) {
+            hasPrevious = story.currentScenario.previous != null;
+            hasNext = story.currentScenario.next != null;
         }
 
         pauseButton.setVisible(!GameState.isPaused);
         playButton.setVisible(GameState.isPaused);
 
-        skipForwardButton.setDisabled(scenario.isCompleted || !hasNext);
-        rewindForwardButton.setDisabled(scenario.isCompleted);
+        skipForwardButton.setDisabled(story.isCompleted || !hasNext);
+        rewindForwardButton.setDisabled(story.isCompleted);
 
         skipForwardButton.setTouchable(skipForwardButton.isDisabled() ? Touchable.disabled : Touchable.enabled);
         rewindForwardButton.setTouchable(rewindForwardButton.isDisabled() ? Touchable.disabled : Touchable.enabled);
 
-        skipBackButton.setDisabled(scenario.progress == 0 || !hasPrevious);
-        rewindBackButton.setDisabled(scenario.progress == 0);
+        skipBackButton.setDisabled(story.progress == 0 || !hasPrevious);
+        rewindBackButton.setDisabled(story.progress == 0);
 
         skipBackButton.setTouchable(skipBackButton.isDisabled() ? Touchable.disabled : Touchable.enabled);
         rewindBackButton.setTouchable(rewindBackButton.isDisabled() ? Touchable.disabled : Touchable.enabled);
 
-        bar.setRange(0, scenario.totalDuration);
-        bar.setValue(scenario.progress);
+        bar.setRange(0, story.totalDuration);
+        bar.setValue(story.progress);
 
     }
 
     public void startCurrentMusicIfPaused() {
 
-        Scenario scenario = gameScreen.getScenario();
+        Story story = gameScreen.getStory();
 
-        for (ScenarioOption scenarioOption : scenario.options) {
-            if (scenarioOption != scenario.currentOption) {
-                for (OptionAudio audio : scenarioOption.option.audio) {
+        for (StoryScenario scenarioOption : story.scenarios) {
+            if (scenarioOption != story.currentScenario) {
+                for (StoryAudio audio : scenarioOption.scenario.audio) {
                     Music player = audio.player;
                     if (player != null) {
                         audio.isActive = false;
@@ -472,11 +472,11 @@ public class ProgressBarFragment implements Disposable {
                     }
                 }
             } else {
-                for (OptionAudio audio : scenarioOption.option.audio) {
+                for (StoryAudio audio : scenarioOption.scenario.audio) {
                     Music player = audio.player;
                     if (player != null) {
                         if (audio.isLocked) {
-                            if (!scenario.isCompleted && !audio.isActive) {
+                            if (!story.isCompleted && !audio.isActive) {
                                 gameScreen.audioService.playAudio(audio);
                             }
                         } else {
