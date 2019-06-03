@@ -20,10 +20,7 @@ public class Scenario {
     public String chapter;
     public String type;
     public String interaction;
-    public String inventoryAdd;
-    public String inventoryGlobalAdd;
     public String action;
-
 
     public boolean isFinal() {
         return DEATH.equals(name) || VICTORY.equals(name);

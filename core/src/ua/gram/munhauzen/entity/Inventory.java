@@ -1,17 +1,26 @@
 package ua.gram.munhauzen.entity;
 
-import com.badlogic.gdx.utils.Array;
+
+import java.util.ArrayList;
 
 /**
  * @author Gram <gram7gram@gmail.com>
  */
 public class Inventory extends Entity {
 
-    public String text;
     public boolean isMenu;
     public boolean isStatue;
-    public Array<String> relatedScenario;
-    public Array<String> relatedInventory;
-    public Array<StatueTranslation> statueTranslations;
+    public ArrayList<String> relatedScenario;
+    public ArrayList<String> relatedInventory;
+    public ArrayList<StatueTranslation> statueTranslations;
+
+    public Inventory() {
+        relatedScenario = new ArrayList<>(2);
+        relatedInventory = new ArrayList<>(2);
+    }
+
+    public boolean isGlobal() {
+        return isMenu || isStatue;
+    }
 
 }

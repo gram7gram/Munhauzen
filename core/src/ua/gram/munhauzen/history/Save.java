@@ -38,10 +38,6 @@ public class Save {
      */
     public Story story;
     /**
-     * Day count on current iteration
-     */
-    public int day;
-    /**
      * Obtained items on current iteration
      */
     public Set<String> inventory;

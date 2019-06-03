@@ -30,32 +30,33 @@ import ua.gram.munhauzen.animation.CannonAnimation;
 import ua.gram.munhauzen.animation.CannonLetterAnimation;
 import ua.gram.munhauzen.entity.Decision;
 import ua.gram.munhauzen.entity.Scenario;
-import ua.gram.munhauzen.repository.ScenarioRepository;
 import ua.gram.munhauzen.entity.ScenarioTranslation;
 import ua.gram.munhauzen.entity.Story;
+import ua.gram.munhauzen.repository.ScenarioRepository;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.ui.FitImage;
+import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
  */
 public class ScenarioFragment implements Disposable {
 
+    private final String tag = getClass().getSimpleName();
     private final MunhauzenGame game;
     public final GameScreen gameScreen;
     public final AssetManager assetManager;
     private VerticalGroup group2, group1, group3;
     private Texture decorationTop;
     private Sprite decorLeft, decorRight;
-    private Stack stack;
-    private final HashMap<Integer, String> map = new HashMap<>();
-    private final HashMap<Integer, String> animatedMap = new HashMap<>();
+    private Stack root;
+    private final HashMap<Integer, String> map = new HashMap<>(7);
+    private final HashMap<Integer, String> animatedMap = new HashMap<>(7);
 
     public ScenarioFragment(GameScreen gameScreen) {
         this.game = gameScreen.game;
         this.gameScreen = gameScreen;
         assetManager = new AssetManager();
-
 
         animatedMap.put(0, "GameScreen/an_letter_sheet_A.png");
         animatedMap.put(1, "GameScreen/an_letter_sheet_B.png");
@@ -77,9 +78,15 @@ public class ScenarioFragment implements Disposable {
     @Override
     public void dispose() {
         assetManager.dispose();
+        if (root != null) {
+            root.remove();
+            root = null;
+        }
     }
 
     public Stack create(ArrayList<Decision> decisions) {
+
+        Log.i(tag, "create x" + decisions.size());
 
         assetManager.load("GameScreen/an_cannons_main.png", Texture.class);
         assetManager.load("GameScreen/b_star_game.png", Texture.class);
@@ -93,8 +100,8 @@ public class ScenarioFragment implements Disposable {
         Texture borders = assetManager.get("GameScreen/b_tulip_1.png", Texture.class);
         decorationTop = assetManager.get("GameScreen/b_star_game.png", Texture.class);
 
-        stack = new Stack();
-        stack.setFillParent(true);
+        root = new Stack();
+        root.setFillParent(true);
 
         Table table = new Table();
 
@@ -106,42 +113,48 @@ public class ScenarioFragment implements Disposable {
 
             ScenarioTranslation translation = null;
 
-            for (ScenarioTranslation item: scenario.translations) {
+            for (ScenarioTranslation item : scenario.translations) {
                 if (game.params.locale.equals(item.locale)) {
                     translation = item;
                     break;
                 }
             }
 
-            if (translation != null) {
-
-                Actor button = primaryDecision(translation.text, i, new ClickListener() {
-                    @Override
-                    public void clicked(InputEvent event, float x, float y) {
-                        super.clicked(event, x, y);
-
-                        final Story newScenario = gameScreen.scenarioManager.create(decision.scenario);
-
-                        gameScreen.scenarioManager.startLoadingResources(newScenario);
-
-
-                        fadeOut(new Runnable() {
-                            @Override
-                            public void run() {
-                                gameScreen.scenarioFragment = null;
-
-                                game.gameState.history.activeSave.story = newScenario;
-                            }
-                        });
-                    }
-                });
-
-                table.add(button)
-                        .minWidth(500)
-                        .width(MunhauzenGame.WORLD_WIDTH * 3 / 4f)
-                        .maxWidth(1000)
-                        .pad(10).row();
+            String text;
+            if (translation == null) {
+                Log.e(tag, "Missing translation for decision " + decision.scenario);
+                text = decision.scenario;
+            } else {
+                text = translation.text;
             }
+
+            Actor button = primaryDecision(text, i, new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    super.clicked(event, x, y);
+
+                    final Story newScenario = gameScreen.scenarioManager.create(decision.scenario);
+
+                    gameScreen.scenarioManager.startLoadingResources(newScenario);
+
+
+                    fadeOut(new Runnable() {
+                        @Override
+                        public void run() {
+                            gameScreen.scenarioFragment = null;
+
+                            game.gameState.history.activeSave.story = newScenario;
+                        }
+                    });
+                }
+            });
+
+            table.add(button)
+                    .minWidth(500)
+                    .width(MunhauzenGame.WORLD_WIDTH * 3 / 4f)
+                    .maxWidth(1000)
+                    .pad(10).row();
+
         }
 
         ScrollPane scrollPane = new ScrollPane(table);
@@ -172,28 +185,28 @@ public class ScenarioFragment implements Disposable {
         scrollContainer.setFillParent(true);
         scrollContainer.add(scrollPane)
                 .top().expand().fill()
-                .padTop(gameScreen.progressBarFragment.barContainer.getHeight() - 20)
-                .padBottom(gameScreen.progressBarFragment.barContainer.getHeight() - 20);
+                .padTop(gameScreen.progressBarFragment.root.getHeight() - 20)
+                .padBottom(gameScreen.progressBarFragment.root.getHeight() - 20);
 
-        stack.addActorAt(0, group1);
-        stack.addActorAt(1, group2);
-        stack.addActorAt(2, group3);
-        stack.addActorAt(3, scrollContainer);
+        root.addActorAt(0, group1);
+        root.addActorAt(1, group2);
+        root.addActorAt(2, group3);
+        root.addActorAt(3, scrollContainer);
 
         fadeIn();
 
-        return stack;
+        return root;
     }
 
     public void fadeOutDecisions() {
         float duration = .3f;
 
-        stack.addAction(Actions.sequence(
+        root.addAction(Actions.sequence(
                 Actions.alpha(0, duration),
                 Actions.run(new Runnable() {
                     @Override
                     public void run() {
-                        stack.remove();
+                        root.remove();
                     }
                 })
         ));

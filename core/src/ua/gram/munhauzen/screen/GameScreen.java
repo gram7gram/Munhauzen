@@ -8,9 +8,11 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
@@ -31,6 +33,7 @@ import ua.gram.munhauzen.fragment.ProgressBarFragment;
 import ua.gram.munhauzen.fragment.ScenarioFragment;
 import ua.gram.munhauzen.service.AudioService;
 import ua.gram.munhauzen.service.ImageService;
+import ua.gram.munhauzen.service.InventoryService;
 import ua.gram.munhauzen.service.StoryManager;
 import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.utils.Log;
@@ -53,6 +56,7 @@ public class GameScreen implements Screen {
     public GameControlsFragment gameControlsFragment;
     public AudioService audioService;
     public ImageService imageService;
+    public InventoryService inventoryService;
 
     private Timer.Task saveTask;
     private Texture background;
@@ -82,6 +86,7 @@ public class GameScreen implements Screen {
 
         audioService = new AudioService(this);
         imageService = new ImageService(this);
+        inventoryService = new InventoryService(game.gameState);
 
         ui = new MunhauzenStage(game);
         scenarioManager = new StoryManager(this, game.gameState);
@@ -190,13 +195,31 @@ public class GameScreen implements Screen {
 //                }
             }
         }, 5, 5);
+
+        ui.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                Log.i(tag, "ui clicked");
+
+                progressBarFragment.fadeIn();
+
+                if (scenarioFragment == null) {
+                    progressBarFragment.scheduleFadeOut();
+                } else {
+                    Log.i(tag, "scheduleFadeOut ignored");
+                }
+
+            }
+        });
     }
 
     public void setBackgroundImageLayer(Stack actor) {
         uiLayers.addActorAt(0, actor);
     }
 
-    public void setStoryOptionsLayer(Stack actor) {
+    public void setStoryDecisionsLayer(Stack actor) {
         uiLayers.addActorAt(1, actor);
     }
 

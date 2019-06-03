@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class RMath {
+public class MathUtils {
 
     public static String round(float value, int digits) {
         return Float.toString(BigDecimal.valueOf(value)

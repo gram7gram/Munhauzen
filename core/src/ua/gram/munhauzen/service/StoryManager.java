@@ -9,7 +9,9 @@ import java.util.Set;
 
 import ua.gram.munhauzen.entity.Decision;
 import ua.gram.munhauzen.entity.GameState;
+import ua.gram.munhauzen.entity.Inventory;
 import ua.gram.munhauzen.entity.Scenario;
+import ua.gram.munhauzen.repository.InventoryRepository;
 import ua.gram.munhauzen.repository.ScenarioRepository;
 import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.entity.StoryAudio;
@@ -165,16 +167,17 @@ public class StoryManager {
         Story story = gameState.history.activeSave.story;
         Log.i(tag, "onCompleted " + story.id);
 
-        for (StoryScenario scenarioOption : story.scenarios) {
+        for (StoryScenario storyScenario : story.scenarios) {
 
-            String newInventory = scenarioOption.scenario.inventoryAdd;
-            if (newInventory != null) {
-                gameState.history.activeSave.inventory.add(newInventory);
-            }
-
-            String newGlobalInventory = scenarioOption.scenario.inventoryGlobalAdd;
-            if (newGlobalInventory != null) {
-                gameState.history.globalInventory.add(newGlobalInventory);
+            Inventory inventory = InventoryRepository.findByScenario(gameState, storyScenario.scenario.name);
+            if (inventory != null) {
+                if (!gameScreen.inventoryService.isInInventory(inventory)) {
+                    if (inventory.isGlobal()) {
+                        gameScreen.inventoryService.addGlobalInventory(inventory);
+                    } else {
+                        gameScreen.inventoryService.addInventory(inventory);
+                    }
+                }
             }
         }
 
@@ -187,20 +190,27 @@ public class StoryManager {
         }
 
         ArrayList<Decision> availableDecisions = new ArrayList<>();
-        for (Decision decision : story.currentScenario.scenario.decisions) {
-            if (isDecisionAvailable(decision, inventory)) {
-                availableDecisions.add(decision);
+        if (story.currentScenario.scenario.decisions != null) {
+            for (Decision decision : story.currentScenario.scenario.decisions) {
+                if (isDecisionAvailable(decision, inventory)) {
+                    availableDecisions.add(decision);
+                }
             }
         }
 
         if (gameScreen.scenarioFragment != null) {
             gameScreen.scenarioFragment.dispose();
+            gameScreen.scenarioFragment = null;
         }
-        gameScreen.scenarioFragment = new ScenarioFragment(gameScreen);
 
-        gameScreen.setStoryOptionsLayer(
-                gameScreen.scenarioFragment.create(availableDecisions)
-        );
+        if (availableDecisions.size() > 0) {
+            gameScreen.scenarioFragment = new ScenarioFragment(gameScreen);
+
+            gameScreen.progressBarFragment.fadeIn();
+            gameScreen.setStoryDecisionsLayer(
+                    gameScreen.scenarioFragment.create(availableDecisions)
+            );
+        }
     }
 
     public void reset() {

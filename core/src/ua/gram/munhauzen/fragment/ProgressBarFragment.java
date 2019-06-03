@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
@@ -36,10 +37,11 @@ public class ProgressBarFragment implements Disposable {
     private final String tag = getClass().getSimpleName();
     private final GameScreen gameScreen;
     public ProgressBar bar;
-    public Stack barContainer;
+    public Stack root;
     public Table controlsTable;
     public ImageButton skipBackButton, rewindBackButton, skipForwardButton, rewindForwardButton, pauseButton, playButton;
     public final AssetManager assetManager;
+    private Timer.Task fadeOutTask;
 
     public ProgressBarFragment(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
@@ -172,9 +174,9 @@ public class ProgressBarFragment implements Disposable {
         backgroundContainer.add(barBackgroundImageLeft).fillX().expandX().height(fragmentHeight);
         backgroundContainer.add(barBackgroundImageRight).fillX().expandX().height(fragmentHeight);
 
-        barContainer = new Stack();
-        barContainer.addActor(backgroundContainer);
-        barContainer.addActor(barTable);
+        root = new Stack();
+        root.addActor(backgroundContainer);
+        root.addActor(barTable);
 
         playButton.addListener(new ClickListener() {
             @Override
@@ -425,7 +427,9 @@ public class ProgressBarFragment implements Disposable {
             }
         });
 
-        return barContainer;
+        scheduleFadeOut();
+
+        return root;
     }
 
     public void update() {
@@ -489,8 +493,57 @@ public class ProgressBarFragment implements Disposable {
         }
     }
 
+    public void fadeIn() {
+        Log.i(tag, "fadeIn");
+
+        if (fadeOutTask != null) {
+            fadeOutTask.cancel();
+        }
+
+        root.setTouchable(Touchable.enabled);
+        root.clearActions();
+        root.addAction(
+                Actions.parallel(
+                        Actions.fadeIn(.3f),
+                        Actions.moveTo(0, 0, .3f)
+                )
+        );
+    }
+
+    public void fadeOut() {
+        Log.i(tag, "fadeOut");
+
+        root.setTouchable(Touchable.disabled);
+        root.clearActions();
+        root.addAction(
+                Actions.parallel(
+                        Actions.fadeOut(.5f),
+                        Actions.moveTo(0, -40, .5f)
+                )
+        );
+    }
+
+    public void scheduleFadeOut() {
+        Log.i(tag, "scheduleFadeOut");
+
+        if (fadeOutTask != null) {
+            fadeOutTask.cancel();
+        }
+        fadeOutTask = Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                fadeOut();
+            }
+        }, 10);
+    }
+
     @Override
     public void dispose() {
         assetManager.dispose();
+
+        if (root != null) {
+            root.remove();
+            root = null;
+        }
     }
 }

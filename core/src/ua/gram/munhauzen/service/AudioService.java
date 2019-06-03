@@ -3,6 +3,7 @@ package ua.gram.munhauzen.service;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.utils.Timer;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -13,6 +14,7 @@ import ua.gram.munhauzen.entity.StoryScenario;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.utils.DateUtils;
 import ua.gram.munhauzen.utils.Log;
+import ua.gram.munhauzen.utils.MathUtils;
 
 /**
  * @author Gram <gram7gram@gmail.com>
@@ -34,7 +36,16 @@ public class AudioService {
             return;
         }
 
-        String resource = item.getResource();
+        ArrayList<String> randomResources = new ArrayList<>();
+        randomResources.add("audio/audio1.jpg");
+        randomResources.add("audio/audio2.jpg");
+        randomResources.add("audio/audio3.jpg");
+        randomResources.add("audio/audio4.jpg");
+        randomResources.add("audio/audio5.jpg");
+        randomResources.add("audio/audio6.jpg");
+        randomResources.add("audio/audio7.jpg");
+
+        String resource = MathUtils.random(randomResources); //item.getResource();
 
         boolean isLoaded = gameScreen.assetManager.isLoaded(resource, Music.class);
 

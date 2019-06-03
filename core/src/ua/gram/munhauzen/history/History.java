@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Stack;
 
+import ua.gram.munhauzen.entity.Inventory;
 import ua.gram.munhauzen.entity.Player;
 
 /**
@@ -76,11 +77,6 @@ public class History {
 
     public Save getActiveSave() {
         return activeSave;
-    }
-
-    public void incrementDay() {
-        Save save = getActiveSave();
-        save.day += 1;
     }
 
 //    public boolean addStep(Branch branch) {

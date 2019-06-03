@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Timer;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -19,6 +20,7 @@ import ua.gram.munhauzen.transition.NormalTransition;
 import ua.gram.munhauzen.transition.Transition;
 import ua.gram.munhauzen.utils.DateUtils;
 import ua.gram.munhauzen.utils.Log;
+import ua.gram.munhauzen.utils.MathUtils;
 
 /**
  * @author Gram <gram7gram@gmail.com>
@@ -40,7 +42,14 @@ public class ImageService {
             return;
         }
 
-        String resource = item.getResource();
+        ArrayList<String> randomResources = new ArrayList<>();
+        randomResources.add("images/image1.jpg");
+        randomResources.add("images/image2.jpg");
+        randomResources.add("images/image3.jpg");
+        randomResources.add("images/image4.jpg");
+        randomResources.add("images/image5.jpg");
+
+        String resource = MathUtils.random(randomResources); //item.getResource();
 
         boolean isLoaded = gameScreen.assetManager.isLoaded(resource, Texture.class);
 

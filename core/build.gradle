@@ -4,7 +4,17 @@ apply plugin: "java"
 
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
-sourceSets.main.java.srcDirs = ["src/"]
+sourceSets.main.java.srcDirs = ["src"]
+sourceSets.test.java.srcDirs = ["tests"]
 
 dependencies {
+    testImplementation "junit:junit:4.12"
+    testImplementation "org.mockito:mockito-core:2.13.0"
+
+    testImplementation "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
+    testImplementation "com.badlogicgames.gdx:gdx:$gdxVersion"
+    testImplementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+    testImplementation "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+    testImplementation "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
+
 }

@@ -240,5 +240,7 @@ public class GameControlsFragment implements Disposable {
     @Override
     public void dispose() {
         assetManager.dispose();
+        menuButton.remove();
+        soundButton.remove();
     }
 }
