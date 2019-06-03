@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -215,15 +216,15 @@ public class GameScreen implements Screen {
         });
     }
 
-    public void setBackgroundImageLayer(Stack actor) {
+    public void setBackgroundImageLayer(Actor actor) {
         uiLayers.addActorAt(0, actor);
     }
 
-    public void setStoryDecisionsLayer(Stack actor) {
+    public void setStoryDecisionsLayer(Actor actor) {
         uiLayers.addActorAt(1, actor);
     }
 
-    public void setStoryUILayer(Stack actor) {
+    public void setStoryUILayer(Actor actor) {
         uiLayers.addActorAt(2, actor);
     }
 
@@ -258,14 +259,14 @@ public class GameScreen implements Screen {
                         story.progress + (delta * 1000),
                         story.totalDuration
                 );
-            }
 
-            if (story.isCompleted) {
+                if (story.isCompleted) {
 
-                scenarioManager.onCompleted();
+                    scenarioManager.onCompleted();
 
-            } else {
-                scenarioManager.startLoadingResources(story);
+                } else {
+                    scenarioManager.startLoadingResources(story);
+                }
             }
         }
 
@@ -280,16 +281,16 @@ public class GameScreen implements Screen {
         ui.act(delta);
         ui.draw();
 
-        if (MunhauzenGame.DEBUG)
-            drawDebugInfo();
+        //if (MunhauzenGame.DEBUG)
+        //    drawDebugInfo();
     }
 
     private void drawDebugInfo() {
 
         Story story = getStory();
 
-        int fontSize = FontProvider.h3;
-        BitmapFont font = game.fontProvider.getFont(FontProvider.Arnold, fontSize);
+        int fontSize = FontProvider.h4;
+        BitmapFont font = game.fontProvider.getFont(FontProvider.BuxtonSketch, fontSize);
         if (font != null) {
 
             font.setColor(Color.RED);
@@ -320,12 +321,12 @@ public class GameScreen implements Screen {
             }
 
 
-            int offset = fontSize + 2;
+            int offset = fontSize + 1;
             int row = -1;
 
             game.batch.begin();
             for (String string : strings) {
-                font.draw(game.batch, string.replace("_", "-"), 10, MunhauzenGame.WORLD_HEIGHT - 10 - (++row) * offset);
+                font.draw(game.batch, string, 10, MunhauzenGame.WORLD_HEIGHT - 10 - (++row) * offset);
             }
             game.batch.end();
         }

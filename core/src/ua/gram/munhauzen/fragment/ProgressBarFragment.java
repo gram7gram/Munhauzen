@@ -215,6 +215,7 @@ public class ProgressBarFragment implements Disposable {
                     gameScreen.scenarioFragment.fadeOut(new Runnable() {
                         @Override
                         public void run() {
+                            gameScreen.scenarioFragment.dispose();
                             gameScreen.scenarioFragment = null;
                         }
                     });
@@ -293,6 +294,7 @@ public class ProgressBarFragment implements Disposable {
                     gameScreen.scenarioFragment.fadeOut(new Runnable() {
                         @Override
                         public void run() {
+                            gameScreen.scenarioFragment.dispose();
                             gameScreen.scenarioFragment = null;
                         }
                     });
@@ -380,6 +382,7 @@ public class ProgressBarFragment implements Disposable {
                     gameScreen.scenarioFragment.fadeOut(new Runnable() {
                         @Override
                         public void run() {
+                            gameScreen.scenarioFragment.dispose();
                             gameScreen.scenarioFragment = null;
                         }
                     });

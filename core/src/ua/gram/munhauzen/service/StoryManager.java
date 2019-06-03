@@ -119,6 +119,9 @@ public class StoryManager {
     }
 
     public void startLoadingResources(Story story) {
+
+        Log.i(tag, "startLoadingResources");
+
         StoryScenario option = story.currentScenario;
         if (option == null) return;
 
@@ -226,9 +229,9 @@ public class StoryManager {
             save.storyStack.push(story);
         }
 
-        for (StoryScenario scenarioOption : story.scenarios) {
+        for (StoryScenario storyScenario : story.scenarios) {
 
-            for (StoryAudio audio : scenarioOption.scenario.audio) {
+            for (StoryAudio audio : storyScenario.scenario.audio) {
                 String resource = audio.getResource();
                 if (gameScreen.assetManager.isLoaded(resource, Music.class)) {
                     if (gameScreen.assetManager.getReferenceCount(resource) == 0) {
@@ -237,7 +240,7 @@ public class StoryManager {
                 }
             }
 
-            for (StoryImage image : scenarioOption.scenario.images) {
+            for (StoryImage image : storyScenario.scenario.images) {
                 String resource = image.getResource();
                 if (gameScreen.assetManager.isLoaded(resource, Texture.class)) {
                     if (gameScreen.assetManager.getReferenceCount(resource) == 0) {
@@ -246,7 +249,7 @@ public class StoryManager {
                 }
             }
 
-            scenarioOption.reset();
+            storyScenario.reset();
         }
 
         gameScreen.assetManager.finishLoading();

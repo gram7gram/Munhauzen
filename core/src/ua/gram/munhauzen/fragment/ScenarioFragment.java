@@ -1,25 +1,26 @@
 package ua.gram.munhauzen.fragment;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Disposable;
-import com.badlogic.gdx.utils.Timer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,12 +30,14 @@ import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.animation.CannonAnimation;
 import ua.gram.munhauzen.animation.CannonLetterAnimation;
 import ua.gram.munhauzen.entity.Decision;
+import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.Scenario;
 import ua.gram.munhauzen.entity.ScenarioTranslation;
 import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.repository.ScenarioRepository;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.ui.FitImage;
+import ua.gram.munhauzen.ui.WrapLabel;
 import ua.gram.munhauzen.utils.Log;
 
 /**
@@ -46,17 +49,19 @@ public class ScenarioFragment implements Disposable {
     private final MunhauzenGame game;
     public final GameScreen gameScreen;
     public final AssetManager assetManager;
-    private VerticalGroup group2, group1, group3;
-    private Texture decorationTop;
-    private Sprite decorLeft, decorRight;
+    private FitImage imgLeft, imgRight, imgTop;
+    private Table decorLeft, decorRight, decorTop;
     private Stack root;
+    private final ArrayList<Actor> buttonList;
     private final HashMap<Integer, String> map = new HashMap<>(7);
     private final HashMap<Integer, String> animatedMap = new HashMap<>(7);
+    final int headerSize = 50;
 
     public ScenarioFragment(GameScreen gameScreen) {
         this.game = gameScreen.game;
         this.gameScreen = gameScreen;
         assetManager = new AssetManager();
+        buttonList =new ArrayList<>(4);
 
         animatedMap.put(0, "GameScreen/an_letter_sheet_A.png");
         animatedMap.put(1, "GameScreen/an_letter_sheet_B.png");
@@ -78,6 +83,7 @@ public class ScenarioFragment implements Disposable {
     @Override
     public void dispose() {
         assetManager.dispose();
+        buttonList.clear();
         if (root != null) {
             root.remove();
             root = null;
@@ -88,6 +94,7 @@ public class ScenarioFragment implements Disposable {
 
         Log.i(tag, "create x" + decisions.size());
 
+        assetManager.load("sfx/sfx_decision.mp3", Sound.class);
         assetManager.load("GameScreen/an_cannons_main.png", Texture.class);
         assetManager.load("GameScreen/b_star_game.png", Texture.class);
         assetManager.load("GameScreen/b_tulip_1.png", Texture.class);
@@ -98,12 +105,9 @@ public class ScenarioFragment implements Disposable {
         assetManager.finishLoading();
 
         Texture borders = assetManager.get("GameScreen/b_tulip_1.png", Texture.class);
-        decorationTop = assetManager.get("GameScreen/b_star_game.png", Texture.class);
+        Texture drawableTop = assetManager.get("GameScreen/b_star_game.png", Texture.class);
 
-        root = new Stack();
-        root.setFillParent(true);
-
-        Table table = new Table();
+        final Table buttons = new Table();
 
         for (int i = 0; i < decisions.size(); i++) {
 
@@ -128,157 +132,262 @@ public class ScenarioFragment implements Disposable {
                 text = translation.text;
             }
 
-            Actor button = primaryDecision(text, i, new ClickListener() {
+            float bounds = MunhauzenGame.WORLD_WIDTH * 3 / 4f;
+
+            final int currentIndex = i;
+
+            Actor button = primaryDecision(text, i, bounds, new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     super.clicked(event, x, y);
 
-                    final Story newScenario = gameScreen.scenarioManager.create(decision.scenario);
+                    Log.i(tag, "clicked " + decision.scenario);
 
-                    gameScreen.scenarioManager.startLoadingResources(newScenario);
+                    Sound sfx = assetManager.get("sfx/sfx_decision.mp3", Sound.class);
+                    sfx.play();
 
-
-                    fadeOut(new Runnable() {
+                    Runnable onComplete = new Runnable() {
                         @Override
                         public void run() {
+
+                            Log.i(tag, "fadeOut button complete");
+
+                            gameScreen.scenarioFragment.dispose();
                             gameScreen.scenarioFragment = null;
 
-                            game.gameState.history.activeSave.story = newScenario;
+                            GameState.isPaused = false;
                         }
-                    });
+                    };
+
+                    fadeOutDecoration();
+
+                    for (Actor button : buttonList) {
+
+                        boolean isCurrent = buttonList.indexOf(button) == currentIndex;
+
+                        button.setTouchable(Touchable.disabled);
+
+                        Log.i(tag, "fadeOut button " + (isCurrent ? "+" : "-"));
+
+                        if (isCurrent) {
+                            button.addAction(
+                                    Actions.sequence(
+                                            Actions.delay(.5f),
+                                            Actions.fadeOut(.5f),
+                                            Actions.run(onComplete)
+                                    )
+                            );
+                        } else {
+                            button.addAction(Actions.fadeOut(.5f));
+                        }
+                    }
+
+                    try {
+                        Story newStory = gameScreen.scenarioManager.create(decision.scenario);
+
+                        game.gameState.history.activeSave.story = newStory;
+
+                        gameScreen.scenarioManager.startLoadingResources(newStory);
+                    } catch (Throwable e) {
+                        Log.e(tag, e);
+                    }
                 }
             });
 
-            table.add(button)
-                    .minWidth(500)
-                    .width(MunhauzenGame.WORLD_WIDTH * 3 / 4f)
+            buttonList.add(button);
+
+            buttons.add(button)
+                    .width(bounds)
                     .maxWidth(1000)
                     .pad(10).row();
 
         }
 
-        ScrollPane scrollPane = new ScrollPane(table);
+        ScrollPane scrollPane = new ScrollPane(buttons);
         scrollPane.setScrollingDisabled(true, false);
 
-        decorLeft = new Sprite(borders);
+        Sprite drawableLeft = new Sprite(borders);
 
-        decorRight = new Sprite(borders);
-        decorRight.setFlip(true, false);
+        Sprite drawableRight = new Sprite(borders);
+        drawableRight.setFlip(true, false);
 
-        Image decor1 = new FitImage(new SpriteDrawable(decorLeft));
-        Image decor2 = new FitImage(new SpriteDrawable(decorRight));
-        Image decor3 = new FitImage(decorationTop);
+        imgLeft = new FitImage(new SpriteDrawable(drawableLeft));
+        imgRight = new FitImage(new SpriteDrawable(drawableRight));
+        imgTop = new FitImage(drawableTop);
 
-        group1 = new VerticalGroup();
-        group1.align(Align.topLeft);
-        group1.addActor(decor1);
-
-        group2 = new VerticalGroup();
-        group2.align(Align.top);
-        group2.addActor(decor3);
-
-        group3 = new VerticalGroup();
-        group3.align(Align.topRight);
-        group3.addActor(decor2);
-
-        Table scrollContainer = new Table();
-        scrollContainer.setFillParent(true);
-        scrollContainer.add(scrollPane)
+        Table table = new Table();
+        table.setFillParent(true);
+        table.add(scrollPane)
                 .top().expand().fill()
                 .padTop(gameScreen.progressBarFragment.root.getHeight() - 20)
                 .padBottom(gameScreen.progressBarFragment.root.getHeight() - 20);
 
-        root.addActorAt(0, group1);
-        root.addActorAt(1, group2);
-        root.addActorAt(2, group3);
-        root.addActorAt(3, scrollContainer);
+        decorLeft = new Table();
+        decorLeft.add(imgLeft).align(Align.topLeft).expand()
+                .width(MunhauzenGame.WORLD_WIDTH / 3f)
+                .height(MunhauzenGame.WORLD_HEIGHT / 4f);
+
+        decorTop = new Table();
+        decorTop.add(imgTop).align(Align.top).expand()
+                .width(MunhauzenGame.WORLD_WIDTH / 5f)
+                .height(MunhauzenGame.WORLD_HEIGHT / 13f);
+
+        decorRight = new Table();
+        decorRight.add(imgRight).align(Align.topRight).expand()
+                .width(MunhauzenGame.WORLD_WIDTH / 3f)
+                .height(MunhauzenGame.WORLD_HEIGHT / 4f);
+
+        root = new Stack();
+        root.add(decorLeft);
+        root.add(decorTop);
+        root.add(decorRight);
+        root.add(table);
 
         fadeIn();
 
+        GameState.isPaused = true;
+
         return root;
-    }
-
-    public void fadeOutDecisions() {
-        float duration = .3f;
-
-        root.addAction(Actions.sequence(
-                Actions.alpha(0, duration),
-                Actions.run(new Runnable() {
-                    @Override
-                    public void run() {
-                        root.remove();
-                    }
-                })
-        ));
     }
 
     public void fadeOut(Runnable task) {
         float duration = .3f;
 
-        fadeOutDecisions();
+        root.addAction(Actions.sequence(
+                Actions.alpha(0, duration),
+                Actions.run(task)
+        ));
 
-        group1.addAction(Actions.parallel(
+        fadeOutDecoration();
+    }
+
+    private void fadeOutDecoration() {
+        float duration = .5f;
+
+        decorLeft.addAction(Actions.parallel(
                 Actions.moveTo(-decorLeft.getWidth(), 0, duration),
                 Actions.alpha(0, duration)
         ));
 
-        group2.addAction(Actions.parallel(
-                Actions.moveTo(0, decorationTop.getHeight(), duration),
+        decorTop.addAction(Actions.parallel(
+                Actions.moveTo(0, decorTop.getHeight(), duration),
                 Actions.alpha(0, duration)
         ));
 
-        group3.addAction(
-                Actions.sequence(
-                        Actions.parallel(
-                                Actions.moveTo(decorRight.getWidth(), 0, duration),
-                                Actions.alpha(0, duration)
-                        ),
-                        Actions.run(task),
-                        Actions.run(new Runnable() {
-                            @Override
-                            public void run() {
-                                dispose();
-                            }
-                        })
-                )
-        );
+        decorRight.addAction(
+                Actions.parallel(
+                        Actions.moveTo(decorRight.getWidth(), 0, duration),
+                        Actions.alpha(0, duration)
+                ));
     }
 
     public void fadeIn() {
-        float duration = .5f;
-
-        group1.setX(group1.getX() - decorLeft.getWidth());
-        group1.addAction(Actions.alpha(0));
-        group1.addAction(Actions.parallel(
-                Actions.moveTo(0, 0, duration),
-                Actions.alpha(1, duration)
-        ));
-
-        group2.setY(group1.getY() + decorationTop.getHeight());
-        group2.addAction(Actions.alpha(0));
-        group2.addAction(Actions.parallel(
-                Actions.moveTo(0, 0, duration),
-                Actions.alpha(1, duration)
-        ));
-
-        group3.setX(group3.getX() + decorRight.getWidth());
-        group3.addAction(Actions.alpha(0));
-        group3.addAction(Actions.parallel(
-                Actions.moveTo(0, 0, duration),
-                Actions.alpha(1, duration)
-        ));
+        fadeInDecoration();
     }
 
-    private Actor primaryDecision(String text, final int index, final ClickListener onClick) {
+    private void fadeInDecoration() {
+        float duration = .3f;
 
-        Texture top = assetManager.get("GameScreen/b_decision_first_line.png", Texture.class);
+        decorLeft.addAction(Actions.moveBy(-imgLeft.getWidth(), 0));
+        decorLeft.addAction(Actions.alpha(0));
+        decorLeft.addAction(
+                Actions.parallel(
+                        Actions.moveTo(0, 0, duration),
+                        Actions.alpha(1, duration)
+                )
+
+        );
+
+        decorTop.addAction(Actions.moveBy(0, imgTop.getHeight()));
+        decorTop.addAction(Actions.alpha(0));
+        decorTop.addAction(
+                Actions.parallel(
+                        Actions.moveTo(0, 0, duration),
+                        Actions.alpha(1, duration)
+                )
+
+        );
+
+        decorRight.addAction(Actions.moveBy(imgRight.getWidth(), 0));
+        decorRight.addAction(Actions.alpha(0));
+        decorRight.addAction(
+                Actions.parallel(
+                        Actions.moveTo(0, 0, duration),
+                        Actions.alpha(1, duration)
+                )
+
+        );
+    }
+
+    private Actor primaryDecision(String text, final int index, float buttonBounds, final ClickListener onClick) {
+
         Texture bottom = assetManager.get("GameScreen/b_decision_last_line.png", Texture.class);
         Texture middle = assetManager.get("GameScreen/b_decision_add_line.png", Texture.class);
-        Texture cannon = assetManager.get("GameScreen/an_cannons_main.png", Texture.class);
+        Texture top = assetManager.get("GameScreen/b_decision_first_line.png", Texture.class);
 
-        SpriteDrawable cannonDrawable = new SpriteDrawable(new Sprite(cannon));
-        SpriteDrawable cannonDrawableRight = new SpriteDrawable(new Sprite(cannon));
-        cannonDrawableRight.getSprite().setFlip(true, false);
+        final NinePatchDrawable middleBackground = new NinePatchDrawable(new NinePatch(
+                middle, 0, 0, 5, 5
+        ));
+
+        Image backMiddle = new Image(middleBackground);
+        Image backBottom = new Image(bottom);
+        Image backTop = new Image(top);
+
+        BitmapFont font = game.fontProvider.getFont(FontProvider.BuxtonSketch, FontProvider.h3);
+
+        Label label = new WrapLabel(text,
+                new Label.LabelStyle(font, Color.BLACK),
+                buttonBounds);
+        label.setAlignment(Align.center);
+
+        Table labelContainer = new Table();
+        labelContainer.add(label).fill().expand()
+                .padLeft(headerSize / 5f).padRight(headerSize / 5f)
+                .height(label.getHeight());
+
+        Stack stackMiddle = new Stack();
+        stackMiddle.addActor(backMiddle);
+        stackMiddle.addActor(labelContainer);
+
+        final Table table = new Table();
+
+        table.add(backTop)
+                .expandX().height(headerSize).row();
+        table.add(stackMiddle)
+                .minHeight(headerSize)
+                .height(label.getHeight())
+                .expandX().row();
+        table.add(backBottom)
+                .expandX().height(headerSize).row();
+
+        final Stack header = createDefaultHeader(index);
+
+        final Stack stack = new Stack();
+        stack.addActorAt(0, table);
+        stack.addActorAt(1, header);
+
+        stack.addListener(new ClickListener() {
+            @Override
+            public void clicked(final InputEvent event, final float x, final float y) {
+                super.clicked(event, x, y);
+
+                root.clearListeners();
+
+                Stack animated = createAnimatedHeader(index);
+
+                stack.removeActor(header);
+                stack.addActorAt(1, animated);
+
+                onClick.clicked(event, x, y);
+            }
+        });
+
+        stack.setName("primaryDecision-" + index);
+
+        return stack;
+    }
+
+    private Stack createDefaultHeader(int index) {
 
         if (!map.containsKey(index)) {
             throw new NullPointerException("Missing letter for decision at " + index);
@@ -290,113 +399,92 @@ public class ScenarioFragment implements Disposable {
 
         assetManager.finishLoading();
 
+        Texture cannon = assetManager.get("GameScreen/an_cannons_main.png", Texture.class);
         Texture letter = assetManager.get(letterResource, Texture.class);
 
-        Image cannonLeft = new FitImage(cannonDrawable);
-        Image cannonRight = new FitImage(cannonDrawableRight);
-        Image cannonLetter = new FitImage(letter);
+        SpriteDrawable cannonDrawable = new SpriteDrawable(new Sprite(cannon));
+        SpriteDrawable cannonDrawableRight = new SpriteDrawable(new Sprite(cannon));
+        cannonDrawableRight.getSprite().setFlip(true, false);
 
-        final NinePatchDrawable middleBackground = new NinePatchDrawable(new NinePatch(
-                middle, 0, 0, 5, 5
-        ));
+        FitImage left = new FitImage(cannonDrawable);
+        FitImage right = new FitImage(cannonDrawableRight);
+        FitImage center = new FitImage(letter);
 
-        Image backTop = new Image(top);
-        Image backMiddle = new Image(middleBackground);
-        Image backBottom = new Image(bottom);
+        Table layer1 = new Table();
+        layer1.add(left).expand()
+                .align(Align.topLeft)
+                .padLeft(headerSize * 1.2f)
+                .height(headerSize).width(headerSize * 2);
 
-        Label label = new Label(text, new Label.LabelStyle(
-                game.fontProvider.getFont(FontProvider.BuxtonSketch, FontProvider.h3), Color.BLACK
-        ));
-        label.setAlignment(Align.center);
-        label.setWrap(true);
+        Table layer2 = new Table();
+        layer2.add(center).expand()
+                .align(Align.top)//.padLeft(30)
+                .size(headerSize);
 
-        final Table cannonTable = new Table();
-        cannonTable.add(cannonLeft).right().padLeft(80);
-        cannonTable.add(cannonRight).left().padRight(80);
+        Table layer3 = new Table();
+        layer3.add(right).expand()
+                .align(Align.topRight)
+                .padRight(headerSize * 1.2f)
+                .height(headerSize).width(headerSize * 2);
 
-        Table labelContainer = new Table();
-        labelContainer.setFillParent(true);
-        labelContainer.add(label).fill().expand().padLeft(15).padRight(15);
+        Stack root = new Stack();
+        root.setFillParent(true);
+        root.add(layer1);
+        root.add(layer2);
+        root.add(layer3);
 
-        final Stack cannonStack = new Stack();
-        cannonStack.add(backTop);
-        cannonStack.add(cannonTable);
+        return root;
+    }
 
-        Stack stackMiddle = new Stack();
-        stackMiddle.addActor(backMiddle);
-        stackMiddle.addActor(labelContainer);
+    private Stack createAnimatedHeader(int index) {
 
-        final Table tableBack = new Table();
+        if (!animatedMap.containsKey(index)) {
+            throw new NullPointerException("Missing letter for decision at " + index);
+        }
 
-        tableBack.add(cannonStack).fillX().expandX().height(100).row();
-        tableBack.add(stackMiddle)
-                .minHeight(MunhauzenGame.WORLD_HEIGHT / 10f)
-                .fillX().expandX().row();
-        tableBack.add(backBottom).fillX().expandX().height(65).row();
+        String letterResource = animatedMap.get(index);
 
-        final Table letterTable = new Table();
-        letterTable.setFillParent(true);
-        letterTable.add(cannonLetter).width(85).height(85).expand().top();
+        assetManager.load(letterResource, Texture.class);
+        assetManager.load("GameScreen/an_cannons_sheet.png", Texture.class);
+        assetManager.load("GameScreen/an_cannons_left_sheet.png", Texture.class);
 
-        final Stack button = new Stack();
-        button.add(tableBack);
-        button.add(letterTable);
+        assetManager.finishLoading();
 
-        tableBack.addListener(new ClickListener() {
-            @Override
-            public void clicked(final InputEvent event, final float x, final float y) {
-                super.clicked(event, x, y);
+        Texture letter = assetManager.get(letterResource, Texture.class);
+        Texture sheet = assetManager.get("GameScreen/an_cannons_sheet.png", Texture.class);
+        Texture sheetLeft = assetManager.get("GameScreen/an_cannons_left_sheet.png", Texture.class);
 
-                tableBack.clearListeners();
+        CannonLetterAnimation center = new CannonLetterAnimation(letter);
+        CannonAnimation left = new CannonAnimation(sheet);
+        CannonAnimation right = new CannonAnimation(sheetLeft);
 
-                if (!animatedMap.containsKey(index)) {
-                    throw new NullPointerException("Missing letter for decision at " + index);
-                }
+        left.start();
+        right.start();
+        center.start();
 
-                String letterResource = animatedMap.get(index);
+        Table layer1 = new Table();
+        layer1.add(left).expand()
+                .align(Align.topLeft)
+                .padLeft(headerSize * 1.2f)
+                .height(headerSize).width(headerSize * 2);
 
-                assetManager.load(letterResource, Texture.class);
-                assetManager.load("GameScreen/an_cannons_sheet.png", Texture.class);
-                assetManager.load("GameScreen/an_cannons_left_sheet.png", Texture.class);
+        Table layer2 = new Table();
+        layer2.add(center).expand()
+                .align(Align.top).padLeft(30)
+                .size(headerSize * 2f);
 
-                assetManager.finishLoading();
+        Table layer3 = new Table();
+        layer3.add(right).expand()
+                .align(Align.topRight)
+                .padRight(headerSize * 1.2f)
+                .height(headerSize).width(headerSize * 2);
 
-                Texture letter = assetManager.get(letterResource, Texture.class);
-                Texture sheet = assetManager.get("GameScreen/an_cannons_sheet.png", Texture.class);
-                Texture sheetLeft = assetManager.get("GameScreen/an_cannons_left_sheet.png", Texture.class);
+        Stack root = new Stack();
+        root.setFillParent(true);
+        root.add(layer1);
+        root.add(layer2);
+        root.add(layer3);
 
-                CannonLetterAnimation cannonLetterAnimation = new CannonLetterAnimation(letter);
-                CannonAnimation cannonAnimationLeft = new CannonAnimation(sheet);
-                CannonAnimation cannonAnimationRight = new CannonAnimation(sheetLeft);
-
-                final Table animatedCannonTable = new Table();
-                animatedCannonTable.add(cannonAnimationLeft).right().padLeft(80);
-                animatedCannonTable.add(cannonAnimationRight).left().padRight(80);
-
-                cannonTable.remove();
-                cannonStack.add(animatedCannonTable);
-
-                Table animatedLetterTable = new Table();
-                animatedLetterTable.setFillParent(true);
-                animatedLetterTable.add(cannonLetterAnimation).expand().top().padLeft(30);
-
-                letterTable.remove();
-                button.add(animatedLetterTable);
-
-                cannonAnimationLeft.start();
-                cannonAnimationRight.start();
-                cannonLetterAnimation.start();
-
-                Timer.schedule(new Timer.Task() {
-                    @Override
-                    public void run() {
-                        onClick.clicked(event, x, y);
-                    }
-                }, 0.5f);
-
-            }
-        });
-
-        return button;
+        return root;
     }
 }

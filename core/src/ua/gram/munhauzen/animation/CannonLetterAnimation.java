@@ -48,7 +48,7 @@ public class CannonLetterAnimation extends Image {
             }
         }
 
-        return new Animation<>(0.05f, frames);
+        return new Animation<>(0.07f, frames);
     }
 
     @Override

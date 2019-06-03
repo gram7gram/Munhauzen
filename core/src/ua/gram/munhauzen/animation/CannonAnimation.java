@@ -45,7 +45,7 @@ public class CannonAnimation extends Image {
             }
         }
 
-        return new Animation<>(0.03f, frames);
+        return new Animation<>(0.04f, frames);
     }
 
     @Override
