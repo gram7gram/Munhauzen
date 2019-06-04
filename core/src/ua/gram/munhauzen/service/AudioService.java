@@ -37,13 +37,13 @@ public class AudioService {
         }
 
         ArrayList<String> randomResources = new ArrayList<>();
-        randomResources.add("audio/audio1.jpg");
-        randomResources.add("audio/audio2.jpg");
-        randomResources.add("audio/audio3.jpg");
-        randomResources.add("audio/audio4.jpg");
-        randomResources.add("audio/audio5.jpg");
-        randomResources.add("audio/audio6.jpg");
-        randomResources.add("audio/audio7.jpg");
+        randomResources.add("audio/audio1.ogg");
+        randomResources.add("audio/audio2.ogg");
+        randomResources.add("audio/audio3.ogg");
+        randomResources.add("audio/audio4.ogg");
+        randomResources.add("audio/audio5.ogg");
+        randomResources.add("audio/audio6.ogg");
+        randomResources.add("audio/audio7.ogg");
 
         String resource = MathUtils.random(randomResources); //item.getResource();
 

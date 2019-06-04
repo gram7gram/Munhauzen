@@ -3,6 +3,7 @@ package ua.gram.munhauzen.fragment;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -27,7 +28,8 @@ public class GameControlsFragment implements Disposable {
     private final String tag = getClass().getSimpleName();
     private final GameScreen gameScreen;
     private final AssetManager assetManager;
-    public Image soundButton, menuButton;
+    public Image soundButton, soundTailButton, menuButton, menuTailButton;
+    public Group soundGroup, menuGroup;
 
     public GameControlsFragment(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
@@ -38,40 +40,72 @@ public class GameControlsFragment implements Disposable {
 
         assetManager.load("GameScreen/b_booksound_off.png", Texture.class);
         assetManager.load("GameScreen/b_booksound_on.png", Texture.class);
+        assetManager.load("GameScreen/b_booksound_tail.png", Texture.class);
         assetManager.load("GameScreen/b_bookmenu.png", Texture.class);
+        assetManager.load("GameScreen/b_bookmenu_tail.png", Texture.class);
 
         assetManager.finishLoading();
 
         soundButton = new FitImage(getSoundButtonBackground());
 
+        soundTailButton = new FitImage(new SpriteDrawable(new Sprite(
+                assetManager.get("GameScreen/b_booksound_tail.png", Texture.class))));
+
         menuButton = new FitImage(new SpriteDrawable(new Sprite(
                 assetManager.get("GameScreen/b_bookmenu.png", Texture.class))));
+
+        menuTailButton = new FitImage(new SpriteDrawable(new Sprite(
+                assetManager.get("GameScreen/b_bookmenu_tail.png", Texture.class))));
 
         float width = MunhauzenGame.WORLD_WIDTH * .15f;
         float menuScale = 1f * width / menuButton.getWidth();
         float soundScale = 1f * width / soundButton.getWidth();
+        float menuTailScale = 1f * width / menuTailButton.getWidth();
+        float soundTailScale = 1f * width / soundTailButton.getWidth();
 
         menuButton.setWidth(width);
         menuButton.setHeight(menuButton.getHeight() * menuScale);
 
+        menuTailButton.setWidth(width);
+        menuTailButton.setHeight(menuTailButton.getHeight() * menuTailScale);
+
         soundButton.setWidth(width);
         soundButton.setHeight(soundButton.getHeight() * soundScale);
+
+        soundTailButton.setWidth(width);
+        soundTailButton.setHeight(soundTailButton.getHeight() * soundTailScale);
 
         soundButton.setPosition(
                 MunhauzenGame.WORLD_WIDTH - soundButton.getWidth() - menuButton.getWidth() - 10,
                 MunhauzenGame.WORLD_HEIGHT - soundButton.getHeight()
+        );
+        soundTailButton.setPosition(
+                soundButton.getX(),
+                soundButton.getY() - soundTailButton.getHeight()
         );
 
         menuButton.setPosition(
                 MunhauzenGame.WORLD_WIDTH - menuButton.getWidth() - 5,
                 MunhauzenGame.WORLD_HEIGHT - menuButton.getHeight()
         );
+        menuTailButton.setPosition(
+                menuButton.getX(),
+                menuButton.getY() - menuTailButton.getHeight()
+        );
 
-        soundButton.addAction(Actions.moveBy(0, soundButton.getHeight() * 3 / 5));
-        menuButton.addAction(Actions.moveBy(0, menuButton.getHeight() * 3 / 5));
+        soundGroup = new Group();
+        soundGroup.addActor(soundButton);
+        soundGroup.addActor(soundTailButton);
 
-        gameScreen.ui.addActor(soundButton);
-        gameScreen.ui.addActor(menuButton);
+        menuGroup = new Group();
+        menuGroup.addActor(menuButton);
+        menuGroup.addActor(menuTailButton);
+
+        soundGroup.addAction(Actions.moveBy(0, soundButton.getHeight()));
+        menuGroup.addAction(Actions.moveBy(0, menuButton.getHeight()));
+
+        gameScreen.ui.addActor(soundGroup);
+        gameScreen.ui.addActor(menuGroup);
 
         addListenersToSoundButton();
         addListenersToMenuButton();
@@ -87,33 +121,51 @@ public class GameControlsFragment implements Disposable {
 
     private void addListenersToMenuButton() {
 
-        final ClickListener slideDown = new ClickListener() {
+        final ClickListener slideUp = new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                menuButton.clearListeners();
-                menuButton.addListener(new ClickListener() {
-                    @Override
-                    public void clicked(InputEvent event, float x, float y) {
-                        super.clicked(event, x, y);
+                Log.i(tag, "Slide up menu");
 
-                        menuButton.clearActions();
+                menuGroup.clearActions();
+                menuGroup.addAction(
+                        Actions.sequence(
+                                Actions.moveBy(0, menuButton.getHeight(), .3f),
+                                Actions.run(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        addListenersToMenuButton();
+                                    }
+                                })
+                        )
+                );
+            }
+        };
 
-                        gameScreen.game.setScreen(new MainMenuScreen(gameScreen.game));
-                        gameScreen.dispose();
-                    }
-                });
+        menuTailButton.setTouchable(Touchable.enabled);
+        menuTailButton.clearListeners();
+        menuTailButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                Log.i(tag, "Slide down menu");
 
                 menuButton.setTouchable(Touchable.disabled);
+                menuTailButton.setTouchable(Touchable.disabled);
 
-                menuButton.addAction(
+                menuTailButton.clearListeners();
+                menuTailButton.addListener(slideUp);
+
+                menuGroup.addAction(
                         Actions.sequence(
-                                Actions.moveBy(0, -menuButton.getHeight() * 3 / 5, .3f),
+                                Actions.moveBy(0, -menuButton.getHeight(), .3f),
                                 Actions.run(new Runnable() {
                                     @Override
                                     public void run() {
                                         menuButton.setTouchable(Touchable.enabled);
+                                        menuTailButton.setTouchable(Touchable.enabled);
                                     }
                                 }),
                                 Actions.delay(5),
@@ -121,19 +173,17 @@ public class GameControlsFragment implements Disposable {
                                     @Override
                                     public void run() {
 
-                                        Log.i(tag, "Menu ignored, hiding...");
+                                        Log.i(tag, "Menu ignored, slide up...");
 
                                         menuButton.setTouchable(Touchable.disabled);
+                                        menuTailButton.setTouchable(Touchable.disabled);
 
-                                        menuButton.addAction(
+                                        menuGroup.addAction(
                                                 Actions.sequence(
-                                                        Actions.delay(.2f),
-                                                        Actions.moveBy(0, menuButton.getHeight() * 3 / 5, .3f),
+                                                        Actions.moveBy(0, menuButton.getHeight(), .3f),
                                                         Actions.run(new Runnable() {
                                                             @Override
                                                             public void run() {
-                                                                menuButton.setTouchable(Touchable.enabled);
-
                                                                 addListenersToMenuButton();
                                                             }
                                                         })
@@ -144,62 +194,72 @@ public class GameControlsFragment implements Disposable {
                         )
                 );
             }
-        };
+        });
 
         menuButton.setTouchable(Touchable.enabled);
         menuButton.clearListeners();
-        menuButton.addListener(slideDown);
-    }
-
-    private void addListenersToSoundButton() {
-
-        final ClickListener slideDown = new ClickListener() {
+        menuButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                soundButton.clearListeners();
-                soundButton.addListener(new ClickListener() {
-                    @Override
-                    public void clicked(InputEvent event, float x, float y) {
-                        super.clicked(event, x, y);
+                Log.i(tag, "Goto menu");
 
-                        soundButton.clearActions();
+                menuGroup.clearActions();
 
-                        GameState.isMute = !GameState.isMute;
+                gameScreen.game.setScreen(new MainMenuScreen(gameScreen.game));
+                gameScreen.dispose();
+            }
+        });
+    }
 
-                        Log.i(tag, "Sound is " + (!GameState.isMute ? "ON" : "OFF"));
+    private void addListenersToSoundButton() {
 
-                        soundButton.setDrawable(getSoundButtonBackground());
+        final ClickListener slideUp = new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
 
-                        soundButton.setTouchable(Touchable.disabled);
+                Log.i(tag, "Slide up sound");
 
-                        soundButton.addAction(
-                                Actions.sequence(
-                                        Actions.delay(.2f),
-                                        Actions.moveBy(0, soundButton.getHeight() * 3 / 5, .3f),
-                                        Actions.run(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                soundButton.setTouchable(Touchable.enabled);
+                soundGroup.clearActions();
+                soundGroup.addAction(
+                        Actions.sequence(
+                                Actions.moveBy(0, soundButton.getHeight(), .3f),
+                                Actions.run(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        addListenersToSoundButton();
+                                    }
+                                })
+                        )
+                );
+            }
+        };
 
-                                                addListenersToSoundButton();
-                                            }
-                                        })
-                                )
-                        );
-                    }
-                });
+        soundTailButton.setTouchable(Touchable.enabled);
+        soundTailButton.clearListeners();
+        soundTailButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                Log.i(tag, "Slide down sound");
 
                 soundButton.setTouchable(Touchable.disabled);
+                soundTailButton.setTouchable(Touchable.disabled);
 
-                soundButton.addAction(
+                soundTailButton.clearListeners();
+                soundTailButton.addListener(slideUp);
+
+                soundGroup.addAction(
                         Actions.sequence(
-                                Actions.moveBy(0, -soundButton.getHeight() * 3 / 5, .3f),
+                                Actions.moveBy(0, -soundButton.getHeight(), .3f),
                                 Actions.run(new Runnable() {
                                     @Override
                                     public void run() {
                                         soundButton.setTouchable(Touchable.enabled);
+                                        soundTailButton.setTouchable(Touchable.enabled);
                                     }
                                 }),
                                 Actions.delay(5),
@@ -207,19 +267,17 @@ public class GameControlsFragment implements Disposable {
                                     @Override
                                     public void run() {
 
-                                        Log.i(tag, "Sound ignored, hiding...");
+                                        Log.i(tag, "Sound ignored, slide up...");
 
                                         soundButton.setTouchable(Touchable.disabled);
+                                        soundTailButton.setTouchable(Touchable.disabled);
 
-                                        soundButton.addAction(
+                                        soundGroup.addAction(
                                                 Actions.sequence(
-                                                        Actions.delay(.2f),
-                                                        Actions.moveBy(0, soundButton.getHeight() * 3 / 5, .3f),
+                                                        Actions.moveBy(0, soundButton.getHeight(), .3f),
                                                         Actions.run(new Runnable() {
                                                             @Override
                                                             public void run() {
-                                                                soundButton.setTouchable(Touchable.enabled);
-
                                                                 addListenersToSoundButton();
                                                             }
                                                         })
@@ -230,17 +288,47 @@ public class GameControlsFragment implements Disposable {
                         )
                 );
             }
-        };
+        });
 
         soundButton.setTouchable(Touchable.enabled);
         soundButton.clearListeners();
-        soundButton.addListener(slideDown);
+        soundButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                soundGroup.clearActions();
+
+                GameState.isMute = !GameState.isMute;
+
+                Log.i(tag, "Sound is " + (!GameState.isMute ? "ON" : "OFF"));
+
+                soundButton.setDrawable(getSoundButtonBackground());
+
+                soundButton.setTouchable(Touchable.disabled);
+                soundTailButton.setTouchable(Touchable.disabled);
+
+                soundGroup.clearActions();
+                soundGroup.addAction(
+                        Actions.sequence(
+                                Actions.delay(.5f),
+                                Actions.moveBy(0, soundButton.getHeight(), .3f),
+                                Actions.run(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        addListenersToSoundButton();
+                                    }
+                                })
+                        )
+                );
+            }
+        });
     }
 
     @Override
     public void dispose() {
         assetManager.dispose();
-        menuButton.remove();
-        soundButton.remove();
+        menuGroup.remove();
+        soundGroup.remove();
     }
 }
