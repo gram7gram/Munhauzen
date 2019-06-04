@@ -61,7 +61,7 @@ public class ScenarioFragment implements Disposable {
         this.game = gameScreen.game;
         this.gameScreen = gameScreen;
         assetManager = new AssetManager();
-        buttonList =new ArrayList<>(4);
+        buttonList = new ArrayList<>(4);
 
         animatedMap.put(0, "GameScreen/an_letter_sheet_A.png");
         animatedMap.put(1, "GameScreen/an_letter_sheet_B.png");
@@ -108,6 +108,9 @@ public class ScenarioFragment implements Disposable {
         Texture drawableTop = assetManager.get("GameScreen/b_star_game.png", Texture.class);
 
         final Table buttons = new Table();
+        buttons.add()
+                .height(gameScreen.progressBarFragment.root.getHeight() - 20)
+                .row();
 
         for (int i = 0; i < decisions.size(); i++) {
 
@@ -203,6 +206,10 @@ public class ScenarioFragment implements Disposable {
 
         }
 
+        buttons.add()
+                .height(gameScreen.progressBarFragment.root.getHeight() + 20)
+                .row();
+
         ScrollPane scrollPane = new ScrollPane(buttons);
         scrollPane.setScrollingDisabled(true, false);
 
@@ -218,9 +225,7 @@ public class ScenarioFragment implements Disposable {
         Table table = new Table();
         table.setFillParent(true);
         table.add(scrollPane)
-                .top().expand().fill()
-                .padTop(gameScreen.progressBarFragment.root.getHeight() - 20)
-                .padBottom(gameScreen.progressBarFragment.root.getHeight() - 20);
+                .top().expand().fill();
 
         decorLeft = new Table();
         decorLeft.add(imgLeft).align(Align.topLeft).expand()
@@ -238,10 +243,10 @@ public class ScenarioFragment implements Disposable {
                 .height(MunhauzenGame.WORLD_HEIGHT / 4f);
 
         root = new Stack();
+        root.add(table);
         root.add(decorLeft);
         root.add(decorTop);
         root.add(decorRight);
-        root.add(table);
 
         fadeIn();
 
