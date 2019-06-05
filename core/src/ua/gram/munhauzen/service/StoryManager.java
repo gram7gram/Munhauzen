@@ -11,14 +11,14 @@ import ua.gram.munhauzen.entity.Decision;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.Inventory;
 import ua.gram.munhauzen.entity.Scenario;
-import ua.gram.munhauzen.repository.InventoryRepository;
-import ua.gram.munhauzen.repository.ScenarioRepository;
 import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.entity.StoryImage;
 import ua.gram.munhauzen.entity.StoryScenario;
 import ua.gram.munhauzen.fragment.ScenarioFragment;
 import ua.gram.munhauzen.history.Save;
+import ua.gram.munhauzen.repository.InventoryRepository;
+import ua.gram.munhauzen.repository.ScenarioRepository;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.utils.Log;
 import ua.gram.munhauzen.utils.StringUtils;
@@ -47,7 +47,7 @@ public class StoryManager {
 
         story.init();
 
-        String log = "create " + story.id + " x" + story.scenarios.size;
+        String log = "create " + story.id + " x" + story.scenarios.size + "\r\n";
 
         for (StoryScenario storyScenario : story.scenarios) {
             log += storyScenario.startsAt + "-" + storyScenario.finishesAt + " " + storyScenario.scenario.name + "\r\n";
@@ -118,9 +118,9 @@ public class StoryManager {
         story.update(progress, duration);
     }
 
-    public void startLoadingResources(Story story) {
+    public void startLoadingResources() {
 
-        Log.i(tag, "startLoadingResources");
+        Story story = gameState.history.activeSave.story;
 
         StoryScenario option = story.currentScenario;
         if (option == null) return;
@@ -130,7 +130,11 @@ public class StoryManager {
             gameScreen.audioService.prepare(optionAudio, new Timer.Task() {
                 @Override
                 public void run() {
-                    gameScreen.audioService.onPrepared(optionAudio);
+                    try {
+                        gameScreen.audioService.onPrepared(optionAudio);
+                    } catch (Throwable e) {
+                        Log.e(tag, e);
+                    }
                 }
             });
 
@@ -149,7 +153,11 @@ public class StoryManager {
             gameScreen.imageService.prepare(optionImage, new Timer.Task() {
                 @Override
                 public void run() {
-                    gameScreen.imageService.onPrepared(optionImage);
+                    try {
+                        gameScreen.imageService.onPrepared(optionImage);
+                    } catch (Throwable e) {
+                        Log.e(tag, e);
+                    }
                 }
             });
 

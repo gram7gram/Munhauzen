@@ -166,6 +166,16 @@ public class ScenarioFragment implements Disposable {
 
                     fadeOutDecoration();
 
+                    try {
+                        Story newStory = gameScreen.scenarioManager.create(decision.scenario);
+
+                        game.gameState.history.activeSave.story = newStory;
+                    } catch (Throwable e) {
+                        Log.e(tag, e);
+                    }
+
+                    gameScreen.scenarioManager.startLoadingResources();
+
                     //let cannon animation complete...
                     Timer.schedule(new Timer.Task() {
                         @Override
@@ -189,16 +199,6 @@ public class ScenarioFragment implements Disposable {
                                 } else {
                                     button.addAction(Actions.fadeOut(.5f));
                                 }
-                            }
-
-                            try {
-                                Story newStory = gameScreen.scenarioManager.create(decision.scenario);
-
-                                game.gameState.history.activeSave.story = newStory;
-
-                                gameScreen.scenarioManager.startLoadingResources(newStory);
-                            } catch (Throwable e) {
-                                Log.e(tag, e);
                             }
                         }
                     }, 1);

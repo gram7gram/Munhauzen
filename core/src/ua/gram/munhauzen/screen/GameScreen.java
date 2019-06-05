@@ -99,7 +99,7 @@ public class GameScreen implements Screen {
 
         Story story = game.gameState.history.activeSave.story;
         if (story != null && story.isValid()) {
-            scenarioManager.startLoadingResources(story);
+            scenarioManager.startLoadingResources();
         }
     }
 
@@ -265,7 +265,7 @@ public class GameScreen implements Screen {
                     scenarioManager.onCompleted();
 
                 } else {
-                    scenarioManager.startLoadingResources(story);
+                    scenarioManager.startLoadingResources();
                 }
             }
         }
@@ -281,8 +281,8 @@ public class GameScreen implements Screen {
         ui.act(delta);
         ui.draw();
 
-        //if (MunhauzenGame.DEBUG)
-        //    drawDebugInfo();
+        if (MunhauzenGame.DEBUG)
+            drawDebugInfo();
     }
 
     private void drawDebugInfo() {

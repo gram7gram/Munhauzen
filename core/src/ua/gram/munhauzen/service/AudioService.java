@@ -1,6 +1,7 @@
 package ua.gram.munhauzen.service;
 
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.Timer;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public class AudioService {
     }
 
     public void prepare(StoryAudio item, Timer.Task onComplete) {
-        if (item.isPrepared) {
+        if (item.isPrepared && item.player != null) {
             if (item.isLocked && !item.isActive) {
                 Timer.post(onComplete);
             }
@@ -77,9 +78,13 @@ public class AudioService {
 
         if (!item.isLocked) return;
         if (GameState.isPaused) return;
+        if (item.isActive) return;
 
         Log.i(tag, "onPrepared " + item.audio
                 + " in " + DateUtils.getDateDiff(item.prepareCompletedAt, item.prepareStartedAt, TimeUnit.MILLISECONDS) + "ms");
+
+        item.prepareCompletedAt = null;
+        item.prepareStartedAt = null;
 
         playAudio(item);
     }

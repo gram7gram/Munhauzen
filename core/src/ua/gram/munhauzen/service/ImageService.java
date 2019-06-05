@@ -3,6 +3,7 @@ package ua.gram.munhauzen.service;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.Timer;
 
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.Scenario;
 import ua.gram.munhauzen.entity.StoryImage;
 import ua.gram.munhauzen.entity.Story;
@@ -35,7 +37,7 @@ public class ImageService {
     }
 
     public void prepare(StoryImage item, Timer.Task onComplete) {
-        if (item.isPrepared) {
+        if (item.isPrepared && item.drawable != null) {
             if (item.isLocked && !item.isActive) {
                 Timer.post(onComplete);
             }
@@ -81,11 +83,16 @@ public class ImageService {
     public void onPrepared(StoryImage item) {
 
         if (!item.isLocked) return;
+        if (GameState.isPaused) return;
+        if (item.isActive) return;
 
         Log.i(tag, "onPrepared " + item.image
                 + " " + item.drawable.getMinWidth() + "x" + item.drawable.getMinHeight()
                 + " (" + MunhauzenGame.WORLD_WIDTH + "x" + MunhauzenGame.WORLD_HEIGHT + ")"
                 + " in " + DateUtils.getDateDiff(item.prepareCompletedAt, item.prepareStartedAt, TimeUnit.MILLISECONDS) + "ms");
+
+        item.prepareCompletedAt = null;
+        item.prepareStartedAt = null;
 
         displayImage(item);
     }
