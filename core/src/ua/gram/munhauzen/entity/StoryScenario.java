@@ -1,5 +1,7 @@
 package ua.gram.munhauzen.entity;
 
+import ua.gram.munhauzen.MunhauzenGame;
+
 public class StoryScenario extends StoryMedia<StoryScenario> {
 
     public int duration;
@@ -17,8 +19,11 @@ public class StoryScenario extends StoryMedia<StoryScenario> {
 
         for (int i = 0; i < size; i++) {
             StoryImage current = scenario.images.get(i);
-            if (current.duration == 0) {
-                current.duration = 1000;
+
+            if (MunhauzenGame.DEBUG) {
+                if (current.duration == 0) {
+                    current.duration = 1000;
+                }
             }
 
             current.isLocked = false;
@@ -56,8 +61,11 @@ public class StoryScenario extends StoryMedia<StoryScenario> {
 
         for (int i = 0; i < size; i++) {
             StoryAudio current = scenario.audio.get(i);
-            if (current.duration == 0) {
-                current.duration = 2000;
+
+            if (MunhauzenGame.DEBUG) {
+                if (current.duration == 0) {
+                    current.duration = 2000;
+                }
             }
 
             current.isLocked = false;

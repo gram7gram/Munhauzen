@@ -3,7 +3,6 @@ package ua.gram.munhauzen.service;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
-import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.Timer;
 
 import java.util.ArrayList;
@@ -13,8 +12,8 @@ import java.util.concurrent.TimeUnit;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.Scenario;
-import ua.gram.munhauzen.entity.StoryImage;
 import ua.gram.munhauzen.entity.Story;
+import ua.gram.munhauzen.entity.StoryImage;
 import ua.gram.munhauzen.entity.StoryScenario;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.transition.FadeTransition;
@@ -44,14 +43,19 @@ public class ImageService {
             return;
         }
 
-        ArrayList<String> randomResources = new ArrayList<>();
-        randomResources.add("images/image1.jpg");
-        randomResources.add("images/image2.jpg");
-        randomResources.add("images/image3.jpg");
-        randomResources.add("images/image4.jpg");
-        randomResources.add("images/image5.jpg");
+        String resource;
+        if (MunhauzenGame.DEBUG) {
+            ArrayList<String> randomResources = new ArrayList<>();
+            randomResources.add("images/image1.jpg");
+            randomResources.add("images/image2.jpg");
+            randomResources.add("images/image3.jpg");
+            randomResources.add("images/image4.jpg");
+            randomResources.add("images/image5.jpg");
 
-        String resource = MathUtils.random(randomResources); //item.getResource();
+            resource = MathUtils.random(randomResources);
+        } else {
+            resource = item.getResource();
+        }
 
         boolean isLoaded = gameScreen.assetManager.isLoaded(resource, Texture.class);
 

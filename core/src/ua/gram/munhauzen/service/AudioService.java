@@ -1,16 +1,16 @@
 package ua.gram.munhauzen.service;
 
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.Timer;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.GameState;
-import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.entity.Story;
+import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.entity.StoryScenario;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.utils.DateUtils;
@@ -36,17 +36,21 @@ public class AudioService {
             }
             return;
         }
+        String resource;
+        if (MunhauzenGame.DEBUG) {
+            ArrayList<String> randomResources = new ArrayList<>();
+            randomResources.add("audio/audio1.ogg");
+            randomResources.add("audio/audio2.ogg");
+            randomResources.add("audio/audio3.ogg");
+            randomResources.add("audio/audio4.ogg");
+            randomResources.add("audio/audio5.ogg");
+            randomResources.add("audio/audio6.ogg");
+            randomResources.add("audio/audio7.ogg");
 
-        ArrayList<String> randomResources = new ArrayList<>();
-        randomResources.add("audio/audio1.ogg");
-        randomResources.add("audio/audio2.ogg");
-        randomResources.add("audio/audio3.ogg");
-        randomResources.add("audio/audio4.ogg");
-        randomResources.add("audio/audio5.ogg");
-        randomResources.add("audio/audio6.ogg");
-        randomResources.add("audio/audio7.ogg");
-
-        String resource = MathUtils.random(randomResources); //item.getResource();
+            resource = MathUtils.random(randomResources);
+        } else {
+            resource = item.getResource();
+        }
 
         boolean isLoaded = gameScreen.assetManager.isLoaded(resource, Music.class);
 
