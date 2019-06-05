@@ -22,11 +22,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.Timer;
 
+import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.entity.StoryScenario;
 import ua.gram.munhauzen.screen.GameScreen;
+import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.utils.Log;
 
 /**
@@ -65,8 +67,9 @@ public class ProgressBarFragment implements Disposable {
         assetManager.load("ui/playbar_skip_forward.png", Texture.class);
         assetManager.load("ui/playbar_skip_forward_off.png", Texture.class);
 
-        assetManager.load("ui/player_progress_bar.9.png", Texture.class);
-        assetManager.load("ui/player_progress_bar_right.9.png", Texture.class);
+        assetManager.load("ui/elements_player_fond_1.png", Texture.class);
+        assetManager.load("ui/elements_player_fond_2.png", Texture.class);
+        assetManager.load("ui/elements_player_fond_3.png", Texture.class);
         assetManager.load("ui/player_progress_bar_progress.9.jpg", Texture.class);
         assetManager.load("ui/player_progress_bar_knob.png", Texture.class);
 
@@ -74,18 +77,9 @@ public class ProgressBarFragment implements Disposable {
 
         Texture line = assetManager.get("ui/player_progress_bar_progress.9.jpg", Texture.class);
         Texture knob = assetManager.get("ui/player_progress_bar_knob.png", Texture.class);
-        Texture backLeft = assetManager.get("ui/player_progress_bar.9.png", Texture.class);
-        Texture backRight = assetManager.get("ui/player_progress_bar_right.9.png", Texture.class);
-        Texture pause = assetManager.get("ui/playbar_pause.png", Texture.class);
-        Texture play = assetManager.get("ui/playbar_play.png", Texture.class);
-        Texture rewindBack = assetManager.get("ui/playbar_rewind_backward.png", Texture.class);
-        Texture rewindBackOff = assetManager.get("ui/playbar_rewind_backward_off.png", Texture.class);
-        Texture rewindForward = assetManager.get("ui/playbar_rewind_forward.png", Texture.class);
-        Texture rewindForwardOff = assetManager.get("ui/playbar_rewind_forward_off.png", Texture.class);
-        Texture skipBack = assetManager.get("ui/playbar_skip_backward.png", Texture.class);
-        Texture skipBackOff = assetManager.get("ui/playbar_skip_backward_off.png", Texture.class);
-        Texture skipForward = assetManager.get("ui/playbar_skip_forward.png", Texture.class);
-        Texture skipForwardOff = assetManager.get("ui/playbar_skip_forward_off.png", Texture.class);
+        Texture backTexture = assetManager.get("ui/elements_player_fond_1.png", Texture.class);
+        Texture sideTexture = assetManager.get("ui/elements_player_fond_3.png", Texture.class);
+        Texture centerTexture = assetManager.get("ui/elements_player_fond_2.png", Texture.class);
 
         Sprite knobSprite = new Sprite(knob);
 
@@ -98,59 +92,29 @@ public class ProgressBarFragment implements Disposable {
 
         bar = new ProgressBar(0, 100, 1, false, barStyle);
 
-        Image barBackgroundImageLeft = new Image(new NinePatchDrawable(new NinePatch(
-                backLeft,
-                130, 500 - 270, 0, 0
-        )));
+        Sprite sideLeftSprite = new Sprite(sideTexture);
+        Sprite sideRightSprite = new Sprite(sideTexture);
+        sideRightSprite.setFlip(true, true);
 
-        Image barBackgroundImageRight = new Image(new NinePatchDrawable(new NinePatch(
-                backRight,
-                260, 500 - 360, 0, 0
-        )));
+        Image barBackgroundImage = new Image(backTexture);
+        Image sideLeftDecor = new FitImage(new SpriteDrawable(sideLeftSprite));
+        Image sideRightDecor = new FitImage(new SpriteDrawable(sideRightSprite));
+        Image centerDecor = new FitImage(centerTexture);
 
-        ImageButton.ImageButtonStyle skipBackStyle = new ImageButton.ImageButtonStyle();
-        skipBackStyle.up = new SpriteDrawable(new Sprite(skipBack));
-        skipBackStyle.down = new SpriteDrawable(new Sprite(skipBack));
-        skipBackStyle.disabled = new SpriteDrawable(new Sprite(skipBackOff));
-
-        ImageButton.ImageButtonStyle rewindBackStyle = new ImageButton.ImageButtonStyle();
-        rewindBackStyle.up = new SpriteDrawable(new Sprite(rewindBack));
-        rewindBackStyle.down = new SpriteDrawable(new Sprite(rewindBack));
-        rewindBackStyle.disabled = new SpriteDrawable(new Sprite(rewindBackOff));
-
-        ImageButton.ImageButtonStyle playStyle = new ImageButton.ImageButtonStyle();
-        playStyle.up = new SpriteDrawable(new Sprite(play));
-        playStyle.down = new SpriteDrawable(new Sprite(play));
-        playStyle.disabled = new SpriteDrawable(new Sprite(play));
-
-        ImageButton.ImageButtonStyle pauseStyle = new ImageButton.ImageButtonStyle();
-        pauseStyle.up = new SpriteDrawable(new Sprite(pause));
-        pauseStyle.down = new SpriteDrawable(new Sprite(pause));
-        pauseStyle.disabled = new SpriteDrawable(new Sprite(pause));
-
-        ImageButton.ImageButtonStyle rewindForwardStyle = new ImageButton.ImageButtonStyle();
-        rewindForwardStyle.up = new SpriteDrawable(new Sprite(rewindForward));
-        rewindForwardStyle.down = new SpriteDrawable(new Sprite(rewindForward));
-        rewindForwardStyle.disabled = new SpriteDrawable(new Sprite(rewindForwardOff));
-
-        ImageButton.ImageButtonStyle skipForwardStyle = new ImageButton.ImageButtonStyle();
-        skipForwardStyle.up = new SpriteDrawable(new Sprite(skipForward));
-        skipForwardStyle.down = new SpriteDrawable(new Sprite(skipForward));
-        skipForwardStyle.disabled = new SpriteDrawable(new Sprite(skipForwardOff));
-
-        skipBackButton = new ImageButton(skipBackStyle);
-        rewindBackButton = new ImageButton(rewindBackStyle);
-        playButton = new ImageButton(playStyle);
-        pauseButton = new ImageButton(pauseStyle);
-        rewindForwardButton = new ImageButton(rewindForwardStyle);
-        skipForwardButton = new ImageButton(skipForwardStyle);
+        skipBackButton = getSkipBack();
+        rewindBackButton = getRewindBack();
+        playButton = getPlay();
+        pauseButton = getPause();
+        rewindForwardButton = getRewindForward();
+        skipForwardButton = getSkipForward();
 
         Stack playPauseGroup = new Stack();
         playPauseGroup.add(playButton);
         playPauseGroup.add(pauseButton);
 
-        int controlsSize = 50;
+        int controlsSize = MunhauzenGame.WORLD_HEIGHT / 20;
         int fragmentHeight = controlsSize * 4;
+        int decorHeight = fragmentHeight - controlsSize + 5;
 
         float originalKnobHeight = barStyle.knob.getMinHeight();
         float knobScale = originalKnobHeight > 0 ? 1f * controlsSize / originalKnobHeight : 1;
@@ -166,16 +130,32 @@ public class ProgressBarFragment implements Disposable {
         controlsTable.add(skipForwardButton).expandX().right().width(controlsSize).height(controlsSize);
 
         Table barTable = new Table();
-        barTable.pad(40, 100, 40, 100);
+        barTable.pad(controlsSize, controlsSize * 2, controlsSize, controlsSize * 2);
         barTable.add(controlsTable).padTop(5).padBottom(5).fillX().expandX().row();
         barTable.add(bar).fillX().expandX().height(controlsSize).row();
 
         Table backgroundContainer = new Table();
-        backgroundContainer.add(barBackgroundImageLeft).fillX().expandX().height(fragmentHeight);
-        backgroundContainer.add(barBackgroundImageRight).fillX().expandX().height(fragmentHeight);
+        backgroundContainer.add(barBackgroundImage).fill().expand().height(fragmentHeight);
+
+        Table decorLeftContainer = new Table();
+        decorLeftContainer.add(sideLeftDecor).left().expand()
+                .width(sideLeftDecor.getWidth() * (1f * decorHeight / sideLeftDecor.getHeight()))
+                .height(decorHeight);
+
+        Table decorCenterContainer = new Table();
+        decorCenterContainer.add(centerDecor).top().expand().padTop(20)
+            .width(MunhauzenGame.WORLD_WIDTH / 2f);
+
+        Table decorRightContainer = new Table();
+        decorRightContainer.add(sideRightDecor).right().expand()
+                .width(sideRightDecor.getWidth() * (1f * decorHeight / sideRightDecor.getHeight()))
+                .height(decorHeight);
 
         root = new Stack();
         root.addActor(backgroundContainer);
+        root.addActor(decorLeftContainer);
+        root.addActor(decorCenterContainer);
+        root.addActor(decorRightContainer);
         root.addActor(barTable);
 
         playButton.addListener(new ClickListener() {
@@ -548,5 +528,75 @@ public class ProgressBarFragment implements Disposable {
             root.remove();
             root = null;
         }
+    }
+
+    private ImageButton getSkipBack() {
+        Texture skipBack = assetManager.get("ui/playbar_skip_backward.png", Texture.class);
+        Texture skipBackOff = assetManager.get("ui/playbar_skip_backward_off.png", Texture.class);
+
+        ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
+        style.up = new SpriteDrawable(new Sprite(skipBack));
+        style.down = new SpriteDrawable(new Sprite(skipBack));
+        style.disabled = new SpriteDrawable(new Sprite(skipBackOff));
+
+        return new ImageButton(style);
+    }
+
+    private ImageButton getRewindBack() {
+        Texture rewindBack = assetManager.get("ui/playbar_rewind_backward.png", Texture.class);
+        Texture rewindBackOff = assetManager.get("ui/playbar_rewind_backward_off.png", Texture.class);
+
+        ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
+        style.up = new SpriteDrawable(new Sprite(rewindBack));
+        style.down = new SpriteDrawable(new Sprite(rewindBack));
+        style.disabled = new SpriteDrawable(new Sprite(rewindBackOff));
+
+        return new ImageButton(style);
+    }
+
+    private ImageButton getRewindForward() {
+        Texture rewindForward = assetManager.get("ui/playbar_rewind_forward.png", Texture.class);
+        Texture rewindForwardOff = assetManager.get("ui/playbar_rewind_forward_off.png", Texture.class);
+
+        ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
+        style.up = new SpriteDrawable(new Sprite(rewindForward));
+        style.down = new SpriteDrawable(new Sprite(rewindForward));
+        style.disabled = new SpriteDrawable(new Sprite(rewindForwardOff));
+
+        return new ImageButton(style);
+    }
+
+    private ImageButton getSkipForward() {
+        Texture skipForward = assetManager.get("ui/playbar_skip_forward.png", Texture.class);
+        Texture skipForwardOff = assetManager.get("ui/playbar_skip_forward_off.png", Texture.class);
+
+        ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
+        style.up = new SpriteDrawable(new Sprite(skipForward));
+        style.down = new SpriteDrawable(new Sprite(skipForward));
+        style.disabled = new SpriteDrawable(new Sprite(skipForwardOff));
+
+        return new ImageButton(style);
+    }
+
+    private ImageButton getPause() {
+        Texture pause = assetManager.get("ui/playbar_pause.png", Texture.class);
+
+        ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
+        style.up = new SpriteDrawable(new Sprite(pause));
+        style.down = new SpriteDrawable(new Sprite(pause));
+        style.disabled = new SpriteDrawable(new Sprite(pause));
+
+        return new ImageButton(style);
+    }
+
+    private ImageButton getPlay() {
+        Texture play = assetManager.get("ui/playbar_play.png", Texture.class);
+
+        ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
+        style.up = new SpriteDrawable(new Sprite(play));
+        style.down = new SpriteDrawable(new Sprite(play));
+        style.disabled = new SpriteDrawable(new Sprite(play));
+
+        return new ImageButton(style);
     }
 }

@@ -21,6 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.Timer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -55,13 +56,16 @@ public class ScenarioFragment implements Disposable {
     private final ArrayList<Actor> buttonList;
     private final HashMap<Integer, String> map = new HashMap<>(7);
     private final HashMap<Integer, String> animatedMap = new HashMap<>(7);
-    final int headerSize = 50;
+    private final float headerSize, buttonSize;
 
     public ScenarioFragment(GameScreen gameScreen) {
         this.game = gameScreen.game;
         this.gameScreen = gameScreen;
         assetManager = new AssetManager();
         buttonList = new ArrayList<>(4);
+
+        headerSize = MunhauzenGame.WORLD_HEIGHT / 20f;
+        buttonSize = MunhauzenGame.WORLD_WIDTH * 3 / 4f;
 
         animatedMap.put(0, "GameScreen/an_letter_sheet_A.png");
         animatedMap.put(1, "GameScreen/an_letter_sheet_B.png");
@@ -135,11 +139,9 @@ public class ScenarioFragment implements Disposable {
                 text = translation.text;
             }
 
-            float bounds = MunhauzenGame.WORLD_WIDTH * 3 / 4f;
-
             final int currentIndex = i;
 
-            Actor button = primaryDecision(text, i, bounds, new ClickListener() {
+            Actor button = primaryDecision(text, i, buttonSize, new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     super.clicked(event, x, y);
@@ -149,7 +151,7 @@ public class ScenarioFragment implements Disposable {
                     Sound sfx = assetManager.get("sfx/sfx_decision.mp3", Sound.class);
                     sfx.play();
 
-                    Runnable onComplete = new Runnable() {
+                    final Runnable onComplete = new Runnable() {
                         @Override
                         public void run() {
 
@@ -164,43 +166,49 @@ public class ScenarioFragment implements Disposable {
 
                     fadeOutDecoration();
 
-                    for (Actor button : buttonList) {
+                    //let cannon animation complete...
+                    Timer.schedule(new Timer.Task() {
+                        @Override
+                        public void run() {
+                            for (Actor button : buttonList) {
 
-                        boolean isCurrent = buttonList.indexOf(button) == currentIndex;
+                                boolean isCurrent = buttonList.indexOf(button) == currentIndex;
 
-                        button.setTouchable(Touchable.disabled);
+                                button.setTouchable(Touchable.disabled);
 
-                        Log.i(tag, "fadeOut button " + (isCurrent ? "+" : "-"));
+                                Log.i(tag, "fadeOut button " + (isCurrent ? "+" : "-"));
 
-                        if (isCurrent) {
-                            button.addAction(
-                                    Actions.sequence(
-                                            Actions.delay(.5f),
-                                            Actions.fadeOut(.5f),
-                                            Actions.run(onComplete)
-                                    )
-                            );
-                        } else {
-                            button.addAction(Actions.fadeOut(.5f));
+                                if (isCurrent) {
+                                    button.addAction(
+                                            Actions.sequence(
+                                                    Actions.delay(.5f),
+                                                    Actions.fadeOut(.5f),
+                                                    Actions.run(onComplete)
+                                            )
+                                    );
+                                } else {
+                                    button.addAction(Actions.fadeOut(.5f));
+                                }
+                            }
+
+                            try {
+                                Story newStory = gameScreen.scenarioManager.create(decision.scenario);
+
+                                game.gameState.history.activeSave.story = newStory;
+
+                                gameScreen.scenarioManager.startLoadingResources(newStory);
+                            } catch (Throwable e) {
+                                Log.e(tag, e);
+                            }
                         }
-                    }
-
-                    try {
-                        Story newStory = gameScreen.scenarioManager.create(decision.scenario);
-
-                        game.gameState.history.activeSave.story = newStory;
-
-                        gameScreen.scenarioManager.startLoadingResources(newStory);
-                    } catch (Throwable e) {
-                        Log.e(tag, e);
-                    }
+                    }, 1);
                 }
             });
 
             buttonList.add(button);
 
             buttons.add(button)
-                    .width(bounds)
+                    .width(buttonSize)
                     .maxWidth(1000)
                     .pad(10).row();
 
@@ -363,7 +371,7 @@ public class ScenarioFragment implements Disposable {
                 .height(label.getHeight())
                 .expandX().row();
         table.add(backBottom)
-                .expandX().height(headerSize).row();
+                .expandX().height(50).row();
 
         final Stack header = createDefaultHeader(index);
 
@@ -418,18 +426,18 @@ public class ScenarioFragment implements Disposable {
         Table layer1 = new Table();
         layer1.add(left).expand()
                 .align(Align.topLeft)
-                .padLeft(headerSize * 1.2f)
+                .padLeft(buttonSize / 2 - headerSize  * 3)
                 .height(headerSize).width(headerSize * 2);
 
         Table layer2 = new Table();
         layer2.add(center).expand()
-                .align(Align.top)//.padLeft(30)
+                .align(Align.top)
                 .size(headerSize);
 
         Table layer3 = new Table();
         layer3.add(right).expand()
                 .align(Align.topRight)
-                .padRight(headerSize * 1.2f)
+                .padRight(buttonSize / 2 - headerSize  * 3)
                 .height(headerSize).width(headerSize * 2);
 
         Stack root = new Stack();
@@ -470,7 +478,7 @@ public class ScenarioFragment implements Disposable {
         Table layer1 = new Table();
         layer1.add(left).expand()
                 .align(Align.topLeft)
-                .padLeft(headerSize * 1.2f)
+                .padLeft(buttonSize / 2 - headerSize  * 3)
                 .height(headerSize).width(headerSize * 2);
 
         Table layer2 = new Table();
@@ -481,7 +489,7 @@ public class ScenarioFragment implements Disposable {
         Table layer3 = new Table();
         layer3.add(right).expand()
                 .align(Align.topRight)
-                .padRight(headerSize * 1.2f)
+                .padRight(buttonSize / 2 - headerSize  * 3)
                 .height(headerSize).width(headerSize * 2);
 
         Stack root = new Stack();
