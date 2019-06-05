@@ -143,7 +143,7 @@ public class ProgressBarFragment implements Disposable {
                 .height(decorHeight);
 
         Table decorCenterContainer = new Table();
-        decorCenterContainer.add(centerDecor).top().expand().padTop(20)
+        decorCenterContainer.add(centerDecor).top().expand().padTop(controlsSize / 2f)
             .width(MunhauzenGame.WORLD_WIDTH / 2f);
 
         Table decorRightContainer = new Table();

@@ -121,7 +121,7 @@ public class ImageService {
 
     public void toggleLevel1Overlay() {
 
-        int height = 150;
+        int height = Math.min(150, MunhauzenGame.WORLD_HEIGHT / 20);
 
         boolean isOverlayVisible = gameScreen.layer1Image.getHeight() < MunhauzenGame.WORLD_HEIGHT;
 
