@@ -24,8 +24,8 @@ import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.GameState;
-import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.entity.Story;
+import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.entity.StoryScenario;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.ui.FitImage;
@@ -144,7 +144,7 @@ public class ProgressBarFragment implements Disposable {
 
         Table decorCenterContainer = new Table();
         decorCenterContainer.add(centerDecor).top().expand().padTop(controlsSize / 2f)
-            .width(MunhauzenGame.WORLD_WIDTH / 2f);
+                .width(MunhauzenGame.WORLD_WIDTH / 2f);
 
         Table decorRightContainer = new Table();
         decorRightContainer.add(sideRightDecor).right().expand()
@@ -483,6 +483,7 @@ public class ProgressBarFragment implements Disposable {
             fadeOutTask.cancel();
         }
 
+        root.setVisible(true);
         root.setTouchable(Touchable.enabled);
         root.clearActions();
         root.addAction(
@@ -499,9 +500,17 @@ public class ProgressBarFragment implements Disposable {
         root.setTouchable(Touchable.disabled);
         root.clearActions();
         root.addAction(
-                Actions.parallel(
-                        Actions.fadeOut(.5f),
-                        Actions.moveTo(0, -40, .5f)
+                Actions.sequence(
+                        Actions.parallel(
+                                Actions.fadeOut(.5f),
+                                Actions.moveTo(0, -40, .5f)
+                        ),
+                        Actions.run(new Runnable() {
+                            @Override
+                            public void run() {
+                                root.setVisible(false);
+                            }
+                        })
                 )
         );
     }

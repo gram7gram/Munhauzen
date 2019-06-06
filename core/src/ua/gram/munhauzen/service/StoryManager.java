@@ -214,11 +214,16 @@ public class StoryManager {
             gameScreen.scenarioFragment = null;
         }
 
+        if (gameScreen.gameLayers.storeDecisionsLayer != null) {
+            gameScreen.gameLayers.storeDecisionsLayer.remove();
+            gameScreen.gameLayers.storeDecisionsLayer = null;
+        }
+
         if (availableDecisions.size() > 0) {
             gameScreen.scenarioFragment = new ScenarioFragment(gameScreen);
 
             gameScreen.progressBarFragment.fadeIn();
-            gameScreen.setStoryDecisionsLayer(
+            gameScreen.gameLayers.setStoryDecisionsLayer(
                     gameScreen.scenarioFragment.create(availableDecisions)
             );
         }

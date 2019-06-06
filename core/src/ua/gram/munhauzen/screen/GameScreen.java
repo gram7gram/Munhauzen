@@ -37,6 +37,7 @@ import ua.gram.munhauzen.service.ImageService;
 import ua.gram.munhauzen.service.InventoryService;
 import ua.gram.munhauzen.service.StoryManager;
 import ua.gram.munhauzen.ui.FitImage;
+import ua.gram.munhauzen.ui.GameLayers;
 import ua.gram.munhauzen.utils.Log;
 
 /**
@@ -47,7 +48,7 @@ public class GameScreen implements Screen {
     private final String tag = getClass().getSimpleName();
     public final MunhauzenGame game;
     public MunhauzenStage ui;
-    public Stack uiLayers;
+    public GameLayers gameLayers;
     public Stack uiControlsLayer;
     public Stack uiImageLayer;
     public final AssetManager assetManager;
@@ -58,6 +59,7 @@ public class GameScreen implements Screen {
     public AudioService audioService;
     public ImageService imageService;
     public InventoryService inventoryService;
+    public InteractionService interactionService;
 
     private Timer.Task saveTask;
     private Texture background;
@@ -88,6 +90,7 @@ public class GameScreen implements Screen {
         audioService = new AudioService(this);
         imageService = new ImageService(this);
         inventoryService = new InventoryService(game.gameState);
+        interactionService = new InteractionService(this);
 
         ui = new MunhauzenStage(game);
         scenarioManager = new StoryManager(this, game.gameState);
@@ -109,8 +112,8 @@ public class GameScreen implements Screen {
 
         isLoaded = true;
 
-        uiLayers = new Stack();
-        uiLayers.setFillParent(true);
+        gameLayers = new GameLayers();
+        gameLayers.setFillParent(true);
 
         uiControlsLayer = new Stack();
         uiControlsLayer.setFillParent(true);
@@ -118,11 +121,11 @@ public class GameScreen implements Screen {
         uiImageLayer = new Stack();
         uiImageLayer.setFillParent(true);
 
-        setBackgroundImageLayer(uiImageLayer);
+        gameLayers.setBackgroundImageLayer(uiImageLayer);
 
-        setStoryUILayer(uiControlsLayer);
+        gameLayers.setStoryUILayer(uiControlsLayer);
 
-        ui.addActor(uiLayers);
+        ui.addActor(gameLayers);
 
         background = game.assetManager.get("a0.jpg", Texture.class);
         Texture overlay = assetManager.get("GameScreen/t_putty.png", Texture.class);
@@ -216,18 +219,6 @@ public class GameScreen implements Screen {
         });
     }
 
-    public void setBackgroundImageLayer(Actor actor) {
-        uiLayers.addActorAt(0, actor);
-    }
-
-    public void setStoryDecisionsLayer(Actor actor) {
-        uiLayers.addActorAt(1, actor);
-    }
-
-    public void setStoryUILayer(Actor actor) {
-        uiLayers.addActorAt(2, actor);
-    }
-
     @Override
     public void hide() {
         Gdx.input.setInputProcessor(null);
@@ -250,9 +241,13 @@ public class GameScreen implements Screen {
 
         drawBackground();
 
+        interactionService.update();
+
         Story story = getStory();
 
-        if (!story.isCompleted) {
+        boolean isInteractionLocked = story.currentInteraction != null && story.currentInteraction.isLocked;
+
+        if (!isInteractionLocked && !story.isCompleted) {
 
             if (!GameState.isPaused) {
                 scenarioManager.update(
@@ -299,6 +294,10 @@ public class GameScreen implements Screen {
             ArrayList<String> strings = new ArrayList<>();
             strings.add("story:" + story.id);
             strings.add("progress:" + story.totalDuration + "/" + ((int) story.progress));
+
+            if (story.currentInteraction != null) {
+                strings.add("interaction:" + story.currentInteraction.name + "" + (story.currentInteraction.isLocked ? " lock" : ""));
+            }
 
             for (StoryScenario scenarioOption : story.scenarios) {
                 strings.add("-scenario:" + scenarioOption.scenario.name + "" + (scenarioOption.isLocked ? " lock" : ""));

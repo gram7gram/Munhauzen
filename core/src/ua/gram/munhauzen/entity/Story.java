@@ -10,6 +10,7 @@ public class Story {
     public float progress;
     public final Array<StoryScenario> scenarios;
     public StoryScenario currentScenario;
+    public StoryInteraction currentInteraction;
     private boolean isInit;
 
     public Story() {
