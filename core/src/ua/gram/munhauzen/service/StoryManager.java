@@ -91,7 +91,7 @@ public class StoryManager {
 
         Log.i(tag, "findNext " + from.name + " #" + story.scenarios.size);
 
-        Set<String> inventory = gameState.history.activeSave.getUniqueInventory();
+        Set<String> inventory = gameScreen.inventoryService.getAllInventory();
 
         StoryScenario storyScenario = new StoryScenario();
         storyScenario.scenario = from;
@@ -192,7 +192,7 @@ public class StoryManager {
             }
         }
 
-        Set<String> inventory = gameState.history.activeSave.getUniqueInventory();
+        Set<String> inventory = gameScreen.inventoryService.getAllInventory();
 
         for (StoryAudio audio : story.currentScenario.scenario.audio) {
             if (audio.player != null) {
@@ -209,22 +209,18 @@ public class StoryManager {
             }
         }
 
-        if (gameScreen.scenarioFragment != null) {
-            gameScreen.scenarioFragment.dispose();
-            gameScreen.scenarioFragment = null;
-        }
-
-        if (gameScreen.gameLayers.storeDecisionsLayer != null) {
-            gameScreen.gameLayers.storeDecisionsLayer.remove();
-            gameScreen.gameLayers.storeDecisionsLayer = null;
-        }
-
         if (availableDecisions.size() > 0) {
-            gameScreen.scenarioFragment = new ScenarioFragment(gameScreen);
+
+            if (gameScreen.scenarioFragment == null) {
+                gameScreen.scenarioFragment = new ScenarioFragment(gameScreen);
+            }
 
             gameScreen.progressBarFragment.fadeIn();
+
+            gameScreen.scenarioFragment.create(availableDecisions);
+
             gameScreen.gameLayers.setStoryDecisionsLayer(
-                    gameScreen.scenarioFragment.create(availableDecisions)
+                    gameScreen.scenarioFragment
             );
         }
     }

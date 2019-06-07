@@ -15,6 +15,7 @@ import ua.gram.munhauzen.entity.Scenario;
 import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.entity.StoryImage;
 import ua.gram.munhauzen.entity.StoryScenario;
+import ua.gram.munhauzen.fragment.ImageFragment;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.transition.FadeTransition;
 import ua.gram.munhauzen.transition.NormalTransition;
@@ -134,26 +135,28 @@ public class ImageService {
 
         int height = Math.min(150, MunhauzenGame.WORLD_HEIGHT / 20);
 
-        boolean isOverlayVisible = gameScreen.layer1Image.getHeight() < MunhauzenGame.WORLD_HEIGHT;
+        ImageFragment fragment = gameScreen.imageFragment;
 
-        gameScreen.layer1OverlayBottom.setVisible(isOverlayVisible);
-        gameScreen.layer1OverlayTop.setVisible(isOverlayVisible);
+        boolean isOverlayVisible = fragment.layer1Image.getHeight() < MunhauzenGame.WORLD_HEIGHT;
+
+        fragment.layer1OverlayBottom.setVisible(isOverlayVisible);
+        fragment.layer1OverlayTop.setVisible(isOverlayVisible);
 
         if (isOverlayVisible) {
 
-            gameScreen.layer1OverlayBottom.setWidth(MunhauzenGame.WORLD_WIDTH);
-            gameScreen.layer1OverlayBottom.setHeight(height);
+            fragment.layer1OverlayBottom.setWidth(MunhauzenGame.WORLD_WIDTH);
+            fragment.layer1OverlayBottom.setHeight(height);
 
-            gameScreen.layer1OverlayTop.setWidth(MunhauzenGame.WORLD_WIDTH);
-            gameScreen.layer1OverlayTop.setHeight(height);
+            fragment.layer1OverlayTop.setWidth(MunhauzenGame.WORLD_WIDTH);
+            fragment.layer1OverlayTop.setHeight(height);
 
-            gameScreen.layer1OverlayBottom.setPosition(
+            fragment.layer1OverlayBottom.setPosition(
                     0,
-                    gameScreen.layer1Image.getY() - height / 2f);
+                    fragment.layer1Image.getY() - height / 2f);
 
-            gameScreen.layer1OverlayTop.setPosition(
+            fragment.layer1OverlayTop.setPosition(
                     0,
-                    gameScreen.layer1Image.getY() + gameScreen.layer1Image.getHeight() - height / 2f);
+                    fragment.layer1Image.getY() + fragment.layer1Image.getHeight() - height / 2f);
 
         }
     }
@@ -162,26 +165,28 @@ public class ImageService {
 
         int height = 150;
 
-        boolean isOverlayVisible = gameScreen.layer2Image.getHeight() < MunhauzenGame.WORLD_HEIGHT;
+        ImageFragment fragment = gameScreen.imageFragment;
 
-        gameScreen.layer2OverlayBottom.setVisible(isOverlayVisible);
-        gameScreen.layer2OverlayTop.setVisible(isOverlayVisible);
+        boolean isOverlayVisible = fragment.layer2Image.getHeight() < MunhauzenGame.WORLD_HEIGHT;
+
+        fragment.layer2OverlayBottom.setVisible(isOverlayVisible);
+        fragment.layer2OverlayTop.setVisible(isOverlayVisible);
 
         if (isOverlayVisible) {
 
-            gameScreen.layer2OverlayBottom.setWidth(MunhauzenGame.WORLD_WIDTH);
-            gameScreen.layer2OverlayBottom.setHeight(height);
+            fragment.layer2OverlayBottom.setWidth(MunhauzenGame.WORLD_WIDTH);
+            fragment.layer2OverlayBottom.setHeight(height);
 
-            gameScreen.layer2OverlayTop.setWidth(MunhauzenGame.WORLD_WIDTH);
-            gameScreen.layer2OverlayTop.setHeight(height);
+            fragment.layer2OverlayTop.setWidth(MunhauzenGame.WORLD_WIDTH);
+            fragment.layer2OverlayTop.setHeight(height);
 
-            gameScreen.layer2OverlayBottom.setPosition(
+            fragment.layer2OverlayBottom.setPosition(
                     0,
-                    gameScreen.layer2Image.getY() - height / 2f);
+                    fragment.layer2Image.getY() - height / 2f);
 
-            gameScreen.layer2OverlayTop.setPosition(
+            fragment.layer2OverlayTop.setPosition(
                     0,
-                    gameScreen.layer2Image.getY() + gameScreen.layer2Image.getHeight() - height / 2f);
+                    fragment.layer2Image.getY() + fragment.layer2Image.getHeight() - height / 2f);
 
         }
     }

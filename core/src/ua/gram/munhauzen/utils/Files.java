@@ -37,6 +37,10 @@ public class Files {
         return getInternalConfig("game/chapters.json");
     }
 
+    public static FileHandle getHareScenarioFile() {
+        return getInternalConfig("game/hare-scenario.json");
+    }
+
     public static FileHandle getScenarioFile() {
         return getInternalConfig("game/scenario.json");
     }

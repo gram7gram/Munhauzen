@@ -15,12 +15,19 @@ public abstract class AnimatedImage extends Image {
     public Animation<TextureRegionDrawable> animation;
     public float duration;
     public boolean isStarted;
+    boolean loop;
 
     public AnimatedImage(Texture texture) {
+        this(texture, true);
+    }
+
+    public AnimatedImage(Texture texture, boolean loop) {
 
         super(texture);
 
         setScaling(Scaling.fit);
+
+        this.loop = loop;
     }
 
     public void animate(Texture walkSheet, int rows, int cols, int frameLimit, float speed) {
@@ -50,12 +57,21 @@ public abstract class AnimatedImage extends Image {
     public void act(float delta) {
         super.act(delta);
 
+        updateFrame(delta);
+    }
+
+    public void updateFrame(float delta) {
         setDrawable(animation.getKeyFrame(duration));
 
         boolean isFinished = animation.isAnimationFinished(duration);
 
         if (isFinished) {
-            duration = 0;
+
+            if (loop) {
+                duration = 0;
+            } else {
+                isStarted = false;
+            }
         }
 
         if (isStarted) {

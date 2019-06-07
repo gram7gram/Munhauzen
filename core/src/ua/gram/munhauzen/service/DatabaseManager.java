@@ -21,6 +21,7 @@ import ua.gram.munhauzen.entity.StatueTranslation;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.entity.StoryImage;
 import ua.gram.munhauzen.history.History;
+import ua.gram.munhauzen.interaction.hare.HareScenario;
 import ua.gram.munhauzen.utils.Files;
 import ua.gram.munhauzen.utils.Log;
 
@@ -79,7 +80,7 @@ public class DatabaseManager {
             Log.e(tag, e.getCause());
         }
         try {
-            state.scenarioRegistry = loadOptions();
+            state.scenarioRegistry = loadScenario();
             Log.i(tag, "Loaded story x" + state.scenarioRegistry.size);
         } catch (Throwable e) {
             Log.e(tag, e);
@@ -118,7 +119,19 @@ public class DatabaseManager {
     }
 
     @SuppressWarnings("unchecked")
-    private Array<Scenario> loadOptions() {
+    public Array<HareScenario> loadHareScenario() {
+        Json json = new Json(JsonWriter.OutputType.json);
+        json.setIgnoreUnknownFields(true);
+        json.setElementType(Scenario.class, "decisions", Decision.class);
+        json.setElementType(Scenario.class, "images", StoryImage.class);
+        json.setElementType(Scenario.class, "audio", StoryAudio.class);
+        json.setElementType(Scenario.class, "translations", ScenarioTranslation.class);
+
+        return json.fromJson(Array.class, HareScenario.class, Files.getHareScenarioFile());
+    }
+
+    @SuppressWarnings("unchecked")
+    private Array<Scenario> loadScenario() {
         Json json = new Json(JsonWriter.OutputType.json);
         json.setIgnoreUnknownFields(true);
         json.setElementType(Scenario.class, "decisions", Decision.class);

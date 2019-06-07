@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 public class CannonLetterAnimation extends AnimatedImage {
 
     public CannonLetterAnimation(Texture texture) {
-        super(texture);
+        super(texture, false);
 
         animate(texture, 5, 5, 25, 0.07f);
     }

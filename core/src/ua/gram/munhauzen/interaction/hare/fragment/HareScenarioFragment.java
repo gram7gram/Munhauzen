@@ -1,4 +1,4 @@
-package ua.gram.munhauzen.fragment;
+package ua.gram.munhauzen.interaction.hare.fragment;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
@@ -31,10 +31,11 @@ import ua.gram.munhauzen.animation.CannonAnimation;
 import ua.gram.munhauzen.animation.CannonLetterAnimation;
 import ua.gram.munhauzen.entity.Decision;
 import ua.gram.munhauzen.entity.GameState;
-import ua.gram.munhauzen.entity.Scenario;
 import ua.gram.munhauzen.entity.ScenarioTranslation;
-import ua.gram.munhauzen.entity.Story;
-import ua.gram.munhauzen.repository.ScenarioRepository;
+import ua.gram.munhauzen.fragment.Fragment;
+import ua.gram.munhauzen.interaction.HareInteraction;
+import ua.gram.munhauzen.interaction.hare.HareScenario;
+import ua.gram.munhauzen.interaction.hare.HareStory;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.ui.WrapLabel;
@@ -43,23 +44,26 @@ import ua.gram.munhauzen.utils.Log;
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class ScenarioFragment extends Fragment {
+public class HareScenarioFragment extends Fragment {
 
     private final String tag = getClass().getSimpleName();
+    private final HareInteraction interaction;
     private final MunhauzenGame game;
     public final GameScreen gameScreen;
     public final AssetManager assetManager;
     private FitImage imgLeft, imgRight, imgTop;
     private Table decorLeft, decorRight, decorTop;
-    private Stack root;
+    public Stack root;
     private final ArrayList<Actor> buttonList;
     private final HashMap<Integer, String> map = new HashMap<>(7);
     private final HashMap<Integer, String> animatedMap = new HashMap<>(7);
     private final float headerSize, buttonSize;
 
-    public ScenarioFragment(GameScreen gameScreen) {
+    public HareScenarioFragment(GameScreen gameScreen, HareInteraction interaction) {
         this.game = gameScreen.game;
         this.gameScreen = gameScreen;
+        this.interaction = interaction;
+
         assetManager = new AssetManager();
         buttonList = new ArrayList<>(4);
 
@@ -70,18 +74,13 @@ public class ScenarioFragment extends Fragment {
         animatedMap.put(1, "GameScreen/an_letter_sheet_B.png");
         animatedMap.put(2, "GameScreen/an_letter_sheet_C.png");
         animatedMap.put(3, "GameScreen/an_letter_sheet_D.png");
-        animatedMap.put(4, "GameScreen/an_letter_sheet_E.png");
-        animatedMap.put(5, "GameScreen/an_letter_sheet_F.png");
-        animatedMap.put(6, "GameScreen/an_letter_sheet_G.png");
 
         map.put(0, "GameScreen/an_letter_A_main.png");
         map.put(1, "GameScreen/an_letter_B_main.png");
         map.put(2, "GameScreen/an_letter_C_main.png");
         map.put(3, "GameScreen/an_letter_D_main.png");
-        map.put(4, "GameScreen/an_letter_E_main.png");
-        map.put(5, "GameScreen/an_letter_F_main.png");
-        map.put(6, "GameScreen/an_letter_G_main.png");
     }
+
 
     @Override
     public Actor getRoot() {
@@ -114,20 +113,25 @@ public class ScenarioFragment extends Fragment {
 
         final Table buttons = new Table();
         buttons.add()
-                .height(gameScreen.progressBarFragment.getHeight() - 20)
+                .height(interaction.progressBarFragment.getHeight() - 20)
                 .row();
 
         for (int i = 0; i < decisions.size(); i++) {
 
             final Decision decision = decisions.get(i);
 
-            Scenario scenario = ScenarioRepository.find(game.gameState, decision.scenario);
-
             ScenarioTranslation translation = null;
 
-            for (ScenarioTranslation item : scenario.translations) {
-                if (game.params.locale.equals(item.locale)) {
-                    translation = item;
+            for (HareScenario hareScenario : interaction.scenarioRegistry) {
+                if (decision.scenario.equals(hareScenario.name)) {
+
+                    for (ScenarioTranslation item : hareScenario.translations) {
+                        if (game.params.locale.equals(item.locale)) {
+                            translation = item;
+                            break;
+                        }
+                    }
+
                     break;
                 }
             }
@@ -148,7 +152,7 @@ public class ScenarioFragment extends Fragment {
                     super.clicked(event, x, y);
 
                     try {
-                        Log.i(tag, "primaryDecision clicked " + decision.scenario);
+                        Log.i(tag, "harePrimaryDecision clicked " + decision.scenario);
 
                         Sound sfx = assetManager.get("sfx/sfx_decision.mp3", Sound.class);
                         sfx.play();
@@ -157,32 +161,26 @@ public class ScenarioFragment extends Fragment {
                             @Override
                             public void run() {
 
-                                try {
-                                    Log.i(tag, "fadeOut button complete");
+                                Log.i(tag, "fadeOut button complete");
 
-                                    if (gameScreen.scenarioFragment != null) {
-                                        gameScreen.scenarioFragment.destroy();
-                                        gameScreen.scenarioFragment = null;
-                                    }
+                                interaction.scenarioFragment.destroy();
+                                interaction.scenarioFragment = null;
 
-                                    GameState.isPaused = false;
-                                } catch (Throwable e) {
-                                    Log.e(tag, e);
-                                }
+                                GameState.isPaused = false;
                             }
                         };
 
                         fadeOutDecoration();
 
                         try {
-                            Story newStory = gameScreen.storyManager.create(decision.scenario);
+                            HareStory newStory = interaction.storyManager.create(decision.scenario);
 
-                            game.gameState.history.activeSave.story = newStory;
+                            interaction.storyManager.hareStory = newStory;
                         } catch (Throwable e) {
                             Log.e(tag, e);
                         }
 
-                        gameScreen.storyManager.startLoadingResources();
+                        interaction.storyManager.startLoadingResources();
 
                         //let cannon animation complete...
                         Timer.schedule(new Timer.Task() {
@@ -230,7 +228,7 @@ public class ScenarioFragment extends Fragment {
         }
 
         buttons.add()
-                .height(gameScreen.progressBarFragment.getHeight() + 20)
+                .height(interaction.progressBarFragment.getHeight() + 20)
                 .row();
 
         ScrollPane scrollPane = new ScrollPane(buttons);
@@ -399,18 +397,22 @@ public class ScenarioFragment extends Fragment {
             public void clicked(final InputEvent event, final float x, final float y) {
                 super.clicked(event, x, y);
 
-                root.clearListeners();
+                try {
+                    root.clearListeners();
 
-                Stack animated = createAnimatedHeader(index);
+                    Stack animated = createAnimatedHeader(index);
 
-                stack.removeActor(header);
-                stack.addActorAt(1, animated);
+                    stack.removeActor(header);
+                    stack.addActorAt(1, animated);
 
-                onClick.clicked(event, x, y);
+                    onClick.clicked(event, x, y);
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
             }
         });
 
-        stack.setName("primaryDecision-" + index);
+        stack.setName("harePrimaryDecision-" + index);
 
         return stack;
     }

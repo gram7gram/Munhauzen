@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.StoryImage;
+import ua.gram.munhauzen.fragment.ImageFragment;
 import ua.gram.munhauzen.screen.GameScreen;
 
 /**
@@ -23,18 +24,20 @@ public class NormalTransition extends Transition {
     @Override
     public void prepare(final StoryImage item) {
 
-        gameScreen.layer2Image.clearListeners();
-        gameScreen.layer2Image.clearActions();
-        gameScreen.layer1Image.clearListeners();
-        gameScreen.layer1Image.clearActions();
+        ImageFragment fragment = gameScreen.imageFragment;
 
-        gameScreen.layer1ImageGroup.setVisible(true);
-        gameScreen.layer2ImageGroup.setVisible(false);
+        fragment.layer2Image.clearListeners();
+        fragment.layer2Image.clearActions();
+        fragment.layer1Image.clearListeners();
+        fragment.layer1Image.clearActions();
 
-        gameScreen.layer1Image.addAction(Actions.alpha(1));
-        //gameScreen.layer2Image.addAction(Actions.alpha(1));
+        fragment.layer1ImageGroup.setVisible(true);
+        fragment.layer2ImageGroup.setVisible(false);
 
-        targetImage = gameScreen.layer1Image;
+        fragment.layer1Image.addAction(Actions.alpha(1));
+        //fragment.layer2Image.addAction(Actions.alpha(1));
+
+        targetImage = fragment.layer1Image;
 
         targetImage.setDrawable(item.drawable);
 
@@ -74,7 +77,7 @@ public class NormalTransition extends Transition {
             item.height = height;
         }
 
-        gameScreen.layer1ImageTable.getCell(targetImage)
+        fragment.layer1ImageTable.getCell(targetImage)
                 .width(item.width)
                 .height(item.height);
 

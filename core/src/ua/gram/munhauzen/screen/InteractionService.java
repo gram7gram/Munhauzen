@@ -63,7 +63,7 @@ public class InteractionService {
         interaction.isLocked = false;
 
         if (gameScreen.gameLayers.interactionLayer != null) {
-            gameScreen.gameLayers.interactionLayer.remove();
+            gameScreen.gameLayers.interactionLayer.destroy();
             gameScreen.gameLayers.interactionLayer = null;
         }
     }

@@ -3,6 +3,7 @@ package ua.gram.munhauzen.fragment;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -11,7 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
-import com.badlogic.gdx.utils.Disposable;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.GameState;
@@ -23,13 +23,13 @@ import ua.gram.munhauzen.utils.Log;
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class GameControlsFragment implements Disposable {
+public class GameControlsFragment extends Fragment {
 
     private final String tag = getClass().getSimpleName();
     private final GameScreen gameScreen;
     private final AssetManager assetManager;
     public Image soundButton, soundTailButton, menuButton, menuTailButton;
-    public Group soundGroup, menuGroup;
+    public Group soundGroup, menuGroup, root;
 
     public GameControlsFragment(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
@@ -104,8 +104,9 @@ public class GameControlsFragment implements Disposable {
         soundGroup.addAction(Actions.moveBy(0, soundButton.getHeight()));
         menuGroup.addAction(Actions.moveBy(0, menuButton.getHeight()));
 
-        gameScreen.ui.addActor(soundGroup);
-        gameScreen.ui.addActor(menuGroup);
+        root = new Group();
+        root.addActor(soundGroup);
+        root.addActor(menuGroup);
 
         addListenersToSoundButton();
         addListenersToMenuButton();
@@ -326,7 +327,13 @@ public class GameControlsFragment implements Disposable {
     }
 
     @Override
+    public Actor getRoot() {
+        return root;
+    }
+
+    @Override
     public void dispose() {
+        super.dispose();
         assetManager.dispose();
         menuGroup.remove();
         soundGroup.remove();

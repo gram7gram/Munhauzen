@@ -1,0 +1,127 @@
+[
+  {
+    "isBegin": true,
+    "name": "a18_0_interaction",
+    "action": "CLICK",
+    "audio": [
+      {
+        "audio": "s18_0",
+        "duration": 0
+      }
+    ],
+    "decisions": [
+      {
+        "inventoryRequired": [],
+        "inventoryAbsent": [],
+        "scenario": "a18_a"
+      },
+      {
+        "inventoryRequired": [],
+        "inventoryAbsent": [],
+        "scenario": "a18_b"
+      },
+      {
+        "inventoryRequired": [],
+        "inventoryAbsent": [],
+        "scenario": "a18_c"
+      },
+      {
+        "inventoryRequired": [],
+        "inventoryAbsent": [],
+        "scenario": "a18_d"
+      }
+    ],
+    "translations": [
+      {
+        "locale": "en",
+        "text": "Eight legged hare"
+      }
+    ]
+  },
+  {
+    "name": "a18_a",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "s18_a",
+        "duration": 0
+      }
+    ],
+    "decisions": [
+      {
+        "inventoryRequired": [],
+        "inventoryAbsent": [],
+        "scenario": "a18_0_interaction"
+      }
+    ],
+    "translations": [
+      {
+        "locale": "en",
+        "text": "Left him alone and chilled"
+      }
+    ]
+  },
+  {
+    "name": "a18_b",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "s18_b",
+        "duration": 0
+      }
+    ],
+    "decisions": [
+      {
+        "inventoryRequired": [],
+        "inventoryAbsent": [],
+        "scenario": "a18_0_interaction"
+      }
+    ],
+    "translations": [
+      {
+        "locale": "en",
+        "text": "Shot the colt"
+      }
+    ]
+  },
+  {
+    "name": "a18_c",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "s18_c",
+        "duration": 0
+      }
+    ],
+    "decisions": [
+      {
+        "inventoryRequired": [],
+        "inventoryAbsent": [],
+        "scenario": "a18_0_interaction"
+      }
+    ],
+    "translations": [
+      {
+        "locale": "en",
+        "text": "Catapulted yourself"
+      }
+    ]
+  },
+  {
+    "isExit": true,
+    "name": "a18_d",
+    "audio": [
+      {
+        "audio": "s18_d",
+        "duration": 0
+      }
+    ],
+    "decisions": [],
+    "translations": [
+      {
+        "locale": "en",
+        "text": "Pursued the hare"
+      }
+    ]
+  }
+]

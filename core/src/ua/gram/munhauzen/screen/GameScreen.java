@@ -7,14 +7,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Stack;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.Timer;
@@ -25,18 +19,18 @@ import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.MunhauzenStage;
 import ua.gram.munhauzen.entity.GameState;
+import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.entity.StoryImage;
-import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.entity.StoryScenario;
 import ua.gram.munhauzen.fragment.GameControlsFragment;
+import ua.gram.munhauzen.fragment.ImageFragment;
 import ua.gram.munhauzen.fragment.ProgressBarFragment;
 import ua.gram.munhauzen.fragment.ScenarioFragment;
 import ua.gram.munhauzen.service.AudioService;
 import ua.gram.munhauzen.service.ImageService;
 import ua.gram.munhauzen.service.InventoryService;
 import ua.gram.munhauzen.service.StoryManager;
-import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.ui.GameLayers;
 import ua.gram.munhauzen.utils.Log;
 
@@ -49,24 +43,18 @@ public class GameScreen implements Screen {
     public final MunhauzenGame game;
     public MunhauzenStage ui;
     public GameLayers gameLayers;
-    public Stack uiControlsLayer;
-    public Stack uiImageLayer;
     public final AssetManager assetManager;
-    public StoryManager scenarioManager;
+    public StoryManager storyManager;
     public ScenarioFragment scenarioFragment;
     public ProgressBarFragment progressBarFragment;
+    public ImageFragment imageFragment;
     public GameControlsFragment gameControlsFragment;
     public AudioService audioService;
     public ImageService imageService;
     public InventoryService inventoryService;
     public InteractionService interactionService;
-
     private Timer.Task saveTask;
     private Texture background;
-    public Image layer1Image, layer2Image;
-    public Table layer1ImageTable, layer2ImageTable;
-    public Group layer1ImageGroup, layer2ImageGroup;
-    public Image layer1OverlayTop, layer1OverlayBottom, layer2OverlayTop, layer2OverlayBottom;
     private boolean isLoaded;
 
     public GameScreen(MunhauzenGame game) {
@@ -93,7 +81,7 @@ public class GameScreen implements Screen {
         interactionService = new InteractionService(this);
 
         ui = new MunhauzenStage(game);
-        scenarioManager = new StoryManager(this, game.gameState);
+        storyManager = new StoryManager(this, game.gameState);
 
         isLoaded = false;
         GameState.isPaused = false;
@@ -102,7 +90,7 @@ public class GameScreen implements Screen {
 
         Story story = game.gameState.history.activeSave.story;
         if (story != null && story.isValid()) {
-            scenarioManager.startLoadingResources();
+            storyManager.startLoadingResources();
         }
     }
 
@@ -112,73 +100,29 @@ public class GameScreen implements Screen {
 
         isLoaded = true;
 
-        gameLayers = new GameLayers();
+        background = game.assetManager.get("a0.jpg", Texture.class);
+
+        gameLayers = new GameLayers(this);
         gameLayers.setFillParent(true);
-
-        uiControlsLayer = new Stack();
-        uiControlsLayer.setFillParent(true);
-
-        uiImageLayer = new Stack();
-        uiImageLayer.setFillParent(true);
-
-        gameLayers.setBackgroundImageLayer(uiImageLayer);
-
-        gameLayers.setStoryUILayer(uiControlsLayer);
 
         ui.addActor(gameLayers);
 
-        background = game.assetManager.get("a0.jpg", Texture.class);
-        Texture overlay = assetManager.get("GameScreen/t_putty.png", Texture.class);
-
         progressBarFragment = new ProgressBarFragment(this);
-        Stack barContainer = progressBarFragment.create();
+        progressBarFragment.create();
 
         gameControlsFragment = new GameControlsFragment(this);
         gameControlsFragment.create();
 
-        Table scenarioContainer = new Table();
-        scenarioContainer.setFillParent(true);
-        scenarioContainer.add(barContainer).align(Align.bottom).fillX().expand().row();
+        imageFragment = new ImageFragment(this);
+        imageFragment.create();
 
-        uiControlsLayer.add(scenarioContainer);
-
-        layer1OverlayBottom = new Image(overlay);
-        layer1OverlayTop = new Image(overlay);
-        layer2OverlayBottom = new Image(overlay);
-        layer2OverlayTop = new Image(overlay);
-
-        layer1OverlayTop.setVisible(false);
-        layer1OverlayBottom.setVisible(false);
-        layer2OverlayTop.setVisible(false);
-        layer2OverlayBottom.setVisible(false);
-
-        layer1Image = new FitImage();
-        layer2Image = new FitImage();
-
-        layer1ImageTable = new Table();
-        layer1ImageTable.setFillParent(true);
-        layer1ImageTable.add(layer1Image).center().expand().fill();
-
-        layer2ImageTable = new Table();
-        layer2ImageTable.setFillParent(true);
-        layer2ImageTable.add(layer2Image).center().expand().fill();
-
-        layer1ImageGroup = new Group();
-        layer1ImageGroup.addActor(layer1ImageTable);
-        layer1ImageGroup.addActor(layer1OverlayTop);
-        layer1ImageGroup.addActor(layer1OverlayBottom);
-
-        layer2ImageGroup = new Group();
-        layer2ImageGroup.addActor(layer2ImageTable);
-        layer2ImageGroup.addActor(layer2OverlayTop);
-        layer2ImageGroup.addActor(layer2OverlayBottom);
-
-        uiImageLayer.add(layer1ImageGroup);
-        uiImageLayer.add(layer2ImageGroup);
+        gameLayers.setBackgroundImageLayer(imageFragment);
+        gameLayers.setProgressBarLayer(progressBarFragment);
+        gameLayers.setControlsLayer(gameControlsFragment);
 
         Gdx.input.setInputProcessor(ui);
 
-        scenarioManager.resume();
+        storyManager.resume();
 
         saveTask = Timer.schedule(new Timer.Task() {
             @Override
@@ -205,14 +149,24 @@ public class GameScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                Log.i(tag, "ui clicked");
+                try {
+                    Log.i(tag, "ui clicked");
 
-                progressBarFragment.fadeIn();
+                    if (progressBarFragment == null) return;
 
-                if (scenarioFragment == null) {
-                    progressBarFragment.scheduleFadeOut();
-                } else {
-                    Log.i(tag, "scheduleFadeOut ignored");
+                    if (progressBarFragment.getRoot() == null) {
+                        progressBarFragment.destroy();
+                        progressBarFragment = null;
+                        return;
+                    }
+
+                    progressBarFragment.fadeIn();
+
+                    if (scenarioFragment == null) {
+                        progressBarFragment.scheduleFadeOut();
+                    }
+                } catch (Throwable e) {
+                    Log.e(tag, e);
                 }
 
             }
@@ -250,28 +204,33 @@ public class GameScreen implements Screen {
         if (!isInteractionLocked && !story.isCompleted) {
 
             if (!GameState.isPaused) {
-                scenarioManager.update(
+                storyManager.update(
                         story.progress + (delta * 1000),
                         story.totalDuration
                 );
 
                 if (story.isCompleted) {
 
-                    scenarioManager.onCompleted();
+                    storyManager.onCompleted();
 
                 } else {
-                    scenarioManager.startLoadingResources();
+                    storyManager.startLoadingResources();
                 }
             }
         }
 
-        progressBarFragment.update();
+        if (progressBarFragment != null)
+            progressBarFragment.update();
 
-        audioService.updateVolume();
+        if (audioService != null) {
+            audioService.updateVolume();
 
-        audioService.updateMusicState();
+            audioService.updateMusicState();
+        }
 
-        imageService.update();
+        if (imageService != null) {
+            imageService.update();
+        }
 
         ui.act(delta);
         ui.draw();
@@ -380,8 +339,21 @@ public class GameScreen implements Screen {
         audioService = null;
         imageService = null;
 
-        progressBarFragment.dispose();
-        scenarioFragment.dispose();
-        gameControlsFragment.dispose();
+        if (progressBarFragment != null) {
+            progressBarFragment.dispose();
+            progressBarFragment = null;
+        }
+
+        if (scenarioFragment != null) {
+            scenarioFragment.dispose();
+            scenarioFragment = null;
+        }
+
+        if (gameControlsFragment != null) {
+            gameControlsFragment.dispose();
+            gameControlsFragment = null;
+        }
+
+        gameLayers = null;
     }
 }

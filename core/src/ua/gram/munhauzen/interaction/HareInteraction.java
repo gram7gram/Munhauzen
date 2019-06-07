@@ -1,22 +1,38 @@
 package ua.gram.munhauzen.interaction;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.utils.Array;
 
 import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.entity.GameState;
+import ua.gram.munhauzen.fragment.Fragment;
+import ua.gram.munhauzen.interaction.hare.HareScenario;
+import ua.gram.munhauzen.interaction.hare.HareStory;
+import ua.gram.munhauzen.interaction.hare.HareStoryManager;
 import ua.gram.munhauzen.interaction.hare.animation.DucksAnimation;
 import ua.gram.munhauzen.interaction.hare.animation.HareAnimation;
 import ua.gram.munhauzen.interaction.hare.animation.HorseAnimation;
+import ua.gram.munhauzen.interaction.hare.fragment.HareProgressBarFragment;
+import ua.gram.munhauzen.interaction.hare.fragment.HareScenarioFragment;
 import ua.gram.munhauzen.interaction.hare.ui.Cloud;
 import ua.gram.munhauzen.interaction.hare.ui.Ground;
 import ua.gram.munhauzen.interaction.hare.ui.Misc;
 import ua.gram.munhauzen.screen.GameScreen;
+import ua.gram.munhauzen.service.DatabaseManager;
 
 /**
  * @author Gram <gram7gram@gmail.com>
  */
 public class HareInteraction extends AbstractInteraction {
+
+    public Array<HareScenario> scenarioRegistry;
+    public HareStoryManager storyManager;
+    public HareProgressBarFragment progressBarFragment;
+    public HareScenarioFragment scenarioFragment;
+    boolean isLoaded;
 
     public HareInteraction(GameScreen gameScreen) {
         super(gameScreen);
@@ -25,6 +41,10 @@ public class HareInteraction extends AbstractInteraction {
     @Override
     public void start() {
         super.start();
+
+        scenarioRegistry = new DatabaseManager().loadHareScenario();
+        storyManager = new HareStoryManager(gameScreen, this);
+        progressBarFragment = new HareProgressBarFragment(gameScreen, this);
 
         assetManager.load("LoadingScreen/lv_cloud_1.png", Texture.class);
         assetManager.load("LoadingScreen/lv_cloud_2.png", Texture.class);
@@ -39,8 +59,21 @@ public class HareInteraction extends AbstractInteraction {
         assetManager.load("hare/inter_hare_misc_4.png", Texture.class);
         assetManager.load("hare/inter_hare_misc_5.png", Texture.class);
         assetManager.load("hare/inter_hare_misc_6.png", Texture.class);
+    }
 
-        assetManager.finishLoading();
+    public void onResourcesLoaded() {
+        isLoaded = true;
+
+        if (gameScreen.progressBarFragment != null) {
+            gameScreen.progressBarFragment.destroy();
+            gameScreen.progressBarFragment = null;
+        }
+
+        progressBarFragment.create();
+
+        gameScreen.gameLayers.setProgressBarLayer(progressBarFragment);
+
+        storyManager.resume();
 
         Texture cloud1Texture = assetManager.get("LoadingScreen/lv_cloud_1.png", Texture.class);
         Texture cloud2Texture = assetManager.get("LoadingScreen/lv_cloud_2.png", Texture.class);
@@ -61,7 +94,7 @@ public class HareInteraction extends AbstractInteraction {
         HareAnimation hare = new HareAnimation(hareTexture);
         HorseAnimation horse = new HorseAnimation(horseTexture);
 
-        float miscX = ground.originPoint.getX() - ground.image.getWidth()/2f;
+        float miscX = ground.originPoint.getX() - ground.image.getWidth() / 2f;
         float miscY = ground.originPoint.getY();
 
         Misc misc1 = new Misc(miscTexture1, ground, 100, 100, miscX, miscY);
@@ -97,7 +130,9 @@ public class HareInteraction extends AbstractInteraction {
         stack.addActor(cloud3);
         stack.addActor(ducks);
 
-        gameScreen.gameLayers.setInteractionLayer(stack);
+        gameScreen.gameLayers.setInteractionLayer(
+                new Fragment(stack)
+        );
 
         hare.start();
         horse.start();
@@ -118,6 +153,54 @@ public class HareInteraction extends AbstractInteraction {
     public void update() {
         super.update();
 
+        assetManager.update();
 
+        if (!isLoaded) {
+            if (assetManager.isFinished()) {
+                onResourcesLoaded();
+            }
+            return;
+        }
+
+        HareStory story = storyManager.hareStory;
+
+        if (!story.isCompleted) {
+
+            if (!GameState.isPaused) {
+                storyManager.update(
+                        story.progress + (Gdx.graphics.getDeltaTime() * 1000),
+                        story.totalDuration
+                );
+
+                if (story.isCompleted) {
+
+                    storyManager.onCompleted();
+
+                } else {
+                    storyManager.startLoadingResources();
+                }
+            }
+        }
+
+        if (progressBarFragment != null)
+            progressBarFragment.update();
+
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+
+        if (progressBarFragment != null) {
+            progressBarFragment.dispose();
+            progressBarFragment = null;
+        }
+
+        if (scenarioFragment != null) {
+            scenarioFragment.dispose();
+            scenarioFragment = null;
+        }
+
+        isLoaded = false;
     }
 }

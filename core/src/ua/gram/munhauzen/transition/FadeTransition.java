@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.StoryImage;
+import ua.gram.munhauzen.fragment.ImageFragment;
 import ua.gram.munhauzen.screen.GameScreen;
 
 /**
@@ -20,19 +21,20 @@ public class FadeTransition extends Transition {
 
     @Override
     public void prepare(final StoryImage item) {
+        ImageFragment fragment = gameScreen.imageFragment;
 
-        gameScreen.layer2Image.clearListeners();
-        gameScreen.layer2Image.clearActions();
-        gameScreen.layer1Image.clearListeners();
-        gameScreen.layer1Image.clearActions();
+        fragment.layer2Image.clearListeners();
+        fragment.layer2Image.clearActions();
+        fragment.layer1Image.clearListeners();
+        fragment.layer1Image.clearActions();
 
-        gameScreen.layer1ImageGroup.setVisible(true);
-        gameScreen.layer2ImageGroup.setVisible(true);
+        fragment.layer1ImageGroup.setVisible(true);
+        fragment.layer2ImageGroup.setVisible(true);
 
-        gameScreen.layer1Image.addAction(Actions.alpha(1));
-        gameScreen.layer2Image.addAction(Actions.alpha(0));
+        fragment.layer1Image.addAction(Actions.alpha(1));
+        fragment.layer2Image.addAction(Actions.alpha(0));
 
-        targetImage = gameScreen.layer2Image;
+        targetImage = fragment.layer2Image;
 
         targetImage.setDrawable(item.drawable);
 
@@ -53,11 +55,11 @@ public class FadeTransition extends Transition {
             item.height = height;
         }
 
-        gameScreen.layer2ImageTable.getCell(targetImage)
+        fragment.layer2ImageTable.getCell(targetImage)
                 .width(item.width)
                 .height(item.height);
 
-        gameScreen.layer2Image.addAction(Actions.sequence(
+        fragment.layer2Image.addAction(Actions.sequence(
                 Actions.alpha(1, .3f),
                 Actions.run(new Runnable() {
                     @Override
