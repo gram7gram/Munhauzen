@@ -1,76 +1,64 @@
 package ua.gram.munhauzen.interaction.hare.ui;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
-import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.ui.FitImage;
-import ua.gram.munhauzen.utils.Log;
 import ua.gram.munhauzen.utils.Random;
 
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class Misc extends FitImage {
+public class Misc extends Group {
 
+    FitImage image;
     Actor origin;
-    ShapeRenderer sr;
+    Actor originPoint;
 
-    int width, height, x, y;
-
-    public Misc(Texture texture, Actor origin, int width, int height, int x, int y) {
-        super(texture);
+    public Misc(Texture texture, Actor origin, int width, int height, float x, float y) {
 
         this.origin = origin;
-        this.width = width;
-        this.height = height;
-        this.x = x;
-        this.y = y;
 
-        addAction(
-                Actions.forever(Actions.rotateBy(-90, new Random().between(9, 14)))
+        image = new FitImage(texture);
+
+        originPoint = new Actor();
+        originPoint.setSize(3, 3);
+        originPoint.setVisible(true);
+
+        addActor(image);
+        addActor(originPoint);
+
+        image.setSize(width, height);
+        image.setPosition(x - width - 20, y);
+
+        setOrigin(origin.getOriginX(), origin.getOriginY());
+
+        originPoint.setPosition(
+                getOriginX() - 1,
+                getOriginY() - 1
         );
 
-        setSize(width, height);
-        setPosition(x, y);
-
-        sr = new ShapeRenderer();
-        sr.setAutoShapeType(true);
-        sr.setColor(Color.RED);
-
-    }
-
-
-    @Override
-    public void draw(Batch batch, float parentAlpha) {
-
-        super.draw(batch, parentAlpha);
-
-        batch.end();
-
-        sr.setProjectionMatrix(batch.getProjectionMatrix());
-        sr.begin(ShapeRenderer.ShapeType.Line);
-        sr.line(
-                getOriginX(), getOriginY(),
-                getX() + getWidth() / 2f, getY() + getHeight() / 2f
-                );
-        sr.end();
-
-        batch.begin();
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
 
-
-        setSize(width, height);
-        //setPosition(x, y);
         setOrigin(origin.getOriginX(), origin.getOriginY());
 
+        originPoint.setPosition(
+                getOriginX() - 1,
+                getOriginY() - 1
+        );
+
+    }
+
+    public void start() {
+
+        addAction(
+                Actions.forever(Actions.rotateBy(-90, new Random().between(8, 20)))
+        );
     }
 }

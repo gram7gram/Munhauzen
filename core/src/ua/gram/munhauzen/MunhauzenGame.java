@@ -3,12 +3,10 @@ package ua.gram.munhauzen;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -23,7 +21,7 @@ public class MunhauzenGame extends Game {
     public static int WORLD_WIDTH;
     public static int WORLD_HEIGHT;
     public static boolean PAUSED = false;
-    public static final boolean DEBUG = true;
+    public static final boolean DEBUG = false;
 
     private final String tag = getClass().getSimpleName();
 
@@ -138,46 +136,19 @@ public class MunhauzenGame extends Game {
 
         boolean hasChanged = false;
 
-        if (Gdx.input.isKeyPressed(Input.Keys.VOLUME_UP)) {
-        //if (input.scrolled(1)) {
-            Log.i(tag, "zoom in");
-            camera.zoom += 0.02;
-            hasChanged = true;
-        }
-
         if (Gdx.input.isKeyPressed(Input.Keys.VOLUME_DOWN)) {
-        //if (input.scrolled(-1)) {
             Log.i(tag, "zoom out");
-            camera.zoom -= 0.02;
+            camera.zoom += 0.1;
             hasChanged = true;
         }
 
-        /*if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            camera.translate(-3, 0, 0);
+        if (Gdx.input.isKeyPressed(Input.Keys.VOLUME_UP)) {
+            Log.i(tag, "zoom in");
+            camera.zoom -= 0.1;
             hasChanged = true;
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            camera.translate(3, 0, 0);
-            hasChanged = true;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            camera.translate(0, -3, 0);
-            hasChanged = true;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            camera.translate(0, 3, 0);
-            hasChanged = true;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            camera.rotate(-rotationSpeed, 0, 0, 1);
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.E)) {
-            camera.rotate(rotationSpeed, 0, 0, 1);
-        }*/
 
         if (!hasChanged) return;
-
-        camera.zoom = MathUtils.clamp(camera.zoom, 0.1f, 2);
 
         camera.update();
     }

@@ -443,6 +443,8 @@ public class ProgressBarFragment implements Disposable {
         bar.setRange(0, story.totalDuration);
         bar.setValue(story.progress);
 
+        root.setVisible(false);
+
     }
 
     public void startCurrentMusicIfPaused() {
