@@ -1,13 +1,14 @@
 package ua.gram.munhauzen.animation;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Scaling;
-
-import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
@@ -17,12 +18,17 @@ public abstract class AnimatedImage extends Image {
     public Animation<TextureRegionDrawable> animation;
     public float duration;
     public boolean isStarted;
+    ShapeRenderer sr;
 
     public AnimatedImage(Texture texture) {
 
         super(texture);
 
         setScaling(Scaling.fit);
+
+        sr = new ShapeRenderer();
+        sr.setAutoShapeType(true);
+        sr.setColor(Color.RED);
     }
 
     public void animate(Texture walkSheet, int rows, int cols, int frameLimit, float speed) {
@@ -68,6 +74,25 @@ public abstract class AnimatedImage extends Image {
     public void start() {
         duration = 0;
         isStarted = true;
+    }
+
+
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+
+        super.draw(batch, parentAlpha);
+
+        batch.end();
+
+        sr.setProjectionMatrix(batch.getProjectionMatrix());
+        sr.begin(ShapeRenderer.ShapeType.Line);
+        sr.line(
+                getOriginX(), getOriginY(),
+                getX() + getWidth() / 2f, getY() + getHeight() / 2f
+        );
+        sr.end();
+
+        batch.begin();
     }
 
 }

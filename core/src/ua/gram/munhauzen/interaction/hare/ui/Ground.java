@@ -5,7 +5,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 import ua.gram.munhauzen.MunhauzenGame;
-import ua.gram.munhauzen.ui.FitImage;
 
 /**
  * @author Gram <gram7gram@gmail.com>
@@ -13,7 +12,6 @@ import ua.gram.munhauzen.ui.FitImage;
 public class Ground extends Image {
 
     Texture texture;
-    float scale;
 
     public Ground(Texture texture) {
         super(texture);
@@ -31,11 +29,12 @@ public class Ground extends Image {
         super.act(delta);
 
         float width = MunhauzenGame.WORLD_WIDTH * 2f;
-        scale = 1f * width / texture.getWidth();
+        float scale = 1f * width / texture.getWidth();
+        float height = texture.getHeight() * scale;
 
-        setSize(width, texture.getHeight() * scale);
-        setPosition(-getWidth() / 4f, -getHeight() * 3 / 5f);
-        setOrigin(getWidth() / 2f, getHeight() / 2f);
+        setSize(width, height);
+        setPosition(-width / 4f, -height * 3 / 5f);
+        setOrigin(getX() + width / 2f, getY() + height / 2f);
 
     }
 }

@@ -2,10 +2,13 @@ package ua.gram.munhauzen;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -80,6 +83,13 @@ public class MunhauzenGame extends Game {
     }
 
     @Override
+    public void render() {
+        super.render();
+
+        handleInput();
+    }
+
+    @Override
     public void resize(int width, int height) {
         view.update(width, height);
     }
@@ -104,6 +114,7 @@ public class MunhauzenGame extends Game {
 
         camera = new OrthographicCamera();
         camera.position.set(WORLD_WIDTH / 2f, WORLD_HEIGHT / 2f, 0);
+        camera.zoom = 1;
         camera.update();
     }
 
@@ -122,21 +133,53 @@ public class MunhauzenGame extends Game {
         view.apply();
     }
 
-//    private Animation<TextureRegion> texture2Animation(String file, float speed, int cols, int rows) {
-//        Texture sheet = new Texture(Gdx.files.internal(file));
-//
-//        TextureRegion[][] tmp = TextureRegion.split(sheet,
-//                sheet.getWidth() / cols,
-//                sheet.getHeight() / rows);
-//
-//        TextureRegion[] walkFrames = new TextureRegion[cols * rows];
-//        int index = 0;
-//        for (int i = 0; i < rows; i++) {
-//            for (int j = 0; j < cols; j++) {
-//                walkFrames[index++] = tmp[i][j];
-//            }
-//        }
-//
-//        return new Animation<TextureRegion>(speed, walkFrames);
-//    }
+
+    private void handleInput() {
+
+        boolean hasChanged = false;
+
+        if (Gdx.input.isKeyPressed(Input.Keys.VOLUME_UP)) {
+        //if (input.scrolled(1)) {
+            Log.i(tag, "zoom in");
+            camera.zoom += 0.02;
+            hasChanged = true;
+        }
+
+        if (Gdx.input.isKeyPressed(Input.Keys.VOLUME_DOWN)) {
+        //if (input.scrolled(-1)) {
+            Log.i(tag, "zoom out");
+            camera.zoom -= 0.02;
+            hasChanged = true;
+        }
+
+        /*if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+            camera.translate(-3, 0, 0);
+            hasChanged = true;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+            camera.translate(3, 0, 0);
+            hasChanged = true;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+            camera.translate(0, -3, 0);
+            hasChanged = true;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+            camera.translate(0, 3, 0);
+            hasChanged = true;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+            camera.rotate(-rotationSpeed, 0, 0, 1);
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.E)) {
+            camera.rotate(rotationSpeed, 0, 0, 1);
+        }*/
+
+        if (!hasChanged) return;
+
+        camera.zoom = MathUtils.clamp(camera.zoom, 0.1f, 2);
+
+        camera.update();
+    }
+
 }
