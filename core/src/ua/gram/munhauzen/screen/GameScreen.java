@@ -9,8 +9,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.Timer;
 
 import java.util.ArrayList;
@@ -29,6 +27,7 @@ import ua.gram.munhauzen.fragment.ProgressBarFragment;
 import ua.gram.munhauzen.fragment.ScenarioFragment;
 import ua.gram.munhauzen.service.AudioService;
 import ua.gram.munhauzen.service.ImageService;
+import ua.gram.munhauzen.service.InteractionService;
 import ua.gram.munhauzen.service.InventoryService;
 import ua.gram.munhauzen.service.StoryManager;
 import ua.gram.munhauzen.ui.GameLayers;
@@ -103,7 +102,6 @@ public class GameScreen implements Screen {
         background = game.assetManager.get("a0.jpg", Texture.class);
 
         gameLayers = new GameLayers(this);
-        gameLayers.setFillParent(true);
 
         ui.addActor(gameLayers);
 
@@ -127,8 +125,8 @@ public class GameScreen implements Screen {
         saveTask = Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
-                Json json = new Json();
-                json.setOutputType(JsonWriter.OutputType.json);
+//                Json json = new Json();
+//                json.setOutputType(JsonWriter.OutputType.json);
 
 //                try {
 //                    String content = json.prettyPrint(game.gameState.history);

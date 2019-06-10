@@ -394,6 +394,8 @@ public class HareProgressBarFragment extends Fragment {
 
         root = new Table();
         root.add(stack).align(Align.bottom).fillX().expand().row();
+
+        root.setName(tag);
     }
 
     public float getHeight() {
@@ -402,7 +404,7 @@ public class HareProgressBarFragment extends Fragment {
 
     public void update() {
 
-        if (root == null) return;
+        if (!isMounted()) return;
 
         HareStory story = interaction.storyManager.hareStory;
 
@@ -454,7 +456,7 @@ public class HareProgressBarFragment extends Fragment {
 
     public void fadeIn() {
 
-        if (root == null) return;
+        if (!isMounted()) return;
 
         Log.i(tag, "fadeIn");
 
@@ -475,7 +477,7 @@ public class HareProgressBarFragment extends Fragment {
 
     public void fadeOut(Runnable task) {
 
-        if (root == null) return;
+        if (!isMounted()) return;
 
         Log.i(tag, "fadeOut");
 
@@ -500,7 +502,7 @@ public class HareProgressBarFragment extends Fragment {
 
     public void fadeOut() {
 
-        if (root == null) return;
+        if (!isMounted()) return;
 
         Log.i(tag, "fadeOut");
 
@@ -524,7 +526,7 @@ public class HareProgressBarFragment extends Fragment {
 
     public void scheduleFadeOut() {
 
-        if (root == null) return;
+        if (!isMounted()) return;
 
         Log.i(tag, "scheduleFadeOut");
 

@@ -1,8 +1,9 @@
-package ua.gram.munhauzen.screen;
+package ua.gram.munhauzen.service;
 
 import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.entity.StoryInteraction;
 import ua.gram.munhauzen.interaction.InteractionFactory;
+import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.utils.Log;
 
 /**
@@ -22,7 +23,7 @@ public class InteractionService {
         Story story = gameScreen.getStory();
         if (story.currentScenario == null) return;
 
-        String name = story.currentScenario.scenario.interaction;
+        String name = InteractionFactory.GENERALS;//story.currentScenario.scenario.interaction;
         if (name == null) return;
 
         StoryInteraction interaction = story.currentInteraction;

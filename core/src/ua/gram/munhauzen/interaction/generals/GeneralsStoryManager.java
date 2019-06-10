@@ -51,9 +51,9 @@ public class GeneralsStoryManager {
         if (generalsStory == null) {
             Log.e(tag, "Story is not valid. Resetting");
 
-            for (GeneralsScenario hareScenario : interaction.scenarioRegistry) {
-                if (hareScenario.isBegin) {
-                    generalsStory = create(hareScenario.name);
+            for (GeneralsScenario scenario : interaction.scenarioRegistry) {
+                if (scenario.isBegin) {
+                    generalsStory = create(scenario.name);
                     break;
                 }
             }
@@ -63,9 +63,9 @@ public class GeneralsStoryManager {
 
     }
 
-    private void findNext(GeneralsScenario from, GeneralsStory hareStory) {
+    private void findNext(GeneralsScenario from, GeneralsStory story) {
 
-        Log.i(tag, "findNext " + from.name + " #" + hareStory.scenarios.size);
+        Log.i(tag, "findNext " + from.name + " #" + story.scenarios.size);
 
         Set<String> inventory = gameScreen.inventoryService.getAllInventory();
 
@@ -73,16 +73,16 @@ public class GeneralsStoryManager {
         storyScenario.scenario = from;
         storyScenario.duration = 0;
 
-        hareStory.scenarios.add(storyScenario);
+        story.scenarios.add(storyScenario);
 
         if ("GOTO".equals(from.action)) {
             for (Decision decision : from.decisions) {
                 if (isDecisionAvailable(decision, inventory)) {
 
-                    for (GeneralsScenario hareScenario : interaction.scenarioRegistry) {
-                        if (hareScenario.name.equals(decision.scenario)) {
+                    for (GeneralsScenario scenario : interaction.scenarioRegistry) {
+                        if (scenario.name.equals(decision.scenario)) {
 
-                            findNext(hareScenario, hareStory);
+                            findNext(scenario, story);
 
                             break;
                         }
@@ -100,9 +100,7 @@ public class GeneralsStoryManager {
 
     public void startLoadingResources() {
 
-        GeneralsStory story = interaction.storyManager.generalsStory;
-
-        GeneralsStoryScenario scenario = story.currentScenario;
+        GeneralsStoryScenario scenario = generalsStory.currentScenario;
         if (scenario == null) return;
 
         final StoryAudio audio = scenario.currentAudio;

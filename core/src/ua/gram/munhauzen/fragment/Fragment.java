@@ -45,6 +45,10 @@ public class Fragment implements Disposable {
         }
     }
 
+    public boolean isMounted() {
+        return getRoot() != null && getRoot().getStage() != null;
+    }
+
     @Override
     public void dispose() {
         Log.i(tag, "dispose");

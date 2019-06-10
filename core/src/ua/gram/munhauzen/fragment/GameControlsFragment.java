@@ -108,6 +108,8 @@ public class GameControlsFragment extends Fragment {
         root.addActor(soundGroup);
         root.addActor(menuGroup);
 
+        root.setName(tag);
+
         addListenersToSoundButton();
         addListenersToMenuButton();
     }

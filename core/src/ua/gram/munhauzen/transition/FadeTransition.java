@@ -59,7 +59,7 @@ public class FadeTransition extends Transition {
                 .width(item.width)
                 .height(item.height);
 
-        fragment.layer2Image.addAction(Actions.sequence(
+        fragment.layer2ImageGroup.addAction(Actions.sequence(
                 Actions.alpha(1, .3f),
                 Actions.run(new Runnable() {
                     @Override

@@ -211,6 +211,8 @@ public class ScenarioFragment extends Fragment {
         fadeIn();
 
         GameState.isPaused = true;
+
+        root.setName(tag);
     }
 
     private void makeDecision(final int currentIndex, Decision decision) {

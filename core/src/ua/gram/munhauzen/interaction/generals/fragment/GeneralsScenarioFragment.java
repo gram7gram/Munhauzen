@@ -208,6 +208,8 @@ public class GeneralsScenarioFragment extends Fragment {
         fadeIn();
 
         GameState.isPaused = true;
+
+        root.setName(tag);
     }
 
     private void makeDecision(final int currentIndex, Decision decision) {
@@ -279,7 +281,7 @@ public class GeneralsScenarioFragment extends Fragment {
 
     public void fadeOut(Runnable task) {
 
-        if (root == null) return;
+        if (!isMounted()) return;
 
         float duration = .3f;
 
@@ -293,7 +295,7 @@ public class GeneralsScenarioFragment extends Fragment {
 
     private void fadeOutDecoration() {
 
-        if (root == null) return;
+        if (!isMounted()) return;
 
         float duration = .5f;
 
@@ -316,14 +318,14 @@ public class GeneralsScenarioFragment extends Fragment {
 
     public void fadeIn() {
 
-        if (root == null) return;
+        if (!isMounted()) return;
 
         fadeInDecoration();
     }
 
     private void fadeInDecoration() {
 
-        if (root == null) return;
+        if (!isMounted()) return;
 
         float duration = .3f;
 

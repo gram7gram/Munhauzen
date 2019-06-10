@@ -479,6 +479,8 @@ public class ProgressBarFragment extends Fragment {
         root = new Table();
         root.add(stack).align(Align.bottom).fillX().expand().row();
 
+        root.setName(tag);
+
     }
 
     public float getHeight() {
@@ -487,7 +489,7 @@ public class ProgressBarFragment extends Fragment {
 
     public void update() {
 
-        if (root == null) return;
+        if (!isMounted()) return;
 
         Story story = gameScreen.getStory();
 
@@ -550,7 +552,7 @@ public class ProgressBarFragment extends Fragment {
 
     public void fadeIn() {
 
-        if (root == null) return;
+        if (!isMounted()) return;
 
         Log.i(tag, "fadeIn");
 
@@ -571,7 +573,7 @@ public class ProgressBarFragment extends Fragment {
 
     public void fadeOut() {
 
-        if (root == null) return;
+        if (!isMounted()) return;
 
         Log.i(tag, "fadeOut");
 
@@ -595,7 +597,7 @@ public class ProgressBarFragment extends Fragment {
 
     public void scheduleFadeOut() {
 
-        if (root == null) return;
+        if (!isMounted()) return;
 
         Log.i(tag, "scheduleFadeOut");
 

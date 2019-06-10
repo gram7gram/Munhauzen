@@ -15,7 +15,6 @@ import ua.gram.munhauzen.entity.Scenario;
 import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.entity.StoryImage;
 import ua.gram.munhauzen.entity.StoryScenario;
-import ua.gram.munhauzen.fragment.ImageFragment;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.transition.FadeTransition;
 import ua.gram.munhauzen.transition.NormalTransition;
@@ -84,7 +83,6 @@ public class ImageService {
         }
     }
 
-
     public void onPrepared(StoryImage item) {
 
         if (!item.isLocked) return;
@@ -127,67 +125,10 @@ public class ImageService {
     }
 
     public void update() {
-        toggleLevel1Overlay();
-        toggleLevel2Overlay();
-    }
 
-    public void toggleLevel1Overlay() {
-
-        int height = Math.min(150, MunhauzenGame.WORLD_HEIGHT / 20);
-
-        ImageFragment fragment = gameScreen.imageFragment;
-
-        boolean isOverlayVisible = fragment.layer1Image.getHeight() < MunhauzenGame.WORLD_HEIGHT;
-
-        fragment.layer1OverlayBottom.setVisible(isOverlayVisible);
-        fragment.layer1OverlayTop.setVisible(isOverlayVisible);
-
-        if (isOverlayVisible) {
-
-            fragment.layer1OverlayBottom.setWidth(MunhauzenGame.WORLD_WIDTH);
-            fragment.layer1OverlayBottom.setHeight(height);
-
-            fragment.layer1OverlayTop.setWidth(MunhauzenGame.WORLD_WIDTH);
-            fragment.layer1OverlayTop.setHeight(height);
-
-            fragment.layer1OverlayBottom.setPosition(
-                    0,
-                    fragment.layer1Image.getY() - height / 2f);
-
-            fragment.layer1OverlayTop.setPosition(
-                    0,
-                    fragment.layer1Image.getY() + fragment.layer1Image.getHeight() - height / 2f);
-
+        if (gameScreen.imageFragment != null) {
+            gameScreen.imageFragment.update();
         }
     }
 
-    public void toggleLevel2Overlay() {
-
-        int height = 150;
-
-        ImageFragment fragment = gameScreen.imageFragment;
-
-        boolean isOverlayVisible = fragment.layer2Image.getHeight() < MunhauzenGame.WORLD_HEIGHT;
-
-        fragment.layer2OverlayBottom.setVisible(isOverlayVisible);
-        fragment.layer2OverlayTop.setVisible(isOverlayVisible);
-
-        if (isOverlayVisible) {
-
-            fragment.layer2OverlayBottom.setWidth(MunhauzenGame.WORLD_WIDTH);
-            fragment.layer2OverlayBottom.setHeight(height);
-
-            fragment.layer2OverlayTop.setWidth(MunhauzenGame.WORLD_WIDTH);
-            fragment.layer2OverlayTop.setHeight(height);
-
-            fragment.layer2OverlayBottom.setPosition(
-                    0,
-                    fragment.layer2Image.getY() - height / 2f);
-
-            fragment.layer2OverlayTop.setPosition(
-                    0,
-                    fragment.layer2Image.getY() + fragment.layer2Image.getHeight() - height / 2f);
-
-        }
-    }
 }

@@ -23,7 +23,7 @@ public class MunhauzenGame extends Game {
     public static boolean PAUSED = false;
     public static final boolean DEBUG = true;
     public static final boolean DEBUG_RANDOM_AUDIO = true;
-    public static final boolean DEBUG_RANDOM_BACKGROUND = true;
+    public static final boolean DEBUG_RANDOM_BACKGROUND = false;
     public static final boolean DEBUG_RENDER_INFO = false;
 
     private final String tag = getClass().getSimpleName();
