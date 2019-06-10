@@ -1,0 +1,147 @@
+[
+  {
+    "isBegin": true,
+    "name": "a2_2_0_interaction",
+    "action": "CLICK",
+    "audio": [
+      {
+        "audio": "s2_2_0",
+        "duration": 0
+      }
+    ],
+    "images": [
+      {
+        "image": "inter_general_1",
+        "duration": 10000
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "a2_2_b"
+      },
+      {
+        "scenario": "a2_2_c"
+      },
+      {
+        "scenario": "a2_2_d"
+      },
+      {
+        "scenario": "a2_2_a"
+      }
+    ],
+    "translations": [
+      {
+        "locale": "en",
+        "text": ""
+      }
+    ]
+  },
+  {
+    "isExit": true,
+    "name": "a2_2_a",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "s2_2_a",
+        "duration": 0
+      }
+    ],
+    "images": [
+      {
+        "image": "inter_general_1",
+        "duration": 12000
+      },
+      {
+        "image": "inter_general_2",
+        "duration": 0
+      }
+    ],
+    "decisions": [],
+    "translations": [
+      {
+        "locale": "en",
+        "text": "Set wine fumes on fire"
+      }
+    ]
+  },
+  {
+    "name": "a2_2_b",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "s2_2_b",
+        "duration": 0
+      }
+    ],
+    "images": [
+      {
+        "image": "inter_general_1",
+        "duration": 0
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "a2_2_0_interaction"
+      }
+    ],
+    "translations": [
+      {
+        "locale": "en",
+        "text": "Snatch a cap from his head"
+      }
+    ]
+  },
+  {
+    "name": "a2_2_c",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "s2_2_c",
+        "duration": 0
+      }
+    ],
+    "images": [
+      {
+        "image": "inter_general_1",
+        "duration": 0
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "a2_2_0_interaction"
+      }
+    ],
+    "translations": [
+      {
+        "locale": "en",
+        "text": "Put a canary next to him"
+      }
+    ]
+  },
+  {
+    "name": "a2_2_d",
+    "audio": [
+      {
+        "audio": "s2_2_d",
+        "duration": 0
+      }
+    ],
+    "images": [
+      {
+        "image": "inter_general_1",
+        "duration": 0
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "a2_2_0_interaction"
+      }
+    ],
+    "translations": [
+      {
+        "locale": "en",
+        "text": "Knock his head with a bottle"
+      }
+    ]
+  }
+]

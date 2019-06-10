@@ -235,7 +235,7 @@ public class GameScreen implements Screen {
         ui.act(delta);
         ui.draw();
 
-        if (MunhauzenGame.DEBUG)
+        if (MunhauzenGame.DEBUG_RENDER_INFO)
             drawDebugInfo();
     }
 

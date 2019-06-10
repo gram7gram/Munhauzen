@@ -45,7 +45,7 @@ public class ImageService {
         }
 
         String resource;
-        if (MunhauzenGame.DEBUG) {
+        if (MunhauzenGame.DEBUG_RANDOM_BACKGROUND) {
             ArrayList<String> randomResources = new ArrayList<>();
             randomResources.add("images/image1.jpg");
             randomResources.add("images/image2.jpg");

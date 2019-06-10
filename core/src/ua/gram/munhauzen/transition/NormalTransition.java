@@ -4,18 +4,18 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.StoryImage;
 import ua.gram.munhauzen.fragment.ImageFragment;
 import ua.gram.munhauzen.screen.GameScreen;
+import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
  */
 public class NormalTransition extends Transition {
-
-    Image targetImage;
 
     public NormalTransition(GameScreen gameScreen) {
         super(gameScreen);
@@ -37,11 +37,13 @@ public class NormalTransition extends Transition {
         fragment.layer1Image.addAction(Actions.alpha(1));
         //fragment.layer2Image.addAction(Actions.alpha(1));
 
-        targetImage = fragment.layer1Image;
+        final Image targetImage = fragment.layer1Image;
 
         targetImage.setDrawable(item.drawable);
 
         if (item.drawable.getMinWidth() > item.drawable.getMinHeight()) {
+
+            Log.i(tag, "widescreen");
 
             float scale = 1f * MunhauzenGame.WORLD_HEIGHT / item.drawable.getMinHeight();
             float width = 1f * item.drawable.getMinWidth() * scale;
@@ -50,9 +52,12 @@ public class NormalTransition extends Transition {
             item.width = width;
 
             targetImage.addListener(new ActorGestureListener() {
+
                 @Override
                 public void pan(InputEvent event, float x, float y, float deltaX, float deltaY) {
                     super.pan(event, x, y, deltaX, deltaY);
+
+                    Log.i(tag, "pan");
 
                     float newX = targetImage.getX() + deltaX;
                     float currentWidth = item.width;
@@ -68,7 +73,20 @@ public class NormalTransition extends Transition {
                 }
             });
 
+            targetImage.addListener(new ClickListener() {
+
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    super.clicked(event, x, y);
+
+                    Log.i(tag, "clicked");
+                }
+
+            });
+
         } else {
+
+            Log.i(tag, "normal");
 
             float scale = 1f * MunhauzenGame.WORLD_WIDTH / item.drawable.getMinWidth();
             float height = 1f * item.drawable.getMinHeight() * scale;

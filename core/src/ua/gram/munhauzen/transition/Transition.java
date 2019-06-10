@@ -8,6 +8,7 @@ import ua.gram.munhauzen.screen.GameScreen;
  */
 public abstract class Transition {
 
+    final String tag = getClass().getSimpleName();
     final GameScreen gameScreen;
 
     public Transition(GameScreen gameScreen) {

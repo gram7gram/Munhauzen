@@ -21,6 +21,8 @@ import ua.gram.munhauzen.entity.StatueTranslation;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.entity.StoryImage;
 import ua.gram.munhauzen.history.History;
+import ua.gram.munhauzen.interaction.generals.GeneralsScenario;
+import ua.gram.munhauzen.interaction.generals.GeneralsStoryImage;
 import ua.gram.munhauzen.interaction.hare.HareScenario;
 import ua.gram.munhauzen.utils.Files;
 import ua.gram.munhauzen.utils.Log;
@@ -118,6 +120,17 @@ public class DatabaseManager {
         return history;
     }
 
+    @SuppressWarnings("unchecked")
+    public Array<GeneralsScenario> loadGeneralsScenario() {
+        Json json = new Json(JsonWriter.OutputType.json);
+        json.setIgnoreUnknownFields(true);
+        json.setElementType(Scenario.class, "decisions", Decision.class);
+        json.setElementType(Scenario.class, "images", GeneralsStoryImage.class);
+        json.setElementType(Scenario.class, "audio", StoryAudio.class);
+        json.setElementType(Scenario.class, "translations", ScenarioTranslation.class);
+
+        return json.fromJson(Array.class, GeneralsScenario.class, Files.getGeneralsScenarioFile());
+    }
     @SuppressWarnings("unchecked")
     public Array<HareScenario> loadHareScenario() {
         Json json = new Json(JsonWriter.OutputType.json);

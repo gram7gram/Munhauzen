@@ -40,6 +40,9 @@ public class Files {
     public static FileHandle getHareScenarioFile() {
         return getInternalConfig("game/hare-scenario.json");
     }
+    public static FileHandle getGeneralsScenarioFile() {
+        return getInternalConfig("game/generals-scenario.json");
+    }
 
     public static FileHandle getScenarioFile() {
         return getInternalConfig("game/scenario.json");

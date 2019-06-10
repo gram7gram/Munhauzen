@@ -11,12 +11,14 @@ public class InteractionFactory {
 
     public final static String HARE = "HARE";
     public final static String CONTINUE = "CONTINUE";
+    public final static String GENERALS = "GENERALS";
 
     public static AbstractInteraction create(GameScreen gameScreen, String type) {
 
         switch (type) {
             case HARE: return new HareInteraction(gameScreen);
             case CONTINUE: return new ContinueInteraction(gameScreen);
+            case GENERALS: return new GeneralsInteraction(gameScreen);
         }
 
         throw new GdxRuntimeException("No such interaction " + type);

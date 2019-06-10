@@ -1,5 +1,7 @@
 package ua.gram.munhauzen.ui;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 
 import ua.gram.munhauzen.fragment.Fragment;
@@ -15,6 +17,15 @@ public class GameLayers extends Stack {
 
     public GameLayers(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
+
+        Actor dummy = new Actor();
+        dummy.setTouchable(Touchable.disabled);
+        dummy.setVisible(false);
+
+        addActorAt(0, dummy);
+        addActorAt(1, dummy);
+        addActorAt(2, dummy);
+        addActorAt(3, dummy);
     }
 
     public void setBackgroundImageLayer(Fragment actor) {

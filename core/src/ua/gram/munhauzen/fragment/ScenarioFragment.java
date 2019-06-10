@@ -95,7 +95,7 @@ public class ScenarioFragment extends Fragment {
         buttonList.clear();
     }
 
-    public Stack create(ArrayList<Decision> decisions) {
+    public void create(ArrayList<Decision> decisions) {
 
         Log.i(tag, "create x" + decisions.size());
 
@@ -146,74 +146,11 @@ public class ScenarioFragment extends Fragment {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     super.clicked(event, x, y);
-
                     try {
-                        Log.i(tag, "primaryDecision clicked " + decision.scenario);
-
                         Sound sfx = assetManager.get("sfx/sfx_decision.mp3", Sound.class);
                         sfx.play();
 
-                        final Runnable onComplete = new Runnable() {
-                            @Override
-                            public void run() {
-
-                                try {
-                                    Log.i(tag, "fadeOut button complete");
-
-                                    if (gameScreen.scenarioFragment != null) {
-                                        gameScreen.scenarioFragment.destroy();
-                                        gameScreen.scenarioFragment = null;
-                                    }
-
-                                    GameState.isPaused = false;
-                                } catch (Throwable e) {
-                                    Log.e(tag, e);
-                                }
-                            }
-                        };
-
-                        fadeOutDecoration();
-
-                        try {
-                            Story newStory = gameScreen.storyManager.create(decision.scenario);
-
-                            game.gameState.history.activeSave.story = newStory;
-                        } catch (Throwable e) {
-                            Log.e(tag, e);
-                        }
-
-                        gameScreen.storyManager.startLoadingResources();
-
-                        //let cannon animation complete...
-                        Timer.schedule(new Timer.Task() {
-                            @Override
-                            public void run() {
-                                try {
-                                    for (Actor button : buttonList) {
-
-                                        boolean isCurrent = buttonList.indexOf(button) == currentIndex;
-
-                                        button.setTouchable(Touchable.disabled);
-
-                                        Log.i(tag, "fadeOut button " + (isCurrent ? "+" : "-"));
-
-                                        if (isCurrent) {
-                                            button.addAction(
-                                                    Actions.sequence(
-                                                            Actions.delay(.5f),
-                                                            Actions.fadeOut(.5f),
-                                                            Actions.run(onComplete)
-                                                    )
-                                            );
-                                        } else {
-                                            button.addAction(Actions.fadeOut(.5f));
-                                        }
-                                    }
-                                } catch (Throwable e) {
-                                    Log.e(tag, e);
-                                }
-                            }
-                        }, 1);
+                        makeDecision(currentIndex, decision);
                     } catch (Throwable e) {
                         Log.e(tag, e);
                     }
@@ -274,8 +211,76 @@ public class ScenarioFragment extends Fragment {
         fadeIn();
 
         GameState.isPaused = true;
+    }
 
-        return root;
+    private void makeDecision(final int currentIndex, Decision decision) {
+        try {
+            Log.i(tag, "primaryDecision clicked " + decision.scenario);
+
+            final Runnable onComplete = new Runnable() {
+                @Override
+                public void run() {
+
+                    try {
+                        Log.i(tag, "fadeOut button complete");
+
+                        if (gameScreen.scenarioFragment != null) {
+                            gameScreen.scenarioFragment.destroy();
+                            gameScreen.scenarioFragment = null;
+                        }
+
+                        GameState.isPaused = false;
+                    } catch (Throwable e) {
+                        Log.e(tag, e);
+                    }
+                }
+            };
+
+            fadeOutDecoration();
+
+            try {
+                Story newStory = gameScreen.storyManager.create(decision.scenario);
+
+                game.gameState.history.activeSave.story = newStory;
+            } catch (Throwable e) {
+                Log.e(tag, e);
+            }
+
+            gameScreen.storyManager.startLoadingResources();
+
+            //let cannon animation complete...
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    try {
+                        for (Actor button : buttonList) {
+
+                            boolean isCurrent = buttonList.indexOf(button) == currentIndex;
+
+                            button.setTouchable(Touchable.disabled);
+
+                            Log.i(tag, "fadeOut button " + (isCurrent ? "+" : "-"));
+
+                            if (isCurrent) {
+                                button.addAction(
+                                        Actions.sequence(
+                                                Actions.delay(.5f),
+                                                Actions.fadeOut(.5f),
+                                                Actions.run(onComplete)
+                                        )
+                                );
+                            } else {
+                                button.addAction(Actions.fadeOut(.5f));
+                            }
+                        }
+                    } catch (Throwable e) {
+                        Log.e(tag, e);
+                    }
+                }
+            }, 1);
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
     }
 
     public void fadeOut(Runnable task) {
@@ -369,9 +374,9 @@ public class ScenarioFragment extends Fragment {
         label.setAlignment(Align.center);
 
         Table labelContainer = new Table();
-        labelContainer.add(label).fill().expand()
-                .padLeft(headerSize / 5f).padRight(headerSize / 5f)
-                .height(label.getHeight());
+        labelContainer.add(label).center().fillX().expand()
+                .padTop(5).padBottom(5)
+                .padLeft(headerSize / 5f).padRight(headerSize / 5f);
 
         Stack stackMiddle = new Stack();
         stackMiddle.addActor(backMiddle);
@@ -381,10 +386,7 @@ public class ScenarioFragment extends Fragment {
 
         table.add(backTop)
                 .expandX().height(headerSize).row();
-        table.add(stackMiddle)
-                .minHeight(headerSize)
-                .height(label.getHeight())
-                .expandX().row();
+        table.add(stackMiddle).row();
         table.add(backBottom)
                 .expandX().height(50).row();
 
@@ -399,14 +401,16 @@ public class ScenarioFragment extends Fragment {
             public void clicked(final InputEvent event, final float x, final float y) {
                 super.clicked(event, x, y);
 
-                root.clearListeners();
+                try {
+                    Stack animated = createAnimatedHeader(index);
 
-                Stack animated = createAnimatedHeader(index);
+                    stack.removeActor(header);
+                    stack.addActorAt(1, animated);
 
-                stack.removeActor(header);
-                stack.addActorAt(1, animated);
-
-                onClick.clicked(event, x, y);
+                    onClick.clicked(event, x, y);
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
             }
         });
 

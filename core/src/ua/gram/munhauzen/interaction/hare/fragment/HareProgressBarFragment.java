@@ -401,6 +401,9 @@ public class HareProgressBarFragment extends Fragment {
     }
 
     public void update() {
+
+        if (root == null) return;
+
         HareStory story = interaction.storyManager.hareStory;
 
         pauseButton.setVisible(!GameState.isPaused);
@@ -450,6 +453,9 @@ public class HareProgressBarFragment extends Fragment {
     }
 
     public void fadeIn() {
+
+        if (root == null) return;
+
         Log.i(tag, "fadeIn");
 
         if (fadeOutTask != null) {
@@ -468,6 +474,9 @@ public class HareProgressBarFragment extends Fragment {
     }
 
     public void fadeOut(Runnable task) {
+
+        if (root == null) return;
+
         Log.i(tag, "fadeOut");
 
         //root.setTouchable(Touchable.disabled);
@@ -490,6 +499,9 @@ public class HareProgressBarFragment extends Fragment {
     }
 
     public void fadeOut() {
+
+        if (root == null) return;
+
         Log.i(tag, "fadeOut");
 
         //root.setTouchable(Touchable.disabled);
@@ -511,6 +523,9 @@ public class HareProgressBarFragment extends Fragment {
     }
 
     public void scheduleFadeOut() {
+
+        if (root == null) return;
+
         Log.i(tag, "scheduleFadeOut");
 
         if (fadeOutTask != null) {

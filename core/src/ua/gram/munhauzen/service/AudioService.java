@@ -37,7 +37,7 @@ public class AudioService {
             return;
         }
         String resource;
-        if (MunhauzenGame.DEBUG) {
+        if (MunhauzenGame.DEBUG_RANDOM_AUDIO) {
             ArrayList<String> randomResources = new ArrayList<>();
             randomResources.add("audio/audio1.ogg");
             randomResources.add("audio/audio2.ogg");

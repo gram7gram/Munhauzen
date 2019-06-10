@@ -1,4 +1,4 @@
-package ua.gram.munhauzen.fragment;
+package ua.gram.munhauzen.interaction.generals.fragment;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
@@ -24,9 +24,11 @@ import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.GameState;
-import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.entity.StoryAudio;
-import ua.gram.munhauzen.entity.StoryScenario;
+import ua.gram.munhauzen.fragment.Fragment;
+import ua.gram.munhauzen.interaction.GeneralsInteraction;
+import ua.gram.munhauzen.interaction.generals.GeneralsStory;
+import ua.gram.munhauzen.interaction.generals.GeneralsStoryScenario;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.utils.Log;
@@ -34,9 +36,10 @@ import ua.gram.munhauzen.utils.Log;
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class ProgressBarFragment extends Fragment {
+public class GeneralsProgressBarFragment extends Fragment {
 
     public final String tag = getClass().getSimpleName();
+    public final GeneralsInteraction interaction;
     public final GameScreen gameScreen;
     public final AssetManager assetManager;
 
@@ -44,11 +47,12 @@ public class ProgressBarFragment extends Fragment {
     public Table root;
     public Stack stack;
     public Table controlsTable;
-    public ImageButton skipBackButton, rewindBackButton, skipForwardButton, rewindForwardButton, pauseButton, playButton;
+    public ImageButton rewindBackButton, rewindForwardButton, pauseButton, playButton;
     private Timer.Task fadeOutTask;
 
-    public ProgressBarFragment(GameScreen gameScreen) {
+    public GeneralsProgressBarFragment(GameScreen gameScreen, GeneralsInteraction interaction) {
         this.gameScreen = gameScreen;
+        this.interaction = interaction;
         assetManager = new AssetManager();
     }
 
@@ -64,12 +68,6 @@ public class ProgressBarFragment extends Fragment {
 
         assetManager.load("ui/playbar_rewind_forward.png", Texture.class);
         assetManager.load("ui/playbar_rewind_forward_off.png", Texture.class);
-
-        assetManager.load("ui/playbar_skip_backward.png", Texture.class);
-        assetManager.load("ui/playbar_skip_backward_off.png", Texture.class);
-
-        assetManager.load("ui/playbar_skip_forward.png", Texture.class);
-        assetManager.load("ui/playbar_skip_forward_off.png", Texture.class);
 
         assetManager.load("ui/elements_player_fond_1.png", Texture.class);
         assetManager.load("ui/elements_player_fond_2.png", Texture.class);
@@ -105,12 +103,10 @@ public class ProgressBarFragment extends Fragment {
         Image sideRightDecor = new FitImage(new SpriteDrawable(sideRightSprite));
         Image centerDecor = new FitImage(centerTexture);
 
-        skipBackButton = getSkipBack();
         rewindBackButton = getRewindBack();
         playButton = getPlay();
         pauseButton = getPause();
         rewindForwardButton = getRewindForward();
-        skipForwardButton = getSkipForward();
 
         Stack playPauseGroup = new Stack();
         playPauseGroup.add(playButton);
@@ -127,11 +123,9 @@ public class ProgressBarFragment extends Fragment {
         barStyle.knob.setMinWidth(barStyle.knob.getMinWidth() * knobScale);
 
         controlsTable = new Table();
-        controlsTable.add(skipBackButton).expandX().left().width(controlsSize).height(controlsSize);
         controlsTable.add(rewindBackButton).expandX().right().width(controlsSize).height(controlsSize);
         controlsTable.add(playPauseGroup).expandX().center().width(controlsSize).height(controlsSize);
         controlsTable.add(rewindForwardButton).expandX().left().width(controlsSize).height(controlsSize);
-        controlsTable.add(skipForwardButton).expandX().right().width(controlsSize).height(controlsSize);
 
         Table barTable = new Table();
         barTable.pad(controlsSize, controlsSize * 2, controlsSize, controlsSize * 2);
@@ -155,11 +149,11 @@ public class ProgressBarFragment extends Fragment {
                 .width(sideRightDecor.getWidth() * (1f * decorHeight / sideRightDecor.getHeight()))
                 .height(decorHeight);
 
+
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-
                 try {
                     Log.i(tag, "playButton clicked");
 
@@ -176,104 +170,13 @@ public class ProgressBarFragment extends Fragment {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-
                 try {
+
                     Log.i(tag, "pauseButton clicked");
 
                     gameScreen.audioService.stop();
 
                     GameState.isPaused = true;
-                } catch (Throwable e) {
-                    Log.e(tag, e);
-                }
-            }
-        });
-
-        skipBackButton.addListener(new InputListener() {
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                super.enter(event, x, y, pointer, fromActor);
-
-                try {
-                    gameScreen.audioService.stop();
-
-                    gameScreen.scenarioFragment.fadeOut(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                gameScreen.scenarioFragment.destroy();
-                            } catch (Throwable e) {
-                                Log.e(tag, e);
-                            }
-                        }
-                    });
-
-                    Story story = gameScreen.getStory();
-                    if (story.currentScenario == null) return;
-
-                    StoryScenario previous = story.currentScenario.previous;
-                    if (previous == null) {
-                        return;
-                    }
-
-                    Log.i(tag, "skipBackButton to " + previous.scenario.name + " at " + previous.startsAt + " ms");
-
-                    GameState.isPaused = true;
-
-                    story.update(previous.startsAt, story.totalDuration);
-                } catch (Throwable e) {
-                    Log.e(tag, e);
-                }
-            }
-
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                super.exit(event, x, y, pointer, toActor);
-
-                try {
-                    GameState.isPaused = false;
-
-                    startCurrentMusicIfPaused();
-                } catch (Throwable e) {
-                    Log.e(tag, e);
-                }
-            }
-        });
-
-        skipForwardButton.addListener(new InputListener() {
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                super.enter(event, x, y, pointer, fromActor);
-
-                try {
-                    gameScreen.audioService.stop();
-
-                    Story story = gameScreen.getStory();
-                    if (story.currentScenario == null) return;
-
-                    StoryScenario next = story.currentScenario.next;
-                    if (next == null) {
-                        return;
-                    }
-
-                    Log.i(tag, "skipForwardButton to " + next.scenario.name + " at " + next.startsAt + " ms");
-
-                    GameState.isPaused = true;
-
-                    story.update(next.startsAt, story.totalDuration);
-                } catch (Throwable e) {
-                    Log.e(tag, e);
-                }
-            }
-
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                super.exit(event, x, y, pointer, toActor);
-
-                try {
-                    GameState.isPaused = false;
-
-                    startCurrentMusicIfPaused();
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -287,28 +190,31 @@ public class ProgressBarFragment extends Fragment {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 super.enter(event, x, y, pointer, fromActor);
-
                 try {
+
                     Log.i(tag, "rewindBackButton enter");
 
                     gameScreen.audioService.stop();
 
-                    gameScreen.scenarioFragment.fadeOut(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                gameScreen.scenarioFragment.destroy();
-                            } catch (Throwable e) {
-                                Log.e(tag, e);
+                    if (interaction.scenarioFragment != null) {
+                        interaction.scenarioFragment.fadeOut(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    interaction.scenarioFragment.destroy();
+                                    interaction.scenarioFragment = null;
+                                } catch (Throwable e) {
+                                    Log.e(tag, e);
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
 
                     progressTask = Timer.schedule(new Timer.Task() {
                         @Override
                         public void run() {
                             try {
-                                Story story = gameScreen.getStory();
+                                GeneralsStory story = interaction.storyManager.generalsStory;
 
                                 GameState.isPaused = true;
                                 story.isCompleted = false;
@@ -362,7 +268,7 @@ public class ProgressBarFragment extends Fragment {
                         @Override
                         public void run() {
                             try {
-                                Story story = gameScreen.getStory();
+                                GeneralsStory story = interaction.storyManager.generalsStory;
 
                                 GameState.isPaused = true;
                                 story.isCompleted = false;
@@ -382,6 +288,7 @@ public class ProgressBarFragment extends Fragment {
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 super.exit(event, x, y, pointer, toActor);
+
                 try {
                     Log.i(tag, "rewindForwardButton exit");
 
@@ -401,17 +308,25 @@ public class ProgressBarFragment extends Fragment {
         bar.addListener(new ActorGestureListener() {
 
             private void scrollTo(float percent) {
+
                 try {
                     gameScreen.audioService.stop();
 
-                    gameScreen.scenarioFragment.fadeOut(new Runnable() {
-                        @Override
-                        public void run() {
-                            gameScreen.scenarioFragment.destroy();
-                        }
-                    });
+                    if (interaction.scenarioFragment != null) {
+                        interaction.scenarioFragment.fadeOut(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    interaction.scenarioFragment.destroy();
+                                    interaction.scenarioFragment = null;
+                                } catch (Throwable e) {
+                                    Log.e(tag, e);
+                                }
+                            }
+                        });
+                    }
 
-                    Story story = gameScreen.getStory();
+                    GeneralsStory story = interaction.storyManager.generalsStory;
 
                     story.isCompleted = false;
                     story.update(story.totalDuration * percent, story.totalDuration);
@@ -423,6 +338,7 @@ public class ProgressBarFragment extends Fragment {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
+
                 try {
                     GameState.isPaused = false;
 
@@ -478,7 +394,6 @@ public class ProgressBarFragment extends Fragment {
 
         root = new Table();
         root.add(stack).align(Align.bottom).fillX().expand().row();
-
     }
 
     public float getHeight() {
@@ -489,28 +404,17 @@ public class ProgressBarFragment extends Fragment {
 
         if (root == null) return;
 
-        Story story = gameScreen.getStory();
-
-        boolean hasPrevious = false, hasNext = false;
-
-        if (story.currentScenario != null) {
-            hasPrevious = story.currentScenario.previous != null;
-            hasNext = story.currentScenario.next != null;
-        }
+        GeneralsStory story = interaction.storyManager.generalsStory;
 
         pauseButton.setVisible(!GameState.isPaused);
         playButton.setVisible(GameState.isPaused);
 
-        skipForwardButton.setDisabled(story.isCompleted || !hasNext);
         rewindForwardButton.setDisabled(story.isCompleted);
 
-        skipForwardButton.setTouchable(skipForwardButton.isDisabled() ? Touchable.disabled : Touchable.enabled);
         rewindForwardButton.setTouchable(rewindForwardButton.isDisabled() ? Touchable.disabled : Touchable.enabled);
 
-        skipBackButton.setDisabled(story.progress == 0 || !hasPrevious);
         rewindBackButton.setDisabled(story.progress == 0);
 
-        skipBackButton.setTouchable(skipBackButton.isDisabled() ? Touchable.disabled : Touchable.enabled);
         rewindBackButton.setTouchable(rewindBackButton.isDisabled() ? Touchable.disabled : Touchable.enabled);
 
         bar.setRange(0, story.totalDuration);
@@ -519,9 +423,9 @@ public class ProgressBarFragment extends Fragment {
 
     public void startCurrentMusicIfPaused() {
 
-        Story story = gameScreen.getStory();
+        GeneralsStory story = interaction.storyManager.generalsStory;
 
-        for (StoryScenario scenarioOption : story.scenarios) {
+        for (GeneralsStoryScenario scenarioOption : story.scenarios) {
             if (scenarioOption != story.currentScenario) {
                 for (StoryAudio audio : scenarioOption.scenario.audio) {
                     Music player = audio.player;
@@ -565,6 +469,31 @@ public class ProgressBarFragment extends Fragment {
                 Actions.parallel(
                         Actions.fadeIn(.3f),
                         Actions.moveTo(0, 0, .3f)
+                )
+        );
+    }
+
+    public void fadeOut(Runnable task) {
+
+        if (root == null) return;
+
+        Log.i(tag, "fadeOut");
+
+        //root.setTouchable(Touchable.disabled);
+        root.clearActions();
+        root.addAction(
+                Actions.sequence(
+                        Actions.parallel(
+                                Actions.fadeOut(.5f),
+                                Actions.moveTo(0, -40, .5f)
+                        ),
+                        Actions.run(new Runnable() {
+                            @Override
+                            public void run() {
+                                root.setVisible(false);
+                            }
+                        }),
+                        Actions.run(task)
                 )
         );
     }
@@ -624,18 +553,7 @@ public class ProgressBarFragment extends Fragment {
             fadeOutTask.cancel();
             fadeOutTask = null;
         }
-    }
 
-    private ImageButton getSkipBack() {
-        Texture skipBack = assetManager.get("ui/playbar_skip_backward.png", Texture.class);
-        Texture skipBackOff = assetManager.get("ui/playbar_skip_backward_off.png", Texture.class);
-
-        ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
-        style.up = new SpriteDrawable(new Sprite(skipBack));
-        style.down = new SpriteDrawable(new Sprite(skipBack));
-        style.disabled = new SpriteDrawable(new Sprite(skipBackOff));
-
-        return new ImageButton(style);
     }
 
     private ImageButton getRewindBack() {
@@ -658,18 +576,6 @@ public class ProgressBarFragment extends Fragment {
         style.up = new SpriteDrawable(new Sprite(rewindForward));
         style.down = new SpriteDrawable(new Sprite(rewindForward));
         style.disabled = new SpriteDrawable(new Sprite(rewindForwardOff));
-
-        return new ImageButton(style);
-    }
-
-    private ImageButton getSkipForward() {
-        Texture skipForward = assetManager.get("ui/playbar_skip_forward.png", Texture.class);
-        Texture skipForwardOff = assetManager.get("ui/playbar_skip_forward_off.png", Texture.class);
-
-        ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
-        style.up = new SpriteDrawable(new Sprite(skipForward));
-        style.down = new SpriteDrawable(new Sprite(skipForward));
-        style.disabled = new SpriteDrawable(new Sprite(skipForwardOff));
 
         return new ImageButton(style);
     }

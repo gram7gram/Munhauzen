@@ -1,4 +1,4 @@
-package ua.gram.munhauzen.interaction.hare.fragment;
+package ua.gram.munhauzen.interaction.generals.fragment;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
@@ -33,9 +33,9 @@ import ua.gram.munhauzen.entity.Decision;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.ScenarioTranslation;
 import ua.gram.munhauzen.fragment.Fragment;
-import ua.gram.munhauzen.interaction.HareInteraction;
-import ua.gram.munhauzen.interaction.hare.HareScenario;
-import ua.gram.munhauzen.interaction.hare.HareStory;
+import ua.gram.munhauzen.interaction.GeneralsInteraction;
+import ua.gram.munhauzen.interaction.generals.GeneralsScenario;
+import ua.gram.munhauzen.interaction.generals.GeneralsStory;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.ui.WrapLabel;
@@ -44,10 +44,10 @@ import ua.gram.munhauzen.utils.Log;
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class HareScenarioFragment extends Fragment {
+public class GeneralsScenarioFragment extends Fragment {
 
     private final String tag = getClass().getSimpleName();
-    private final HareInteraction interaction;
+    private final GeneralsInteraction interaction;
     private final MunhauzenGame game;
     public final GameScreen gameScreen;
     public final AssetManager assetManager;
@@ -59,7 +59,7 @@ public class HareScenarioFragment extends Fragment {
     private final HashMap<Integer, String> animatedMap = new HashMap<>(7);
     private final float headerSize, buttonSize;
 
-    public HareScenarioFragment(GameScreen gameScreen, HareInteraction interaction) {
+    public GeneralsScenarioFragment(GameScreen gameScreen, GeneralsInteraction interaction) {
         this.game = gameScreen.game;
         this.gameScreen = gameScreen;
         this.interaction = interaction;
@@ -121,7 +121,7 @@ public class HareScenarioFragment extends Fragment {
 
             ScenarioTranslation translation = null;
 
-            for (HareScenario hareScenario : interaction.scenarioRegistry) {
+            for (GeneralsScenario hareScenario : interaction.scenarioRegistry) {
                 if (decision.scenario.equals(hareScenario.name)) {
 
                     for (ScenarioTranslation item : hareScenario.translations) {
@@ -233,9 +233,9 @@ public class HareScenarioFragment extends Fragment {
             fadeOutDecoration();
 
             try {
-                HareStory newStory = interaction.storyManager.create(decision.scenario);
+                GeneralsStory newStory = interaction.storyManager.create(decision.scenario);
 
-                interaction.storyManager.hareStory = newStory;
+                interaction.storyManager.generalsStory = newStory;
 
                 interaction.storyManager.startLoadingResources();
             } catch (Throwable e) {

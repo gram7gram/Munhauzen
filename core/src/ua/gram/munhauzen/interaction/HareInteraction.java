@@ -64,11 +64,6 @@ public class HareInteraction extends AbstractInteraction {
     public void onResourcesLoaded() {
         isLoaded = true;
 
-        if (gameScreen.progressBarFragment != null) {
-            gameScreen.progressBarFragment.destroy();
-            gameScreen.progressBarFragment = null;
-        }
-
         progressBarFragment.create();
 
         gameScreen.gameLayers.setProgressBarLayer(progressBarFragment);

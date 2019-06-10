@@ -28,16 +28,21 @@ public class Fragment implements Disposable {
     public void destroy() {
         Log.i(tag, "destroy");
 
-        Actor actor = getRoot();
-        if (actor != null) {
-            actor.remove();
-        }
-        if (root != null) {
-            root.remove();
-            root = null;
-        }
+        try {
+            Actor actor = getRoot();
+            if (actor != null) {
+                actor.remove();
+            }
 
-        dispose();
+            if (root != null) {
+                root.remove();
+                root = null;
+            }
+
+            dispose();
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
     }
 
     @Override
