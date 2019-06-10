@@ -22,7 +22,7 @@ public class InteractionService {
         Story story = gameScreen.getStory();
         if (story.currentScenario == null) return;
 
-        String name = InteractionFactory.HARE;//story.currentScenario.scenario.interaction;
+        String name = story.currentScenario.scenario.interaction;
         if (name == null) return;
 
         StoryInteraction interaction = story.currentInteraction;

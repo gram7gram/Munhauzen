@@ -15,8 +15,10 @@ public class HareAnimation extends AnimatedImage {
 
         animate(texture, 1, 4, 4, 0.08f);
 
-        setSize(200, 200);
-        setPosition(50, MunhauzenGame.WORLD_HEIGHT * .35f);
+        float size = MunhauzenGame.WORLD_WIDTH / 5f;
+
+        setSize(size, size);
+        setPosition(50, MunhauzenGame.WORLD_HEIGHT * .3f);
     }
 }
 

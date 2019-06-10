@@ -151,70 +151,7 @@ public class HareScenarioFragment extends Fragment {
                 public void clicked(InputEvent event, float x, float y) {
                     super.clicked(event, x, y);
 
-                    try {
-                        Log.i(tag, "harePrimaryDecision clicked " + decision.scenario);
-
-                        Sound sfx = assetManager.get("sfx/sfx_decision.mp3", Sound.class);
-                        sfx.play();
-
-                        final Runnable onComplete = new Runnable() {
-                            @Override
-                            public void run() {
-
-                                Log.i(tag, "fadeOut button complete");
-
-                                interaction.scenarioFragment.destroy();
-                                interaction.scenarioFragment = null;
-
-                                GameState.isPaused = false;
-                            }
-                        };
-
-                        fadeOutDecoration();
-
-                        try {
-                            HareStory newStory = interaction.storyManager.create(decision.scenario);
-
-                            interaction.storyManager.hareStory = newStory;
-                        } catch (Throwable e) {
-                            Log.e(tag, e);
-                        }
-
-                        interaction.storyManager.startLoadingResources();
-
-                        //let cannon animation complete...
-                        Timer.schedule(new Timer.Task() {
-                            @Override
-                            public void run() {
-                                try {
-                                    for (Actor button : buttonList) {
-
-                                        boolean isCurrent = buttonList.indexOf(button) == currentIndex;
-
-                                        button.setTouchable(Touchable.disabled);
-
-                                        Log.i(tag, "fadeOut button " + (isCurrent ? "+" : "-"));
-
-                                        if (isCurrent) {
-                                            button.addAction(
-                                                    Actions.sequence(
-                                                            Actions.delay(.5f),
-                                                            Actions.fadeOut(.5f),
-                                                            Actions.run(onComplete)
-                                                    )
-                                            );
-                                        } else {
-                                            button.addAction(Actions.fadeOut(.5f));
-                                        }
-                                    }
-                                } catch (Throwable e) {
-                                    Log.e(tag, e);
-                                }
-                            }
-                        }, 1);
-                    } catch (Throwable e) {
-                        Log.e(tag, e);
-                    }
+                    makeDecision(currentIndex, decision);
                 }
             });
 
@@ -274,6 +211,73 @@ public class HareScenarioFragment extends Fragment {
         GameState.isPaused = true;
 
         return root;
+    }
+
+    private void makeDecision(final int currentIndex, Decision decision) {
+        try {
+            Log.i(tag, "makeDecision " + decision.scenario);
+
+            Sound sfx = assetManager.get("sfx/sfx_decision.mp3", Sound.class);
+            sfx.play();
+
+            final Runnable onComplete = new Runnable() {
+                @Override
+                public void run() {
+
+                    Log.i(tag, "fadeOut button complete");
+
+                    interaction.scenarioFragment.destroy();
+                    interaction.scenarioFragment = null;
+
+                    GameState.isPaused = false;
+                }
+            };
+
+            fadeOutDecoration();
+
+            try {
+                HareStory newStory = interaction.storyManager.create(decision.scenario);
+
+                interaction.storyManager.hareStory = newStory;
+
+                interaction.storyManager.startLoadingResources();
+            } catch (Throwable e) {
+                Log.e(tag, e);
+            }
+
+            //let cannon animation complete...
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    try {
+                        for (Actor button : buttonList) {
+
+                            boolean isCurrent = buttonList.indexOf(button) == currentIndex;
+
+                            button.setTouchable(Touchable.disabled);
+
+                            Log.i(tag, "fadeOut button " + (isCurrent ? "+" : "-"));
+
+                            if (isCurrent) {
+                                button.addAction(
+                                        Actions.sequence(
+                                                Actions.delay(.5f),
+                                                Actions.fadeOut(.5f),
+                                                Actions.run(onComplete)
+                                        )
+                                );
+                            } else {
+                                button.addAction(Actions.fadeOut(.5f));
+                            }
+                        }
+                    } catch (Throwable e) {
+                        Log.e(tag, e);
+                    }
+                }
+            }, 1);
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
     }
 
     public void fadeOut(Runnable task) {

@@ -1,7 +1,6 @@
 package ua.gram.munhauzen.interaction.hare.animation;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 import ua.gram.munhauzen.MunhauzenGame;
@@ -18,7 +17,10 @@ public class DucksAnimation extends AnimatedImage {
 
         animate(texture, 6, 1, 6, 0.08f);
 
-        setSize(200, 91);
+        float size = MunhauzenGame.WORLD_WIDTH * .4f;
+        float scale = 1f * 200 / size;
+
+        setSize(size, 91 * scale);
         setPosition(-getWidth() - 20, MunhauzenGame.WORLD_HEIGHT * .75f);
     }
 

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Set;
 
 import ua.gram.munhauzen.entity.Decision;
+import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.interaction.HareInteraction;
 import ua.gram.munhauzen.interaction.hare.fragment.HareScenarioFragment;
@@ -133,26 +134,34 @@ public class HareStoryManager {
 
         Log.i(tag, "onCompleted " + hareStory.id);
 
-//        for (HareStoryScenario storyScenario : hareStory.scenarios) {
-//
-//            Inventory inventory = InventoryRepository.findByScenario(gameState, storyScenario.scenario.name);
-//            if (inventory != null) {
-//                if (!gameScreen.inventoryService.isInInventory(inventory)) {
-//                    if (inventory.isGlobal()) {
-//                        gameScreen.inventoryService.addGlobalInventory(inventory);
-//                    } else {
-//                        gameScreen.inventoryService.addInventory(inventory);
-//                    }
-//                }
-//            }
-//        }
-
         Set<String> inventory = gameScreen.inventoryService.getAllInventory();
 
         for (StoryAudio audio : hareStory.currentScenario.scenario.audio) {
             if (audio.player != null) {
                 audio.player.pause();
             }
+        }
+
+        if (hareStory.currentScenario.scenario.isExit) {
+
+            interaction.progressBarFragment.fadeOut(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        gameScreen.interactionService.destroy();
+
+                        Story story = gameScreen.storyManager.create("a18_d_continue");
+
+                        gameScreen.setStory(story);
+
+                        gameScreen.storyManager.startLoadingResources();
+                    } catch (Throwable e) {
+                        Log.e(tag, e);
+                    }
+                }
+            });
+
+            return;
         }
 
         ArrayList<Decision> availableDecisions = new ArrayList<>();
@@ -171,6 +180,7 @@ public class HareStoryManager {
             }
 
             interaction.progressBarFragment.fadeIn();
+
             interaction.scenarioFragment.create(availableDecisions);
 
             gameScreen.gameLayers.setStoryDecisionsLayer(

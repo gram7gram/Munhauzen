@@ -15,8 +15,10 @@ public class HorseAnimation extends AnimatedImage {
 
         animate(texture, 1, 5, 5, 0.1f);
 
-        setSize(250, 250);
-        setPosition(MunhauzenGame.WORLD_WIDTH - 50 - getWidth(), MunhauzenGame.WORLD_HEIGHT * .32f);
+        float size = MunhauzenGame.WORLD_WIDTH * .4f;
+
+        setSize(size, size);
+        setPosition(MunhauzenGame.WORLD_WIDTH - 50 - getWidth(), MunhauzenGame.WORLD_HEIGHT * .3f);
 
     }
 }
