@@ -4,68 +4,61 @@ import com.badlogic.gdx.files.FileHandle;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 
+import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.utils.ExternalFiles;
 import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class ExtractGameConfigTask {
+public class ExtractExpansionTask {
 
     private final String tag = getClass().getSimpleName();
+    final MunhauzenGame game;
+
+    public ExtractExpansionTask(MunhauzenGame game) {
+        this.game = game;
+    }
 
     public void extract() throws IOException {
 
-        FileHandle archive = ExternalFiles.getGameArchiveFile();
-        ZipInputStream zis = new ZipInputStream(archive.read());
+        FileHandle expansionFile = ExternalFiles.getExpansionFile(game.params);
+        FileHandle targetDirectory = ExternalFiles.getExpansionDir();
+
+        ZipInputStream zis = new ZipInputStream(expansionFile.read());
 
         try {
+
             ArrayList<ZipEntry> entries = determineEntries(zis);
 
             if (entries.size() == 0) {
                 throw new NullPointerException("No expansion entries found");
             }
 
-            ZipFile zip = new ZipFile(ExternalFiles.getGameArchiveFile().file());
+            ZipFile zip = new ZipFile(expansionFile.file());
 
             for (ZipEntry entry : entries) {
 
                 if (entry.isDirectory())
                     continue;
 
-                FileHandle outputFile;
-                switch (entry.getName()) {
-                    case "scenario.json":
-                        outputFile = ExternalFiles.getScenarioFile();
-                        break;
-                    case "audio.json":
-                        outputFile = ExternalFiles.getAudioFile();
-                        break;
-                    case "audio-fails.json":
-                        outputFile = ExternalFiles.getAudioFailsFile();
-                        break;
-                    case "chapters.json":
-                        outputFile = ExternalFiles.getChaptersFile();
-                        break;
-                    case "images.json":
-                        outputFile = ExternalFiles.getImagesFile();
-                        break;
-                    case "inventory.json":
-                        outputFile = ExternalFiles.getInventoryFile();
-                        break;
-                    default:
-                        continue;
+                File outputFile = new File(targetDirectory.file(), entry.getName());
+                File dir = entry.isDirectory() ? outputFile : outputFile.getParentFile();
 
-                }
+                if (!dir.isDirectory() && !dir.mkdirs())
+                    throw new FileNotFoundException("Failed to ensure directory: " + dir.getAbsolutePath());
 
-                outputFile.write(false);
+                if (entry.isDirectory())
+                    continue;
 
                 if (outputFile.exists() && outputFile.length() == entry.getSize())
                     continue;
@@ -74,7 +67,7 @@ public class ExtractGameConfigTask {
 
                 int b;
                 byte[] buffer = new byte[1024];
-                OutputStream fos = outputFile.write(false);
+                FileOutputStream fos = new FileOutputStream(outputFile);
                 BufferedOutputStream bos = new BufferedOutputStream(fos, 1024);
 
                 while ((b = bis.read(buffer, 0, 1024)) != -1) {
@@ -86,9 +79,16 @@ public class ExtractGameConfigTask {
             }
 
             zis.close();
+
+            expansionFile.delete();
+
         } catch (Throwable e) {
 
-            archive.delete();
+            expansionFile.delete();
+
+            ExternalFiles.getExpansionImagesDir().delete();
+
+            ExternalFiles.getExpansionAudioDir().delete();
 
             throw e;
         }

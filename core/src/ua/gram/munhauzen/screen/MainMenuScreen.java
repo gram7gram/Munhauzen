@@ -23,6 +23,7 @@ import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.MunhauzenStage;
 import ua.gram.munhauzen.expansion.ExportResponse;
+import ua.gram.munhauzen.expansion.ExtractExpansionTask;
 import ua.gram.munhauzen.expansion.ExtractGameConfigTask;
 import ua.gram.munhauzen.service.DatabaseManager;
 import ua.gram.munhauzen.utils.ExternalFiles;
@@ -37,7 +38,7 @@ public class MainMenuScreen implements Screen {
     private final MunhauzenGame game;
     private Texture background;
     private MunhauzenStage ui;
-    TextButton downloadButton, useButton;
+    TextButton downloadButton, useButton, expansionButton;
     Label progressLbl;
 
     public MainMenuScreen(MunhauzenGame game) {
@@ -55,44 +56,68 @@ public class MainMenuScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                game.setScreen(new GameScreen(game));
-                dispose();
+                try {
+                    game.setScreen(new GameScreen(game));
+                    dispose();
+
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
             }
         });
 
-        progressLbl = new Label("", new Label.LabelStyle(
+        progressLbl = new Label("Свободная память: " + getMB(), new Label.LabelStyle(
                 game.fontProvider.getFont(FontProvider.BuxtonSketch, FontProvider.p),
                 Color.BLUE
         ));
-        progressLbl.setVisible(false);
 
         downloadButton = game.buttonBuilder.primary("Скачать json", new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-
-                startDownload();
+                try {
+                    startDownload();
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
             }
         });
 
-        useButton = game.buttonBuilder.primary("Загрузить json", new ClickListener() {
+        useButton = game.buttonBuilder.primary("Использовать json", new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                new DatabaseManager().loadExternal(game.gameState);
+                try {
+                    new DatabaseManager().loadExternal(game.gameState);
+                    progressLbl.setText("Конфиги загружены!");
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                    progressLbl.setText("Ошибка при загрузке конфига");
+                }
+            }
+        });
 
-                progressLbl.setVisible(true);
-                progressLbl.setText("Конфиги загружены!");
+        expansionButton = game.buttonBuilder.primary("Загрузить файл расширения", new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                try {
+                    startExpansionDownload();
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
             }
         });
 
         Table container = new Table();
         container.setFillParent(true);
         container.pad(10);
-        container.add(startButton).width(400).expandX().row();
-        container.add(downloadButton).width(400).expandX().row();
-        container.add(useButton).width(400).expandX().row();
+        container.add(startButton).expandX().row();
+        container.add(useButton).expandX().padBottom(30).row();
+        container.add(downloadButton).expandX().row();
+        container.add(expansionButton).expandX().row();
         container.add(progressLbl).pad(10).expandX();
 
         ui.addActor(container);
@@ -148,9 +173,6 @@ public class MainMenuScreen implements Screen {
     }
 
     private void startDownload() {
-        downloadButton.setDisabled(true);
-        progressLbl.setVisible(true);
-
         final HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
 
         Net.HttpRequest httpRequest = requestBuilder.newRequest()
@@ -176,37 +198,32 @@ public class MainMenuScreen implements Screen {
                     @Override
                     public void handleHttpResponse(Net.HttpResponse httpResponse) {
 
-                        long length = Long.parseLong(httpResponse.getHeader("Content-Length"));
-
-                        // We're going to download the file to external storage, create the streams
-                        InputStream is = httpResponse.getResultAsStream();
                         FileHandle output = ExternalFiles.getGameArchiveFile();
 
-                        OutputStream os = output.write(false);
-
-                        byte[] bytes = new byte[1024];
-                        int count;
-                        long read = 0;
                         try {
-                            // Keep reading bytes and storing them until there are no more.
+                            long length = Long.parseLong(httpResponse.getHeader("Content-Length"));
+
+                            InputStream is = httpResponse.getResultAsStream();
+
+                            output.delete();
+
+                            OutputStream os = output.write(false);
+
+                            byte[] bytes = new byte[1024];
+                            int count;
+                            long read = 0;
                             while ((count = is.read(bytes, 0, bytes.length)) != -1) {
                                 os.write(bytes, 0, count);
                                 read += count;
 
-                                // Update the UI with the download progress
                                 final int progress = ((int) (((double) read / (double) length) * 100));
 
                                 if (progress % 5 == 0) {
-
-                                    Log.i(tag, "progress=" + progress);
-
-                                    // Since we are downloading on a background thread, post a runnable to touch ui
                                     Gdx.app.postRunnable(new Runnable() {
                                         @Override
                                         public void run() {
                                             if (progress == 100) {
-                                                downloadButton.setDisabled(false);
-                                                progressLbl.setText("Скачивание успешно!");
+                                                progressLbl.setText("Скачивание успешно! Распаковка...");
                                             } else {
                                                 progressLbl.setText("Скачивание " + progress + "%");
                                             }
@@ -224,7 +241,12 @@ public class MainMenuScreen implements Screen {
                                 }
                             });
 
+                            output.delete();
+
                         } catch (Throwable e) {
+
+                            output.delete();
+
                             failed(e);
                         }
                     }
@@ -266,5 +288,99 @@ public class MainMenuScreen implements Screen {
             }
         });
 
+    }
+
+    private void startExpansionDownload() {
+        final HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
+
+        Net.HttpRequest httpRequest = requestBuilder.newRequest()
+                .method(Net.HttpMethods.GET)
+                .url(game.params.getExpansionUrl())
+                .build();
+
+        Gdx.net.sendHttpRequest(httpRequest, new Net.HttpResponseListener() {
+            @Override
+            public void handleHttpResponse(Net.HttpResponse httpResponse) {
+
+                FileHandle output = ExternalFiles.getExpansionFile(game.params);
+
+                try {
+                    ExternalFiles.getExpansionImagesDir().delete();
+
+                    ExternalFiles.getExpansionAudioDir().delete();
+
+                    long length = Long.parseLong(httpResponse.getHeader("Content-Length"));
+
+                    InputStream is = httpResponse.getResultAsStream();
+
+                    output.delete();
+
+                    OutputStream os = output.write(false);
+
+                    byte[] bytes = new byte[1024];
+                    int count;
+                    long read = 0;
+                    while ((count = is.read(bytes, 0, bytes.length)) != -1) {
+                        os.write(bytes, 0, count);
+                        read += count;
+
+                        final int progress = ((int) (((double) read / (double) length) * 100));
+
+                        if (progress % 5 == 0) {
+                            Gdx.app.postRunnable(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (progress == 100) {
+                                        progressLbl.setText("Скачивание успешно! Распаковка...");
+                                    } else {
+                                        progressLbl.setText("Скачивание " + progress + "% (своб.:" + getMB() + ")");
+                                    }
+                                }
+                            });
+                        }
+
+                    }
+
+                    new ExtractExpansionTask(game).extract();
+
+                    Gdx.app.postRunnable(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressLbl.setText("Файл расширения готов к использованию");
+                        }
+                    });
+
+                    output.delete();
+
+                } catch (Throwable e) {
+
+                    output.delete();
+
+                    failed(e);
+                }
+            }
+
+            @Override
+            public void failed(Throwable t) {
+                Log.e(tag, t);
+
+                Gdx.app.postRunnable(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressLbl.setText("Скачивание неудачно");
+                    }
+                });
+            }
+
+            @Override
+            public void cancelled() {
+
+            }
+        });
+
+    }
+
+    private String getMB() {
+        return String.format("%.2f", game.params.memoryUsage.megabytesAvailable()) + "МБ";
     }
 }

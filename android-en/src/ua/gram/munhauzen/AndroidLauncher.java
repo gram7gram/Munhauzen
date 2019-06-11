@@ -18,7 +18,10 @@ public class AndroidLauncher extends AndroidApplication {
         config.useWakelock = true;
 
         PlatformParams params = new PlatformParams();
+        params.versionCode = BuildConfig.VERSION_CODE;
+        params.versionName = BuildConfig.VERSION_NAME;
         params.locale = "en";
+        params.memoryUsage = new AndroidMemoryUsage();
 
         PermissionManager.grant(this, PermissionManager.PERMISSIONS);
 

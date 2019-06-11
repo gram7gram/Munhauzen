@@ -3,6 +3,8 @@ package ua.gram.munhauzen.utils;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 
+import ua.gram.munhauzen.PlatformParams;
+
 /**
  * @author Gram <gram7gram@gmail.com>
  */
@@ -10,6 +12,22 @@ public class ExternalFiles {
 
     public static FileHandle getGameStateFile() {
         return getExternal("state.json");
+    }
+
+    public static FileHandle getExpansionFile(PlatformParams params) {
+        return getExternal(params.versionCode + "-expansion.obb");
+    }
+
+    public static FileHandle getExpansionDir() {
+        return getExternal("expansion");
+    }
+
+    public static FileHandle getExpansionImagesDir() {
+        return getExternal("expansion/images");
+    }
+
+    public static FileHandle getExpansionAudioDir() {
+        return getExternal("expansion/audio");
     }
 
     public static FileHandle getGameArchiveFile() {
