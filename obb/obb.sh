@@ -2,17 +2,16 @@
 
 VERSION=$1
 if [ -z "$VERSION" ]; then
-	echo "Pack expansion files ldpi/mdpi/hdpi/xhdpi/xxhdpi/xxxhdpi"
+	echo "Pack expansion files hdpi"
 	echo "Usage: command [version]"
 	exit
 fi
 
 OUTPUT="/mnt/shared-ext4/Projects/Munhauzen/obb/expansions"
-if [ -d "OUTPUT" ]; then
-    mkdir -P $OUTPUT
-fi
+   
+mkdir -p $OUTPUT
 
-bash ./nodpi.sh
+AUDIO_DIR="/mnt/shared-ext4/Projects/Munhauzen/Elements/Elements/AUDIO_FINAL/Part_1"
 
 declare -A DEVICE
 declare -A I18N
@@ -21,21 +20,34 @@ declare -A TYPE
 
 DEVICE+=(
 	["1"]="normal"
-	["2"]="large"
-	["3"]="xlarge"
+	#["2"]="large"
+	#["3"]="xlarge"
 )
 I18N+=(
 	# ["1"]="uk"
-	# ["2"]="en"
-	["3"]="ru"
+	["2"]="en"
+	# ["3"]="ru"
 )
 DPI+=(
 	["0"]="hdpi"
-	["2"]="mdpi"
-	["4"]="xhdpi"
-	["5"]="xxhdpi"
-	["6"]="xxxhdpi"
+	#["2"]="mdpi"
+	#["4"]="xhdpi"
+	#["5"]="xxhdpi"
+	#["6"]="xxxhdpi"
 )
+echo "=> Clean up"
+
+for i18n in ${!I18N[@]}; do
+	L=${I18N[${i18n}]}
+	for dpi in ${!DPI[@]}; do
+		P=${DPI[${dpi}]}
+		for device in ${!DEVICE[@]}; do
+			D=${DEVICE[${device}]}
+
+			rm -f $OUTPUT/$L/$P/$D/*.obb
+		done
+	done
+done
 
 for i18n in ${!I18N[@]}; do
 	
@@ -52,30 +64,33 @@ for i18n in ${!I18N[@]}; do
 
 			NAME="$VERSION-expansion.obb"
 
-			echo "=> Processing $L $P $D" 
+			echo "=> Processing $L $P $D"
 
-			if [ -d "raw" ]; then
-				mkdir -p $OUTPUT/$L/$P/$D
+			mkdir -p $OUTPUT/$L/$P/$D
 
-				zip -r -q $OUTPUT/$L/$P/$D/$NAME raw
-				EXIT_CODE=$?
-				if [[ $EXIT_CODE != 0 ]]; then
-					exit $EXIT_CODE
-				fi
+			mkdir -p $AUDIO_DIR/../audio
+			cp -r $AUDIO_DIR /tmp/audio
+			
+			cd /tmp
+
+			zip -r -q -5 $OUTPUT/$L/$P/$D/$NAME audio
+			EXIT_CODE=$?
+			if [[ $EXIT_CODE != 0 ]]; then
+				exit $EXIT_CODE
 			fi
+			rm -rf /tmp/audio
+			cd -
 
 			if [ -d "$P/$D" ]; then
-				mkdir -p $OUTPUT/$L/$P/$D
-
 				cd $P/$D
 
-			  	zip -r -q $OUTPUT/$L/$P/$D/$NAME drawable
+			  	zip -r -q -5 $OUTPUT/$L/$P/$D/$NAME images
 				EXIT_CODE=$?
 				if [[ $EXIT_CODE != 0 ]]; then
 					exit $EXIT_CODE
 				fi
 
-				cd ../..
+				cd -
 			fi
 
 		done
