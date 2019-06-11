@@ -1,0 +1,11 @@
+org.gradle.daemon=true
+org.gradle.jvmargs=-Xms128m -Xmx1500m
+org.gradle.configureondemand=false
+
+APP_VERSION_NAME=0.1.0
+APP_VERSION_CODE=1
+
+RELEASE_STORE_FILE=fitnessapp.jks
+RELEASE_STORE_PASSWORD=~
+RELEASE_KEY_ALIAS=~
+RELEASE_KEY_PASSWORD=~

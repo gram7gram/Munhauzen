@@ -3,7 +3,6 @@ package ua.gram.munhauzen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
@@ -21,7 +20,7 @@ public class ButtonBuilder {
         decoration = game.assetManager.get("ui/b_primary_enabled.9.png", Texture.class);
     }
 
-    public Button primary(String text, final ClickListener onClick) {
+    public TextButton primary(String text, final ClickListener onClick) {
 
         NinePatchDrawable background = new NinePatchDrawable(new NinePatch(decoration, 90, 90, 0, 0));
 

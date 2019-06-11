@@ -1,3 +1,9 @@
+buildscript {
+    ext {
+        androidSupportVersion = '27.1.1'
+    }
+}
+
 android {
     buildToolsVersion "28.0.3"
     compileSdkVersion 28
@@ -18,14 +24,14 @@ android {
     }
     defaultConfig {
         applicationId "ua.gram.munhauzen"
-        minSdkVersion 9
+        minSdkVersion 18
         targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        versionCode APP_VERSION_CODE as Integer
+        versionName APP_VERSION_NAME
 
         manifestPlaceholders = [
-                appName      : "Robinzon",
-                appNameSuffix: "?",
+            appName : "Munhauzen",
+            appNameSuffix : "",
         ]
     }
     signingConfigs {
@@ -35,60 +41,60 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'androiddebug'
         }
+        release {
+            storeFile file(RELEASE_STORE_FILE)
+            storePassword RELEASE_STORE_PASSWORD
+            keyAlias RELEASE_KEY_ALIAS
+            keyPassword RELEASE_KEY_PASSWORD
+        }
+    }
+    splits {
+        abi {
+            reset()
+            enable true
+            universalApk true
+            include "armeabi", "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
+        }
     }
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
         }
         release {
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 
-    flavorDimensions 'tier', 'i18n'
-    productFlavors {
-        free {
-            applicationId "ua.gram.munhauzen.free"
-            versionNameSuffix "-free"
-            dimension "tier"
-            buildConfigField "boolean", "isAdvEnabled", "true"
-            buildConfigField "boolean", "isPro", "false"
+//    flavorDimensions 'tier', 'i18n'
+//    productFlavors {
+//        free {
+//            applicationId "ua.gram.munhauzen.free"
+//            versionNameSuffix "-free"
+//            dimension "tier"
+//
+//            manifestPlaceholders.appNameSuffix = "Free"
+//        }
+//        en {
+//            versionNameSuffix "-en"
+//            dimension "i18n"
+//            resConfig "en"
+//
+//            manifestPlaceholders.appName = "Munhauzen"
+//        }
+//    }
 
-            manifestPlaceholders.appNameSuffix = "Free"
-        }
-        pro {
-            applicationId "ua.gram.munhauzen.pro"
-            versionNameSuffix "-pro"
-            dimension "tier"
-            buildConfigField "boolean", "isAdvEnabled", "false"
-            buildConfigField "boolean", "isPro", "true"
-
-            manifestPlaceholders.appNameSuffix = "Premium"
-        }
-        uk {
-            versionNameSuffix "-uk"
-            dimension "i18n"
-            resConfig "uk"
-            buildConfigField "String", "locale", "\"uk\""
-
-            manifestPlaceholders.appName = "Сам собі Мюнхаузен"
-        }
-        ru {
-            versionNameSuffix "-ru"
-            dimension "i18n"
-            resConfig "ru"
-            buildConfigField "String", "locale", "\"ru\""
-
-            manifestPlaceholders.appName = "Сам себе Мюнхаузен"
-        }
-        en {
-            versionNameSuffix "-en"
-            dimension "i18n"
-            resConfig "en"
-            buildConfigField "String", "locale", "\"en\""
-
-            manifestPlaceholders.appName = "Munhauzen"
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            // For each separate APK per architecture, set a unique version code as described here:
+            // http://tools.android.com/tech-docs/new-build-system/user-guide/apk-splits
+            def versionCodes = ["armeabi": 1, "armeabi-v7a": 2, "arm64-v8a": 3, "x86": 4, "x86_64": 5]
+            def abi = output.getFilter(com.android.build.OutputFile.ABI)
+            if (abi != null) {
+                output.versionCodeOverride =
+                        versionCodes.get(abi) * 1048576 + defaultConfig.versionCode
+            }
         }
     }
 }
@@ -170,4 +176,8 @@ idea {
     }
 }
 dependencies {
+    //noinspection GradleCompatible
+    implementation "com.android.support:appcompat-v7:$androidSupportVersion"
+    //noinspection GradleCompatible
+    implementation "com.android.support:support-v4:$androidSupportVersion"
 }

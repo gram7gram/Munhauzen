@@ -207,12 +207,14 @@ public class GameScreen implements Screen {
                         story.totalDuration
                 );
 
-                if (story.isCompleted) {
+                if (story.isValid()) {
+                    if (story.isCompleted) {
 
-                    storyManager.onCompleted();
+                        storyManager.onCompleted();
 
-                } else {
-                    storyManager.startLoadingResources();
+                    } else {
+                        storyManager.startLoadingResources();
+                    }
                 }
             }
         }
@@ -235,6 +237,7 @@ public class GameScreen implements Screen {
 
         if (MunhauzenGame.DEBUG_RENDER_INFO)
             drawDebugInfo();
+
     }
 
     private void drawDebugInfo() {
@@ -245,11 +248,9 @@ public class GameScreen implements Screen {
         BitmapFont font = game.fontProvider.getFont(FontProvider.BuxtonSketch, fontSize);
         if (font != null) {
 
-            font.setColor(Color.RED);
-
+            font.setColor(Color.BLUE);
 
             ArrayList<String> strings = new ArrayList<>();
-            strings.add("story:" + story.id);
             strings.add("progress:" + story.totalDuration + "/" + ((int) story.progress));
 
             if (story.currentInteraction != null) {

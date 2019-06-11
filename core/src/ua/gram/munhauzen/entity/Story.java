@@ -21,10 +21,10 @@ public class Story {
 
         if (id == null || scenarios.size == 0) return false;
 
-        StoryScenario last = scenarios.get(scenarios.size - 1);
+        //StoryScenario last = scenarios.get(scenarios.size - 1);
 
         return isInit
-                && (last.scenario.action.equals("CLICK")) // || last.story.interaction ...
+                //&& (last.scenario.action.equals("CLICK")) // || last.story.interaction ...
                 && progress >= 0 && totalDuration >= 0
                 && currentScenario != null;
     }

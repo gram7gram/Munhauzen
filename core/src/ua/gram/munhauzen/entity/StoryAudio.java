@@ -9,6 +9,6 @@ public class StoryAudio extends StoryMedia<StoryAudio> {
     public Music player;
 
     public String getResource() {
-        return "audio/" + audio + ".ogg";
+        return "audio/" + audio + ".mp3";
     }
 }

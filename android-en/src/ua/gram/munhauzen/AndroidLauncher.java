@@ -6,19 +6,22 @@ import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 
 public class AndroidLauncher extends AndroidApplication {
-	@Override
-	protected void onCreate (Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 
-		config.useAccelerometer = false;
-		config.useCompass = false;
-		config.hideStatusBar = true;
-		config.useWakelock = true;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 
-		PlatformParams params = new PlatformParams();
-		params.locale = "en";
+        config.useAccelerometer = false;
+        config.useCompass = false;
+        config.hideStatusBar = true;
+        config.useWakelock = true;
 
-		initialize(new MunhauzenGame(params), config);
-	}
+        PlatformParams params = new PlatformParams();
+        params.locale = "en";
+
+        PermissionManager.grant(this, PermissionManager.PERMISSIONS);
+
+        initialize(new MunhauzenGame(params), config);
+    }
 }

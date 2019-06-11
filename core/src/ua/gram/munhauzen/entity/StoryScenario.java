@@ -20,7 +20,7 @@ public class StoryScenario extends StoryMedia<StoryScenario> {
         for (int i = 0; i < size; i++) {
             StoryImage current = scenario.images.get(i);
 
-            if (MunhauzenGame.DEBUG) {
+            if (MunhauzenGame.DEBUG_OVERWRITE_DURATION) {
                 if (current.duration == 0) {
                     current.duration = 1000;
                 }
@@ -62,7 +62,7 @@ public class StoryScenario extends StoryMedia<StoryScenario> {
         for (int i = 0; i < size; i++) {
             StoryAudio current = scenario.audio.get(i);
 
-            if (MunhauzenGame.DEBUG) {
+            if (MunhauzenGame.DEBUG_OVERWRITE_DURATION) {
                 if (current.duration == 0) {
                     current.duration = 2000;
                 }

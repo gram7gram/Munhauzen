@@ -4,14 +4,18 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import java.util.ArrayList;
+
 import ua.gram.munhauzen.entity.GameState;
-import ua.gram.munhauzen.screen.GameScreen;
+import ua.gram.munhauzen.screen.MainMenuScreen;
 import ua.gram.munhauzen.service.DatabaseManager;
 import ua.gram.munhauzen.utils.ExceptionHandler;
 import ua.gram.munhauzen.utils.Log;
@@ -21,10 +25,11 @@ public class MunhauzenGame extends Game {
     public static int WORLD_WIDTH;
     public static int WORLD_HEIGHT;
     public static boolean PAUSED = false;
-    public static final boolean DEBUG = true;
-    public static final boolean DEBUG_RANDOM_AUDIO = true;
+    public static final boolean DEBUG = false;
+    public static final boolean DEBUG_RANDOM_AUDIO = false;
     public static final boolean DEBUG_RANDOM_BACKGROUND = false;
-    public static final boolean DEBUG_RENDER_INFO = false;
+    public static final boolean DEBUG_RENDER_INFO = true;
+    public static final boolean DEBUG_OVERWRITE_DURATION = true;
 
     private final String tag = getClass().getSimpleName();
 
@@ -36,6 +41,7 @@ public class MunhauzenGame extends Game {
     public FontProvider fontProvider;
     public ButtonBuilder buttonBuilder;
     public AssetManager assetManager;
+    private Throwable currentError;
 
     public MunhauzenGame(PlatformParams params) {
         this.params = params;
@@ -69,7 +75,7 @@ public class MunhauzenGame extends Game {
 
         buttonBuilder = new ButtonBuilder(this);
 
-        setScreen(new GameScreen(this));
+        setScreen(new MainMenuScreen(this));
     }
 
     @Override
@@ -85,9 +91,19 @@ public class MunhauzenGame extends Game {
 
     @Override
     public void render() {
-        super.render();
 
-        handleInput();
+        try {
+            super.render();
+
+            handleInput();
+
+            drawError();
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            currentError = e;
+        }
     }
 
     @Override
@@ -154,6 +170,30 @@ public class MunhauzenGame extends Game {
         if (!hasChanged) return;
 
         camera.update();
+    }
+
+    private void drawError() {
+
+        if (currentError == null) return;
+
+        int fontSize = FontProvider.h4;
+        BitmapFont font = fontProvider.getFont(FontProvider.BuxtonSketch, fontSize);
+        if (font != null) {
+
+            font.setColor(Color.RED);
+
+            ArrayList<String> strings = new ArrayList<>();
+            strings.add("error: " + currentError.getMessage());
+
+            int offset = fontSize + 1;
+            int row = -1;
+
+            batch.begin();
+            for (String string : strings) {
+                font.draw(batch, string, 10, 10 + fontSize + (++row) * offset);
+            }
+            batch.end();
+        }
     }
 
 }
