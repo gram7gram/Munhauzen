@@ -333,10 +333,18 @@ public class GameScreen implements Screen {
 
         if (ui != null) {
             ui.dispose();
+            ui = null;
         }
 
-        audioService = null;
-        imageService = null;
+        if (audioService != null) {
+            audioService.dispose();
+            audioService = null;
+        }
+
+        if (imageService != null) {
+            imageService.dispose();
+            imageService = null;
+        }
 
         if (progressBarFragment != null) {
             progressBarFragment.dispose();

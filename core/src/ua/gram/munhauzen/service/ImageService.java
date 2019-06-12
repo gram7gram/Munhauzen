@@ -1,38 +1,44 @@
 package ua.gram.munhauzen.service;
 
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.resolvers.ExternalFileHandleResolver;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
+import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.Timer;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.GameState;
+import ua.gram.munhauzen.entity.Image;
 import ua.gram.munhauzen.entity.Scenario;
 import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.entity.StoryImage;
 import ua.gram.munhauzen.entity.StoryScenario;
+import ua.gram.munhauzen.repository.ImageRepository;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.transition.FadeTransition;
 import ua.gram.munhauzen.transition.NormalTransition;
 import ua.gram.munhauzen.transition.Transition;
 import ua.gram.munhauzen.utils.DateUtils;
+import ua.gram.munhauzen.utils.ExternalFiles;
 import ua.gram.munhauzen.utils.Log;
-import ua.gram.munhauzen.utils.MathUtils;
 
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class ImageService {
+public class ImageService implements Disposable {
 
     private final String tag = getClass().getSimpleName();
     private final GameScreen gameScreen;
+    public final AssetManager assetManager;
 
     public ImageService(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
+        assetManager = new AssetManager(new ExternalFileHandleResolver());
     }
 
     public void prepare(StoryImage item, Timer.Task onComplete) {
@@ -43,21 +49,11 @@ public class ImageService {
             return;
         }
 
-        String resource;
-        if (MunhauzenGame.DEBUG_RANDOM_BACKGROUND) {
-            ArrayList<String> randomResources = new ArrayList<>();
-            randomResources.add("images/image1.jpg");
-            randomResources.add("images/image2.jpg");
-            randomResources.add("images/image3.jpg");
-            randomResources.add("images/image4.jpg");
-            randomResources.add("images/image5.jpg");
+        Image image = ImageRepository.find(gameScreen.game.gameState, item.image);
 
-            resource = MathUtils.random(randomResources);
-        } else {
-            resource = item.getResource();
-        }
+        String resource = ExternalFiles.getExpansionImagesDir().path() + "/" + image.file;
 
-        boolean isLoaded = gameScreen.assetManager.isLoaded(resource, Texture.class);
+        boolean isLoaded = assetManager.isLoaded(resource, Texture.class);
 
         if (!item.isPreparing) {
 
@@ -65,7 +61,7 @@ public class ImageService {
                 item.isPreparing = true;
                 item.prepareStartedAt = new Date();
 
-                gameScreen.assetManager.load(resource, Texture.class);
+                assetManager.load(resource, Texture.class);
                 return;
             }
 
@@ -77,7 +73,7 @@ public class ImageService {
             item.isPrepared = true;
             item.prepareCompletedAt = new Date();
 
-            item.drawable = new SpriteDrawable(new Sprite(gameScreen.assetManager.get(resource, Texture.class)));
+            item.drawable = new SpriteDrawable(new Sprite(assetManager.get(resource, Texture.class)));
 
             Timer.post(onComplete);
         }
@@ -131,4 +127,8 @@ public class ImageService {
         }
     }
 
+    @Override
+    public void dispose() {
+        assetManager.dispose();
+    }
 }

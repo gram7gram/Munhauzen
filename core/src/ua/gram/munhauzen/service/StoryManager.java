@@ -7,8 +7,10 @@ import com.badlogic.gdx.utils.Timer;
 import java.util.ArrayList;
 import java.util.Set;
 
+import ua.gram.munhauzen.entity.Audio;
 import ua.gram.munhauzen.entity.Decision;
 import ua.gram.munhauzen.entity.GameState;
+import ua.gram.munhauzen.entity.Image;
 import ua.gram.munhauzen.entity.Inventory;
 import ua.gram.munhauzen.entity.Scenario;
 import ua.gram.munhauzen.entity.Story;
@@ -17,9 +19,12 @@ import ua.gram.munhauzen.entity.StoryImage;
 import ua.gram.munhauzen.entity.StoryScenario;
 import ua.gram.munhauzen.fragment.ScenarioFragment;
 import ua.gram.munhauzen.history.Save;
+import ua.gram.munhauzen.repository.AudioRepository;
+import ua.gram.munhauzen.repository.ImageRepository;
 import ua.gram.munhauzen.repository.InventoryRepository;
 import ua.gram.munhauzen.repository.ScenarioRepository;
 import ua.gram.munhauzen.screen.GameScreen;
+import ua.gram.munhauzen.utils.ExternalFiles;
 import ua.gram.munhauzen.utils.Log;
 import ua.gram.munhauzen.utils.StringUtils;
 
@@ -240,21 +245,39 @@ public class StoryManager {
 
         for (StoryScenario storyScenario : story.scenarios) {
 
-            for (StoryAudio audio : storyScenario.scenario.audio) {
-                String resource = audio.getResource();
-                if (gameScreen.assetManager.isLoaded(resource, Music.class)) {
-                    if (gameScreen.assetManager.getReferenceCount(resource) == 0) {
-                        gameScreen.assetManager.unload(resource);
+            String audioPath = ExternalFiles.getExpansionAudioDir().path();
+            String imagePath = ExternalFiles.getExpansionImagesDir().path();
+
+            for (StoryAudio storyAudio : storyScenario.scenario.audio) {
+
+                try {
+                    Audio audio = AudioRepository.find(gameScreen.game.gameState, storyAudio.audio);
+
+                    String resource = audioPath + "/" + audio.file;
+
+                    if (gameScreen.audioService.assetManager.isLoaded(resource, Music.class)) {
+                        if (gameScreen.audioService.assetManager.getReferenceCount(resource) == 0) {
+                            gameScreen.audioService.assetManager.unload(resource);
+                        }
                     }
+                } catch (Throwable e) {
+                    Log.e(tag, e);
                 }
             }
 
-            for (StoryImage image : storyScenario.scenario.images) {
-                String resource = image.getResource();
-                if (gameScreen.assetManager.isLoaded(resource, Texture.class)) {
-                    if (gameScreen.assetManager.getReferenceCount(resource) == 0) {
-                        gameScreen.assetManager.unload(resource);
+            for (StoryImage storyImage : storyScenario.scenario.images) {
+                try {
+
+                    Image image = ImageRepository.find(gameScreen.game.gameState, storyImage.image);
+
+                    String resource = imagePath + "/" + image.file;
+                    if (gameScreen.imageService.assetManager.isLoaded(resource, Texture.class)) {
+                        if (gameScreen.imageService.assetManager.getReferenceCount(resource) == 0) {
+                            gameScreen.imageService.assetManager.unload(resource);
+                        }
                     }
+                } catch (Throwable e) {
+                    Log.e(tag, e);
                 }
             }
 

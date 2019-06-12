@@ -1,32 +1,37 @@
 package ua.gram.munhauzen.service;
 
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.resolvers.ExternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.Timer;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.entity.Audio;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.entity.StoryScenario;
+import ua.gram.munhauzen.repository.AudioRepository;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.utils.DateUtils;
+import ua.gram.munhauzen.utils.ExternalFiles;
 import ua.gram.munhauzen.utils.Log;
-import ua.gram.munhauzen.utils.MathUtils;
 
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class AudioService {
+public class AudioService implements Disposable {
 
     private final String tag = getClass().getSimpleName();
     private final GameScreen gameScreen;
+    public final AssetManager assetManager;
 
     public AudioService(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
+        assetManager = new AssetManager(new ExternalFileHandleResolver());
     }
 
     public void prepare(StoryAudio item, Timer.Task onComplete) {
@@ -36,23 +41,12 @@ public class AudioService {
             }
             return;
         }
-        String resource;
-        if (MunhauzenGame.DEBUG_RANDOM_AUDIO) {
-            ArrayList<String> randomResources = new ArrayList<>();
-            randomResources.add("audio/audio1.ogg");
-            randomResources.add("audio/audio2.ogg");
-            randomResources.add("audio/audio3.ogg");
-            randomResources.add("audio/audio4.ogg");
-            randomResources.add("audio/audio5.ogg");
-            randomResources.add("audio/audio6.ogg");
-            randomResources.add("audio/audio7.ogg");
 
-            resource = MathUtils.random(randomResources);
-        } else {
-            resource = item.getResource();
-        }
+        Audio audio = AudioRepository.find(gameScreen.game.gameState, item.audio);
 
-        boolean isLoaded = gameScreen.assetManager.isLoaded(resource, Music.class);
+        String resource = ExternalFiles.getExpansionAudioDir().path() + "/" + audio.file;
+
+        boolean isLoaded = assetManager.isLoaded(resource, Music.class);
 
         if (!item.isPreparing) {
 
@@ -60,7 +54,7 @@ public class AudioService {
                 item.isPreparing = true;
                 item.prepareStartedAt = new Date();
 
-                gameScreen.assetManager.load(resource, Music.class);
+                assetManager.load(resource, Music.class);
                 return;
             }
 
@@ -71,7 +65,7 @@ public class AudioService {
             item.isPreparing = false;
             item.isPrepared = true;
             item.prepareCompletedAt = new Date();
-            item.player = gameScreen.assetManager.get(resource, Music.class);
+            item.player = assetManager.get(resource, Music.class);
 
             Timer.post(onComplete);
         }
@@ -163,5 +157,10 @@ public class AudioService {
                 }
             }
         }
+    }
+
+    @Override
+    public void dispose() {
+        assetManager.dispose();
     }
 }

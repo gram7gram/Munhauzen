@@ -71,7 +71,7 @@ public class MainMenuScreen implements Screen {
                 Color.BLUE
         ));
 
-        downloadButton = game.buttonBuilder.primary("Скачать json", new ClickListener() {
+        downloadButton = game.buttonBuilder.primary("[Скачать json]", new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
@@ -83,7 +83,7 @@ public class MainMenuScreen implements Screen {
             }
         });
 
-        useButton = game.buttonBuilder.primary("Использовать json", new ClickListener() {
+        useButton = game.buttonBuilder.primary("[Использовать json]", new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
@@ -98,7 +98,7 @@ public class MainMenuScreen implements Screen {
             }
         });
 
-        expansionButton = game.buttonBuilder.primary("Загрузить файл расширения", new ClickListener() {
+        expansionButton = game.buttonBuilder.primary("[Загрузить файл расширения]", new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
@@ -115,7 +115,7 @@ public class MainMenuScreen implements Screen {
         container.setFillParent(true);
         container.pad(10);
         container.add(startButton).expandX().row();
-        container.add(useButton).expandX().padBottom(30).row();
+        container.add(useButton).expandX().padBottom(80).row();
         container.add(downloadButton).expandX().row();
         container.add(expansionButton).expandX().row();
         container.add(progressLbl).pad(10).expandX();
@@ -195,44 +195,52 @@ public class MainMenuScreen implements Screen {
                         .build();
 
                 Gdx.net.sendHttpRequest(httpRequest, new Net.HttpResponseListener() {
+
+                    private void cleanup() {
+                        ExternalFiles.getGameArchiveFile().delete();
+                    }
+
                     @Override
                     public void handleHttpResponse(Net.HttpResponse httpResponse) {
+
+                        cleanup();
 
                         FileHandle output = ExternalFiles.getGameArchiveFile();
 
                         try {
                             long length = Long.parseLong(httpResponse.getHeader("Content-Length"));
 
-                            InputStream is = httpResponse.getResultAsStream();
+                            float mb = length / 1024f / 1024f;
+                            Log.i(tag, "downloading size=" + String.format("%.2f", mb) + "MB");
 
-                            output.delete();
+                            InputStream is = httpResponse.getResultAsStream();
 
                             OutputStream os = output.write(false);
 
                             byte[] bytes = new byte[1024];
                             int count;
-                            long read = 0;
                             while ((count = is.read(bytes, 0, bytes.length)) != -1) {
                                 os.write(bytes, 0, count);
-                                read += count;
-
-                                final int progress = ((int) (((double) read / (double) length) * 100));
-
-                                if (progress % 5 == 0) {
-                                    Gdx.app.postRunnable(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            if (progress == 100) {
-                                                progressLbl.setText("Скачивание успешно! Распаковка...");
-                                            } else {
-                                                progressLbl.setText("Скачивание " + progress + "%");
-                                            }
-                                        }
-                                    });
-                                }
                             }
 
+                            Log.i(tag, "downloaded");
+
+                        } catch (Throwable e) {
+
+                            cleanup();
+
+                            failed(e);
+
+                            return;
+                        }
+
+                        try {
+
+                            Log.i(tag, "extracting");
+
                             new ExtractGameConfigTask().extract();
+
+                            Log.i(tag, "extracted");
 
                             Gdx.app.postRunnable(new Runnable() {
                                 @Override
@@ -244,10 +252,10 @@ public class MainMenuScreen implements Screen {
                             output.delete();
 
                         } catch (Throwable e) {
+                            Log.e(tag, e);
 
-                            output.delete();
+                            cleanup();
 
-                            failed(e);
                         }
                     }
 
@@ -302,46 +310,55 @@ public class MainMenuScreen implements Screen {
             @Override
             public void handleHttpResponse(Net.HttpResponse httpResponse) {
 
+                cleanup();
+
                 FileHandle output = ExternalFiles.getExpansionFile(game.params);
 
                 try {
-                    ExternalFiles.getExpansionImagesDir().delete();
-
-                    ExternalFiles.getExpansionAudioDir().delete();
-
                     long length = Long.parseLong(httpResponse.getHeader("Content-Length"));
 
-                    InputStream is = httpResponse.getResultAsStream();
+                    float mb = length / 1024f / 1024f;
+                    Log.i(tag, "downloading size=" + String.format("%.2f", mb) + "MB");
 
-                    output.delete();
+                    Gdx.app.postRunnable(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressLbl.setText("Скачивание...");
+                        }
+                    });
+
+                    InputStream is = httpResponse.getResultAsStream();
 
                     OutputStream os = output.write(false);
 
                     byte[] bytes = new byte[1024];
                     int count;
-                    long read = 0;
                     while ((count = is.read(bytes, 0, bytes.length)) != -1) {
                         os.write(bytes, 0, count);
-                        read += count;
-
-                        final int progress = ((int) (((double) read / (double) length) * 100));
-
-                        if (progress % 5 == 0) {
-                            Gdx.app.postRunnable(new Runnable() {
-                                @Override
-                                public void run() {
-                                    if (progress == 100) {
-                                        progressLbl.setText("Скачивание успешно! Распаковка...");
-                                    } else {
-                                        progressLbl.setText("Скачивание " + progress + "% (своб.:" + getMB() + ")");
-                                    }
-                                }
-                            });
-                        }
-
                     }
 
+                    Log.i(tag, "downloaded");
+                } catch (Throwable e) {
+
+                    cleanup();
+
+                    failed(e);
+                    return;
+                }
+
+                try {
+                    Log.i(tag, "extracting");
+
+                    Gdx.app.postRunnable(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressLbl.setText("Распаковка...");
+                        }
+                    });
+
                     new ExtractExpansionTask(game).extract();
+
+                    Log.i(tag, "extracted");
 
                     Gdx.app.postRunnable(new Runnable() {
                         @Override
@@ -353,10 +370,16 @@ public class MainMenuScreen implements Screen {
                     output.delete();
 
                 } catch (Throwable e) {
+                    Log.e(tag, e);
 
-                    output.delete();
+                    cleanup();
 
-                    failed(e);
+                    Gdx.app.postRunnable(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressLbl.setText("Распаковка неудачна");
+                        }
+                    });
                 }
             }
 
@@ -370,6 +393,15 @@ public class MainMenuScreen implements Screen {
                         progressLbl.setText("Скачивание неудачно");
                     }
                 });
+            }
+
+            private void cleanup() {
+
+                ExternalFiles.getExpansionImagesDir().deleteDirectory();
+
+                ExternalFiles.getExpansionAudioDir().deleteDirectory();
+
+                ExternalFiles.getExpansionFile(game.params).delete();
             }
 
             @Override
