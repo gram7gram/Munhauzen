@@ -21,6 +21,7 @@ public class GeneralsStory {
 
         int offset = 0;
         int size = scenarios.size;
+        progress = 0;
         totalDuration = 0;
 
         for (int i = 0; i < size; i++) {

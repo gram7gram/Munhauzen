@@ -54,6 +54,18 @@ public class InventoryService {
         return gameState.history.activeSave.inventory.contains(item.name);
     }
 
+    public void remove(Inventory item) {
+
+        Log.i(tag, "remove " + item.name);
+
+        if (item.isGlobal()) {
+            gameState.history.globalInventory.remove(item.name);
+            return;
+        }
+
+        gameState.history.activeSave.inventory.remove(item.name);
+    }
+
     public HashSet<String> getAllInventory() {
         HashSet<String> values = new HashSet<>();
 

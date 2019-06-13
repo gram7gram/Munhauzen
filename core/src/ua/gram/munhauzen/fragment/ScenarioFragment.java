@@ -91,7 +91,7 @@ public class ScenarioFragment extends Fragment {
     @Override
     public void dispose() {
         super.dispose();
-        assetManager.dispose();
+        assetManager.clear();
         buttonList.clear();
     }
 
@@ -138,6 +138,10 @@ public class ScenarioFragment extends Fragment {
                 text = decision.scenario;
             } else {
                 text = translation.text;
+
+                if (MunhauzenGame.DEBUG_RENDER_INFO) {
+                    text = "[" + decision.scenario + "] " + text;
+                }
             }
 
             final int currentIndex = i;
@@ -243,12 +247,14 @@ public class ScenarioFragment extends Fragment {
             try {
                 Story newStory = gameScreen.storyManager.create(decision.scenario);
 
-                game.gameState.history.activeSave.story = newStory;
+                gameScreen.setStory(newStory);
+
+                gameScreen.storyManager.startLoadingResources();
             } catch (Throwable e) {
                 Log.e(tag, e);
-            }
 
-            gameScreen.storyManager.startLoadingResources();
+                gameScreen.getStory().reset();
+            }
 
             //let cannon animation complete...
             Timer.schedule(new Timer.Task() {

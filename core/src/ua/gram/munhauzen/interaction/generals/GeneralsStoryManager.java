@@ -67,7 +67,7 @@ public class GeneralsStoryManager {
 
         Log.i(tag, "findNext " + from.name + " #" + story.scenarios.size);
 
-        Set<String> inventory = gameScreen.inventoryService.getAllInventory();
+        Set<String> inventory = gameScreen.game.inventoryService.getAllInventory();
 
         GeneralsStoryScenario storyScenario = new GeneralsStoryScenario();
         storyScenario.scenario = from;
@@ -155,7 +155,7 @@ public class GeneralsStoryManager {
 
         Log.i(tag, "onCompleted " + generalsStory.id);
 
-        Set<String> inventory = gameScreen.inventoryService.getAllInventory();
+        Set<String> inventory = gameScreen.game.inventoryService.getAllInventory();
 
         for (StoryAudio audio : generalsStory.currentScenario.scenario.audio) {
             if (audio.player != null) {

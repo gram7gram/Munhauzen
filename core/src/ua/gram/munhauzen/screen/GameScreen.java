@@ -28,7 +28,6 @@ import ua.gram.munhauzen.fragment.ScenarioFragment;
 import ua.gram.munhauzen.service.AudioService;
 import ua.gram.munhauzen.service.ImageService;
 import ua.gram.munhauzen.service.InteractionService;
-import ua.gram.munhauzen.service.InventoryService;
 import ua.gram.munhauzen.service.StoryManager;
 import ua.gram.munhauzen.ui.GameLayers;
 import ua.gram.munhauzen.utils.Log;
@@ -50,7 +49,6 @@ public class GameScreen implements Screen {
     public GameControlsFragment gameControlsFragment;
     public AudioService audioService;
     public ImageService imageService;
-    public InventoryService inventoryService;
     public InteractionService interactionService;
     private Timer.Task saveTask;
     private Texture background;
@@ -76,7 +74,6 @@ public class GameScreen implements Screen {
 
         audioService = new AudioService(this);
         imageService = new ImageService(this);
-        inventoryService = new InventoryService(game.gameState);
         interactionService = new InteractionService(this);
 
         ui = new MunhauzenStage(game);
@@ -147,6 +144,8 @@ public class GameScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
+                if (event.isHandled()) return;
+
                 try {
                     Log.i(tag, "ui clicked");
 
@@ -193,6 +192,14 @@ public class GameScreen implements Screen {
 
         drawBackground();
 
+        if (imageService != null) {
+            imageService.update();
+        }
+
+        if (audioService != null) {
+            audioService.update();
+        }
+
         interactionService.update();
 
         Story story = getStory();
@@ -228,10 +235,6 @@ public class GameScreen implements Screen {
             audioService.updateMusicState();
         }
 
-        if (imageService != null) {
-            imageService.update();
-        }
-
         ui.act(delta);
         ui.draw();
 
@@ -251,7 +254,8 @@ public class GameScreen implements Screen {
             font.setColor(Color.BLUE);
 
             ArrayList<String> strings = new ArrayList<>();
-            strings.add("progress:" + story.totalDuration + "/" + ((int) story.progress));
+            strings.add("duration:" + story.totalDuration);
+            strings.add("progress:" + ((int) story.progress));
 
             if (story.currentInteraction != null) {
                 strings.add("interaction:" + story.currentInteraction.name + "" + (story.currentInteraction.isLocked ? " lock" : ""));

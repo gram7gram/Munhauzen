@@ -33,10 +33,13 @@ public class ExtractExpansionTask {
 
         FileHandle expansionFile = ExternalFiles.getExpansionFile(game.params);
         FileHandle targetDirectory = ExternalFiles.getExpansionDir();
+        FileHandle lock = ExternalFiles.getExpansionLockFile(game.params);
 
         ZipInputStream zis = new ZipInputStream(expansionFile.read());
 
         try {
+
+            lock.delete();
 
             ArrayList<ZipEntry> entries = determineEntries(zis);
 
@@ -80,20 +83,28 @@ public class ExtractExpansionTask {
 
             zis.close();
 
+            lock.writeString("{\"extracted\":true}", false);
+
             expansionFile.delete();
 
         } catch (Throwable e) {
 
-            expansionFile.delete();
-
-            ExternalFiles.getExpansionImagesDir().delete();
-
-            ExternalFiles.getExpansionAudioDir().delete();
+            cleanup();
 
             throw e;
         }
 
         Log.i(tag, "completed");
+    }
+
+    private void cleanup() {
+        ExternalFiles.getExpansionFile(game.params).delete();
+
+        ExternalFiles.getExpansionLockFile(game.params).delete();
+
+        ExternalFiles.getExpansionImagesDir().deleteDirectory();
+
+        ExternalFiles.getExpansionAudioDir().deleteDirectory();
     }
 
     private ArrayList<ZipEntry> determineEntries(ZipInputStream zis) throws IOException {

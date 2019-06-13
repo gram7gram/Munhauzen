@@ -67,7 +67,7 @@ public class HareStoryManager {
 
         Log.i(tag, "findNext " + from.name + " #" + hareStory.scenarios.size);
 
-        Set<String> inventory = gameScreen.inventoryService.getAllInventory();
+        Set<String> inventory = gameScreen.game.inventoryService.getAllInventory();
 
         HareStoryScenario storyScenario = new HareStoryScenario();
         storyScenario.scenario = from;
@@ -134,7 +134,7 @@ public class HareStoryManager {
 
         Log.i(tag, "onCompleted " + hareStory.id);
 
-        Set<String> inventory = gameScreen.inventoryService.getAllInventory();
+        Set<String> inventory = gameScreen.game.inventoryService.getAllInventory();
 
         for (StoryAudio audio : hareStory.currentScenario.scenario.audio) {
             if (audio.player != null) {

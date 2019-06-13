@@ -96,7 +96,7 @@ public class StoryManager {
 
         Log.i(tag, "findNext " + from.name + " #" + story.scenarios.size);
 
-        Set<String> inventory = gameScreen.inventoryService.getAllInventory();
+        Set<String> inventory = gameScreen.game.inventoryService.getAllInventory();
 
         StoryScenario storyScenario = new StoryScenario();
         storyScenario.scenario = from;
@@ -124,58 +124,61 @@ public class StoryManager {
     }
 
     public void startLoadingResources() {
-
         Story story = gameState.history.activeSave.story;
 
-        StoryScenario option = story.currentScenario;
-        if (option == null) return;
+        try {
+            StoryScenario option = story.currentScenario;
+            if (option == null) return;
 
-        final StoryAudio optionAudio = option.currentAudio;
-        if (optionAudio != null) {
-            gameScreen.audioService.prepare(optionAudio, new Timer.Task() {
-                @Override
-                public void run() {
-                    try {
-                        gameScreen.audioService.onPrepared(optionAudio);
-                    } catch (Throwable e) {
-                        Log.e(tag, e);
-                    }
-                }
-            });
-
-            if (optionAudio.next != null) {
-                gameScreen.audioService.prepare(optionAudio.next, new Timer.Task() {
+            final StoryAudio optionAudio = option.currentAudio;
+            if (optionAudio != null) {
+                gameScreen.audioService.prepare(optionAudio, new Timer.Task() {
                     @Override
                     public void run() {
-
+                        try {
+                            gameScreen.audioService.onPrepared(optionAudio);
+                        } catch (Throwable e) {
+                            Log.e(tag, e);
+                        }
                     }
                 });
-            }
-        }
 
-        final StoryImage optionImage = option.currentImage;
-        if (optionImage != null) {
-            gameScreen.imageService.prepare(optionImage, new Timer.Task() {
-                @Override
-                public void run() {
-                    try {
-                        gameScreen.imageService.onPrepared(optionImage);
-                    } catch (Throwable e) {
-                        Log.e(tag, e);
-                    }
+                if (optionAudio.next != null) {
+                    gameScreen.audioService.prepare(optionAudio.next, new Timer.Task() {
+                        @Override
+                        public void run() {
+
+                        }
+                    });
                 }
-            });
+            }
 
-            if (optionImage.next != null) {
-                gameScreen.imageService.prepare(optionImage.next, new Timer.Task() {
+            final StoryImage optionImage = option.currentImage;
+            if (optionImage != null) {
+                gameScreen.imageService.prepare(optionImage, new Timer.Task() {
                     @Override
                     public void run() {
-
+                        try {
+                            gameScreen.imageService.onPrepared(optionImage);
+                        } catch (Throwable e) {
+                            Log.e(tag, e);
+                        }
                     }
                 });
-            }
-        }
 
+                if (optionImage.next != null) {
+                    gameScreen.imageService.prepare(optionImage.next, new Timer.Task() {
+                        @Override
+                        public void run() {
+
+                        }
+                    });
+                }
+            }
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
     }
 
     public void onCompleted() {
@@ -187,17 +190,17 @@ public class StoryManager {
 
             Inventory inventory = InventoryRepository.findByScenario(gameState, storyScenario.scenario.name);
             if (inventory != null) {
-                if (!gameScreen.inventoryService.isInInventory(inventory)) {
+                if (!gameScreen.game.inventoryService.isInInventory(inventory)) {
                     if (inventory.isGlobal()) {
-                        gameScreen.inventoryService.addGlobalInventory(inventory);
+                        gameScreen.game.inventoryService.addGlobalInventory(inventory);
                     } else {
-                        gameScreen.inventoryService.addInventory(inventory);
+                        gameScreen.game.inventoryService.addInventory(inventory);
                     }
                 }
             }
         }
 
-        Set<String> inventory = gameScreen.inventoryService.getAllInventory();
+        Set<String> inventory = gameScreen.game.inventoryService.getAllInventory();
 
         for (StoryAudio audio : story.currentScenario.scenario.audio) {
             if (audio.player != null) {

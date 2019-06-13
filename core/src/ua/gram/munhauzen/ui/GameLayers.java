@@ -6,14 +6,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 
 import ua.gram.munhauzen.fragment.Fragment;
 import ua.gram.munhauzen.screen.GameScreen;
+import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
  */
 public class GameLayers extends Stack {
 
+    final String tag = getClass().getSimpleName();
     final GameScreen gameScreen;
-    final Actor dummy;
     public Fragment backgroundLayer, controlsLayer, interactionLayer, storyDecisionsLayer, progressBarLayer;
 
     public GameLayers(GameScreen gameScreen) {
@@ -21,16 +22,50 @@ public class GameLayers extends Stack {
 
         setFillParent(true);
 
-        dummy = new Actor();
-        dummy.setName("dummy");
-        dummy.setTouchable(Touchable.disabled);
-        dummy.setVisible(false);
+        update();
+    }
 
-        addActorAt(0, dummy);
-        addActorAt(1, dummy);
-        addActorAt(2, dummy);
-        addActorAt(3, dummy);
-        addActorAt(4, dummy);
+    public void update() {
+
+        Log.i(tag, "update");
+
+        clearChildren();
+
+        if (backgroundLayer != null) {
+            backgroundLayer.getRoot().setTouchable(Touchable.childrenOnly);
+            addActor(backgroundLayer.getRoot());
+        } else {
+            addActor(createDummy("backgroundLayer"));
+        }
+
+        if (interactionLayer != null) {
+            interactionLayer.getRoot().setTouchable(Touchable.childrenOnly);
+            addActor(interactionLayer.getRoot());
+        } else {
+            addActor(createDummy("interactionLayer"));
+        }
+
+        if (storyDecisionsLayer != null) {
+            storyDecisionsLayer.getRoot().setTouchable(Touchable.childrenOnly);
+            addActor(storyDecisionsLayer.getRoot());
+        } else {
+            addActor(createDummy("storyDecisionsLayer"));
+        }
+
+        if (progressBarLayer != null) {
+            progressBarLayer.getRoot().setTouchable(Touchable.childrenOnly);
+            addActor(progressBarLayer.getRoot());
+        } else {
+            addActor(createDummy("progressBarLayer"));
+        }
+
+        if (controlsLayer != null) {
+            controlsLayer.getRoot().setTouchable(Touchable.childrenOnly);
+            addActor(controlsLayer.getRoot());
+        } else {
+            addActor(createDummy("controlsLayer"));
+        }
+
     }
 
     public void setBackgroundImageLayer(Fragment actor) {
@@ -40,12 +75,7 @@ public class GameLayers extends Stack {
         }
         backgroundLayer = actor;
 
-        if (actor != null) {
-            addActorAt(0, actor.getRoot());
-        } else {
-            addActorAt(0, dummy);
-        }
-
+        update();
     }
 
     public void setInteractionLayer(Fragment actor) {
@@ -55,12 +85,7 @@ public class GameLayers extends Stack {
         }
         interactionLayer = actor;
 
-        if (actor != null) {
-            addActorAt(1, actor.getRoot());
-        } else {
-            addActorAt(1, dummy);
-        }
-
+        update();
     }
 
     public void setStoryDecisionsLayer(Fragment actor) {
@@ -70,11 +95,7 @@ public class GameLayers extends Stack {
         }
         storyDecisionsLayer = actor;
 
-        if (actor != null) {
-            addActorAt(2, actor.getRoot());
-        } else {
-            addActorAt(2, dummy);
-        }
+        update();
     }
 
     public void setProgressBarLayer(Fragment actor) {
@@ -84,11 +105,7 @@ public class GameLayers extends Stack {
         }
         progressBarLayer = actor;
 
-        if (actor != null) {
-            addActorAt(3, actor.getRoot());
-        } else {
-            addActorAt(3, dummy);
-        }
+        update();
     }
 
     public void setControlsLayer(Fragment actor) {
@@ -98,11 +115,16 @@ public class GameLayers extends Stack {
         }
         controlsLayer = actor;
 
-        if (actor != null) {
-            addActorAt(4, actor.getRoot());
-        } else {
-            addActorAt(4, dummy);
-        }
+        update();
+    }
+
+    private Actor createDummy(String suffix) {
+        Actor dummy = new Actor();
+        dummy.setName("dummy-" + suffix);
+        dummy.setTouchable(Touchable.disabled);
+        dummy.setVisible(false);
+
+        return dummy;
     }
 
 }

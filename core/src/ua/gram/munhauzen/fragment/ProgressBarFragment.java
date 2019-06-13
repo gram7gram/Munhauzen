@@ -197,16 +197,19 @@ public class ProgressBarFragment extends Fragment {
                 try {
                     gameScreen.audioService.stop();
 
-                    gameScreen.scenarioFragment.fadeOut(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                gameScreen.scenarioFragment.destroy();
-                            } catch (Throwable e) {
-                                Log.e(tag, e);
+                    if (gameScreen.scenarioFragment != null) {
+                        gameScreen.scenarioFragment.fadeOut(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    gameScreen.scenarioFragment.destroy();
+                                    gameScreen.scenarioFragment = null;
+                                } catch (Throwable e) {
+                                    Log.e(tag, e);
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
 
                     Story story = gameScreen.getStory();
                     if (story.currentScenario == null) return;
@@ -293,16 +296,19 @@ public class ProgressBarFragment extends Fragment {
 
                     gameScreen.audioService.stop();
 
-                    gameScreen.scenarioFragment.fadeOut(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                gameScreen.scenarioFragment.destroy();
-                            } catch (Throwable e) {
-                                Log.e(tag, e);
+                    if (gameScreen.scenarioFragment != null) {
+                        gameScreen.scenarioFragment.fadeOut(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    gameScreen.scenarioFragment.destroy();
+                                    gameScreen.scenarioFragment = null;
+                                } catch (Throwable e) {
+                                    Log.e(tag, e);
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
 
                     progressTask = Timer.schedule(new Timer.Task() {
                         @Override
@@ -311,15 +317,17 @@ public class ProgressBarFragment extends Fragment {
                                 Story story = gameScreen.getStory();
 
                                 GameState.isPaused = true;
-                                story.isCompleted = false;
-                                story.progress -= 100;
 
-                                story.progress = Math.max(0, story.progress);
+                                story.progress -= story.totalDuration * 0.025f;
+
+                                story.update(story.progress, story.totalDuration);
+
                             } catch (Throwable e) {
                                 Log.e(tag, e);
                             }
                         }
                     }, 0, 0.05f);
+
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -365,10 +373,20 @@ public class ProgressBarFragment extends Fragment {
                                 Story story = gameScreen.getStory();
 
                                 GameState.isPaused = true;
-                                story.isCompleted = false;
-                                story.progress += 100;
 
-                                story.progress = Math.min(story.progress, story.totalDuration);
+                                story.progress += story.totalDuration * 0.025f;
+
+                                story.update(story.progress, story.totalDuration);
+
+                                if (story.isValid()) {
+                                    if (story.isCompleted) {
+                                        if (gameScreen.scenarioFragment == null) {
+                                            gameScreen.storyManager.onCompleted();
+                                        }
+
+                                    }
+                                }
+
                             } catch (Throwable e) {
                                 Log.e(tag, e);
                             }
@@ -404,17 +422,20 @@ public class ProgressBarFragment extends Fragment {
                 try {
                     gameScreen.audioService.stop();
 
-                    gameScreen.scenarioFragment.fadeOut(new Runnable() {
-                        @Override
-                        public void run() {
-                            gameScreen.scenarioFragment.destroy();
-                        }
-                    });
+                    if (gameScreen.scenarioFragment != null) {
+                        gameScreen.scenarioFragment.fadeOut(new Runnable() {
+                            @Override
+                            public void run() {
+                                gameScreen.scenarioFragment.destroy();
+                                gameScreen.scenarioFragment = null;
+                            }
+                        });
+                    }
 
                     Story story = gameScreen.getStory();
 
-                    story.isCompleted = false;
                     story.update(story.totalDuration * percent, story.totalDuration);
+
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -620,7 +641,7 @@ public class ProgressBarFragment extends Fragment {
     @Override
     public void dispose() {
         super.dispose();
-        assetManager.dispose();
+        assetManager.clear();
 
         if (fadeOutTask != null) {
             fadeOutTask.cancel();

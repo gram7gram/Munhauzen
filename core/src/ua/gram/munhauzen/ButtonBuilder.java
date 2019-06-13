@@ -7,30 +7,35 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 
+import ua.gram.munhauzen.ui.PrimaryButton;
+
 /**
  * @author Gram <gram7gram@gmail.com>
  */
 public class ButtonBuilder {
 
     private final MunhauzenGame game;
-    private final Texture decoration;
+    private final Texture primaryDisabled, primaryEnabled;
 
     public ButtonBuilder(MunhauzenGame game) {
         this.game = game;
-        decoration = game.assetManager.get("ui/b_primary_enabled.9.png", Texture.class);
+        primaryEnabled = game.assetManager.get("ui/b_primary_enabled.9.png", Texture.class);
+        primaryDisabled = game.assetManager.get("ui/b_primary_disabled.png", Texture.class);
     }
 
-    public TextButton primary(String text, final ClickListener onClick) {
+    public PrimaryButton primary(String text, final ClickListener onClick) {
 
-        NinePatchDrawable background = new NinePatchDrawable(new NinePatch(decoration, 90, 90, 0, 0));
+        NinePatchDrawable background1 = new NinePatchDrawable(new NinePatch(primaryEnabled, 90, 90, 0, 0));
+        NinePatchDrawable background2 = new NinePatchDrawable(new NinePatch(primaryDisabled, 90, 90, 0, 0));
 
-        TextButton button = new TextButton(text, new TextButton.TextButtonStyle(
-                background,
-                background,
-                background,
-                game.fontProvider.getFont(FontProvider.BuxtonSketch, FontProvider.h3)
-        ));
-        button.getLabel().setColor(Color.BLACK);
+        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
+        style.font = game.fontProvider.getFont(FontProvider.BuxtonSketch, FontProvider.h4);
+        style.up = background1;
+        style.down = background1;
+        style.disabled = background2;
+        style.fontColor = Color.BLACK;
+
+        PrimaryButton button = new PrimaryButton(text, style);
 
         button.addListener(onClick);
 

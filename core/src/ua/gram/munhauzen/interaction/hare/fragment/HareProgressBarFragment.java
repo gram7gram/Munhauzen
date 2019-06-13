@@ -218,7 +218,7 @@ public class HareProgressBarFragment extends Fragment {
 
                                 GameState.isPaused = true;
                                 story.isCompleted = false;
-                                story.progress -= 100;
+                                story.progress -= story.totalDuration * 0.025f;
 
                                 story.progress = Math.max(0, story.progress);
                             } catch (Throwable e) {
@@ -272,7 +272,7 @@ public class HareProgressBarFragment extends Fragment {
 
                                 GameState.isPaused = true;
                                 story.isCompleted = false;
-                                story.progress += 100;
+                                story.progress += story.totalDuration * 0.025f;
 
                                 story.progress = Math.min(story.progress, story.totalDuration);
                             } catch (Throwable e) {

@@ -3,12 +3,14 @@ package ua.gram.munhauzen;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -17,6 +19,7 @@ import java.util.ArrayList;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.screen.MainMenuScreen;
 import ua.gram.munhauzen.service.DatabaseManager;
+import ua.gram.munhauzen.service.InventoryService;
 import ua.gram.munhauzen.utils.ExceptionHandler;
 import ua.gram.munhauzen.utils.Log;
 
@@ -26,14 +29,13 @@ public class MunhauzenGame extends Game {
     public static int WORLD_HEIGHT;
     public static boolean PAUSED = false;
     public static final boolean DEBUG = true;
-    public static final boolean DEBUG_RANDOM_AUDIO = false;
-    public static final boolean DEBUG_RANDOM_BACKGROUND = false;
     public static final boolean DEBUG_RENDER_INFO = true;
     public static final boolean DEBUG_OVERWRITE_DURATION = true;
 
     private final String tag = getClass().getSimpleName();
 
     public final PlatformParams params;
+    public DatabaseManager databaseManager;
     public GameState gameState;
     public SpriteBatch batch;
     public OrthographicCamera camera;
@@ -41,6 +43,7 @@ public class MunhauzenGame extends Game {
     public FontProvider fontProvider;
     public ButtonBuilder buttonBuilder;
     public AssetManager assetManager;
+    public InventoryService inventoryService;
     private Throwable currentError;
 
     public MunhauzenGame(PlatformParams params) {
@@ -64,6 +67,8 @@ public class MunhauzenGame extends Game {
         WORLD_WIDTH = Gdx.graphics.getWidth();
         WORLD_HEIGHT = Gdx.graphics.getHeight();
 
+        databaseManager = new DatabaseManager();
+
         loadGameState();
         loadGlobalAssets();
 
@@ -73,6 +78,7 @@ public class MunhauzenGame extends Game {
 
         assetManager.finishLoading();
 
+        inventoryService = new InventoryService(gameState);
         buttonBuilder = new ButtonBuilder(this);
 
         setScreen(new MainMenuScreen(this));
@@ -85,6 +91,9 @@ public class MunhauzenGame extends Game {
 
         if (fontProvider != null)
             fontProvider.dispose();
+
+        databaseManager = null;
+        inventoryService = null;
 
         ExceptionHandler.dispose();
     }
@@ -103,6 +112,13 @@ public class MunhauzenGame extends Game {
             Log.e(tag, e);
 
             currentError = e;
+
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    currentError = null;
+                }
+            }, 10);
         }
     }
 
@@ -114,7 +130,11 @@ public class MunhauzenGame extends Game {
     private void loadGameState() {
         gameState = new GameState();
 
-        new DatabaseManager().load(gameState);
+        try {
+            databaseManager.loadExternal(gameState);
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
     }
 
     private void loadGlobalAssets() {
@@ -124,6 +144,7 @@ public class MunhauzenGame extends Game {
         assetManager = new AssetManager();
         assetManager.load("a0.jpg", Texture.class);
         assetManager.load("ui/b_primary_enabled.9.png", Texture.class);
+        assetManager.load("ui/b_primary_disabled.png", Texture.class);
     }
 
     private void createCamera() {
@@ -194,6 +215,12 @@ public class MunhauzenGame extends Game {
             }
             batch.end();
         }
+    }
+
+    @Override
+    public void setScreen(Screen screen) {
+        super.setScreen(screen);
+        currentError = null;
     }
 
 }

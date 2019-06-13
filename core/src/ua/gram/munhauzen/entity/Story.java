@@ -26,6 +26,7 @@ public class Story {
         return isInit
                 //&& (last.scenario.action.equals("CLICK")) // || last.story.interaction ...
                 && progress >= 0 && totalDuration >= 0
+                && progress <= totalDuration
                 && currentScenario != null;
     }
 
@@ -35,6 +36,7 @@ public class Story {
 
         int offset = 0;
         int size = scenarios.size;
+        progress = 0;
         totalDuration = 0;
 
         for (int i = 0; i < size; i++) {
@@ -82,6 +84,10 @@ public class Story {
     }
 
     public void update(float progress, int duration) {
+
+        if (progress < 0) {
+            progress = 0;
+        }
 
         if (progress > duration) {
             progress = duration;

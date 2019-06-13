@@ -18,6 +18,10 @@ public class ExternalFiles {
         return getExternal(params.versionCode + "-expansion.obb");
     }
 
+    public static FileHandle getExpansionLockFile(PlatformParams params) {
+        return getExternal(params.versionCode + "-expansion.lock");
+    }
+
     public static FileHandle getExpansionDir() {
         return getExternal("expansion");
     }

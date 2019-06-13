@@ -159,8 +159,12 @@ public class AudioService implements Disposable {
         }
     }
 
+    public void update() {
+        assetManager.update();
+    }
+
     @Override
     public void dispose() {
-        assetManager.dispose();
+        assetManager.clear();
     }
 }

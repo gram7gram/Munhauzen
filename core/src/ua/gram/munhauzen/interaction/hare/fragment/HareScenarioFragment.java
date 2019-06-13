@@ -141,6 +141,10 @@ public class HareScenarioFragment extends Fragment {
                 text = decision.scenario;
             } else {
                 text = translation.text;
+
+                if (MunhauzenGame.DEBUG_RENDER_INFO) {
+                    text = "[" + decision.scenario + "] " + text;
+                }
             }
 
             final int currentIndex = i;

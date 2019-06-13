@@ -122,6 +122,8 @@ public class ImageService implements Disposable {
 
     public void update() {
 
+        assetManager.update();
+
         if (gameScreen.imageFragment != null) {
             gameScreen.imageFragment.update();
         }
@@ -129,6 +131,6 @@ public class ImageService implements Disposable {
 
     @Override
     public void dispose() {
-        assetManager.dispose();
+        assetManager.clear();
     }
 }
