@@ -7,7 +7,7 @@ if [ -z "$VERSION" ]; then
 	exit
 fi
 
-OUTPUT="/mnt/shared-ext4/Projects/Munhauzen/obb/expansions"
+OUTPUT="/mnt/shared-ext4/Projects/munhauzen-web/api/public/expansions"
    
 mkdir -p $OUTPUT
 
