@@ -254,8 +254,8 @@ public class GameScreen implements Screen {
             font.setColor(Color.BLUE);
 
             ArrayList<String> strings = new ArrayList<>();
-            strings.add("duration:" + story.totalDuration);
-            strings.add("progress:" + ((int) story.progress));
+            strings.add("duration:" + story.totalDuration + "ms");
+            strings.add("progress:" + ((int) story.progress) + "ms");
 
             if (story.currentInteraction != null) {
                 strings.add("interaction:" + story.currentInteraction.name + "" + (story.currentInteraction.isLocked ? " lock" : ""));
@@ -270,6 +270,7 @@ public class GameScreen implements Screen {
                             + "" + (item.isPrepared ? " +" : " -")
                             + "" + (item.isActive ? " active" : "")
                             + "" + (item.isLocked ? " lock" : ""));
+                    strings.add("---" + item.startsAt + "-" + item.finishesAt);
                 }
 
                 strings.add("--images");
@@ -278,6 +279,7 @@ public class GameScreen implements Screen {
                             + "" + (item.isPrepared ? " +" : " -")
                             + "" + (item.isActive ? " active" : "")
                             + "" + (item.isLocked ? " lock" : ""));
+                    strings.add("---" + item.startsAt + "-" + item.finishesAt);
                 }
             }
 

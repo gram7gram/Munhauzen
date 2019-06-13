@@ -15,7 +15,7 @@ public class PlatformParams {
         return gameHost + "/expansions/" + versionCode + "-expansion.obb";
     }
 
-    public String getGameConfigUrl() {
-        return gameHost + "/downloads/game.zip?versionCode=" + versionCode;
+    public String getGameExportUrl() {
+        return gameHost + "/api/v1/export";
     }
 }

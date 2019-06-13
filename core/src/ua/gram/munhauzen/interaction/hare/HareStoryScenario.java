@@ -20,7 +20,7 @@ public class HareStoryScenario extends StoryMedia<HareStoryScenario> {
         for (int i = 0; i < size; i++) {
             StoryAudio current = scenario.audio.get(i);
 
-            if (MunhauzenGame.DEBUG) {
+            if (MunhauzenGame.DEBUG_OVERWRITE_DURATION) {
                 if (current.duration == 0) {
                     current.duration = 2000;
                 }

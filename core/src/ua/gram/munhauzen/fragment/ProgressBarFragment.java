@@ -436,6 +436,15 @@ public class ProgressBarFragment extends Fragment {
 
                     story.update(story.totalDuration * percent, story.totalDuration);
 
+                    if (story.isValid()) {
+                        if (story.isCompleted) {
+                            if (gameScreen.scenarioFragment == null) {
+                                gameScreen.storyManager.onCompleted();
+                            }
+
+                        }
+                    }
+
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }

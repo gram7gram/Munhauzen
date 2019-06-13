@@ -14,6 +14,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonWriter;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -22,6 +24,7 @@ import java.util.HashSet;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.Inventory;
+import ua.gram.munhauzen.expansion.ExportResponse;
 import ua.gram.munhauzen.expansion.ExtractExpansionTask;
 import ua.gram.munhauzen.expansion.ExtractGameConfigTask;
 import ua.gram.munhauzen.fragment.Fragment;
@@ -192,81 +195,120 @@ public class MenuFragment extends Fragment {
 
         Net.HttpRequest httpRequest = requestBuilder.newRequest()
                 .method(Net.HttpMethods.GET)
-                .url(game.params.getGameConfigUrl())
+                .url(game.params.getGameExportUrl())
                 .build();
 
         Gdx.net.sendHttpRequest(httpRequest, new Net.HttpResponseListener() {
-
-            private void cleanup() {
-                ExternalFiles.getGameArchiveFile().delete();
-            }
-
             @Override
             public void handleHttpResponse(Net.HttpResponse httpResponse) {
 
-                cleanup();
+                Json json = new Json(JsonWriter.OutputType.json);
+                json.setIgnoreUnknownFields(true);
 
-                FileHandle output = ExternalFiles.getGameArchiveFile();
+                ExportResponse response = json.fromJson(ExportResponse.class, httpResponse.getResultAsString());
 
-                try {
-                    long length = Long.parseLong(httpResponse.getHeader("Content-Length"));
+                Net.HttpRequest fileRequest = requestBuilder.newRequest()
+                        .method(Net.HttpMethods.GET)
+                        .url(response.url)
+                        .build();
 
-                    float mb = length / 1024f / 1024f;
-                    Log.i(tag, "downloading size=" + String.format("%.2f", mb) + "MB");
+                Gdx.net.sendHttpRequest(fileRequest, new Net.HttpResponseListener() {
 
-                    InputStream is = httpResponse.getResultAsStream();
-
-                    OutputStream os = output.write(false);
-
-                    byte[] bytes = new byte[1024];
-                    int count;
-                    while ((count = is.read(bytes, 0, bytes.length)) != -1) {
-                        os.write(bytes, 0, count);
+                    private void cleanup() {
+                        ExternalFiles.getGameArchiveFile().delete();
                     }
 
-                    Log.i(tag, "downloaded");
+                    @Override
+                    public void handleHttpResponse(Net.HttpResponse httpResponse) {
 
-                } catch (Throwable e) {
+                        cleanup();
 
-                    cleanup();
+                        FileHandle output = ExternalFiles.getGameArchiveFile();
 
-                    failed(e);
+                        try {
+                            long length = Long.parseLong(httpResponse.getHeader("Content-Length"));
 
-                    return;
-                }
+                            float mb = length / 1024f / 1024f;
+                            Log.i(tag, "downloading size=" + String.format("%.2f", mb) + "MB");
 
-                try {
+                            InputStream is = httpResponse.getResultAsStream();
 
-                    Log.i(tag, "extracting");
+                            OutputStream os = output.write(false);
 
-                    new ExtractGameConfigTask().extract();
+                            byte[] bytes = new byte[1024];
+                            int count;
+                            while ((count = is.read(bytes, 0, bytes.length)) != -1) {
+                                os.write(bytes, 0, count);
+                            }
 
-                    Log.i(tag, "extracted");
+                            Log.i(tag, "downloaded");
 
-                    game.databaseManager.loadExternal(game.gameState);
+                        } catch (Throwable e) {
 
-                    Gdx.app.postRunnable(new Runnable() {
-                        @Override
-                        public void run() {
-                            progressLbl.setText("Конфиги готовы к использованию");
+                            cleanup();
+
+                            failed(e);
+
+                            return;
                         }
-                    });
 
-                    output.delete();
+                        try {
 
-                } catch (Throwable e) {
-                    Log.e(tag, e);
+                            Log.i(tag, "extracting");
 
-                    Gdx.app.postRunnable(new Runnable() {
-                        @Override
-                        public void run() {
-                            progressLbl.setText("Невозможно использовать конфиги");
+                            new ExtractGameConfigTask().extract();
+
+                            Log.i(tag, "extracted");
+
+                            game.databaseManager.loadExternal(game.gameState);
+
+                            Gdx.app.postRunnable(new Runnable() {
+                                @Override
+                                public void run() {
+                                    progressLbl.setText("Конфиги готовы к использованию");
+
+                                    group.removeActor(inventoryContainer);
+
+                                    createInventoryTable();
+
+                                    group.addActor(inventoryContainer);
+                                }
+                            });
+
+                            output.delete();
+
+                        } catch (Throwable e) {
+                            Log.e(tag, e);
+
+                            Gdx.app.postRunnable(new Runnable() {
+                                @Override
+                                public void run() {
+                                    progressLbl.setText("Невозможно использовать конфиги");
+                                }
+                            });
+
+                            cleanup();
+
                         }
-                    });
+                    }
 
-                    cleanup();
+                    @Override
+                    public void failed(Throwable t) {
+                        Log.e(tag, t);
 
-                }
+                        Gdx.app.postRunnable(new Runnable() {
+                            @Override
+                            public void run() {
+                                progressLbl.setText("Скачивание неудачно");
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void cancelled() {
+
+                    }
+                });
             }
 
             @Override

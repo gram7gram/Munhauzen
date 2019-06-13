@@ -22,7 +22,7 @@ public class GeneralsStoryScenario extends StoryMedia<GeneralsStoryScenario> {
         for (int i = 0; i < size; i++) {
             GeneralsStoryImage current = scenario.images.get(i);
 
-            if (MunhauzenGame.DEBUG) {
+            if (MunhauzenGame.DEBUG_OVERWRITE_DURATION) {
                 if (current.duration == 0) {
                     current.duration = 1000;
                 }
@@ -64,7 +64,7 @@ public class GeneralsStoryScenario extends StoryMedia<GeneralsStoryScenario> {
         for (int i = 0; i < size; i++) {
             StoryAudio current = scenario.audio.get(i);
 
-            if (MunhauzenGame.DEBUG) {
+            if (MunhauzenGame.DEBUG_OVERWRITE_DURATION) {
                 if (current.duration == 0) {
                     current.duration = 2000;
                 }

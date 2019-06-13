@@ -28,7 +28,8 @@ public class MunhauzenGame extends Game {
     public static int WORLD_WIDTH;
     public static int WORLD_HEIGHT;
     public static boolean PAUSED = false;
-    public static final boolean DEBUG = true;
+    public static final boolean DEBUG = false;
+    public static final boolean DEBUG_ZOOM = false;
     public static final boolean DEBUG_RENDER_INFO = true;
     public static final boolean DEBUG_OVERWRITE_DURATION = true;
 
@@ -174,23 +175,26 @@ public class MunhauzenGame extends Game {
 
     private void handleInput() {
 
-        boolean hasChanged = false;
+        if (DEBUG_ZOOM) {
+            boolean hasChanged = false;
 
-        if (Gdx.input.isKeyPressed(Input.Keys.VOLUME_DOWN)) {
-            Log.i(tag, "zoom out");
-            camera.zoom += 0.1;
-            hasChanged = true;
+            if (Gdx.input.isKeyPressed(Input.Keys.VOLUME_DOWN)) {
+                Log.i(tag, "zoom out");
+                camera.zoom += 0.1;
+                hasChanged = true;
+            }
+
+            if (Gdx.input.isKeyPressed(Input.Keys.VOLUME_UP)) {
+                Log.i(tag, "zoom in");
+                camera.zoom -= 0.1;
+                hasChanged = true;
+            }
+
+            if (!hasChanged) return;
+
+            camera.update();
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.VOLUME_UP)) {
-            Log.i(tag, "zoom in");
-            camera.zoom -= 0.1;
-            hasChanged = true;
-        }
-
-        if (!hasChanged) return;
-
-        camera.update();
     }
 
     private void drawError() {
