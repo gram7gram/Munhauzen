@@ -60,14 +60,16 @@ public class NormalTransition extends Transition {
                     try {
                         float newX = targetImage.getX() + deltaX;
                         float currentWidth = item.width;
-                        int viewportWidth = gameScreen.game.view.getScreenWidth();
 
                         float leftBound = -currentWidth + MunhauzenGame.WORLD_WIDTH;
                         float rightBound = 0;
 
                         if (leftBound < newX && newX < rightBound) {
-                            targetImage.addAction(Actions.moveBy(deltaX, 0));
+                            targetImage.setX(targetImage.getX() + deltaX);
                         }
+
+                        if (targetImage.getX() > 0) targetImage.setX(0);
+                        if (targetImage.getX() < leftBound) targetImage.setX(leftBound);
                     } catch (Throwable e) {
                         Log.e(tag, e);
                     }

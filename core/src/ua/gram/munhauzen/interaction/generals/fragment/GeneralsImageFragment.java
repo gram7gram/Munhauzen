@@ -45,11 +45,11 @@ public class GeneralsImageFragment extends Fragment {
         Texture fireLeftTexture = interaction.assetManager.get("generals/an_general_2_sheet_3x1.png", Texture.class);
         Texture fireRightTexture = interaction.assetManager.get("generals/an_general_3_sheet_3x1.png", Texture.class);
 
-        fumes = new FumesAnimation(fumesTexture);
-        fireLeft = new FireLeftAnimation(fireLeftTexture);
-        fireRight = new FireRightAnimation(fireRightTexture);
-
         background = new FitImage();
+
+        fumes = new FumesAnimation(fumesTexture, background);
+        fireLeft = new FireLeftAnimation(fireLeftTexture, background);
+        fireRight = new FireRightAnimation(fireRightTexture, background);
 
         backgroundTable = new Table();
         backgroundTable.setFillParent(true);
@@ -83,8 +83,12 @@ public class GeneralsImageFragment extends Fragment {
                     float rightBound = 0;
 
                     if (leftBound < newX && newX < rightBound) {
-                        background.addAction(Actions.moveBy(deltaX, 0));
+                        background.setX(background.getX() + deltaX);
                     }
+
+                    if (background.getX() > 0) background.setX(0);
+                    if (background.getX() < leftBound) background.setX(leftBound);
+
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -112,10 +116,6 @@ public class GeneralsImageFragment extends Fragment {
     public void update() {
 
         GeneralsStory story = interaction.storyManager.generalsStory;
-
-        fumes.setPosition(background.getX(), fumes.getY());
-        fireLeft.setPosition(background.getX() + 190, fireLeft.getY());
-        fireRight.setPosition(background.getX() + 680, fireRight.getY());
 
         GeneralsStoryImage image = story.currentScenario.currentImage;
         if (image != null && image.isActive) {

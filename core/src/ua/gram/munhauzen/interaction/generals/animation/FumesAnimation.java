@@ -2,7 +2,7 @@ package ua.gram.munhauzen.interaction.generals.animation;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.animation.AnimatedImage;
@@ -13,24 +13,30 @@ import ua.gram.munhauzen.interaction.generals.GeneralsStoryImage;
  */
 public class FumesAnimation extends AnimatedImage {
 
-    public FumesAnimation(Texture texture) {
+    Image generals;
+
+    public FumesAnimation(Texture texture, Image generals) {
         super(texture);
+        this.generals = generals;
 
         animate(texture, 3, 1, 3, 0.08f);
         setTouchable(Touchable.disabled);
     }
 
     public void init(GeneralsStoryImage image) {
-        float width = image.width * .346f;
-        TextureRegionDrawable frame = animation.getKeyFrame(0);
 
-        float scale = frame.getMinWidth() > 0 ? 1f * width / frame.getMinWidth() : 1;
-
-        setWidth(width);
-        setHeight(frame.getMinHeight() * scale);
+        setWidth(image.width * 500f / 1444);
+        setHeight(image.height * 345f / 1200);
         setVisible(true);
 
-        setPosition(0, MunhauzenGame.WORLD_HEIGHT / 2f);
+        setY(MunhauzenGame.WORLD_HEIGHT * (497 / 1200f));
+    }
+
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+
+        setX(generals.getX() + generals.getWidth() * (78 / 1444f));
     }
 }
 
