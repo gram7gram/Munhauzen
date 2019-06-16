@@ -66,14 +66,12 @@ for i18n in ${!I18N[@]}; do
 
 			echo "=> Processing $L $P $D"
 
-			mkdir -p $OUTPUT/$L/$P/$D
-
 			mkdir -p $AUDIO_DIR/../audio
 			cp -r $AUDIO_DIR /tmp/audio
 			
 			cd /tmp
 
-			zip -r -q -5 $OUTPUT/$L/$P/$D/$NAME audio
+			zip -r -q -5 $OUTPUT/$NAME audio
 			EXIT_CODE=$?
 			if [[ $EXIT_CODE != 0 ]]; then
 				exit $EXIT_CODE
@@ -84,7 +82,7 @@ for i18n in ${!I18N[@]}; do
 			if [ -d "$P/$D" ]; then
 				cd $P/$D
 
-			  	zip -r -q -5 $OUTPUT/$L/$P/$D/$NAME images
+			  	zip -r -q -5 $OUTPUT/$NAME images
 				EXIT_CODE=$?
 				if [[ $EXIT_CODE != 0 ]]; then
 					exit $EXIT_CODE

@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 
 import ua.gram.munhauzen.fragment.Fragment;
+import ua.gram.munhauzen.fragment.ImageFragment;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.utils.Log;
 
@@ -15,7 +16,8 @@ public class GameLayers extends Stack {
 
     final String tag = getClass().getSimpleName();
     final GameScreen gameScreen;
-    public Fragment backgroundLayer, controlsLayer, interactionLayer, storyDecisionsLayer, progressBarLayer;
+    public ImageFragment backgroundLayer;
+    public Fragment controlsLayer, interactionLayer, storyDecisionsLayer, progressBarLayer;
 
     public GameLayers(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
@@ -68,7 +70,7 @@ public class GameLayers extends Stack {
 
     }
 
-    public void setBackgroundImageLayer(Fragment actor) {
+    public void setBackgroundImageLayer(ImageFragment actor) {
         if (backgroundLayer != null) {
             removeActor(backgroundLayer.getRoot());
             backgroundLayer.destroy();

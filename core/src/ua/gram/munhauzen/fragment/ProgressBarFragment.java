@@ -223,7 +223,9 @@ public class ProgressBarFragment extends Fragment {
 
                     GameState.isPaused = true;
 
-                    story.update(previous.startsAt, story.totalDuration);
+                    story.progress = previous.startsAt;
+
+                    postProgressChanged();
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -263,7 +265,9 @@ public class ProgressBarFragment extends Fragment {
 
                     GameState.isPaused = true;
 
-                    story.update(next.startsAt, story.totalDuration);
+                    story.progress = next.startsAt;
+
+                    postProgressChanged();
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -320,7 +324,7 @@ public class ProgressBarFragment extends Fragment {
 
                                 story.progress -= story.totalDuration * 0.025f;
 
-                                story.update(story.progress, story.totalDuration);
+                                postProgressChanged();
 
                             } catch (Throwable e) {
                                 Log.e(tag, e);
@@ -376,16 +380,7 @@ public class ProgressBarFragment extends Fragment {
 
                                 story.progress += story.totalDuration * 0.025f;
 
-                                story.update(story.progress, story.totalDuration);
-
-                                if (story.isValid()) {
-                                    if (story.isCompleted) {
-                                        if (gameScreen.scenarioFragment == null) {
-                                            gameScreen.storyManager.onCompleted();
-                                        }
-
-                                    }
-                                }
+                                postProgressChanged();
 
                             } catch (Throwable e) {
                                 Log.e(tag, e);
@@ -433,17 +428,9 @@ public class ProgressBarFragment extends Fragment {
                     }
 
                     Story story = gameScreen.getStory();
+                    story.progress = story.totalDuration * percent;
 
-                    story.update(story.totalDuration * percent, story.totalDuration);
-
-                    if (story.isValid()) {
-                        if (story.isCompleted) {
-                            if (gameScreen.scenarioFragment == null) {
-                                gameScreen.storyManager.onCompleted();
-                            }
-
-                        }
-                    }
+                    postProgressChanged();
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -726,5 +713,24 @@ public class ProgressBarFragment extends Fragment {
         style.disabled = new SpriteDrawable(new Sprite(play));
 
         return new ImageButton(style);
+    }
+
+    private void postProgressChanged() {
+        try {
+            Story story = gameScreen.getStory();
+
+            story.update(story.progress, story.totalDuration);
+
+            if (story.isValid()) {
+                if (story.isCompleted) {
+                    if (gameScreen.scenarioFragment == null) {
+                        gameScreen.storyManager.onCompleted();
+                    }
+
+                }
+            }
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
     }
 }

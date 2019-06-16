@@ -99,33 +99,36 @@ public class HareStoryManager {
     }
 
     public void startLoadingResources() {
+        try {
+            HareStory story = interaction.storyManager.hareStory;
 
-        HareStory story = interaction.storyManager.hareStory;
+            HareStoryScenario scenario = story.currentScenario;
+            if (scenario == null) return;
 
-        HareStoryScenario scenario = story.currentScenario;
-        if (scenario == null) return;
-
-        final StoryAudio audio = scenario.currentAudio;
-        if (audio != null) {
-            gameScreen.audioService.prepare(audio, new Timer.Task() {
-                @Override
-                public void run() {
-                    try {
-                        gameScreen.audioService.onPrepared(audio);
-                    } catch (Throwable e) {
-                        Log.e(tag, e);
-                    }
-                }
-            });
-
-            if (audio.next != null) {
-                gameScreen.audioService.prepare(audio.next, new Timer.Task() {
+            final StoryAudio audio = scenario.currentAudio;
+            if (audio != null) {
+                gameScreen.audioService.prepare(audio, new Timer.Task() {
                     @Override
                     public void run() {
-
+                        try {
+                            gameScreen.audioService.onPrepared(audio);
+                        } catch (Throwable e) {
+                            Log.e(tag, e);
+                        }
                     }
                 });
+
+                if (audio.next != null) {
+                    gameScreen.audioService.prepare(audio.next, new Timer.Task() {
+                        @Override
+                        public void run() {
+
+                        }
+                    });
+                }
             }
+        } catch (Throwable e) {
+            Log.e(tag, e);
         }
 
     }

@@ -10,7 +10,7 @@ import ua.gram.munhauzen.utils.Log;
  */
 public class Fragment implements Disposable {
 
-    String tag = getClass().getSimpleName();
+    protected String tag = getClass().getSimpleName();
     Actor root;
 
     public Fragment() {

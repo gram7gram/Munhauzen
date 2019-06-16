@@ -100,55 +100,58 @@ public class GeneralsStoryManager {
 
     public void startLoadingResources() {
 
-        GeneralsStoryScenario scenario = generalsStory.currentScenario;
-        if (scenario == null) return;
+        try {
+            GeneralsStoryScenario scenario = generalsStory.currentScenario;
+            if (scenario == null) return;
 
-        final StoryAudio audio = scenario.currentAudio;
-        if (audio != null) {
-            gameScreen.audioService.prepare(audio, new Timer.Task() {
-                @Override
-                public void run() {
-                    try {
-                        gameScreen.audioService.onPrepared(audio);
-                    } catch (Throwable e) {
-                        Log.e(tag, e);
-                    }
-                }
-            });
-
-            if (audio.next != null) {
-                gameScreen.audioService.prepare(audio.next, new Timer.Task() {
+            final StoryAudio audio = scenario.currentAudio;
+            if (audio != null) {
+                gameScreen.audioService.prepare(audio, new Timer.Task() {
                     @Override
                     public void run() {
-
+                        try {
+                            gameScreen.audioService.onPrepared(audio);
+                        } catch (Throwable e) {
+                            Log.e(tag, e);
+                        }
                     }
                 });
-            }
-        }
 
-        final GeneralsStoryImage image = scenario.currentImage;
-        if (image != null) {
-            gameScreen.imageService.prepare(image, new Timer.Task() {
-                @Override
-                public void run() {
-                    try {
-                        gameScreen.imageService.onPrepared(image);
-                    } catch (Throwable e) {
-                        Log.e(tag, e);
-                    }
+                if (audio.next != null) {
+                    gameScreen.audioService.prepare(audio.next, new Timer.Task() {
+                        @Override
+                        public void run() {
+
+                        }
+                    });
                 }
-            });
+            }
 
-            if (image.next != null) {
-                gameScreen.imageService.prepare(image.next, new Timer.Task() {
+            final GeneralsStoryImage image = scenario.currentImage;
+            if (image != null) {
+                interaction.imageService.prepare(image, new Timer.Task() {
                     @Override
                     public void run() {
-
+                        try {
+                            interaction.imageService.onPrepared(image);
+                        } catch (Throwable e) {
+                            Log.e(tag, e);
+                        }
                     }
                 });
-            }
-        }
 
+                if (image.next != null) {
+                    interaction.imageService.prepare(image.next, new Timer.Task() {
+                        @Override
+                        public void run() {
+
+                        }
+                    });
+                }
+            }
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
     }
 
     public void onCompleted() {
@@ -204,9 +207,9 @@ public class GeneralsStoryManager {
 
             interaction.scenarioFragment.create(availableDecisions);
 
-//            gameScreen.gameLayers.setStoryDecisionsLayer(
-//                    interaction.scenarioFragment
-//            );
+            gameScreen.gameLayers.setStoryDecisionsLayer(
+                    interaction.scenarioFragment
+            );
         }
     }
 

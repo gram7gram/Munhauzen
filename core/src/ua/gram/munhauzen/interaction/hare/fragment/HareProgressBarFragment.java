@@ -217,10 +217,9 @@ public class HareProgressBarFragment extends Fragment {
                                 HareStory story = interaction.storyManager.hareStory;
 
                                 GameState.isPaused = true;
-                                story.isCompleted = false;
                                 story.progress -= story.totalDuration * 0.025f;
 
-                                story.progress = Math.max(0, story.progress);
+                                postProgressChanged();
                             } catch (Throwable e) {
                                 Log.e(tag, e);
                             }
@@ -271,10 +270,11 @@ public class HareProgressBarFragment extends Fragment {
                                 HareStory story = interaction.storyManager.hareStory;
 
                                 GameState.isPaused = true;
-                                story.isCompleted = false;
+
                                 story.progress += story.totalDuration * 0.025f;
 
-                                story.progress = Math.min(story.progress, story.totalDuration);
+                                postProgressChanged();
+
                             } catch (Throwable e) {
                                 Log.e(tag, e);
                             }
@@ -328,8 +328,9 @@ public class HareProgressBarFragment extends Fragment {
 
                     HareStory story = interaction.storyManager.hareStory;
 
-                    story.isCompleted = false;
-                    story.update(story.totalDuration * percent, story.totalDuration);
+                    story.progress = story.totalDuration * percent;
+
+                    postProgressChanged();
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -602,5 +603,24 @@ public class HareProgressBarFragment extends Fragment {
         style.disabled = new SpriteDrawable(new Sprite(play));
 
         return new ImageButton(style);
+    }
+
+    private void postProgressChanged() {
+        try {
+            HareStory story = interaction.storyManager.hareStory;
+
+            story.update(story.progress, story.totalDuration);
+
+            if (story.isValid()) {
+                if (story.isCompleted) {
+                    if (interaction.scenarioFragment == null) {
+                        interaction.storyManager.onCompleted();
+                    }
+
+                }
+            }
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
     }
 }

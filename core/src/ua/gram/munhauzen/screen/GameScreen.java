@@ -26,8 +26,9 @@ import ua.gram.munhauzen.fragment.ImageFragment;
 import ua.gram.munhauzen.fragment.ProgressBarFragment;
 import ua.gram.munhauzen.fragment.ScenarioFragment;
 import ua.gram.munhauzen.service.AudioService;
-import ua.gram.munhauzen.service.ImageService;
+import ua.gram.munhauzen.service.ExternalImageService;
 import ua.gram.munhauzen.service.InteractionService;
+import ua.gram.munhauzen.service.InternalImageService;
 import ua.gram.munhauzen.service.StoryManager;
 import ua.gram.munhauzen.ui.GameLayers;
 import ua.gram.munhauzen.utils.Log;
@@ -48,7 +49,8 @@ public class GameScreen implements Screen {
     public ImageFragment imageFragment;
     public GameControlsFragment gameControlsFragment;
     public AudioService audioService;
-    public ImageService imageService;
+    public ExternalImageService externalImageService;
+    public InternalImageService internalImageService;
     public InteractionService interactionService;
     private Timer.Task saveTask;
     private Texture background;
@@ -73,7 +75,8 @@ public class GameScreen implements Screen {
         Log.i(tag, "show");
 
         audioService = new AudioService(this);
-        imageService = new ImageService(this);
+        externalImageService = new ExternalImageService(this);
+        internalImageService = new InternalImageService(this);
         interactionService = new InteractionService(this);
 
         ui = new MunhauzenStage(game);
@@ -192,8 +195,12 @@ public class GameScreen implements Screen {
 
         drawBackground();
 
-        if (imageService != null) {
-            imageService.update();
+        if (externalImageService != null) {
+            externalImageService.update();
+        }
+
+        if (internalImageService != null) {
+            internalImageService.update();
         }
 
         if (audioService != null) {
@@ -347,9 +354,14 @@ public class GameScreen implements Screen {
             audioService = null;
         }
 
-        if (imageService != null) {
-            imageService.dispose();
-            imageService = null;
+        if (externalImageService != null) {
+            externalImageService.dispose();
+            externalImageService = null;
+        }
+
+        if (internalImageService != null) {
+            internalImageService.dispose();
+            internalImageService = null;
         }
 
         if (progressBarFragment != null) {

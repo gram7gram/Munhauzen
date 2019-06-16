@@ -5,13 +5,12 @@
     "action": "CLICK",
     "audio": [
       {
-        "audio": "s2_2_0",
-        "duration": 0
+        "audio": "s2_2_0"
       }
     ],
     "images": [
       {
-        "image": "inter_general_1",
+        "internalFile": "generals/inter_general_1.jpg",
         "duration": 10000
       }
     ],
@@ -32,7 +31,7 @@
     "translations": [
       {
         "locale": "en",
-        "text": ""
+        "text": "Begin"
       }
     ]
   },
@@ -42,18 +41,17 @@
     "action": "GOTO",
     "audio": [
       {
-        "audio": "s2_2_a",
-        "duration": 0
+        "audio": "s2_2_a"
       }
     ],
     "images": [
       {
-        "image": "inter_general_1",
+        "internalFile": "generals/inter_general_1.jpg",
         "duration": 12000
       },
       {
-        "image": "inter_general_2",
-        "duration": 0
+        "internalFile": "generals/inter_general_2.jpg",
+        "duration": 5000
       }
     ],
     "decisions": [],
@@ -69,13 +67,12 @@
     "action": "GOTO",
     "audio": [
       {
-        "audio": "s2_2_b",
-        "duration": 0
+        "audio": "s2_2_b"
       }
     ],
     "images": [
       {
-        "image": "inter_general_1",
+        "internalFile": "generals/inter_general_1.jpg",
         "duration": 0
       }
     ],
@@ -96,13 +93,12 @@
     "action": "GOTO",
     "audio": [
       {
-        "audio": "s2_2_c",
-        "duration": 0
+        "audio": "s2_2_c"
       }
     ],
     "images": [
       {
-        "image": "inter_general_1",
+        "internalFile": "generals/inter_general_1.jpg",
         "duration": 0
       }
     ],
@@ -122,13 +118,12 @@
     "name": "a2_2_d",
     "audio": [
       {
-        "audio": "s2_2_d",
-        "duration": 0
+        "audio": "s2_2_d"
       }
     ],
     "images": [
       {
-        "image": "inter_general_1",
+        "internalFile": "generals/inter_general_1.jpg",
         "duration": 0
       }
     ],

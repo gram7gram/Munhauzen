@@ -15,6 +15,17 @@ public class HareStory {
         scenarios = new Array<>();
     }
 
+    public boolean isValid() {
+
+        if (id == null || scenarios.size == 0) return false;
+
+        //StoryScenario last = scenarios.get(scenarios.size - 1);
+
+        return progress >= 0 && totalDuration >= 0
+                && progress <= totalDuration
+                && currentScenario != null;
+    }
+
     public void init() {
 
         reset();
@@ -67,6 +78,10 @@ public class HareStory {
     }
 
     public void update(float progress, int duration) {
+
+        if (progress < 0) {
+            progress = 0;
+        }
 
         if (progress > duration) {
             progress = duration;

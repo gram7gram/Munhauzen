@@ -1,7 +1,6 @@
 package ua.gram.munhauzen.service;
 
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.assets.loaders.resolvers.ExternalFileHandleResolver;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
@@ -11,35 +10,35 @@ import com.badlogic.gdx.utils.Timer;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.GameState;
-import ua.gram.munhauzen.entity.Image;
 import ua.gram.munhauzen.entity.Scenario;
 import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.entity.StoryImage;
 import ua.gram.munhauzen.entity.StoryScenario;
-import ua.gram.munhauzen.repository.ImageRepository;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.transition.FadeTransition;
 import ua.gram.munhauzen.transition.NormalTransition;
 import ua.gram.munhauzen.transition.Transition;
 import ua.gram.munhauzen.utils.DateUtils;
-import ua.gram.munhauzen.utils.ExternalFiles;
 import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class ImageService implements Disposable {
+public abstract class ImageService implements Disposable {
 
-    private final String tag = getClass().getSimpleName();
-    private final GameScreen gameScreen;
-    public final AssetManager assetManager;
+    protected final String tag = getClass().getSimpleName();
+    protected final GameScreen gameScreen;
+    protected final AssetManager assetManager;
 
     public ImageService(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
-        assetManager = new AssetManager(new ExternalFileHandleResolver());
+        assetManager = createAssetManager();
     }
+
+    public abstract AssetManager createAssetManager();
+
+    public abstract String getResource(StoryImage item);
 
     public void prepare(StoryImage item, Timer.Task onComplete) {
         if (item.isPrepared && item.drawable != null) {
@@ -49,9 +48,7 @@ public class ImageService implements Disposable {
             return;
         }
 
-        Image image = ImageRepository.find(gameScreen.game.gameState, item.image);
-
-        String resource = ExternalFiles.getExpansionImagesDir().path() + "/" + image.file;
+        String resource = getResource(item);
 
         boolean isLoaded = assetManager.isLoaded(resource, Texture.class);
 
@@ -85,9 +82,9 @@ public class ImageService implements Disposable {
         if (GameState.isPaused) return;
         if (item.isActive) return;
 
-        Log.i(tag, "onPrepared " + item.image
-                + " " + item.drawable.getMinWidth() + "x" + item.drawable.getMinHeight()
-                + " (" + MunhauzenGame.WORLD_WIDTH + "x" + MunhauzenGame.WORLD_HEIGHT + ")"
+        Log.i(tag, "onPrepared " + getResource(item)
+//                + " " + item.drawable.getMinWidth() + "x" + item.drawable.getMinHeight()
+//                + " (" + MunhauzenGame.WORLD_WIDTH + "x" + MunhauzenGame.WORLD_HEIGHT + ")"
                 + " in " + DateUtils.getDateDiff(item.prepareCompletedAt, item.prepareStartedAt, TimeUnit.MILLISECONDS) + "ms");
 
         item.prepareCompletedAt = null;
@@ -98,7 +95,7 @@ public class ImageService implements Disposable {
 
     public void displayImage(final StoryImage item) {
 
-        Log.i(tag, "displayImage " + item.image);
+        Log.i(tag, "displayImage " + getResource(item));
 
         Story story = gameScreen.getStory();
         for (StoryScenario scenarioOption : story.scenarios) {
@@ -123,10 +120,6 @@ public class ImageService implements Disposable {
     public void update() {
 
         assetManager.update();
-
-        if (gameScreen.imageFragment != null) {
-            gameScreen.imageFragment.update();
-        }
     }
 
     @Override

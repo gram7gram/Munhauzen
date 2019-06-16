@@ -13,7 +13,7 @@ public abstract class AbstractInteraction implements Disposable {
 
     final String tag = getClass().getSimpleName();
     final GameScreen gameScreen;
-    final AssetManager assetManager;
+    public final AssetManager assetManager;
 
     public AbstractInteraction(GameScreen gameScreen) {
         this.gameScreen = gameScreen;

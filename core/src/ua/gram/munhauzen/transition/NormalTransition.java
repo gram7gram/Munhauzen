@@ -5,7 +5,6 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.StoryImage;
@@ -50,27 +49,7 @@ public class NormalTransition extends Transition {
             item.height = MunhauzenGame.WORLD_HEIGHT;
             item.width = width;
 
-            targetImage.addAction(
-                    Actions.forever(
-                            Actions.sequence(
-                                    Actions.moveBy(10, 0, .5f),
-                                    Actions.moveBy(0, 10, .5f),
-                                    Actions.moveBy(-10, 0, .5f),
-                                    Actions.moveBy(0, -10, .5f)
-                            )
-                    )
-            );
-
-            targetImage.addCaptureListener(new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    super.clicked(event, x, y);
-
-                    Log.i(tag, "clicked");
-                }
-            });
-
-            targetImage.addCaptureListener(new ActorGestureListener() {
+            targetImage.addListener(new ActorGestureListener() {
 
                 @Override
                 public void pan(InputEvent event, float x, float y, float deltaX, float deltaY) {
@@ -83,7 +62,7 @@ public class NormalTransition extends Transition {
                         float currentWidth = item.width;
                         int viewportWidth = gameScreen.game.view.getScreenWidth();
 
-                        float leftBound = -currentWidth + viewportWidth;
+                        float leftBound = -currentWidth + MunhauzenGame.WORLD_WIDTH;
                         float rightBound = 0;
 
                         if (leftBound < newX && newX < rightBound) {

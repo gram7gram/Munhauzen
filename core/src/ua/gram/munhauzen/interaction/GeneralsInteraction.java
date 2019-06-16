@@ -2,21 +2,19 @@ package ua.gram.munhauzen.interaction;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.utils.Array;
 
 import ua.gram.munhauzen.entity.GameState;
-import ua.gram.munhauzen.fragment.Fragment;
+import ua.gram.munhauzen.interaction.generals.GeneralsImageService;
 import ua.gram.munhauzen.interaction.generals.GeneralsScenario;
 import ua.gram.munhauzen.interaction.generals.GeneralsStory;
 import ua.gram.munhauzen.interaction.generals.GeneralsStoryManager;
-import ua.gram.munhauzen.interaction.generals.animation.FireLeftAnimation;
-import ua.gram.munhauzen.interaction.generals.animation.FireRightAnimation;
-import ua.gram.munhauzen.interaction.generals.animation.FumesAnimation;
+import ua.gram.munhauzen.interaction.generals.fragment.GeneralsImageFragment;
 import ua.gram.munhauzen.interaction.generals.fragment.GeneralsProgressBarFragment;
 import ua.gram.munhauzen.interaction.generals.fragment.GeneralsScenarioFragment;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.service.DatabaseManager;
+import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
@@ -28,9 +26,8 @@ public class GeneralsInteraction extends AbstractInteraction {
     public GeneralsProgressBarFragment progressBarFragment;
     public GeneralsScenarioFragment scenarioFragment;
     boolean isLoaded;
-    FumesAnimation fumes;
-    FireLeftAnimation fireLeft;
-    FireRightAnimation fireRight;
+    public GeneralsImageService imageService;
+    public GeneralsImageFragment imageFragment;
 
     public GeneralsInteraction(GameScreen gameScreen) {
         super(gameScreen);
@@ -41,43 +38,29 @@ public class GeneralsInteraction extends AbstractInteraction {
         super.start();
 
         scenarioRegistry = new DatabaseManager().loadGeneralsScenario();
-        storyManager = new GeneralsStoryManager(gameScreen, this);
-        progressBarFragment = new GeneralsProgressBarFragment(gameScreen, this);
 
-        assetManager.load("generals/fumes_sheet.png", Texture.class);
-        assetManager.load("generals/fire_left_sheet.png", Texture.class);
-        assetManager.load("generals/fire_right_sheet.png", Texture.class);
+        storyManager = new GeneralsStoryManager(gameScreen, this);
+        imageService = new GeneralsImageService(gameScreen, this);
+
+        assetManager.load("generals/an_general_1_sheet_3x1.png", Texture.class);
+        assetManager.load("generals/an_general_2_sheet_3x1.png", Texture.class);
+        assetManager.load("generals/an_general_3_sheet_3x1.png", Texture.class);
     }
 
     public void onResourcesLoaded() {
         isLoaded = true;
 
+        progressBarFragment = new GeneralsProgressBarFragment(gameScreen, this);
         progressBarFragment.create();
 
         gameScreen.gameLayers.setProgressBarLayer(progressBarFragment);
 
+        imageFragment = new GeneralsImageFragment(this);
+        imageFragment.create();
+
+        gameScreen.gameLayers.setInteractionLayer(imageFragment);
+
         storyManager.resume();
-
-        Texture fumesTexture = assetManager.get("generals/fumes_sheet.png", Texture.class);
-        Texture fireLeftTexture = assetManager.get("generals/fire_left_sheet.png", Texture.class);
-        Texture fireRightTexture = assetManager.get("generals/fire_right_sheet.png", Texture.class);
-
-        fumes = new FumesAnimation(fumesTexture);
-        fireLeft = new FireLeftAnimation(fireLeftTexture);
-        fireRight = new FireRightAnimation(fireRightTexture);
-
-        fumes.setVisible(false);
-        fireLeft.setVisible(false);
-        fireRight.setVisible(false);
-
-        Group stack = new Group();
-        stack.addActor(fumes);
-        stack.addActor(fireLeft);
-        stack.addActor(fireRight);
-
-        gameScreen.gameLayers.setInteractionLayer(
-                new Fragment(stack)
-        );
     }
 
     @Override
@@ -91,6 +74,10 @@ public class GeneralsInteraction extends AbstractInteraction {
                 onResourcesLoaded();
             }
             return;
+        }
+
+        if (imageService != null) {
+            imageService.update();
         }
 
         GeneralsStory story = storyManager.generalsStory;
@@ -113,36 +100,9 @@ public class GeneralsInteraction extends AbstractInteraction {
             }
         }
 
-        if (story.currentScenario.currentImage != null) {
-            switch (story.currentScenario.currentImage.image) {
-                case "inter_general_1":
 
-                    fireLeft.setVisible(false);
-                    fireRight.setVisible(false);
-
-                    if (!fumes.isVisible()) {
-                        fumes.setVisible(true);
-
-                        fumes.start();
-                    }
-                    break;
-                case "inter_general_2":
-
-                    fumes.setVisible(false);
-
-                    if (!fireLeft.isVisible()) {
-                        fireLeft.setVisible(true);
-
-                        fireLeft.start();
-                    }
-
-                    if (!fireRight.isVisible()) {
-                        fireRight.setVisible(true);
-
-                        fireRight.start();
-                    }
-                    break;
-            }
+        if (imageFragment != null) {
+            imageFragment.update();
         }
 
         if (progressBarFragment != null)
@@ -154,20 +114,27 @@ public class GeneralsInteraction extends AbstractInteraction {
     public void dispose() {
         super.dispose();
 
-        if (progressBarFragment != null) {
-            progressBarFragment.dispose();
-            progressBarFragment = null;
+        try {
+
+            if (progressBarFragment != null) {
+                progressBarFragment.dispose();
+                progressBarFragment = null;
+            }
+
+            if (scenarioFragment != null) {
+                scenarioFragment.dispose();
+                scenarioFragment = null;
+            }
+
+            if (imageService != null) {
+                imageService.dispose();
+                imageService = null;
+            }
+
+            isLoaded = false;
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
         }
-
-        if (scenarioFragment != null) {
-            scenarioFragment.dispose();
-            scenarioFragment = null;
-        }
-
-        fireRight = null;
-        fireLeft = null;
-        fumes = null;
-
-        isLoaded = false;
     }
 }
