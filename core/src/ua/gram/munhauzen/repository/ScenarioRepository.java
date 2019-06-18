@@ -10,6 +10,10 @@ public class ScenarioRepository {
 
     public static Scenario findBegin(GameState gameState) {
 
+        if (gameState.developmentScenario != null) {
+            return find(gameState, gameState.developmentScenario);
+        }
+
         for (Scenario o : gameState.scenarioRegistry) {
             if (o.isBegin) {
                 return o;

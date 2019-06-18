@@ -201,8 +201,10 @@ public class GeneralsProgressBarFragment extends Fragment {
                             @Override
                             public void run() {
                                 try {
-                                    interaction.scenarioFragment.destroy();
-                                    interaction.scenarioFragment = null;
+                                    if (interaction.scenarioFragment != null) {
+                                        interaction.scenarioFragment.destroy();
+                                        interaction.scenarioFragment = null;
+                                    }
                                 } catch (Throwable e) {
                                     Log.e(tag, e);
                                 }
@@ -312,25 +314,29 @@ public class GeneralsProgressBarFragment extends Fragment {
                 try {
                     gameScreen.audioService.stop();
 
-                    if (interaction.scenarioFragment != null) {
-                        interaction.scenarioFragment.fadeOut(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    interaction.scenarioFragment.destroy();
-                                    interaction.scenarioFragment = null;
-                                } catch (Throwable e) {
-                                    Log.e(tag, e);
-                                }
-                            }
-                        });
-                    }
-
                     GeneralsStory story = interaction.storyManager.generalsStory;
 
                     story.progress = story.totalDuration * percent;
 
                     postProgressChanged();
+
+                    if (!story.isCompleted) {
+                        if (interaction.scenarioFragment != null) {
+                            interaction.scenarioFragment.fadeOut(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        if (interaction.scenarioFragment != null) {
+                                            interaction.scenarioFragment.destroy();
+                                            interaction.scenarioFragment = null;
+                                        }
+                                    } catch (Throwable e) {
+                                        Log.e(tag, e);
+                                    }
+                                }
+                            });
+                        }
+                    }
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }

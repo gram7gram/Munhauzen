@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.net.HttpRequestBuilder;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -24,6 +25,7 @@ import java.util.HashSet;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.Inventory;
+import ua.gram.munhauzen.entity.Scenario;
 import ua.gram.munhauzen.expansion.ExportResponse;
 import ua.gram.munhauzen.expansion.ExtractExpansionTask;
 import ua.gram.munhauzen.expansion.ExtractGameConfigTask;
@@ -43,7 +45,7 @@ public class MenuFragment extends Fragment {
     public ScrollPane root;
     TextButton downloadButton, expansionButton, startButton;
     Label progressLbl;
-    Table inventoryContainer;
+    Table inventoryContainer, scenarioContainer;
     VerticalGroup group;
 
     public MenuFragment(MunhauzenGame game) {
@@ -104,11 +106,20 @@ public class MenuFragment extends Fragment {
         container.add(expansionButton).expandX().row();
         container.add(progressLbl).pad(10).expandX().row();
 
+        inventoryContainer = new Table();
+        inventoryContainer.padBottom(80);
+
+        scenarioContainer = new Table();
+        scenarioContainer.padBottom(80);
+
         createInventoryTable();
+
+        createScenarioTable();
 
         group = new VerticalGroup();
         group.pad(10);
         group.addActor(container);
+        group.addActor(scenarioContainer);
         group.addActor(inventoryContainer);
 
         root = new ScrollPane(group);
@@ -117,12 +128,16 @@ public class MenuFragment extends Fragment {
     }
 
     private void createInventoryTable() {
+        for (Cell cell : inventoryContainer.getCells()) {
+            Actor actor = cell.getActor();
+            if (actor != null)
+                actor.remove();
+        }
 
         Label header = new Label("Инвентарь", new Label.LabelStyle(
                 game.fontProvider.getFont(FontProvider.BuxtonSketch, FontProvider.h4),
                 Color.RED
         ));
-        inventoryContainer = new Table();
         inventoryContainer.add(header).expandX().row();
 
         HashSet<String> allInventory = game.inventoryService.getAllInventory();
@@ -162,16 +177,61 @@ public class MenuFragment extends Fragment {
                         }
                     }
 
-                    group.removeActor(inventoryContainer);
-
                     createInventoryTable();
-
-                    group.addActor(inventoryContainer);
 
                 }
             });
 
             inventoryContainer.add(label).left().expandX().row();
+        }
+    }
+
+    private void createScenarioTable() {
+
+        for (Cell cell : scenarioContainer.getCells()) {
+            Actor actor = cell.getActor();
+            if (actor != null)
+                actor.remove();
+        }
+
+        Label header = new Label("Стартовый сценарий", new Label.LabelStyle(
+                game.fontProvider.getFont(FontProvider.BuxtonSketch, FontProvider.h4),
+                Color.RED
+        ));
+        scenarioContainer.add(header).expandX().row();
+
+        for (final Scenario scenario : game.gameState.scenarioRegistry) {
+
+            String name = scenario.name;
+
+            if (scenario.name.equals(game.gameState.developmentScenario)) {
+                name = "[+] " + name;
+            } else {
+                name = "[-] " + name;
+            }
+
+            Label label = new Label(name, new Label.LabelStyle(
+                    game.fontProvider.getFont(FontProvider.BuxtonSketch, FontProvider.h4),
+                    Color.BLACK
+            ));
+
+            label.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    super.clicked(event, x, y);
+
+                    if (scenario.name.equals(game.gameState.developmentScenario)) {
+                        game.gameState.developmentScenario = null;
+                    } else {
+                        game.gameState.developmentScenario = scenario.name;
+                    }
+
+                    createScenarioTable();
+
+                }
+            });
+
+            scenarioContainer.add(label).left().expandX().row();
         }
     }
 

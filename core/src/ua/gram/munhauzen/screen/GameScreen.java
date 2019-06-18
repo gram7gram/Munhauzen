@@ -203,6 +203,10 @@ public class GameScreen implements Screen {
             internalImageService.update();
         }
 
+        if (imageFragment != null) {
+            imageFragment.update();
+        }
+
         if (audioService != null) {
             audioService.update();
         }

@@ -101,44 +101,58 @@ public class StoryScenario extends StoryMedia<StoryScenario> {
     }
 
     public void update(float progress, int max) {
+        currentImage = null;
+        currentAudio = null;
 
-        if ((int) progress == max) {
-            currentImage = scenario.images.get(scenario.images.size - 1);
-            currentAudio = scenario.audio.get(scenario.audio.size - 1);
-        } else {
-            currentImage = scenario.images.get(0);
-            currentAudio = scenario.audio.get(0);
+        if (scenario.images != null) {
+            if (scenario.images.size > 0) {
+                if ((int) progress == max) {
+                    currentImage = scenario.images.get(scenario.images.size - 1);
+                } else {
+                    currentImage = scenario.images.get(0);
+                }
+            }
+
+            for (StoryImage item : scenario.images) {
+
+                item.isCompleted = false;
+                item.isLocked = false;
+                item.progress = progress;
+
+                if (item.startsAt <= progress && progress < item.finishesAt) {
+                    item.isLocked = true;
+                    currentImage = item;
+                }
+
+                if (progress >= item.finishesAt) {
+                    item.isCompleted = true;
+                }
+            }
         }
 
-        for (StoryImage item : scenario.images) {
-
-            item.isCompleted = false;
-            item.isLocked = false;
-            item.progress = progress;
-
-            if (item.startsAt <= progress && progress < item.finishesAt) {
-                item.isLocked = true;
-                currentImage = item;
+        if (scenario.audio != null) {
+            if (scenario.audio.size > 0) {
+                if ((int) progress == max) {
+                    currentAudio = scenario.audio.get(scenario.audio.size - 1);
+                } else {
+                    currentAudio = scenario.audio.get(0);
+                }
             }
 
-            if (progress >= item.finishesAt) {
-                item.isCompleted = true;
-            }
-        }
+            for (StoryAudio item : scenario.audio) {
 
-        for (StoryAudio item : scenario.audio) {
+                item.isCompleted = false;
+                item.isLocked = false;
+                item.progress = progress;
 
-            item.isCompleted = false;
-            item.isLocked = false;
-            item.progress = progress;
+                if (item.startsAt <= progress && progress < item.finishesAt) {
+                    item.isLocked = true;
+                    currentAudio = item;
+                }
 
-            if (item.startsAt <= progress && progress < item.finishesAt) {
-                item.isLocked = true;
-                currentAudio = item;
-            }
-
-            if (progress >= item.finishesAt) {
-                item.isCompleted = true;
+                if (progress >= item.finishesAt) {
+                    item.isCompleted = true;
+                }
             }
         }
     }

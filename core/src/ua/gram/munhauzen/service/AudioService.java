@@ -73,98 +73,125 @@ public class AudioService implements Disposable {
     }
 
     public void onPrepared(StoryAudio item) {
+        try {
+            if (!item.isLocked) return;
+            if (GameState.isPaused) return;
+            if (item.isActive) return;
 
-        if (!item.isLocked) return;
-        if (GameState.isPaused) return;
-        if (item.isActive) return;
+            Log.i(tag, "onPrepared " + item.audio
+                    + " in " + DateUtils.getDateDiff(item.prepareCompletedAt, item.prepareStartedAt, TimeUnit.MILLISECONDS) + "ms");
 
-        Log.i(tag, "onPrepared " + item.audio
-                + " in " + DateUtils.getDateDiff(item.prepareCompletedAt, item.prepareStartedAt, TimeUnit.MILLISECONDS) + "ms");
+            item.prepareCompletedAt = null;
+            item.prepareStartedAt = null;
 
-        item.prepareCompletedAt = null;
-        item.prepareStartedAt = null;
-
-        playAudio(item);
+            playAudio(item);
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
     }
 
     public void playAudio(StoryAudio item) {
 
-        if (GameState.isPaused) return;
+        try {
+            if (GameState.isPaused) return;
 
-        float delay = Math.max(0, (item.progress - item.startsAt) / 1000);
+            float delay = Math.max(0, (item.progress - item.startsAt) / 1000);
 
-        item.player.setPosition(delay);
-        item.player.setVolume(GameState.isMute ? 0 : 1);
+            item.player.setPosition(delay);
+            item.player.setVolume(GameState.isMute ? 0 : 1);
 
-        Log.i(tag, "playAudio " + item.audio
-                + " with delay=" + item.player.getPosition() + "s"
-                + " duration=" + (item.duration / 1000) + "s"
-                + " volume=" + item.player.getVolume());
+            Log.i(tag, "playAudio " + item.audio
+                    + " with delay=" + item.player.getPosition() + "s"
+                    + " duration=" + (item.duration / 1000) + "s"
+                    + " volume=" + item.player.getVolume());
 
-        item.isActive = true;
-        item.player.play();
+            item.isActive = true;
+            item.player.play();
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
     }
 
     public void stop() {
-        Story story = gameScreen.getStory();
+        try {
+            Story story = gameScreen.getStory();
 
-        for (StoryScenario option : story.scenarios) {
-            for (StoryAudio audio : option.scenario.audio) {
-                if (audio.player != null) {
-                    audio.isActive = false;
-                    audio.player.pause();
+            for (StoryScenario option : story.scenarios) {
+                for (StoryAudio audio : option.scenario.audio) {
+                    if (audio.player != null) {
+                        audio.isActive = false;
+                        audio.player.pause();
+                    }
                 }
             }
+        } catch (Throwable e) {
+            Log.e(tag, e);
         }
     }
 
     public void updateVolume() {
-        Story story = gameScreen.getStory();
+        try {
+            Story story = gameScreen.getStory();
 
-        int volume = GameState.isMute ? 0 : 1;
+            int volume = GameState.isMute ? 0 : 1;
 
-        for (StoryScenario option : story.scenarios) {
-            for (StoryAudio audio : option.scenario.audio) {
-                if (audio.player != null) {
-                    if (audio.player.getVolume() != volume) {
-                        audio.player.setVolume(volume);
-                    }
-                }
-            }
-        }
-    }
-
-    public void updateMusicState() {
-        Story story = gameScreen.getStory();
-
-        if (story.isCompleted) {
-            stop();
-            return;
-        }
-
-        for (StoryScenario option : story.scenarios) {
-            for (StoryAudio audio : option.scenario.audio) {
-                if (audio.player != null) {
-                    if (GameState.isPaused) {
-                        audio.isActive = false;
-                        audio.player.pause();
-                    } else {
-                        if (audio.isActive && !audio.isLocked) {
-                            audio.isActive = false;
-                            audio.player.pause();
+            for (StoryScenario option : story.scenarios) {
+                for (StoryAudio audio : option.scenario.audio) {
+                    if (audio.player != null) {
+                        if (audio.player.getVolume() != volume) {
+                            audio.player.setVolume(volume);
                         }
                     }
                 }
             }
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+    }
+
+    public void updateMusicState() {
+        try {
+            Story story = gameScreen.getStory();
+
+            if (story.isCompleted) {
+                stop();
+                return;
+            }
+
+            for (StoryScenario option : story.scenarios) {
+                for (StoryAudio audio : option.scenario.audio) {
+                    if (audio.player != null) {
+                        if (GameState.isPaused) {
+                            audio.isActive = false;
+                            audio.player.pause();
+                        } else {
+                            if (audio.isActive && !audio.isLocked) {
+                                audio.isActive = false;
+                                audio.player.pause();
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Throwable e) {
+            Log.e(tag, e);
         }
     }
 
     public void update() {
-        assetManager.update();
+        try {
+            assetManager.update();
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
     }
 
     @Override
     public void dispose() {
-        assetManager.clear();
+        try {
+            assetManager.clear();
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
     }
 }

@@ -11,10 +11,12 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import ua.gram.munhauzen.entity.GameState;
+import ua.gram.munhauzen.entity.Image;
 import ua.gram.munhauzen.entity.Scenario;
 import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.entity.StoryImage;
 import ua.gram.munhauzen.entity.StoryScenario;
+import ua.gram.munhauzen.repository.ImageRepository;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.transition.FadeTransition;
 import ua.gram.munhauzen.transition.NormalTransition;
@@ -83,12 +85,20 @@ public abstract class ImageService implements Disposable {
         if (item.isActive) return;
 
         Log.i(tag, "onPrepared " + getResource(item)
-//                + " " + item.drawable.getMinWidth() + "x" + item.drawable.getMinHeight()
-//                + " (" + MunhauzenGame.WORLD_WIDTH + "x" + MunhauzenGame.WORLD_HEIGHT + ")"
                 + " in " + DateUtils.getDateDiff(item.prepareCompletedAt, item.prepareStartedAt, TimeUnit.MILLISECONDS) + "ms");
 
         item.prepareCompletedAt = null;
         item.prepareStartedAt = null;
+
+        if (!item.image.equals("Last")) {
+            Image image = ImageRepository.find(gameScreen.game.gameState, item.image);
+
+            Image lastImage = new Image();
+            lastImage.file = image.file;
+            lastImage.name = image.name;
+
+            gameScreen.game.gameState.lastImage = lastImage;
+        }
 
         displayImage(item);
     }

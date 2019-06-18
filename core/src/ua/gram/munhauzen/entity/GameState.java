@@ -17,6 +17,8 @@ public class GameState {
     public static boolean isFinaleReached = false;
     public static boolean isHighEndDevice = true;
 
+    public String developmentScenario;
+    public Image lastImage;
     public History history;
     public Array<Scenario> scenarioRegistry;
     public Array<Image> imageRegistry;

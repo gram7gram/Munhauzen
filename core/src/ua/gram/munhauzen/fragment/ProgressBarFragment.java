@@ -202,8 +202,10 @@ public class ProgressBarFragment extends Fragment {
                             @Override
                             public void run() {
                                 try {
-                                    gameScreen.scenarioFragment.destroy();
-                                    gameScreen.scenarioFragment = null;
+                                    if (gameScreen.scenarioFragment != null) {
+                                        gameScreen.scenarioFragment.destroy();
+                                        gameScreen.scenarioFragment = null;
+                                    }
                                 } catch (Throwable e) {
                                     Log.e(tag, e);
                                 }
@@ -305,8 +307,10 @@ public class ProgressBarFragment extends Fragment {
                             @Override
                             public void run() {
                                 try {
-                                    gameScreen.scenarioFragment.destroy();
-                                    gameScreen.scenarioFragment = null;
+                                    if (gameScreen.scenarioFragment != null) {
+                                        gameScreen.scenarioFragment.destroy();
+                                        gameScreen.scenarioFragment = null;
+                                    }
                                 } catch (Throwable e) {
                                     Log.e(tag, e);
                                 }
@@ -417,20 +421,28 @@ public class ProgressBarFragment extends Fragment {
                 try {
                     gameScreen.audioService.stop();
 
-                    if (gameScreen.scenarioFragment != null) {
-                        gameScreen.scenarioFragment.fadeOut(new Runnable() {
-                            @Override
-                            public void run() {
-                                gameScreen.scenarioFragment.destroy();
-                                gameScreen.scenarioFragment = null;
-                            }
-                        });
-                    }
-
                     Story story = gameScreen.getStory();
                     story.progress = story.totalDuration * percent;
 
                     postProgressChanged();
+
+                    if (!story.isCompleted) {
+                        if (gameScreen.scenarioFragment != null) {
+                            gameScreen.scenarioFragment.fadeOut(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        if (gameScreen.scenarioFragment != null) {
+                                            gameScreen.scenarioFragment.destroy();
+                                            gameScreen.scenarioFragment = null;
+                                        }
+                                    } catch (Throwable e) {
+                                        Log.e(tag, e);
+                                    }
+                                }
+                            });
+                        }
+                    }
 
                 } catch (Throwable e) {
                     Log.e(tag, e);

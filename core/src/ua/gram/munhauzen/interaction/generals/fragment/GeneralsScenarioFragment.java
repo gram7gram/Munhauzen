@@ -225,8 +225,10 @@ public class GeneralsScenarioFragment extends Fragment {
 
                     Log.i(tag, "fadeOut button complete");
 
-                    interaction.scenarioFragment.destroy();
-                    interaction.scenarioFragment = null;
+                    if (interaction.scenarioFragment != null) {
+                        interaction.scenarioFragment.destroy();
+                        interaction.scenarioFragment = null;
+                    }
 
                     GameState.isPaused = false;
                 }
