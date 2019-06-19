@@ -12,7 +12,7 @@ import ua.gram.munhauzen.utils.Log;
 public abstract class AbstractInteraction implements Disposable {
 
     final String tag = getClass().getSimpleName();
-    final GameScreen gameScreen;
+    public final GameScreen gameScreen;
     public final AssetManager assetManager;
 
     public AbstractInteraction(GameScreen gameScreen) {

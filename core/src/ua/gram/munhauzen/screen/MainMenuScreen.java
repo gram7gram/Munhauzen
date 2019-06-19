@@ -27,7 +27,7 @@ public class MainMenuScreen implements Screen {
     public void show() {
         ui = new MunhauzenStage(game);
 
-        background = game.assetManager.get("a0.jpg", Texture.class);
+        background = game.assetManager.get("p0.jpg", Texture.class);
 
         menuFragment = new MenuFragment(game);
         menuFragment.create();

@@ -36,7 +36,7 @@ public class LoadingScreen implements Screen {
     public void show() {
         ui = new MunhauzenStage(game);
 
-        background = game.assetManager.get("a0.jpg", Texture.class);
+        background = game.assetManager.get("p0.jpg", Texture.class);
 
         NinePatchDrawable decor = new NinePatchDrawable(new NinePatch(
                 new Texture("LoadingScreen/lv_decor_1.9.png"), 90, 90, 0, 0));

@@ -24,6 +24,8 @@ public class NormalTransition extends Transition {
     @Override
     public void prepare(final StoryImage item) {
 
+        if (item.drawable == null) return;
+
         final ImageFragment fragment = gameScreen.imageFragment;
 
         fragment.layer1Image.clear();

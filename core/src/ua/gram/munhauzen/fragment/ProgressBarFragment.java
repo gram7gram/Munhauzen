@@ -624,6 +624,31 @@ public class ProgressBarFragment extends Fragment {
         );
     }
 
+    public void fadeOut(Runnable task) {
+
+        if (!isMounted()) return;
+
+        Log.i(tag, "fadeOut");
+
+        //root.setTouchable(Touchable.disabled);
+        root.clearActions();
+        root.addAction(
+                Actions.sequence(
+                        Actions.parallel(
+                                Actions.fadeOut(.5f),
+                                Actions.moveTo(0, -40, .5f)
+                        ),
+                        Actions.run(new Runnable() {
+                            @Override
+                            public void run() {
+                                root.setVisible(false);
+                            }
+                        }),
+                        Actions.run(task)
+                )
+        );
+    }
+
     public void scheduleFadeOut() {
 
         if (!isMounted()) return;

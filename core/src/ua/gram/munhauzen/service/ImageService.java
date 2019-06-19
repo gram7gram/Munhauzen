@@ -100,19 +100,19 @@ public abstract class ImageService implements Disposable {
             gameScreen.game.gameState.lastImage = lastImage;
         }
 
-        displayImage(item);
-    }
-
-    public void displayImage(final StoryImage item) {
-
-        Log.i(tag, "displayImage " + getResource(item));
-
         Story story = gameScreen.getStory();
         for (StoryScenario scenarioOption : story.scenarios) {
             for (StoryImage image : scenarioOption.scenario.images) {
                 image.isActive = false;
             }
         }
+
+        displayImage(item);
+    }
+
+    public void displayImage(final StoryImage item) {
+
+        Log.i(tag, "displayImage " + getResource(item));
 
         item.isActive = true;
 

@@ -116,14 +116,18 @@ public class MenuFragment extends Fragment {
 
         createScenarioTable();
 
+        Table container2 = new Table();
+        container2.add(inventoryContainer).top().expandX();
+        container2.add(scenarioContainer).top().expandX();
+
         group = new VerticalGroup();
         group.pad(10);
         group.addActor(container);
-        group.addActor(scenarioContainer);
-        group.addActor(inventoryContainer);
+        group.addActor(container2);
 
         root = new ScrollPane(group);
         root.setFillParent(true);
+        root.setScrollingDisabled(true, false);
         root.setName(tag);
     }
 
@@ -135,7 +139,7 @@ public class MenuFragment extends Fragment {
         }
 
         Label header = new Label("Инвентарь", new Label.LabelStyle(
-                game.fontProvider.getFont(FontProvider.BuxtonSketch, FontProvider.h4),
+                game.fontProvider.getFont(FontProvider.BuxtonSketch, FontProvider.p),
                 Color.RED
         ));
         inventoryContainer.add(header).expandX().row();
@@ -157,7 +161,7 @@ public class MenuFragment extends Fragment {
             }
 
             Label label = new Label(name, new Label.LabelStyle(
-                    game.fontProvider.getFont(FontProvider.BuxtonSketch, FontProvider.h4),
+                    game.fontProvider.getFont(FontProvider.BuxtonSketch, FontProvider.p),
                     Color.BLACK
             ));
 
@@ -195,7 +199,7 @@ public class MenuFragment extends Fragment {
         }
 
         Label header = new Label("Стартовый сценарий", new Label.LabelStyle(
-                game.fontProvider.getFont(FontProvider.BuxtonSketch, FontProvider.h4),
+                game.fontProvider.getFont(FontProvider.BuxtonSketch, FontProvider.p),
                 Color.RED
         ));
         scenarioContainer.add(header).expandX().row();
@@ -211,7 +215,7 @@ public class MenuFragment extends Fragment {
             }
 
             Label label = new Label(name, new Label.LabelStyle(
-                    game.fontProvider.getFont(FontProvider.BuxtonSketch, FontProvider.h4),
+                    game.fontProvider.getFont(FontProvider.BuxtonSketch, FontProvider.p),
                     Color.BLACK
             ));
 

@@ -143,7 +143,7 @@ public class MunhauzenGame extends Game {
         fontProvider.load();
 
         assetManager = new AssetManager();
-        assetManager.load("a0.jpg", Texture.class);
+        assetManager.load("p0.jpg", Texture.class);
         assetManager.load("ui/b_primary_enabled.9.png", Texture.class);
         assetManager.load("ui/b_primary_disabled.png", Texture.class);
     }

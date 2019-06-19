@@ -99,7 +99,7 @@ public class GameScreen implements Screen {
 
         isLoaded = true;
 
-        background = game.assetManager.get("a0.jpg", Texture.class);
+        background = game.assetManager.get("p0.jpg", Texture.class);
 
         gameLayers = new GameLayers(this);
 
@@ -384,5 +384,23 @@ public class GameScreen implements Screen {
         }
 
         gameLayers = null;
+    }
+
+    public void hideAndDestroyProgressBar() {
+        if (progressBarFragment != null) {
+            progressBarFragment.fadeOut(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        if (progressBarFragment != null) {
+                            progressBarFragment.destroy();
+                            progressBarFragment = null;
+                        }
+                    } catch (Throwable e) {
+                        Log.e(tag, e);
+                    }
+                }
+            });
+        }
     }
 }

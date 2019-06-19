@@ -26,9 +26,7 @@ public class ContinueInteraction extends AbstractInteraction {
     public void start() {
         super.start();
 
-        if (gameScreen.progressBarFragment != null) {
-            gameScreen.progressBarFragment.fadeOut();
-        }
+        gameScreen.hideAndDestroyProgressBar();
 
         Button button = gameScreen.game.buttonBuilder.primary("Продолжить", new ClickListener() {
             @Override

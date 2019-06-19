@@ -1,7 +1,6 @@
 package ua.gram.munhauzen.interaction.hare.fragment;
 
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -97,7 +96,7 @@ public class HareScenarioFragment extends Fragment {
 
         Log.i(tag, "create x" + decisions.size());
 
-        assetManager.load("sfx/sfx_decision.mp3", Sound.class);
+//        assetManager.load("sfx/sfx_decision.mp3", Sound.class);
         assetManager.load("GameScreen/an_cannons_main.png", Texture.class);
         assetManager.load("GameScreen/b_star_game.png", Texture.class);
         assetManager.load("GameScreen/b_tulip_1.png", Texture.class);
@@ -216,8 +215,8 @@ public class HareScenarioFragment extends Fragment {
         try {
             Log.i(tag, "makeDecision " + decision.scenario);
 
-            Sound sfx = assetManager.get("sfx/sfx_decision.mp3", Sound.class);
-            sfx.play();
+//            Sound sfx = assetManager.get("sfx/sfx_decision.mp3", Sound.class);
+//            sfx.play();
 
             final Runnable onComplete = new Runnable() {
                 @Override
