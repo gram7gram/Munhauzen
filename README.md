@@ -4,8 +4,8 @@
 
 <table>
 <tr>
-<td style="text-align: center;"><img style="margin-right:20px" src="http://github.com/gram7gram/blob/master/demo-2.jpg" alt="Logo" /></td>
-<td style="text-align: center;"><img src="http://github.com/gram7gram/blob/master/demo-1.jpg"></td>
+<td style="text-align: center;"><img style="margin-right:20px" src="http://github.com/gram7gram/Munhauzen/blob/master/demo-2.jpg" alt="Logo" /></td>
+<td style="text-align: center;"><img src="http://github.com/gram7gram/Munhauzen/blob/master/demo-1.jpg"></td>
 </tr>
 </table>
 
