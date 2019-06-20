@@ -5,7 +5,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -14,9 +13,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.fragment.Fragment;
 import ua.gram.munhauzen.interaction.PuzzleInteraction;
+import ua.gram.munhauzen.interaction.puzzle.Dropzone;
+import ua.gram.munhauzen.interaction.puzzle.PuzzleItem;
 import ua.gram.munhauzen.ui.FitImage;
+import ua.gram.munhauzen.ui.PrimaryButton;
 import ua.gram.munhauzen.utils.Log;
-import ua.gram.munhauzen.utils.Random;
 
 /**
  * @author Gram <gram7gram@gmail.com>
@@ -36,6 +37,7 @@ public class PuzzleImageFragment extends Fragment {
     public PuzzleItem stick, spoon, shoes, peas, key, hair, clocks, arrows, powder, rope;
     public Foot foot;
     public Table backgroundTable;
+    public PrimaryButton resetButton;
 
     boolean areActorsInitialized;
 
@@ -60,6 +62,24 @@ public class PuzzleImageFragment extends Fragment {
         Texture tex11 = interaction.assetManager.get("puzzle/inter_puzzle_fond_1.png", Texture.class);
         Texture tex12 = interaction.assetManager.get("puzzle/inter_puzzle_fond_2.png", Texture.class);
 
+        resetButton = interaction.gameScreen.game.buttonBuilder.primary("Снова", new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                try {
+                    interaction.decisionManager.reset();
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
+            }
+        });
+
+        float buttonWidth = Math.max(250, MunhauzenGame.WORLD_HEIGHT / 5f);
+        float buttonScale = buttonWidth / resetButton.getWidth();
+        resetButton.setSize(buttonWidth, resetButton.getHeight() * buttonScale);
+        resetButton.setPosition(10, 10);
+
         backgroundScale = 1f * MunhauzenGame.WORLD_WIDTH / tex11.getWidth();
         float height = tex11.getHeight() * backgroundScale;
 
@@ -76,7 +96,7 @@ public class PuzzleImageFragment extends Fragment {
         powder = new Powder(tex9);
         rope = new Rope(tex10);
         foot = new Foot(tex12);
-        dropzone = new Dropzone();
+        dropzone = new Dropzone(interaction);
 
         backgroundTable = new Table();
         backgroundTable.setFillParent(true);
@@ -98,6 +118,7 @@ public class PuzzleImageFragment extends Fragment {
         root.addActor(rope);
         root.addActor(foot);
         root.addActor(dropzone);
+        root.addActor(resetButton);
 
         root.setName(tag);
     }
@@ -108,6 +129,9 @@ public class PuzzleImageFragment extends Fragment {
     }
 
     public void update() {
+
+        resetButton.setDisabled(interaction.decisionManager.items.isEmpty());
+
         if (!areActorsInitialized) {
 
             areActorsInitialized = true;
@@ -134,58 +158,9 @@ public class PuzzleImageFragment extends Fragment {
 
     }
 
-    private abstract class PuzzleItem extends FitImage {
-
-        public PuzzleItem(Texture texture) {
-            super(texture);
-        }
-
-        public void init() {
-
-            setSizeRelativeToBackground(this, getDrawable());
-
-            Random r = new Random();
-            addAction(Actions.forever(
-                    Actions.sequence(
-                            Actions.delay(r.between(0, 1) / 10f),
-                            Actions.moveBy(1, 0, .2f),
-                            Actions.delay(r.between(0, 1) / 10f),
-                            Actions.moveBy(0, 1, .2f),
-                            Actions.delay(r.between(0, 1) / 10f),
-                            Actions.moveBy(-1, 0, .2f),
-                            Actions.delay(r.between(0, 1) / 10f),
-                            Actions.moveBy(0, -1, .2f)
-                    )
-            ));
-
-            final String name = getClass().getSimpleName().toLowerCase();
-
-            addListener(new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    super.clicked(event, x, y);
-                    Log.i(tag, "clicked on " + name);
-
-                    try {
-                        if (interaction.decisionManager.items.contains(name)) {
-                            interaction.decisionManager.items.remove(name);
-                        } else {
-                            interaction.decisionManager.items.add(name);
-                        }
-
-                        interaction.decisionManager.decide();
-                    } catch (Throwable e) {
-                        Log.e(tag, e);
-                    }
-
-                }
-            });
-        }
-    }
-
     private class Powder extends PuzzleItem {
         public Powder(Texture texture) {
-            super(texture);
+            super(interaction, texture);
         }
 
         @Override
@@ -198,7 +173,7 @@ public class PuzzleImageFragment extends Fragment {
 
     private class Rope extends PuzzleItem {
         public Rope(Texture texture) {
-            super(texture);
+            super(interaction, texture);
         }
 
         @Override
@@ -211,7 +186,7 @@ public class PuzzleImageFragment extends Fragment {
 
     private class Arrows extends PuzzleItem {
         public Arrows(Texture texture) {
-            super(texture);
+            super(interaction, texture);
         }
 
         @Override
@@ -224,7 +199,7 @@ public class PuzzleImageFragment extends Fragment {
 
     private class Spoon extends PuzzleItem {
         public Spoon(Texture texture) {
-            super(texture);
+            super(interaction, texture);
         }
 
         @Override
@@ -237,7 +212,7 @@ public class PuzzleImageFragment extends Fragment {
 
     private class Stick extends PuzzleItem {
         public Stick(Texture texture) {
-            super(texture);
+            super(interaction, texture);
         }
 
         @Override
@@ -250,7 +225,7 @@ public class PuzzleImageFragment extends Fragment {
 
     private class Shoes extends PuzzleItem {
         public Shoes(Texture texture) {
-            super(texture);
+            super(interaction, texture);
         }
 
         @Override
@@ -263,7 +238,7 @@ public class PuzzleImageFragment extends Fragment {
 
     private class Peas extends PuzzleItem {
         public Peas(Texture texture) {
-            super(texture);
+            super(interaction, texture);
         }
 
         @Override
@@ -276,7 +251,7 @@ public class PuzzleImageFragment extends Fragment {
 
     private class Key extends PuzzleItem {
         public Key(Texture texture) {
-            super(texture);
+            super(interaction, texture);
         }
 
         @Override
@@ -289,7 +264,7 @@ public class PuzzleImageFragment extends Fragment {
 
     private class Hair extends PuzzleItem {
         public Hair(Texture texture) {
-            super(texture);
+            super(interaction, texture);
         }
 
         @Override
@@ -302,7 +277,7 @@ public class PuzzleImageFragment extends Fragment {
 
     private class Clocks extends PuzzleItem {
         public Clocks(Texture texture) {
-            super(texture);
+            super(interaction, texture);
         }
 
         @Override
@@ -313,26 +288,7 @@ public class PuzzleImageFragment extends Fragment {
         }
     }
 
-    private class Dropzone extends Actor {
 
-        public Dropzone() {
-
-        }
-
-        public void init() {
-
-            float scale = .85f;
-            float width = 150;
-            float height = width * (1 / scale);
-
-            setSize(
-                    width * backgroundScale,
-                    height * backgroundScale
-            );
-
-            setPositionRelativeToBackground(this, 330, 530);
-        }
-    }
 
     private class Foot extends FitImage {
 

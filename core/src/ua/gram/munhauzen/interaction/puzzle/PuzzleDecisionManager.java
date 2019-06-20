@@ -1,17 +1,31 @@
 package ua.gram.munhauzen.interaction.puzzle;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Timer;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 
+import ua.gram.munhauzen.entity.Inventory;
+import ua.gram.munhauzen.entity.Story;
+import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.interaction.PuzzleInteraction;
+import ua.gram.munhauzen.repository.InventoryRepository;
+import ua.gram.munhauzen.service.InventoryService;
 import ua.gram.munhauzen.ui.FitImage;
+import ua.gram.munhauzen.utils.Log;
+import ua.gram.munhauzen.utils.MathUtils;
+import ua.gram.munhauzen.utils.Random;
 
 /**
  * @author Gram <gram7gram@gmail.com>
  */
 public class PuzzleDecisionManager {
 
+    public final String tag = getClass().getSimpleName();
     public final PuzzleInteraction interaction;
     public final HashSet<String> items;
     public ActivePuzzleItem activeStick, activeSpoon, activeShoes, activePeas, activeKey, activeHair, activeClocks, activeArrows, activePowder, activeRope;
@@ -21,228 +35,439 @@ public class PuzzleDecisionManager {
         items = new HashSet<>();
     }
 
-    public void decide() {
+    public void cleanup() {
 
-        if (activePowder != null) {
-            activePowder.remove();
-            activePowder = null;
-        }
+        try {
 
-        if (activeStick != null) {
-            activeStick.remove();
-            activeStick = null;
-        }
-
-        if (activeSpoon != null) {
-            activeSpoon.remove();
-            activeSpoon = null;
-        }
-
-        if (activeShoes != null) {
-            activeShoes.remove();
-            activeShoes = null;
-        }
-
-        if (activePeas != null) {
-            activePeas.remove();
-            activePeas = null;
-        }
-
-        if (activeKey != null) {
-            activeKey.remove();
-            activeKey = null;
-        }
-
-        if (activeHair != null) {
-            activeHair.remove();
-            activeHair = null;
-        }
-
-        if (activeClocks != null) {
-            activeClocks.remove();
-            activeClocks = null;
-        }
-
-        if (activeArrows != null) {
-            activeArrows.remove();
-            activeArrows = null;
-        }
-
-        if (activeRope != null) {
-            activeRope.remove();
-            activeRope = null;
-        }
-
-        for (String item : items) {
-            String res = "puzzle/inter_puzzle_" + item + "_2.png";
-
-            switch (item) {
-                case "clocks":
-
-                    if (!interaction.assetManager.isLoaded(res, Texture.class)) {
-                        interaction.assetManager.load(res, Texture.class);
-
-                        interaction.assetManager.finishLoading();
-                    }
-
-                    activeClocks = new ActiveClocks(
-                            interaction.assetManager.get(res, Texture.class)
-                    );
-
-                    activeClocks.init();
-
-                    interaction.imageFragment.root.addActor(activeClocks);
-                    break;
-                case "spoon":
-
-                    if (!interaction.assetManager.isLoaded(res, Texture.class)) {
-                        interaction.assetManager.load(res, Texture.class);
-
-                        interaction.assetManager.finishLoading();
-                    }
-
-                    activeSpoon = new ActiveSpoon(
-                            interaction.assetManager.get(res, Texture.class)
-                    );
-
-                    activeSpoon.init();
-
-                    interaction.imageFragment.root.addActor(activeSpoon);
-                    break;
-                case "shoes":
-
-                    if (!interaction.assetManager.isLoaded(res, Texture.class)) {
-                        interaction.assetManager.load(res, Texture.class);
-
-                        interaction.assetManager.finishLoading();
-                    }
-
-                    activeShoes = new ActiveShoes(
-                            interaction.assetManager.get(res, Texture.class)
-                    );
-
-                    activeShoes.init();
-
-                    interaction.imageFragment.root.addActor(activeShoes);
-                    break;
-                case "peas":
-
-                    if (!interaction.assetManager.isLoaded(res, Texture.class)) {
-                        interaction.assetManager.load(res, Texture.class);
-
-                        interaction.assetManager.finishLoading();
-                    }
-
-                    activePeas = new ActivePeas(
-                            interaction.assetManager.get(res, Texture.class)
-                    );
-
-                    activePeas.init();
-
-                    interaction.imageFragment.root.addActor(activePeas);
-                    break;
-                case "key":
-
-                    if (!interaction.assetManager.isLoaded(res, Texture.class)) {
-                        interaction.assetManager.load(res, Texture.class);
-
-                        interaction.assetManager.finishLoading();
-                    }
-
-                    activeKey = new ActiveKey(
-                            interaction.assetManager.get(res, Texture.class)
-                    );
-
-                    activeKey.init();
-
-                    interaction.imageFragment.root.addActor(activeKey);
-                    break;
-                case "hair":
-
-                    if (!interaction.assetManager.isLoaded(res, Texture.class)) {
-                        interaction.assetManager.load(res, Texture.class);
-
-                        interaction.assetManager.finishLoading();
-                    }
-
-                    activeHair = new ActiveHair(
-                            interaction.assetManager.get(res, Texture.class)
-                    );
-
-                    activeHair.init();
-
-                    interaction.imageFragment.root.addActor(activeHair);
-                    break;
-                case "arrows":
-
-                    if (!interaction.assetManager.isLoaded(res, Texture.class)) {
-                        interaction.assetManager.load(res, Texture.class);
-
-                        interaction.assetManager.finishLoading();
-                    }
-
-                    activeArrows = new ActiveArrows(
-                            interaction.assetManager.get(res, Texture.class)
-                    );
-
-                    activeArrows.init();
-
-                    interaction.imageFragment.root.addActor(activeArrows);
-                    break;
-                case "rope":
-
-                    if (!interaction.assetManager.isLoaded(res, Texture.class)) {
-                        interaction.assetManager.load(res, Texture.class);
-
-                        interaction.assetManager.finishLoading();
-                    }
-
-                    activeRope = new ActiveRope(
-                            interaction.assetManager.get(res, Texture.class)
-                    );
-
-                    activeRope.init();
-
-                    interaction.imageFragment.root.addActor(activeRope);
-                    break;
-                case "stick":
-
-                    if (!interaction.assetManager.isLoaded(res, Texture.class)) {
-                        interaction.assetManager.load(res, Texture.class);
-
-                        interaction.assetManager.finishLoading();
-                    }
-
-                    activeStick = new ActiveStick(
-                            interaction.assetManager.get(res, Texture.class)
-                    );
-
-                    activeStick.init();
-
-                    interaction.imageFragment.root.addActor(activeStick);
-                    break;
-                case "powder":
-
-                    if (!interaction.assetManager.isLoaded(res, Texture.class)) {
-                        interaction.assetManager.load(res, Texture.class);
-
-                        interaction.assetManager.finishLoading();
-                    }
-
-                    activePowder = new ActivePowder(
-                            interaction.assetManager.get(res, Texture.class)
-                    );
-
-                    activePowder.init();
-
-                    interaction.imageFragment.root.addActor(activePowder);
-                    break;
+            if (activePowder != null) {
+                activePowder.remove();
+                activePowder = null;
             }
+
+            if (activeStick != null) {
+                activeStick.remove();
+                activeStick = null;
+            }
+
+            if (activeSpoon != null) {
+                activeSpoon.remove();
+                activeSpoon = null;
+            }
+
+            if (activeShoes != null) {
+                activeShoes.remove();
+                activeShoes = null;
+            }
+
+            if (activePeas != null) {
+                activePeas.remove();
+                activePeas = null;
+            }
+
+            if (activeKey != null) {
+                activeKey.remove();
+                activeKey = null;
+            }
+
+            if (activeHair != null) {
+                activeHair.remove();
+                activeHair = null;
+            }
+
+            if (activeClocks != null) {
+                activeClocks.remove();
+                activeClocks = null;
+            }
+
+            if (activeArrows != null) {
+                activeArrows.remove();
+                activeArrows = null;
+            }
+
+            if (activeRope != null) {
+                activeRope.remove();
+                activeRope = null;
+            }
+
+            interaction.imageFragment.clocks.setVisible(true);
+            interaction.imageFragment.spoon.setVisible(true);
+            interaction.imageFragment.shoes.setVisible(true);
+            interaction.imageFragment.peas.setVisible(true);
+            interaction.imageFragment.key.setVisible(true);
+            interaction.imageFragment.hair.setVisible(true);
+            interaction.imageFragment.arrows.setVisible(true);
+            interaction.imageFragment.rope.setVisible(true);
+            interaction.imageFragment.stick.setVisible(true);
+        } catch (Throwable e) {
+            Log.e(tag, e);
         }
     }
 
-    public void reset() {
+    public void decide() {
 
+        try {
+            cleanup();
+
+            for (String item : items) {
+                String res = "puzzle/inter_puzzle_" + item + "_2.png";
+
+                if (!interaction.assetManager.isLoaded(res, Texture.class)) {
+                    interaction.assetManager.load(res, Texture.class);
+
+                    interaction.assetManager.finishLoading();
+                }
+
+                Texture texture = interaction.assetManager.get(res, Texture.class);
+
+                switch (item) {
+                    case "clocks":
+
+                        activeClocks = new ActiveClocks(texture);
+
+                        activeClocks.init();
+
+                        interaction.imageFragment.root.addActor(activeClocks);
+                        interaction.imageFragment.clocks.setVisible(false);
+                        break;
+                    case "spoon":
+                        activeSpoon = new ActiveSpoon(texture);
+
+                        activeSpoon.init();
+
+                        interaction.imageFragment.root.addActor(activeSpoon);
+                        interaction.imageFragment.spoon.setVisible(false);
+                        break;
+                    case "shoes":
+                        activeShoes = new ActiveShoes(texture);
+
+                        activeShoes.init();
+
+                        interaction.imageFragment.root.addActor(activeShoes);
+                        interaction.imageFragment.shoes.setVisible(false);
+                        break;
+                    case "peas":
+
+                        activePeas = new ActivePeas(texture);
+
+                        activePeas.init();
+
+                        interaction.imageFragment.root.addActor(activePeas);
+                        interaction.imageFragment.peas.setVisible(false);
+                        break;
+                    case "key":
+
+                        activeKey = new ActiveKey(texture);
+
+                        activeKey.init();
+
+                        interaction.imageFragment.root.addActor(activeKey);
+                        interaction.imageFragment.key.setVisible(false);
+                        break;
+                    case "hair":
+                        activeHair = new ActiveHair(texture);
+
+                        activeHair.init();
+
+                        interaction.imageFragment.root.addActor(activeHair);
+                        interaction.imageFragment.hair.setVisible(false);
+                        break;
+                    case "arrows":
+                        activeArrows = new ActiveArrows(texture);
+
+                        activeArrows.init();
+
+                        interaction.imageFragment.root.addActor(activeArrows);
+                        interaction.imageFragment.arrows.setVisible(false);
+                        break;
+                    case "rope":
+
+                        activeRope = new ActiveRope(texture);
+
+                        activeRope.init();
+
+                        interaction.imageFragment.root.addActor(activeRope);
+                        interaction.imageFragment.rope.setVisible(false);
+                        break;
+                    case "stick":
+                        activeStick = new ActiveStick(texture);
+
+                        activeStick.init();
+
+                        interaction.imageFragment.root.addActor(activeStick);
+                        interaction.imageFragment.stick.setVisible(false);
+                        break;
+                    case "powder":
+
+                        activePowder = new ActivePowder(texture);
+
+                        activePowder.init();
+
+                        interaction.imageFragment.root.addActor(activePowder);
+                        interaction.imageFragment.powder.setVisible(false);
+                        break;
+                }
+            }
+
+            if (items.size() == 3) {
+                checkCombination();
+            }
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+    }
+
+    public void destroyItems() {
+
+        try {
+
+            InventoryService inventoryService = interaction.gameScreen.game.inventoryService;
+
+            Inventory inventoryPuppet = InventoryRepository.find(interaction.gameScreen.game.gameState, "PUPPET");
+
+            String soundName;
+            if (inventoryService.isInInventory(inventoryPuppet)) {
+
+                soundName = MathUtils.random(new String[]{
+                        "sfx_a15broken_1",
+                        "sfx_a15broken_2",
+                        "sfx_a15broken_3",
+                        "sfx_a15broken_4",
+                        "sfx_a15broken_5"
+                });
+            } else {
+
+                soundName = MathUtils.random(new String[]{
+                        "sfx_a15broken_1_puppet",
+                        "sfx_a15broken_2_puppet",
+                        "sfx_a15broken_3_puppet",
+                        "sfx_a15broken_4_puppet",
+                        "sfx_a15broken_5_puppet"
+                });
+            }
+
+            final StoryAudio storyAudio = new StoryAudio();
+            storyAudio.audio = soundName;
+
+            interaction.gameScreen.audioService.prepare(storyAudio, new Timer.Task() {
+                @Override
+                public void run() {
+                    try {
+                        interaction.gameScreen.audioService.playAudio(storyAudio);
+                    } catch (Throwable e) {
+                        Log.e(tag, e);
+                    }
+                }
+            });
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+
+        try {
+            Timer.instance().scheduleTask(new Timer.Task() {
+                @Override
+                public void run() {
+
+                    try {
+                        for (String item : items) {
+
+                            switch (item) {
+                                case "clocks":
+                                    activeClocks.destroy();
+                                    break;
+                                case "spoon":
+                                    activeSpoon.destroy();
+                                    break;
+                                case "shoes":
+                                    activeShoes.destroy();
+                                    break;
+                                case "peas":
+                                    activePeas.destroy();
+                                    break;
+                                case "key":
+                                    activeKey.destroy();
+                                    break;
+                                case "hair":
+                                    activeHair.destroy();
+                                    break;
+                                case "arrows":
+                                    activeArrows.destroy();
+                                    break;
+                                case "rope":
+                                    activeRope.destroy();
+                                    break;
+                                case "stick":
+                                    activeStick.destroy();
+                                    break;
+                                case "powder":
+                                    activePowder.destroy();
+                                    break;
+                            }
+                        }
+                    } catch (Throwable e) {
+                        Log.e(tag, e);
+                    }
+                }
+            }, 1);
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+
+        try {
+            Timer.instance().scheduleTask(new Timer.Task() {
+                @Override
+                public void run() {
+                    reset();
+                }
+            }, 2);
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+    }
+
+    public void checkCombination() {
+
+        Log.i(tag, "checkCombination");
+
+        HashMap<HashSet<String>, String> combinations = new HashMap<>();
+        HashSet<String> combo1 = new HashSet<>();
+        combo1.add("powder");
+        combo1.add("peas");
+
+        HashSet<String> combo2 = new HashSet<>();
+        combo2.add("peas");
+        combo2.add("rope");
+
+        HashSet<String> combo3 = new HashSet<>();
+        combo3.add("shoes");
+        combo3.add("stick");
+        combo3.add("hair");
+
+        HashSet<String> combo4 = new HashSet<>();
+        combo4.add("key");
+        combo4.add("arrows");
+        combo4.add("clocks");
+
+        HashSet<String> combo5 = new HashSet<>();
+        combo5.add("spoon");
+
+        combinations.put(combo1, "BOMB");
+        combinations.put(combo2, "ROD");
+        combinations.put(combo3, "PUPPET");
+        combinations.put(combo4, "CLOCKS");
+        combinations.put(combo5, "ROD");
+
+        InventoryService inventoryService = interaction.gameScreen.game.inventoryService;
+
+        Log.i(tag, "items: " + Arrays.toString(items.toArray()));
+
+        boolean hasCombination = false;
+        for (HashSet<String> strings : combinations.keySet()) {
+            if (items.containsAll(strings)) {
+
+                try {
+                    hasCombination = true;
+
+                    String item = combinations.get(strings);
+
+                    Log.i(tag, "Has combination! " + item);
+
+                    Inventory inventory = InventoryRepository.find(interaction.gameScreen.game.gameState, item);
+
+                    if (!inventoryService.isInInventory(inventory)) {
+                        if (inventory.isGlobal()) {
+                            inventoryService.addGlobalInventory(inventory);
+                        } else {
+                            inventoryService.addInventory(inventory);
+                        }
+                    }
+
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+
+                    hasCombination = false;
+                }
+
+            }
+        }
+
+        if (!hasCombination) {
+
+            Log.i(tag, "No combination");
+
+            destroyItems();
+
+            return;
+        }
+
+        for (HashSet<String> strings : combinations.keySet()) {
+            if (items.containsAll(strings)) {
+
+                String item = combinations.get(strings);
+
+                try {
+                    switch (item) {
+                        case "ROD":
+
+                            try {
+                                interaction.gameScreen.interactionService.destroy();
+
+                                Story story = interaction.gameScreen.storyManager.create("a18_d_continue");
+
+                                interaction.gameScreen.setStory(story);
+
+                                interaction.gameScreen.storyManager.startLoadingResources();
+                            } catch (Throwable e) {
+                                Log.e(tag, e);
+                            }
+
+                            break;
+                        case "CLOCKS":
+
+                            Inventory inventoryPuppet = InventoryRepository.find(interaction.gameScreen.game.gameState, "PUPPET");
+
+                            String soundName;
+                            if (inventoryService.isInInventory(inventoryPuppet)) {
+                                soundName = "a15_1a_puppet";
+                            } else {
+                                soundName = "a15_1a";
+                            }
+
+                            final StoryAudio storyAudio = new StoryAudio();
+                            storyAudio.audio = soundName;
+
+                            interaction.gameScreen.audioService.prepare(storyAudio, new Timer.Task() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        interaction.gameScreen.audioService.playAudio(storyAudio);
+                                    } catch (Throwable e) {
+                                        Log.e(tag, e);
+                                    }
+                                }
+                            });
+
+                            break;
+                    }
+
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
+
+            }
+        }
+
+    }
+
+    public void reset() {
+        try {
+            Log.i(tag, "reset");
+            items.clear();
+
+            cleanup();
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
     }
 
     public abstract class ActivePuzzleItem extends FitImage {
@@ -254,7 +479,7 @@ public class PuzzleDecisionManager {
         public void init() {
 
             float scale = .85f;
-            float width = 150;
+            float width = 200;
             float height = width * (1 / scale);
 
             setSize(
@@ -262,7 +487,27 @@ public class PuzzleDecisionManager {
                     height * interaction.imageFragment.backgroundScale
             );
 
-            interaction.imageFragment.setPositionRelativeToBackground(this, 330, 530);
+            setOrigin(Align.bottom);
+
+            interaction.imageFragment.setPositionRelativeToBackground(this, 310, 530);
+        }
+
+        public void destroy() {
+            Random r = new Random();
+            addAction(
+                    Actions.sequence(
+                            Actions.parallel(
+                                    Actions.rotateBy(r.between(0, 3) * 15 - r.between(0, 1) * 90, .5f),
+                                    Actions.alpha(0, .6f)
+                            ),
+                            Actions.run(new Runnable() {
+                                @Override
+                                public void run() {
+                                    remove();
+                                }
+                            })
+                    )
+            );
         }
 
     }
