@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
@@ -102,14 +103,59 @@ public class ChapterImageFragment extends Fragment {
 
         root.setName(tag);
 
+        header.addAction(Actions.sequence(
+                Actions.alpha(0),
+                Actions.alpha(1, .3f)
+        ));
+
+        description.addAction(Actions.sequence(
+                Actions.alpha(0),
+                Actions.delay(.2f),
+                Actions.alpha(1, .3f)
+        ));
+
+        head.addAction(Actions.sequence(
+                Actions.alpha(0),
+                Actions.alpha(1, .3f)
+        ));
+
+        frameTop.addAction(Actions.sequence(
+                Actions.alpha(0),
+                Actions.parallel(
+                        Actions.moveBy(0, 10, .3f),
+                        Actions.alpha(1, .3f)
+                )
+        ));
+
+        frameBottom.addAction(Actions.sequence(
+                Actions.alpha(0),
+                Actions.parallel(
+                        Actions.moveBy(0, -10, .3f),
+                        Actions.alpha(1, .3f)
+                )
+        ));
+
         Timer.instance().scheduleTask(new Timer.Task() {
             @Override
             public void run() {
-              try {
-                  interaction.gameScreen.interactionService.complete();
-              } catch (Throwable e) {
-                  Log.e(tag, e);
-              }
+                try {
+
+                    root.addAction(Actions.sequence(
+                            Actions.alpha(0, .4f),
+                            Actions.run(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        interaction.gameScreen.interactionService.complete();
+                                    } catch (Throwable e) {
+                                        Log.e(tag, e);
+                                    }
+                                }
+                            })
+                    ));
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
             }
         }, 3);
     }
