@@ -331,11 +331,9 @@ public class MenuFragment extends Fragment {
                                 public void run() {
                                     progressLbl.setText("Конфиги готовы к использованию");
 
-                                    group.removeActor(inventoryContainer);
-
                                     createInventoryTable();
 
-                                    group.addActor(inventoryContainer);
+                                    createScenarioTable();
                                 }
                             });
 

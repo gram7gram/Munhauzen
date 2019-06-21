@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.Timer;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 import ua.gram.munhauzen.entity.Audio;
@@ -28,10 +29,12 @@ public class AudioService implements Disposable {
     private final String tag = getClass().getSimpleName();
     private final GameScreen gameScreen;
     public final AssetManager assetManager;
+    public final HashMap<String, StoryAudio> activeAudio;
 
     public AudioService(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
         assetManager = new AssetManager(new ExternalFileHandleResolver());
+        activeAudio = new HashMap<>();
     }
 
     public void prepare(StoryAudio item, Timer.Task onComplete) {
@@ -107,6 +110,9 @@ public class AudioService implements Disposable {
 
             item.isActive = true;
             item.player.play();
+
+            activeAudio.put(item.audio, item);
+
         } catch (Throwable e) {
             Log.e(tag, e);
         }
@@ -124,6 +130,16 @@ public class AudioService implements Disposable {
                     }
                 }
             }
+
+            for (StoryAudio audio : activeAudio.values()) {
+                if (audio.player != null) {
+                    audio.isActive = false;
+                    audio.player.pause();
+                }
+            }
+
+            activeAudio.clear();
+
         } catch (Throwable e) {
             Log.e(tag, e);
         }
@@ -141,6 +157,14 @@ public class AudioService implements Disposable {
                         if (audio.player.getVolume() != volume) {
                             audio.player.setVolume(volume);
                         }
+                    }
+                }
+            }
+
+            for (StoryAudio audio : activeAudio.values()) {
+                if (audio.player != null) {
+                    if (audio.player.getVolume() != volume) {
+                        audio.player.setVolume(volume);
                     }
                 }
             }
@@ -173,6 +197,21 @@ public class AudioService implements Disposable {
                     }
                 }
             }
+
+            for (StoryAudio audio : activeAudio.values()) {
+                if (audio.player != null) {
+                    if (GameState.isPaused) {
+                        audio.isActive = false;
+                        audio.player.pause();
+                    } else {
+                        if (audio.isActive && !audio.isLocked) {
+                            audio.isActive = false;
+                            audio.player.pause();
+                        }
+                    }
+                }
+            }
+
         } catch (Throwable e) {
             Log.e(tag, e);
         }

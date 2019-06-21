@@ -26,6 +26,7 @@ import ua.gram.munhauzen.utils.Random;
 public class PuzzleDecisionManager {
 
     public final String tag = getClass().getSimpleName();
+    public final HashMap<HashSet<String>, String> combinations;
     public final PuzzleInteraction interaction;
     public final HashSet<String> items;
     public ActivePuzzleItem activeStick, activeSpoon, activeShoes, activePeas, activeKey, activeHair, activeClocks, activeArrows, activePowder, activeRope;
@@ -33,6 +34,31 @@ public class PuzzleDecisionManager {
     public PuzzleDecisionManager(PuzzleInteraction interaction) {
         this.interaction = interaction;
         items = new HashSet<>();
+
+        combinations = new HashMap<>();
+        HashSet<String> combo1 = new HashSet<>();
+        combo1.add("powder");
+        combo1.add("peas");
+
+        HashSet<String> combo2 = new HashSet<>();
+        combo2.add("peas");
+        combo2.add("rope");
+        combo2.add("spoon");
+
+        HashSet<String> combo3 = new HashSet<>();
+        combo3.add("shoes");
+        combo3.add("stick");
+        combo3.add("hair");
+
+        HashSet<String> combo4 = new HashSet<>();
+        combo4.add("key");
+        combo4.add("arrows");
+        combo4.add("clocks");
+
+        combinations.put(combo1, "BOMB");
+        combinations.put(combo2, "FISHING_ROD");
+        combinations.put(combo3, "CROW");
+        combinations.put(combo4, "CLOCKS");
     }
 
     public void cleanup() {
@@ -98,6 +124,9 @@ public class PuzzleDecisionManager {
             interaction.imageFragment.arrows.setVisible(true);
             interaction.imageFragment.rope.setVisible(true);
             interaction.imageFragment.stick.setVisible(true);
+
+            interaction.gameScreen.audioService.stop();
+
         } catch (Throwable e) {
             Log.e(tag, e);
         }
@@ -222,26 +251,22 @@ public class PuzzleDecisionManager {
 
             InventoryService inventoryService = interaction.gameScreen.game.inventoryService;
 
-            Inventory inventoryPuppet = InventoryRepository.find(interaction.gameScreen.game.gameState, "PUPPET");
+            Inventory inventoryCrow = InventoryRepository.find(interaction.gameScreen.game.gameState, "CROW");
 
             String soundName;
-            if (inventoryService.isInInventory(inventoryPuppet)) {
+            if (!inventoryService.isInInventory(inventoryCrow)) {
 
                 soundName = MathUtils.random(new String[]{
-                        "sfx_a15broken_1",
-                        "sfx_a15broken_2",
-                        "sfx_a15broken_3",
-                        "sfx_a15broken_4",
-                        "sfx_a15broken_5"
+                        "s15broken_1",
+                        "s15broken_2",
+                        "s15broken_3",
+                        "s15broken_4",
+                        "s15broken_5"
                 });
             } else {
 
                 soundName = MathUtils.random(new String[]{
-                        "sfx_a15broken_1_puppet",
-                        "sfx_a15broken_2_puppet",
-                        "sfx_a15broken_3_puppet",
-                        "sfx_a15broken_4_puppet",
-                        "sfx_a15broken_5_puppet"
+                        "s15crow_1", "s15crow_2", "s15crow_3", "s15crow_4", "s15crow_5"
                 });
             }
 
@@ -329,34 +354,6 @@ public class PuzzleDecisionManager {
 
         Log.i(tag, "checkCombination");
 
-        HashMap<HashSet<String>, String> combinations = new HashMap<>();
-        HashSet<String> combo1 = new HashSet<>();
-        combo1.add("powder");
-        combo1.add("peas");
-
-        HashSet<String> combo2 = new HashSet<>();
-        combo2.add("peas");
-        combo2.add("rope");
-
-        HashSet<String> combo3 = new HashSet<>();
-        combo3.add("shoes");
-        combo3.add("stick");
-        combo3.add("hair");
-
-        HashSet<String> combo4 = new HashSet<>();
-        combo4.add("key");
-        combo4.add("arrows");
-        combo4.add("clocks");
-
-        HashSet<String> combo5 = new HashSet<>();
-        combo5.add("spoon");
-
-        combinations.put(combo1, "BOMB");
-        combinations.put(combo2, "ROD");
-        combinations.put(combo3, "PUPPET");
-        combinations.put(combo4, "CLOCKS");
-        combinations.put(combo5, "ROD");
-
         InventoryService inventoryService = interaction.gameScreen.game.inventoryService;
 
         Log.i(tag, "items: " + Arrays.toString(items.toArray()));
@@ -407,12 +404,12 @@ public class PuzzleDecisionManager {
 
                 try {
                     switch (item) {
-                        case "ROD":
+                        case "FISHING_ROD":
 
                             try {
                                 interaction.gameScreen.interactionService.destroy();
 
-                                Story story = interaction.gameScreen.storyManager.create("a18_d_continue");
+                                Story story = interaction.gameScreen.storyManager.create("a15_1d_right");
 
                                 interaction.gameScreen.setStory(story);
 
@@ -424,13 +421,13 @@ public class PuzzleDecisionManager {
                             break;
                         case "CLOCKS":
 
-                            Inventory inventoryPuppet = InventoryRepository.find(interaction.gameScreen.game.gameState, "PUPPET");
+                            Inventory inventoryCrow = InventoryRepository.find(interaction.gameScreen.game.gameState, "CROW");
 
                             String soundName;
-                            if (inventoryService.isInInventory(inventoryPuppet)) {
-                                soundName = "a15_1a_puppet";
+                            if (inventoryService.isInInventory(inventoryCrow)) {
+                                soundName = "s15_1_a_crow";
                             } else {
-                                soundName = "a15_1a";
+                                soundName = "s15_1_a";
                             }
 
                             final StoryAudio storyAudio = new StoryAudio();

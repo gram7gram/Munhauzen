@@ -49,8 +49,6 @@ public abstract class PuzzleItem extends FitImage {
                 )
         ));
 
-        final String name = getClass().getSimpleName().toLowerCase();
-
         final PuzzleItem actor = this;
 
         addListener(new ActorGestureListener() {
@@ -101,14 +99,14 @@ public abstract class PuzzleItem extends FitImage {
                 }
             }
 
-            @Override
-            public void tap(InputEvent event, float x, float y, int count, int button) {
-                super.tap(event, x, y, count, button);
-
-                Log.i(tag, "clicked on " + name);
-
-                addPuzzle();
-            }
+//            @Override
+//            public void tap(InputEvent event, float x, float y, int count, int button) {
+//                super.tap(event, x, y, count, button);
+//
+//                Log.i(tag, "clicked on " + name);
+//
+//                addPuzzle();
+//            }
 
         });
     }
