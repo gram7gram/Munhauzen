@@ -407,7 +407,7 @@ public class PuzzleDecisionManager {
                         case "FISHING_ROD":
 
                             try {
-                                interaction.gameScreen.interactionService.destroy();
+                                interaction.gameScreen.interactionService.complete();
 
                                 Story story = interaction.gameScreen.storyManager.create("a15_1d_right");
 

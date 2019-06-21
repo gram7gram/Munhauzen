@@ -172,7 +172,7 @@ public class GeneralsStoryManager {
                 @Override
                 public void run() {
                     try {
-                        gameScreen.interactionService.destroy();
+                        gameScreen.interactionService.complete();
 
                         Story story = gameScreen.storyManager.create("a18_d_continue");
 

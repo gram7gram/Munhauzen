@@ -10,4 +10,5 @@ public class StoryInteraction {
     public String name;
     public AbstractInteraction interaction;
     public boolean isLocked;
+    public boolean isCompleted;
 }

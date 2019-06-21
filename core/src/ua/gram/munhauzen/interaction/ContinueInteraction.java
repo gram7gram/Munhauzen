@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Align;
 
 import ua.gram.munhauzen.fragment.Fragment;
 import ua.gram.munhauzen.screen.GameScreen;
+import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
@@ -26,37 +27,43 @@ public class ContinueInteraction extends AbstractInteraction {
     public void start() {
         super.start();
 
-        gameScreen.hideAndDestroyProgressBar();
-
         Button button = gameScreen.game.buttonBuilder.primary("Продолжить", new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                root.setTouchable(Touchable.disabled);
+                try {
+                    root.setTouchable(Touchable.disabled);
 
-                root.addAction(
-                        Actions.sequence(
-                                Actions.alpha(0, .4f),
-                                Actions.run(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        gameScreen.interactionService.destroy();
-                                    }
-                                })
-                        )
-                );
+                    root.addAction(
+                            Actions.sequence(
+                                    Actions.alpha(0, .4f),
+                                    Actions.run(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            try {
+                                                gameScreen.interactionService.complete();
+                                            } catch (Throwable e) {
+                                                Log.e(tag, e);
+                                            }
+                                        }
+                                    })
+                            )
+                    );
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
             }
         });
 
         root = new Table();
+        root.pad(10);
         root.setFillParent(true);
-        root.add(button).expand().align(Align.bottom).pad(10, 10, 30, 10);
+        root.add(button).expand().align(Align.bottom);
 
         root.addAction(Actions.sequence(
                 Actions.alpha(0),
-                Actions.delay(1),
-                Actions.alpha(1, .4f)
+                Actions.alpha(1, .3f)
         ));
 
         gameScreen.gameLayers.setInteractionLayer(
@@ -69,6 +76,7 @@ public class ContinueInteraction extends AbstractInteraction {
     public void update() {
         super.update();
 
+        root.padBottom(gameScreen.progressBarFragment.getHeight());
     }
 
     @Override

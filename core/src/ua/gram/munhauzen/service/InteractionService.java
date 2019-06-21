@@ -30,6 +30,8 @@ public class InteractionService {
 
         if (interaction != null) {
 
+            if (interaction.isCompleted) return;
+
             if (interaction.isLocked) {
                 interaction.interaction.update();
                 return;
@@ -43,12 +45,28 @@ public class InteractionService {
 
         interaction.interaction = InteractionFactory.create(gameScreen, interaction.name);
         interaction.isLocked = true;
+        interaction.isCompleted = false;
 
         Log.i(tag, "create " + interaction.name);
 
         story.currentInteraction = interaction;
 
         interaction.interaction.start();
+    }
+
+    public void complete() {
+        Story story = gameScreen.getStory();
+        if (story.currentScenario == null) return;
+
+        StoryInteraction interaction = story.currentInteraction;
+        if (interaction == null) return;
+
+        Log.i(tag, "complete " + interaction.name);
+
+        interaction.interaction.dispose();
+        interaction.isCompleted = true;
+
+        destroy();
     }
 
     public void destroy() {
