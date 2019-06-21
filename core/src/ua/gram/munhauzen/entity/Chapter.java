@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.Array;
  */
 public class Chapter extends Entity {
 
+    public int number;
     public String icon;
     public Array<ChapterTranslation> translations;
 

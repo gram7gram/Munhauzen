@@ -12,7 +12,7 @@ import java.util.HashMap;
  */
 public class FontProvider implements Disposable {
 
-    public static final String Arnold = "Arnold", BuxtonSketch = "BuxtonSketch";
+    public static final String Arnold = "Arnold", BuxtonSketch = "BuxtonSketch", FleischmannGotich = "FleischmannGotich";
     public static final int h1 = 64, h2 = 60, h3 = 50, h4 = 40, h5 = 32, p = 24, small = 16;
 
     private HashMap<String, HashMap<Integer, BitmapFont>> map;
@@ -25,7 +25,7 @@ public class FontProvider implements Disposable {
 
     public void load() {
 
-        String[] fonts = new String[]{Arnold, BuxtonSketch};
+        String[] fonts = new String[]{Arnold, BuxtonSketch, FleischmannGotich};
         int[] sizes = new int[]{small, p, h1, h2, h3, h4, h5};
 
         map = new HashMap<>(fonts.length);

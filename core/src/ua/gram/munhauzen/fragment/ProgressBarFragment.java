@@ -46,6 +46,7 @@ public class ProgressBarFragment extends Fragment {
     public Table controlsTable;
     public ImageButton skipBackButton, rewindBackButton, skipForwardButton, rewindForwardButton, pauseButton, playButton;
     private Timer.Task fadeOutTask;
+    boolean isFadeIn, isFadeOut;
 
     public ProgressBarFragment(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
@@ -520,6 +521,13 @@ public class ProgressBarFragment extends Fragment {
 
         if (!isMounted()) return;
 
+        if (!root.isVisible()) {
+            if (!isFadeIn) {
+                fadeIn();
+            }
+            return;
+        }
+
         Story story = gameScreen.getStory();
 
         boolean hasPrevious = false, hasNext = false;
@@ -583,6 +591,9 @@ public class ProgressBarFragment extends Fragment {
 
         if (!isMounted()) return;
 
+        isFadeOut = false;
+        isFadeIn = true;
+
         Log.i(tag, "fadeIn");
 
         if (fadeOutTask != null) {
@@ -590,12 +601,18 @@ public class ProgressBarFragment extends Fragment {
         }
 
         root.setVisible(true);
-        //root.setTouchable(Touchable.enabled);
         root.clearActions();
         root.addAction(
                 Actions.parallel(
                         Actions.fadeIn(.3f),
-                        Actions.moveTo(0, 0, .3f)
+                        Actions.moveTo(0, 0, .3f),
+                        Actions.run(new Runnable() {
+                            @Override
+                            public void run() {
+                                isFadeIn = false;
+                                isFadeOut = false;
+                            }
+                        })
                 )
         );
     }
@@ -603,6 +620,9 @@ public class ProgressBarFragment extends Fragment {
     public void fadeOut() {
 
         if (!isMounted()) return;
+
+        isFadeIn = false;
+        isFadeOut = true;
 
         Log.i(tag, "fadeOut");
 
@@ -618,6 +638,9 @@ public class ProgressBarFragment extends Fragment {
                             @Override
                             public void run() {
                                 root.setVisible(false);
+
+                                isFadeIn = false;
+                                isFadeOut = false;
                             }
                         })
                 )

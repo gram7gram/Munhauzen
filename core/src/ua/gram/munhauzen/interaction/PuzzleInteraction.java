@@ -23,7 +23,7 @@ public class PuzzleInteraction extends AbstractInteraction {
     public void start() {
         super.start();
 
-        gameScreen.hideAndDestroyProgressBar();
+        gameScreen.hideProgressBar();
 
         decisionManager = new PuzzleDecisionManager(this);
 

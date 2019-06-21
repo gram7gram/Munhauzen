@@ -237,8 +237,11 @@ public class GameScreen implements Screen {
             }
         }
 
-        if (progressBarFragment != null)
-            progressBarFragment.update();
+        if (!isInteractionLocked) {
+            if (progressBarFragment != null) {
+                progressBarFragment.update();
+            }
+        }
 
         if (audioService != null) {
             audioService.updateVolume();
@@ -265,35 +268,36 @@ public class GameScreen implements Screen {
             font.setColor(Color.BLUE);
 
             ArrayList<String> strings = new ArrayList<>();
-            strings.add("duration:" + story.totalDuration + "ms");
-            strings.add("progress:" + ((int) story.progress) + "ms");
 
             if (story.currentInteraction != null) {
                 strings.add("interaction:" + story.currentInteraction.name + "" + (story.currentInteraction.isLocked ? " lock" : ""));
-            }
+            } else {
 
-            for (StoryScenario scenarioOption : story.scenarios) {
-                strings.add("-scenario:" + scenarioOption.scenario.name + "" + (scenarioOption.isLocked ? " lock" : ""));
-                strings.add("--audios");
+                strings.add("duration:" + story.totalDuration + "ms");
+                strings.add("progress:" + ((int) story.progress) + "ms");
 
-                for (StoryAudio item : scenarioOption.scenario.audio) {
-                    strings.add("---audio:" + item.audio
-                            + "" + (item.isPrepared ? " +" : " -")
-                            + "" + (item.isActive ? " active" : "")
-                            + "" + (item.isLocked ? " lock" : ""));
-                    strings.add("---" + item.startsAt + "-" + item.finishesAt);
+                for (StoryScenario scenarioOption : story.scenarios) {
+                    strings.add("-scenario:" + scenarioOption.scenario.name + "" + (scenarioOption.isLocked ? " lock" : ""));
+                    strings.add("--audios");
+
+                    for (StoryAudio item : scenarioOption.scenario.audio) {
+                        strings.add("---audio:" + item.audio
+                                + "" + (item.isPrepared ? " +" : " -")
+                                + "" + (item.isActive ? " active" : "")
+                                + "" + (item.isLocked ? " lock" : ""));
+                        strings.add("---" + item.startsAt + "-" + item.finishesAt);
+                    }
+
+                    strings.add("--images");
+                    for (StoryImage item : scenarioOption.scenario.images) {
+                        strings.add("---image:" + item.image
+                                + "" + (item.isPrepared ? " +" : " -")
+                                + "" + (item.isActive ? " active" : "")
+                                + "" + (item.isLocked ? " lock" : ""));
+                        strings.add("---" + item.startsAt + "-" + item.finishesAt);
+                    }
                 }
-
-                strings.add("--images");
-                for (StoryImage item : scenarioOption.scenario.images) {
-                    strings.add("---image:" + item.image
-                            + "" + (item.isPrepared ? " +" : " -")
-                            + "" + (item.isActive ? " active" : "")
-                            + "" + (item.isLocked ? " lock" : ""));
-                    strings.add("---" + item.startsAt + "-" + item.finishesAt);
-                }
             }
-
 
             int offset = fontSize + 1;
             int row = -1;
@@ -386,21 +390,9 @@ public class GameScreen implements Screen {
         gameLayers = null;
     }
 
-    public void hideAndDestroyProgressBar() {
+    public void hideProgressBar() {
         if (progressBarFragment != null) {
-            progressBarFragment.fadeOut(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        if (progressBarFragment != null) {
-                            progressBarFragment.destroy();
-                            progressBarFragment = null;
-                        }
-                    } catch (Throwable e) {
-                        Log.e(tag, e);
-                    }
-                }
-            });
+            progressBarFragment.fadeOut();
         }
     }
 }
