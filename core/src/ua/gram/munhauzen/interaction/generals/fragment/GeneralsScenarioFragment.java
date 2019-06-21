@@ -111,7 +111,7 @@ public class GeneralsScenarioFragment extends Fragment {
 
         final Table buttons = new Table();
         buttons.add()
-                .height(interaction.progressBarFragment.getHeight() - 20)
+                .height(interaction.progressBarFragment.getHeight() / 2 - 20)
                 .row();
 
         for (int i = 0; i < decisions.size(); i++) {
@@ -375,7 +375,7 @@ public class GeneralsScenarioFragment extends Fragment {
         Image backBottom = new Image(bottom);
         Image backTop = new Image(top);
 
-        BitmapFont font = game.fontProvider.getFont(FontProvider.BuxtonSketch, FontProvider.h3);
+        BitmapFont font = game.fontProvider.getFont(FontProvider.FleischmannGotich, FontProvider.h2);
 
         Label label = new WrapLabel(text,
                 new Label.LabelStyle(font, Color.BLACK),
