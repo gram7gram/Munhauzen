@@ -1,15 +1,22 @@
 package ua.gram.munhauzen.interaction.generals;
 
-import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.entity.Audio;
+import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.entity.StoryMedia;
+import ua.gram.munhauzen.repository.AudioRepository;
 
 public class GeneralsStoryScenario extends StoryMedia<GeneralsStoryScenario> {
 
+    GameState gameState;
     public int duration;
     public GeneralsScenario scenario;
     public GeneralsStoryImage currentImage;
     public StoryAudio currentAudio;
+
+    public GeneralsStoryScenario(GameState gameState) {
+        this.gameState = gameState;
+    }
 
     public void init(final int offset) {
         currentImage = null;
@@ -21,12 +28,6 @@ public class GeneralsStoryScenario extends StoryMedia<GeneralsStoryScenario> {
 
         for (int i = 0; i < size; i++) {
             GeneralsStoryImage current = scenario.images.get(i);
-
-            if (MunhauzenGame.DEBUG_OVERWRITE_DURATION) {
-                if (current.duration == 0) {
-                    current.duration = 1000;
-                }
-            }
 
             current.isLocked = false;
             current.isCompleted = false;
@@ -64,11 +65,8 @@ public class GeneralsStoryScenario extends StoryMedia<GeneralsStoryScenario> {
         for (int i = 0; i < size; i++) {
             StoryAudio current = scenario.audio.get(i);
 
-            if (MunhauzenGame.DEBUG_OVERWRITE_DURATION) {
-                if (current.duration == 0) {
-                    current.duration = 2000;
-                }
-            }
+            Audio audio = AudioRepository.find(gameState, current.audio);
+            current.duration = audio.duration;
 
             current.isLocked = false;
             current.isCompleted = false;

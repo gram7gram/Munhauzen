@@ -65,10 +65,28 @@ public class GeneralsImageFragment extends Fragment {
         root.addListener(new ActorGestureListener() {
 
             @Override
+            public void tap(InputEvent event, float x, float y, int count, int button) {
+                super.tap(event, x, y, count, button);
+
+                try {
+                    if (!interaction.progressBarFragment.getRoot().isVisible()) {
+                        if (!interaction.progressBarFragment.isFadeIn) {
+                            interaction.progressBarFragment.fadeIn();
+                            interaction.progressBarFragment.scheduleFadeOut();
+                        }
+                    } else {
+                        if (!interaction.progressBarFragment.isFadeOut) {
+                            interaction.progressBarFragment.fadeOut();
+                        }
+                    }
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
+            }
+
+            @Override
             public void pan(InputEvent event, float x, float y, float deltaX, float deltaY) {
                 super.pan(event, x, y, deltaX, deltaY);
-
-                Log.i(tag, "pan");
 
                 try {
 
@@ -167,15 +185,5 @@ public class GeneralsImageFragment extends Fragment {
                 }
             }
         }
-    }
-
-    @Override
-    public void dispose() {
-        super.dispose();
-
-        fireRight = null;
-        fireLeft = null;
-        fumes = null;
-
     }
 }

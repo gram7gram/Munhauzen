@@ -69,7 +69,7 @@ public class HareStoryManager {
 
         Set<String> inventory = gameScreen.game.inventoryService.getAllInventory();
 
-        HareStoryScenario storyScenario = new HareStoryScenario();
+        HareStoryScenario storyScenario = new HareStoryScenario(gameScreen.game.gameState);
         storyScenario.scenario = from;
         storyScenario.duration = 0;
 
@@ -147,22 +147,18 @@ public class HareStoryManager {
 
         if (hareStory.currentScenario.scenario.isExit) {
 
-            interaction.progressBarFragment.fadeOut(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        gameScreen.interactionService.complete();
+            Log.i(tag, "Exit reached");
 
-                        Story story = gameScreen.storyManager.create("a18_d_continue");
-
-                        gameScreen.setStory(story);
-
-                        gameScreen.storyManager.startLoadingResources();
-                    } catch (Throwable e) {
-                        Log.e(tag, e);
+            if (interaction.progressBarFragment.canFadeOut()) {
+                interaction.progressBarFragment.fadeOut(new Runnable() {
+                    @Override
+                    public void run() {
+                        complete();
                     }
-                }
-            });
+                });
+            } else {
+                complete();
+            }
 
             return;
         }
@@ -189,6 +185,25 @@ public class HareStoryManager {
             gameScreen.gameLayers.setStoryDecisionsLayer(
                     interaction.scenarioFragment
             );
+        }
+    }
+
+    public void complete() {
+
+        Log.i(tag, "complete");
+
+        try {
+            gameScreen.interactionService.complete();
+
+            interaction.gameScreen.restoreProgressBarIfDestroyed();
+
+            Story story = gameScreen.storyManager.create("a18_d_continue");
+
+            gameScreen.setStory(story);
+
+            gameScreen.storyManager.startLoadingResources();
+        } catch (Throwable e) {
+            Log.e(tag, e);
         }
     }
 

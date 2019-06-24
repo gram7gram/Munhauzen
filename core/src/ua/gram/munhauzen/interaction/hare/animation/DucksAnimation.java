@@ -17,8 +17,8 @@ public class DucksAnimation extends AnimatedImage {
 
         animate(texture, 6, 1, 6, 0.08f);
 
-        float size = MunhauzenGame.WORLD_WIDTH * .4f;
-        float scale = 1f * 200 / size;
+        float size = MunhauzenGame.WORLD_WIDTH * .3f;
+        float scale = 1f * size / 200;
 
         setSize(size, 91 * scale);
         setPosition(-getWidth() - 20, MunhauzenGame.WORLD_HEIGHT * .75f);
@@ -42,7 +42,7 @@ public class DucksAnimation extends AnimatedImage {
                 Actions.forever(
                         Actions.sequence(
                                 Actions.delay(r.between(2, 10)),
-                                Actions.moveBy(MunhauzenGame.WORLD_WIDTH * 2, 0, r.between(2, 3)),
+                                Actions.moveBy(MunhauzenGame.WORLD_WIDTH * 2, 0, r.between(4, 6)),
                                 Actions.moveTo(-1 * r.between((int) width, (int) width * 2), getY())
                         )
                 )

@@ -44,6 +44,8 @@ public class ContinueInteraction extends AbstractInteraction {
                                         public void run() {
                                             try {
                                                 gameScreen.interactionService.complete();
+
+                                                gameScreen.restoreProgressBarIfDestroyed();
                                             } catch (Throwable e) {
                                                 Log.e(tag, e);
                                             }
@@ -59,7 +61,6 @@ public class ContinueInteraction extends AbstractInteraction {
 
         root = new Table();
         root.pad(10);
-        root.setFillParent(true);
         root.add(button).expand().align(Align.bottom).height(MunhauzenGame.WORLD_HEIGHT / 10f);
 
         root.addAction(Actions.sequence(
@@ -77,8 +78,15 @@ public class ContinueInteraction extends AbstractInteraction {
     public void update() {
         super.update();
 
-        if (gameScreen.progressBarFragment != null)
-            root.padBottom(gameScreen.progressBarFragment.getHeight());
+        if (gameScreen.progressBarFragment != null) {
+            if (gameScreen.progressBarFragment.root.isVisible()) {
+                root.padBottom(gameScreen.progressBarFragment.getHeight());
+            } else {
+                root.padBottom(10);
+            }
+
+            root.invalidate();
+        }
     }
 
     @Override

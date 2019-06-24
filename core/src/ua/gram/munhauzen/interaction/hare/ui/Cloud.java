@@ -1,7 +1,6 @@
 package ua.gram.munhauzen.interaction.hare.ui;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
@@ -42,7 +41,7 @@ public class Cloud extends Group {
                 Actions.forever(
                         Actions.sequence(
                                 Actions.delay(r.between(0, 2)),
-                                Actions.moveBy(MunhauzenGame.WORLD_WIDTH*2, 0, r.between(3, 6)),
+                                Actions.moveBy(MunhauzenGame.WORLD_WIDTH * 2, 0, r.between(5, 10)),
                                 Actions.moveTo(-1 * r.between((int) width, (int) width * 2), getY()),
                                 Actions.delay(r.between(1, 2))
                         )

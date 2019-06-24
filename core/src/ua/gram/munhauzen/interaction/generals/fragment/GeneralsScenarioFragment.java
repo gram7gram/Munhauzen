@@ -179,9 +179,7 @@ public class GeneralsScenarioFragment extends Fragment {
         imgTop = new FitImage(drawableTop);
 
         Table table = new Table();
-        table.setFillParent(true);
-        table.add(scrollPane)
-                .top().expand().fill();
+        table.add(scrollPane).expandY().fillY().top();
 
         decorLeft = new Table();
         decorLeft.add(imgLeft).align(Align.topLeft).expand()
@@ -218,6 +216,8 @@ public class GeneralsScenarioFragment extends Fragment {
 //            Sound sfx = assetManager.get("sfx/sfx_decision.mp3", Sound.class);
 //            sfx.play();
 
+            GameState.isPaused = false;
+
             final Runnable onComplete = new Runnable() {
                 @Override
                 public void run() {
@@ -228,8 +228,6 @@ public class GeneralsScenarioFragment extends Fragment {
                         interaction.scenarioFragment.destroy();
                         interaction.scenarioFragment = null;
                     }
-
-                    GameState.isPaused = false;
                 }
             };
 

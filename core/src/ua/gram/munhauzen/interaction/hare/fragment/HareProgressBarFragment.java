@@ -49,6 +49,8 @@ public class HareProgressBarFragment extends Fragment {
     public Table controlsTable;
     public ImageButton rewindBackButton, rewindForwardButton, pauseButton, playButton;
     private Timer.Task fadeOutTask;
+    public boolean isFadeIn;
+    public boolean isFadeOut;
 
     public HareProgressBarFragment(GameScreen gameScreen, HareInteraction interaction) {
         this.gameScreen = gameScreen;
@@ -160,6 +162,8 @@ public class HareProgressBarFragment extends Fragment {
                     GameState.isPaused = false;
 
                     startCurrentMusicIfPaused();
+
+                    scheduleFadeOut();
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -177,6 +181,8 @@ public class HareProgressBarFragment extends Fragment {
                     gameScreen.audioService.stop();
 
                     GameState.isPaused = true;
+
+                    scheduleFadeOut();
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -195,6 +201,8 @@ public class HareProgressBarFragment extends Fragment {
                     Log.i(tag, "rewindBackButton enter");
 
                     gameScreen.audioService.stop();
+
+                    cancelFadeOut();
 
                     if (interaction.scenarioFragment != null) {
                         interaction.scenarioFragment.fadeOut(new Runnable() {
@@ -219,9 +227,10 @@ public class HareProgressBarFragment extends Fragment {
                                 HareStory story = interaction.storyManager.hareStory;
 
                                 GameState.isPaused = true;
+
                                 story.progress -= story.totalDuration * 0.025f;
 
-                                postProgressChanged();
+                                postProgressChanged(story.isCompleted);
                             } catch (Throwable e) {
                                 Log.e(tag, e);
                             }
@@ -245,6 +254,8 @@ public class HareProgressBarFragment extends Fragment {
                     progressTask = null;
 
                     startCurrentMusicIfPaused();
+
+                    scheduleFadeOut();
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -265,6 +276,8 @@ public class HareProgressBarFragment extends Fragment {
 
                     gameScreen.audioService.stop();
 
+                    cancelFadeOut();
+
                     progressTask = Timer.schedule(new Timer.Task() {
                         @Override
                         public void run() {
@@ -275,7 +288,7 @@ public class HareProgressBarFragment extends Fragment {
 
                                 story.progress += story.totalDuration * 0.025f;
 
-                                postProgressChanged();
+                                postProgressChanged(story.isCompleted);
 
                             } catch (Throwable e) {
                                 Log.e(tag, e);
@@ -300,6 +313,8 @@ public class HareProgressBarFragment extends Fragment {
                     progressTask = null;
 
                     startCurrentMusicIfPaused();
+
+                    scheduleFadeOut();
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -318,7 +333,7 @@ public class HareProgressBarFragment extends Fragment {
 
                     story.progress = story.totalDuration * percent;
 
-                    postProgressChanged();
+                    postProgressChanged(story.isCompleted);
 
                     if (!story.isCompleted) {
                         if (interaction.scenarioFragment != null) {
@@ -343,6 +358,13 @@ public class HareProgressBarFragment extends Fragment {
             }
 
             @Override
+            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                super.touchDown(event, x, y, pointer, button);
+
+                cancelFadeOut();
+            }
+
+            @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
 
@@ -350,6 +372,8 @@ public class HareProgressBarFragment extends Fragment {
                     GameState.isPaused = false;
 
                     startCurrentMusicIfPaused();
+
+                    scheduleFadeOut();
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -464,31 +488,44 @@ public class HareProgressBarFragment extends Fragment {
     public void fadeIn() {
 
         if (!isMounted()) return;
+        if (isFadeIn) return;
+
+        isFadeOut = false;
+        isFadeIn = true;
 
         Log.i(tag, "fadeIn");
 
-        if (fadeOutTask != null) {
-            fadeOutTask.cancel();
-        }
-
         root.setVisible(true);
-        //root.setTouchable(Touchable.enabled);
+
         root.clearActions();
         root.addAction(
                 Actions.parallel(
                         Actions.fadeIn(.3f),
-                        Actions.moveTo(0, 0, .3f)
+                        Actions.moveTo(0, 0, .3f),
+                        Actions.run(new Runnable() {
+                            @Override
+                            public void run() {
+                                isFadeIn = false;
+                                isFadeOut = false;
+                            }
+                        })
                 )
         );
     }
 
+    public boolean canFadeOut() {
+        return isMounted() && root.isVisible() && !isFadeOut;
+    }
+
     public void fadeOut(Runnable task) {
 
-        if (!isMounted()) return;
+        if (!canFadeOut()) return;
+
+        isFadeIn = false;
+        isFadeOut = true;
 
         Log.i(tag, "fadeOut");
 
-        //root.setTouchable(Touchable.disabled);
         root.clearActions();
         root.addAction(
                 Actions.sequence(
@@ -500,6 +537,9 @@ public class HareProgressBarFragment extends Fragment {
                             @Override
                             public void run() {
                                 root.setVisible(false);
+
+                                isFadeIn = false;
+                                isFadeOut = false;
                             }
                         }),
                         Actions.run(task)
@@ -509,11 +549,13 @@ public class HareProgressBarFragment extends Fragment {
 
     public void fadeOut() {
 
-        if (!isMounted()) return;
+        if (!canFadeOut()) return;
+
+        isFadeIn = false;
+        isFadeOut = true;
 
         Log.i(tag, "fadeOut");
 
-        //root.setTouchable(Touchable.disabled);
         root.clearActions();
         root.addAction(
                 Actions.sequence(
@@ -525,6 +567,9 @@ public class HareProgressBarFragment extends Fragment {
                             @Override
                             public void run() {
                                 root.setVisible(false);
+
+                                isFadeIn = false;
+                                isFadeOut = false;
                             }
                         })
                 )
@@ -533,19 +578,21 @@ public class HareProgressBarFragment extends Fragment {
 
     public void scheduleFadeOut() {
 
-        if (!isMounted()) return;
+        cancelFadeOut();
 
-        Log.i(tag, "scheduleFadeOut");
-
-        if (fadeOutTask != null) {
-            fadeOutTask.cancel();
-        }
         fadeOutTask = Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
                 fadeOut();
             }
-        }, 10);
+        }, MunhauzenGame.PROGRESS_BAR_FADE_OUT_DELAY);
+    }
+
+    public void cancelFadeOut() {
+
+        if (fadeOutTask != null) {
+            fadeOutTask.cancel();
+        }
     }
 
     @Override
@@ -558,10 +605,9 @@ public class HareProgressBarFragment extends Fragment {
         super.dispose();
         assetManager.dispose();
 
-        if (fadeOutTask != null) {
-            fadeOutTask.cancel();
-            fadeOutTask = null;
-        }
+        cancelFadeOut();
+        isFadeIn = false;
+        isFadeOut = false;
 
     }
 
@@ -611,14 +657,14 @@ public class HareProgressBarFragment extends Fragment {
         return new ImageButton(style);
     }
 
-    private void postProgressChanged() {
+    private void postProgressChanged(boolean isCompletedBefore) {
         try {
             HareStory story = interaction.storyManager.hareStory;
 
             story.update(story.progress, story.totalDuration);
 
             if (story.isValid()) {
-                if (story.isCompleted) {
+                if (!isCompletedBefore && story.isCompleted) {
                     if (interaction.scenarioFragment == null) {
                         interaction.storyManager.onCompleted();
                     }

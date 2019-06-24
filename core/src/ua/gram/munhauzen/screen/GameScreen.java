@@ -20,11 +20,16 @@ import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.entity.StoryImage;
+import ua.gram.munhauzen.entity.StoryInteraction;
 import ua.gram.munhauzen.entity.StoryScenario;
 import ua.gram.munhauzen.fragment.GameControlsFragment;
 import ua.gram.munhauzen.fragment.ImageFragment;
 import ua.gram.munhauzen.fragment.ProgressBarFragment;
 import ua.gram.munhauzen.fragment.ScenarioFragment;
+import ua.gram.munhauzen.interaction.GeneralsInteraction;
+import ua.gram.munhauzen.interaction.HareInteraction;
+import ua.gram.munhauzen.interaction.generals.fragment.GeneralsProgressBarFragment;
+import ua.gram.munhauzen.interaction.hare.fragment.HareProgressBarFragment;
 import ua.gram.munhauzen.service.AudioService;
 import ua.gram.munhauzen.service.ExternalImageService;
 import ua.gram.munhauzen.service.InteractionService;
@@ -152,18 +157,55 @@ public class GameScreen implements Screen {
                 try {
                     Log.i(tag, "ui clicked");
 
-                    if (progressBarFragment == null) return;
-
-                    if (progressBarFragment.getRoot() == null) {
-                        progressBarFragment.destroy();
-                        progressBarFragment = null;
-                        return;
+                    if (progressBarFragment != null) {
+                        if (!progressBarFragment.getRoot().isVisible()) {
+                            if (!progressBarFragment.isFadeIn) {
+                                progressBarFragment.fadeIn();
+                                progressBarFragment.scheduleFadeOut();
+                            }
+                        } else {
+                            if (!progressBarFragment.isFadeOut) {
+                                progressBarFragment.fadeOut();
+                            }
+                        }
                     }
 
-                    progressBarFragment.fadeIn();
+                    StoryInteraction interaction = getStory().currentInteraction;
 
-                    if (scenarioFragment == null) {
-                        progressBarFragment.scheduleFadeOut();
+                    if (interaction != null) {
+                        if (interaction.interaction instanceof HareInteraction) {
+                            HareProgressBarFragment barFragment = ((HareInteraction) interaction.interaction).progressBarFragment;
+
+                            if (barFragment != null) {
+                                if (!barFragment.getRoot().isVisible()) {
+                                    if (!barFragment.isFadeIn) {
+                                        barFragment.fadeIn();
+                                        barFragment.scheduleFadeOut();
+                                    }
+                                } else {
+                                    if (!barFragment.isFadeOut) {
+                                        barFragment.fadeOut();
+                                    }
+                                }
+                            }
+                        }
+
+                        if (interaction.interaction instanceof GeneralsInteraction) {
+                            GeneralsProgressBarFragment barFragment = ((GeneralsInteraction) interaction.interaction).progressBarFragment;
+
+                            if (barFragment != null) {
+                                if (!barFragment.getRoot().isVisible()) {
+                                    if (!barFragment.isFadeIn) {
+                                        barFragment.fadeIn();
+                                        barFragment.scheduleFadeOut();
+                                    }
+                                } else {
+                                    if (!barFragment.isFadeOut) {
+                                        barFragment.fadeOut();
+                                    }
+                                }
+                            }
+                        }
                     }
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -240,10 +282,7 @@ public class GameScreen implements Screen {
         if (progressBarFragment != null) {
             progressBarFragment.update();
         } else if (!isInteractionLocked) {
-            progressBarFragment = new ProgressBarFragment(this);
-            progressBarFragment.create();
-
-            gameLayers.setProgressBarLayer(progressBarFragment);
+            restoreProgressBarIfDestroyed();
         }
 
         if (audioService != null) {
@@ -393,19 +432,38 @@ public class GameScreen implements Screen {
         gameLayers = null;
     }
 
-    public void hideProgressBar() {
+    public void restoreProgressBarIfDestroyed() {
+        if (progressBarFragment == null) {
+            progressBarFragment = new ProgressBarFragment(this);
+            progressBarFragment.create();
+
+            gameLayers.setProgressBarLayer(progressBarFragment);
+        }
+    }
+
+    public void hideAndDestroyProgressBar() {
         if (progressBarFragment != null) {
-            progressBarFragment.fadeOut(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        progressBarFragment.destroy();
-                        progressBarFragment = null;
-                    } catch (Throwable e) {
-                        Log.e(tag, e);
+            if (progressBarFragment.canFadeOut()) {
+                progressBarFragment.fadeOut(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            progressBarFragment.destroy();
+                            progressBarFragment = null;
+                        } catch (Throwable e) {
+                            Log.e(tag, e);
+                        }
                     }
+                });
+
+            } else {
+                try {
+                    progressBarFragment.destroy();
+                    progressBarFragment = null;
+                } catch (Throwable e) {
+                    Log.e(tag, e);
                 }
-            });
+            }
         }
     }
 }

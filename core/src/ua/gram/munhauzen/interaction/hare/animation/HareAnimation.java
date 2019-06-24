@@ -13,7 +13,7 @@ public class HareAnimation extends AnimatedImage {
     public HareAnimation(Texture texture) {
         super(texture);
 
-        animate(texture, 1, 4, 4, 0.08f);
+        animate(texture, 1, 4, 4, 0.12f);
 
         float size = MunhauzenGame.WORLD_WIDTH / 5f;
 

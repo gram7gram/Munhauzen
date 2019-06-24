@@ -13,7 +13,7 @@ public class HorseAnimation extends AnimatedImage {
     public HorseAnimation(Texture texture) {
         super(texture);
 
-        animate(texture, 1, 5, 5, 0.1f);
+        animate(texture, 1, 5, 5, 0.15f);
 
         float size = MunhauzenGame.WORLD_WIDTH * .4f;
 

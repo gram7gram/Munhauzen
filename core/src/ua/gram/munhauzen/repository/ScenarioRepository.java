@@ -3,6 +3,7 @@ package ua.gram.munhauzen.repository;
 
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
+import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.Scenario;
 
@@ -10,8 +11,8 @@ public class ScenarioRepository {
 
     public static Scenario findBegin(GameState gameState) {
 
-        if (gameState.developmentScenario != null) {
-            return find(gameState, gameState.developmentScenario);
+        if (MunhauzenGame.developmentScenario != null) {
+            return find(gameState, MunhauzenGame.developmentScenario);
         }
 
         for (Scenario o : gameState.scenarioRegistry) {

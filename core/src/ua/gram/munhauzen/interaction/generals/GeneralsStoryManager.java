@@ -69,7 +69,7 @@ public class GeneralsStoryManager {
 
         Set<String> inventory = gameScreen.game.inventoryService.getAllInventory();
 
-        GeneralsStoryScenario storyScenario = new GeneralsStoryScenario();
+        GeneralsStoryScenario storyScenario = new GeneralsStoryScenario(gameScreen.game.gameState);
         storyScenario.scenario = from;
         storyScenario.duration = 0;
 
@@ -168,22 +168,16 @@ public class GeneralsStoryManager {
 
         if (generalsStory.currentScenario.scenario.isExit) {
 
-            interaction.progressBarFragment.fadeOut(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        gameScreen.interactionService.complete();
-
-                        Story story = gameScreen.storyManager.create("a18_d_continue");
-
-                        gameScreen.setStory(story);
-
-                        gameScreen.storyManager.startLoadingResources();
-                    } catch (Throwable e) {
-                        Log.e(tag, e);
+            if (interaction.progressBarFragment.canFadeOut()) {
+                interaction.progressBarFragment.fadeOut(new Runnable() {
+                    @Override
+                    public void run() {
+                        complete();
                     }
-                }
-            });
+                });
+            } else {
+                complete();
+            }
 
             return;
         }
@@ -210,6 +204,25 @@ public class GeneralsStoryManager {
             gameScreen.gameLayers.setStoryDecisionsLayer(
                     interaction.scenarioFragment
             );
+        }
+    }
+
+    public void complete() {
+
+        Log.i(tag, "complete");
+
+        try {
+            gameScreen.interactionService.complete();
+
+            interaction.gameScreen.restoreProgressBarIfDestroyed();
+
+            Story story = gameScreen.storyManager.create("a18_d_continue");
+
+            gameScreen.setStory(story);
+
+            gameScreen.storyManager.startLoadingResources();
+        } catch (Throwable e) {
+            Log.e(tag, e);
         }
     }
 

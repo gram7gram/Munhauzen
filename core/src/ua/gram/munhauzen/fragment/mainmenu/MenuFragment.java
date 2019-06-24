@@ -208,7 +208,7 @@ public class MenuFragment extends Fragment {
 
             String name = scenario.name;
 
-            if (scenario.name.equals(game.gameState.developmentScenario)) {
+            if (scenario.name.equals(MunhauzenGame.developmentScenario)) {
                 name = "[+] " + name;
             } else {
                 name = "[-] " + name;
@@ -224,10 +224,10 @@ public class MenuFragment extends Fragment {
                 public void clicked(InputEvent event, float x, float y) {
                     super.clicked(event, x, y);
 
-                    if (scenario.name.equals(game.gameState.developmentScenario)) {
-                        game.gameState.developmentScenario = null;
+                    if (scenario.name.equals(MunhauzenGame.developmentScenario)) {
+                        MunhauzenGame.developmentScenario = null;
                     } else {
-                        game.gameState.developmentScenario = scenario.name;
+                        MunhauzenGame.developmentScenario = scenario.name;
                     }
 
                     createScenarioTable();

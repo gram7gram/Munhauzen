@@ -5,29 +5,20 @@
     "action": "CLICK",
     "audio": [
       {
-        "audio": "s18_0",
-        "duration": 0
+        "audio": "s18"
       }
     ],
     "decisions": [
       {
-        "inventoryRequired": [],
-        "inventoryAbsent": [],
         "scenario": "a18_a"
       },
       {
-        "inventoryRequired": [],
-        "inventoryAbsent": [],
         "scenario": "a18_b"
       },
       {
-        "inventoryRequired": [],
-        "inventoryAbsent": [],
         "scenario": "a18_c"
       },
       {
-        "inventoryRequired": [],
-        "inventoryAbsent": [],
         "scenario": "a18_d"
       }
     ],
@@ -43,14 +34,11 @@
     "action": "GOTO",
     "audio": [
       {
-        "audio": "s18_a",
-        "duration": 0
+        "audio": "s18_a"
       }
     ],
     "decisions": [
       {
-        "inventoryRequired": [],
-        "inventoryAbsent": [],
         "scenario": "a18_0_interaction"
       }
     ],
@@ -66,14 +54,11 @@
     "action": "GOTO",
     "audio": [
       {
-        "audio": "s18_b",
-        "duration": 0
+        "audio": "s18_b"
       }
     ],
     "decisions": [
       {
-        "inventoryRequired": [],
-        "inventoryAbsent": [],
         "scenario": "a18_0_interaction"
       }
     ],
@@ -89,14 +74,11 @@
     "action": "GOTO",
     "audio": [
       {
-        "audio": "s18_c",
-        "duration": 0
+        "audio": "s18_c"
       }
     ],
     "decisions": [
       {
-        "inventoryRequired": [],
-        "inventoryAbsent": [],
         "scenario": "a18_0_interaction"
       }
     ],
@@ -112,8 +94,7 @@
     "name": "a18_d",
     "audio": [
       {
-        "audio": "s18_d",
-        "duration": 0
+        "audio": "s18_d"
       }
     ],
     "decisions": [],

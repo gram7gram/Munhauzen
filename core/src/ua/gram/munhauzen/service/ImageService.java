@@ -91,7 +91,7 @@ public abstract class ImageService implements Disposable {
         item.prepareCompletedAt = null;
         item.prepareStartedAt = null;
 
-        if (!item.image.equals("Last")) {
+        if (item.image != null && !item.image.equals("Last")) {
             Image image = ImageRepository.find(gameScreen.game.gameState, item.image);
 
             Image lastImage = new Image();

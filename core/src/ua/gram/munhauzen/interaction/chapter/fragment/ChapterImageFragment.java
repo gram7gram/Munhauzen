@@ -147,6 +147,8 @@ public class ChapterImageFragment extends Fragment {
                                 public void run() {
                                     try {
                                         interaction.gameScreen.interactionService.complete();
+
+                                        interaction.gameScreen.restoreProgressBarIfDestroyed();
                                     } catch (Throwable e) {
                                         Log.e(tag, e);
                                     }

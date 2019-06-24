@@ -1,14 +1,21 @@
 package ua.gram.munhauzen.interaction.hare;
 
-import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.entity.Audio;
+import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.entity.StoryMedia;
+import ua.gram.munhauzen.repository.AudioRepository;
 
 public class HareStoryScenario extends StoryMedia<HareStoryScenario> {
 
+    GameState gameState;
     public int duration;
     public HareScenario scenario;
     public StoryAudio currentAudio;
+
+    public HareStoryScenario(GameState gameState) {
+        this.gameState = gameState;
+    }
 
     public void init(final int offset) {
         currentAudio = null;
@@ -20,11 +27,8 @@ public class HareStoryScenario extends StoryMedia<HareStoryScenario> {
         for (int i = 0; i < size; i++) {
             StoryAudio current = scenario.audio.get(i);
 
-            if (MunhauzenGame.DEBUG_OVERWRITE_DURATION) {
-                if (current.duration == 0) {
-                    current.duration = 2000;
-                }
-            }
+            Audio audio = AudioRepository.find(gameState, current.audio);
+            current.duration = audio.duration;
 
             current.isLocked = false;
             current.isCompleted = false;

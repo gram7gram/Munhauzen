@@ -182,9 +182,7 @@ public class ScenarioFragment extends Fragment {
         imgTop = new FitImage(drawableTop);
 
         Table table = new Table();
-        table.setFillParent(true);
-        table.add(scrollPane)
-                .top().expand().fill();
+        table.add(scrollPane).expandY().fillY().top();
 
         decorLeft = new Table();
         decorLeft.add(imgLeft).align(Align.topLeft).expand()
@@ -218,6 +216,8 @@ public class ScenarioFragment extends Fragment {
         try {
             Log.i(tag, "primaryDecision clicked " + decision.scenario);
 
+            GameState.isPaused = false;
+
             final Runnable onComplete = new Runnable() {
                 @Override
                 public void run() {
@@ -229,8 +229,6 @@ public class ScenarioFragment extends Fragment {
                             gameScreen.scenarioFragment.destroy();
                             gameScreen.scenarioFragment = null;
                         }
-
-                        GameState.isPaused = false;
                     } catch (Throwable e) {
                         Log.e(tag, e);
                     }

@@ -49,6 +49,8 @@ public class GeneralsProgressBarFragment extends Fragment {
     public Table controlsTable;
     public ImageButton rewindBackButton, rewindForwardButton, pauseButton, playButton;
     private Timer.Task fadeOutTask;
+    public boolean isFadeIn;
+    public boolean isFadeOut;
 
     public GeneralsProgressBarFragment(GameScreen gameScreen, GeneralsInteraction interaction) {
         this.gameScreen = gameScreen;
@@ -160,6 +162,8 @@ public class GeneralsProgressBarFragment extends Fragment {
                     GameState.isPaused = false;
 
                     startCurrentMusicIfPaused();
+
+                    scheduleFadeOut();
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -177,6 +181,8 @@ public class GeneralsProgressBarFragment extends Fragment {
                     gameScreen.audioService.stop();
 
                     GameState.isPaused = true;
+
+                    scheduleFadeOut();
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -195,6 +201,8 @@ public class GeneralsProgressBarFragment extends Fragment {
                     Log.i(tag, "rewindBackButton enter");
 
                     gameScreen.audioService.stop();
+
+                    cancelFadeOut();
 
                     if (interaction.scenarioFragment != null) {
                         interaction.scenarioFragment.fadeOut(new Runnable() {
@@ -222,7 +230,7 @@ public class GeneralsProgressBarFragment extends Fragment {
 
                                 story.progress -= story.totalDuration * 0.025f;
 
-                                postProgressChanged();
+                                postProgressChanged(story.isCompleted);
                             } catch (Throwable e) {
                                 Log.e(tag, e);
                             }
@@ -246,6 +254,8 @@ public class GeneralsProgressBarFragment extends Fragment {
                     progressTask = null;
 
                     startCurrentMusicIfPaused();
+
+                    scheduleFadeOut();
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -266,6 +276,8 @@ public class GeneralsProgressBarFragment extends Fragment {
 
                     gameScreen.audioService.stop();
 
+                    cancelFadeOut();
+
                     progressTask = Timer.schedule(new Timer.Task() {
                         @Override
                         public void run() {
@@ -276,7 +288,7 @@ public class GeneralsProgressBarFragment extends Fragment {
 
                                 story.progress += story.totalDuration * 0.025f;
 
-                                postProgressChanged();
+                                postProgressChanged(story.isCompleted);
                             } catch (Throwable e) {
                                 Log.e(tag, e);
                             }
@@ -300,6 +312,8 @@ public class GeneralsProgressBarFragment extends Fragment {
                     progressTask = null;
 
                     startCurrentMusicIfPaused();
+
+                    scheduleFadeOut();
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -318,7 +332,7 @@ public class GeneralsProgressBarFragment extends Fragment {
 
                     story.progress = story.totalDuration * percent;
 
-                    postProgressChanged();
+                    postProgressChanged(story.isCompleted);
 
                     if (!story.isCompleted) {
                         if (interaction.scenarioFragment != null) {
@@ -343,6 +357,13 @@ public class GeneralsProgressBarFragment extends Fragment {
             }
 
             @Override
+            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                super.touchDown(event, x, y, pointer, button);
+
+                cancelFadeOut();
+            }
+
+            @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
 
@@ -350,6 +371,8 @@ public class GeneralsProgressBarFragment extends Fragment {
                     GameState.isPaused = false;
 
                     startCurrentMusicIfPaused();
+
+                    scheduleFadeOut();
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -464,31 +487,39 @@ public class GeneralsProgressBarFragment extends Fragment {
     public void fadeIn() {
 
         if (!isMounted()) return;
+        if (isFadeIn) return;
+
+        isFadeOut = false;
+        isFadeIn = true;
 
         Log.i(tag, "fadeIn");
 
-        if (fadeOutTask != null) {
-            fadeOutTask.cancel();
-        }
-
         root.setVisible(true);
-        //root.setTouchable(Touchable.enabled);
         root.clearActions();
         root.addAction(
                 Actions.parallel(
                         Actions.fadeIn(.3f),
-                        Actions.moveTo(0, 0, .3f)
+                        Actions.moveTo(0, 0, .3f),
+                        Actions.run(new Runnable() {
+                            @Override
+                            public void run() {
+                                isFadeIn = false;
+                                isFadeOut = false;
+                            }
+                        })
                 )
         );
     }
 
     public void fadeOut(Runnable task) {
 
-        if (!isMounted()) return;
+        if (!canFadeOut()) return;
+
+        isFadeIn = false;
+        isFadeOut = true;
 
         Log.i(tag, "fadeOut");
 
-        //root.setTouchable(Touchable.disabled);
         root.clearActions();
         root.addAction(
                 Actions.sequence(
@@ -500,6 +531,9 @@ public class GeneralsProgressBarFragment extends Fragment {
                             @Override
                             public void run() {
                                 root.setVisible(false);
+
+                                isFadeIn = false;
+                                isFadeOut = false;
                             }
                         }),
                         Actions.run(task)
@@ -507,13 +541,19 @@ public class GeneralsProgressBarFragment extends Fragment {
         );
     }
 
+    public boolean canFadeOut() {
+        return isMounted() && root.isVisible() && !isFadeOut;
+    }
+
     public void fadeOut() {
 
-        if (!isMounted()) return;
+        if (!canFadeOut()) return;
+
+        isFadeIn = false;
+        isFadeOut = true;
 
         Log.i(tag, "fadeOut");
 
-        //root.setTouchable(Touchable.disabled);
         root.clearActions();
         root.addAction(
                 Actions.sequence(
@@ -525,6 +565,9 @@ public class GeneralsProgressBarFragment extends Fragment {
                             @Override
                             public void run() {
                                 root.setVisible(false);
+
+                                isFadeIn = false;
+                                isFadeOut = false;
                             }
                         })
                 )
@@ -533,19 +576,21 @@ public class GeneralsProgressBarFragment extends Fragment {
 
     public void scheduleFadeOut() {
 
-        if (!isMounted()) return;
+        cancelFadeOut();
 
-        Log.i(tag, "scheduleFadeOut");
-
-        if (fadeOutTask != null) {
-            fadeOutTask.cancel();
-        }
         fadeOutTask = Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
                 fadeOut();
             }
-        }, 10);
+        }, MunhauzenGame.PROGRESS_BAR_FADE_OUT_DELAY);
+    }
+
+    public void cancelFadeOut() {
+
+        if (fadeOutTask != null) {
+            fadeOutTask.cancel();
+        }
     }
 
     @Override
@@ -558,11 +603,9 @@ public class GeneralsProgressBarFragment extends Fragment {
         super.dispose();
         assetManager.dispose();
 
-        if (fadeOutTask != null) {
-            fadeOutTask.cancel();
-            fadeOutTask = null;
-        }
-
+        cancelFadeOut();
+        isFadeIn = false;
+        isFadeOut = false;
     }
 
     private ImageButton getRewindBack() {
@@ -611,14 +654,14 @@ public class GeneralsProgressBarFragment extends Fragment {
         return new ImageButton(style);
     }
 
-    private void postProgressChanged() {
+    private void postProgressChanged(boolean isCompletedBefore) {
         try {
             GeneralsStory story = interaction.storyManager.generalsStory;
 
             story.update(story.progress, story.totalDuration);
 
             if (story.isValid()) {
-                if (story.isCompleted) {
+                if (!isCompletedBefore && story.isCompleted) {
                     if (interaction.scenarioFragment == null) {
                         interaction.storyManager.onCompleted();
                     }

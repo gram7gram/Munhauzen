@@ -458,6 +458,8 @@ public class PuzzleDecisionManager {
             public void run() {
                 try {
                     interaction.gameScreen.interactionService.complete();
+
+                    interaction.gameScreen.restoreProgressBarIfDestroyed();
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }

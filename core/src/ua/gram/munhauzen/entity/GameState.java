@@ -16,7 +16,6 @@ public class GameState {
     public static boolean isMute = false;
     public static boolean isFinaleReached = false;
 
-    public String developmentScenario;// = "abear_interaction";
     public Image lastImage;
     public History history;
     public Array<Scenario> scenarioRegistry;
