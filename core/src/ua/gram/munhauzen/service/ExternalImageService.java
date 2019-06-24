@@ -25,9 +25,13 @@ public class ExternalImageService extends ImageService {
 
     @Override
     public String getResource(StoryImage item) {
-        Image image = ImageRepository.find(gameScreen.game.gameState, item.image);
+        try {
+            Image image = ImageRepository.find(gameScreen.game.gameState, item.image);
 
-        return ExternalFiles.getExpansionImagesDir().path() + "/" + image.file;
+            return ExternalFiles.getExpansionImagesDir().path() + "/" + image.file;
+        } catch (Throwable e) {
+            return null;
+        }
     }
 
 }

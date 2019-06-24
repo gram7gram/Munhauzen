@@ -271,6 +271,8 @@ public class StoryManager {
             for (StoryImage storyImage : storyScenario.scenario.images) {
                 try {
 
+                    if (storyImage.image.equals(ImageRepository.LAST)) continue;
+
                     Image image = ImageRepository.find(gameScreen.game.gameState, storyImage.image);
 
                     String resource = imagePath + "/" + image.file;

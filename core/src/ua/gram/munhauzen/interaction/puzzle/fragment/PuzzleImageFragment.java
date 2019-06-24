@@ -25,7 +25,7 @@ import ua.gram.munhauzen.utils.Log;
 public class PuzzleImageFragment extends Fragment {
 
     private final PuzzleInteraction interaction;
-    public Group root;
+    public Group root, resultGroup, sourceGroup;
     public Dropzone dropzone;
 
     /**
@@ -62,7 +62,7 @@ public class PuzzleImageFragment extends Fragment {
         Texture tex11 = interaction.assetManager.get("puzzle/inter_puzzle_fond_1.png", Texture.class);
         Texture tex12 = interaction.assetManager.get("puzzle/inter_puzzle_fond_2.png", Texture.class);
 
-        resetButton = interaction.gameScreen.game.buttonBuilder.primary("Снова", new ClickListener() {
+        resetButton = interaction.gameScreen.game.buttonBuilder.primary("Again", new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
@@ -104,20 +104,26 @@ public class PuzzleImageFragment extends Fragment {
                 .width(MunhauzenGame.WORLD_WIDTH)
                 .height(height);
 
+        resultGroup = new Group();
+
+        sourceGroup = new Group();
+        sourceGroup.addActor(stick);
+        sourceGroup.addActor(spoon);
+        sourceGroup.addActor(shoes);
+        sourceGroup.addActor(peas);
+        sourceGroup.addActor(key);
+        sourceGroup.addActor(hair);
+        sourceGroup.addActor(clocks);
+        sourceGroup.addActor(arrows);
+        sourceGroup.addActor(powder);
+        sourceGroup.addActor(rope);
+        sourceGroup.addActor(foot);
+
         root = new Group();
         root.addActor(backgroundTable);
-        root.addActor(stick);
-        root.addActor(spoon);
-        root.addActor(shoes);
-        root.addActor(peas);
-        root.addActor(key);
-        root.addActor(hair);
-        root.addActor(clocks);
-        root.addActor(arrows);
-        root.addActor(powder);
-        root.addActor(rope);
-        root.addActor(foot);
+        root.addActor(sourceGroup);
         root.addActor(dropzone);
+        root.addActor(resultGroup);
         root.addActor(resetButton);
 
         root.setName(tag);

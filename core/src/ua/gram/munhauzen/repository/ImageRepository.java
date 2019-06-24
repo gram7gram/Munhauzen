@@ -7,9 +7,11 @@ import ua.gram.munhauzen.entity.Image;
 
 public class ImageRepository {
 
+    public static final String LAST = "Last";
+
     public static Image find(GameState gameState, final String id) {
 
-        if ("Last".equals(id)) {
+        if (LAST.equals(id)) {
             if (gameState.lastImage != null) {
                 return gameState.lastImage;
             }

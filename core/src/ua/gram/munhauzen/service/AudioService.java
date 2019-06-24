@@ -46,6 +46,9 @@ public class AudioService implements Disposable {
         }
 
         Audio audio = AudioRepository.find(gameScreen.game.gameState, item.audio);
+        if (item.duration == 0) {
+            item.duration = audio.duration;
+        }
 
         String resource = ExternalFiles.getExpansionAudioDir().path() + "/" + audio.file;
 
@@ -73,6 +76,26 @@ public class AudioService implements Disposable {
             Timer.post(onComplete);
         }
 
+    }
+
+    public void prepareAndPlay(StoryAudio item) {
+        Audio audio = AudioRepository.find(gameScreen.game.gameState, item.audio);
+        if (item.duration == 0) {
+            item.duration = audio.duration;
+        }
+
+        String resource = ExternalFiles.getExpansionAudioDir().path() + "/" + audio.file;
+
+        assetManager.load(resource, Music.class);
+
+        assetManager.finishLoading();
+
+        item.player = assetManager.get(resource, Music.class);
+
+        item.player.setVolume(GameState.isMute ? 0 : 1);
+        item.player.play();
+
+        activeAudio.put(item.audio, item);
     }
 
     public void onPrepared(StoryAudio item) {

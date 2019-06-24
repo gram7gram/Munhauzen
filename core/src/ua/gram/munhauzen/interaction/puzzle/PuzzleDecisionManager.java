@@ -1,6 +1,7 @@
 package ua.gram.munhauzen.interaction.puzzle;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Timer;
@@ -10,7 +11,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import ua.gram.munhauzen.entity.Inventory;
-import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.interaction.PuzzleInteraction;
 import ua.gram.munhauzen.repository.InventoryRepository;
@@ -115,15 +115,32 @@ public class PuzzleDecisionManager {
                 activeRope = null;
             }
 
-            interaction.imageFragment.clocks.setVisible(true);
-            interaction.imageFragment.spoon.setVisible(true);
-            interaction.imageFragment.shoes.setVisible(true);
-            interaction.imageFragment.peas.setVisible(true);
-            interaction.imageFragment.key.setVisible(true);
-            interaction.imageFragment.hair.setVisible(true);
-            interaction.imageFragment.arrows.setVisible(true);
-            interaction.imageFragment.rope.setVisible(true);
-            interaction.imageFragment.stick.setVisible(true);
+            InventoryService inventoryService = interaction.gameScreen.game.inventoryService;
+
+            Inventory inventoryCrow = InventoryRepository.find(interaction.gameScreen.game.gameState, "CROW");
+            Inventory inventoryBomb = InventoryRepository.find(interaction.gameScreen.game.gameState, "BOMB");
+            Inventory inventoryClock = InventoryRepository.find(interaction.gameScreen.game.gameState, "CLOCKS");
+            Inventory inventoryRod = InventoryRepository.find(interaction.gameScreen.game.gameState, "FISHING_ROD");
+
+            boolean hasBomb = inventoryService.isInInventory(inventoryBomb);
+            boolean hasRod = inventoryService.isInInventory(inventoryRod);
+            boolean hasClock = inventoryService.isInInventory(inventoryClock);
+            boolean hasCrow = inventoryService.isInInventory(inventoryCrow);
+
+            interaction.imageFragment.peas.setVisible(!(hasBomb && hasRod));
+
+            interaction.imageFragment.shoes.setVisible(!hasCrow);
+            interaction.imageFragment.hair.setVisible(!hasCrow);
+            interaction.imageFragment.stick.setVisible(!hasCrow);
+
+            interaction.imageFragment.clocks.setVisible(!hasClock);
+            interaction.imageFragment.key.setVisible(!hasClock);
+            interaction.imageFragment.arrows.setVisible(!hasClock);
+
+            interaction.imageFragment.spoon.setVisible(!hasRod);
+            interaction.imageFragment.rope.setVisible(!hasRod);
+
+            interaction.imageFragment.powder.setVisible(!hasBomb);
 
             interaction.gameScreen.audioService.stop();
 
@@ -154,24 +171,27 @@ public class PuzzleDecisionManager {
                         activeClocks = new ActiveClocks(texture);
 
                         activeClocks.init();
+                        activeClocks.setZIndex(0);
 
-                        interaction.imageFragment.root.addActor(activeClocks);
+                        interaction.imageFragment.resultGroup.addActor(activeClocks);
                         interaction.imageFragment.clocks.setVisible(false);
                         break;
                     case "spoon":
                         activeSpoon = new ActiveSpoon(texture);
 
                         activeSpoon.init();
+                        activeSpoon.setZIndex(1);
 
-                        interaction.imageFragment.root.addActor(activeSpoon);
+                        interaction.imageFragment.resultGroup.addActor(activeSpoon);
                         interaction.imageFragment.spoon.setVisible(false);
                         break;
                     case "shoes":
                         activeShoes = new ActiveShoes(texture);
 
                         activeShoes.init();
+                        activeShoes.setZIndex(2);
 
-                        interaction.imageFragment.root.addActor(activeShoes);
+                        interaction.imageFragment.resultGroup.addActor(activeShoes);
                         interaction.imageFragment.shoes.setVisible(false);
                         break;
                     case "peas":
@@ -179,8 +199,9 @@ public class PuzzleDecisionManager {
                         activePeas = new ActivePeas(texture);
 
                         activePeas.init();
+                        activePeas.setZIndex(3);
 
-                        interaction.imageFragment.root.addActor(activePeas);
+                        interaction.imageFragment.resultGroup.addActor(activePeas);
                         interaction.imageFragment.peas.setVisible(false);
                         break;
                     case "key":
@@ -188,24 +209,27 @@ public class PuzzleDecisionManager {
                         activeKey = new ActiveKey(texture);
 
                         activeKey.init();
+                        activeKey.setZIndex(4);
 
-                        interaction.imageFragment.root.addActor(activeKey);
+                        interaction.imageFragment.resultGroup.addActor(activeKey);
                         interaction.imageFragment.key.setVisible(false);
                         break;
                     case "hair":
                         activeHair = new ActiveHair(texture);
 
                         activeHair.init();
+                        activeHair.setZIndex(5);
 
-                        interaction.imageFragment.root.addActor(activeHair);
+                        interaction.imageFragment.resultGroup.addActor(activeHair);
                         interaction.imageFragment.hair.setVisible(false);
                         break;
                     case "arrows":
                         activeArrows = new ActiveArrows(texture);
 
                         activeArrows.init();
+                        activeArrows.setZIndex(6);
 
-                        interaction.imageFragment.root.addActor(activeArrows);
+                        interaction.imageFragment.resultGroup.addActor(activeArrows);
                         interaction.imageFragment.arrows.setVisible(false);
                         break;
                     case "rope":
@@ -213,16 +237,18 @@ public class PuzzleDecisionManager {
                         activeRope = new ActiveRope(texture);
 
                         activeRope.init();
+                        activeRope.setZIndex(7);
 
-                        interaction.imageFragment.root.addActor(activeRope);
+                        interaction.imageFragment.resultGroup.addActor(activeRope);
                         interaction.imageFragment.rope.setVisible(false);
                         break;
                     case "stick":
                         activeStick = new ActiveStick(texture);
 
                         activeStick.init();
+                        activeStick.setZIndex(8);
 
-                        interaction.imageFragment.root.addActor(activeStick);
+                        interaction.imageFragment.resultGroup.addActor(activeStick);
                         interaction.imageFragment.stick.setVisible(false);
                         break;
                     case "powder":
@@ -230,15 +256,18 @@ public class PuzzleDecisionManager {
                         activePowder = new ActivePowder(texture);
 
                         activePowder.init();
+                        activePowder.setZIndex(9);
 
-                        interaction.imageFragment.root.addActor(activePowder);
+                        interaction.imageFragment.resultGroup.addActor(activePowder);
                         interaction.imageFragment.powder.setVisible(false);
                         break;
                 }
             }
 
-            if (items.size() == 3) {
-                checkCombination();
+            if (items.size() == 2) {
+                checkCombination(false);
+            } else if (items.size() == 3) {
+                checkCombination(true);
             }
         } catch (Throwable e) {
             Log.e(tag, e);
@@ -247,45 +276,44 @@ public class PuzzleDecisionManager {
 
     public void destroyItems() {
 
+        InventoryService inventoryService = interaction.gameScreen.game.inventoryService;
+
+        Inventory inventoryCrow = InventoryRepository.find(interaction.gameScreen.game.gameState, "CROW");
+
+        String soundName;
+        if (!inventoryService.isInInventory(inventoryCrow)) {
+
+            soundName = MathUtils.random(new String[]{
+                    "s15broken_1", "s15broken_2", "s15broken_3", "s15broken_4", "s15broken_5"
+            });
+        } else {
+
+            soundName = MathUtils.random(new String[]{
+                    "s15crow_1", "s15crow_2", "s15crow_3", "s15crow_4", "s15crow_5"
+            });
+        }
+
         try {
-
-            InventoryService inventoryService = interaction.gameScreen.game.inventoryService;
-
-            Inventory inventoryCrow = InventoryRepository.find(interaction.gameScreen.game.gameState, "CROW");
-
-            String soundName;
-            if (!inventoryService.isInInventory(inventoryCrow)) {
-
-                soundName = MathUtils.random(new String[]{
-                        "s15broken_1",
-                        "s15broken_2",
-                        "s15broken_3",
-                        "s15broken_4",
-                        "s15broken_5"
-                });
-            } else {
-
-                soundName = MathUtils.random(new String[]{
-                        "s15crow_1", "s15crow_2", "s15crow_3", "s15crow_4", "s15crow_5"
-                });
-            }
-
             final StoryAudio storyAudio = new StoryAudio();
             storyAudio.audio = soundName;
 
-            interaction.gameScreen.audioService.prepare(storyAudio, new Timer.Task() {
+            interaction.gameScreen.audioService.prepareAndPlay(storyAudio);
+
+            Log.i(tag, "started random audio " + storyAudio.duration + "ms");
+
+            Timer.instance().scheduleTask(new Timer.Task() {
                 @Override
                 public void run() {
-                    try {
-                        interaction.gameScreen.audioService.playAudio(storyAudio);
-                    } catch (Throwable e) {
-                        Log.e(tag, e);
-                    }
+                    reset();
                 }
-            });
+            }, storyAudio.duration / 1000f);
 
         } catch (Throwable e) {
             Log.e(tag, e);
+
+            reset();
+
+            return;
         }
 
         try {
@@ -338,19 +366,9 @@ public class PuzzleDecisionManager {
             Log.e(tag, e);
         }
 
-        try {
-            Timer.instance().scheduleTask(new Timer.Task() {
-                @Override
-                public void run() {
-                    reset();
-                }
-            }, 2);
-        } catch (Throwable e) {
-            Log.e(tag, e);
-        }
     }
 
-    public void checkCombination() {
+    public void checkCombination(boolean canDestroy) {
 
         Log.i(tag, "checkCombination");
 
@@ -358,7 +376,8 @@ public class PuzzleDecisionManager {
 
         Log.i(tag, "items: " + Arrays.toString(items.toArray()));
 
-        boolean hasCombination = false;
+        boolean hasCombination = false, hasClock = false, hasRod = false;
+
         for (HashSet<String> strings : combinations.keySet()) {
             if (items.containsAll(strings)) {
 
@@ -372,6 +391,13 @@ public class PuzzleDecisionManager {
                     Inventory inventory = InventoryRepository.find(interaction.gameScreen.game.gameState, item);
 
                     if (!inventoryService.isInInventory(inventory)) {
+
+                        if (!hasClock)
+                            hasClock = item.equals("CLOCKS");
+
+                        if (!hasRod)
+                            hasRod = item.equals("FISHING_ROD");
+
                         if (inventory.isGlobal()) {
                             inventoryService.addGlobalInventory(inventory);
                         } else {
@@ -392,79 +418,139 @@ public class PuzzleDecisionManager {
 
             Log.i(tag, "No combination");
 
-            destroyItems();
+            if (canDestroy)
+                destroyItems();
 
             return;
         }
 
-        for (HashSet<String> strings : combinations.keySet()) {
-            if (items.containsAll(strings)) {
+        interaction.imageFragment.sourceGroup.setTouchable(Touchable.disabled);
 
-                String item = combinations.get(strings);
+        if (hasClock) {
 
+            onClockCombination(new Timer.Task() {
+                @Override
+                public void run() {
+                    reset();
+                }
+            });
+
+        } else if (hasRod) {
+
+            onRodCombination();
+
+        } else {
+            animateCombinationAndReset();
+        }
+    }
+
+    private void onRodCombination() {
+        Log.i(tag, "onRodCombination");
+
+        animateCombination();
+
+        interaction.imageFragment.root.setTouchable(Touchable.disabled);
+        interaction.imageFragment.sourceGroup.addAction(Actions.alpha(0, .3f));
+        interaction.imageFragment.resetButton.addAction(Actions.alpha(0, .3f));
+
+        Timer.instance().scheduleTask(new Timer.Task() {
+            @Override
+            public void run() {
                 try {
-                    switch (item) {
-                        case "FISHING_ROD":
-
-                            try {
-                                interaction.gameScreen.interactionService.complete();
-
-                                Story story = interaction.gameScreen.storyManager.create("a15_1d_right");
-
-                                interaction.gameScreen.setStory(story);
-
-                                interaction.gameScreen.storyManager.startLoadingResources();
-                            } catch (Throwable e) {
-                                Log.e(tag, e);
-                            }
-
-                            break;
-                        case "CLOCKS":
-
-                            Inventory inventoryCrow = InventoryRepository.find(interaction.gameScreen.game.gameState, "CROW");
-
-                            String soundName;
-                            if (inventoryService.isInInventory(inventoryCrow)) {
-                                soundName = "s15_1_a_crow";
-                            } else {
-                                soundName = "s15_1_a";
-                            }
-
-                            final StoryAudio storyAudio = new StoryAudio();
-                            storyAudio.audio = soundName;
-
-                            interaction.gameScreen.audioService.prepare(storyAudio, new Timer.Task() {
-                                @Override
-                                public void run() {
-                                    try {
-                                        interaction.gameScreen.audioService.playAudio(storyAudio);
-                                    } catch (Throwable e) {
-                                        Log.e(tag, e);
-                                    }
-                                }
-                            });
-
-                            break;
-                    }
-
+                    interaction.gameScreen.interactionService.complete();
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
-
             }
-        }
+        }, 1);
+    }
 
+    private void onClockCombination(Timer.Task onComplete) {
+
+        InventoryService inventoryService = interaction.gameScreen.game.inventoryService;
+
+        animateCombination();
+
+        interaction.imageFragment.root.setTouchable(Touchable.disabled);
+
+        try {
+            Log.i(tag, "onClockCombination");
+
+            Inventory inventoryCrow = InventoryRepository.find(interaction.gameScreen.game.gameState, "CROW");
+
+            String soundName;
+            if (inventoryService.isInInventory(inventoryCrow)) {
+                soundName = "s15_1_a_crow";
+            } else {
+                soundName = "s15_1_a";
+            }
+
+            final StoryAudio storyAudio = new StoryAudio();
+            storyAudio.audio = soundName;
+
+            interaction.gameScreen.audioService.prepareAndPlay(storyAudio);
+
+            Timer.instance().scheduleTask(new Timer.Task() {
+                @Override
+                public void run() {
+
+                    interaction.imageFragment.root.setTouchable(Touchable.enabled);
+
+                }
+            }, storyAudio.duration / 1000f);
+
+            Timer.instance().scheduleTask(onComplete, storyAudio.duration / 1000f);
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
     }
 
     public void reset() {
         try {
             Log.i(tag, "reset");
+
+            interaction.imageFragment.sourceGroup.setTouchable(Touchable.enabled);
+
             items.clear();
 
             cleanup();
+
         } catch (Throwable e) {
             Log.e(tag, e);
         }
+    }
+
+    private void animateCombinationAndReset() {
+        Log.i(tag, "animateCombination");
+
+        interaction.imageFragment.resultGroup.setOrigin(
+                interaction.imageFragment.resultGroup.getWidth() / 2f,
+                interaction.imageFragment.resultGroup.getHeight() / 2f
+        );
+        interaction.imageFragment.resultGroup.addAction(Actions.sequence(
+                Actions.moveBy(0, 40, .3f),
+                Actions.moveBy(0, -40, .3f),
+                Actions.run(new Runnable() {
+                    @Override
+                    public void run() {
+                        reset();
+                    }
+                })
+        ));
+    }
+
+    private void animateCombination() {
+        Log.i(tag, "animateCombination");
+
+        interaction.imageFragment.resultGroup.setOrigin(
+                interaction.imageFragment.resultGroup.getWidth() / 2f,
+                interaction.imageFragment.resultGroup.getHeight() / 2f
+        );
+        interaction.imageFragment.resultGroup.addAction(Actions.sequence(
+                Actions.moveBy(0, 40, .3f),
+                Actions.moveBy(0, -40, .3f)
+        ));
     }
 
     public abstract class ActivePuzzleItem extends FitImage {

@@ -3,14 +3,12 @@ package ua.gram.munhauzen.interaction.puzzle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.interaction.PuzzleInteraction;
 import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.utils.Log;
-import ua.gram.munhauzen.utils.Random;
 
 /**
  * @author Gram <gram7gram@gmail.com>
@@ -34,20 +32,7 @@ public abstract class PuzzleItem extends FitImage {
 
         interaction.imageFragment.setSizeRelativeToBackground(this, getDrawable());
 
-        Random r = new Random();
         clear();
-        addAction(Actions.forever(
-                Actions.sequence(
-                        Actions.delay(r.between(0, 1) / 10f),
-                        Actions.moveBy(1, 0, .2f),
-                        Actions.delay(r.between(0, 1) / 10f),
-                        Actions.moveBy(0, 1, .2f),
-                        Actions.delay(r.between(0, 1) / 10f),
-                        Actions.moveBy(-1, 0, .2f),
-                        Actions.delay(r.between(0, 1) / 10f),
-                        Actions.moveBy(0, -1, .2f)
-                )
-        ));
 
         final PuzzleItem actor = this;
 

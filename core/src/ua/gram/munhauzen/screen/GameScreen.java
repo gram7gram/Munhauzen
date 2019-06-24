@@ -237,10 +237,13 @@ public class GameScreen implements Screen {
             }
         }
 
-        if (!isInteractionLocked) {
-            if (progressBarFragment != null) {
-                progressBarFragment.update();
-            }
+        if (progressBarFragment != null) {
+            progressBarFragment.update();
+        } else if (!isInteractionLocked) {
+            progressBarFragment = new ProgressBarFragment(this);
+            progressBarFragment.create();
+
+            gameLayers.setProgressBarLayer(progressBarFragment);
         }
 
         if (audioService != null) {
@@ -392,7 +395,17 @@ public class GameScreen implements Screen {
 
     public void hideProgressBar() {
         if (progressBarFragment != null) {
-            progressBarFragment.fadeOut();
+            progressBarFragment.fadeOut(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        progressBarFragment.destroy();
+                        progressBarFragment = null;
+                    } catch (Throwable e) {
+                        Log.e(tag, e);
+                    }
+                }
+            });
         }
     }
 }

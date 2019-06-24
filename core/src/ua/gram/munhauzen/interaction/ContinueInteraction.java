@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 
+import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.fragment.Fragment;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.utils.Log;
@@ -27,7 +28,7 @@ public class ContinueInteraction extends AbstractInteraction {
     public void start() {
         super.start();
 
-        Button button = gameScreen.game.buttonBuilder.primary("Продолжить", new ClickListener() {
+        Button button = gameScreen.game.buttonBuilder.primary("Continue", new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
@@ -59,7 +60,7 @@ public class ContinueInteraction extends AbstractInteraction {
         root = new Table();
         root.pad(10);
         root.setFillParent(true);
-        root.add(button).expand().align(Align.bottom);
+        root.add(button).expand().align(Align.bottom).height(MunhauzenGame.WORLD_HEIGHT / 10f);
 
         root.addAction(Actions.sequence(
                 Actions.alpha(0),
@@ -76,7 +77,8 @@ public class ContinueInteraction extends AbstractInteraction {
     public void update() {
         super.update();
 
-        root.padBottom(gameScreen.progressBarFragment.getHeight());
+        if (gameScreen.progressBarFragment != null)
+            root.padBottom(gameScreen.progressBarFragment.getHeight());
     }
 
     @Override

@@ -520,13 +520,14 @@ public class ProgressBarFragment extends Fragment {
     public void update() {
 
         if (!isMounted()) return;
+        if (!root.isVisible()) return;
 
-        if (!root.isVisible()) {
-            if (!isFadeIn) {
-                fadeIn();
-            }
-            return;
-        }
+//        if (!root.isVisible()) {
+//            if (!isFadeIn && !isFadeOut) {
+//                fadeIn();
+//            }
+//            return;
+//        }
 
         Story story = gameScreen.getStory();
 
@@ -590,6 +591,8 @@ public class ProgressBarFragment extends Fragment {
     public void fadeIn() {
 
         if (!isMounted()) return;
+        if (root.isVisible()) return;
+        if (isFadeIn) return;
 
         isFadeOut = false;
         isFadeIn = true;
@@ -620,13 +623,18 @@ public class ProgressBarFragment extends Fragment {
     public void fadeOut() {
 
         if (!isMounted()) return;
+        if (!root.isVisible()) return;
+        if (isFadeOut) return;
+
+        if (fadeOutTask != null) {
+            fadeOutTask.cancel();
+        }
 
         isFadeIn = false;
         isFadeOut = true;
 
         Log.i(tag, "fadeOut");
 
-        //root.setTouchable(Touchable.disabled);
         root.clearActions();
         root.addAction(
                 Actions.sequence(
@@ -650,10 +658,14 @@ public class ProgressBarFragment extends Fragment {
     public void fadeOut(Runnable task) {
 
         if (!isMounted()) return;
+        if (!root.isVisible()) return;
+        if (isFadeOut) return;
 
         Log.i(tag, "fadeOut");
 
-        //root.setTouchable(Touchable.disabled);
+        isFadeIn = false;
+        isFadeOut = true;
+
         root.clearActions();
         root.addAction(
                 Actions.sequence(
@@ -665,6 +677,9 @@ public class ProgressBarFragment extends Fragment {
                             @Override
                             public void run() {
                                 root.setVisible(false);
+
+                                isFadeIn = false;
+                                isFadeOut = false;
                             }
                         }),
                         Actions.run(task)

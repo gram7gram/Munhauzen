@@ -51,6 +51,7 @@ public abstract class ImageService implements Disposable {
         }
 
         String resource = getResource(item);
+        if (resource == null) return;
 
         boolean isLoaded = assetManager.isLoaded(resource, Texture.class);
 

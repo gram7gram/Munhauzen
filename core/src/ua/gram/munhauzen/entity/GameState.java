@@ -15,9 +15,8 @@ public class GameState {
     public static boolean isPaused = false;
     public static boolean isMute = false;
     public static boolean isFinaleReached = false;
-    public static boolean isHighEndDevice = true;
 
-    public String developmentScenario;
+    public String developmentScenario;// = "abear_interaction";
     public Image lastImage;
     public History history;
     public Array<Scenario> scenarioRegistry;
@@ -34,11 +33,6 @@ public class GameState {
         audioFailRegistry = new Array<>();
         inventoryRegistry = new Array<>();
         chapterRegistry = new Array<>();
-    }
-
-    public boolean hasHistory() {
-        return history != null
-                && history.getActiveSave().clickedBranches.size() > 0;
     }
 
     public void reset() {

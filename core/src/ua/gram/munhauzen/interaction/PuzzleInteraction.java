@@ -63,6 +63,8 @@ public class PuzzleInteraction extends AbstractInteraction {
             return;
         }
 
+        gameScreen.hideProgressBar();
+
         if (imageFragment != null) {
             imageFragment.update();
         }
