@@ -446,7 +446,10 @@ public class GameScreen implements Screen {
             gameControlsFragment = null;
         }
 
-        gameLayers = null;
+        if (gameLayers != null) {
+            gameLayers.dispose();
+            gameLayers = null;
+        }
 
         setStory(null);
     }

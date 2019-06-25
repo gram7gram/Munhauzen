@@ -2,6 +2,7 @@ package ua.gram.munhauzen.service;
 
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.Timer;
 
 import java.util.ArrayList;
@@ -69,7 +70,7 @@ public class StoryManager {
         Log.i(tag, log);
 
         if (!story.isValid()) {
-            throw new IllegalArgumentException("Created story is not valid!");
+            throw new GdxRuntimeException("Created story is not valid!");
         }
 
         return story;
@@ -83,13 +84,12 @@ public class StoryManager {
 
             Scenario start = ScenarioRepository.findBegin(gameState);
 
-            gameScreen.setStory(
-                    create(start.name)
-            );
+            Story newStory = create(start.name);
+
+            gameScreen.setStory(newStory);
         }
 
         Log.i(tag, "resume " + gameScreen.getStory().id);
-
     }
 
     private void findNext(Scenario from, Story story) {
@@ -104,13 +104,15 @@ public class StoryManager {
 
         story.scenarios.add(storyScenario);
 
-        if ("GOTO".equals(from.action)) {
-            for (Decision decision : from.decisions) {
-                if (isDecisionAvailable(decision, inventory)) {
+        if (from.interaction == null) {
+            if ("GOTO".equals(from.action)) {
+                for (Decision decision : from.decisions) {
+                    if (isDecisionAvailable(decision, inventory)) {
 
-                    Scenario next = ScenarioRepository.find(gameState, decision.scenario);
+                        Scenario next = ScenarioRepository.find(gameState, decision.scenario);
 
-                    findNext(next, story);
+                        findNext(next, story);
+                    }
                 }
             }
         }

@@ -2,6 +2,7 @@ package ua.gram.munhauzen.interaction.balloons.ui;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.utils.Align;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.ui.FitImage;
@@ -28,9 +29,32 @@ public class Balloon extends FitImage {
 
     }
 
-    public void start() {
+    public void onHit() {
+        setOrigin(Align.center);
 
-        clear();
+        addAction(Actions.sequence(
+                Actions.parallel(
+                        Actions.scaleBy(1.1f, 1.1f, .3f),
+                        Actions.alpha(0, .5f)
+                ),
+                Actions.run(new Runnable() {
+                    @Override
+                    public void run() {
+                        reset();
+                    }
+                })
+        ));
+    }
+
+    public void reset() {
+        clearActions();
+        setVisible(false);
+        isLocked = false;
+    }
+
+    public void start(boolean isSuperFast) {
+
+        clearActions();
 
         Random r = new Random();
 
@@ -39,24 +63,45 @@ public class Balloon extends FitImage {
         isLocked = true;
 
         setVisible(true);
-        addAction(
-                Actions.sequence(
-                        Actions.moveTo(newX, -getHeight()),
-                        Actions.delay(r.between(0, 2)),
-                        Actions.moveTo(newX, MunhauzenGame.WORLD_HEIGHT, 5),
 
-                        Actions.run(new Runnable() {
-                            @Override
-                            public void run() {
-                                isLocked = false;
+        if (!isSuperFast) {
+            addAction(
+                    Actions.sequence(
+                            Actions.moveTo(newX, -getHeight()),
+                            Actions.moveTo(newX, MunhauzenGame.WORLD_HEIGHT, r.between(3, 5)),
 
-                                if (onMiss != null) {
-                                    addAction(Actions.run(onMiss));
+                            Actions.run(new Runnable() {
+                                @Override
+                                public void run() {
+                                    isLocked = false;
+
+                                    if (onMiss != null) {
+                                        addAction(Actions.run(onMiss));
+                                    }
                                 }
-                            }
-                        })
-                )
+                            })
+                    )
 
-        );
+            );
+        } else {
+            addAction(
+                    Actions.sequence(
+                            Actions.moveTo(newX, -getHeight()),
+                            Actions.moveTo(newX, MunhauzenGame.WORLD_HEIGHT, r.between(2, 3)),
+
+                            Actions.run(new Runnable() {
+                                @Override
+                                public void run() {
+                                    isLocked = false;
+
+                                    if (onMiss != null) {
+                                        addAction(Actions.run(onMiss));
+                                    }
+                                }
+                            })
+                    )
+
+            );
+        }
     }
 }

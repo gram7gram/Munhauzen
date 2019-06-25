@@ -28,12 +28,11 @@ public class MunhauzenGame extends Game {
     public static int WORLD_WIDTH;
     public static int WORLD_HEIGHT;
     public static boolean PAUSED = false;
-    public static final boolean DEBUG = true;
+    public static final boolean DEBUG = false;
     public static final boolean DEBUG_ZOOM = false;
     public static final boolean DEBUG_RENDER_INFO = true;
-    public static final boolean DEBUG_OVERWRITE_DURATION = true;
     public static final int PROGRESS_BAR_FADE_OUT_DELAY = 5;
-    public static String developmentScenario = "abear_interaction";
+    public static String developmentScenario;// = "aisland";
 
     private final String tag = getClass().getSimpleName();
 

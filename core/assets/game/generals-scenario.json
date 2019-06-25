@@ -137,6 +137,7 @@
   },
   {
     "name": "a2_2_d",
+    "action": "GOTO",
     "audio": [
       {
         "audio": "s2_2_d"

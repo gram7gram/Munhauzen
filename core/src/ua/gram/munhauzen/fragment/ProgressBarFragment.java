@@ -813,9 +813,14 @@ public class ProgressBarFragment extends Fragment {
 
             story.update(story.progress, story.totalDuration);
 
+            gameScreen.interactionService.update();
+
             if (story.isValid()) {
                 if (!isCompletedBefore && story.isCompleted) {
-                    if (gameScreen.scenarioFragment == null) {
+
+                    boolean isInteractionLocked = story.currentInteraction != null && story.currentInteraction.isLocked;
+
+                    if (!isInteractionLocked && gameScreen.scenarioFragment == null) {
                         gameScreen.storyManager.onCompleted();
                     }
 

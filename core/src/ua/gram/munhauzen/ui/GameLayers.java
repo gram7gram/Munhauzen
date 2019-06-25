@@ -3,6 +3,7 @@ package ua.gram.munhauzen.ui;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
+import com.badlogic.gdx.utils.Disposable;
 
 import ua.gram.munhauzen.fragment.Fragment;
 import ua.gram.munhauzen.fragment.ImageFragment;
@@ -12,7 +13,7 @@ import ua.gram.munhauzen.utils.Log;
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class GameLayers extends Stack {
+public class GameLayers extends Stack implements Disposable {
 
     final String tag = getClass().getSimpleName();
     final GameScreen gameScreen;
@@ -129,4 +130,27 @@ public class GameLayers extends Stack {
         return dummy;
     }
 
+    @Override
+    public void dispose() {
+        if (controlsLayer != null) {
+            controlsLayer.dispose();
+            controlsLayer = null;
+        }
+        if (progressBarLayer != null) {
+            progressBarLayer.dispose();
+            progressBarLayer = null;
+        }
+        if (storyDecisionsLayer != null) {
+            storyDecisionsLayer.dispose();
+            storyDecisionsLayer = null;
+        }
+        if (interactionLayer != null) {
+            interactionLayer.dispose();
+            interactionLayer = null;
+        }
+        if (backgroundLayer != null) {
+            backgroundLayer.dispose();
+            backgroundLayer = null;
+        }
+    }
 }

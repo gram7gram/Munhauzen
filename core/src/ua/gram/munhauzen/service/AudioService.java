@@ -84,7 +84,7 @@ public class AudioService implements Disposable {
             item.duration = audio.duration;
         }
 
-        String resource = ExternalFiles.getExpansionAudioDir().path() + "/" + audio.file;
+        final String resource = ExternalFiles.getExpansionAudioDir().path() + "/" + audio.file;
 
         assetManager.load(resource, Music.class);
 
@@ -93,6 +93,18 @@ public class AudioService implements Disposable {
         item.player = assetManager.get(resource, Music.class);
 
         item.player.setVolume(GameState.isMute ? 0 : 1);
+
+        item.player.setOnCompletionListener(new Music.OnCompletionListener() {
+            @Override
+            public void onCompletion(Music music) {
+                try {
+                    assetManager.unload(resource);
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
+            }
+        });
+
         item.player.play();
 
         activeAudio.put(item.audio, item);

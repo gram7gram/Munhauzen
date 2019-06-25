@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -121,6 +122,7 @@ public class BalloonsImageFragment extends Fragment {
         setBackground(backTex);
 
         root = new Group();
+        root.setTouchable(Touchable.childrenOnly);
         root.addActor(backgroundTable);
         root.addActor(cloud1);
         root.addActor(cloud2);
@@ -143,7 +145,7 @@ public class BalloonsImageFragment extends Fragment {
 
                 playMiss();
 
-                if (missCount == max) {
+                if (missCount > 0 && spawnCount == max) {
                     failed();
                 }
             }
@@ -164,10 +166,12 @@ public class BalloonsImageFragment extends Fragment {
 
                 playHit();
 
-                balloon1.clear();
-                balloon1.setVisible(false);
+                balloon1.onHit();
+
+                checkProgress();
             }
         });
+
         balloon2.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -178,10 +182,12 @@ public class BalloonsImageFragment extends Fragment {
 
                 playHit();
 
-                balloon2.clear();
-                balloon2.setVisible(false);
+                balloon2.onHit();
+
+                checkProgress();
             }
         });
+
         balloon3.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -192,10 +198,12 @@ public class BalloonsImageFragment extends Fragment {
 
                 playHit();
 
-                balloon3.clear();
-                balloon3.setVisible(false);
+                balloon3.onHit();
+
+                checkProgress();
             }
         });
+
         balloon4.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -206,8 +214,9 @@ public class BalloonsImageFragment extends Fragment {
 
                 playHit();
 
-                balloon4.clear();
-                balloon4.setVisible(false);
+                balloon4.onHit();
+
+                checkProgress();
             }
         });
 
@@ -216,8 +225,18 @@ public class BalloonsImageFragment extends Fragment {
         start();
     }
 
+    private void checkProgress() {
+        if (progress == max) {
+            complete();
+        }
+    }
+
     private void start() {
         resetButton.setVisible(false);
+
+        progress = 0;
+        spawnCount = 0;
+        missCount = 0;
 
         task = Timer.instance().scheduleTask(new Timer.Task() {
             @Override
@@ -237,15 +256,56 @@ public class BalloonsImageFragment extends Fragment {
 
         Balloon balloon = MathUtils.random(balloons);
         if (balloon != null) {
-            balloon.start();
 
             ++spawnCount;
 
+            balloon.start(spawnCount == max);
+
             if (spawnCount == max) {
-                task.cancel();
-                task = null;
+                stopSpawn();
             }
         }
+    }
+
+    private void stopSpawn() {
+        if (task != null) {
+            task.cancel();
+            task = null;
+        }
+    }
+
+    private void complete() {
+        Log.i(tag, "complete");
+
+        spawnCount = 0;
+        missCount = 0;
+
+        balloon1.reset();
+
+        balloon2.reset();
+
+        balloon3.reset();
+
+        balloon4.reset();
+
+        stopSpawn();
+
+        int delay = playWin();
+
+        Timer.instance().scheduleTask(new Timer.Task() {
+            @Override
+            public void run() {
+                try {
+
+                    interaction.gameScreen.interactionService.complete();
+
+                    interaction.gameScreen.restoreProgressBarIfDestroyed();
+
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
+            }
+        }, delay / 1000f);
     }
 
     private void failed() {
@@ -254,12 +314,36 @@ public class BalloonsImageFragment extends Fragment {
         spawnCount = 0;
         missCount = 0;
 
-        if (task != null) {
-            task.cancel();
-            task = null;
-        }
+        balloon1.reset();
+
+        balloon2.reset();
+
+        balloon3.reset();
+
+        balloon4.reset();
+
+        stopSpawn();
 
         resetButton.setVisible(true);
+    }
+
+    private int playWin() {
+
+        int delay = 1000;
+
+        try {
+            StoryAudio storyAudio = new StoryAudio();
+            storyAudio.audio = "sfx_inter_balloons_win";
+
+            interaction.gameScreen.audioService.prepareAndPlay(storyAudio);
+
+            delay = storyAudio.duration;
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+
+        return delay;
     }
 
     private void playIntro() {
@@ -338,9 +422,6 @@ public class BalloonsImageFragment extends Fragment {
         spawnCount = 0;
         missCount = 0;
 
-        if (task != null) {
-            task.cancel();
-            task = null;
-        }
+        stopSpawn();
     }
 }
