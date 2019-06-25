@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
@@ -113,15 +112,6 @@ public class GeneralsImageFragment extends Fragment {
 
             }
         });
-
-        root.addAction(
-                Actions.forever(
-                        Actions.sequence(
-                                Actions.moveBy(10, 0, 1.2f),
-                                Actions.moveBy(-10, 0, 1.4f)
-                        )
-                )
-        );
 
         root.setName(tag);
     }
