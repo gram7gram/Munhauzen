@@ -1,15 +1,15 @@
 package ua.gram.munhauzen.interaction;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-
+import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.screen.GameScreen;
+import ua.gram.munhauzen.utils.Log;
+import ua.gram.munhauzen.utils.Random;
 
 /**
  * @author Gram <gram7gram@gmail.com>
  */
 public class StickInteraction extends AbstractInteraction {
 
-    public Table root;
     public String scenario1, scenario2;
 
     public StickInteraction(GameScreen gameScreen, String scenario1, String scenario2) {
@@ -22,6 +22,28 @@ public class StickInteraction extends AbstractInteraction {
     public void start() {
         super.start();
 
+        try {
+            Random random = new Random();
+            int value = random.between(1, 100);
+
+            Story newStory;
+            if (value == 1) {
+
+                Log.i(tag, "Redirect to " + scenario1);
+
+                newStory = gameScreen.storyManager.create(scenario1);
+            } else {
+                Log.i(tag, "Redirect to " + scenario2);
+
+                newStory = gameScreen.storyManager.create(scenario2);
+            }
+
+            gameScreen.setStory(newStory);
+
+            gameScreen.storyManager.startLoadingResources();
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
 
     }
 }

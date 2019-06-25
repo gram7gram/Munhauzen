@@ -21,6 +21,7 @@ public class AndroidLauncher extends AndroidApplication {
         params.versionCode = BuildConfig.VERSION_CODE;
         params.versionName = BuildConfig.VERSION_NAME;
         params.locale = "en";
+        params.isPro = true;
         params.memoryUsage = new AndroidMemoryUsage();
 
         PermissionManager.grant(this, PermissionManager.PERMISSIONS);
