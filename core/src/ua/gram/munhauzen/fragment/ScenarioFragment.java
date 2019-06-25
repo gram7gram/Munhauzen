@@ -367,7 +367,7 @@ public class ScenarioFragment extends Fragment {
         Image backBottom = new Image(bottom);
         Image backTop = new Image(top);
 
-        BitmapFont font = game.fontProvider.getFont(FontProvider.FleischmannGotich, FontProvider.h2);
+        BitmapFont font = game.fontProvider.getFont(FontProvider.h2);
 
         Label label = new WrapLabel(text,
                 new Label.LabelStyle(font, Color.BLACK),

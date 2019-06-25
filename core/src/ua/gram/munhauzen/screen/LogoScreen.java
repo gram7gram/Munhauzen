@@ -38,7 +38,7 @@ public class LogoScreen implements Screen {
         Image logo = new Image(new Texture("logo_500.png"));
 
         Label title = new Label("FingerTips and Co\nPresents", new Label.LabelStyle(
-                game.fontProvider.getFont(FontProvider.Arnold, FontProvider.h2),
+                game.fontProvider.getFont(FontProvider.h2),
                 Color.BLACK
         ));
         title.setAlignment(Align.center);

@@ -204,7 +204,7 @@ public class MunhauzenGame extends Game {
         if (currentError == null) return;
 
         int fontSize = FontProvider.h4;
-        BitmapFont font = fontProvider.getFont(FontProvider.BuxtonSketch, fontSize);
+        BitmapFont font = fontProvider.getFont(fontSize);
         if (font != null) {
 
             font.setColor(Color.RED);

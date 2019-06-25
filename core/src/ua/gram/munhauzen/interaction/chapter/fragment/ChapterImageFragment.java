@@ -66,7 +66,7 @@ public class ChapterImageFragment extends Fragment {
         String headerPrefix = chapterName.equals("intro") ? "Part" : "Chapter";
 
         Label header = new WrapLabel(headerPrefix + " " + Math.max(1, chapter.number), new Label.LabelStyle(
-                game.fontProvider.getFont(FontProvider.FleischmannGotich, FontProvider.h1),
+                game.fontProvider.getFont(FontProvider.h1),
                 Color.BLACK
         ), labelWidth);
         header.setAlignment(Align.center);
@@ -80,7 +80,7 @@ public class ChapterImageFragment extends Fragment {
         }
 
         Label description = new WrapLabel(text, new Label.LabelStyle(
-                interaction.gameScreen.game.fontProvider.getFont(FontProvider.FleischmannGotich, FontProvider.h1),
+                interaction.gameScreen.game.fontProvider.getFont(FontProvider.h1),
                 Color.BLACK
         ), labelWidth);
         description.setAlignment(Align.center);

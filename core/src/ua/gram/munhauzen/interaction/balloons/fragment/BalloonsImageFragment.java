@@ -57,14 +57,14 @@ public class BalloonsImageFragment extends Fragment {
         Cloud cloud3 = new Cloud(cloud3Texture, 200, 100, -180, MunhauzenGame.WORLD_HEIGHT * .75f);
 
         Label title = new Label("Catch fruits!", new Label.LabelStyle(
-                interaction.gameScreen.game.fontProvider.getFont(FontProvider.FleischmannGotich, FontProvider.h1),
+                interaction.gameScreen.game.fontProvider.getFont(FontProvider.h1),
                 Color.BLACK
         ));
         title.setWrap(true);
         title.setAlignment(Align.center);
 
         progress = new Label("", new Label.LabelStyle(
-                interaction.gameScreen.game.fontProvider.getFont(FontProvider.FleischmannGotich, FontProvider.h1),
+                interaction.gameScreen.game.fontProvider.getFont(FontProvider.h1),
                 Color.BLACK
         ));
         progress.setWrap(false);

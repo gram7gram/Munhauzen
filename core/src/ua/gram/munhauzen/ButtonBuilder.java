@@ -29,7 +29,7 @@ public class ButtonBuilder {
         NinePatchDrawable background2 = new NinePatchDrawable(new NinePatch(primaryDisabled, 90, 90, 0, 0));
 
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
-        style.font = game.fontProvider.getFont(FontProvider.BuxtonSketch, FontProvider.h4);
+        style.font = game.fontProvider.getFont(FontProvider.h4);
         style.up = background1;
         style.down = background1;
         style.disabled = background2;

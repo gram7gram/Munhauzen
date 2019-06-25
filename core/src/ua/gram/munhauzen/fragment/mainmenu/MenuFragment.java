@@ -70,7 +70,7 @@ public class MenuFragment extends Fragment {
         });
 
         progressLbl = new Label("Свободная память: " + getMB(), new Label.LabelStyle(
-                game.fontProvider.getFont(FontProvider.BuxtonSketch, FontProvider.p),
+                game.fontProvider.getFont(FontProvider.p),
                 Color.BLUE
         ));
 
@@ -139,7 +139,7 @@ public class MenuFragment extends Fragment {
         }
 
         Label header = new Label("Инвентарь", new Label.LabelStyle(
-                game.fontProvider.getFont(FontProvider.BuxtonSketch, FontProvider.p),
+                game.fontProvider.getFont(FontProvider.p),
                 Color.RED
         ));
         inventoryContainer.add(header).expandX().row();
@@ -161,7 +161,7 @@ public class MenuFragment extends Fragment {
             }
 
             Label label = new Label(name, new Label.LabelStyle(
-                    game.fontProvider.getFont(FontProvider.BuxtonSketch, FontProvider.p),
+                    game.fontProvider.getFont(FontProvider.p),
                     Color.BLACK
             ));
 
@@ -199,7 +199,7 @@ public class MenuFragment extends Fragment {
         }
 
         Label header = new Label("Стартовый сценарий", new Label.LabelStyle(
-                game.fontProvider.getFont(FontProvider.BuxtonSketch, FontProvider.p),
+                game.fontProvider.getFont(FontProvider.p),
                 Color.RED
         ));
         scenarioContainer.add(header).expandX().row();
@@ -215,7 +215,7 @@ public class MenuFragment extends Fragment {
             }
 
             Label label = new Label(name, new Label.LabelStyle(
-                    game.fontProvider.getFont(FontProvider.BuxtonSketch, FontProvider.p),
+                    game.fontProvider.getFont(FontProvider.p),
                     Color.BLACK
             ));
 

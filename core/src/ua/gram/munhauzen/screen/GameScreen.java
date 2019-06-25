@@ -321,7 +321,7 @@ public class GameScreen implements Screen {
         Story story = getStory();
 
         int fontSize = FontProvider.h4;
-        BitmapFont font = game.fontProvider.getFont(FontProvider.BuxtonSketch, fontSize);
+        BitmapFont font = game.fontProvider.getFont(fontSize);
         if (font != null) {
 
             font.setColor(Color.BLUE);

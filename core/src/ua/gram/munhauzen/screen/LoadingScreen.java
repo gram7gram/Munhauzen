@@ -42,14 +42,14 @@ public class LoadingScreen implements Screen {
                 new Texture("LoadingScreen/lv_decor_1.9.png"), 90, 90, 0, 0));
 
         Label title = new Label("Выберите режим игры", new Label.LabelStyle(
-                game.fontProvider.getFont(FontProvider.BuxtonSketch, FontProvider.h2),
+                game.fontProvider.getFont(FontProvider.h2),
                 Color.BLACK
         ));
         title.setWrap(true);
         title.setAlignment(Align.center);
 
         Label footer = new Label("Пословица ПословицаПословица ПословицаПословица Пословица", new Label.LabelStyle(
-                game.fontProvider.getFont(FontProvider.BuxtonSketch, FontProvider.h5),
+                game.fontProvider.getFont(FontProvider.h5),
                 Color.BLACK
         ));
         footer.setWrap(true);
