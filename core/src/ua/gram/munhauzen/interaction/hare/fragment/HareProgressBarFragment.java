@@ -499,9 +499,11 @@ public class HareProgressBarFragment extends Fragment {
 
         root.clearActions();
         root.addAction(
-                Actions.parallel(
-                        Actions.fadeIn(.3f),
-                        Actions.moveTo(0, 0, .3f),
+                Actions.sequence(
+                        Actions.parallel(
+                                Actions.fadeIn(.3f),
+                                Actions.moveTo(0, 0, .3f)
+                        ),
                         Actions.run(new Runnable() {
                             @Override
                             public void run() {

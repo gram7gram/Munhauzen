@@ -9,6 +9,7 @@ public class Chapter extends Entity {
 
     public int number;
     public String icon;
+    public String chapterAudio;
     public Array<ChapterTranslation> translations;
 
 

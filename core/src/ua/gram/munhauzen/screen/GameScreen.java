@@ -26,6 +26,7 @@ import ua.gram.munhauzen.fragment.GameControlsFragment;
 import ua.gram.munhauzen.fragment.ImageFragment;
 import ua.gram.munhauzen.fragment.ProgressBarFragment;
 import ua.gram.munhauzen.fragment.ScenarioFragment;
+import ua.gram.munhauzen.interaction.ContinueInteraction;
 import ua.gram.munhauzen.interaction.GeneralsInteraction;
 import ua.gram.munhauzen.interaction.HareInteraction;
 import ua.gram.munhauzen.interaction.generals.fragment.GeneralsProgressBarFragment;
@@ -173,6 +174,22 @@ public class GameScreen implements Screen {
                     StoryInteraction interaction = getStory().currentInteraction;
 
                     if (interaction != null) {
+                        if (interaction.interaction instanceof ContinueInteraction) {
+                            ContinueInteraction continueInteraction = (ContinueInteraction) interaction.interaction;
+
+                            if (continueInteraction.root != null) {
+                                if (!continueInteraction.root.isVisible()) {
+                                    if (!continueInteraction.isFadeIn) {
+                                        continueInteraction.fadeIn();
+                                    }
+                                } else {
+                                    if (!continueInteraction.isFadeOut) {
+                                        continueInteraction.fadeOut();
+                                    }
+                                }
+                            }
+                        }
+
                         if (interaction.interaction instanceof HareInteraction) {
                             HareProgressBarFragment barFragment = ((HareInteraction) interaction.interaction).progressBarFragment;
 
@@ -430,6 +447,8 @@ public class GameScreen implements Screen {
         }
 
         gameLayers = null;
+
+        setStory(null);
     }
 
     public void restoreProgressBarIfDestroyed() {

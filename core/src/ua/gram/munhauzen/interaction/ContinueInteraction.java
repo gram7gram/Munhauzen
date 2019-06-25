@@ -6,7 +6,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Align;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.fragment.Fragment;
@@ -19,6 +18,8 @@ import ua.gram.munhauzen.utils.Log;
 public class ContinueInteraction extends AbstractInteraction {
 
     public Table root;
+    public boolean isFadeIn;
+    public boolean isFadeOut;
 
     public ContinueInteraction(GameScreen gameScreen) {
         super(gameScreen);
@@ -28,7 +29,11 @@ public class ContinueInteraction extends AbstractInteraction {
     public void start() {
         super.start();
 
-        Button button = gameScreen.game.buttonBuilder.primary("Continue", new ClickListener() {
+        root = new Table();
+        root.setFillParent(true);
+        root.pad(10);
+
+        final Button button = gameScreen.game.buttonBuilder.primary("Continue", new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
@@ -59,9 +64,7 @@ public class ContinueInteraction extends AbstractInteraction {
             }
         });
 
-        root = new Table();
-        root.pad(10);
-        root.add(button).expand().align(Align.bottom).height(MunhauzenGame.WORLD_HEIGHT / 10f);
+        root.add(button).center().height(MunhauzenGame.WORLD_HEIGHT / 10f);
 
         root.addAction(Actions.sequence(
                 Actions.alpha(0),
@@ -74,24 +77,60 @@ public class ContinueInteraction extends AbstractInteraction {
 
     }
 
-    @Override
-    public void update() {
-        super.update();
 
-        if (gameScreen.progressBarFragment != null) {
-            if (gameScreen.progressBarFragment.root.isVisible()) {
-                root.padBottom(gameScreen.progressBarFragment.getHeight());
-            } else {
-                root.padBottom(10);
-            }
+    public void fadeIn() {
 
-            root.invalidate();
-        }
+        if (root.isVisible()) return;
+        if (isFadeIn) return;
+
+        isFadeOut = false;
+        isFadeIn = true;
+
+        Log.i(tag, "fadeIn");
+
+        root.setVisible(true);
+        root.clearActions();
+        root.addAction(
+                Actions.sequence(
+                        Actions.fadeIn(.3f),
+                        Actions.run(new Runnable() {
+                            @Override
+                            public void run() {
+                                isFadeIn = false;
+                                isFadeOut = false;
+                            }
+                        })
+                )
+        );
     }
 
-    @Override
-    public void dispose() {
-        super.dispose();
+    public void fadeOut() {
 
+        if (!canFadeOut()) return;
+
+        isFadeIn = false;
+        isFadeOut = true;
+
+        Log.i(tag, "fadeOut");
+
+        root.clearActions();
+        root.addAction(
+                Actions.sequence(
+                        Actions.fadeOut(.5f),
+                        Actions.run(new Runnable() {
+                            @Override
+                            public void run() {
+                                root.setVisible(false);
+
+                                isFadeIn = false;
+                                isFadeOut = false;
+                            }
+                        })
+                )
+        );
+    }
+
+    public boolean canFadeOut() {
+        return root.isVisible() && !isFadeOut;
     }
 }
