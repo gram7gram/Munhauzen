@@ -1,6 +1,14 @@
 gradle.properties
 Elements
 
+node_modules
+*.csv
+package-lock.json
+obb/en
+obb/ru
+obb/uk
+obb/expansions
+
 ## Robovm
 /ios/robovm-build/
 

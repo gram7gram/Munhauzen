@@ -1,0 +1,24 @@
+{
+  "name": "munhauzen",
+  "version": "1.0.0",
+  "description": "keytool -genkey -v -keystore debug.keystore -alias androiddebugkey -keyalg RSA -keysize 2048 -validity 10000",
+  "main": "audio.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gram7gram/Munhauzen.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gram7gram/Munhauzen/issues"
+  },
+  "homepage": "https://github.com/gram7gram/Munhauzen#readme",
+  "dependencies": {
+    "musicmetadata": "^2.0.5",
+    "wav-file-info": "0.0.8",
+    "xlsx": "^0.14.3"
+  }
+}
