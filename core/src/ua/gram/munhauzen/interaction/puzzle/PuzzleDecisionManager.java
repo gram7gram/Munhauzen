@@ -574,7 +574,7 @@ public class PuzzleDecisionManager {
 
             setOrigin(Align.bottom);
 
-            interaction.imageFragment.setPositionRelativeToBackground(this, 310, 530);
+            interaction.imageFragment.setPositionRelativeToBackground(this, 310, 630);
         }
 
         public void destroy() {

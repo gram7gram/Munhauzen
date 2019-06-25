@@ -38,6 +38,8 @@ public class StickInteraction extends AbstractInteraction {
                 newStory = gameScreen.storyManager.create(scenario2);
             }
 
+            complete();
+
             gameScreen.setStory(newStory);
 
             gameScreen.storyManager.startLoadingResources();
@@ -45,5 +47,11 @@ public class StickInteraction extends AbstractInteraction {
             Log.e(tag, e);
         }
 
+    }
+
+    public void complete() {
+        gameScreen.interactionService.complete();
+
+        gameScreen.restoreProgressBarIfDestroyed();
     }
 }

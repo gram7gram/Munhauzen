@@ -41,7 +41,7 @@ public class BalloonsImageFragment extends Fragment {
     PrimaryButton resetButton;
     Balloon balloon1, balloon2, balloon3, balloon4;
     Label progressLabel;
-    int progress, max = 4, spawnCount;
+    int progress, max = 4, spawnCount, missCount;
     Timer.Task task;
 
     public BalloonsImageFragment(BalloonsInteraction interaction) {
@@ -139,9 +139,11 @@ public class BalloonsImageFragment extends Fragment {
             public void run() {
                 Log.i(tag, "missed");
 
+                ++missCount;
+
                 playMiss();
 
-                if (spawnCount == max) {
+                if (missCount == max) {
                     failed();
                 }
             }
@@ -250,6 +252,7 @@ public class BalloonsImageFragment extends Fragment {
         Log.i(tag, "failed");
 
         spawnCount = 0;
+        missCount = 0;
 
         if (task != null) {
             task.cancel();
@@ -333,6 +336,7 @@ public class BalloonsImageFragment extends Fragment {
         super.dispose();
         progress = 0;
         spawnCount = 0;
+        missCount = 0;
 
         if (task != null) {
             task.cancel();

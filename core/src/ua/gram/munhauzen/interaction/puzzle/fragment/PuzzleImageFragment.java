@@ -75,9 +75,9 @@ public class PuzzleImageFragment extends Fragment {
             }
         });
 
-        float buttonWidth = Math.max(250, MunhauzenGame.WORLD_HEIGHT / 5f);
-        float buttonScale = buttonWidth / resetButton.getWidth();
-        resetButton.setSize(buttonWidth, resetButton.getHeight() * buttonScale);
+        float buttonHeight = MunhauzenGame.WORLD_HEIGHT / 10f;
+        float buttonScale = buttonHeight / resetButton.getHeight();
+        resetButton.setSize(resetButton.getWidth() * buttonScale, buttonHeight);
         resetButton.setPosition(10, 10);
 
         backgroundScale = 1f * MunhauzenGame.WORLD_WIDTH / tex11.getWidth();
@@ -173,7 +173,7 @@ public class PuzzleImageFragment extends Fragment {
         public void init() {
             super.init();
 
-            setPositionRelativeToBackground(this, 10, 700);
+            setPositionRelativeToBackground(this, 10, 800);
         }
     }
 
@@ -186,7 +186,7 @@ public class PuzzleImageFragment extends Fragment {
         public void init() {
             super.init();
 
-            setPositionRelativeToBackground(this, 130, 675);
+            setPositionRelativeToBackground(this, 130, 800);
         }
     }
 
@@ -199,7 +199,7 @@ public class PuzzleImageFragment extends Fragment {
         public void init() {
             super.init();
 
-            setPositionRelativeToBackground(this, 250, 480);
+            setPositionRelativeToBackground(this, 250, 600);
         }
     }
 
@@ -212,7 +212,7 @@ public class PuzzleImageFragment extends Fragment {
         public void init() {
             super.init();
 
-            setPositionRelativeToBackground(this, 625, 570);
+            setPositionRelativeToBackground(this, 625, 690);
         }
     }
 
@@ -225,7 +225,7 @@ public class PuzzleImageFragment extends Fragment {
         public void init() {
             super.init();
 
-            setPositionRelativeToBackground(this, 580, 150);
+            setPositionRelativeToBackground(this, 580, 200);
         }
     }
 
@@ -238,7 +238,7 @@ public class PuzzleImageFragment extends Fragment {
         public void init() {
             super.init();
 
-            setPositionRelativeToBackground(this, 70, 550);
+            setPositionRelativeToBackground(this, 70, 650);
         }
     }
 
@@ -251,7 +251,7 @@ public class PuzzleImageFragment extends Fragment {
         public void init() {
             super.init();
 
-            setPositionRelativeToBackground(this, 510, 430);
+            setPositionRelativeToBackground(this, 510, 550);
         }
     }
 
@@ -264,7 +264,7 @@ public class PuzzleImageFragment extends Fragment {
         public void init() {
             super.init();
 
-            setPositionRelativeToBackground(this, 60, 600);
+            setPositionRelativeToBackground(this, 60, 690);
         }
     }
 
@@ -277,7 +277,7 @@ public class PuzzleImageFragment extends Fragment {
         public void init() {
             super.init();
 
-            setPositionRelativeToBackground(this, 490, 480);
+            setPositionRelativeToBackground(this, 490, 600);
         }
     }
 
@@ -290,10 +290,9 @@ public class PuzzleImageFragment extends Fragment {
         public void init() {
             super.init();
 
-            setPositionRelativeToBackground(this, 190, 565);
+            setPositionRelativeToBackground(this, 190, 700);
         }
     }
-
 
 
     private class Foot extends FitImage {
@@ -308,15 +307,15 @@ public class PuzzleImageFragment extends Fragment {
 
             setSizeRelativeToBackground(this, getDrawable());
 
-            setPositionRelativeToBackground(this, 625, 620);
+            setPositionRelativeToBackground(this, 635, 750);
         }
 
     }
 
     public void setPositionRelativeToBackground(Actor actor, float x, float y) {
         actor.setPosition(
-                background.getWidth() * (x / 800f),
-                background.getHeight() * ((1000 - y) / 1000f)
+                background.getX() + background.getWidth() * (x / 800f),
+                background.getY() + background.getHeight() * ((1000 - y) / 1000f)
         );
         actor.setBounds(
                 actor.getX(),

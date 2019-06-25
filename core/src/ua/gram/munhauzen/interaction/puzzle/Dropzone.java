@@ -28,7 +28,7 @@ public class Dropzone extends Actor {
                 height * interaction.imageFragment.backgroundScale
         );
 
-        interaction.imageFragment.setPositionRelativeToBackground(this, 310, 530);
+        interaction.imageFragment.setPositionRelativeToBackground(this, 310, 630);
     }
 
     @Override
