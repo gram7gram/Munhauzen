@@ -24,9 +24,12 @@ public class ChapterInteraction extends AbstractInteraction {
         gameScreen.hideAndDestroyProgressBar();
 
         assetManager.load("chapter/frame_2.png", Texture.class);
-        assetManager.load("chapter/b_full_version_1.png", Texture.class);
-        assetManager.load("chapter/b_full_version_2.png", Texture.class);
-        assetManager.load("chapter/b_demo_version.png", Texture.class);
+
+        if (gameScreen.game.params.isPro) {
+            assetManager.load("chapter/b_full_version_1.png", Texture.class);
+        } else {
+            assetManager.load("chapter/b_demo_version.png", Texture.class);
+        }
     }
 
     public void onResourcesLoaded() {

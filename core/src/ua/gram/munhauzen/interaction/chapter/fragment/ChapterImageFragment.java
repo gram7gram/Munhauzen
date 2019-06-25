@@ -18,6 +18,7 @@ import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.Chapter;
 import ua.gram.munhauzen.entity.ChapterTranslation;
 import ua.gram.munhauzen.entity.Story;
+import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.fragment.Fragment;
 import ua.gram.munhauzen.interaction.ChapterInteraction;
 import ua.gram.munhauzen.repository.ChapterRepository;
@@ -43,7 +44,13 @@ public class ChapterImageFragment extends Fragment {
         Log.i(tag, "create");
 
         Texture texFrame = interaction.assetManager.get("chapter/frame_2.png", Texture.class);
-        Texture texHead = interaction.assetManager.get("chapter/b_demo_version.png", Texture.class);
+
+        Texture texHead;
+        if (interaction.gameScreen.game.params.isPro) {
+            texHead = interaction.assetManager.get("chapter/b_full_version_1.png", Texture.class);
+        } else {
+            texHead = interaction.assetManager.get("chapter/b_demo_version.png", Texture.class);
+        }
 
         MunhauzenGame game = interaction.gameScreen.game;
 
@@ -135,6 +142,16 @@ public class ChapterImageFragment extends Fragment {
                 )
         ));
 
+        int duration = 3000;
+        if (chapter.chapterAudio != null) {
+            StoryAudio storyAudio = new StoryAudio();
+            storyAudio.audio = chapter.chapterAudio;
+
+            interaction.gameScreen.audioService.prepareAndPlay(storyAudio);
+
+            duration = storyAudio.duration;
+        }
+
         Timer.instance().scheduleTask(new Timer.Task() {
             @Override
             public void run() {
@@ -159,7 +176,7 @@ public class ChapterImageFragment extends Fragment {
                     Log.e(tag, e);
                 }
             }
-        }, 3);
+        }, duration / 1000f);
     }
 
     @Override
