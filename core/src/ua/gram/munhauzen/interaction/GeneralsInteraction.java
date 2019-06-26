@@ -45,6 +45,7 @@ public class GeneralsInteraction extends AbstractInteraction {
         assetManager.load("generals/an_general_1_sheet_3x1.png", Texture.class);
         assetManager.load("generals/an_general_2_sheet_3x1.png", Texture.class);
         assetManager.load("generals/an_general_3_sheet_3x1.png", Texture.class);
+        assetManager.load("generals/p33_d.jpg", Texture.class);
     }
 
     public void onResourcesLoaded() {
