@@ -341,25 +341,10 @@ public class GameScreen implements Screen {
                 strings.add("progress:" + ((int) story.progress) + "ms");
 
                 for (StoryScenario scenarioOption : story.scenarios) {
-                    strings.add("-scenario:" + scenarioOption.scenario.name + "" + (scenarioOption.isLocked ? " lock" : ""));
-                    strings.add("--audios");
-
-                    for (StoryAudio item : scenarioOption.scenario.audio) {
-                        strings.add("---audio:" + item.audio
-                                + "" + (item.isPrepared ? " +" : " -")
-                                + "" + (item.isActive ? " active" : "")
-                                + "" + (item.isLocked ? " lock" : ""));
-                        strings.add("---" + item.startsAt + "-" + item.finishesAt);
-                    }
-
-                    strings.add("--images");
-                    for (StoryImage item : scenarioOption.scenario.images) {
-                        strings.add("---image:" + item.image
-                                + "" + (item.isPrepared ? " +" : " -")
-                                + "" + (item.isActive ? " active" : "")
-                                + "" + (item.isLocked ? " lock" : ""));
-                        strings.add("---" + item.startsAt + "-" + item.finishesAt);
-                    }
+                    strings.add("-scenario:" + scenarioOption.scenario.name
+                            + "" + (scenarioOption.scenario.interaction != null ? " (" + scenarioOption.scenario.interaction + ")" : "")
+                            + "" + (scenarioOption.isLocked ? " lock" : "")
+                    );
                 }
             }
 

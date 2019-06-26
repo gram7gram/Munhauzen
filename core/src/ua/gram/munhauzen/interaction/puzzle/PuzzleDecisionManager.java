@@ -1,8 +1,10 @@
 package ua.gram.munhauzen.interaction.puzzle;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Timer;
 
@@ -372,11 +374,13 @@ public class PuzzleDecisionManager {
 
         Log.i(tag, "checkCombination");
 
+        interaction.imageFragment.root.setTouchable(Touchable.disabled);
+
         InventoryService inventoryService = interaction.gameScreen.game.inventoryService;
 
         Log.i(tag, "items: " + Arrays.toString(items.toArray()));
 
-        boolean hasCombination = false, hasClock = false, hasRod = false;
+        boolean hasCombination = false, hasClock = false, hasRod = false, hasCrow = false, hasBomb = false;
 
         for (HashSet<String> strings : combinations.keySet()) {
             if (items.containsAll(strings)) {
@@ -398,6 +402,12 @@ public class PuzzleDecisionManager {
                         if (!hasRod)
                             hasRod = item.equals("FISHING_ROD");
 
+                        if (!hasCrow)
+                            hasCrow = item.equals("CROW");
+
+                        if (!hasBomb)
+                            hasBomb = item.equals("BOMB");
+
                         if (inventory.isGlobal()) {
                             inventoryService.addGlobalInventory(inventory);
                         } else {
@@ -418,15 +428,34 @@ public class PuzzleDecisionManager {
 
             Log.i(tag, "No combination");
 
-            if (canDestroy)
+            if (canDestroy) {
                 destroyItems();
+            } else {
+                interaction.imageFragment.root.setTouchable(Touchable.enabled);
+            }
 
             return;
         }
 
-        interaction.imageFragment.sourceGroup.setTouchable(Touchable.disabled);
+        if (hasCrow) {
 
-        if (hasClock) {
+            onCrowCombination(new Timer.Task() {
+                @Override
+                public void run() {
+                    reset();
+                }
+            });
+
+        } else if (hasBomb) {
+
+            onBombCombination(new Timer.Task() {
+                @Override
+                public void run() {
+                    reset();
+                }
+            });
+
+        } else if (hasClock) {
 
             onClockCombination(new Timer.Task() {
                 @Override
@@ -449,9 +478,31 @@ public class PuzzleDecisionManager {
 
         animateCombination();
 
-        interaction.imageFragment.root.setTouchable(Touchable.disabled);
-        interaction.imageFragment.sourceGroup.addAction(Actions.alpha(0, .3f));
-        interaction.imageFragment.resetButton.addAction(Actions.alpha(0, .3f));
+        final StoryAudio storyAudio = new StoryAudio();
+        storyAudio.audio = "s15_1_d";
+
+        interaction.gameScreen.audioService.prepareAndPlay(storyAudio);
+
+        interaction.assetManager.load("puzzle/pbear_fin.jpg", Texture.class);
+
+        Timer.instance().scheduleTask(new Timer.Task() {
+            @Override
+            public void run() {
+                try {
+
+                    Texture back = interaction.assetManager.get("puzzle/pbear_fin.jpg", Texture.class);
+
+                    interaction.imageFragment.sourceGroup.addAction(Actions.alpha(0, .3f));
+                    interaction.imageFragment.resultGroup.addAction(Actions.alpha(0, .3f));
+                    interaction.imageFragment.resetButton.addAction(Actions.alpha(0, .3f));
+
+                    interaction.imageFragment.background.setDrawable(new SpriteDrawable(new Sprite(back)));
+
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
+            }
+        }, 10);
 
         Timer.instance().scheduleTask(new Timer.Task() {
             @Override
@@ -464,7 +515,9 @@ public class PuzzleDecisionManager {
                     Log.e(tag, e);
                 }
             }
-        }, 1);
+        }, storyAudio.duration / 1000f);
+
+        interaction.assetManager.finishLoading();
     }
 
     private void onClockCombination(Timer.Task onComplete) {
@@ -472,8 +525,6 @@ public class PuzzleDecisionManager {
         InventoryService inventoryService = interaction.gameScreen.game.inventoryService;
 
         animateCombination();
-
-        interaction.imageFragment.root.setTouchable(Touchable.disabled);
 
         try {
             Log.i(tag, "onClockCombination");
@@ -492,14 +543,54 @@ public class PuzzleDecisionManager {
 
             interaction.gameScreen.audioService.prepareAndPlay(storyAudio);
 
-            Timer.instance().scheduleTask(new Timer.Task() {
-                @Override
-                public void run() {
+            Timer.instance().scheduleTask(onComplete, storyAudio.duration / 1000f);
 
-                    interaction.imageFragment.root.setTouchable(Touchable.enabled);
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+    }
 
-                }
-            }, storyAudio.duration / 1000f);
+    private void onCrowCombination(Timer.Task onComplete) {
+
+        animateCombination();
+
+        try {
+            Log.i(tag, "onCrowCombination");
+
+            final StoryAudio storyAudio = new StoryAudio();
+            storyAudio.audio = "s15_1_b";
+
+            interaction.gameScreen.audioService.prepareAndPlay(storyAudio);
+
+            Timer.instance().scheduleTask(onComplete, storyAudio.duration / 1000f);
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+    }
+
+    private void onBombCombination(Timer.Task onComplete) {
+
+        InventoryService inventoryService = interaction.gameScreen.game.inventoryService;
+
+        animateCombination();
+
+        try {
+            Log.i(tag, "onBombCombination");
+
+            Inventory inventoryCrow = InventoryRepository.find(interaction.gameScreen.game.gameState, "CROW");
+
+            String soundName;
+            if (inventoryService.isInInventory(inventoryCrow)) {
+                soundName = "s15_1_с_crow";
+            } else {
+                soundName = "s15_1_с";
+            }
+
+            final StoryAudio storyAudio = new StoryAudio();
+            storyAudio.audio = soundName;
+
+            interaction.gameScreen.audioService.prepareAndPlay(storyAudio);
 
             Timer.instance().scheduleTask(onComplete, storyAudio.duration / 1000f);
 
@@ -512,7 +603,7 @@ public class PuzzleDecisionManager {
         try {
             Log.i(tag, "reset");
 
-            interaction.imageFragment.sourceGroup.setTouchable(Touchable.enabled);
+            interaction.imageFragment.root.setTouchable(Touchable.enabled);
 
             items.clear();
 

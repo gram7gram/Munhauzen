@@ -120,6 +120,7 @@ public class PuzzleImageFragment extends Fragment {
         sourceGroup.addActor(foot);
 
         root = new Group();
+        root.setTouchable(Touchable.enabled);
         root.addActor(backgroundTable);
         root.addActor(sourceGroup);
         root.addActor(dropzone);
@@ -136,7 +137,7 @@ public class PuzzleImageFragment extends Fragment {
 
     public void update() {
 
-        resetButton.setDisabled(interaction.decisionManager.items.isEmpty());
+        resetButton.setDisabled(root.getTouchable() == Touchable.disabled || interaction.decisionManager.items.isEmpty());
 
         if (!areActorsInitialized) {
 

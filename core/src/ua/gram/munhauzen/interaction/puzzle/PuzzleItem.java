@@ -56,7 +56,6 @@ public abstract class PuzzleItem extends FitImage {
             @Override
             public void pan(InputEvent event, float x, float y, float deltaX, float deltaY) {
                 super.pan(event, x, y, deltaX, deltaY);
-                Log.i(tag, "pan");
 
                 try {
                     float newX = actor.getX() + deltaX;
@@ -83,15 +82,6 @@ public abstract class PuzzleItem extends FitImage {
                     Log.e(tag, e);
                 }
             }
-
-//            @Override
-//            public void tap(InputEvent event, float x, float y, int count, int button) {
-//                super.tap(event, x, y, count, button);
-//
-//                Log.i(tag, "clicked on " + name);
-//
-//                addPuzzle();
-//            }
 
         });
     }

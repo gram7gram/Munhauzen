@@ -44,11 +44,11 @@ public class GeneralsImageFragment extends Fragment {
         Texture fireLeftTexture = interaction.assetManager.get("generals/an_general_2_sheet_3x1.png", Texture.class);
         Texture fireRightTexture = interaction.assetManager.get("generals/an_general_3_sheet_3x1.png", Texture.class);
 
-        background = new FitImage();
-
         fumes = new FumesAnimation(fumesTexture, background);
         fireLeft = new FireLeftAnimation(fireLeftTexture, background);
         fireRight = new FireRightAnimation(fireRightTexture, background);
+
+        background = new FitImage();
 
         backgroundTable = new Table();
         backgroundTable.setFillParent(true);

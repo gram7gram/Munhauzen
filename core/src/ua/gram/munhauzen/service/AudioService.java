@@ -79,6 +79,9 @@ public class AudioService implements Disposable {
     }
 
     public void prepareAndPlay(StoryAudio item) {
+
+        Log.i(tag, "play " + item.audio);
+
         Audio audio = AudioRepository.find(gameScreen.game.gameState, item.audio);
         if (item.duration == 0) {
             item.duration = audio.duration;
