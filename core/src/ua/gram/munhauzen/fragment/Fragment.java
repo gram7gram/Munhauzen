@@ -12,11 +12,14 @@ public class Fragment implements Disposable {
 
     protected String tag = getClass().getSimpleName();
     Actor root;
+    public boolean isDisposed;
 
     public Fragment() {
+        isDisposed = false;
     }
 
     public Fragment(Actor root) {
+        this();
         this.root = root;
     }
 
@@ -51,5 +54,6 @@ public class Fragment implements Disposable {
     @Override
     public void dispose() {
         Log.i(tag, "dispose");
+        isDisposed = true;
     }
 }

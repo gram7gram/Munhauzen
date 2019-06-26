@@ -1,5 +1,6 @@
 package ua.gram.munhauzen.interaction;
 
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -17,7 +18,7 @@ import ua.gram.munhauzen.utils.Log;
  */
 public class ContinueInteraction extends AbstractInteraction {
 
-    public Table root;
+    public Group root;
     public boolean isFadeIn;
     public boolean isFadeOut;
 
@@ -29,9 +30,7 @@ public class ContinueInteraction extends AbstractInteraction {
     public void start() {
         super.start();
 
-        root = new Table();
-        root.setFillParent(true);
-        root.pad(10);
+        root = new Group();
 
         final Button button = gameScreen.game.buttonBuilder.primary("Continue", new ClickListener() {
             @Override
@@ -64,7 +63,13 @@ public class ContinueInteraction extends AbstractInteraction {
             }
         });
 
-        root.add(button).center().height(MunhauzenGame.WORLD_HEIGHT / 10f);
+
+        Table table = new Table();
+        table.setFillParent(true);
+        table.pad(10);
+        table.add(button).center().height(MunhauzenGame.WORLD_HEIGHT / 10f);
+
+        root.addActor(table);
 
         root.addAction(Actions.sequence(
                 Actions.alpha(0),

@@ -224,6 +224,11 @@ public class GameScreen implements Screen {
                             }
                         }
                     }
+
+                    if (interaction == null && progressBarFragment == null) {
+                        restoreProgressBarIfDestroyed();
+                    }
+
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -455,15 +460,20 @@ public class GameScreen implements Screen {
     }
 
     public void restoreProgressBarIfDestroyed() {
-        if (progressBarFragment == null) {
 
-            Log.i(tag, "restoreProgressBarIfDestroyed");
+        Log.i(tag, "restoreProgressBarIfDestroyed");
 
+        if (progressBarFragment != null) {
+            if (progressBarFragment.isDisposed) {
+                progressBarFragment = new ProgressBarFragment(this);
+                progressBarFragment.create();
+            }
+        } else {
             progressBarFragment = new ProgressBarFragment(this);
             progressBarFragment.create();
-
-            gameLayers.setProgressBarLayer(progressBarFragment);
         }
+
+        gameLayers.setProgressBarLayer(progressBarFragment);
     }
 
     public void hideAndDestroyProgressBar() {
