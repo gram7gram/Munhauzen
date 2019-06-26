@@ -52,10 +52,10 @@ public class HareStoryScenario extends StoryMedia<HareStoryScenario> {
             current.startsAt = audioOffset;
             current.finishesAt = audioOffset += current.duration;
 
+            audioDuration += current.duration;
+
             if (i == size - 1) {
                 current.finishesAt = Math.max(current.finishesAt, duration);
-
-                audioDuration = current.finishesAt;
             }
         }
 

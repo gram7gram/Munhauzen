@@ -14,7 +14,6 @@ public class Fragment implements Disposable {
     Actor root;
 
     public Fragment() {
-
     }
 
     public Fragment(Actor root) {

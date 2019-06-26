@@ -32,7 +32,7 @@ public class MunhauzenGame extends Game {
     public static final boolean DEBUG_ZOOM = false;
     public static final boolean DEBUG_RENDER_INFO = true;
     public static final int PROGRESS_BAR_FADE_OUT_DELAY = 5;
-    public static String developmentScenario;// = "aisland";
+    public static String developmentScenario;// = "a18_0";
 
     private final String tag = getClass().getSimpleName();
 

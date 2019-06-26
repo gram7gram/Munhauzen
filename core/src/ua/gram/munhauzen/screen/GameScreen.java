@@ -456,6 +456,9 @@ public class GameScreen implements Screen {
 
     public void restoreProgressBarIfDestroyed() {
         if (progressBarFragment == null) {
+
+            Log.i(tag, "restoreProgressBarIfDestroyed");
+
             progressBarFragment = new ProgressBarFragment(this);
             progressBarFragment.create();
 
@@ -465,6 +468,9 @@ public class GameScreen implements Screen {
 
     public void hideAndDestroyProgressBar() {
         if (progressBarFragment != null) {
+
+            Log.i(tag, "hideAndDestroyProgressBar");
+
             if (progressBarFragment.canFadeOut()) {
                 progressBarFragment.fadeOut(new Runnable() {
                     @Override
