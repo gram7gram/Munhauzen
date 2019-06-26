@@ -8,7 +8,6 @@ import ua.gram.munhauzen.entity.GameState;
 public class ChapterRepository {
 
     public static Chapter find(GameState gameState, String id) {
-        if (id == null) return null;
 
         for (Chapter o : gameState.chapterRegistry) {
             if (o.name.equals(id)) {

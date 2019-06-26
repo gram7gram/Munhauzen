@@ -18,8 +18,6 @@ import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.MunhauzenStage;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.Story;
-import ua.gram.munhauzen.entity.StoryAudio;
-import ua.gram.munhauzen.entity.StoryImage;
 import ua.gram.munhauzen.entity.StoryInteraction;
 import ua.gram.munhauzen.entity.StoryScenario;
 import ua.gram.munhauzen.fragment.GameControlsFragment;
@@ -440,6 +438,13 @@ public class GameScreen implements Screen {
             gameLayers.dispose();
             gameLayers = null;
         }
+
+        storyManager = null;
+        audioService = null;
+        externalImageService = null;
+        interactionService = null;
+        internalImageService = null;
+        background = null;
 
         setStory(null);
     }

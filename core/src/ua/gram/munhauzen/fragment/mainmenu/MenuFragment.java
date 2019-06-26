@@ -7,15 +7,16 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.net.HttpRequestBuilder;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
+import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 
@@ -43,10 +44,10 @@ public class MenuFragment extends Fragment {
     private final String tag = getClass().getSimpleName();
     private final MunhauzenGame game;
     private final AssetManager assetManager;
-    public Group root;
+    public Stack root;
     ScrollPane scroll;
-    TextButton downloadButton, expansionButton, startButton, upButton;
-    Label progressLbl;
+    TextButton downloadButton, expansionButton, startButton;
+    Label progressLbl, upButton;
     Table inventoryContainer, scenarioContainer;
     VerticalGroup group;
 
@@ -56,17 +57,16 @@ public class MenuFragment extends Fragment {
     }
 
     public void create() {
-        upButton = game.buttonBuilder.primary("Up", new ClickListener() {
+        upButton = new Label("UP", new Label.LabelStyle(
+                game.fontProvider.getFont(FontProvider.h1),
+                Color.RED
+        ));
+        upButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                try {
-                    scroll.scrollTo(0, 0, scroll.getScrollWidth(), scroll.getScrollHeight());
-
-                } catch (Throwable e) {
-                    Log.e(tag, e);
-                }
+                scroll.setScrollY(0);
             }
         });
 
@@ -136,6 +136,9 @@ public class MenuFragment extends Fragment {
         container2.add(inventoryContainer).top().expandX();
         container2.add(scenarioContainer).top().expandX();
 
+        Table container3 = new Table();
+        container3.add(upButton).align(Align.bottomRight).expand();
+
         group = new VerticalGroup();
         group.pad(10);
         group.addActor(container);
@@ -146,9 +149,10 @@ public class MenuFragment extends Fragment {
         scroll.setScrollingDisabled(true, false);
         scroll.setName(tag);
 
-        root = new Group();
+        root = new Stack();
+        root.setFillParent(true);
         root.addActor(scroll);
-        root.addActor(upButton);
+        root.addActor(container3);
     }
 
     private void createInventoryTable() {
@@ -262,7 +266,7 @@ public class MenuFragment extends Fragment {
     public void update() {
         startButton.setDisabled(!ExternalFiles.getScenarioFile().exists());
 
-        upButton.setVisible(scroll.getY() > 0);
+        upButton.setVisible(scroll.getScrollY() > 0);
     }
 
     @Override

@@ -49,6 +49,8 @@ public class ContinueInteraction extends AbstractInteraction {
                                             try {
                                                 gameScreen.interactionService.complete();
 
+                                                gameScreen.interactionService.findStoryAfterInteraction();
+
                                                 gameScreen.restoreProgressBarIfDestroyed();
                                             } catch (Throwable e) {
                                                 Log.e(tag, e);

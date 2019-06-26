@@ -96,8 +96,6 @@ public class StoryManager {
 
         Log.i(tag, "findNext " + from.name + " #" + story.scenarios.size);
 
-        Set<String> inventory = gameScreen.game.inventoryService.getAllInventory();
-
         StoryScenario storyScenario = new StoryScenario();
         storyScenario.scenario = from;
         storyScenario.duration = 0;
@@ -106,16 +104,29 @@ public class StoryManager {
 
         if (from.interaction == null) {
             if ("GOTO".equals(from.action)) {
-                for (Decision decision : from.decisions) {
-                    if (isDecisionAvailable(decision, inventory)) {
 
-                        Scenario next = ScenarioRepository.find(gameState, decision.scenario);
+                Scenario next = getNextScenarioFromDecisions(from);
+                if (next != null) {
 
-                        findNext(next, story);
-                    }
+                    findNext(next, story);
                 }
+
             }
         }
+    }
+
+    public Scenario getNextScenarioFromDecisions(Scenario from) {
+
+        Set<String> inventory = gameScreen.game.inventoryService.getAllInventory();
+
+        for (Decision decision : from.decisions) {
+            if (isDecisionAvailable(decision, inventory)) {
+
+                return ScenarioRepository.find(gameState, decision.scenario);
+            }
+        }
+
+        return null;
     }
 
     public void update(float progress, int duration) {

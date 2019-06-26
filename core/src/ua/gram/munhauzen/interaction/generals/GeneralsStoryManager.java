@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Set;
 
 import ua.gram.munhauzen.entity.Decision;
-import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.interaction.GeneralsInteraction;
 import ua.gram.munhauzen.interaction.generals.fragment.GeneralsScenarioFragment;
@@ -214,13 +213,9 @@ public class GeneralsStoryManager {
         try {
             gameScreen.interactionService.complete();
 
+            gameScreen.interactionService.findStoryAfterInteraction();
+
             interaction.gameScreen.restoreProgressBarIfDestroyed();
-
-            Story story = gameScreen.storyManager.create("a18_d_continue");
-
-            gameScreen.setStory(story);
-
-            gameScreen.storyManager.startLoadingResources();
         } catch (Throwable e) {
             Log.e(tag, e);
         }

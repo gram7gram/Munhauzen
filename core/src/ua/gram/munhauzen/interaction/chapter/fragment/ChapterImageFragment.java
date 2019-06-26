@@ -43,6 +43,9 @@ public class ChapterImageFragment extends Fragment {
 
         Log.i(tag, "create");
 
+        interaction.gameScreen.imageFragment.layer1ImageGroup.setVisible(false);
+        interaction.gameScreen.imageFragment.layer2ImageGroup.setVisible(false);
+
         Texture texFrame = interaction.assetManager.get("chapter/frame_2.png", Texture.class);
 
         Texture texHead;
@@ -63,7 +66,7 @@ public class ChapterImageFragment extends Fragment {
         frameBottomSprite.setFlip(false, true);
 
         float labelWidth = MunhauzenGame.WORLD_WIDTH * .9f;
-        String headerPrefix = chapterName.equals("intro") ? "Part" : "Chapter";
+        String headerPrefix = "intro".equals(chapter.name) ? "Part" : "Chapter";
 
         Label header = new WrapLabel(headerPrefix + " " + Math.max(1, chapter.number), new Label.LabelStyle(
                 game.fontProvider.getFont(FontProvider.h1),
@@ -71,7 +74,7 @@ public class ChapterImageFragment extends Fragment {
         ), labelWidth);
         header.setAlignment(Align.center);
 
-        String text = chapterName;
+        String text = chapter.name;
         for (ChapterTranslation item : chapter.translations) {
             if (item.locale.equals(game.params.locale)) {
                 text = item.description;
@@ -165,6 +168,8 @@ public class ChapterImageFragment extends Fragment {
                                     try {
                                         interaction.gameScreen.interactionService.complete();
 
+                                        interaction.gameScreen.interactionService.findStoryAfterInteraction();
+
                                         interaction.gameScreen.restoreProgressBarIfDestroyed();
                                     } catch (Throwable e) {
                                         Log.e(tag, e);
@@ -185,7 +190,6 @@ public class ChapterImageFragment extends Fragment {
     }
 
     public void update() {
-
 
     }
 

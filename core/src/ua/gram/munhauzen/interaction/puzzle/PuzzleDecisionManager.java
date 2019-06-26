@@ -1,10 +1,8 @@
 package ua.gram.munhauzen.interaction.puzzle;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Timer;
 
@@ -496,7 +494,7 @@ public class PuzzleDecisionManager {
                     interaction.imageFragment.resultGroup.addAction(Actions.alpha(0, .3f));
                     interaction.imageFragment.resetButton.addAction(Actions.alpha(0, .3f));
 
-                    interaction.imageFragment.background.setDrawable(new SpriteDrawable(new Sprite(back)));
+                    interaction.imageFragment.setBackground(back);
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -509,6 +507,8 @@ public class PuzzleDecisionManager {
             public void run() {
                 try {
                     interaction.gameScreen.interactionService.complete();
+
+                    interaction.gameScreen.interactionService.findStoryAfterInteraction();
 
                     interaction.gameScreen.restoreProgressBarIfDestroyed();
                 } catch (Throwable e) {

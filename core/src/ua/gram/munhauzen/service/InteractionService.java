@@ -1,5 +1,6 @@
 package ua.gram.munhauzen.service;
 
+import ua.gram.munhauzen.entity.Scenario;
 import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.entity.StoryInteraction;
 import ua.gram.munhauzen.interaction.InteractionFactory;
@@ -52,6 +53,23 @@ public class InteractionService {
         story.currentInteraction = interaction;
 
         interaction.interaction.start();
+    }
+
+    public void findStoryAfterInteraction() {
+        try {
+            Story story = gameScreen.getStory();
+            if (story.currentScenario == null) return;
+
+            Scenario nextAfterInteraction = gameScreen.storyManager.getNextScenarioFromDecisions(story.currentScenario.scenario);
+            if (nextAfterInteraction == null) return;
+
+            Story newStory = gameScreen.storyManager.create(nextAfterInteraction.name);
+
+            gameScreen.setStory(newStory);
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
     }
 
     public void complete() {

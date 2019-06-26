@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Set;
 
 import ua.gram.munhauzen.entity.Decision;
-import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.interaction.HareInteraction;
 import ua.gram.munhauzen.interaction.hare.fragment.HareScenarioFragment;
@@ -195,13 +194,9 @@ public class HareStoryManager {
         try {
             gameScreen.interactionService.complete();
 
+            gameScreen.interactionService.findStoryAfterInteraction();
+
             interaction.gameScreen.restoreProgressBarIfDestroyed();
-
-            Story story = gameScreen.storyManager.create("a18_d_continue");
-
-            gameScreen.setStory(story);
-
-            gameScreen.storyManager.startLoadingResources();
         } catch (Throwable e) {
             Log.e(tag, e);
         }

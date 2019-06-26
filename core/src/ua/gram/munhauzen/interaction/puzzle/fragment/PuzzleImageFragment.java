@@ -1,6 +1,7 @@
 package ua.gram.munhauzen.interaction.puzzle.fragment;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -9,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.fragment.Fragment;
@@ -80,10 +82,7 @@ public class PuzzleImageFragment extends Fragment {
         resetButton.setSize(resetButton.getWidth() * buttonScale, buttonHeight);
         resetButton.setPosition(10, 10);
 
-        backgroundScale = 1f * MunhauzenGame.WORLD_WIDTH / tex11.getWidth();
-        float height = tex11.getHeight() * backgroundScale;
-
-        background = new FitImage(tex11);
+        background = new FitImage();
 
         stick = new Stick(tex1);
         spoon = new Spoon(tex2);
@@ -100,9 +99,9 @@ public class PuzzleImageFragment extends Fragment {
 
         backgroundTable = new Table();
         backgroundTable.setFillParent(true);
-        backgroundTable.add(background).center()
-                .width(MunhauzenGame.WORLD_WIDTH)
-                .height(height);
+        backgroundTable.add(background).center();
+
+        setBackground(tex11);
 
         resultGroup = new Group();
 
@@ -213,7 +212,7 @@ public class PuzzleImageFragment extends Fragment {
         public void init() {
             super.init();
 
-            setPositionRelativeToBackground(this, 625, 690);
+            setPositionRelativeToBackground(this, 625, 695);
         }
     }
 
@@ -308,7 +307,7 @@ public class PuzzleImageFragment extends Fragment {
 
             setSizeRelativeToBackground(this, getDrawable());
 
-            setPositionRelativeToBackground(this, 635, 750);
+            setPositionRelativeToBackground(this, 630, 750);
         }
 
     }
@@ -331,5 +330,20 @@ public class PuzzleImageFragment extends Fragment {
                 texture.getMinWidth() * backgroundScale * .6f,
                 texture.getMinHeight() * backgroundScale * .6f
         );
+    }
+
+    public void setBackground(Texture texture) {
+
+        interaction.gameScreen.imageFragment.layer1ImageGroup.setVisible(false);
+        interaction.gameScreen.imageFragment.layer2ImageGroup.setVisible(false);
+
+        background.setDrawable(new SpriteDrawable(new Sprite(texture)));
+
+        backgroundScale = 1f * MunhauzenGame.WORLD_WIDTH / background.getDrawable().getMinWidth();
+        float height = 1f * background.getDrawable().getMinHeight() * backgroundScale;
+
+        backgroundTable.getCell(background)
+                .width(MunhauzenGame.WORLD_WIDTH)
+                .height(height);
     }
 }
