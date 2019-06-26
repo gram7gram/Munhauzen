@@ -85,5 +85,15 @@ public class InteractionService {
             gameScreen.gameLayers.interactionLayer.destroy();
             gameScreen.gameLayers.interactionLayer = null;
         }
+
+        if (gameScreen.gameLayers.storyDecisionsLayer != null) {
+            gameScreen.gameLayers.storyDecisionsLayer.destroy();
+            gameScreen.gameLayers.storyDecisionsLayer = null;
+        }
+
+        if (gameScreen.gameLayers.progressBarLayer != null) {
+            gameScreen.gameLayers.progressBarLayer.destroy();
+            gameScreen.gameLayers.progressBarLayer = null;
+        }
     }
 }

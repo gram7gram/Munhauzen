@@ -1,14 +1,12 @@
 package ua.gram.munhauzen.interaction.generals.fragment;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
-import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.fragment.Fragment;
@@ -130,104 +128,70 @@ public class GeneralsImageFragment extends Fragment {
         GeneralsStory story = interaction.storyManager.generalsStory;
 
         if (story.currentScenario != null) {
-            if ("a2_2_0_interaction".equals(story.currentScenario.scenario.name)) {
-
-                if (story.progress < 76000) {
-
-                    if (!backgroundTable.isVisible()) {
-
-                        Texture back = interaction.assetManager.get("generals/p33_d.jpg", Texture.class);
-
-                        setBackground(back);
-                    }
-
-                } else {
-
-                    items.setVisible(true);
-                    backgroundTable.setVisible(false);
-                }
-
-            }
-
 
             GeneralsStoryImage image = story.currentScenario.currentImage;
             if (image != null && image.isActive) {
-                if (image.internalFile != null) {
-                    switch (image.internalFile) {
-                        case "generals/inter_general_1.jpg":
 
-                            boolean canDrawFumes = true;
+                if (image.withFumes) {
 
-                            if ("a2_2_0_interaction".equals(story.currentScenario.scenario.name)) {
+                    if (story.currentScenario.currentImage.width > 0) {
 
-                            }
+                        if (!fumes.isVisible()) {
 
-                            fireLeft.setVisible(false);
-                            fireRight.setVisible(false);
+                            Log.i(tag, "show fumes");
 
-                            if (canDrawFumes) {
+                            fumes.init(story.currentScenario.currentImage);
 
-                                if (story.currentScenario.currentImage.width > 0) {
+                            fumes.start();
 
-                                    if (!fumes.isVisible()) {
-
-                                        Log.i(tag, "show fumes");
-
-                                        fumes.init(story.currentScenario.currentImage);
-
-                                        fumes.start();
-
-                                        items.addActor(fumes);
-                                    }
-                                }
-                            }
-                            break;
-                        case "generals/inter_general_2.jpg":
-
-                            fumes.setVisible(false);
-
-                            if (!fireLeft.isVisible() || !fireRight.isVisible()) {
-                                Log.i(tag, "show fire");
-
-                                if (!fireLeft.isVisible()) {
-                                    fireLeft.init(story.currentScenario.currentImage);
-
-                                    fireLeft.start();
-
-                                    items.addActor(fireLeft);
-                                }
-
-                                if (!fireRight.isVisible()) {
-                                    fireRight.init(story.currentScenario.currentImage);
-
-                                    fireRight.start();
-
-                                    items.addActor(fireRight);
-                                }
-                            }
-                            break;
+                            root.addActor(fumes);
+                        }
                     }
+                } else {
+                    fumes.setVisible(false);
                 }
+
+                if (image.withFireLeft) {
+
+                    if (story.currentScenario.currentImage.width > 0) {
+
+                        if (!fireLeft.isVisible()) {
+
+                            Log.i(tag, "show fire left");
+
+                            fireLeft.init(story.currentScenario.currentImage);
+
+                            fireLeft.start();
+
+                            root.addActor(fireLeft);
+                        }
+                    }
+                } else {
+                    fireLeft.setVisible(false);
+                }
+
+                if (image.withFireRight) {
+
+                    if (story.currentScenario.currentImage.width > 0) {
+
+                        if (!fireRight.isVisible()) {
+
+                            Log.i(tag, "show fire right");
+
+                            fireRight.init(story.currentScenario.currentImage);
+
+                            fireRight.start();
+
+                            root.addActor(fireRight);
+                        }
+                    }
+                } else {
+                    fireRight.setVisible(false);
+                }
+
+
             }
-
         }
-    }
 
-    public void setBackground(Texture texture) {
-
-        interaction.gameScreen.imageFragment.layer1ImageGroup.setVisible(false);
-        interaction.gameScreen.imageFragment.layer2ImageGroup.setVisible(false);
-
-        items.setVisible(false);
-        backgroundTable.setVisible(true);
-
-        background.setDrawable(new SpriteDrawable(new Sprite(texture)));
-
-        float scale = 1f * MunhauzenGame.WORLD_WIDTH / background.getDrawable().getMinWidth();
-        float height = 1f * background.getDrawable().getMinHeight() * scale;
-
-        backgroundTable.getCell(background)
-                .width(MunhauzenGame.WORLD_WIDTH)
-                .height(height);
     }
 }
