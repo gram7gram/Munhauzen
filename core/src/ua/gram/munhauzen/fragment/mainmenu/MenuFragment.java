@@ -7,6 +7,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.net.HttpRequestBuilder;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -42,8 +43,9 @@ public class MenuFragment extends Fragment {
     private final String tag = getClass().getSimpleName();
     private final MunhauzenGame game;
     private final AssetManager assetManager;
-    public ScrollPane root;
-    TextButton downloadButton, expansionButton, startButton;
+    public Group root;
+    ScrollPane scroll;
+    TextButton downloadButton, expansionButton, startButton, upButton;
     Label progressLbl;
     Table inventoryContainer, scenarioContainer;
     VerticalGroup group;
@@ -54,7 +56,21 @@ public class MenuFragment extends Fragment {
     }
 
     public void create() {
-        startButton = game.buttonBuilder.primary("Начать", new ClickListener() {
+        upButton = game.buttonBuilder.primary("Up", new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                try {
+                    scroll.scrollTo(0, 0, scroll.getScrollWidth(), scroll.getScrollHeight());
+
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
+            }
+        });
+
+        startButton = game.buttonBuilder.primary("Start", new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
@@ -125,10 +141,14 @@ public class MenuFragment extends Fragment {
         group.addActor(container);
         group.addActor(container2);
 
-        root = new ScrollPane(group);
-        root.setFillParent(true);
-        root.setScrollingDisabled(true, false);
-        root.setName(tag);
+        scroll = new ScrollPane(group);
+        scroll.setFillParent(true);
+        scroll.setScrollingDisabled(true, false);
+        scroll.setName(tag);
+
+        root = new Group();
+        root.addActor(scroll);
+        root.addActor(upButton);
     }
 
     private void createInventoryTable() {
@@ -241,6 +261,8 @@ public class MenuFragment extends Fragment {
 
     public void update() {
         startButton.setDisabled(!ExternalFiles.getScenarioFile().exists());
+
+        upButton.setVisible(scroll.getY() > 0);
     }
 
     @Override
