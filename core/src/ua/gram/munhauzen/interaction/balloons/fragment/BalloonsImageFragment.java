@@ -42,7 +42,7 @@ public class BalloonsImageFragment extends Fragment {
     PrimaryButton resetButton;
     Balloon balloon1, balloon2, balloon3, balloon4;
     Label progressLabel;
-    int progress, max = 4, spawnCount, missCount;
+    int progress, max = 1, spawnCount, missCount;
     Timer.Task task;
 
     public BalloonsImageFragment(BalloonsInteraction interaction) {
@@ -52,7 +52,6 @@ public class BalloonsImageFragment extends Fragment {
     public void create() {
 
         Log.i(tag, "create");
-
 
         final Texture backTex = interaction.assetManager.get("balloons/inter_balloons_fond.jpg", Texture.class);
         Texture cloud1Texture = interaction.assetManager.get("LoadingScreen/lv_cloud_1.png", Texture.class);
@@ -220,6 +219,11 @@ public class BalloonsImageFragment extends Fragment {
             }
         });
 
+        balloon1.setVisible(false);
+        balloon2.setVisible(false);
+        balloon3.setVisible(false);
+        balloon4.setVisible(false);
+
         playIntro();
 
         start();
@@ -259,6 +263,8 @@ public class BalloonsImageFragment extends Fragment {
 
             ++spawnCount;
 
+            Log.i(tag, "spawnBalloon " + spawnCount + "/" + max + " " + missCount);
+
             balloon.start(spawnCount == max);
 
             if (spawnCount == max) {
@@ -292,22 +298,22 @@ public class BalloonsImageFragment extends Fragment {
 
         int delay = playWin();
 
-        Timer.instance().scheduleTask(new Timer.Task() {
-            @Override
-            public void run() {
-                try {
-
-                    interaction.gameScreen.interactionService.complete();
-
-                    interaction.gameScreen.interactionService.findStoryAfterInteraction();
-
-                    interaction.gameScreen.restoreProgressBarIfDestroyed();
-
-                } catch (Throwable e) {
-                    Log.e(tag, e);
-                }
-            }
-        }, delay / 1000f);
+//        Timer.instance().scheduleTask(new Timer.Task() {
+//            @Override
+//            public void run() {
+//                try {
+//
+//                    interaction.gameScreen.interactionService.complete();
+//
+//                    interaction.gameScreen.interactionService.findStoryAfterInteraction();
+//
+//                    interaction.gameScreen.restoreProgressBarIfDestroyed();
+//
+//                } catch (Throwable e) {
+//                    Log.e(tag, e);
+//                }
+//            }
+//        }, delay / 1000f);
     }
 
     private void failed() {
