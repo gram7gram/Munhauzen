@@ -65,5 +65,10 @@ public class ChapterInteraction extends AbstractInteraction {
 
         isLoaded = false;
 
+        if (imageFragment != null) {
+            imageFragment.dispose();
+            imageFragment = null;
+        }
+
     }
 }

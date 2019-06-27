@@ -20,39 +20,42 @@ public class InteractionService {
     }
 
     public void update() {
+        try {
+            Story story = gameScreen.getStory();
+            if (story.currentScenario == null) return;
 
-        Story story = gameScreen.getStory();
-        if (story.currentScenario == null) return;
+            String name = story.currentScenario.scenario.interaction;
+            if (name == null) return;
 
-        String name = story.currentScenario.scenario.interaction;
-        if (name == null) return;
+            StoryInteraction interaction = story.currentInteraction;
 
-        StoryInteraction interaction = story.currentInteraction;
+            if (interaction != null) {
 
-        if (interaction != null) {
+                if (interaction.isCompleted) return;
 
-            if (interaction.isCompleted) return;
+                if (interaction.isLocked) {
+                    interaction.interaction.update();
+                    return;
+                }
 
-            if (interaction.isLocked) {
-                interaction.interaction.update();
-                return;
-            } else {
                 destroy();
             }
+
+            interaction = new StoryInteraction();
+            interaction.name = name;
+
+            interaction.interaction = InteractionFactory.create(gameScreen, interaction.name);
+            interaction.isLocked = true;
+            interaction.isCompleted = false;
+
+            Log.i(tag, "create " + interaction.name);
+
+            story.currentInteraction = interaction;
+
+            interaction.interaction.start();
+        } catch (Throwable e) {
+            Log.e(tag, e);
         }
-
-        interaction = new StoryInteraction();
-        interaction.name = name;
-
-        interaction.interaction = InteractionFactory.create(gameScreen, interaction.name);
-        interaction.isLocked = true;
-        interaction.isCompleted = false;
-
-        Log.i(tag, "create " + interaction.name);
-
-        story.currentInteraction = interaction;
-
-        interaction.interaction.start();
     }
 
     public void findStoryAfterInteraction() {
