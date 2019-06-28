@@ -10,7 +10,7 @@ public class ArcToAction extends TemporalAction {
 
     private float startX, startY;
     private float endX, endY;
-    int depth;
+    int offset2, offset1;
 
     static public ArcToAction action(float x, float y, float duration) {
         ArcToAction action = Actions.action(ArcToAction.class);
@@ -24,7 +24,12 @@ public class ArcToAction extends TemporalAction {
     protected void begin() {
         startX = target.getX();
         startY = target.getY();
-        depth = new Random().between(80, 180);
+        Random r = new Random();
+        offset1 = r.between(80, 180);
+        offset2 = r.between(5, 12);
+
+        int seed = r.between(-1, 1);
+        if (seed != 0) offset1 += seed;
     }
 
     @Override
@@ -33,7 +38,7 @@ public class ArcToAction extends TemporalAction {
         float newX = startX + (endX - startX) * percent;
         float newY = startY + (endY - startY) * percent;
 
-        newX = (float) (newX + depth * Math.sin(percent * 10));
+        newX = (float) (newX + offset1 * Math.sin(percent * offset2));
 
         target.setPosition(newX, newY);
     }

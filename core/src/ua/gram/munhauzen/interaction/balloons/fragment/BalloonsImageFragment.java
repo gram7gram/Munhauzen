@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -42,7 +43,8 @@ public class BalloonsImageFragment extends Fragment {
     PrimaryButton resetButton;
     Balloon balloon1, balloon2, balloon3, balloon4;
     Label progressLabel;
-    int progress, max = 1, spawnCount, missCount;
+    Table titleTable;
+    int progress, max = 21, spawnCount, missCount;
     Timer.Task task;
 
     public BalloonsImageFragment(BalloonsInteraction interaction) {
@@ -58,17 +60,17 @@ public class BalloonsImageFragment extends Fragment {
         Texture cloud2Texture = interaction.assetManager.get("LoadingScreen/lv_cloud_2.png", Texture.class);
         Texture cloud3Texture = interaction.assetManager.get("LoadingScreen/lv_cloud_3.png", Texture.class);
         Texture ducksTexture = interaction.assetManager.get("balloons/ducks_sheet_1x5.png", Texture.class);
-        Texture bal1Texture = interaction.assetManager.get("balloons/inter_balloons_1.png", Texture.class);
+        final Texture bal1Texture = interaction.assetManager.get("balloons/inter_balloons_1.png", Texture.class);
         Texture bal2Texture = interaction.assetManager.get("balloons/inter_balloons_2.png", Texture.class);
         Texture bal3Texture = interaction.assetManager.get("balloons/inter_balloons_3.png", Texture.class);
         Texture bal4Texture = interaction.assetManager.get("balloons/inter_balloons_4.png", Texture.class);
 
         DucksAnimation ducks = new DucksAnimation(ducksTexture);
 
-        balloon1 = new Balloon(bal1Texture, 100, 150, 0, -150);
-        balloon2 = new Balloon(bal2Texture, 100, 150, 0, -150);
-        balloon3 = new Balloon(bal3Texture, 100, 150, 0, -150);
-        balloon4 = new Balloon(bal4Texture, 100, 150, 0, -150);
+        balloon1 = new Balloon(bal1Texture, 100, 150);
+        balloon2 = new Balloon(bal2Texture, 100, 150);
+        balloon3 = new Balloon(bal3Texture, 100, 150);
+        balloon4 = new Balloon(bal4Texture, 100, 150);
 
         Cloud cloud1 = new Cloud(cloud1Texture, 200, 100, -100, MunhauzenGame.WORLD_HEIGHT * .9f);
         Cloud cloud2 = new Cloud(cloud2Texture, 200, 100, -200, MunhauzenGame.WORLD_HEIGHT * .8f);
@@ -102,7 +104,15 @@ public class BalloonsImageFragment extends Fragment {
 
                 Log.i(tag, "restart");
 
-                start();
+                resetButton.addAction(Actions.sequence(
+                        Actions.alpha(0, .3f),
+                        Actions.run(new Runnable() {
+                            @Override
+                            public void run() {
+                                start();
+                            }
+                        })
+                ));
             }
         });
         resetButton.setVisible(false);
@@ -111,7 +121,7 @@ public class BalloonsImageFragment extends Fragment {
         backgroundTable.setFillParent(true);
         backgroundTable.add(background).center().expand().fill();
 
-        Table titleTable = new Table();
+        titleTable = new Table();
         titleTable.setFillParent(true);
         titleTable.pad(10);
         titleTable.add(title).top().expand().row();
@@ -138,13 +148,14 @@ public class BalloonsImageFragment extends Fragment {
         Runnable onMiss = new Runnable() {
             @Override
             public void run() {
-                Log.i(tag, "missed");
 
                 ++missCount;
 
+                Log.i(tag, "missed " + missCount + "/" + max);
+
                 playMiss();
 
-                if (missCount > 0 && spawnCount == max) {
+                if (missCount > 0 && spawnCount == max && getActiveBalloons().size() == 4) {
                     failed();
                 }
             }
@@ -250,7 +261,7 @@ public class BalloonsImageFragment extends Fragment {
         }, 1, 1);
     }
 
-    private void spawnBalloon() {
+    private ArrayList<Balloon> getActiveBalloons() {
 
         ArrayList<Balloon> balloons = new ArrayList<>();
         if (!balloon1.isLocked) balloons.add(balloon1);
@@ -258,7 +269,12 @@ public class BalloonsImageFragment extends Fragment {
         if (!balloon3.isLocked) balloons.add(balloon3);
         if (!balloon4.isLocked) balloons.add(balloon4);
 
-        Balloon balloon = MathUtils.random(balloons);
+        return balloons;
+    }
+
+    private void spawnBalloon() {
+
+        Balloon balloon = MathUtils.random(getActiveBalloons());
         if (balloon != null) {
 
             ++spawnCount;
@@ -269,6 +285,8 @@ public class BalloonsImageFragment extends Fragment {
 
             if (spawnCount == max) {
                 stopSpawn();
+
+                playFastBalloon();
             }
         }
     }
@@ -286,34 +304,47 @@ public class BalloonsImageFragment extends Fragment {
         spawnCount = 0;
         missCount = 0;
 
-        balloon1.reset();
-
-        balloon2.reset();
-
-        balloon3.reset();
-
-        balloon4.reset();
-
         stopSpawn();
+
+        titleTable.addAction(Actions.alpha(0, .5f));
 
         int delay = playWin();
 
-//        Timer.instance().scheduleTask(new Timer.Task() {
-//            @Override
-//            public void run() {
-//                try {
-//
-//                    interaction.gameScreen.interactionService.complete();
-//
-//                    interaction.gameScreen.interactionService.findStoryAfterInteraction();
-//
-//                    interaction.gameScreen.restoreProgressBarIfDestroyed();
-//
-//                } catch (Throwable e) {
-//                    Log.e(tag, e);
-//                }
-//            }
-//        }, delay / 1000f);
+        Timer.instance().scheduleTask(new Timer.Task() {
+            @Override
+            public void run() {
+                try {
+
+                    balloon1.reset();
+
+                    balloon2.reset();
+
+                    balloon3.reset();
+
+                    balloon4.reset();
+
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
+            }
+        }, 1);
+
+        Timer.instance().scheduleTask(new Timer.Task() {
+            @Override
+            public void run() {
+                try {
+
+                    interaction.gameScreen.interactionService.complete();
+
+                    interaction.gameScreen.interactionService.findStoryAfterInteraction();
+
+                    interaction.gameScreen.restoreProgressBarIfDestroyed();
+
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
+            }
+        }, delay / 1000f);
     }
 
     private void failed() {
@@ -333,6 +364,10 @@ public class BalloonsImageFragment extends Fragment {
         stopSpawn();
 
         resetButton.setVisible(true);
+        resetButton.addAction(Actions.sequence(
+                Actions.alpha(0),
+                Actions.alpha(1, .3f)
+        ));
     }
 
     private int playWin() {
@@ -358,6 +393,17 @@ public class BalloonsImageFragment extends Fragment {
         try {
             StoryAudio storyAudio = new StoryAudio();
             storyAudio.audio = "sfx_inter_balloons_start";
+
+            interaction.gameScreen.audioService.prepareAndPlay(storyAudio);
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+    }
+
+    private void playFastBalloon() {
+        try {
+            StoryAudio storyAudio = new StoryAudio();
+            storyAudio.audio = "sfx_inter_balloons_21";
 
             interaction.gameScreen.audioService.prepareAndPlay(storyAudio);
         } catch (Throwable e) {

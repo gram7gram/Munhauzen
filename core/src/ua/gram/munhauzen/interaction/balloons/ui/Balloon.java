@@ -23,13 +23,15 @@ public class Balloon extends FitImage {
     Array<Vector2> coordinates;
     Random r;
 
-    public Balloon(Texture texture, int width, int height, float x, float y) {
+    public Balloon(Texture texture, int width, int height) {
         super(texture);
         setOrigin(Align.center);
 
         setSize(width, height);
-        setPosition(0, 0);
+
         r = new Random();
+
+        reset();
     }
 
     public void onHit() {
@@ -51,6 +53,8 @@ public class Balloon extends FitImage {
     public void reset() {
         clearActions();
         setVisible(false);
+        setScale(1);
+        setPosition(-getWidth(), -getHeight());
         isLocked = false;
     }
 
@@ -62,27 +66,39 @@ public class Balloon extends FitImage {
 
         setVisible(true);
 
-        addAction(
-                Actions.sequence(
-                        trajectory(),
+        Runnable onComplete = new Runnable() {
+            @Override
+            public void run() {
+                isLocked = false;
 
-                        Actions.run(new Runnable() {
-                            @Override
-                            public void run() {
-                                isLocked = false;
+                if (onMiss != null) {
+                    addAction(Actions.run(onMiss));
+                }
+            }
+        };
 
-                                if (onMiss != null) {
-                                    addAction(Actions.run(onMiss));
-                                }
-                            }
-                        })
-                )
+        if (isSuperFast) {
+            addAction(Actions.sequence(
+                    Actions.alpha(1),
 
-        );
+                    Actions.delay(new Random().between(3, 10)),
 
+                    trajectory(1.5f),
+
+                    Actions.run(onComplete)
+            ));
+        } else {
+            addAction(Actions.sequence(
+                    Actions.alpha(1),
+
+                    trajectory(3),
+
+                    Actions.run(onComplete)
+            ));
+        }
     }
 
-    private Action trajectory() {
+    private Action trajectory(float duration) {
 
         SequenceAction action = new SequenceAction();
 
@@ -91,7 +107,7 @@ public class Balloon extends FitImage {
         for (int i = 0; i < coordinates.size; i++) {
             Vector2 coordinate = coordinates.get(i);
 
-            action.addAction(ArcToAction.action(coordinate.x, coordinate.y, i == 0 ? 0 : 3));
+            action.addAction(ArcToAction.action(coordinate.x, coordinate.y, i == 0 ? 0 : duration));
         }
 
         return action;
