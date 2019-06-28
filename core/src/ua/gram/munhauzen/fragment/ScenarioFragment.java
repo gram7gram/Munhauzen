@@ -46,6 +46,8 @@ public class ScenarioFragment extends Fragment {
 
     private final String tag = getClass().getSimpleName();
     private final MunhauzenGame game;
+    public final String storyId;
+
     public final GameScreen gameScreen;
     public final AssetManager assetManager;
     private FitImage imgLeft, imgRight, imgTop;
@@ -56,7 +58,8 @@ public class ScenarioFragment extends Fragment {
     private final HashMap<Integer, String> animatedMap = new HashMap<>(7);
     private final float headerSize, buttonSize;
 
-    public ScenarioFragment(GameScreen gameScreen) {
+    public ScenarioFragment(GameScreen gameScreen, String storyId) {
+        this.storyId = storyId;
         this.game = gameScreen.game;
         this.gameScreen = gameScreen;
         assetManager = new AssetManager();
@@ -185,16 +188,19 @@ public class ScenarioFragment extends Fragment {
         table.add(scrollPane).expandY().fillY().top();
 
         decorLeft = new Table();
+        decorLeft.setTouchable(Touchable.disabled);
         decorLeft.add(imgLeft).align(Align.topLeft).expand()
                 .width(MunhauzenGame.WORLD_WIDTH / 3f)
                 .height(MunhauzenGame.WORLD_HEIGHT / 4f);
 
         decorTop = new Table();
+        decorTop.setTouchable(Touchable.disabled);
         decorTop.add(imgTop).align(Align.top).expand()
                 .width(MunhauzenGame.WORLD_WIDTH / 5f)
                 .height(MunhauzenGame.WORLD_HEIGHT / 13f);
 
         decorRight = new Table();
+        decorRight.setTouchable(Touchable.disabled);
         decorRight.add(imgRight).align(Align.topRight).expand()
                 .width(MunhauzenGame.WORLD_WIDTH / 3f)
                 .height(MunhauzenGame.WORLD_HEIGHT / 4f);

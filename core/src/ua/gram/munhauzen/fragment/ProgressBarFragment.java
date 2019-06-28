@@ -818,9 +818,7 @@ public class ProgressBarFragment extends Fragment {
             if (story.isValid()) {
                 if (!isCompletedBefore && story.isCompleted) {
 
-                    boolean isInteractionLocked = story.currentInteraction != null && story.currentInteraction.isLocked;
-
-                    if (!isInteractionLocked && gameScreen.scenarioFragment == null) {
+                    if (canCompleteStory(story)) {
                         gameScreen.storyManager.onCompleted();
                     }
 
@@ -829,5 +827,11 @@ public class ProgressBarFragment extends Fragment {
         } catch (Throwable e) {
             Log.e(tag, e);
         }
+    }
+
+    private boolean canCompleteStory(Story story) {
+        boolean isInteractionLocked = story.currentInteraction != null && story.currentInteraction.isLocked;
+
+        return !isInteractionLocked && (gameScreen.scenarioFragment == null || !gameScreen.scenarioFragment.storyId.equals(story.id));
     }
 }

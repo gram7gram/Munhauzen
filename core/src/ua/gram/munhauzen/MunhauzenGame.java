@@ -32,7 +32,7 @@ public class MunhauzenGame extends Game {
     public static final boolean DEBUG_ZOOM = false;
     public static final boolean DEBUG_RENDER_INFO = true;
     public static final int PROGRESS_BAR_FADE_OUT_DELAY = 5;
-    public static String developmentScenario;// = "aisland_inter";
+    public static String developmentScenario;// = "a12_a";
 
     private final String tag = getClass().getSimpleName();
 
@@ -145,8 +145,10 @@ public class MunhauzenGame extends Game {
 
         assetManager = new AssetManager();
         assetManager.load("p0.jpg", Texture.class);
-        assetManager.load("ui/b_primary_enabled.9.png", Texture.class);
+        assetManager.load("ui/b_primary_enabled.png", Texture.class);
         assetManager.load("ui/b_primary_disabled.png", Texture.class);
+        assetManager.load("ui/b_danger_enabled.png", Texture.class);
+        assetManager.load("ui/b_danger_disabled.png", Texture.class);
     }
 
     private void createCamera() {

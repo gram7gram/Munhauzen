@@ -182,16 +182,19 @@ public class HareScenarioFragment extends Fragment {
         table.add(scrollPane).expandY().fillY().top();
 
         decorLeft = new Table();
+        decorLeft.setTouchable(Touchable.disabled);
         decorLeft.add(imgLeft).align(Align.topLeft).expand()
                 .width(MunhauzenGame.WORLD_WIDTH / 3f)
                 .height(MunhauzenGame.WORLD_HEIGHT / 4f);
 
         decorTop = new Table();
+        decorTop.setTouchable(Touchable.disabled);
         decorTop.add(imgTop).align(Align.top).expand()
                 .width(MunhauzenGame.WORLD_WIDTH / 5f)
                 .height(MunhauzenGame.WORLD_HEIGHT / 13f);
 
         decorRight = new Table();
+        decorRight.setTouchable(Touchable.disabled);
         decorRight.add(imgRight).align(Align.topRight).expand()
                 .width(MunhauzenGame.WORLD_WIDTH / 3f)
                 .height(MunhauzenGame.WORLD_HEIGHT / 4f);

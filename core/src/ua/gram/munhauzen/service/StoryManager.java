@@ -233,7 +233,12 @@ public class StoryManager {
         if (availableDecisions.size() > 0) {
 
             if (gameScreen.scenarioFragment == null) {
-                gameScreen.scenarioFragment = new ScenarioFragment(gameScreen);
+                gameScreen.scenarioFragment = new ScenarioFragment(gameScreen, story.id);
+            } else if (!gameScreen.scenarioFragment.storyId.equals(story.id)) {
+
+                gameScreen.scenarioFragment.destroy();
+
+                gameScreen.scenarioFragment = new ScenarioFragment(gameScreen, story.id);
             }
 
             gameScreen.progressBarFragment.fadeIn();

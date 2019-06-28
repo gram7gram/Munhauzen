@@ -32,7 +32,7 @@ public class ContinueInteraction extends AbstractInteraction {
 
         root = new Group();
 
-        final Button button = gameScreen.game.buttonBuilder.primary("Continue", new ClickListener() {
+        final Button button = gameScreen.game.buttonBuilder.danger("Continue", new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);

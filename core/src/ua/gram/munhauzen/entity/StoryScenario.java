@@ -84,6 +84,11 @@ public class StoryScenario extends StoryMedia<StoryScenario> {
         }
 
         duration = Math.max(imageDuration, audioDuration);
+        if (duration == 0) {
+            if (scenario.interaction != null) {
+                duration = 500;
+            }
+        }
     }
 
     public void update(float progress, int max) {
