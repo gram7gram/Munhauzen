@@ -273,36 +273,40 @@ public class GameScreen implements Screen {
             audioService.update();
         }
 
-        interactionService.update();
+        if (interactionService != null) {
+            interactionService.update();
+        }
 
         Story story = getStory();
+        if (story != null) {
 
-        boolean isInteractionLocked = story.currentInteraction != null && story.currentInteraction.isLocked;
+            boolean isInteractionLocked = story.isInteractionLocked();
 
-        if (!isInteractionLocked && !story.isCompleted) {
+            if (!isInteractionLocked && !story.isCompleted) {
 
-            if (!GameState.isPaused) {
-                storyManager.update(
-                        story.progress + (delta * 1000),
-                        story.totalDuration
-                );
+                if (!GameState.isPaused) {
+                    storyManager.update(
+                            story.progress + (delta * 1000),
+                            story.totalDuration
+                    );
 
-                if (story.isValid()) {
-                    if (story.isCompleted) {
+                    if (story.isValid()) {
+                        if (story.isCompleted) {
 
-                        storyManager.onCompleted();
+                            storyManager.onCompleted();
 
-                    } else {
-                        storyManager.startLoadingResources();
+                        } else {
+                            storyManager.startLoadingResources();
+                        }
                     }
                 }
             }
-        }
 
-        if (progressBarFragment != null) {
-            progressBarFragment.update();
-        } else if (!isInteractionLocked) {
-            restoreProgressBarIfDestroyed();
+            if (progressBarFragment != null) {
+                progressBarFragment.update();
+            } else if (!isInteractionLocked) {
+                restoreProgressBarIfDestroyed();
+            }
         }
 
         if (audioService != null) {
@@ -311,8 +315,10 @@ public class GameScreen implements Screen {
             audioService.updateMusicState();
         }
 
-        ui.act(delta);
-        ui.draw();
+        if (ui != null) {
+            ui.act(delta);
+            ui.draw();
+        }
 
         if (MunhauzenGame.DEBUG_RENDER_INFO)
             drawDebugInfo();

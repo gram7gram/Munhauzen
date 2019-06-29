@@ -17,6 +17,12 @@ public class Story {
         scenarios = new Array<>();
     }
 
+    public boolean isInteractionLocked() {
+        if (currentInteraction == null) return false;
+
+        return currentInteraction.isLocked;
+    }
+
     public boolean isValid() {
 
         if (id == null || scenarios.size == 0) return false;

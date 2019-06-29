@@ -9,6 +9,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.entity.GameState;
+import ua.gram.munhauzen.entity.Story;
+import ua.gram.munhauzen.entity.StoryInteraction;
 import ua.gram.munhauzen.fragment.Fragment;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.utils.Log;
@@ -47,7 +50,12 @@ public class ContinueInteraction extends AbstractInteraction {
                                         @Override
                                         public void run() {
                                             try {
-                                                gameScreen.interactionService.complete();
+
+                                                GameState.isPaused = false;
+
+                                                //Continue interaction is NEVER completed.
+                                                //When scrolling back the interaction should reappear
+                                                gameScreen.interactionService.destroy();
 
                                                 gameScreen.interactionService.findStoryAfterInteraction();
 
@@ -82,8 +90,31 @@ public class ContinueInteraction extends AbstractInteraction {
                 new Fragment(root)
         );
 
+        GameState.isPaused = true;
+
     }
 
+    @Override
+    public void update() {
+        super.update();
+
+        try {
+            Story story = gameScreen.getStory();
+            if (story.currentScenario == null) return;
+
+            String name = story.currentScenario.scenario.interaction;
+            if (name == null) return;
+
+            StoryInteraction interaction = story.currentInteraction;
+
+            if (interaction != null) {
+
+                interaction.isCompleted = false;
+            }
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+    }
 
     public void fadeIn() {
 

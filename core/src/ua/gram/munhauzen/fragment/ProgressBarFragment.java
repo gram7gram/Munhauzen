@@ -165,7 +165,8 @@ public class ProgressBarFragment extends Fragment {
                 try {
                     Log.i(tag, "playButton clicked");
 
-                    GameState.isPaused = false;
+                    if (canUnpause())
+                        GameState.isPaused = false;
 
                     startCurrentMusicIfPaused();
 
@@ -224,16 +225,18 @@ public class ProgressBarFragment extends Fragment {
                     Story story = gameScreen.getStory();
                     if (story.currentScenario == null) return;
 
-                    StoryScenario previous = story.currentScenario.previous;
-                    if (previous == null) {
-                        return;
+                    StoryScenario skipTo;
+                    if (story.currentScenario.previous != null) {
+                        skipTo = story.currentScenario.previous;
+                    } else {
+                        skipTo = story.currentScenario;
                     }
 
-                    Log.i(tag, "skipBackButton to " + previous.scenario.name + " at " + previous.startsAt + " ms");
+                    Log.i(tag, "skipBackButton to " + skipTo.scenario.name + " at " + skipTo.startsAt + " ms");
+
+                    story.progress = skipTo.startsAt;
 
                     GameState.isPaused = true;
-
-                    story.progress = previous.startsAt;
 
                     postProgressChanged(story.isCompleted);
                 } catch (Throwable e) {
@@ -246,7 +249,8 @@ public class ProgressBarFragment extends Fragment {
                 super.exit(event, x, y, pointer, toActor);
 
                 try {
-                    GameState.isPaused = false;
+                    if (canUnpause())
+                        GameState.isPaused = false;
 
                     startCurrentMusicIfPaused();
 
@@ -292,7 +296,8 @@ public class ProgressBarFragment extends Fragment {
                 super.exit(event, x, y, pointer, toActor);
 
                 try {
-                    GameState.isPaused = false;
+                    if (canUnpause())
+                        GameState.isPaused = false;
 
                     startCurrentMusicIfPaused();
 
@@ -364,7 +369,8 @@ public class ProgressBarFragment extends Fragment {
                 try {
                     Log.i(tag, "rewindBackButton enter");
 
-                    GameState.isPaused = false;
+                    if (canUnpause())
+                        GameState.isPaused = false;
 
                     progressTask.cancel();
                     progressTask = null;
@@ -422,7 +428,8 @@ public class ProgressBarFragment extends Fragment {
                 try {
                     Log.i(tag, "rewindForwardButton exit");
 
-                    GameState.isPaused = false;
+                    if (canUnpause())
+                        GameState.isPaused = false;
 
                     progressTask.cancel();
                     progressTask = null;
@@ -482,7 +489,8 @@ public class ProgressBarFragment extends Fragment {
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
                 try {
-                    GameState.isPaused = false;
+                    if (canUnpause())
+                        GameState.isPaused = false;
 
                     startCurrentMusicIfPaused();
 
@@ -497,9 +505,18 @@ public class ProgressBarFragment extends Fragment {
                 super.tap(event, x, y, count, button);
 
                 try {
+
+                    Story story = gameScreen.getStory();
+
+                    float currentPercent = story.progress / story.totalDuration;
+
                     float totalLength = Math.max(1, bar.getWidth());
 
                     float percent = x / totalLength;
+
+                    if (story.isInteractionLocked()) {
+                        if (percent > currentPercent) return;
+                    }
 
                     GameState.isPaused = true;
 
@@ -514,9 +531,17 @@ public class ProgressBarFragment extends Fragment {
                 super.pan(event, x, y, deltaX, deltaY);
 
                 try {
+                    Story story = gameScreen.getStory();
+
+                    float currentPercent = story.progress / story.totalDuration;
+
                     float totalLength = Math.max(1, bar.getWidth());
 
                     float percent = x / totalLength;
+
+                    if (story.isInteractionLocked()) {
+                        if (percent > currentPercent) return;
+                    }
 
                     GameState.isPaused = true;
 
@@ -556,17 +581,17 @@ public class ProgressBarFragment extends Fragment {
         boolean hasPrevious = false, hasNext = false;
 
         if (story.currentScenario != null) {
-            hasPrevious = story.currentScenario.previous != null;
+            hasPrevious = true;
             hasNext = story.currentScenario.next != null;
         }
 
         pauseButton.setVisible(!GameState.isPaused);
         playButton.setVisible(GameState.isPaused);
 
-        skipForwardButton.setDisabled(story.isCompleted || !hasNext);
-        rewindForwardButton.setDisabled(story.isCompleted);
-
+        skipForwardButton.setDisabled(story.isCompleted || !hasNext || story.isInteractionLocked());
         skipForwardButton.setTouchable(skipForwardButton.isDisabled() ? Touchable.disabled : Touchable.enabled);
+
+        rewindForwardButton.setDisabled(story.isCompleted || story.isInteractionLocked());
         rewindForwardButton.setTouchable(rewindForwardButton.isDisabled() ? Touchable.disabled : Touchable.enabled);
 
         skipBackButton.setDisabled(story.progress == 0 || !hasPrevious);
@@ -816,6 +841,7 @@ public class ProgressBarFragment extends Fragment {
             gameScreen.interactionService.update();
 
             if (story.isValid()) {
+
                 if (!isCompletedBefore && story.isCompleted) {
 
                     if (canCompleteStory(story)) {
@@ -833,5 +859,9 @@ public class ProgressBarFragment extends Fragment {
         boolean isInteractionLocked = story.currentInteraction != null && story.currentInteraction.isLocked;
 
         return !isInteractionLocked && (gameScreen.scenarioFragment == null || !gameScreen.scenarioFragment.storyId.equals(story.id));
+    }
+
+    private boolean canUnpause() {
+        return !gameScreen.getStory().isInteractionLocked();
     }
 }

@@ -52,6 +52,8 @@ public class InteractionService {
 
             story.currentInteraction = interaction;
 
+            story.progress = story.currentScenario.finishesAt;
+
             interaction.interaction.start();
         } catch (Throwable e) {
             Log.e(tag, e);

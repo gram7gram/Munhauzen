@@ -245,6 +245,7 @@ public class StoryManager {
 
             gameScreen.scenarioFragment.create(availableDecisions);
 
+            gameScreen.gameLayers.setInteractionLayer(null);
             gameScreen.gameLayers.setStoryDecisionsLayer(
                     gameScreen.scenarioFragment
             );
