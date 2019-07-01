@@ -96,6 +96,8 @@ public class GeneralsScenarioFragment extends Fragment {
 
         Log.i(tag, "create x" + decisions.size());
 
+        interaction.showProgressBar();
+
 //        assetManager.load("sfx/sfx_decision.mp3", Sound.class);
         assetManager.load("GameScreen/an_cannons_main.png", Texture.class);
         assetManager.load("GameScreen/b_star_game.png", Texture.class);

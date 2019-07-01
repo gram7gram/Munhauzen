@@ -25,16 +25,20 @@
     ],
     "decisions": [
       {
-        "scenario": "a2_2_b"
+        "scenario": "a2_2_b",
+        "order": 2
       },
       {
-        "scenario": "a2_2_c"
+        "scenario": "a2_2_c",
+        "order": 3
       },
       {
-        "scenario": "a2_2_d"
+        "scenario": "a2_2_d",
+        "order": 4
       },
       {
-        "scenario": "a2_2_a"
+        "scenario": "a2_2_a",
+        "order": 1
       }
     ],
     "translations": [
@@ -51,16 +55,20 @@
     "images": [],
     "decisions": [
       {
-        "scenario": "a2_2_b"
+        "scenario": "a2_2_b",
+        "order": 2
       },
       {
-        "scenario": "a2_2_c"
+        "scenario": "a2_2_c",
+        "order": 3
       },
       {
-        "scenario": "a2_2_d"
+        "scenario": "a2_2_d",
+        "order": 4
       },
       {
-        "scenario": "a2_2_a"
+        "scenario": "a2_2_a",
+        "order": 1
       }
     ],
     "translations": []

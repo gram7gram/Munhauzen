@@ -516,7 +516,7 @@ public class HareProgressBarFragment extends Fragment {
     }
 
     public boolean canFadeOut() {
-        return isMounted() && root.isVisible() && !isFadeOut;
+        return isMounted() && root.isVisible() && !isFadeOut && interaction.scenarioFragment == null;
     }
 
     public void fadeOut(Runnable task) {

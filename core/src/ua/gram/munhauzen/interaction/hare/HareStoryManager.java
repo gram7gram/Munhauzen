@@ -3,6 +3,8 @@ package ua.gram.munhauzen.interaction.hare;
 import com.badlogic.gdx.utils.Timer;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Set;
 
 import ua.gram.munhauzen.entity.Decision;
@@ -172,6 +174,17 @@ public class HareStoryManager {
         }
 
         if (availableDecisions.size() > 0) {
+
+            Collections.sort(availableDecisions, new Comparator<Decision>() {
+                @Override
+                public int compare(Decision a, Decision b) {
+                    if (a.order > b.order) return 1;
+
+                    if (a.order < b.order) return -1;
+
+                    return 0;
+                }
+            });
 
             if (interaction.scenarioFragment == null) {
                 interaction.scenarioFragment = new HareScenarioFragment(gameScreen, interaction);

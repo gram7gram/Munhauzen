@@ -27,6 +27,7 @@ import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.entity.StoryScenario;
+import ua.gram.munhauzen.interaction.ContinueInteraction;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.utils.Log;
@@ -206,21 +207,9 @@ public class ProgressBarFragment extends Fragment {
 
                     cancelFadeOut();
 
-                    if (gameScreen.scenarioFragment != null) {
-                        gameScreen.scenarioFragment.fadeOut(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    if (gameScreen.scenarioFragment != null) {
-                                        gameScreen.scenarioFragment.destroy();
-                                        gameScreen.scenarioFragment = null;
-                                    }
-                                } catch (Throwable e) {
-                                    Log.e(tag, e);
-                                }
-                            }
-                        });
-                    }
+                    destroyContinueInteraction();
+
+                    gameScreen.hideAndDestroyScenarioFragment();
 
                     Story story = gameScreen.getStory();
                     if (story.currentScenario == null) return;
@@ -274,16 +263,13 @@ public class ProgressBarFragment extends Fragment {
                     Story story = gameScreen.getStory();
                     if (story.currentScenario == null) return;
 
-                    StoryScenario next = story.currentScenario.next;
-                    if (next == null) {
-                        return;
-                    }
-
-                    Log.i(tag, "skipForwardButton to " + next.scenario.name + " at " + next.startsAt + " ms");
-
                     GameState.isPaused = true;
 
-                    story.progress = next.startsAt;
+                    if (story.currentScenario.next != null) {
+                        story.progress = story.currentScenario.next.startsAt;
+                    } else {
+                        story.progress = story.currentScenario.finishesAt;
+                    }
 
                     postProgressChanged(story.isCompleted);
                 } catch (Throwable e) {
@@ -321,23 +307,11 @@ public class ProgressBarFragment extends Fragment {
 
                     cancelFadeOut();
 
+                    destroyContinueInteraction();
+
                     gameScreen.audioService.stop();
 
-                    if (gameScreen.scenarioFragment != null) {
-                        gameScreen.scenarioFragment.fadeOut(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    if (gameScreen.scenarioFragment != null) {
-                                        gameScreen.scenarioFragment.destroy();
-                                        gameScreen.scenarioFragment = null;
-                                    }
-                                } catch (Throwable e) {
-                                    Log.e(tag, e);
-                                }
-                            }
-                        });
-                    }
+                    gameScreen.hideAndDestroyScenarioFragment();
 
                     progressTask = Timer.schedule(new Timer.Task() {
                         @Override
@@ -455,22 +429,10 @@ public class ProgressBarFragment extends Fragment {
 
                     postProgressChanged(story.isCompleted);
 
+                    destroyContinueInteraction();
+
                     if (!story.isCompleted) {
-                        if (gameScreen.scenarioFragment != null) {
-                            gameScreen.scenarioFragment.fadeOut(new Runnable() {
-                                @Override
-                                public void run() {
-                                    try {
-                                        if (gameScreen.scenarioFragment != null) {
-                                            gameScreen.scenarioFragment.destroy();
-                                            gameScreen.scenarioFragment = null;
-                                        }
-                                    } catch (Throwable e) {
-                                        Log.e(tag, e);
-                                    }
-                                }
-                            });
-                        }
+                        gameScreen.hideAndDestroyScenarioFragment();
                     }
 
                 } catch (Throwable e) {
@@ -582,7 +544,7 @@ public class ProgressBarFragment extends Fragment {
 
         if (story.currentScenario != null) {
             hasPrevious = true;
-            hasNext = story.currentScenario.next != null;
+            hasNext = true;
         }
 
         pauseButton.setVisible(!GameState.isPaused);
@@ -602,6 +564,18 @@ public class ProgressBarFragment extends Fragment {
 
         bar.setRange(0, Math.max(10, story.totalDuration));
         bar.setValue(story.progress);
+    }
+
+    public void destroyContinueInteraction() {
+        Story story = gameScreen.getStory();
+
+        if (story.currentInteraction != null) {
+            if (story.currentInteraction.interaction instanceof ContinueInteraction) {
+                gameScreen.interactionService.destroy();
+
+                gameScreen.restoreProgressBarIfDestroyed();
+            }
+        }
     }
 
     public void startCurrentMusicIfPaused() {
@@ -695,7 +669,7 @@ public class ProgressBarFragment extends Fragment {
     }
 
     public boolean canFadeOut() {
-        return isMounted() && root.isVisible() && !isFadeOut;
+        return isMounted() && root.isVisible() && !isFadeOut && gameScreen.scenarioFragment == null;
     }
 
     public void fadeOut(Runnable task) {
@@ -735,7 +709,15 @@ public class ProgressBarFragment extends Fragment {
         fadeOutTask = Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
-                fadeOut();
+                try {
+                    if (canFadeOut()) {
+                        fadeOut();
+                    }
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+
+                    cancelFadeOut();
+                }
             }
         }, MunhauzenGame.PROGRESS_BAR_FADE_OUT_DELAY);
     }

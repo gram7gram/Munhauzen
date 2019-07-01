@@ -138,4 +138,10 @@ public class GeneralsInteraction extends AbstractInteraction {
             Log.e(tag, e);
         }
     }
+
+    public void showProgressBar() {
+        if (progressBarFragment != null) {
+            progressBarFragment.fadeIn();
+        }
+    }
 }

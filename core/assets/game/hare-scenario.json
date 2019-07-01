@@ -10,16 +10,20 @@
     ],
     "decisions": [
       {
-        "scenario": "a18_a"
+        "scenario": "a18_a",
+        "order": 1
       },
       {
-        "scenario": "a18_b"
+        "scenario": "a18_b",
+        "order": 2
       },
       {
-        "scenario": "a18_c"
+        "scenario": "a18_c",
+        "order": 3
       },
       {
-        "scenario": "a18_d"
+        "scenario": "a18_d",
+        "order": 4
       }
     ],
     "translations": [

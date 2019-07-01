@@ -14,7 +14,7 @@ public class InteractionFactory {
     public final static String GENERAL = "GENERAL";
     public final static String PUZZLE = "PUZZLE";
     public final static String CHAPTER = "CHAPTER";
-    public final static String STICK = "STICK";
+    public final static String RANDOM = "RANDOM";
     public final static String BALLOONS = "BALLOONS";
     public final static String SWAMP = "SWAMP";
 
@@ -37,11 +37,11 @@ public class InteractionFactory {
                 return new SwampInteraction(gameScreen);
         }
 
-        if (type.indexOf(STICK) == 0) {
-            String[] scenarios = type.replace(STICK, "").replace("(", "").replace(")", "")
+        if (type.indexOf(RANDOM) == 0) {
+            String[] scenarios = type.replace(RANDOM, "").replace("(", "").replace(")", "")
                     .toLowerCase().split(",");
 
-            return new StickInteraction(gameScreen, scenarios[0], scenarios[1]);
+            return new RandomInteraction(gameScreen, scenarios[0], scenarios[1]);
         }
 
         throw new GdxRuntimeException("No such interaction " + type);

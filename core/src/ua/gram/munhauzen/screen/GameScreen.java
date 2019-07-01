@@ -157,23 +157,30 @@ public class GameScreen implements Screen {
                     Log.i(tag, "ui clicked");
 
                     if (progressBarFragment != null) {
+                        if (progressBarFragment.isDisposed) {
+                            progressBarFragment.destroy();
+                            progressBarFragment = null;
+                        }
+                    }
+
+                    if (progressBarFragment != null) {
                         if (!progressBarFragment.getRoot().isVisible()) {
                             if (!progressBarFragment.isFadeIn) {
                                 progressBarFragment.fadeIn();
                                 progressBarFragment.scheduleFadeOut();
                             }
                         } else {
-                            if (!progressBarFragment.isFadeOut) {
+                            if (progressBarFragment.canFadeOut()) {
                                 progressBarFragment.fadeOut();
                             }
                         }
                     }
 
-                    StoryInteraction interaction = getStory().currentInteraction;
+                    StoryInteraction storyInteraction = getStory().currentInteraction;
 
-                    if (interaction != null) {
-                        if (interaction.interaction instanceof ContinueInteraction) {
-                            ContinueInteraction continueInteraction = (ContinueInteraction) interaction.interaction;
+                    if (storyInteraction != null) {
+                        if (storyInteraction.interaction instanceof ContinueInteraction) {
+                            ContinueInteraction continueInteraction = (ContinueInteraction) storyInteraction.interaction;
 
                             if (continueInteraction.root != null) {
                                 if (!continueInteraction.root.isVisible()) {
@@ -188,8 +195,8 @@ public class GameScreen implements Screen {
                             }
                         }
 
-                        if (interaction.interaction instanceof HareInteraction) {
-                            HareProgressBarFragment barFragment = ((HareInteraction) interaction.interaction).progressBarFragment;
+                        if (storyInteraction.interaction instanceof HareInteraction) {
+                            HareProgressBarFragment barFragment = ((HareInteraction) storyInteraction.interaction).progressBarFragment;
 
                             if (barFragment != null) {
                                 if (!barFragment.getRoot().isVisible()) {
@@ -205,8 +212,8 @@ public class GameScreen implements Screen {
                             }
                         }
 
-                        if (interaction.interaction instanceof GeneralsInteraction) {
-                            GeneralsProgressBarFragment barFragment = ((GeneralsInteraction) interaction.interaction).progressBarFragment;
+                        if (storyInteraction.interaction instanceof GeneralsInteraction) {
+                            GeneralsProgressBarFragment barFragment = ((GeneralsInteraction) storyInteraction.interaction).progressBarFragment;
 
                             if (barFragment != null) {
                                 if (!barFragment.getRoot().isVisible()) {
@@ -223,7 +230,7 @@ public class GameScreen implements Screen {
                         }
                     }
 
-                    if (interaction == null && progressBarFragment == null) {
+                    if ((storyInteraction == null || storyInteraction.interaction instanceof ContinueInteraction) && progressBarFragment == null) {
                         restoreProgressBarIfDestroyed();
                     }
 
@@ -472,6 +479,12 @@ public class GameScreen implements Screen {
         gameLayers.setProgressBarLayer(progressBarFragment);
     }
 
+    public void showProgressBar() {
+        if (progressBarFragment != null) {
+            progressBarFragment.fadeIn();
+        }
+    }
+
     public void hideAndDestroyProgressBar() {
         if (progressBarFragment != null) {
 
@@ -498,6 +511,24 @@ public class GameScreen implements Screen {
                     Log.e(tag, e);
                 }
             }
+        }
+    }
+
+    public void hideAndDestroyScenarioFragment() {
+        if (scenarioFragment != null) {
+            scenarioFragment.fadeOut(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        if (scenarioFragment != null) {
+                            scenarioFragment.destroy();
+                            scenarioFragment = null;
+                        }
+                    } catch (Throwable e) {
+                        Log.e(tag, e);
+                    }
+                }
+            });
         }
     }
 }

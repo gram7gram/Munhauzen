@@ -131,4 +131,10 @@ public class HareInteraction extends AbstractInteraction {
 
         isLoaded = false;
     }
+
+    public void showProgressBar() {
+        if (progressBarFragment != null) {
+            progressBarFragment.fadeIn();
+        }
+    }
 }

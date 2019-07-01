@@ -6,6 +6,8 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.Timer;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Set;
 
 import ua.gram.munhauzen.entity.Audio;
@@ -232,8 +234,21 @@ public class StoryManager {
 
         if (availableDecisions.size() > 0) {
 
+            Collections.sort(availableDecisions, new Comparator<Decision>() {
+                @Override
+                public int compare(Decision a, Decision b) {
+                    if (a.order > b.order) return 1;
+
+                    if (a.order < b.order) return -1;
+
+                    return 0;
+                }
+            });
+
             if (gameScreen.scenarioFragment == null) {
+
                 gameScreen.scenarioFragment = new ScenarioFragment(gameScreen, story.id);
+
             } else if (!gameScreen.scenarioFragment.storyId.equals(story.id)) {
 
                 gameScreen.scenarioFragment.destroy();

@@ -8,11 +8,11 @@ import ua.gram.munhauzen.utils.Random;
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class StickInteraction extends AbstractInteraction {
+public class RandomInteraction extends AbstractInteraction {
 
     public String scenario1, scenario2;
 
-    public StickInteraction(GameScreen gameScreen, String scenario1, String scenario2) {
+    public RandomInteraction(GameScreen gameScreen, String scenario1, String scenario2) {
         super(gameScreen);
         this.scenario1 = scenario1;
         this.scenario2 = scenario2;

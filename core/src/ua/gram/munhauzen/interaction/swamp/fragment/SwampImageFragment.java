@@ -241,10 +241,8 @@ public class SwampImageFragment extends Fragment {
         munhauzen.addAction(Actions.sequence(
                 Actions.alpha(0),
                 Actions.delay(.5f),
-                Actions.moveTo((MunhauzenGame.WORLD_WIDTH - width) / 2f, -height * .3f),
-                Actions.parallel(
-                        Actions.alpha(1, .3f)
-                )
+                Actions.moveTo(.7f * (MunhauzenGame.WORLD_WIDTH - width) / 2f, -height * .3f),
+                Actions.alpha(1, .2f)
         ));
     }
 
