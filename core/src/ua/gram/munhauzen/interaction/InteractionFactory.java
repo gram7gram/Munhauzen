@@ -16,6 +16,7 @@ public class InteractionFactory {
     public final static String CHAPTER = "CHAPTER";
     public final static String STICK = "STICK";
     public final static String BALLOONS = "BALLOONS";
+    public final static String SWAMP = "SWAMP";
 
     public static AbstractInteraction create(GameScreen gameScreen, String type) {
 
@@ -32,6 +33,8 @@ public class InteractionFactory {
                 return new ChapterInteraction(gameScreen);
             case BALLOONS:
                 return new BalloonsInteraction(gameScreen);
+            case SWAMP:
+                return new SwampInteraction(gameScreen);
         }
 
         if (type.indexOf(STICK) == 0) {
