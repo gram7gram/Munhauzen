@@ -27,8 +27,10 @@ import ua.gram.munhauzen.fragment.ScenarioFragment;
 import ua.gram.munhauzen.interaction.ContinueInteraction;
 import ua.gram.munhauzen.interaction.GeneralsInteraction;
 import ua.gram.munhauzen.interaction.HareInteraction;
+import ua.gram.munhauzen.interaction.TimerInteraction;
 import ua.gram.munhauzen.interaction.generals.fragment.GeneralsProgressBarFragment;
 import ua.gram.munhauzen.interaction.hare.fragment.HareProgressBarFragment;
+import ua.gram.munhauzen.interaction.timer.fragment.TimerProgressBarFragment;
 import ua.gram.munhauzen.service.AudioService;
 import ua.gram.munhauzen.service.ExternalImageService;
 import ua.gram.munhauzen.service.InteractionService;
@@ -214,6 +216,23 @@ public class GameScreen implements Screen {
 
                         if (storyInteraction.interaction instanceof GeneralsInteraction) {
                             GeneralsProgressBarFragment barFragment = ((GeneralsInteraction) storyInteraction.interaction).progressBarFragment;
+
+                            if (barFragment != null) {
+                                if (!barFragment.getRoot().isVisible()) {
+                                    if (!barFragment.isFadeIn) {
+                                        barFragment.fadeIn();
+                                        barFragment.scheduleFadeOut();
+                                    }
+                                } else {
+                                    if (!barFragment.isFadeOut) {
+                                        barFragment.fadeOut();
+                                    }
+                                }
+                            }
+                        }
+
+                        if (storyInteraction.interaction instanceof TimerInteraction) {
+                            TimerProgressBarFragment barFragment = ((TimerInteraction) storyInteraction.interaction).progressBarFragment;
 
                             if (barFragment != null) {
                                 if (!barFragment.getRoot().isVisible()) {

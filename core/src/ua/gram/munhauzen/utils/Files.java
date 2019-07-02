@@ -37,6 +37,10 @@ public class Files {
         return getInternal("game/generals-scenario.json");
     }
 
+    public static FileHandle getTimerScenarioFile() {
+        return getInternal("game/timer-scenario.json");
+    }
+
     public static FileHandle getScenarioFile() {
         return getInternal("game/scenario.json");
     }

@@ -17,6 +17,7 @@ public class InteractionFactory {
     public final static String RANDOM = "RANDOM";
     public final static String BALLOONS = "BALLOONS";
     public final static String SWAMP = "SWAMP";
+    public final static String TIMER = "TIMER";
 
     public static AbstractInteraction create(GameScreen gameScreen, String type) {
 
@@ -35,6 +36,13 @@ public class InteractionFactory {
                 return new BalloonsInteraction(gameScreen);
             case SWAMP:
                 return new SwampInteraction(gameScreen);
+        }
+
+        if (type.indexOf(TIMER) == 0) {
+            String[] params = type.replace(TIMER, "").replace("(", "").replace(")", "")
+                    .toLowerCase().split(",");
+
+            return new TimerInteraction(gameScreen, params[0], Float.parseFloat(params[1]));
         }
 
         if (type.indexOf(RANDOM) == 0) {

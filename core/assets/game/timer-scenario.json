@@ -1,0 +1,176 @@
+[
+  {
+    "isBegin": true,
+    "name": "a32_0_interaction",
+    "action": "CLICK",
+    "audio": [
+      {
+        "audio": "s32_0"
+      }
+    ],
+    "images": [
+      {
+        "image": "p1_2",
+        "duration": 140000
+      },
+      {
+        "image": "p1_1",
+        "duration": 140000
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "a32_a",
+        "order": 1
+      },
+      {
+        "scenario": "a32_b",
+        "order": 2
+      },
+      {
+        "scenario": "a32_c",
+        "order": 3
+      },
+      {
+        "scenario": "a32_d",
+        "order": 4
+      },
+      {
+        "scenario": "a32_e",
+        "order": 5
+      }
+    ]
+  },
+  {
+    "name": "a32_0_interaction_proxy",
+    "action": "CLICK",
+    "decisions": [
+      {
+        "scenario": "a32_a",
+        "order": 1
+      },
+      {
+        "scenario": "a32_b",
+        "order": 2
+      },
+      {
+        "scenario": "a32_c",
+        "order": 3
+      },
+      {
+        "scenario": "a32_d",
+        "order": 4
+      },
+      {
+        "scenario": "a32_e",
+        "order": 5
+      }
+    ]
+  },
+  {
+    "isExit": true,
+    "name": "a32_a",
+    "audio": [
+      {
+        "audio": "s32_a"
+      }
+    ],
+    "images": [
+      {
+        "image": "Last",
+        "duration": 3000
+      },
+      {
+        "image": "p1_d",
+        "duration": 3000
+      }
+    ],
+    "decisions": [],
+    "translations": [
+      {
+        "locale": "en",
+        "text": "Jumped with a carriage over a hedge"
+      }
+    ]
+  },
+  {
+    "name": "a32_b",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "s32_b"
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "a32_0_interaction_proxy"
+      }
+    ],
+    "translations": [
+      {
+        "locale": "en",
+        "text": "Blew the horn yourself"
+      }
+    ]
+  },
+  {
+    "name": "a32_c",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "s32_c"
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "a32_0_interaction_proxy"
+      }
+    ],
+    "translations": [
+      {
+        "locale": "en",
+        "text": "Back! Back! Back!"
+      }
+    ]
+  },
+  {
+    "name": "a32_d",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "s32_d"
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "a32_0_interaction_proxy"
+      }
+    ],
+    "translations": [
+      {
+        "locale": "en",
+        "text": "Blocked the road and opened the carriage door"
+      }
+    ]
+  },
+  {
+    "name": "a32_e",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "s32_e"
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "a32_0_interaction_proxy"
+      }
+    ],
+    "translations": [
+      {
+        "locale": "en",
+        "text": "Very badly whipped the horses!"
+      }
+    ]
+  }
+]

@@ -24,6 +24,7 @@ import ua.gram.munhauzen.history.History;
 import ua.gram.munhauzen.interaction.generals.GeneralsScenario;
 import ua.gram.munhauzen.interaction.generals.GeneralsStoryImage;
 import ua.gram.munhauzen.interaction.hare.HareScenario;
+import ua.gram.munhauzen.interaction.timer.TimerScenario;
 import ua.gram.munhauzen.utils.ExternalFiles;
 import ua.gram.munhauzen.utils.Files;
 import ua.gram.munhauzen.utils.Log;
@@ -175,6 +176,18 @@ public class DatabaseManager {
         }
 
         return history;
+    }
+
+    @SuppressWarnings("unchecked")
+    public Array<TimerScenario> loadTimerScenario() {
+        Json json = new Json(JsonWriter.OutputType.json);
+        json.setIgnoreUnknownFields(true);
+        json.setElementType(Scenario.class, "decisions", Decision.class);
+        json.setElementType(Scenario.class, "images", StoryImage.class);
+        json.setElementType(Scenario.class, "audio", StoryAudio.class);
+        json.setElementType(Scenario.class, "translations", ScenarioTranslation.class);
+
+        return json.fromJson(Array.class, TimerScenario.class, Files.getTimerScenarioFile());
     }
 
     @SuppressWarnings("unchecked")
