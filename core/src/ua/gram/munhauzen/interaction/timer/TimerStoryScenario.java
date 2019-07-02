@@ -66,8 +66,8 @@ public class TimerStoryScenario extends StoryMedia<TimerStoryScenario> {
         for (int i = 0; i < size; i++) {
             StoryAudio current = scenario.audio.get(i);
 
-            Audio audio = AudioRepository.find(gameState, current.audio);
-            current.duration = audio.duration;
+            //Audio audio = AudioRepository.find(gameState, current.audio);
+            current.duration = 180000;// audio.duration;
 
             current.isLocked = false;
             current.isCompleted = false;

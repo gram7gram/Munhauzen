@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -31,10 +32,15 @@ import ua.gram.munhauzen.animation.CannonLetterAnimation;
 import ua.gram.munhauzen.entity.Decision;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.ScenarioTranslation;
+import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.fragment.Fragment;
 import ua.gram.munhauzen.interaction.TimerInteraction;
 import ua.gram.munhauzen.interaction.timer.TimerScenario;
 import ua.gram.munhauzen.interaction.timer.TimerStory;
+import ua.gram.munhauzen.interaction.timer.animation.Bar;
+import ua.gram.munhauzen.interaction.timer.animation.Bomb;
+import ua.gram.munhauzen.interaction.timer.animation.BoomAnimation;
+import ua.gram.munhauzen.interaction.timer.animation.SparkAnimation;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.ui.WrapLabel;
@@ -53,10 +59,14 @@ public class TimerScenarioFragment extends Fragment {
     private FitImage imgLeft, imgRight, imgTop;
     private Table decorLeft, decorRight, decorTop;
     public Stack root;
+    public Group timerGroup;
     private final ArrayList<Actor> buttonList;
     private final HashMap<Integer, String> map = new HashMap<>(7);
     private final HashMap<Integer, String> animatedMap = new HashMap<>(7);
     private final float headerSize, buttonSize;
+    SparkAnimation spark;
+    Bomb bomb;
+    Bar bar;
 
     public TimerScenarioFragment(GameScreen gameScreen, TimerInteraction interaction) {
         this.game = gameScreen.game;
@@ -73,11 +83,13 @@ public class TimerScenarioFragment extends Fragment {
         animatedMap.put(1, "GameScreen/an_letter_sheet_B.png");
         animatedMap.put(2, "GameScreen/an_letter_sheet_C.png");
         animatedMap.put(3, "GameScreen/an_letter_sheet_D.png");
+        animatedMap.put(4, "GameScreen/an_letter_sheet_E.png");
 
         map.put(0, "GameScreen/an_letter_A_main.png");
         map.put(1, "GameScreen/an_letter_B_main.png");
         map.put(2, "GameScreen/an_letter_C_main.png");
         map.put(3, "GameScreen/an_letter_D_main.png");
+        map.put(4, "GameScreen/an_letter_E_main.png");
     }
 
     @Override
@@ -90,6 +102,93 @@ public class TimerScenarioFragment extends Fragment {
         super.dispose();
         assetManager.dispose();
         buttonList.clear();
+    }
+
+    public void createTimer() {
+
+        bomb = new Bomb(interaction.assetManager.get("timer/inter_bomb.png", Texture.class));
+        spark = new SparkAnimation(interaction.assetManager.get("timer/an_timer_sheet_1x8.png", Texture.class), bomb, bomb.getWidth(), interaction.burnDuration);
+        bar = new Bar(bomb, spark);
+
+        timerGroup = new Group();
+        timerGroup.setTouchable(Touchable.disabled);
+        timerGroup.addActor(bar);
+        timerGroup.addActor(spark);
+        timerGroup.addActor(bomb);
+
+        spark.start(new Runnable() {
+            @Override
+            public void run() {
+                failed();
+            }
+        });
+    }
+
+    public void failed() {
+
+        Log.i(tag, "failed");
+
+        try {
+
+            root.setTouchable(Touchable.disabled);
+
+            spark.reset();
+
+            bomb.setVisible(false);
+            spark.setVisible(false);
+            bar.setVisible(false);
+
+            BoomAnimation boom = new BoomAnimation(interaction.assetManager.get("timer/an_bam_sheet_1x7.png", Texture.class), bomb, bomb.getWidth());
+
+            timerGroup.addActor(boom);
+
+            boom.start();
+
+            for (Actor button : buttonList) {
+
+                button.setTouchable(Touchable.disabled);
+
+                button.addAction(Actions.fadeOut(.5f));
+            }
+
+            float delay = playFailure();
+
+            Timer.instance().scheduleTask(new Timer.Task() {
+                @Override
+                public void run() {
+                    try {
+
+                        interaction.gameScreen.interactionService.complete();
+
+                        interaction.gameScreen.interactionService.findStoryAfterInteraction();
+
+                        interaction.gameScreen.restoreProgressBarIfDestroyed();
+
+                    } catch (Throwable e) {
+                        Log.e(tag, e);
+                    }
+                }
+            }, delay / 1000f);
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+    }
+
+    private float playFailure() {
+        try {
+            StoryAudio storyAudio = new StoryAudio();
+            storyAudio.audio = interaction.burnAudio;
+
+            interaction.gameScreen.audioService.prepareAndPlay(storyAudio);
+
+            return storyAudio.duration;
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+
+        return 1000;
     }
 
     public void create(ArrayList<Decision> decisions) {
@@ -201,8 +300,11 @@ public class TimerScenarioFragment extends Fragment {
                 .width(MunhauzenGame.WORLD_WIDTH / 3f)
                 .height(MunhauzenGame.WORLD_HEIGHT / 4f);
 
+        createTimer();
+
         root = new Stack();
         root.add(table);
+        root.add(timerGroup);
         root.add(decorLeft);
         root.add(decorTop);
         root.add(decorRight);
@@ -217,6 +319,8 @@ public class TimerScenarioFragment extends Fragment {
     private void makeDecision(final int currentIndex, Decision decision) {
         try {
             Log.i(tag, "makeDecision " + decision.scenario);
+
+            spark.reset();
 
 //            Sound sfx = assetManager.get("sfx/sfx_decision.mp3", Sound.class);
 //            sfx.play();

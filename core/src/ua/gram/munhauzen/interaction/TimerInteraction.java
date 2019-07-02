@@ -48,10 +48,8 @@ public class TimerInteraction extends AbstractInteraction {
         storyManager = new TimerStoryManager(gameScreen, this);
 
         assetManager.load("timer/an_bam_sheet_1x7.png", Texture.class);
+        assetManager.load("timer/an_timer_sheet_1x8.png", Texture.class);
         assetManager.load("timer/inter_bomb.png", Texture.class);
-        assetManager.load("timer/p1_1.jpg", Texture.class);
-        assetManager.load("timer/p1_2.jpg", Texture.class);
-        assetManager.load("timer/p1_d.jpg", Texture.class);
 
         assetManager.load("ui/playbar_pause.png", Texture.class);
         assetManager.load("ui/playbar_play.png", Texture.class);
