@@ -74,7 +74,6 @@ public class PuzzleInteraction extends AbstractInteraction {
     public void dispose() {
         super.dispose();
 
-
         isLoaded = false;
 
     }

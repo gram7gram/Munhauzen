@@ -9,12 +9,13 @@
       }
     ],
     "images": [
+
       {
-        "image": "p1_2",
+        "internalFile": "timer/p1_1.jpg",
         "duration": 140000
       },
       {
-        "image": "p1_1",
+        "internalFile": "timer/p1_2.jpg",
         "duration": 140000
       }
     ],
@@ -77,11 +78,11 @@
     ],
     "images": [
       {
-        "image": "Last",
+        "internalFile": "timer/p1_2.jpg",
         "duration": 3000
       },
       {
-        "image": "p1_d",
+        "internalFile": "timer/p1_d.jpg",
         "duration": 3000
       }
     ],

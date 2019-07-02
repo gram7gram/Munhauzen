@@ -9,6 +9,7 @@ import java.util.Set;
 
 import ua.gram.munhauzen.entity.Decision;
 import ua.gram.munhauzen.entity.StoryAudio;
+import ua.gram.munhauzen.entity.StoryImage;
 import ua.gram.munhauzen.interaction.TimerInteraction;
 import ua.gram.munhauzen.interaction.timer.fragment.TimerScenarioFragment;
 import ua.gram.munhauzen.screen.GameScreen;
@@ -21,7 +22,7 @@ public class TimerStoryManager {
     private final GameScreen gameScreen;
     private final TimerInteraction interaction;
 
-    public TimerStory hareStory;
+    public TimerStory timerStory;
 
     public TimerStoryManager(GameScreen gameScreen, TimerInteraction interaction) {
         this.gameScreen = gameScreen;
@@ -49,18 +50,18 @@ public class TimerStoryManager {
 
     public void resume() {
 
-        if (hareStory == null) {
+        if (timerStory == null) {
             Log.e(tag, "Story is not valid. Resetting");
 
             for (TimerScenario timerScenario : interaction.scenarioRegistry) {
                 if (timerScenario.isBegin) {
-                    hareStory = create(timerScenario.name);
+                    timerStory = create(timerScenario.name);
                     break;
                 }
             }
         }
 
-        Log.i(tag, "resume " + hareStory.id);
+        Log.i(tag, "resume " + timerStory.id);
 
     }
 
@@ -96,12 +97,12 @@ public class TimerStoryManager {
     }
 
     public void update(float progress, int duration) {
-        hareStory.update(progress, duration);
+        timerStory.update(progress, duration);
     }
 
     public void startLoadingResources() {
         try {
-            TimerStory story = interaction.storyManager.hareStory;
+            TimerStory story = interaction.storyManager.timerStory;
 
             TimerStoryScenario scenario = story.currentScenario;
             if (scenario == null) return;
@@ -128,6 +129,29 @@ public class TimerStoryManager {
                     });
                 }
             }
+
+            final StoryImage image = scenario.currentImage;
+            if (image != null) {
+                interaction.imageService.prepare(image, new Timer.Task() {
+                    @Override
+                    public void run() {
+                        try {
+                            interaction.imageService.onPrepared(image);
+                        } catch (Throwable e) {
+                            Log.e(tag, e);
+                        }
+                    }
+                });
+
+                if (image.next != null) {
+                    interaction.imageService.prepare(image.next, new Timer.Task() {
+                        @Override
+                        public void run() {
+
+                        }
+                    });
+                }
+            }
         } catch (Throwable e) {
             Log.e(tag, e);
         }
@@ -136,17 +160,17 @@ public class TimerStoryManager {
 
     public void onCompleted() {
 
-        Log.i(tag, "onCompleted " + hareStory.id);
+        Log.i(tag, "onCompleted " + timerStory.id);
 
         Set<String> inventory = gameScreen.game.inventoryService.getAllInventory();
 
-        for (StoryAudio audio : hareStory.currentScenario.scenario.audio) {
+        for (StoryAudio audio : timerStory.currentScenario.scenario.audio) {
             if (audio.player != null) {
                 audio.player.pause();
             }
         }
 
-        if (hareStory.currentScenario.scenario.isExit) {
+        if (timerStory.currentScenario.scenario.isExit) {
 
             Log.i(tag, "Exit reached");
 
@@ -165,8 +189,8 @@ public class TimerStoryManager {
         }
 
         ArrayList<Decision> availableDecisions = new ArrayList<>();
-        if (hareStory.currentScenario.scenario.decisions != null) {
-            for (Decision decision : hareStory.currentScenario.scenario.decisions) {
+        if (timerStory.currentScenario.scenario.decisions != null) {
+            for (Decision decision : timerStory.currentScenario.scenario.decisions) {
                 if (isDecisionAvailable(decision, inventory)) {
                     availableDecisions.add(decision);
                 }
@@ -217,15 +241,15 @@ public class TimerStoryManager {
 
     public void reset() {
 
-        if (hareStory == null) return;
+        if (timerStory == null) return;
 
-        Log.i(tag, "reset " + hareStory.id);
+        Log.i(tag, "reset " + timerStory.id);
 
-        for (TimerStoryScenario storyScenario : hareStory.scenarios) {
+        for (TimerStoryScenario storyScenario : timerStory.scenarios) {
             storyScenario.reset();
         }
 
-        hareStory.reset();
+        timerStory.reset();
     }
 
     private boolean isDecisionAvailable(Decision decision, Set<String> inventory) {

@@ -18,9 +18,9 @@ import ua.gram.munhauzen.ui.FitImage;
 public class TimerImageFragment extends Fragment {
 
     final TimerInteraction interaction;
-    Group root, items;
-    Table backgroundTable;
-    FitImage background;
+    Group root;
+    public Table backgroundTable;
+    public FitImage background;
 
     public TimerImageFragment(TimerInteraction interaction) {
         this.interaction = interaction;
@@ -36,25 +36,26 @@ public class TimerImageFragment extends Fragment {
         backgroundTable.add(background).center().expand().fill();
 
         root = new Group();
-        root.addActor(items);
         root.addActor(backgroundTable);
     }
 
     public void update() {
 
 
-
     }
 
     public void setBackground(Texture texture) {
+        setBackground(new SpriteDrawable(new Sprite(texture)));
+    }
+
+    public void setBackground(SpriteDrawable texture) {
 
         interaction.gameScreen.imageFragment.layer1ImageGroup.setVisible(false);
         interaction.gameScreen.imageFragment.layer2ImageGroup.setVisible(false);
 
-        items.setVisible(false);
         backgroundTable.setVisible(true);
 
-        background.setDrawable(new SpriteDrawable(new Sprite(texture)));
+        background.setDrawable(texture);
 
         float scale = 1f * MunhauzenGame.WORLD_WIDTH / background.getDrawable().getMinWidth();
         float height = 1f * background.getDrawable().getMinHeight() * scale;

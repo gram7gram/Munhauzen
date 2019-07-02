@@ -241,7 +241,7 @@ public class TimerScenarioFragment extends Fragment {
             try {
                 TimerStory newStory = interaction.storyManager.create(decision.scenario);
 
-                interaction.storyManager.hareStory = newStory;
+                interaction.storyManager.timerStory = newStory;
 
                 interaction.storyManager.startLoadingResources();
             } catch (Throwable e) {

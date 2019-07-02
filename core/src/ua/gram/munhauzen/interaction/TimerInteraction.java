@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Array;
 
 import ua.gram.munhauzen.entity.GameState;
+import ua.gram.munhauzen.interaction.timer.TimerImageService;
 import ua.gram.munhauzen.interaction.timer.TimerScenario;
 import ua.gram.munhauzen.interaction.timer.TimerStory;
 import ua.gram.munhauzen.interaction.timer.TimerStoryManager;
@@ -24,6 +25,7 @@ public class TimerInteraction extends AbstractInteraction {
     public TimerProgressBarFragment progressBarFragment;
     public TimerImageFragment imageFragment;
     public TimerScenarioFragment scenarioFragment;
+    public TimerImageService imageService;
     boolean isLoaded;
     public final String burnAudio;
     public final float burnDuration;
@@ -40,10 +42,31 @@ public class TimerInteraction extends AbstractInteraction {
     public void start() {
         super.start();
 
+        imageService = new TimerImageService(gameScreen, this);
+
         scenarioRegistry = new DatabaseManager().loadTimerScenario();
         storyManager = new TimerStoryManager(gameScreen, this);
 
-        assetManager.load("hare/p18_d.jpg", Texture.class);
+        assetManager.load("timer/an_bam_sheet_1x7.png", Texture.class);
+        assetManager.load("timer/inter_bomb.png", Texture.class);
+        assetManager.load("timer/p1_1.jpg", Texture.class);
+        assetManager.load("timer/p1_2.jpg", Texture.class);
+        assetManager.load("timer/p1_d.jpg", Texture.class);
+
+        assetManager.load("ui/playbar_pause.png", Texture.class);
+        assetManager.load("ui/playbar_play.png", Texture.class);
+
+        assetManager.load("ui/playbar_rewind_backward.png", Texture.class);
+        assetManager.load("ui/playbar_rewind_backward_off.png", Texture.class);
+
+        assetManager.load("ui/playbar_rewind_forward.png", Texture.class);
+        assetManager.load("ui/playbar_rewind_forward_off.png", Texture.class);
+
+        assetManager.load("ui/elements_player_fond_1.png", Texture.class);
+        assetManager.load("ui/elements_player_fond_2.png", Texture.class);
+        assetManager.load("ui/elements_player_fond_3.png", Texture.class);
+        assetManager.load("ui/player_progress_bar_progress.9.jpg", Texture.class);
+        assetManager.load("ui/player_progress_bar_knob.png", Texture.class);
     }
 
     public void onResourcesLoaded() {
@@ -54,12 +77,12 @@ public class TimerInteraction extends AbstractInteraction {
 
         gameScreen.gameLayers.setProgressBarLayer(progressBarFragment);
 
-        storyManager.resume();
-
         imageFragment = new TimerImageFragment(this);
         imageFragment.create();
 
         gameScreen.gameLayers.setInteractionLayer(imageFragment);
+
+        storyManager.resume();
     }
 
     @Override
@@ -75,7 +98,7 @@ public class TimerInteraction extends AbstractInteraction {
             return;
         }
 
-        TimerStory story = storyManager.hareStory;
+        TimerStory story = storyManager.timerStory;
 
         if (!story.isCompleted) {
 
@@ -121,6 +144,8 @@ public class TimerInteraction extends AbstractInteraction {
             imageFragment.dispose();
             imageFragment = null;
         }
+
+        assetManager.clear();
 
         isLoaded = false;
     }
