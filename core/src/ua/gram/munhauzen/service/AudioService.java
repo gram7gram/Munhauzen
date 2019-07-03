@@ -78,7 +78,7 @@ public class AudioService implements Disposable {
 
     }
 
-    public void prepareAndPlay(StoryAudio item) {
+    public void prepareAndPlay(final StoryAudio item) {
 
         Log.i(tag, "play " + item.audio);
 
@@ -101,7 +101,7 @@ public class AudioService implements Disposable {
             @Override
             public void onCompletion(Music music) {
                 try {
-                    assetManager.unload(resource);
+                    stop(item);
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -150,6 +150,33 @@ public class AudioService implements Disposable {
             item.player.play();
 
             activeAudio.put(item.audio, item);
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+    }
+
+    public void stop(StoryAudio storyAudio) {
+        try {
+
+            if (storyAudio.player != null)
+                storyAudio.player.stop();
+
+            Audio audio = AudioRepository.find(gameScreen.game.gameState, storyAudio.audio);
+
+            final String resource = ExternalFiles.getExpansionAudioDir().path() + "/" + audio.file;
+
+            if (assetManager.isLoaded(resource)) {
+                assetManager.unload(resource);
+            }
+
+            storyAudio.isPrepared = false;
+            storyAudio.isPreparing = false;
+            storyAudio.isActive = false;
+            storyAudio.isLocked = false;
+            storyAudio.player = null;
+
+            activeAudio.remove(storyAudio.audio);
 
         } catch (Throwable e) {
             Log.e(tag, e);

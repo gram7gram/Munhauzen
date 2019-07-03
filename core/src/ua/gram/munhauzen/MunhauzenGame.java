@@ -2,7 +2,6 @@ package ua.gram.munhauzen;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
@@ -29,7 +28,6 @@ public class MunhauzenGame extends Game {
     public static int WORLD_HEIGHT;
     public static boolean PAUSED = false;
     public static final boolean DEBUG = true;
-    public static final boolean DEBUG_ZOOM = false;
     public static final boolean DEBUG_RENDER_INFO = true;
     public static final int PROGRESS_BAR_FADE_OUT_DELAY = 5;
     public static String developmentScenario;// = "a24_a";
@@ -106,8 +104,6 @@ public class MunhauzenGame extends Game {
         try {
             super.render();
 
-            handleInput();
-
             drawError();
 
         } catch (Throwable e) {
@@ -173,31 +169,6 @@ public class MunhauzenGame extends Game {
 
         view = new ExtendViewport(WORLD_WIDTH * ratio, WORLD_HEIGHT, camera);
         view.apply();
-    }
-
-
-    private void handleInput() {
-
-        if (DEBUG_ZOOM) {
-            boolean hasChanged = false;
-
-            if (Gdx.input.isKeyPressed(Input.Keys.VOLUME_DOWN)) {
-                Log.i(tag, "zoom out");
-                camera.zoom += 0.1;
-                hasChanged = true;
-            }
-
-            if (Gdx.input.isKeyPressed(Input.Keys.VOLUME_UP)) {
-                Log.i(tag, "zoom in");
-                camera.zoom -= 0.1;
-                hasChanged = true;
-            }
-
-            if (!hasChanged) return;
-
-            camera.update();
-        }
-
     }
 
     private void drawError() {
