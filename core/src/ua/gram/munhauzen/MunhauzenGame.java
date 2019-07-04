@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Timer;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.ArrayList;
@@ -150,7 +150,9 @@ public class MunhauzenGame extends Game {
     private void createCamera() {
         if (camera != null) return;
 
-        camera = new OrthographicCamera();
+        Log.i(tag, "camera " + WORLD_WIDTH + "x" + WORLD_HEIGHT);
+
+        camera = new OrthographicCamera(WORLD_WIDTH, WORLD_HEIGHT);
         camera.position.set(WORLD_WIDTH / 2f, WORLD_HEIGHT / 2f, 0);
         camera.zoom = 1;
         camera.update();
@@ -165,9 +167,7 @@ public class MunhauzenGame extends Game {
     private void createViewport() {
         if (view != null) return;
 
-        float ratio = 1f * WORLD_WIDTH / WORLD_HEIGHT;
-
-        view = new ExtendViewport(WORLD_WIDTH * ratio, WORLD_HEIGHT, camera);
+        view = new ScreenViewport(camera);
         view.apply();
     }
 

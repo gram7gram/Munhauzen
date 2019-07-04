@@ -36,7 +36,7 @@ public class DatabaseManager {
 
     private final String tag = getClass().getSimpleName();
 
-    private String listInternalAssets(String path) {
+    public static String listInternalAssets(String path) {
 
         String msg = "";
         for (FileHandle fileHandle : Gdx.files.internal(path).list()) {

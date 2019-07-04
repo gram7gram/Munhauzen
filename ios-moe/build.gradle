@@ -41,7 +41,7 @@ moe {
     }
 
     remoteBuild {
-        resources = [file("../android/assets")]
+        resources = [file("../core/assets")]
     }
 }
 moeMainReleaseIphoneosXcodeBuild.dependsOn copyNatives

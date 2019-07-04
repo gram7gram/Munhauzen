@@ -22,3 +22,11 @@
 ## Notes
 
 `keytool -genkey -v -keystore debug.keystore -alias androiddebugkey -keyalg RSA -keysize 2048 -validity 10000`
+
+Install Android Studio RoboVM plugin (same version as in build.gradle)
+
+http://robovm.mobidevelop.com/downloads/releases/idea/org.robovm.idea-2.3.7-plugin-dist.jar
+
+Fix RoboVM facets
+
+https://dkimitsa.github.io/2018/05/04/idea-fixing-android-gradle-facet3/
