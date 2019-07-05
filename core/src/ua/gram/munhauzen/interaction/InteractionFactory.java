@@ -19,6 +19,7 @@ public class InteractionFactory {
     public final static String SWAMP = "SWAMP";
     public final static String TIMER = "TIMER";
     public final static String SLAP = "SLAP";
+    public final static String PICTURE = "PICTURE";
 
     public static AbstractInteraction create(GameScreen gameScreen, String type) {
 
@@ -39,6 +40,8 @@ public class InteractionFactory {
                 return new SwampInteraction(gameScreen);
             case SLAP:
                 return new SlapInteraction(gameScreen);
+            case PICTURE:
+                return new PictureInteraction(gameScreen);
         }
 
         if (type.indexOf(TIMER) == 0) {
