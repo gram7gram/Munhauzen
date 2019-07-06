@@ -210,6 +210,17 @@ public class AudioService implements Disposable {
         }
     }
 
+    public void updateVolume(StoryAudio audio) {
+
+        int volume = GameState.isMute ? 0 : 1;
+
+        if (audio.player != null) {
+            if (audio.player.getVolume() != volume) {
+                audio.player.setVolume(volume);
+            }
+        }
+    }
+
     public void updateVolume() {
         try {
             Story story = gameScreen.getStory();

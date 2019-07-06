@@ -533,6 +533,14 @@ public class GameScreen implements Screen {
         }
     }
 
+    public void hideImageFragment() {
+
+        if (imageFragment != null) {
+            imageFragment.layer1ImageGroup.setVisible(false);
+            imageFragment.layer2ImageGroup.setVisible(false);
+        }
+    }
+
     public void hideAndDestroyScenarioFragment() {
         if (scenarioFragment != null) {
             scenarioFragment.fadeOut(new Runnable() {

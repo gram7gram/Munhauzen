@@ -135,6 +135,18 @@ public class SlapImageFragment extends Fragment {
         betweenImg.setX(beforeImg.getX() + beforeWidth);
         afterImg.setX(betweenImg.getX() + betweenWidth);
 
+        if (introAudio != null) {
+            if (introAudio.player != null) {
+                interaction.gameScreen.audioService.updateVolume(introAudio);
+            }
+        }
+
+        if (winAudio != null) {
+            if (winAudio.player != null) {
+                interaction.gameScreen.audioService.updateVolume(winAudio);
+            }
+        }
+
     }
 
     public void start() {
