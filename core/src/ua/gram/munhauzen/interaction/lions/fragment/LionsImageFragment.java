@@ -13,10 +13,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.entity.Inventory;
 import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.fragment.Fragment;
 import ua.gram.munhauzen.interaction.LionsInteraction;
+import ua.gram.munhauzen.repository.InventoryRepository;
 import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.ui.PrimaryButton;
 import ua.gram.munhauzen.utils.Log;
@@ -238,11 +240,15 @@ public class LionsImageFragment extends Fragment {
 
             interaction.gameScreen.interactionService.complete();
 
-            Story newStory = interaction.gameScreen.storyManager.create("amoon_correct");
+            Story newStory = interaction.gameScreen.storyManager.create("alions_attack_win");
 
             interaction.gameScreen.setStory(newStory);
 
             interaction.gameScreen.restoreProgressBarIfDestroyed();
+
+            Inventory item = InventoryRepository.find(interaction.gameScreen.game.gameState, "");
+
+            interaction.gameScreen.game.inventoryService.addInventory(item);
 
         } catch (Throwable e) {
             Log.e(tag, e);

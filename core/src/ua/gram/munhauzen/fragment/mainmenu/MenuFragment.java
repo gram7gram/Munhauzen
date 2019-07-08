@@ -201,7 +201,7 @@ public class MenuFragment extends Fragment {
                         if (inventory.isGlobal()) {
                             game.inventoryService.addGlobalInventory(inventory);
                         } else {
-                            game.inventoryService.addInventory(inventory);
+                            game.inventoryService.addSaveInventory(inventory);
                         }
                     }
 

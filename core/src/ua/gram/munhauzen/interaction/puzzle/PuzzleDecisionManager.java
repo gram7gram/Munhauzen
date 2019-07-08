@@ -409,7 +409,7 @@ public class PuzzleDecisionManager {
                         if (inventory.isGlobal()) {
                             inventoryService.addGlobalInventory(inventory);
                         } else {
-                            inventoryService.addInventory(inventory);
+                            inventoryService.addSaveInventory(inventory);
                         }
                     }
 

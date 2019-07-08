@@ -51,7 +51,7 @@ public class InventoryServiceTest extends GdxTest {
 
         assertFalse("Inventory is global!", i1.isGlobal());
 
-        service.addInventory(i1);
+        service.addSaveInventory(i1);
 
         assertTrue("Missing inventory in save inventory", state.history.activeSave.inventory.contains("TEST"));
     }
@@ -69,7 +69,7 @@ public class InventoryServiceTest extends GdxTest {
         Inventory i3 = new Inventory();
         i3.name = "CONDITION2";
 
-        service.addInventory(i2);
+        service.addSaveInventory(i2);
 
         assertTrue("Missing CONDITION1 inventory in save inventory",
                 state.history.activeSave.inventory.contains("CONDITION1"));
@@ -77,7 +77,7 @@ public class InventoryServiceTest extends GdxTest {
         assertFalse("Found CONDITIONAL_INVENTORY inventory in save inventory",
                 state.history.activeSave.inventory.contains("CONDITIONAL_INVENTORY"));
 
-        service.addInventory(i3);
+        service.addSaveInventory(i3);
 
         assertTrue("Missing CONDITION2 inventory in save inventory",
                 state.history.activeSave.inventory.contains("CONDITION2"));
@@ -85,7 +85,7 @@ public class InventoryServiceTest extends GdxTest {
         assertFalse("Found CONDITIONAL_INVENTORY inventory in save inventory",
                 state.history.activeSave.inventory.contains("CONDITIONAL_INVENTORY"));
 
-        service.addInventory(i1);
+        service.addSaveInventory(i1);
 
         assertTrue("Missing CONDITIONAL_INVENTORY inventory in save inventory",
                 state.history.activeSave.inventory.contains("CONDITIONAL_INVENTORY"));

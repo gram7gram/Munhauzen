@@ -22,6 +22,8 @@ public class InventoryService {
 
     public void addGlobalInventory(Inventory inventory) {
 
+        if (isInInventory(inventory)) return;
+
         Log.i(tag, "addGlobalInventory " + inventory.name);
 
         if (!inventory.isGlobal()) {
@@ -33,9 +35,11 @@ public class InventoryService {
         checkRelatedInventory();
     }
 
-    public void addInventory(Inventory inventory) {
+    public void addSaveInventory(Inventory inventory) {
 
-        Log.i(tag, "addInventory " + inventory.name);
+        if (isInInventory(inventory)) return;
+
+        Log.i(tag, "addSaveInventory " + inventory.name);
 
         if (inventory.isGlobal()) {
             throw new GdxRuntimeException("Inventory " + inventory.name + " is global");
@@ -44,6 +48,14 @@ public class InventoryService {
         gameState.history.activeSave.inventory.add(inventory.name);
 
         checkRelatedInventory();
+    }
+
+    public void addInventory(Inventory item) {
+        if (item.isGlobal()) {
+            addGlobalInventory(item);
+        } else {
+            addSaveInventory(item);
+        }
     }
 
     public boolean isInInventory(Inventory item) {
@@ -99,7 +111,7 @@ public class InventoryService {
                             if (item.isGlobal()) {
                                 addGlobalInventory(item);
                             } else {
-                                addInventory(item);
+                                addSaveInventory(item);
                             }
                         }
                     }

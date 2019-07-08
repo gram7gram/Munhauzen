@@ -209,7 +209,7 @@ public class StoryManager {
                     if (inventory.isGlobal()) {
                         gameScreen.game.inventoryService.addGlobalInventory(inventory);
                     } else {
-                        gameScreen.game.inventoryService.addInventory(inventory);
+                        gameScreen.game.inventoryService.addSaveInventory(inventory);
                     }
                 }
             }
