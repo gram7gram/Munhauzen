@@ -22,6 +22,7 @@ public class InteractionFactory {
     public final static String PICTURE = "PICTURE";
     public final static String HORN = "HORN";
     public final static String DATE = "DATE";
+    public final static String LIONS = "LIONS";
 
     public static AbstractInteraction create(GameScreen gameScreen, String type) {
 
@@ -48,6 +49,8 @@ public class InteractionFactory {
                 return new HornInteraction(gameScreen);
             case DATE:
                 return new DateInteraction(gameScreen);
+            case LIONS:
+                return new LionsInteraction(gameScreen);
         }
 
         if (type.indexOf(TIMER) == 0) {
