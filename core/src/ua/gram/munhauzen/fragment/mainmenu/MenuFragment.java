@@ -117,9 +117,18 @@ public class MenuFragment extends Fragment {
 
         Table container = new Table();
         container.padBottom(80);
-        container.add(startButton).padBottom(80).expandX().row();
-        container.add(downloadButton).expandX().row();
-        container.add(expansionButton).expandX().row();
+        container.add(startButton)
+                .width(MunhauzenGame.WORLD_WIDTH * .5f)
+                .height(MunhauzenGame.WORLD_HEIGHT / 15f)
+                .padBottom(80).expandX().row();
+        container.add(downloadButton)
+                .width(MunhauzenGame.WORLD_WIDTH * .5f)
+                .height(MunhauzenGame.WORLD_HEIGHT / 15f)
+                .expandX().row();
+        container.add(expansionButton)
+                .width(MunhauzenGame.WORLD_WIDTH * .5f)
+                .height(MunhauzenGame.WORLD_HEIGHT / 15f)
+                .expandX().row();
         container.add(progressLbl).pad(10).expandX().row();
 
         inventoryContainer = new Table();

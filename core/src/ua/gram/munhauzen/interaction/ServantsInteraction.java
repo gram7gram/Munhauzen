@@ -13,7 +13,6 @@ import ua.gram.munhauzen.utils.Log;
  */
 public class ServantsInteraction extends AbstractInteraction {
 
-    boolean isLoaded;
     public ServantsHireImageFragment hireFragment;
     public ServantsFireImageFragment fireFragment;
 
@@ -27,6 +26,13 @@ public class ServantsInteraction extends AbstractInteraction {
 
         gameScreen.hideAndDestroyProgressBar();
 
+        openHireFragment();
+    }
+
+    public void openHireFragment() {
+
+        assetManager.clear();
+
         assetManager.load("ui/playbar_skip_backward.png", Texture.class);
         assetManager.load("ui/playbar_skip_backward_off.png", Texture.class);
         assetManager.load("ui/playbar_skip_forward.png", Texture.class);
@@ -39,10 +45,8 @@ public class ServantsInteraction extends AbstractInteraction {
 
         assetManager.load("servants/icon_eagle.png", Texture.class);
         assetManager.load("servants/icon_helmet.png", Texture.class);
-    }
 
-    public void onResourcesLoaded() {
-        isLoaded = true;
+        assetManager.finishLoading();
 
         hireFragment = new ServantsHireImageFragment(this);
         hireFragment.create();
@@ -51,6 +55,19 @@ public class ServantsInteraction extends AbstractInteraction {
     }
 
     public void openFireFragment() {
+
+        assetManager.clear();
+
+        assetManager.load("GameScreen/an_cannons_main.png", Texture.class);
+        assetManager.load("GameScreen/b_decision_add_line.png", Texture.class);
+        assetManager.load("GameScreen/b_decision_first_line.png", Texture.class);
+        assetManager.load("GameScreen/b_decision_last_line.png", Texture.class);
+
+        assetManager.load("servants/icon_eagle.png", Texture.class);
+        assetManager.load("servants/icon_helmet.png", Texture.class);
+        assetManager.load("servants/inter_servants_fond.jpg", Texture.class);
+
+        assetManager.finishLoading();
 
         fireFragment = new ServantsFireImageFragment(this);
         fireFragment.create();
@@ -81,13 +98,6 @@ public class ServantsInteraction extends AbstractInteraction {
 
         assetManager.update();
 
-        if (!isLoaded) {
-            if (assetManager.isFinished()) {
-                onResourcesLoaded();
-            }
-            return;
-        }
-
         if (hireFragment != null) {
             hireFragment.update();
         }
@@ -100,8 +110,6 @@ public class ServantsInteraction extends AbstractInteraction {
     @Override
     public void dispose() {
         super.dispose();
-
-        isLoaded = false;
 
         if (fireFragment != null) {
             fireFragment.dispose();

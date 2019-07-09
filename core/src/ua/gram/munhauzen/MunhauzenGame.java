@@ -141,10 +141,10 @@ public class MunhauzenGame extends Game {
 
         assetManager = new AssetManager();
         assetManager.load("p0.jpg", Texture.class);
-        assetManager.load("ui/b_primary_enabled.png", Texture.class);
-        assetManager.load("ui/b_primary_disabled.png", Texture.class);
-        assetManager.load("ui/b_danger_enabled.png", Texture.class);
-        assetManager.load("ui/b_danger_disabled.png", Texture.class);
+        assetManager.load("ui/b_primary_sm_enabled.png", Texture.class);
+        assetManager.load("ui/b_primary_sm_disabled.png", Texture.class);
+        assetManager.load("ui/b_danger_sm_enabled.png", Texture.class);
+        assetManager.load("ui/b_danger_sm_disabled.png", Texture.class);
     }
 
     private void createCamera() {

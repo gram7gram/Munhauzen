@@ -20,16 +20,16 @@ public class ButtonBuilder {
 
     public ButtonBuilder(MunhauzenGame game) {
         this.game = game;
-        primaryEnabled = game.assetManager.get("ui/b_primary_enabled.png", Texture.class);
-        primaryDisabled = game.assetManager.get("ui/b_primary_disabled.png", Texture.class);
-        dangerEnabled = game.assetManager.get("ui/b_danger_enabled.png", Texture.class);
-        dangerDisabled = game.assetManager.get("ui/b_danger_disabled.png", Texture.class);
+        primaryEnabled = game.assetManager.get("ui/b_primary_sm_enabled.png", Texture.class);
+        primaryDisabled = game.assetManager.get("ui/b_primary_sm_disabled.png", Texture.class);
+        dangerEnabled = game.assetManager.get("ui/b_danger_sm_enabled.png", Texture.class);
+        dangerDisabled = game.assetManager.get("ui/b_danger_sm_disabled.png", Texture.class);
     }
 
     public PrimaryButton primary(String text, final ClickListener onClick) {
 
-        NinePatchDrawable background1 = new NinePatchDrawable(new NinePatch(primaryEnabled, 90, 90, 0, 0));
-        NinePatchDrawable background2 = new NinePatchDrawable(new NinePatch(primaryDisabled, 90, 90, 0, 0));
+        NinePatchDrawable background1 = new NinePatchDrawable(new NinePatch(primaryEnabled, 30, 30, 0, 0));
+        NinePatchDrawable background2 = new NinePatchDrawable(new NinePatch(primaryDisabled, 30, 30, 0, 0));
 
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
         style.font = game.fontProvider.getFont(FontProvider.h4);
@@ -47,8 +47,8 @@ public class ButtonBuilder {
 
     public PrimaryButton danger(String text, final ClickListener onClick) {
 
-        NinePatchDrawable background1 = new NinePatchDrawable(new NinePatch(dangerEnabled, 90, 90, 0, 0));
-        NinePatchDrawable background2 = new NinePatchDrawable(new NinePatch(dangerDisabled, 90, 90, 0, 0));
+        NinePatchDrawable background1 = new NinePatchDrawable(new NinePatch(dangerEnabled, 30, 30, 0, 0));
+        NinePatchDrawable background2 = new NinePatchDrawable(new NinePatch(dangerDisabled, 30, 30, 0, 0));
 
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
         style.font = game.fontProvider.getFont(FontProvider.h4);

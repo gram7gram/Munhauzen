@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
+import com.badlogic.gdx.utils.Align;
 
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
@@ -65,6 +66,15 @@ public class ServantsHireImageFragment extends Fragment {
             }
         });
 
+        PrimaryButton departBtn = interaction.gameScreen.game.buttonBuilder.danger("Depart", new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                showEgypt();
+            }
+        });
+
         progressLabel = new Label("", new Label.LabelStyle(
                 interaction.gameScreen.game.fontProvider.getFont(FontProvider.h1),
                 Color.BLACK
@@ -99,27 +109,35 @@ public class ServantsHireImageFragment extends Fragment {
 
         hireContainer = new Table();
 
-        final Table hireTable = new Table();
+        Table btnTable = new Table();
+        btnTable.add(servantsBtn).padRight(10).left()
+                .width(MunhauzenGame.WORLD_WIDTH * .25f)
+                .height(MunhauzenGame.WORLD_HEIGHT / 15f);
+        btnTable.add(progressLabel).left().padRight(10);
+        btnTable.add(departBtn).left()
+                .width(MunhauzenGame.WORLD_WIDTH * .25f)
+                .height(MunhauzenGame.WORLD_HEIGHT / 15f);
+
+        Table hireTable = new Table();
         hireTable.setFillParent(true);
         hireTable.pad(10);
-
-        hireTable.add(servantsBtn).padRight(10).left()
-                .width(MunhauzenGame.WORLD_WIDTH * .4f)
-                .height(MunhauzenGame.WORLD_HEIGHT / 15f);
-        hireTable.add(progressLabel).left().row();
-
         hireTable.add(prevBtn).left();
         hireTable.add().center().grow();
         hireTable.add(nextBtn).right();
+
+        Table uiTable = new Table();
+        uiTable.setFillParent(true);
+        uiTable.pad(10);
+        uiTable.add(btnTable).align(Align.topLeft).expand();
 
         hireDialog = new HireDialog(interaction);
         completeDialog = new CompleteDialog(interaction);
 
         root = new Stack();
         root.setFillParent(true);
-        root.setTouchable(Touchable.childrenOnly);
         root.addActor(backgroundTable);
         root.addActor(hireTable);
+        root.addActor(uiTable);
         root.addActor(hireContainer);
 
         root.addListener(new ClickListener() {
