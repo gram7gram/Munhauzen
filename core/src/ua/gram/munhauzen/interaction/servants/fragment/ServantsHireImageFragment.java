@@ -129,19 +129,23 @@ public class ServantsHireImageFragment extends Fragment {
 
                 if (event.isHandled()) return;
 
-                if (completeDialog.isMounted()) return;
-
-                if (!hireDialog.isMounted()) return;
-
-                if (!hireDialog.root.isVisible()) {
-                    hireDialog.fadeIn();
-                } else {
-                    hireDialog.fadeOut();
-                }
+                toggleHireDialog();
             }
         });
 
         start();
+    }
+
+    private void toggleHireDialog() {
+        if (completeDialog.isMounted()) return;
+
+        if (!hireDialog.isMounted()) return;
+
+        if (!hireDialog.root.isVisible()) {
+            hireDialog.fadeIn();
+        } else {
+            hireDialog.fadeOut();
+        }
     }
 
     public void start() {
@@ -250,7 +254,7 @@ public class ServantsHireImageFragment extends Fragment {
                 interaction.assetManager.get(res, Texture.class)
         );
 
-        hireDialog.create("CARPENTER");
+        hireDialog.create("CARPETENER");
 
         hireContainer.clearChildren();
         hireContainer.add(hireDialog.getRoot());
@@ -543,6 +547,13 @@ public class ServantsHireImageFragment extends Fragment {
             final float width = 1f * background.getDrawable().getMinWidth() * scale;
 
             background.addListener(new ActorGestureListener() {
+
+                @Override
+                public void tap(InputEvent event, float x, float y, int count, int button) {
+                    super.tap(event, x, y, count, button);
+
+                    toggleHireDialog();
+                }
 
                 @Override
                 public void pan(InputEvent event, float x, float y, float deltaX, float deltaY) {
