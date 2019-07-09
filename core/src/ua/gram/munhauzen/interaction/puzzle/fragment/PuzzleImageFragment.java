@@ -77,9 +77,8 @@ public class PuzzleImageFragment extends Fragment {
             }
         });
 
-        float buttonHeight = MunhauzenGame.WORLD_HEIGHT / 10f;
-        float buttonScale = buttonHeight / resetButton.getHeight();
-        resetButton.setSize(resetButton.getWidth() * buttonScale, buttonHeight);
+        resetButton.setWidth(MunhauzenGame.WORLD_WIDTH / 3f);
+        resetButton .setHeight(MunhauzenGame.WORLD_HEIGHT / 12f);
         resetButton.setPosition(10, 10);
 
         background = new FitImage();

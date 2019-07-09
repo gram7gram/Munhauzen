@@ -101,11 +101,12 @@ public class TimerStoryManager {
     }
 
     public void startLoadingResources() {
-        try {
-            TimerStory story = interaction.storyManager.timerStory;
+        TimerStory story = interaction.storyManager.timerStory;
 
-            TimerStoryScenario scenario = story.currentScenario;
-            if (scenario == null) return;
+        TimerStoryScenario scenario = story.currentScenario;
+        if (scenario == null) return;
+
+        try {
 
             final StoryAudio audio = scenario.currentAudio;
             if (audio != null) {
@@ -129,7 +130,11 @@ public class TimerStoryManager {
                     });
                 }
             }
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
 
+        try {
             final StoryImage image = scenario.currentImage;
             if (image != null) {
                 interaction.imageService.prepare(image, new Timer.Task() {

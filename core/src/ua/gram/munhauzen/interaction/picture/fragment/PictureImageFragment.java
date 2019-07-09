@@ -107,10 +107,10 @@ public class PictureImageFragment extends Fragment {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                float xPercent = x / xTo;
-                float yPercent = y / yTo;
+                float xPercent = x > xTo ? xTo / x : x / xTo;
+                float yPercent = y > yTo ? yTo / y : y / yTo;
 
-                Log.i(tag, "clicked % " + (int)x + "x" + (int)y);
+                Log.i(tag, "clicked % " + (int)(xPercent * 100) + "x" + (int)(yPercent * 100));
 
                 for (String scenario : areas.keySet()) {
                     if (areas.get(scenario).contains(xPercent, yPercent)) {

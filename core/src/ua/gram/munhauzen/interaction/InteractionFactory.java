@@ -60,14 +60,22 @@ public class InteractionFactory {
             String[] params = type.replace(TIMER, "").replace("(", "").replace(")", "")
                     .toLowerCase().split(",");
 
+            if (params.length != 2) {
+                throw new GdxRuntimeException("Invalid TIMER params");
+            }
+
             return new TimerInteraction(gameScreen, params[0], Float.parseFloat(params[1]));
         }
 
         if (type.indexOf(RANDOM) == 0) {
-            String[] scenarios = type.replace(RANDOM, "").replace("(", "").replace(")", "")
+            String[] params = type.replace(RANDOM, "").replace("(", "").replace(")", "")
                     .toLowerCase().split(",");
 
-            return new RandomInteraction(gameScreen, scenarios[0], scenarios[1]);
+            if (params.length != 2) {
+                throw new GdxRuntimeException("Invalid RANDOM params");
+            }
+
+            return new RandomInteraction(gameScreen, params[0], params[1]);
         }
 
         throw new GdxRuntimeException("No such interaction " + type);

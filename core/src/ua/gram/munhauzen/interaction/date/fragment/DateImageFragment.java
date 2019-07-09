@@ -164,7 +164,9 @@ public class DateImageFragment extends Fragment {
         table.pad(10);
         table.setFillParent(true);
         table.add(seasonsTable).center().grow().row();
-        table.add(confirmBtn).top().expand().height(MunhauzenGame.WORLD_HEIGHT / 10f);
+        table.add(confirmBtn).top().expand()
+                .width(MunhauzenGame.WORLD_WIDTH / 3f)
+                .height(MunhauzenGame.WORLD_HEIGHT / 12f);
 
         root = new Stack();
         root.setFillParent(true);

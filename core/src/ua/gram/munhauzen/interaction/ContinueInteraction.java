@@ -60,7 +60,9 @@ public class ContinueInteraction extends AbstractInteraction {
         Table table = new Table();
         table.setFillParent(true);
         table.pad(10);
-        table.add(button).center().height(MunhauzenGame.WORLD_HEIGHT / 10f);
+        table.add(button).center()
+                .width(MunhauzenGame.WORLD_WIDTH / 3f)
+                .height(MunhauzenGame.WORLD_HEIGHT / 12f);
 
         root.addActor(table);
 

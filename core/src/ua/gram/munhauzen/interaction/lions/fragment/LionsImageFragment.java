@@ -65,7 +65,10 @@ public class LionsImageFragment extends Fragment {
         Table btnTable = new Table();
         btnTable.setFillParent(true);
         btnTable.pad(10);
-        btnTable.add(attackBtn).bottom().expand().height(MunhauzenGame.WORLD_HEIGHT / 10f);
+        btnTable.add(attackBtn).bottom().expand()
+                .width(MunhauzenGame.WORLD_WIDTH / 3f)
+                .height(MunhauzenGame.WORLD_HEIGHT / 12f)
+                .padBottom(80);
 
         root = new Stack();
         root.setFillParent(true);
@@ -81,8 +84,6 @@ public class LionsImageFragment extends Fragment {
     }
 
     private void start() {
-
-        attackBtn.setDisabled(true);
 
         attackBtn.clearListeners();
         attackBtn.addListener(new ClickListener() {
@@ -108,7 +109,6 @@ public class LionsImageFragment extends Fragment {
                     @Override
                     public void run() {
 
-                        attackBtn.setDisabled(false);
                         attackBtn.setText("Attack now!");
 
                         attackBtn.clearListeners();
@@ -139,7 +139,6 @@ public class LionsImageFragment extends Fragment {
                             @Override
                             public void run() {
 
-                                attackBtn.setDisabled(true);
                                 attackBtn.setText("Attack");
 
                                 attackBtn.clearListeners();

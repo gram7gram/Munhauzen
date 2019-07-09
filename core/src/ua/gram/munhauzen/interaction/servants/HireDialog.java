@@ -77,7 +77,7 @@ public class HireDialog extends Fragment {
                     Log.e(tag, e);
                 }
 
-                interaction.hireFragment.next();
+                interaction.hireFragment.showCurrent();
             }
         });
 

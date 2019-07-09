@@ -125,7 +125,10 @@ public class BalloonsImageFragment extends Fragment {
         titleTable.setFillParent(true);
         titleTable.pad(10);
         titleTable.add(title).top().expand().row();
-        titleTable.add(resetButton).center().expand().row();
+        titleTable.add(resetButton).center().expand()
+                .width(MunhauzenGame.WORLD_WIDTH / 3f)
+                .height(MunhauzenGame.WORLD_HEIGHT / 12f)
+                .row();
         titleTable.add(progressLabel).align(Align.bottomRight).expand().row();
 
         setBackground(backTex);

@@ -207,6 +207,44 @@ public class ServantsHireImageFragment extends Fragment {
         }
     }
 
+    public void showCurrent() {
+        switch (page) {
+            case 1:
+                showServant1();
+                break;
+            case 2:
+                showServant2();
+                break;
+            case 3:
+                showServant3();
+                break;
+            case 4:
+                showServant4();
+                break;
+            case 5:
+                showServant5();
+                break;
+            case 6:
+                showServant6();
+                break;
+            case 7:
+                showServant7();
+                break;
+            case 8:
+                showServant8();
+                break;
+            case 9:
+                showServant9();
+                break;
+            case 10:
+                showServant10();
+                break;
+            case 11:
+                showEgypt();
+                break;
+        }
+    }
+
     public void prev() {
         switch (page) {
             case 2:

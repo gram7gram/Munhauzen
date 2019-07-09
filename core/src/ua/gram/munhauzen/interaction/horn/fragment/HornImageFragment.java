@@ -73,7 +73,9 @@ public class HornImageFragment extends Fragment {
         Table btnTable = new Table();
         btnTable.setFillParent(true);
         btnTable.padTop(MunhauzenGame.WORLD_HEIGHT / 4f);
-        btnTable.add(button).top().expand().height(MunhauzenGame.WORLD_HEIGHT / 10f);
+        btnTable.add(button).top().expand()
+                .width(MunhauzenGame.WORLD_WIDTH / 3f)
+                .height(MunhauzenGame.WORLD_HEIGHT / 12f);
 
         root = new Stack();
         root.setFillParent(true);
@@ -126,11 +128,6 @@ public class HornImageFragment extends Fragment {
 
         note1.setRotation(30);
         note2.setRotation(30);
-        horn.setRotation(30);
-
-
-        horn.setY(-hornHeight / 6f);
-
 
         note1.setPosition(MunhauzenGame.WORLD_WIDTH + note1Width * 1.2f, -note1Height);
         note2.setPosition(MunhauzenGame.WORLD_WIDTH + note2Width * .2f, -note2Height);
