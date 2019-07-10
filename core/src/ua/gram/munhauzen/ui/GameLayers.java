@@ -18,7 +18,7 @@ public class GameLayers extends Stack implements Disposable {
     final String tag = getClass().getSimpleName();
     final GameScreen gameScreen;
     public ImageFragment backgroundLayer;
-    public Fragment controlsLayer, interactionLayer, storyDecisionsLayer, progressBarLayer;
+    public Fragment controlsLayer, interactionLayer, storyDecisionsLayer, progressBarLayer, interactionProgressBarLayer;
 
     public GameLayers(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
@@ -62,6 +62,13 @@ public class GameLayers extends Stack implements Disposable {
             addActor(createDummy("progressBarLayer"));
         }
 
+        if (interactionProgressBarLayer != null) {
+            interactionProgressBarLayer.getRoot().setTouchable(Touchable.childrenOnly);
+            addActor(interactionProgressBarLayer.getRoot());
+        } else {
+            addActor(createDummy("interactionProgressBarLayer"));
+        }
+
         if (controlsLayer != null) {
             controlsLayer.getRoot().setTouchable(Touchable.childrenOnly);
             addActor(controlsLayer.getRoot());
@@ -102,11 +109,18 @@ public class GameLayers extends Stack implements Disposable {
     }
 
     public void setProgressBarLayer(Fragment actor) {
-        if (progressBarLayer != null) {
-            removeActor(progressBarLayer.getRoot());
-            progressBarLayer.destroy();
-        }
+
         progressBarLayer = actor;
+
+        update();
+    }
+
+    public void setInteractionProgressBarLayer(Fragment actor) {
+        if (interactionProgressBarLayer != null) {
+            removeActor(interactionProgressBarLayer.getRoot());
+            interactionProgressBarLayer.destroy();
+        }
+        interactionProgressBarLayer = actor;
 
         update();
     }
@@ -133,24 +147,28 @@ public class GameLayers extends Stack implements Disposable {
     @Override
     public void dispose() {
         if (controlsLayer != null) {
-            controlsLayer.dispose();
+            controlsLayer.destroy();
             controlsLayer = null;
         }
         if (progressBarLayer != null) {
-            progressBarLayer.dispose();
+            progressBarLayer.destroy();
             progressBarLayer = null;
         }
         if (storyDecisionsLayer != null) {
-            storyDecisionsLayer.dispose();
+            storyDecisionsLayer.destroy();
             storyDecisionsLayer = null;
         }
         if (interactionLayer != null) {
-            interactionLayer.dispose();
+            interactionLayer.destroy();
             interactionLayer = null;
         }
         if (backgroundLayer != null) {
-            backgroundLayer.dispose();
+            backgroundLayer.destroy();
             backgroundLayer = null;
+        }
+        if (interactionProgressBarLayer != null) {
+            interactionProgressBarLayer.destroy();
+            interactionProgressBarLayer = null;
         }
     }
 }

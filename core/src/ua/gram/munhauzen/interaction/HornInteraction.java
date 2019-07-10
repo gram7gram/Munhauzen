@@ -21,7 +21,7 @@ public class HornInteraction extends AbstractInteraction {
     public void start() {
         super.start();
 
-        gameScreen.hideAndDestroyProgressBar();
+        gameScreen.hideProgressBar();
 
         assetManager.load("horn/int_horn_horn.png", Texture.class);
         assetManager.load("horn/int_horn_note_1.png", Texture.class);
@@ -40,6 +40,8 @@ public class HornInteraction extends AbstractInteraction {
     @Override
     public void update() {
         super.update();
+
+        gameScreen.hideProgressBar();
 
         assetManager.update();
 

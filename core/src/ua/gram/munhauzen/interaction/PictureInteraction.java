@@ -1,7 +1,6 @@
 package ua.gram.munhauzen.interaction;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Polygon;
 
 import ua.gram.munhauzen.interaction.picture.fragment.PictureImageFragment;
 import ua.gram.munhauzen.screen.GameScreen;
@@ -22,7 +21,7 @@ public class PictureInteraction extends AbstractInteraction {
     public void start() {
         super.start();
 
-        gameScreen.hideAndDestroyProgressBar();
+        gameScreen.hideProgressBar();
 
         assetManager.load("picture/p35_what.jpg", Texture.class);
     }
@@ -39,6 +38,8 @@ public class PictureInteraction extends AbstractInteraction {
     @Override
     public void update() {
         super.update();
+
+        gameScreen.hideProgressBar();
 
         assetManager.update();
 

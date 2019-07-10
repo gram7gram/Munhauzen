@@ -37,6 +37,8 @@ public class GeneralsInteraction extends AbstractInteraction {
     public void start() {
         super.start();
 
+        gameScreen.hideProgressBar();
+
         scenarioRegistry = new DatabaseManager().loadGeneralsScenario();
 
         storyManager = new GeneralsStoryManager(gameScreen, this);
@@ -54,7 +56,7 @@ public class GeneralsInteraction extends AbstractInteraction {
         progressBarFragment = new GeneralsProgressBarFragment(gameScreen, this);
         progressBarFragment.create();
 
-        gameScreen.gameLayers.setProgressBarLayer(progressBarFragment);
+        gameScreen.gameLayers.setInteractionProgressBarLayer(progressBarFragment);
 
         imageFragment = new GeneralsImageFragment(this);
         imageFragment.create();
@@ -67,6 +69,8 @@ public class GeneralsInteraction extends AbstractInteraction {
     @Override
     public void update() {
         super.update();
+
+        gameScreen.hideProgressBar();
 
         assetManager.update();
 

@@ -114,9 +114,9 @@ public class InteractionService {
             gameScreen.gameLayers.storyDecisionsLayer = null;
         }
 
-        if (gameScreen.gameLayers.progressBarLayer != null) {
-            gameScreen.gameLayers.progressBarLayer.destroy();
-            gameScreen.gameLayers.progressBarLayer = null;
+        if (gameScreen.gameLayers.interactionProgressBarLayer != null) {
+            gameScreen.gameLayers.interactionProgressBarLayer.destroy();
+            gameScreen.gameLayers.interactionProgressBarLayer = null;
         }
     }
 }

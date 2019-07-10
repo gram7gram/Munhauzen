@@ -8,24 +8,16 @@ import ua.gram.munhauzen.utils.Log;
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class Fragment implements Disposable {
+public abstract class Fragment implements Disposable {
 
     protected String tag = getClass().getSimpleName();
-    Actor root;
     public boolean isDisposed;
 
     public Fragment() {
         isDisposed = false;
     }
 
-    public Fragment(Actor root) {
-        this();
-        this.root = root;
-    }
-
-    public Actor getRoot() {
-        return root;
-    }
+    public abstract Actor getRoot();
 
     public void destroy() {
         Log.i(tag, "destroy");
@@ -34,11 +26,6 @@ public class Fragment implements Disposable {
             Actor actor = getRoot();
             if (actor != null) {
                 actor.remove();
-            }
-
-            if (root != null) {
-                root.remove();
-                root = null;
             }
 
             dispose();

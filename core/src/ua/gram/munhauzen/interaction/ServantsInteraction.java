@@ -24,7 +24,7 @@ public class ServantsInteraction extends AbstractInteraction {
     public void start() {
         super.start();
 
-        gameScreen.hideAndDestroyProgressBar();
+        gameScreen.hideProgressBar();
 
         openHireFragment();
     }
@@ -95,6 +95,8 @@ public class ServantsInteraction extends AbstractInteraction {
     @Override
     public void update() {
         super.update();
+
+        gameScreen.hideProgressBar();
 
         assetManager.update();
 

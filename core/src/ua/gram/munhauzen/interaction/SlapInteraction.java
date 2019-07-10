@@ -3,7 +3,6 @@ package ua.gram.munhauzen.interaction;
 import com.badlogic.gdx.graphics.Texture;
 
 import ua.gram.munhauzen.interaction.slap.fragment.SlapImageFragment;
-import ua.gram.munhauzen.interaction.swamp.fragment.SwampImageFragment;
 import ua.gram.munhauzen.screen.GameScreen;
 
 /**
@@ -22,7 +21,7 @@ public class SlapInteraction extends AbstractInteraction {
     public void start() {
         super.start();
 
-        gameScreen.hideAndDestroyProgressBar();
+        gameScreen.hideProgressBar();
 
         assetManager.load("slap/inter_slap_1.jpg", Texture.class);
         assetManager.load("slap/inter_slap_2.jpg", Texture.class);
@@ -43,6 +42,8 @@ public class SlapInteraction extends AbstractInteraction {
     @Override
     public void update() {
         super.update();
+
+        gameScreen.hideProgressBar();
 
         assetManager.update();
 

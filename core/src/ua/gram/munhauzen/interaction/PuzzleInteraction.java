@@ -23,7 +23,7 @@ public class PuzzleInteraction extends AbstractInteraction {
     public void start() {
         super.start();
 
-        gameScreen.hideAndDestroyProgressBar();
+        gameScreen.hideProgressBar();
 
         decisionManager = new PuzzleDecisionManager(this);
 
@@ -54,6 +54,8 @@ public class PuzzleInteraction extends AbstractInteraction {
     public void update() {
         super.update();
 
+        gameScreen.hideProgressBar();
+
         assetManager.update();
 
         if (!isLoaded) {
@@ -63,7 +65,7 @@ public class PuzzleInteraction extends AbstractInteraction {
             return;
         }
 
-        gameScreen.hideAndDestroyProgressBar();
+        gameScreen.hideProgressBar();
 
         if (imageFragment != null) {
             imageFragment.update();

@@ -51,7 +51,7 @@ public class GameScreen implements Screen {
     public final AssetManager assetManager;
     public StoryManager storyManager;
     public ScenarioFragment scenarioFragment;
-    public ProgressBarFragment progressBarFragment;
+    public final ProgressBarFragment progressBarFragment;
     public ImageFragment imageFragment;
     public GameControlsFragment gameControlsFragment;
     public AudioService audioService;
@@ -65,6 +65,7 @@ public class GameScreen implements Screen {
     public GameScreen(MunhauzenGame game) {
         this.game = game;
         assetManager = new AssetManager();
+        progressBarFragment = new ProgressBarFragment(this);
     }
 
     public Story getStory() {
@@ -111,7 +112,6 @@ public class GameScreen implements Screen {
 
         ui.addActor(gameLayers);
 
-        progressBarFragment = new ProgressBarFragment(this);
         progressBarFragment.create();
 
         gameControlsFragment = new GameControlsFragment(this);
@@ -157,26 +157,6 @@ public class GameScreen implements Screen {
 
                 try {
                     Log.i(tag, "ui clicked");
-
-                    if (progressBarFragment != null) {
-                        if (progressBarFragment.isDisposed) {
-                            progressBarFragment.destroy();
-                            progressBarFragment = null;
-                        }
-                    }
-
-                    if (progressBarFragment != null) {
-                        if (!progressBarFragment.getRoot().isVisible()) {
-                            if (!progressBarFragment.isFadeIn) {
-                                progressBarFragment.fadeIn();
-                                progressBarFragment.scheduleFadeOut();
-                            }
-                        } else {
-                            if (progressBarFragment.canFadeOut()) {
-                                progressBarFragment.fadeOut();
-                            }
-                        }
-                    }
 
                     StoryInteraction storyInteraction = getStory().currentInteraction;
 
@@ -249,8 +229,13 @@ public class GameScreen implements Screen {
                         }
                     }
 
-                    if ((storyInteraction == null || storyInteraction.interaction instanceof ContinueInteraction) && progressBarFragment == null) {
-                        restoreProgressBarIfDestroyed();
+                    if (storyInteraction == null || storyInteraction.interaction instanceof ContinueInteraction) {
+
+                        if (!progressBarFragment.getRoot().isVisible()) {
+                            showProgressBar();
+                        } else {
+                            hideProgressBar();
+                        }
                     }
 
                 } catch (Throwable e) {
@@ -451,10 +436,7 @@ public class GameScreen implements Screen {
             internalImageService = null;
         }
 
-        if (progressBarFragment != null) {
-            progressBarFragment.dispose();
-            progressBarFragment = null;
-        }
+        progressBarFragment.dispose();
 
         if (scenarioFragment != null) {
             scenarioFragment.dispose();
@@ -485,52 +467,36 @@ public class GameScreen implements Screen {
 
         Log.i(tag, "restoreProgressBarIfDestroyed");
 
-        if (progressBarFragment != null) {
-            if (progressBarFragment.isDisposed) {
-                progressBarFragment = new ProgressBarFragment(this);
-                progressBarFragment.create();
-            }
-        } else {
-            progressBarFragment = new ProgressBarFragment(this);
-            progressBarFragment.create();
-        }
-
-        gameLayers.setProgressBarLayer(progressBarFragment);
+        showProgressBar();
     }
 
     public void showProgressBar() {
-        if (progressBarFragment != null) {
-            progressBarFragment.fadeIn();
+
+        Log.i(tag, "showProgressBar");
+        try {
+
+            if (!progressBarFragment.isFadeIn) {
+                progressBarFragment.fadeIn();
+                progressBarFragment.scheduleFadeOut();
+            }
+        } catch (Throwable e) {
+            Log.e(tag, e);
         }
+
     }
 
-    public void hideAndDestroyProgressBar() {
-        if (progressBarFragment != null) {
+    public void hideProgressBar() {
 
-            Log.i(tag, "hideAndDestroyProgressBar");
+        Log.i(tag, "hideProgressBar");
 
+        try {
             if (progressBarFragment.canFadeOut()) {
-                progressBarFragment.fadeOut(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            progressBarFragment.destroy();
-                            progressBarFragment = null;
-                        } catch (Throwable e) {
-                            Log.e(tag, e);
-                        }
-                    }
-                });
-
-            } else {
-                try {
-                    progressBarFragment.destroy();
-                    progressBarFragment = null;
-                } catch (Throwable e) {
-                    Log.e(tag, e);
-                }
+                progressBarFragment.fadeOut();
             }
+        } catch (Throwable e) {
+            Log.e(tag, e);
         }
+
     }
 
     public void hideImageFragment() {

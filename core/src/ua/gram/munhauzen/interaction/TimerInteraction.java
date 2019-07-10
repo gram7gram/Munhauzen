@@ -42,6 +42,8 @@ public class TimerInteraction extends AbstractInteraction {
     public void start() {
         super.start();
 
+        gameScreen.hideProgressBar();
+
         imageService = new TimerImageService(gameScreen, this);
 
         scenarioRegistry = new DatabaseManager().loadTimerScenario();
@@ -73,7 +75,7 @@ public class TimerInteraction extends AbstractInteraction {
         progressBarFragment = new TimerProgressBarFragment(gameScreen, this);
         progressBarFragment.create();
 
-        gameScreen.gameLayers.setProgressBarLayer(progressBarFragment);
+        gameScreen.gameLayers.setInteractionProgressBarLayer(progressBarFragment);
 
         imageFragment = new TimerImageFragment(this);
         imageFragment.create();
@@ -86,6 +88,8 @@ public class TimerInteraction extends AbstractInteraction {
     @Override
     public void update() {
         super.update();
+
+        gameScreen.hideProgressBar();
 
         assetManager.update();
 

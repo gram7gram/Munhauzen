@@ -21,7 +21,7 @@ public class DateInteraction extends AbstractInteraction {
     public void start() {
         super.start();
 
-        gameScreen.hideAndDestroyProgressBar();
+        gameScreen.hideProgressBar();
 
         assetManager.load("date/inter_date_autumn.png", Texture.class);
         assetManager.load("date/inter_date_summer.png", Texture.class);
@@ -48,6 +48,8 @@ public class DateInteraction extends AbstractInteraction {
     @Override
     public void update() {
         super.update();
+
+        gameScreen.hideProgressBar();
 
         assetManager.update();
 

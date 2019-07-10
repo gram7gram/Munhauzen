@@ -726,6 +726,7 @@ public class ProgressBarFragment extends Fragment {
 
         if (fadeOutTask != null) {
             fadeOutTask.cancel();
+            fadeOutTask = null;
         }
     }
 

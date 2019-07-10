@@ -21,7 +21,7 @@ public class BalloonsInteraction extends AbstractInteraction {
     public void start() {
         super.start();
 
-        gameScreen.hideAndDestroyProgressBar();
+        gameScreen.hideProgressBar();
 
         assetManager.load("LoadingScreen/lv_cloud_1.png", Texture.class);
         assetManager.load("LoadingScreen/lv_cloud_2.png", Texture.class);
@@ -47,6 +47,8 @@ public class BalloonsInteraction extends AbstractInteraction {
     @Override
     public void update() {
         super.update();
+
+        gameScreen.hideProgressBar();
 
         assetManager.update();
 

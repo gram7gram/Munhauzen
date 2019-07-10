@@ -21,7 +21,7 @@ public class ChapterInteraction extends AbstractInteraction {
     public void start() {
         super.start();
 
-        gameScreen.hideAndDestroyProgressBar();
+        gameScreen.hideProgressBar();
 
         assetManager.load("chapter/frame_2.png", Texture.class);
 
@@ -44,6 +44,8 @@ public class ChapterInteraction extends AbstractInteraction {
     @Override
     public void update() {
         super.update();
+
+        gameScreen.hideProgressBar();
 
         assetManager.update();
 

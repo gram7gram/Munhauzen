@@ -18,7 +18,7 @@ import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.entity.StoryInteraction;
-import ua.gram.munhauzen.fragment.Fragment;
+import ua.gram.munhauzen.fragment.SimpleFragment;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.ui.PrimaryButton;
 import ua.gram.munhauzen.utils.Log;
@@ -38,6 +38,8 @@ public class ContinueInteraction extends AbstractInteraction {
     @Override
     public void start() {
         super.start();
+
+        gameScreen.showProgressBar();
 
         assetManager.load("continue/btn_enabled.png", Texture.class);
         assetManager.load("continue/btn_disabled.png", Texture.class);
@@ -72,7 +74,7 @@ public class ContinueInteraction extends AbstractInteraction {
         ));
 
         gameScreen.gameLayers.setInteractionLayer(
-                new Fragment(root)
+                new SimpleFragment(root)
         );
 
         GameState.isPaused = true;

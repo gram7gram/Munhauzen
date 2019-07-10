@@ -21,7 +21,7 @@ public class LionsInteraction extends AbstractInteraction {
     public void start() {
         super.start();
 
-        gameScreen.hideAndDestroyProgressBar();
+        gameScreen.hideProgressBar();
 
         assetManager.load("lions/int_lions_fond.jpg", Texture.class);
 
@@ -39,6 +39,8 @@ public class LionsInteraction extends AbstractInteraction {
     @Override
     public void update() {
         super.update();
+
+        gameScreen.hideProgressBar();
 
         assetManager.update();
 

@@ -34,6 +34,8 @@ public class HareInteraction extends AbstractInteraction {
     public void start() {
         super.start();
 
+        gameScreen.hideProgressBar();
+
         scenarioRegistry = new DatabaseManager().loadHareScenario();
         storyManager = new HareStoryManager(gameScreen, this);
 
@@ -59,7 +61,7 @@ public class HareInteraction extends AbstractInteraction {
         progressBarFragment = new HareProgressBarFragment(gameScreen, this);
         progressBarFragment.create();
 
-        gameScreen.gameLayers.setProgressBarLayer(progressBarFragment);
+        gameScreen.gameLayers.setInteractionProgressBarLayer(progressBarFragment);
 
         storyManager.resume();
 
@@ -72,6 +74,8 @@ public class HareInteraction extends AbstractInteraction {
     @Override
     public void update() {
         super.update();
+
+        gameScreen.hideProgressBar();
 
         assetManager.update();
 

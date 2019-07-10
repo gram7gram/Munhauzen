@@ -21,7 +21,7 @@ public class SwampInteraction extends AbstractInteraction {
     public void start() {
         super.start();
 
-        gameScreen.hideAndDestroyProgressBar();
+        gameScreen.hideProgressBar();
 
         assetManager.load("swamp/int_swamp_1.jpg", Texture.class);
         assetManager.load("swamp/int_swamp_2.png", Texture.class);
@@ -41,6 +41,8 @@ public class SwampInteraction extends AbstractInteraction {
     @Override
     public void update() {
         super.update();
+
+        gameScreen.hideProgressBar();
 
         assetManager.update();
 
