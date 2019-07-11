@@ -17,20 +17,20 @@ const ImportService = (function () {
   function Service() {
   }
 
-  Service.prototype.scenario1 = function (sheet) {
+  Service.prototype.scenario = function (sheet, prefix) {
 
       const json = xlsx.utils.sheet_to_json(sheet);
 
       const headers = [
-        "id_option","id_chapter","description_option_eng","id_audio","id_picture","duration_picture","Interaction","action","id_decisions","decision_order","inventory_required","inventory_abscent"
+        "id_option","id_chapter","description_option_eng","id_audio","id_picture","duration_picture","Interaction","action","id_decisions","decision_order","inventory_required","inventory_abscent","transition_picture"
       ]
 
       const rows = [headers.join(',')]
 
       json.forEach(item => {
 
-        if (item.id_option) {
-          item.id_option = item.id_option + "_proxy"
+        if (item.id_option && item.id_option.indexOf('_proxy') === -1) {
+          item.id_option += "_proxy"
         }
 
         const row = []
@@ -46,7 +46,7 @@ const ImportService = (function () {
         rows.push(row.map(item => '"' + escapeSpecialChars(item) + '"').join(','))
       })
 
-      fs.writeFile('./scenario_1-proxy.csv', rows.join("\r\n"), () => {
+      fs.writeFile(`./${prefix}-proxy.csv`, rows.join("\r\n"), () => {
 
       })
   }
@@ -56,7 +56,11 @@ const ImportService = (function () {
     const workbook = xlsx.readFile(file)
 
     if (workbook.Sheets['scenario_1']) {
-      this.scenario1(workbook.Sheets['scenario_1'])
+      this.scenario(workbook.Sheets['scenario_1'], 'scenario_1')
+    }
+
+    if (workbook.Sheets['scenario_2']) {
+      this.scenario(workbook.Sheets['scenario_2'], 'scenario_2')
     }
 
   }

@@ -1,47 +1,13 @@
 #!/bin/bash
 
 SRC_DIR=$1
-if [ -z "SRC_DIR" ]; then
-	echo "Convert drawables to hdpi"
+if [[ -z "SRC_DIR" ]]; then
+	echo "Convert drawables"
 	echo "Usage: command [source_directory]"
 	exit
 fi
 
-OBB_PATH=/mnt/shared-ext4/Projects/Munhauzen/obb
-
-declare -A DEVICE
-declare -A I18N
-declare -A DPI
-
-DEVICE+=(
-	["1"]="normal"
-	# ["2"]="large"
-	# ["3"]="xlarge"
-)
-I18N+=(
-	# ["1"]="uk"
-	["2"]="en"
-	# ["3"]="ru"
-)
-DPI+=(
-	["0"]="hdpi"
-	# ["1"]="mdpi"
-	# ["2"]="xhdpi"
-	# ["3"]="xxhdpi"
-	# ["4"]="xxxhdpi"
-)
-
-echo "=> Create directories..."
-for i18n in ${!I18N[@]}; do
-	for dpi in ${!DPI[@]}; do
-		for device in ${!DEVICE[@]}; do
-			P=${DPI[${dpi}]}
-			D=${DEVICE[${device}]}
-			L=${I18N[${i18n}]}
-			mkdir -p $L/$P/$D/images
-		done
-	done
-done
+OBB_PATH=/Users/master/Projects/Munhauzen/obb
 
 cd $SRC_DIR
 
@@ -50,7 +16,7 @@ for file in *.jpg; do
 
 	newFile="${file// /_}"
 
-	if [ "$newFile" != "$file" ]; then
+	if [[ "$newFile" != "$file" ]]; then
 
 		echo "Renaming: $file => $newFile"
 
@@ -60,22 +26,20 @@ for file in *.jpg; do
 done;
 
 echo "=> Converting sources..."
-for i18n in ${!I18N[@]}; do
-	L=${I18N[${i18n}]}
-	for file in *.jpg; do
+for file in *.jpg; do
+    if [[ -f "$file" ]]; then
 
-		if [ -f $file ]; then
+        echo "=> $file"
 
-			echo "=> $file"
+        mkdir -p $OBB_PATH/en/images
 
-			convert $file -resize 800 -quality 90 $OBB_PATH/$L/hdpi/normal/images/$file
-			EXIT_CODE=$?
-			if [[ $EXIT_CODE != 0 ]]; then
-			    exit $EXIT_CODE
-			fi
+        convert $file -resize 800 -quality 80 $OBB_PATH/en/images/$file
+        EXIT_CODE=$?
+        if [[ $EXIT_CODE != 0 ]]; then
+            exit $EXIT_CODE
+        fi
 
-		fi
-	done
+    fi
 done
 
 echo "=> Finished"

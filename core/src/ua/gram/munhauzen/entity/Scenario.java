@@ -21,6 +21,7 @@ public class Scenario {
     public String type;
     public String interaction;
     public String action;
+    public String source;
 
     public boolean isFinal() {
         return DEATH.equals(name) || VICTORY.equals(name);

@@ -16,7 +16,7 @@ import ua.gram.munhauzen.utils.Log;
 public class FontProvider implements Disposable {
 
     final String tag = getClass().getSimpleName();
-    public static final String CalligraphModern = "CalligraphModern.ttf";
+    public static final String CalligraphModern = "CalligraphModern.ttf", DroidSansMono = "DroidSansMono.ttf";
     public static final int h1 = 64, h2 = 60, h3 = 50, h4 = 40, h5 = 32, p = 24, small = 16;
 
     private HashMap<String, HashMap<Integer, BitmapFont>> map;
@@ -36,7 +36,7 @@ public class FontProvider implements Disposable {
         Log.i(tag, "Internal assets:" + DatabaseManager.listInternalAssets(""));
         Log.i(tag, "load");
 
-        String[] fonts = new String[]{CalligraphModern};
+        String[] fonts = new String[]{CalligraphModern, DroidSansMono};
         int[] sizes = new int[]{small, p, h1, h2, h3, h4, h5};
 
         map = new HashMap<>(fonts.length);
@@ -48,7 +48,7 @@ public class FontProvider implements Disposable {
 
             for (int size : sizes) {
                 FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-                parameter.characters = "\u0000\"'1234567890-=+?!@#$%&*(){}[].,:;/_"
+                parameter.characters = "\u0000\"'1234567890-=+?!@#$%&*(){}[].,:;/_><"
                         + "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
                         + "АаБбВвГгДдЕеЭэЖжЗзИиЙйЫыКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчЩщШшЮюЯяЬьЪъ"
                         + "АаБбВвГгДдЕеЄЄЖжЗзИиЙйІіЇїКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчЩщШшЮюЯяЬь";

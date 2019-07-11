@@ -9,6 +9,6 @@ public class IOSMemoryUsage implements MemoryUsage {
 
     @Override
     public float megabytesAvailable() {
-        return 0;
+        return -1;
     }
 }

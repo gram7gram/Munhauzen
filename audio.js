@@ -3,11 +3,12 @@ const path = require('path');
 const musicData = require('musicmetadata');
 const wavInfo = require('wav-file-info');
 
-//path.resolve(__dirname, `./Elements/Elements/AUDIO_FINAL/Part_1`)
 const sources = [
-	'/mnt/shared-ext4/Projects/Munhauzen/Elements/Fails_normilized/fails_Munchausen',
-	'/mnt/shared-ext4/Projects/Munhauzen/Elements/Fails_normilized/fails_daughter',
-	'/mnt/shared-ext4/Projects/Munhauzen/Elements/Fails_normilized/fails_bonus',
+	'/Users/master/Projects/MunhauzenDocs/Elements/AUDIO_FINAL/Part_1',
+	'/Users/master/Projects/MunhauzenDocs/Elements/AUDIO_FINAL/Part_2',
+//	'/Users/master/Projects/MunhauzenDocs/Elements/Fails_normilized/fails_Munchausen',
+//	'/Users/master/Projects/MunhauzenDocs/Elements/Fails_normilized/fails_daughter',
+//	'/Users/master/Projects/MunhauzenDocs/Elements/Fails_normilized/fails_bonus',
 ]
 
 for (let i = 0; i < sources.length; i++) {
@@ -27,7 +28,7 @@ for (let i = 0; i < sources.length; i++) {
 
 		const onComplete = (e, metadata) => {
 
-			console.log('=> parsing ' + file);//, JSON.stringify(metadata))
+			//console.log('=> parsing ' + file);//, JSON.stringify(metadata))
 
 			if (e) throw e
 
@@ -35,8 +36,7 @@ for (let i = 0; i < sources.length; i++) {
 
 			rows.push([file.split('.')[0], file, duration].join(','))
 
-			//fs.writeFile('./audio-scenario.csv', rows.join("\r\n"), () => {
-			fs.writeFile(`./${suffix}.csv`, rows.join("\r\n"), () => {
+			fs.writeFile(`./audio-${suffix}.csv`, rows.join("\r\n"), () => {
 				
 			})
 		}

@@ -4,22 +4,24 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 
 import ua.gram.munhauzen.PlatformParams;
+import ua.gram.munhauzen.expansion.response.Part;
 
 /**
  * @author Gram <gram7gram@gmail.com>
  */
 public class ExternalFiles {
 
-    public static FileHandle getGameStateFile() {
-        return getExternal("state.json");
+    public static FileHandle getExpansionPartFile(Part part) {
+        return getExternal("part" + part.part + ".zip");
     }
 
-    public static FileHandle getExpansionFile(PlatformParams params) {
-        return getExternal(params.versionCode + "-expansion.obb");
+    public static void updateNomedia() {
+        getExternal(getExpansionAudioDir() + "/.nomedia").write(false);
+        getExternal(getExpansionImagesDir() + "/.nomedia").write(false);
     }
 
-    public static FileHandle getExpansionLockFile(PlatformParams params) {
-        return getExternal(params.versionCode + "-expansion.lock");
+    public static FileHandle getExpansionInfoFile(PlatformParams params) {
+        return getExternal(params.versionCode + "-expansion.json");
     }
 
     public static FileHandle getExpansionDir() {
@@ -67,6 +69,6 @@ public class ExternalFiles {
     }
 
     private static FileHandle getExternal(String name) {
-        return Gdx.files.external("Munhauzen/ua.gram.munhauzen.any/" + name);
+        return Gdx.files.external(".Munhauzen/ua.gram.munhauzen.any/" + name);
     }
 }

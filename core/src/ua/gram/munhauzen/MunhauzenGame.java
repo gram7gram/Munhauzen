@@ -20,6 +20,7 @@ import ua.gram.munhauzen.screen.MainMenuScreen;
 import ua.gram.munhauzen.service.DatabaseManager;
 import ua.gram.munhauzen.service.InventoryService;
 import ua.gram.munhauzen.utils.ExceptionHandler;
+import ua.gram.munhauzen.utils.ExternalFiles;
 import ua.gram.munhauzen.utils.Log;
 
 public class MunhauzenGame extends Game {
@@ -63,6 +64,8 @@ public class MunhauzenGame extends Game {
         Log.i(tag, "create");
 
         ExceptionHandler.create();
+
+        ExternalFiles.updateNomedia();
 
         WORLD_WIDTH = Gdx.graphics.getWidth();
         WORLD_HEIGHT = Gdx.graphics.getHeight();

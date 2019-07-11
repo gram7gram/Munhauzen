@@ -14,32 +14,31 @@ import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 
 import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.expansion.response.Part;
 import ua.gram.munhauzen.utils.ExternalFiles;
 import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class ExtractExpansionTask {
+public class ExtractExpansionPartTask {
 
     private final String tag = getClass().getSimpleName();
     final MunhauzenGame game;
 
-    public ExtractExpansionTask(MunhauzenGame game) {
+    public ExtractExpansionPartTask(MunhauzenGame game) {
         this.game = game;
     }
 
-    public void extract() throws IOException {
+    public void extract(Part part) throws IOException {
 
-        FileHandle expansionFile = ExternalFiles.getExpansionFile(game.params);
+        FileHandle expansionFile = ExternalFiles.getExpansionPartFile(part);
+
         FileHandle targetDirectory = ExternalFiles.getExpansionDir();
-        FileHandle lock = ExternalFiles.getExpansionLockFile(game.params);
 
         ZipInputStream zis = new ZipInputStream(expansionFile.read());
 
         try {
-
-            lock.delete();
 
             ArrayList<ZipEntry> entries = determineEntries(zis);
 
@@ -83,28 +82,16 @@ public class ExtractExpansionTask {
 
             zis.close();
 
-            lock.writeString("{\"extracted\":true}", false);
-
             expansionFile.delete();
 
         } catch (Throwable e) {
 
-            cleanup();
+            expansionFile.delete();
 
             throw e;
         }
 
         Log.i(tag, "completed");
-    }
-
-    private void cleanup() {
-        ExternalFiles.getExpansionFile(game.params).delete();
-
-        ExternalFiles.getExpansionLockFile(game.params).delete();
-
-        ExternalFiles.getExpansionImagesDir().deleteDirectory();
-
-        ExternalFiles.getExpansionAudioDir().deleteDirectory();
     }
 
     private ArrayList<ZipEntry> determineEntries(ZipInputStream zis) throws IOException {

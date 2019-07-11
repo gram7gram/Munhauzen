@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.net.HttpRequestBuilder;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
@@ -22,6 +21,7 @@ import com.badlogic.gdx.utils.JsonWriter;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 import ua.gram.munhauzen.FontProvider;
@@ -29,10 +29,10 @@ import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.Inventory;
 import ua.gram.munhauzen.entity.Scenario;
 import ua.gram.munhauzen.expansion.ExportResponse;
-import ua.gram.munhauzen.expansion.ExtractExpansionTask;
 import ua.gram.munhauzen.expansion.ExtractGameConfigTask;
 import ua.gram.munhauzen.fragment.Fragment;
 import ua.gram.munhauzen.screen.GameScreen;
+import ua.gram.munhauzen.service.ExpansionDownloadManager;
 import ua.gram.munhauzen.utils.ExternalFiles;
 import ua.gram.munhauzen.utils.Log;
 
@@ -46,10 +46,15 @@ public class MenuFragment extends Fragment {
     private final AssetManager assetManager;
     public Stack root;
     ScrollPane scroll;
-    TextButton downloadButton, expansionButton, startButton;
-    Label progressLbl, upButton;
+    TextButton downloadButton;
+    public TextButton expansionButton;
+    TextButton startButton;
+    public Label progressLbl, expansionLbl, expansionInfoLbl;
+    Label upButton;
     Table inventoryContainer, scenarioContainer;
     VerticalGroup group;
+    ExpansionDownloadManager downloader;
+    String currentSource = "scenario_1";
 
     public MenuFragment(MunhauzenGame game) {
         this.game = game;
@@ -58,7 +63,7 @@ public class MenuFragment extends Fragment {
 
     public void create() {
         upButton = new Label("UP", new Label.LabelStyle(
-                game.fontProvider.getFont(FontProvider.h1),
+                game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.h1),
                 Color.RED
         ));
         upButton.addListener(new ClickListener() {
@@ -85,8 +90,18 @@ public class MenuFragment extends Fragment {
             }
         });
 
-        progressLbl = new Label("Свободная память: " + getMB(), new Label.LabelStyle(
-                game.fontProvider.getFont(FontProvider.p),
+        progressLbl = new Label("", new Label.LabelStyle(
+                game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
+                Color.BLUE
+        ));
+
+        expansionLbl = new Label("", new Label.LabelStyle(
+                game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
+                Color.BLUE
+        ));
+
+        expansionInfoLbl = new Label("", new Label.LabelStyle(
+                game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
                 Color.BLUE
         ));
 
@@ -102,13 +117,23 @@ public class MenuFragment extends Fragment {
             }
         });
 
-        expansionButton = game.buttonBuilder.primary("[Загрузить файл расширения]", new ClickListener() {
+        expansionButton = game.buttonBuilder.primary("[Скачать файл расш.]", new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
+                expansionButton.setDisabled(true);
+
                 try {
-                    startExpansionDownload();
+                    downloader = new ExpansionDownloadManager(game, MenuFragment.this);
+
+                    Gdx.app.postRunnable(new Runnable() {
+                        @Override
+                        public void run() {
+                            downloader.start();
+                        }
+                    });
+
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -129,7 +154,9 @@ public class MenuFragment extends Fragment {
                 .width(MunhauzenGame.WORLD_WIDTH * .5f)
                 .height(MunhauzenGame.WORLD_HEIGHT / 15f)
                 .expandX().row();
-        container.add(progressLbl).pad(10).expandX().row();
+        container.add(expansionLbl).expandX().row();
+        container.add(expansionInfoLbl).expandX().row();
+        container.add(progressLbl).expandX().row();
 
         inventoryContainer = new Table();
         inventoryContainer.padBottom(80);
@@ -146,7 +173,7 @@ public class MenuFragment extends Fragment {
         container2.add(scenarioContainer).top().expandX();
 
         Table container3 = new Table();
-        container3.add(upButton).align(Align.bottomRight).expand();
+        container3.add(upButton).pad(10).align(Align.bottomRight).expand();
 
         group = new VerticalGroup();
         group.pad(10);
@@ -155,7 +182,6 @@ public class MenuFragment extends Fragment {
 
         scroll = new ScrollPane(group);
         scroll.setFillParent(true);
-        scroll.setScrollingDisabled(true, false);
         scroll.setName(tag);
 
         root = new Stack();
@@ -165,14 +191,11 @@ public class MenuFragment extends Fragment {
     }
 
     private void createInventoryTable() {
-        for (Cell cell : inventoryContainer.getCells()) {
-            Actor actor = cell.getActor();
-            if (actor != null)
-                actor.remove();
-        }
+
+        inventoryContainer.clearChildren();
 
         Label header = new Label("Инвентарь", new Label.LabelStyle(
-                game.fontProvider.getFont(FontProvider.p),
+                game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
                 Color.RED
         ));
         inventoryContainer.add(header).expandX().row();
@@ -194,7 +217,7 @@ public class MenuFragment extends Fragment {
             }
 
             Label label = new Label(name, new Label.LabelStyle(
-                    game.fontProvider.getFont(FontProvider.p),
+                    game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
                     Color.BLACK
             ));
 
@@ -225,19 +248,46 @@ public class MenuFragment extends Fragment {
 
     private void createScenarioTable() {
 
-        for (Cell cell : scenarioContainer.getCells()) {
-            Actor actor = cell.getActor();
-            if (actor != null)
-                actor.remove();
-        }
+        scenarioContainer.clearChildren();
 
-        Label header = new Label("Стартовый сценарий", new Label.LabelStyle(
-                game.fontProvider.getFont(FontProvider.p),
+        Label header = new Label("Сценарий", new Label.LabelStyle(
+                game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
                 Color.RED
         ));
-        scenarioContainer.add(header).expandX().row();
+        scenarioContainer.add(header).colspan(3).expandX().row();
 
-        for (final Scenario scenario : game.gameState.scenarioRegistry) {
+        Label part1 = new Label("Ч1", new Label.LabelStyle(
+                game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
+                Color.RED
+        ));
+        part1.setAlignment(Align.center);
+        scenarioContainer.add(part1).pad(10).center().growX();
+
+        Label part2 = new Label("Ч2", new Label.LabelStyle(
+                game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
+                Color.RED
+        ));
+        part2.setAlignment(Align.center);
+        scenarioContainer.add(part2).pad(10).center().growX();
+
+        Label part3 = new Label("Ч3", new Label.LabelStyle(
+                game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
+                Color.RED
+        ));
+        part3.setAlignment(Align.center);
+        scenarioContainer.add(part3).pad(10).center().growX();
+
+        scenarioContainer.row();
+
+        ArrayList<Scenario> filtered = new ArrayList<>();
+
+        for (Scenario scenario : game.gameState.scenarioRegistry) {
+            if (currentSource.equals(scenario.source)) {
+                filtered.add(scenario);
+            }
+        }
+
+        for (final Scenario scenario : filtered) {
 
             String name = scenario.name;
 
@@ -248,7 +298,7 @@ public class MenuFragment extends Fragment {
             }
 
             Label label = new Label(name, new Label.LabelStyle(
-                    game.fontProvider.getFont(FontProvider.p),
+                    game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
                     Color.BLACK
             ));
 
@@ -268,8 +318,44 @@ public class MenuFragment extends Fragment {
                 }
             });
 
-            scenarioContainer.add(label).left().expandX().row();
+            scenarioContainer.add(label).colspan(3).left().expandX().row();
         }
+
+        part1.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                currentSource = "scenario_1";
+
+                createScenarioTable();
+
+            }
+        });
+
+        part2.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                currentSource = "scenario_2";
+
+                createScenarioTable();
+
+
+            }
+        });
+
+        part3.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                currentSource = "scenario_3";
+
+                createScenarioTable();
+            }
+        });
     }
 
     public void update() {
@@ -428,125 +514,4 @@ public class MenuFragment extends Fragment {
 
     }
 
-    private void startExpansionDownload() {
-        final HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
-
-        Gdx.app.postRunnable(new Runnable() {
-            @Override
-            public void run() {
-                Net.HttpRequest httpRequest = requestBuilder.newRequest()
-                        .method(Net.HttpMethods.GET)
-                        .url(game.params.getExpansionUrl())
-                        .build();
-
-                Gdx.net.sendHttpRequest(httpRequest, new Net.HttpResponseListener() {
-                    @Override
-                    public void handleHttpResponse(Net.HttpResponse httpResponse) {
-
-                        cleanup();
-
-                        FileHandle output = ExternalFiles.getExpansionFile(game.params);
-
-                        try {
-                            long length = Long.parseLong(httpResponse.getHeader("Content-Length"));
-
-                            float mb = length / 1024f / 1024f;
-                            Log.i(tag, "downloading size=" + String.format("%.2f", mb) + "MB");
-
-                            Gdx.app.postRunnable(new Runnable() {
-                                @Override
-                                public void run() {
-                                    progressLbl.setText("Скачивание...");
-                                }
-                            });
-
-                            InputStream is = httpResponse.getResultAsStream();
-
-                            OutputStream os = output.write(false);
-
-                            byte[] bytes = new byte[1024];
-                            int count;
-                            while ((count = is.read(bytes, 0, bytes.length)) != -1) {
-                                os.write(bytes, 0, count);
-                            }
-
-                            Log.i(tag, "downloaded");
-                        } catch (Throwable e) {
-
-                            cleanup();
-
-                            failed(e);
-                            return;
-                        }
-
-                        try {
-                            Log.i(tag, "extracting");
-
-                            Gdx.app.postRunnable(new Runnable() {
-                                @Override
-                                public void run() {
-                                    progressLbl.setText("Распаковка...");
-                                }
-                            });
-
-                            new ExtractExpansionTask(game).extract();
-
-                            Log.i(tag, "extracted");
-
-                            Gdx.app.postRunnable(new Runnable() {
-                                @Override
-                                public void run() {
-                                    progressLbl.setText("Файл расширения готов к использованию");
-                                }
-                            });
-
-                            output.delete();
-
-                        } catch (Throwable e) {
-                            Log.e(tag, e);
-
-                            cleanup();
-
-                            Gdx.app.postRunnable(new Runnable() {
-                                @Override
-                                public void run() {
-                                    progressLbl.setText("Распаковка неудачна");
-                                }
-                            });
-                        }
-                    }
-
-                    @Override
-                    public void failed(Throwable t) {
-                        Log.e(tag, t);
-
-                        Gdx.app.postRunnable(new Runnable() {
-                            @Override
-                            public void run() {
-                                progressLbl.setText("Скачивание неудачно");
-                            }
-                        });
-                    }
-
-                    private void cleanup() {
-
-                        ExternalFiles.getExpansionImagesDir().deleteDirectory();
-
-                        ExternalFiles.getExpansionAudioDir().deleteDirectory();
-
-                        ExternalFiles.getExpansionFile(game.params).delete();
-                    }
-
-                    @Override
-                    public void cancelled() {
-
-                    }
-                });
-            }
-        });
-    }
-
-    private String getMB() {
-        return String.format("%.2f", game.params.memoryUsage.megabytesAvailable()) + "МБ";
-    }
 }
