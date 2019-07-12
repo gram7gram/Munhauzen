@@ -146,6 +146,8 @@ public class HornImageFragment extends Fragment {
 
             interaction.gameScreen.interactionService.complete();
 
+            interaction.gameScreen.interactionService.findStoryAfterInteraction();
+
             interaction.gameScreen.restoreProgressBarIfDestroyed();
 
         } catch (Throwable e) {

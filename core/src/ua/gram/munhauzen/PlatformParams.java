@@ -5,7 +5,7 @@ import ua.gram.munhauzen.utils.MemoryUsage;
 public class PlatformParams {
 
     public MemoryUsage memoryUsage;
-    public String gameHost = "http://munhauzen-api.fingertips.cf";
+    public String gameHost = "http://78.27.147.177:20000";// http://munhauzen-api.fingertips.cf";
     public String device = "phone";
     public String dpi = "hdpi";
     public String locale;
