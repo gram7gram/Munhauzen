@@ -54,6 +54,13 @@ public class NormalTransition extends Transition {
             targetImage.addListener(new ActorGestureListener() {
 
                 @Override
+                public void tap(InputEvent event, float x, float y, int count, int button) {
+                    super.tap(event, x, y, count, button);
+
+                    gameScreen.stageInputListener.clicked(event, x, y);
+                }
+
+                @Override
                 public void pan(InputEvent event, float x, float y, float deltaX, float deltaY) {
                     super.pan(event, x, y, deltaX, deltaY);
 

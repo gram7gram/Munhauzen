@@ -7,8 +7,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
 
 import java.util.ArrayList;
@@ -18,19 +16,12 @@ import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.MunhauzenStage;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.Story;
-import ua.gram.munhauzen.entity.StoryInteraction;
 import ua.gram.munhauzen.entity.StoryScenario;
 import ua.gram.munhauzen.fragment.GameControlsFragment;
 import ua.gram.munhauzen.fragment.ImageFragment;
 import ua.gram.munhauzen.fragment.ProgressBarFragment;
 import ua.gram.munhauzen.fragment.ScenarioFragment;
-import ua.gram.munhauzen.interaction.ContinueInteraction;
-import ua.gram.munhauzen.interaction.GeneralsInteraction;
-import ua.gram.munhauzen.interaction.HareInteraction;
-import ua.gram.munhauzen.interaction.TimerInteraction;
-import ua.gram.munhauzen.interaction.generals.fragment.GeneralsProgressBarFragment;
-import ua.gram.munhauzen.interaction.hare.fragment.HareProgressBarFragment;
-import ua.gram.munhauzen.interaction.timer.fragment.TimerProgressBarFragment;
+import ua.gram.munhauzen.listener.StageInputListener;
 import ua.gram.munhauzen.service.AudioService;
 import ua.gram.munhauzen.service.ExternalImageService;
 import ua.gram.munhauzen.service.InteractionService;
@@ -61,6 +52,7 @@ public class GameScreen implements Screen {
     private Timer.Task saveTask;
     private Texture background;
     private boolean isLoaded;
+    public StageInputListener stageInputListener;
 
     public GameScreen(MunhauzenGame game) {
         this.game = game;
@@ -88,13 +80,14 @@ public class GameScreen implements Screen {
 
         ui = new MunhauzenStage(game);
         storyManager = new StoryManager(this, game.gameState);
+        stageInputListener = new StageInputListener(this);
 
         isLoaded = false;
         GameState.isPaused = false;
 
         assetManager.load("GameScreen/t_putty.png", Texture.class);
 
-        Story story = game.gameState.history.activeSave.story;
+        Story story = getStory();
         if (story != null && story.isValid()) {
             storyManager.startLoadingResources();
         }
@@ -148,102 +141,7 @@ public class GameScreen implements Screen {
             }
         }, 5, 5);
 
-        ui.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-
-                if (event.isHandled()) return;
-
-                try {
-                    Log.i(tag, "ui clicked");
-
-                    StoryInteraction storyInteraction = getStory().currentInteraction;
-
-                    if (storyInteraction != null) {
-                        if (storyInteraction.interaction instanceof ContinueInteraction) {
-                            ContinueInteraction continueInteraction = (ContinueInteraction) storyInteraction.interaction;
-
-                            if (continueInteraction.root != null) {
-                                if (!continueInteraction.root.isVisible()) {
-                                    if (!continueInteraction.isFadeIn) {
-                                        continueInteraction.fadeIn();
-                                    }
-                                } else {
-                                    if (!continueInteraction.isFadeOut) {
-                                        continueInteraction.fadeOut();
-                                    }
-                                }
-                            }
-                        }
-
-                        if (storyInteraction.interaction instanceof HareInteraction) {
-                            HareProgressBarFragment barFragment = ((HareInteraction) storyInteraction.interaction).progressBarFragment;
-
-                            if (barFragment != null) {
-                                if (!barFragment.getRoot().isVisible()) {
-                                    if (!barFragment.isFadeIn) {
-                                        barFragment.fadeIn();
-                                        barFragment.scheduleFadeOut();
-                                    }
-                                } else {
-                                    if (!barFragment.isFadeOut) {
-                                        barFragment.fadeOut();
-                                    }
-                                }
-                            }
-                        }
-
-                        if (storyInteraction.interaction instanceof GeneralsInteraction) {
-                            GeneralsProgressBarFragment barFragment = ((GeneralsInteraction) storyInteraction.interaction).progressBarFragment;
-
-                            if (barFragment != null) {
-                                if (!barFragment.getRoot().isVisible()) {
-                                    if (!barFragment.isFadeIn) {
-                                        barFragment.fadeIn();
-                                        barFragment.scheduleFadeOut();
-                                    }
-                                } else {
-                                    if (!barFragment.isFadeOut) {
-                                        barFragment.fadeOut();
-                                    }
-                                }
-                            }
-                        }
-
-                        if (storyInteraction.interaction instanceof TimerInteraction) {
-                            TimerProgressBarFragment barFragment = ((TimerInteraction) storyInteraction.interaction).progressBarFragment;
-
-                            if (barFragment != null) {
-                                if (!barFragment.getRoot().isVisible()) {
-                                    if (!barFragment.isFadeIn) {
-                                        barFragment.fadeIn();
-                                        barFragment.scheduleFadeOut();
-                                    }
-                                } else {
-                                    if (!barFragment.isFadeOut) {
-                                        barFragment.fadeOut();
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    if (storyInteraction == null || storyInteraction.interaction instanceof ContinueInteraction) {
-
-                        if (!progressBarFragment.getRoot().isVisible()) {
-                            showProgressBar();
-                        } else {
-                            hideProgressBar();
-                        }
-                    }
-
-                } catch (Throwable e) {
-                    Log.e(tag, e);
-                }
-
-            }
-        });
+        ui.addListener(stageInputListener);
     }
 
     @Override
@@ -459,6 +357,7 @@ public class GameScreen implements Screen {
         interactionService = null;
         internalImageService = null;
         background = null;
+        stageInputListener = null;
 
         setStory(null);
     }
