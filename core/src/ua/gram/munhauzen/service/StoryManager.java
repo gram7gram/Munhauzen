@@ -138,35 +138,12 @@ public class StoryManager {
         story.update(progress, duration);
     }
 
-    public void startLoadingResources() {
+    public void startLoadingImages() {
         Story story = gameState.history.activeSave.story;
 
         try {
             StoryScenario option = story.currentScenario;
             if (option == null) return;
-
-            final StoryAudio optionAudio = option.currentAudio;
-            if (optionAudio != null) {
-                gameScreen.audioService.prepare(optionAudio, new Timer.Task() {
-                    @Override
-                    public void run() {
-                        try {
-                            gameScreen.audioService.onPrepared(optionAudio);
-                        } catch (Throwable e) {
-                            Log.e(tag, e);
-                        }
-                    }
-                });
-
-                if (optionAudio.next != null) {
-                    gameScreen.audioService.prepare(optionAudio.next, new Timer.Task() {
-                        @Override
-                        public void run() {
-
-                        }
-                    });
-                }
-            }
 
             final StoryImage optionImage = option.currentImage;
             if (optionImage != null) {
@@ -196,9 +173,52 @@ public class StoryManager {
         }
     }
 
+    public void startLoadingAudio() {
+        Story story = gameState.history.activeSave.story;
+
+        try {
+            StoryScenario option = story.currentScenario;
+            if (option == null) return;
+
+            final StoryAudio optionAudio = option.currentAudio;
+            if (optionAudio != null) {
+                gameScreen.audioService.prepare(optionAudio, new Timer.Task() {
+                    @Override
+                    public void run() {
+                        try {
+                            gameScreen.audioService.onPrepared(optionAudio);
+                        } catch (Throwable e) {
+                            Log.e(tag, e);
+                        }
+                    }
+                });
+
+                if (optionAudio.next != null) {
+                    gameScreen.audioService.prepare(optionAudio.next, new Timer.Task() {
+                        @Override
+                        public void run() {
+
+                        }
+                    });
+                }
+            }
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+    }
+    public void startLoadingResources() {
+
+        startLoadingAudio();
+
+        startLoadingImages();
+    }
+
     public void onCompleted() {
 
-        Story story = gameState.history.activeSave.story;
+        startLoadingImages();
+
+        Story story = gameScreen.getStory();
         Log.i(tag, "onCompleted " + story.id);
 
         for (StoryScenario storyScenario : story.scenarios) {

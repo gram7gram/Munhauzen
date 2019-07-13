@@ -10,7 +10,6 @@ import com.badlogic.gdx.utils.Timer;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.Image;
 import ua.gram.munhauzen.entity.Scenario;
 import ua.gram.munhauzen.entity.Story;
@@ -81,9 +80,14 @@ public abstract class ImageService implements Disposable {
 
     public void onPrepared(StoryImage item) {
 
-        if (!item.isLocked) return;
-        if (GameState.isPaused) return;
-        if (item.isActive) return;
+        if (!item.isLocked) {
+            Log.i(tag, "not locked " + item.image);
+            return;
+        }
+        if (item.isActive) {
+            Log.i(tag, "already active " + item.image);
+            return;
+        }
 
         Log.i(tag, "onPrepared " + getResource(item)
                 + " in " + DateUtils.getDateDiff(item.prepareCompletedAt, item.prepareStartedAt, TimeUnit.MILLISECONDS) + "ms");

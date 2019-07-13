@@ -50,8 +50,7 @@ public class TimerImageFragment extends Fragment {
 
     public void setBackground(SpriteDrawable texture) {
 
-        interaction.gameScreen.imageFragment.layer1ImageGroup.setVisible(false);
-        interaction.gameScreen.imageFragment.layer2ImageGroup.setVisible(false);
+        interaction.gameScreen.hideImageFragment();
 
         backgroundTable.setVisible(true);
 

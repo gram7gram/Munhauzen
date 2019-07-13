@@ -44,7 +44,7 @@ public class BalloonsImageFragment extends Fragment {
     Balloon balloon1, balloon2, balloon3, balloon4;
     Label progressLabel;
     Table titleTable;
-    int progress, max = 21, spawnCount, missCount;
+    int progress, max = 3, spawnCount, missCount;
     Timer.Task task;
 
     public BalloonsImageFragment(BalloonsInteraction interaction) {
@@ -284,7 +284,7 @@ public class BalloonsImageFragment extends Fragment {
 
             Log.i(tag, "spawnBalloon " + spawnCount + "/" + max + " " + missCount);
 
-            balloon.start(spawnCount == max);
+            balloon.start(interaction, spawnCount == max);
 
             if (spawnCount == max) {
                 stopSpawn();
@@ -453,8 +453,7 @@ public class BalloonsImageFragment extends Fragment {
 
     public void setBackground(Texture texture) {
 
-        interaction.gameScreen.imageFragment.layer1ImageGroup.setVisible(false);
-        interaction.gameScreen.imageFragment.layer2ImageGroup.setVisible(false);
+        interaction.gameScreen.hideImageFragment();
 
         background.setDrawable(new SpriteDrawable(new Sprite(texture)));
 

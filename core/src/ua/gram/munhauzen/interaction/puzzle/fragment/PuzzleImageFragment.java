@@ -333,8 +333,7 @@ public class PuzzleImageFragment extends Fragment {
 
     public void setBackground(Texture texture) {
 
-        interaction.gameScreen.imageFragment.layer1ImageGroup.setVisible(false);
-        interaction.gameScreen.imageFragment.layer2ImageGroup.setVisible(false);
+        interaction.gameScreen.hideImageFragment();
 
         background.setDrawable(new SpriteDrawable(new Sprite(texture)));
 

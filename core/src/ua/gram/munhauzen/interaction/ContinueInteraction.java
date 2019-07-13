@@ -30,6 +30,7 @@ public class ContinueInteraction extends AbstractInteraction {
 
     public Group root;
     public boolean isFadeIn, isFadeOut, isLoaded;
+    Button button;
 
     public ContinueInteraction(GameScreen gameScreen) {
         super(gameScreen);
@@ -49,7 +50,7 @@ public class ContinueInteraction extends AbstractInteraction {
 
         root = new Group();
 
-        final Button button = button("Continue", new ClickListener() {
+        button = button("Continue", new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
@@ -114,8 +115,11 @@ public class ContinueInteraction extends AbstractInteraction {
     }
 
     private void complete() {
+
+        Log.i(tag, "complete");
+
         try {
-            root.setTouchable(Touchable.disabled);
+            button.setTouchable(Touchable.disabled);
 
             root.addAction(
                     Actions.sequence(

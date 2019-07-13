@@ -1,6 +1,7 @@
 package ua.gram.munhauzen.interaction.balloons.ui;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -10,6 +11,7 @@ import com.badlogic.gdx.utils.Array;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.animation.ArcToAction;
+import ua.gram.munhauzen.interaction.BalloonsInteraction;
 import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.utils.Random;
 
@@ -58,7 +60,7 @@ public class Balloon extends FitImage {
         isLocked = false;
     }
 
-    public void start(boolean isSuperFast) {
+    public void start(BalloonsInteraction interaction, boolean isSuperFast) {
 
         clearActions();
 
@@ -77,16 +79,26 @@ public class Balloon extends FitImage {
             }
         };
 
-        if (isSuperFast) {
-            addAction(Actions.sequence(
-                    Actions.alpha(1),
+        if (isSuperFast && interaction.trajectoryPoints.size > 0) {
 
-                    Actions.delay(new Random().between(3, 10)),
+            SequenceAction sequenceAction = new SequenceAction();
+            sequenceAction.addAction(Actions.alpha(1));
+            sequenceAction.addAction(Actions.delay(new Random().between(3, 10)));
 
-                    trajectory(1.5f),
+            float duration = 1.5f / interaction.trajectoryPoints.size;
 
-                    Actions.run(onComplete)
-            ));
+            for (Vector2 p : interaction.trajectoryPoints) {
+                sequenceAction.addAction(Actions.moveTo(
+                        MunhauzenGame.WORLD_WIDTH * p.x / 100,
+                        MunhauzenGame.WORLD_HEIGHT * p.y / 100,
+                        duration,
+                        Interpolation.linear
+                ));
+            }
+
+            sequenceAction.addAction(Actions.run(onComplete));
+
+            addAction(sequenceAction);
         } else {
             addAction(Actions.sequence(
                     Actions.alpha(1),

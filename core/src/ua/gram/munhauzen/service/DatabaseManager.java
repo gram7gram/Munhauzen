@@ -2,6 +2,7 @@ package ua.gram.munhauzen.service;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
@@ -344,5 +345,13 @@ public class DatabaseManager {
         FileHandle file = ExternalFiles.getInventoryFile();
 
         return json.fromJson(Array.class, Inventory.class, file);
+    }
+
+    @SuppressWarnings("unchecked")
+    public Array<Vector2> loadBalloonTrajectory(FileHandle file) {
+        Json json = new Json(JsonWriter.OutputType.json);
+        json.setIgnoreUnknownFields(true);
+
+        return json.fromJson(Array.class, Vector2.class, file);
     }
 }

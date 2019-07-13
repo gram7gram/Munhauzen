@@ -245,7 +245,7 @@ public class LionsImageFragment extends Fragment {
 
             interaction.gameScreen.restoreProgressBarIfDestroyed();
 
-            Inventory item = InventoryRepository.find(interaction.gameScreen.game.gameState, "");
+            Inventory item = InventoryRepository.find(interaction.gameScreen.game.gameState, "LION");
 
             interaction.gameScreen.game.inventoryService.addInventory(item);
 

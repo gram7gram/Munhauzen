@@ -110,7 +110,7 @@ public class StoryScenario extends StoryMedia<StoryScenario> {
                 item.isLocked = false;
                 item.progress = progress;
 
-                if (item.startsAt <= progress && progress < item.finishesAt) {
+                if (item.startsAt < progress && progress <= item.finishesAt) {
                     item.isLocked = true;
                     currentImage = item;
                 }
@@ -136,7 +136,7 @@ public class StoryScenario extends StoryMedia<StoryScenario> {
                 item.isLocked = false;
                 item.progress = progress;
 
-                if (item.startsAt <= progress && progress < item.finishesAt) {
+                if (item.startsAt < progress && progress <= item.finishesAt) {
                     item.isLocked = true;
                     currentAudio = item;
                 }

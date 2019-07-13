@@ -87,13 +87,13 @@
       {
         "internalFile": "generals/inter_general_1.jpg",
         "withFumes": true,
-        "duration": 12000
+        "duration": 18000
       },
       {
         "internalFile": "generals/inter_general_2.jpg",
         "withFireLeft": true,
         "withFireRight": true,
-        "duration": 45000
+        "duration": 39000
       }
     ],
     "decisions": [],
