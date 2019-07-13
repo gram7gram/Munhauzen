@@ -117,6 +117,8 @@ public class TimerStoryManager {
                             gameScreen.audioService.onPrepared(audio);
                         } catch (Throwable e) {
                             Log.e(tag, e);
+
+                            interaction.gameScreen.onCriticalError(e);
                         }
                     }
                 });
@@ -132,6 +134,8 @@ public class TimerStoryManager {
             }
         } catch (Throwable e) {
             Log.e(tag, e);
+
+            interaction.gameScreen.onCriticalError(e);
         }
 
         try {
@@ -144,6 +148,8 @@ public class TimerStoryManager {
                             interaction.imageService.onPrepared(image);
                         } catch (Throwable e) {
                             Log.e(tag, e);
+
+                            interaction.gameScreen.onCriticalError(e);
                         }
                     }
                 });
@@ -159,6 +165,8 @@ public class TimerStoryManager {
             }
         } catch (Throwable e) {
             Log.e(tag, e);
+
+            interaction.gameScreen.onCriticalError(e);
         }
 
     }
@@ -241,6 +249,8 @@ public class TimerStoryManager {
             interaction.gameScreen.restoreProgressBarIfDestroyed();
         } catch (Throwable e) {
             Log.e(tag, e);
+
+            interaction.gameScreen.onCriticalError(e);
         }
     }
 

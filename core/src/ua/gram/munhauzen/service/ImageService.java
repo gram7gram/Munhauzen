@@ -80,14 +80,8 @@ public abstract class ImageService implements Disposable {
 
     public void onPrepared(StoryImage item) {
 
-        if (!item.isLocked) {
-            Log.i(tag, "not locked " + item.image);
-            return;
-        }
-        if (item.isActive) {
-            Log.i(tag, "already active " + item.image);
-            return;
-        }
+        if (!item.isLocked) return;
+        if (item.isActive) return;
 
         Log.i(tag, "onPrepared " + getResource(item)
                 + " in " + DateUtils.getDateDiff(item.prepareCompletedAt, item.prepareStartedAt, TimeUnit.MILLISECONDS) + "ms");

@@ -237,6 +237,7 @@ public class GameScreen implements Screen {
     private void drawDebugInfo() {
 
         Story story = getStory();
+        if (story == null) return;
 
         int fontSize = FontProvider.h4;
         BitmapFont font = game.fontProvider.getFont(FontProvider.DroidSansMono, fontSize);
@@ -319,21 +320,9 @@ public class GameScreen implements Screen {
             ui = null;
         }
 
-        if (audioService != null) {
-            audioService.dispose();
-            audioService = null;
-        }
-
-        if (externalImageService != null) {
-            externalImageService.dispose();
-            externalImageService = null;
-        }
-
-        if (internalImageService != null) {
-            internalImageService.dispose();
-            internalImageService = null;
-        }
-
+        audioService.dispose();
+        externalImageService.dispose();
+        internalImageService.dispose();
         progressBarFragment.dispose();
 
         if (scenarioFragment != null) {
@@ -346,18 +335,9 @@ public class GameScreen implements Screen {
             gameControlsFragment = null;
         }
 
-        if (gameLayers != null) {
-            gameLayers.dispose();
-            gameLayers = null;
-        }
+        gameLayers.dispose();
 
-        storyManager = null;
-        audioService = null;
-        externalImageService = null;
-        interactionService = null;
-        internalImageService = null;
         background = null;
-        stageInputListener = null;
 
         setStory(null);
     }
@@ -385,8 +365,6 @@ public class GameScreen implements Screen {
     }
 
     public void hideProgressBar() {
-
-        Log.i(tag, "hideProgressBar");
 
         try {
             if (progressBarFragment.canFadeOut()) {
@@ -422,5 +400,10 @@ public class GameScreen implements Screen {
                 }
             });
         }
+    }
+
+    public void onCriticalError(Throwable e) {
+        game.onCriticalError(e);
+        dispose();
     }
 }

@@ -31,6 +31,7 @@ public class SwampImageFragment extends Fragment {
     public Image background, swamp, munhauzen;
     public Table backgroundTable, swampTable, munhauzenTable;
     Timer.Task task;
+    StoryAudio winAudio;
 
     public SwampImageFragment(SwampInteraction interaction) {
         this.interaction = interaction;
@@ -120,7 +121,9 @@ public class SwampImageFragment extends Fragment {
     }
 
     public void update() {
-
+        if (winAudio != null) {
+            interaction.gameScreen.audioService.updateVolume(winAudio);
+        }
     }
 
     private void checkIfWinner() {
@@ -153,7 +156,7 @@ public class SwampImageFragment extends Fragment {
                 )
         ));
 
-        float delay = playWin();
+        playWin();
 
         Timer.instance().scheduleTask(new Timer.Task() {
             @Override
@@ -168,27 +171,27 @@ public class SwampImageFragment extends Fragment {
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
+
+                    interaction.gameScreen.onCriticalError(e);
                 }
             }
-        }, delay / 1000f);
+        }, winAudio.duration / 1000f);
 
     }
 
 
-    private float playWin() {
+    private void playWin() {
         try {
-            StoryAudio storyAudio = new StoryAudio();
-            storyAudio.audio = "s24_a";
+            winAudio = new StoryAudio();
+            winAudio.audio = "s24_a";
 
-            interaction.gameScreen.audioService.prepareAndPlay(storyAudio);
-
-            return storyAudio.duration;
+            interaction.gameScreen.audioService.prepareAndPlay(winAudio);
 
         } catch (Throwable e) {
             Log.e(tag, e);
-        }
 
-        return 1000;
+            interaction.gameScreen.onCriticalError(e);
+        }
     }
 
 
@@ -251,6 +254,11 @@ public class SwampImageFragment extends Fragment {
         super.dispose();
 
         cancelTask();
+
+        if (winAudio != null) {
+            interaction.gameScreen.audioService.stop(winAudio);
+            winAudio = null;
+        }
 
     }
 }

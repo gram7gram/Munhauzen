@@ -154,6 +154,8 @@ public class StoryManager {
                             gameScreen.externalImageService.onPrepared(optionImage);
                         } catch (Throwable e) {
                             Log.e(tag, e);
+
+                            gameScreen.onCriticalError(e);
                         }
                     }
                 });
@@ -170,6 +172,8 @@ public class StoryManager {
 
         } catch (Throwable e) {
             Log.e(tag, e);
+
+            gameScreen.onCriticalError(e);
         }
     }
 
@@ -189,6 +193,8 @@ public class StoryManager {
                             gameScreen.audioService.onPrepared(optionAudio);
                         } catch (Throwable e) {
                             Log.e(tag, e);
+
+                            gameScreen.onCriticalError(e);
                         }
                     }
                 });
@@ -205,6 +211,8 @@ public class StoryManager {
 
         } catch (Throwable e) {
             Log.e(tag, e);
+
+            gameScreen.onCriticalError(e);
         }
     }
     public void startLoadingResources() {

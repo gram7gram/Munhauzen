@@ -513,6 +513,8 @@ public class PuzzleDecisionManager {
                     interaction.gameScreen.restoreProgressBarIfDestroyed();
                 } catch (Throwable e) {
                     Log.e(tag, e);
+
+                    interaction.gameScreen.onCriticalError(e);
                 }
             }
         }, storyAudio.duration / 1000f);

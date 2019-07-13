@@ -5,17 +5,20 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
+import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.MunhauzenGame;
-import ua.gram.munhauzen.entity.Story;
+import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.fragment.Fragment;
 import ua.gram.munhauzen.interaction.DateInteraction;
+import ua.gram.munhauzen.interaction.date.CompleteDialog;
 import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.ui.PrimaryButton;
 import ua.gram.munhauzen.utils.Log;
@@ -30,9 +33,12 @@ public class DateImageFragment extends Fragment {
     Image background, season1, season2, season3, season4;
     Table backgroundTable, season1Table, season2Table, season3Table, season4Table, seasonsTable;
     String currentSeason;
-    Table seasonGroup;
+    Table seasonGroup, dialogContainer, dateContainer;
     ImageButton prevBtn, nextBtn;
     PrimaryButton confirmBtn;
+    CompleteDialog completeDialog;
+    StoryAudio failedAudio;
+    Timer.Task failedTask;
 
     public DateImageFragment(DateInteraction interaction) {
         this.interaction = interaction;
@@ -49,8 +55,10 @@ public class DateImageFragment extends Fragment {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
+                confirmBtn.setDisabled(true);
+
                 if ("summer".equals(currentSeason)) {
-                    complete();
+                    interaction.complete();
                 } else {
                     failed();
                 }
@@ -154,25 +162,29 @@ public class DateImageFragment extends Fragment {
         });
 
         seasonGroup = new Table();
+        completeDialog = new CompleteDialog(interaction);
 
         seasonsTable = new Table();
         seasonsTable.add(prevBtn).left();
         seasonsTable.add(seasonGroup).center().grow();
         seasonsTable.add(nextBtn).right();
 
-        Table table = new Table();
-        table.pad(10);
-        table.setFillParent(true);
-        table.add(seasonsTable).center().grow().row();
-        table.add(confirmBtn).top().expand()
+        dateContainer = new Table();
+        dateContainer.pad(10);
+        dateContainer.setFillParent(true);
+        dateContainer.add(seasonsTable).center().grow().row();
+        dateContainer.add(confirmBtn).top().expand()
                 .width(MunhauzenGame.WORLD_WIDTH / 3f)
                 .height(MunhauzenGame.WORLD_HEIGHT / 12f);
+
+        dialogContainer = new Table();
 
         root = new Stack();
         root.setFillParent(true);
         root.setTouchable(Touchable.childrenOnly);
         root.addActor(backgroundTable);
-        root.addActor(table);
+        root.addActor(dateContainer);
+        root.addActor(dialogContainer);
 
         setBackground(
                 interaction.assetManager.get("date/back.jpg", Texture.class)
@@ -197,7 +209,16 @@ public class DateImageFragment extends Fragment {
         start();
     }
 
-    private void start() {
+    public void start() {
+
+        confirmBtn.setDisabled(false);
+
+        dateContainer.setVisible(true);
+        dateContainer.addAction(Actions.sequence(
+                Actions.alpha(0),
+                Actions.alpha(1, .3f)
+        ));
+
         setSeason("spring");
     }
 
@@ -228,28 +249,13 @@ public class DateImageFragment extends Fragment {
 
     public void update() {
 
-        confirmBtn.setDisabled(currentSeason == null);
         nextBtn.setDisabled("winter".equals(currentSeason));
         prevBtn.setDisabled("spring".equals(currentSeason));
 
-    }
-
-    private void complete() {
-        Log.i(tag, "complete");
-
-        try {
-
-            interaction.gameScreen.interactionService.complete();
-
-            Story newStory = interaction.gameScreen.storyManager.create("amoon_correct");
-
-            interaction.gameScreen.setStory(newStory);
-
-            interaction.gameScreen.restoreProgressBarIfDestroyed();
-
-        } catch (Throwable e) {
-            Log.e(tag, e);
+        if (failedAudio != null) {
+            interaction.gameScreen.audioService.updateVolume(failedAudio);
         }
+
     }
 
     private void failed() {
@@ -257,16 +263,53 @@ public class DateImageFragment extends Fragment {
 
         try {
 
-            interaction.gameScreen.interactionService.complete();
+            playFailed();
 
-            Story newStory = interaction.gameScreen.storyManager.create("amoon_incorrect");
+            failedTask = Timer.instance().scheduleTask(new Timer.Task() {
+                @Override
+                public void run() {
 
-            interaction.gameScreen.setStory(newStory);
+                    try {
 
-            interaction.gameScreen.restoreProgressBarIfDestroyed();
+                        dateContainer.addAction(Actions.sequence(
+                                Actions.alpha(0, .3f),
+                                Actions.run(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        dateContainer.setVisible(false);
+                                    }
+                                })
+                        ));
+
+                        completeDialog.create();
+
+                        dialogContainer.clearChildren();
+                        dialogContainer.add(completeDialog.getRoot());
+                    } catch (Throwable e) {
+                        Log.e(tag, e);
+                    }
+                }
+            }, failedAudio.duration / 1000f);
 
         } catch (Throwable e) {
             Log.e(tag, e);
+
+            interaction.gameScreen.onCriticalError(e);
+        }
+    }
+
+    private void playFailed() {
+        try {
+            failedAudio = new StoryAudio();
+            failedAudio.audio = "s24_a";
+
+            interaction.gameScreen.audioService.prepareAndPlay(failedAudio);
+
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            interaction.gameScreen.onCriticalError(e);
         }
     }
 
@@ -346,6 +389,14 @@ public class DateImageFragment extends Fragment {
     public void dispose() {
         super.dispose();
 
+        if (failedAudio != null) {
+            interaction.gameScreen.audioService.stop(failedAudio);
+            failedAudio = null;
+        }
+        if (failedTask != null) {
+            failedTask.cancel();
+            failedTask = null;
+        }
     }
 
 

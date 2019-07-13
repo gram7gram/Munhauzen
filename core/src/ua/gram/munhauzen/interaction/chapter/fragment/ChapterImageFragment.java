@@ -173,6 +173,8 @@ public class ChapterImageFragment extends Fragment {
                                         interaction.gameScreen.restoreProgressBarIfDestroyed();
                                     } catch (Throwable e) {
                                         Log.e(tag, e);
+
+                                        interaction.gameScreen.onCriticalError(e);
                                     }
                                 }
                             })

@@ -36,7 +36,7 @@ public class LionsImageFragment extends Fragment {
     Table backgroundTable;
     PrimaryButton attackBtn;
     StoryAudio steadyAudio, goAudio, sleepAudio;
-    Timer.Task sleepTask;
+    Timer.Task sleepTask, delayedTask, readyTask;
 
     public LionsImageFragment(LionsInteraction interaction) {
         this.interaction = interaction;
@@ -91,13 +91,15 @@ public class LionsImageFragment extends Fragment {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
+                attackBtn.setDisabled(true);
+
                 failedEarly();
             }
         });
 
         playSteady();
 
-        Timer.instance().scheduleTask(new Timer.Task() {
+        delayedTask = Timer.instance().scheduleTask(new Timer.Task() {
             @Override
             public void run() {
 
@@ -105,7 +107,7 @@ public class LionsImageFragment extends Fragment {
 
                 playGo();
 
-                Timer.instance().scheduleTask(new Timer.Task() {
+                readyTask = Timer.instance().scheduleTask(new Timer.Task() {
                     @Override
                     public void run() {
 
@@ -116,6 +118,8 @@ public class LionsImageFragment extends Fragment {
                             @Override
                             public void clicked(InputEvent event, float x, float y) {
                                 super.clicked(event, x, y);
+
+                                attackBtn.setDisabled(true);
 
                                 if (sleepTask != null) {
                                     sleepTask.cancel();
@@ -147,6 +151,8 @@ public class LionsImageFragment extends Fragment {
                                     public void clicked(InputEvent event, float x, float y) {
                                         super.clicked(event, x, y);
 
+                                        attackBtn.setDisabled(true);
+
                                         failedLate();
                                     }
                                 });
@@ -174,6 +180,8 @@ public class LionsImageFragment extends Fragment {
         } catch (Throwable e) {
             Log.e(tag, e);
 
+            interaction.gameScreen.onCriticalError(e);
+
             steadyAudio.duration = 1000;
         }
 
@@ -191,6 +199,8 @@ public class LionsImageFragment extends Fragment {
 
         } catch (Throwable e) {
             Log.e(tag, e);
+
+            interaction.gameScreen.onCriticalError(e);
 
             sleepAudio.duration = 1000;
         }
@@ -213,6 +223,8 @@ public class LionsImageFragment extends Fragment {
 
         } catch (Throwable e) {
             Log.e(tag, e);
+
+            interaction.gameScreen.onCriticalError(e);
 
             goAudio.duration = 1000;
         }
@@ -245,12 +257,14 @@ public class LionsImageFragment extends Fragment {
 
             interaction.gameScreen.restoreProgressBarIfDestroyed();
 
-            Inventory item = InventoryRepository.find(interaction.gameScreen.game.gameState, "LION");
+            Inventory item = InventoryRepository.find(interaction.gameScreen.game.gameState, "ST_LION");
 
             interaction.gameScreen.game.inventoryService.addInventory(item);
 
         } catch (Throwable e) {
             Log.e(tag, e);
+
+            interaction.gameScreen.onCriticalError(e);
         }
     }
 
@@ -269,6 +283,8 @@ public class LionsImageFragment extends Fragment {
 
         } catch (Throwable e) {
             Log.e(tag, e);
+
+            interaction.gameScreen.onCriticalError(e);
         }
     }
 
@@ -287,6 +303,8 @@ public class LionsImageFragment extends Fragment {
 
         } catch (Throwable e) {
             Log.e(tag, e);
+
+            interaction.gameScreen.onCriticalError(e);
         }
     }
 
@@ -334,6 +352,16 @@ public class LionsImageFragment extends Fragment {
         if (sleepTask != null) {
             sleepTask.cancel();
             sleepTask = null;
+        }
+
+        if (delayedTask != null) {
+            delayedTask.cancel();
+            delayedTask = null;
+        }
+
+        if (readyTask != null) {
+            readyTask.cancel();
+            readyTask = null;
         }
 
     }

@@ -2,20 +2,15 @@ package ua.gram.munhauzen;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import java.util.ArrayList;
-
 import ua.gram.munhauzen.entity.GameState;
+import ua.gram.munhauzen.screen.ErrorScreen;
 import ua.gram.munhauzen.screen.MainMenuScreen;
 import ua.gram.munhauzen.service.DatabaseManager;
 import ua.gram.munhauzen.service.InventoryService;
@@ -31,7 +26,7 @@ public class MunhauzenGame extends Game {
     public static final boolean DEBUG = false;
     public static final boolean DEBUG_RENDER_INFO = true;
     public static final int PROGRESS_BAR_FADE_OUT_DELAY = 5;
-    public static String developmentScenario;// = "a1_0";
+    public static String developmentScenario;// = "alions_a";
 
     private final String tag = getClass().getSimpleName();
 
@@ -45,7 +40,6 @@ public class MunhauzenGame extends Game {
     public ButtonBuilder buttonBuilder;
     public AssetManager assetManager;
     public InventoryService inventoryService;
-    private Throwable currentError;
 
     public MunhauzenGame(PlatformParams params) {
         this.params = params;
@@ -106,20 +100,10 @@ public class MunhauzenGame extends Game {
 
         try {
             super.render();
-
-            drawError();
-
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            currentError = e;
-
-            Timer.schedule(new Timer.Task() {
-                @Override
-                public void run() {
-                    currentError = null;
-                }
-            }, 10);
+            onCriticalError(e);
         }
     }
 
@@ -174,34 +158,8 @@ public class MunhauzenGame extends Game {
         view.apply();
     }
 
-    private void drawError() {
-
-        if (currentError == null) return;
-
-        int fontSize = FontProvider.h4;
-        BitmapFont font = fontProvider.getFont(fontSize);
-        if (font != null) {
-
-            font.setColor(Color.RED);
-
-            ArrayList<String> strings = new ArrayList<>();
-            strings.add("error: " + currentError.getMessage());
-
-            int offset = fontSize + 1;
-            int row = -1;
-
-            batch.begin();
-            for (String string : strings) {
-                font.draw(batch, string, 10, 10 + fontSize + (++row) * offset);
-            }
-            batch.end();
-        }
-    }
-
-    @Override
-    public void setScreen(Screen screen) {
-        super.setScreen(screen);
-        currentError = null;
+    public void onCriticalError(Throwable e) {
+        setScreen(new ErrorScreen(this, e));
     }
 
 }

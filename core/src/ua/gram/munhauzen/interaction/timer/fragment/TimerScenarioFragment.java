@@ -166,6 +166,8 @@ public class TimerScenarioFragment extends Fragment {
 
                     } catch (Throwable e) {
                         Log.e(tag, e);
+
+                        interaction.gameScreen.onCriticalError(e);
                     }
                 }
             }, delay / 1000f);

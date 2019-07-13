@@ -186,6 +186,8 @@ public class SlapImageFragment extends Fragment {
 
         } catch (Throwable e) {
             Log.e(tag, e);
+
+            interaction.gameScreen.onCriticalError(e);
         }
 
     }

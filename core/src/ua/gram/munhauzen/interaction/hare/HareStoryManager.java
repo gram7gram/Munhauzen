@@ -115,6 +115,8 @@ public class HareStoryManager {
                             gameScreen.audioService.onPrepared(audio);
                         } catch (Throwable e) {
                             Log.e(tag, e);
+
+                            interaction.gameScreen.onCriticalError(e);
                         }
                     }
                 });
@@ -130,6 +132,8 @@ public class HareStoryManager {
             }
         } catch (Throwable e) {
             Log.e(tag, e);
+
+            interaction.gameScreen.onCriticalError(e);
         }
 
     }
@@ -212,6 +216,8 @@ public class HareStoryManager {
             interaction.gameScreen.restoreProgressBarIfDestroyed();
         } catch (Throwable e) {
             Log.e(tag, e);
+
+            interaction.gameScreen.onCriticalError(e);
         }
     }
 

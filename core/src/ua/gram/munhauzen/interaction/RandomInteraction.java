@@ -47,6 +47,8 @@ public class RandomInteraction extends AbstractInteraction {
             gameScreen.storyManager.startLoadingResources();
         } catch (Throwable e) {
             Log.e(tag, e);
+
+            gameScreen.onCriticalError(e);
         }
 
     }

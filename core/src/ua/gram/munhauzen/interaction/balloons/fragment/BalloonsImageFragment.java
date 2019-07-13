@@ -45,7 +45,7 @@ public class BalloonsImageFragment extends Fragment {
     Label progressLabel;
     Table titleTable;
     int progress, max = 3, spawnCount, missCount;
-    Timer.Task task;
+    Timer.Task task, completeTask;
 
     public BalloonsImageFragment(BalloonsInteraction interaction) {
         this.interaction = interaction;
@@ -332,7 +332,7 @@ public class BalloonsImageFragment extends Fragment {
             }
         }, 1);
 
-        Timer.instance().scheduleTask(new Timer.Task() {
+        completeTask = Timer.instance().scheduleTask(new Timer.Task() {
             @Override
             public void run() {
                 try {
@@ -345,6 +345,8 @@ public class BalloonsImageFragment extends Fragment {
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
+
+                    interaction.gameScreen.onCriticalError(e);
                 }
             }
         }, delay / 1000f);
@@ -479,5 +481,10 @@ public class BalloonsImageFragment extends Fragment {
         missCount = 0;
 
         stopSpawn();
+
+        if (completeTask != null) {
+            completeTask.cancel();
+            completeTask = null;
+        }
     }
 }

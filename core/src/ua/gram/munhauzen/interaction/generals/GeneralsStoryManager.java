@@ -114,6 +114,8 @@ public class GeneralsStoryManager {
                             gameScreen.audioService.onPrepared(audio);
                         } catch (Throwable e) {
                             Log.e(tag, e);
+
+                            interaction.gameScreen.onCriticalError(e);
                         }
                     }
                 });
@@ -137,6 +139,8 @@ public class GeneralsStoryManager {
                             interaction.imageService.onPrepared(image);
                         } catch (Throwable e) {
                             Log.e(tag, e);
+
+                            interaction.gameScreen.onCriticalError(e);
                         }
                     }
                 });
@@ -152,6 +156,8 @@ public class GeneralsStoryManager {
             }
         } catch (Throwable e) {
             Log.e(tag, e);
+
+            interaction.gameScreen.onCriticalError(e);
         }
     }
 
@@ -231,6 +237,8 @@ public class GeneralsStoryManager {
             interaction.gameScreen.restoreProgressBarIfDestroyed();
         } catch (Throwable e) {
             Log.e(tag, e);
+
+            interaction.gameScreen.onCriticalError(e);
         }
     }
 

@@ -2,8 +2,10 @@ package ua.gram.munhauzen.interaction;
 
 import com.badlogic.gdx.graphics.Texture;
 
+import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.interaction.date.fragment.DateImageFragment;
 import ua.gram.munhauzen.screen.GameScreen;
+import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
@@ -34,6 +36,11 @@ public class DateInteraction extends AbstractInteraction {
         assetManager.load("ui/playbar_skip_forward.png", Texture.class);
         assetManager.load("ui/playbar_skip_forward_off.png", Texture.class);
 
+        assetManager.load("GameScreen/an_cannons_main.png", Texture.class);
+        assetManager.load("GameScreen/b_decision_add_line.png", Texture.class);
+        assetManager.load("GameScreen/b_decision_first_line.png", Texture.class);
+        assetManager.load("GameScreen/b_decision_last_line.png", Texture.class);
+
     }
 
     public void onResourcesLoaded() {
@@ -43,6 +50,46 @@ public class DateInteraction extends AbstractInteraction {
         imageFragment.create();
 
         gameScreen.gameLayers.setInteractionLayer(imageFragment);
+    }
+
+    public void complete() {
+        Log.i(tag, "complete");
+
+        try {
+
+            gameScreen.interactionService.complete();
+
+            Story newStory = gameScreen.storyManager.create("amoon_correct");
+
+            gameScreen.setStory(newStory);
+
+            gameScreen.restoreProgressBarIfDestroyed();
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            gameScreen.onCriticalError(e);
+        }
+    }
+
+    public void discard() {
+        Log.i(tag, "discard");
+
+        try {
+
+            gameScreen.interactionService.complete();
+
+            Story newStory = gameScreen.storyManager.create("amoon_proxy");
+
+            gameScreen.setStory(newStory);
+
+            gameScreen.restoreProgressBarIfDestroyed();
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            gameScreen.onCriticalError(e);
+        }
     }
 
     @Override
