@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
@@ -43,9 +44,10 @@ public class BalloonsImageFragment extends Fragment {
     PrimaryButton resetButton;
     Balloon balloon1, balloon2, balloon3, balloon4;
     Label progressLabel;
-    Table titleTable;
-    int progress, max = 3, spawnCount, missCount;
-    Timer.Task task, completeTask;
+    Table titleTable, restartTable, winTable;
+    int progress, max = 21, spawnCount;
+    Timer.Task task;
+    StoryAudio winAudio, missAudio;
 
     public BalloonsImageFragment(BalloonsInteraction interaction) {
         this.interaction = interaction;
@@ -67,10 +69,10 @@ public class BalloonsImageFragment extends Fragment {
 
         DucksAnimation ducks = new DucksAnimation(ducksTexture);
 
-        balloon1 = new Balloon(bal1Texture, 100, 150);
-        balloon2 = new Balloon(bal2Texture, 100, 150);
-        balloon3 = new Balloon(bal3Texture, 100, 150);
-        balloon4 = new Balloon(bal4Texture, 100, 150);
+        balloon1 = new Balloon(interaction, bal1Texture, 100, 150);
+        balloon2 = new Balloon(interaction, bal2Texture, 100, 150);
+        balloon3 = new Balloon(interaction, bal3Texture, 100, 150);
+        balloon4 = new Balloon(interaction, bal4Texture, 100, 150);
 
         Cloud cloud1 = new Cloud(cloud1Texture, 200, 100, -100, MunhauzenGame.WORLD_HEIGHT * .9f);
         Cloud cloud2 = new Cloud(cloud2Texture, 200, 100, -200, MunhauzenGame.WORLD_HEIGHT * .8f);
@@ -82,6 +84,20 @@ public class BalloonsImageFragment extends Fragment {
         ));
         title.setWrap(true);
         title.setAlignment(Align.center);
+
+        Label restartTitle = new Label("One was missed! Eh!", new Label.LabelStyle(
+                interaction.gameScreen.game.fontProvider.getFont(FontProvider.h1),
+                Color.BLACK
+        ));
+        restartTitle.setWrap(true);
+        restartTitle.setAlignment(Align.center);
+
+        Label winTitle = new Label("Nice! Full score!", new Label.LabelStyle(
+                interaction.gameScreen.game.fontProvider.getFont(FontProvider.h1),
+                Color.BLACK
+        ));
+        winTitle.setWrap(true);
+        winTitle.setAlignment(Align.center);
 
         progressLabel = new Label("", new Label.LabelStyle(
                 interaction.gameScreen.game.fontProvider.getFont(FontProvider.h1),
@@ -97,14 +113,14 @@ public class BalloonsImageFragment extends Fragment {
 
         background = new FitImage(backTex);
 
-        resetButton = interaction.gameScreen.game.buttonBuilder.primary("Restart", new ClickListener() {
+        resetButton = interaction.gameScreen.game.buttonBuilder.primary("Retry", new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
                 Log.i(tag, "restart");
 
-                resetButton.addAction(Actions.sequence(
+                restartTable.addAction(Actions.sequence(
                         Actions.alpha(0, .3f),
                         Actions.run(new Runnable() {
                             @Override
@@ -115,7 +131,23 @@ public class BalloonsImageFragment extends Fragment {
                 ));
             }
         });
-        resetButton.setVisible(false);
+
+        PrimaryButton completeButton = interaction.gameScreen.game.buttonBuilder.primary("Continue", new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                root.addAction(Actions.sequence(
+                        Actions.alpha(0, .3f),
+                        Actions.run(new Runnable() {
+                            @Override
+                            public void run() {
+                                interaction.complete();
+                            }
+                        })
+                ));
+            }
+        });
 
         backgroundTable = new Table();
         backgroundTable.setFillParent(true);
@@ -125,11 +157,25 @@ public class BalloonsImageFragment extends Fragment {
         titleTable.setFillParent(true);
         titleTable.pad(10);
         titleTable.add(title).top().expand().row();
-        titleTable.add(resetButton).center().expand()
+        titleTable.add(progressLabel).align(Align.bottomRight).expand().row();
+
+        restartTable = new Table();
+        restartTable.setFillParent(true);
+        restartTable.pad(10);
+        restartTable.add(restartTitle).padBottom(20).center().expandX().row();
+        restartTable.add(resetButton).center().expandX()
                 .width(MunhauzenGame.WORLD_WIDTH / 3f)
                 .height(MunhauzenGame.WORLD_HEIGHT / 12f)
                 .row();
-        titleTable.add(progressLabel).align(Align.bottomRight).expand().row();
+
+        winTable = new Table();
+        winTable.setFillParent(true);
+        winTable.pad(10);
+        winTable.add(winTitle).padBottom(20).center().expandX().row();
+        winTable.add(completeButton).center().expandX()
+                .width(MunhauzenGame.WORLD_WIDTH / 3f)
+                .height(MunhauzenGame.WORLD_HEIGHT / 12f)
+                .row();
 
         setBackground(backTex);
 
@@ -145,6 +191,8 @@ public class BalloonsImageFragment extends Fragment {
         root.addActor(balloon3);
         root.addActor(balloon4);
         root.addActor(titleTable);
+        root.addActor(restartTable);
+        root.addActor(winTable);
 
         root.setName(tag);
 
@@ -152,15 +200,9 @@ public class BalloonsImageFragment extends Fragment {
             @Override
             public void run() {
 
-                ++missCount;
-
-                Log.i(tag, "missed " + missCount + "/" + max);
-
                 playMiss();
 
-                if (missCount > 0 && spawnCount == max && getActiveBalloons().size() == 4) {
-                    failed();
-                }
+                failed();
             }
         };
 
@@ -169,67 +211,93 @@ public class BalloonsImageFragment extends Fragment {
         balloon3.onMiss = onMiss;
         balloon4.onMiss = onMiss;
 
-        balloon1.addListener(new ClickListener() {
+        balloon1.addListener(new ActorGestureListener() {
+
             @Override
-            public void clicked(InputEvent event, float x, float y) {
+            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                super.touchDown(event, x, y, pointer, button);
+
+                hit();
+            }
+
+            public void hit() {
 
                 Log.i(tag, "Clicked balloon");
 
                 progress += 1;
+
+                checkProgress();
 
                 playHit();
 
                 balloon1.onHit();
-
-                checkProgress();
             }
         });
 
-        balloon2.addListener(new ClickListener() {
+        balloon2.addListener(new ActorGestureListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y) {
+            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                super.touchDown(event, x, y, pointer, button);
+
+                hit();
+            }
+
+            public void hit() {
 
                 Log.i(tag, "Clicked balloon");
 
                 progress += 1;
+
+                checkProgress();
 
                 playHit();
 
                 balloon2.onHit();
-
-                checkProgress();
             }
         });
 
-        balloon3.addListener(new ClickListener() {
+        balloon3.addListener(new ActorGestureListener() {
+
             @Override
-            public void clicked(InputEvent event, float x, float y) {
+            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                super.touchDown(event, x, y, pointer, button);
+
+                hit();
+            }
+
+            public void hit() {
 
                 Log.i(tag, "Clicked balloon");
 
                 progress += 1;
+
+                checkProgress();
 
                 playHit();
 
                 balloon3.onHit();
-
-                checkProgress();
             }
         });
 
-        balloon4.addListener(new ClickListener() {
+        balloon4.addListener(new ActorGestureListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y) {
+            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                super.touchDown(event, x, y, pointer, button);
+
+                hit();
+            }
+
+            public void hit() {
 
                 Log.i(tag, "Clicked balloon");
 
                 progress += 1;
 
+                checkProgress();
+
                 playHit();
 
                 balloon4.onHit();
-
-                checkProgress();
             }
         });
 
@@ -245,23 +313,23 @@ public class BalloonsImageFragment extends Fragment {
 
     private void checkProgress() {
         if (progress == max) {
-            complete();
+            win();
         }
     }
 
     private void start() {
-        resetButton.setVisible(false);
+        restartTable.setVisible(false);
+        winTable.setVisible(false);
 
         progress = 0;
         spawnCount = 0;
-        missCount = 0;
 
         task = Timer.instance().scheduleTask(new Timer.Task() {
             @Override
             public void run() {
                 spawnBalloon();
             }
-        }, 1, 1);
+        }, 1, 2);
     }
 
     private ArrayList<Balloon> getActiveBalloons() {
@@ -282,9 +350,9 @@ public class BalloonsImageFragment extends Fragment {
 
             ++spawnCount;
 
-            Log.i(tag, "spawnBalloon " + spawnCount + "/" + max + " " + missCount);
+            Log.i(tag, "spawnBalloon " + spawnCount + "/" + max);
 
-            balloon.start(interaction, spawnCount == max);
+            balloon.start(spawnCount == max);
 
             if (spawnCount == max) {
                 stopSpawn();
@@ -301,17 +369,23 @@ public class BalloonsImageFragment extends Fragment {
         }
     }
 
-    private void complete() {
-        Log.i(tag, "complete");
+    private void win() {
+
+        Log.i(tag, "win");
 
         spawnCount = 0;
-        missCount = 0;
 
         stopSpawn();
 
         titleTable.addAction(Actions.alpha(0, .5f));
 
-        int delay = playWin();
+        winTable.setVisible(true);
+        winTable.addAction(Actions.sequence(
+                Actions.alpha(0),
+                Actions.alpha(1, .3f)
+        ));
+
+        playWin();
 
         Timer.instance().scheduleTask(new Timer.Task() {
             @Override
@@ -331,32 +405,12 @@ public class BalloonsImageFragment extends Fragment {
                 }
             }
         }, 1);
-
-        completeTask = Timer.instance().scheduleTask(new Timer.Task() {
-            @Override
-            public void run() {
-                try {
-
-                    interaction.gameScreen.interactionService.complete();
-
-                    interaction.gameScreen.interactionService.findStoryAfterInteraction();
-
-                    interaction.gameScreen.restoreProgressBarIfDestroyed();
-
-                } catch (Throwable e) {
-                    Log.e(tag, e);
-
-                    interaction.gameScreen.onCriticalError(e);
-                }
-            }
-        }, delay / 1000f);
     }
 
     private void failed() {
         Log.i(tag, "failed");
 
         spawnCount = 0;
-        missCount = 0;
 
         balloon1.reset();
 
@@ -368,30 +422,25 @@ public class BalloonsImageFragment extends Fragment {
 
         stopSpawn();
 
-        resetButton.setVisible(true);
-        resetButton.addAction(Actions.sequence(
+        restartTable.setVisible(true);
+        restartTable.addAction(Actions.sequence(
                 Actions.alpha(0),
                 Actions.alpha(1, .3f)
         ));
     }
 
-    private int playWin() {
+    private void playWin() {
 
-        int delay = 1000;
 
         try {
-            StoryAudio storyAudio = new StoryAudio();
-            storyAudio.audio = "sfx_inter_balloons_win";
+            winAudio = new StoryAudio();
+            winAudio.audio = "sfx_inter_balloons_win";
 
-            interaction.gameScreen.audioService.prepareAndPlay(storyAudio);
-
-            delay = storyAudio.duration;
+            interaction.gameScreen.audioService.prepareAndPlay(winAudio);
 
         } catch (Throwable e) {
             Log.e(tag, e);
         }
-
-        return delay;
     }
 
     private void playIntro() {
@@ -435,14 +484,14 @@ public class BalloonsImageFragment extends Fragment {
 
     private void playMiss() {
         try {
-            StoryAudio storyAudio = new StoryAudio();
-            storyAudio.audio = MathUtils.random(new String[]{
+            missAudio = new StoryAudio();
+            missAudio.audio = MathUtils.random(new String[]{
                     "sfx_inter_balloons_loose_1",
                     "sfx_inter_balloons_loose_2",
                     "sfx_inter_balloons_loose_3"
             });
 
-            interaction.gameScreen.audioService.prepareAndPlay(storyAudio);
+            interaction.gameScreen.audioService.prepareAndPlay(missAudio);
         } catch (Throwable e) {
             Log.e(tag, e);
         }
@@ -471,6 +520,13 @@ public class BalloonsImageFragment extends Fragment {
 
         progressLabel.setText(progress + "/" + max);
 
+        if (winAudio != null) {
+            interaction.gameScreen.audioService.updateVolume(winAudio);
+        }
+        if (missAudio != null) {
+            interaction.gameScreen.audioService.updateVolume(missAudio);
+        }
+
     }
 
     @Override
@@ -478,13 +534,17 @@ public class BalloonsImageFragment extends Fragment {
         super.dispose();
         progress = 0;
         spawnCount = 0;
-        missCount = 0;
 
         stopSpawn();
 
-        if (completeTask != null) {
-            completeTask.cancel();
-            completeTask = null;
+        if (winAudio != null) {
+            interaction.gameScreen.audioService.stop(winAudio);
+            winAudio = null;
+        }
+
+        if (missAudio != null) {
+            interaction.gameScreen.audioService.stop(missAudio);
+            missAudio = null;
         }
     }
 }

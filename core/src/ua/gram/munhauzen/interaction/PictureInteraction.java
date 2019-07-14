@@ -134,4 +134,13 @@ public class PictureInteraction extends AbstractInteraction {
         }
 
     }
+
+    @Override
+    public void drawOnTop() {
+        super.drawOnTop();
+
+        if (scenarioFragment != null) {
+            scenarioFragment.draw();
+        }
+    }
 }

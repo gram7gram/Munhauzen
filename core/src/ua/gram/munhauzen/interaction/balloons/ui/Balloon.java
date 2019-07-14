@@ -1,17 +1,20 @@
 package ua.gram.munhauzen.interaction.balloons.ui;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.CatmullRomSpline;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Array;
 
 import ua.gram.munhauzen.MunhauzenGame;
-import ua.gram.munhauzen.animation.ArcToAction;
 import ua.gram.munhauzen.interaction.BalloonsInteraction;
+import ua.gram.munhauzen.interaction.balloons.ComplexTrajectoryProvider;
+import ua.gram.munhauzen.interaction.balloons.SimpleTrajectoryProvider;
+import ua.gram.munhauzen.interaction.balloons.action.MoveByTrajectoryAction;
 import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.utils.Random;
 
@@ -20,20 +23,24 @@ import ua.gram.munhauzen.utils.Random;
  */
 public class Balloon extends FitImage {
 
+    final BalloonsInteraction interaction;
     public boolean isLocked;
     public Runnable onMiss;
-    Array<Vector2> coordinates;
-    Random r;
+    final Random r;
+    CatmullRomSpline<Vector2> trajectory;
+    Vector2[] dataSet;
+    Vector2[] pointCache;
 
-    public Balloon(Texture texture, int width, int height) {
+    public Balloon(BalloonsInteraction interaction, Texture texture, int width, int height) {
         super(texture);
+
+        this.interaction = interaction;
+
         setOrigin(Align.center);
 
         setSize(width, height);
 
         r = new Random();
-
-        reset();
     }
 
     public void onHit() {
@@ -58,9 +65,13 @@ public class Balloon extends FitImage {
         setScale(1);
         setPosition(-getWidth(), -getHeight());
         isLocked = false;
+
+        dataSet = null;
+        trajectory = null;
+        pointCache = null;
     }
 
-    public void start(BalloonsInteraction interaction, boolean isSuperFast) {
+    public void start(boolean isSuperFast) {
 
         clearActions();
 
@@ -73,66 +84,92 @@ public class Balloon extends FitImage {
             public void run() {
                 isLocked = false;
 
+                reset();
+
                 if (onMiss != null) {
                     addAction(Actions.run(onMiss));
                 }
             }
         };
 
-        if (isSuperFast && interaction.trajectoryPoints.size > 0) {
+        SequenceAction sequenceAction = new SequenceAction();
+        sequenceAction.addAction(Actions.alpha(1));
 
-            SequenceAction sequenceAction = new SequenceAction();
-            sequenceAction.addAction(Actions.alpha(1));
-            sequenceAction.addAction(Actions.delay(new Random().between(3, 10)));
+        MoveByTrajectoryAction trajectoryAction;
 
-            float duration = 1.5f / interaction.trajectoryPoints.size;
+        if (isSuperFast) {
 
-            for (Vector2 p : interaction.trajectoryPoints) {
-                sequenceAction.addAction(Actions.moveTo(
-                        MunhauzenGame.WORLD_WIDTH * p.x / 100,
-                        MunhauzenGame.WORLD_HEIGHT * p.y / 100,
-                        duration,
-                        Interpolation.linear
-                ));
+            sequenceAction.addAction(Actions.delay(r.between(3, 10)));
+
+            dataSet = ComplexTrajectoryProvider.obtain();
+
+            for (Vector2 vector2 : dataSet) {
+                vector2.x *= MunhauzenGame.WORLD_WIDTH / 100f;
+                vector2.y *= MunhauzenGame.WORLD_HEIGHT / 100f;
             }
 
-            sequenceAction.addAction(Actions.run(onComplete));
+            trajectory = new CatmullRomSpline<>(dataSet, false);
 
-            addAction(sequenceAction);
+            trajectoryAction = new MoveByTrajectoryAction(trajectory);
+            trajectoryAction.setDuration(2.5f);
         } else {
-            addAction(Actions.sequence(
-                    Actions.alpha(1),
 
-                    trajectory(3),
+            dataSet = SimpleTrajectoryProvider.obtain();
 
-                    Actions.run(onComplete)
-            ));
+            for (Vector2 vector2 : dataSet) {
+                vector2.x *= MunhauzenGame.WORLD_WIDTH / 100f;
+                vector2.y *= MunhauzenGame.WORLD_HEIGHT / 100f;
+            }
+
+            trajectory = new CatmullRomSpline<>(dataSet, false);
+
+            trajectoryAction = new MoveByTrajectoryAction(trajectory);
+            trajectoryAction.setDuration(4f);
+
+        }
+
+        sequenceAction.addAction(trajectoryAction);
+        sequenceAction.addAction(Actions.run(onComplete));
+
+        addAction(sequenceAction);
+
+        updateTrajectoryCache();
+    }
+
+    private void updateTrajectoryCache() {
+        int size = 100;
+        pointCache = new Vector2[size];
+        for (int i = 0; i < size; i++) {
+            pointCache[i] = new Vector2();
+            trajectory.valueAt(pointCache[i], ((float) i) / ((float) size - 1));
         }
     }
 
-    private Action trajectory(float duration) {
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        super.draw(batch, parentAlpha);
 
-        SequenceAction action = new SequenceAction();
+        if (isVisible()) {
 
-        coordinates = coordinates();
+            batch.end();
 
-        for (int i = 0; i < coordinates.size; i++) {
-            Vector2 coordinate = coordinates.get(i);
+            if (interaction.shapeRenderer != null && pointCache != null && dataSet != null) {
+                interaction.shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
 
-            action.addAction(ArcToAction.action(coordinate.x, coordinate.y, i == 0 ? 0 : duration));
+                interaction.shapeRenderer.setColor(Color.RED);
+                for (int i = 0; i < pointCache.length - 1; i++) {
+                    interaction.shapeRenderer.line(pointCache[i], pointCache[i + 1]);
+                }
+
+                interaction.shapeRenderer.setColor(Color.BLUE);
+                for (int i = 1; i < dataSet.length; i++) {
+                    interaction.shapeRenderer.line(dataSet[i - 1], dataSet[i]);
+                }
+
+                interaction.shapeRenderer.end();
+            }
+
+            batch.begin();
         }
-
-        return action;
-    }
-
-    private Array<Vector2> coordinates() {
-
-        Array<Vector2> coords = new Array<>();
-
-        coords.add(new Vector2(r.between(0, (int) (MunhauzenGame.WORLD_WIDTH - getWidth())), 0));
-
-        coords.add(new Vector2(r.between(0, (int) (MunhauzenGame.WORLD_WIDTH - getWidth())), MunhauzenGame.WORLD_HEIGHT));
-
-        return coords;
     }
 }
