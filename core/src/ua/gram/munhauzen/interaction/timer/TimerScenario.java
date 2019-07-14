@@ -21,4 +21,13 @@ public class TimerScenario {
     public boolean isExit;
     public String action;
 
+
+    public StoryImage lastImage() {
+        return images.get(images.size - 1);
+    }
+
+    public StoryAudio lastAudio() {
+        return audio.get(audio.size - 1);
+    }
+
 }

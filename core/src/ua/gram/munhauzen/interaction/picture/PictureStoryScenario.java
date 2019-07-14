@@ -1,11 +1,23 @@
-package ua.gram.munhauzen.entity;
+package ua.gram.munhauzen.interaction.picture;
 
-public class StoryScenario extends StoryMedia<StoryScenario> {
+import ua.gram.munhauzen.entity.Audio;
+import ua.gram.munhauzen.entity.GameState;
+import ua.gram.munhauzen.entity.StoryAudio;
+import ua.gram.munhauzen.entity.StoryImage;
+import ua.gram.munhauzen.entity.StoryMedia;
+import ua.gram.munhauzen.repository.AudioRepository;
 
+public class PictureStoryScenario extends StoryMedia<PictureStoryScenario> {
+
+    final GameState gameState;
     public int duration;
-    public Scenario scenario;
+    public PictureScenario scenario;
     public StoryImage currentImage;
     public StoryAudio currentAudio;
+
+    public PictureStoryScenario(GameState gameState) {
+        this.gameState = gameState;
+    }
 
     public void init(final int offset) {
         currentImage = null;
@@ -54,6 +66,9 @@ public class StoryScenario extends StoryMedia<StoryScenario> {
         for (int i = 0; i < size; i++) {
             StoryAudio current = scenario.audio.get(i);
 
+            Audio audio = AudioRepository.find(gameState, current.audio);
+            current.duration = audio.duration;
+
             current.isLocked = false;
             current.isCompleted = false;
 
@@ -84,11 +99,6 @@ public class StoryScenario extends StoryMedia<StoryScenario> {
         }
 
         duration = Math.max(imageDuration, audioDuration);
-        if (duration == 0) {
-            if (scenario.interaction != null) {
-                duration = 500;
-            }
-        }
     }
 
     public void update(float progress, int max) {

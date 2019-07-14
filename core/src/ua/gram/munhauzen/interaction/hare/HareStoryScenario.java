@@ -65,7 +65,7 @@ public class HareStoryScenario extends StoryMedia<HareStoryScenario> {
     public void update(float progress, int max) {
 
         if ((int) progress == max) {
-            currentAudio = scenario.audio.get(scenario.audio.size - 1);
+            currentAudio = scenario.lastAudio();
         } else {
             currentAudio = scenario.audio.get(0);
         }
@@ -76,7 +76,7 @@ public class HareStoryScenario extends StoryMedia<HareStoryScenario> {
             item.isLocked = false;
             item.progress = progress;
 
-            if (item.startsAt <= progress && progress < item.finishesAt) {
+            if (item.startsAt < progress && (scenario.lastAudio() == item || progress <= item.finishesAt)) {
                 item.isLocked = true;
                 currentAudio = item;
             }

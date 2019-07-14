@@ -66,8 +66,8 @@ public class TimerStoryScenario extends StoryMedia<TimerStoryScenario> {
         for (int i = 0; i < size; i++) {
             StoryAudio current = scenario.audio.get(i);
 
-            //Audio audio = AudioRepository.find(gameState, current.audio);
-            current.duration = 180000;// audio.duration;
+            Audio audio = AudioRepository.find(gameState, current.audio);
+            current.duration = audio.duration;
 
             current.isLocked = false;
             current.isCompleted = false;
@@ -108,7 +108,7 @@ public class TimerStoryScenario extends StoryMedia<TimerStoryScenario> {
         if (scenario.images != null) {
             if (scenario.images.size > 0) {
                 if ((int) progress == max) {
-                    currentImage = scenario.images.get(scenario.images.size - 1);
+                    currentImage = scenario.lastImage();
                 } else {
                     currentImage = scenario.images.get(0);
                 }
@@ -120,7 +120,7 @@ public class TimerStoryScenario extends StoryMedia<TimerStoryScenario> {
                 item.isLocked = false;
                 item.progress = progress;
 
-                if (item.startsAt <= progress && progress < item.finishesAt) {
+                if (item.startsAt < progress && (scenario.lastImage() == item || progress <= item.finishesAt)) {
                     item.isLocked = true;
                     currentImage = item;
                 }
@@ -134,7 +134,7 @@ public class TimerStoryScenario extends StoryMedia<TimerStoryScenario> {
         if (scenario.audio != null) {
             if (scenario.audio.size > 0) {
                 if ((int) progress == max) {
-                    currentAudio = scenario.audio.get(scenario.audio.size - 1);
+                    currentAudio = scenario.lastAudio();
                 } else {
                     currentAudio = scenario.audio.get(0);
                 }
@@ -146,7 +146,7 @@ public class TimerStoryScenario extends StoryMedia<TimerStoryScenario> {
                 item.isLocked = false;
                 item.progress = progress;
 
-                if (item.startsAt <= progress && progress < item.finishesAt) {
+                if (item.startsAt < progress && (scenario.lastAudio() == item || progress <= item.finishesAt)) {
                     item.isLocked = true;
                     currentAudio = item;
                 }

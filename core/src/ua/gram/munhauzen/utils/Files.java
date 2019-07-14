@@ -33,6 +33,10 @@ public class Files {
         return getInternal("game/hare-scenario.json");
     }
 
+    public static FileHandle getPictureScenarioFile() {
+        return getInternal("game/picture-scenario.json");
+    }
+
     public static FileHandle getGeneralsScenarioFile() {
         return getInternal("game/generals-scenario.json");
     }

@@ -100,7 +100,7 @@ public class TimerStoryManager {
         timerStory.update(progress, duration);
     }
 
-    public void startLoadingResources() {
+    public void startLoadingAudio() {
         TimerStory story = interaction.storyManager.timerStory;
 
         TimerStoryScenario scenario = story.currentScenario;
@@ -137,6 +137,14 @@ public class TimerStoryManager {
 
             interaction.gameScreen.onCriticalError(e);
         }
+    }
+
+    public void startLoadingImages() {
+        TimerStory story = interaction.storyManager.timerStory;
+
+        TimerStoryScenario scenario = story.currentScenario;
+        if (scenario == null) return;
+
 
         try {
             final StoryImage image = scenario.currentImage;
@@ -171,7 +179,16 @@ public class TimerStoryManager {
 
     }
 
+    public void startLoadingResources() {
+
+        startLoadingAudio();
+
+        startLoadingImages();
+    }
+
     public void onCompleted() {
+
+        startLoadingImages();
 
         Log.i(tag, "onCompleted " + timerStory.id);
 

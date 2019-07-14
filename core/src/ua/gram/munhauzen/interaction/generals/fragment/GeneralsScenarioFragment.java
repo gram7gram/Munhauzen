@@ -246,6 +246,9 @@ public class GeneralsScenarioFragment extends Fragment {
                 interaction.storyManager.startLoadingResources();
             } catch (Throwable e) {
                 Log.e(tag, e);
+
+                interaction.gameScreen.onCriticalError(e);
+                return;
             }
 
             //let cannon animation complete...

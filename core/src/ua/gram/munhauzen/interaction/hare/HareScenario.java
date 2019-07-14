@@ -19,4 +19,8 @@ public class HareScenario {
     public boolean isExit;
     public String action;
 
+    public StoryAudio lastAudio() {
+        return audio.get(audio.size - 1);
+    }
+
 }

@@ -99,36 +99,11 @@ public class GeneralsStoryManager {
         generalsStory.update(progress, duration);
     }
 
-    public void startLoadingResources() {
+    public void startLoadingImages() {
 
         try {
             GeneralsStoryScenario scenario = generalsStory.currentScenario;
             if (scenario == null) return;
-
-            final StoryAudio audio = scenario.currentAudio;
-            if (audio != null) {
-                gameScreen.audioService.prepare(audio, new Timer.Task() {
-                    @Override
-                    public void run() {
-                        try {
-                            gameScreen.audioService.onPrepared(audio);
-                        } catch (Throwable e) {
-                            Log.e(tag, e);
-
-                            interaction.gameScreen.onCriticalError(e);
-                        }
-                    }
-                });
-
-                if (audio.next != null) {
-                    gameScreen.audioService.prepare(audio.next, new Timer.Task() {
-                        @Override
-                        public void run() {
-
-                        }
-                    });
-                }
-            }
 
             final GeneralsStoryImage image = scenario.currentImage;
             if (image != null) {
@@ -159,9 +134,56 @@ public class GeneralsStoryManager {
 
             interaction.gameScreen.onCriticalError(e);
         }
+
+    }
+
+    public void startLoadingAudio() {
+
+        try {
+            GeneralsStoryScenario scenario = generalsStory.currentScenario;
+            if (scenario == null) return;
+
+            final StoryAudio audio = scenario.currentAudio;
+            if (audio != null) {
+                gameScreen.audioService.prepare(audio, new Timer.Task() {
+                    @Override
+                    public void run() {
+                        try {
+                            gameScreen.audioService.onPrepared(audio);
+                        } catch (Throwable e) {
+                            Log.e(tag, e);
+
+                            interaction.gameScreen.onCriticalError(e);
+                        }
+                    }
+                });
+
+                if (audio.next != null) {
+                    gameScreen.audioService.prepare(audio.next, new Timer.Task() {
+                        @Override
+                        public void run() {
+
+                        }
+                    });
+                }
+            }
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            interaction.gameScreen.onCriticalError(e);
+        }
+    }
+
+    public void startLoadingResources() {
+
+        startLoadingAudio();
+
+        startLoadingImages();
     }
 
     public void onCompleted() {
+
+        startLoadingImages();
 
         Log.i(tag, "onCompleted " + generalsStory.id);
 

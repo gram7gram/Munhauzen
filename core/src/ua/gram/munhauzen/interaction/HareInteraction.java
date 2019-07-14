@@ -12,7 +12,6 @@ import ua.gram.munhauzen.interaction.hare.fragment.HareImageFragment;
 import ua.gram.munhauzen.interaction.hare.fragment.HareProgressBarFragment;
 import ua.gram.munhauzen.interaction.hare.fragment.HareScenarioFragment;
 import ua.gram.munhauzen.screen.GameScreen;
-import ua.gram.munhauzen.service.DatabaseManager;
 
 /**
  * @author Gram <gram7gram@gmail.com>
@@ -36,7 +35,7 @@ public class HareInteraction extends AbstractInteraction {
 
         gameScreen.hideProgressBar();
 
-        scenarioRegistry = new DatabaseManager().loadHareScenario();
+        scenarioRegistry = gameScreen.game.databaseManager.loadHareScenario();
         storyManager = new HareStoryManager(gameScreen, this);
 
         assetManager.load("LoadingScreen/lv_cloud_1.png", Texture.class);

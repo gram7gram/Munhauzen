@@ -23,6 +23,14 @@ public class Scenario {
     public String action;
     public String source;
 
+    public StoryImage lastImage() {
+        return images.get(images.size - 1);
+    }
+
+    public StoryAudio lastAudio() {
+        return audio.get(audio.size - 1);
+    }
+
     public boolean isFinal() {
         return DEATH.equals(name) || VICTORY.equals(name);
     }

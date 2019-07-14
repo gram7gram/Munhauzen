@@ -13,7 +13,6 @@ import ua.gram.munhauzen.interaction.generals.fragment.GeneralsImageFragment;
 import ua.gram.munhauzen.interaction.generals.fragment.GeneralsProgressBarFragment;
 import ua.gram.munhauzen.interaction.generals.fragment.GeneralsScenarioFragment;
 import ua.gram.munhauzen.screen.GameScreen;
-import ua.gram.munhauzen.service.DatabaseManager;
 import ua.gram.munhauzen.utils.Log;
 
 /**
@@ -39,7 +38,7 @@ public class GeneralsInteraction extends AbstractInteraction {
 
         gameScreen.hideProgressBar();
 
-        scenarioRegistry = new DatabaseManager().loadGeneralsScenario();
+        scenarioRegistry = gameScreen.game.databaseManager.loadGeneralsScenario();
 
         storyManager = new GeneralsStoryManager(gameScreen, this);
         imageService = new GeneralsImageService(gameScreen, this);

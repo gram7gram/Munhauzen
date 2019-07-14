@@ -215,6 +215,7 @@ public class StoryManager {
             gameScreen.onCriticalError(e);
         }
     }
+
     public void startLoadingResources() {
 
         startLoadingAudio();

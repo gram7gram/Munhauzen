@@ -103,8 +103,8 @@ public class GeneralsStoryScenario extends StoryMedia<GeneralsStoryScenario> {
     public void update(float progress, int max) {
 
         if ((int) progress == max) {
-            currentImage = scenario.images.get(scenario.images.size - 1);
-            currentAudio = scenario.audio.get(scenario.audio.size - 1);
+            currentImage = scenario.lastImage();
+            currentAudio = scenario.lastAudio();
         } else {
             currentImage = scenario.images.get(0);
             currentAudio = scenario.audio.get(0);
@@ -116,7 +116,7 @@ public class GeneralsStoryScenario extends StoryMedia<GeneralsStoryScenario> {
             item.isLocked = false;
             item.progress = progress;
 
-            if (item.startsAt <= progress && progress < item.finishesAt) {
+            if (item.startsAt < progress && (scenario.lastImage() == item || progress <= item.finishesAt)) {
                 item.isLocked = true;
                 currentImage = item;
             }
@@ -132,7 +132,7 @@ public class GeneralsStoryScenario extends StoryMedia<GeneralsStoryScenario> {
             item.isLocked = false;
             item.progress = progress;
 
-            if (item.startsAt <= progress && progress < item.finishesAt) {
+            if (item.startsAt < progress && (scenario.lastAudio() == item || progress <= item.finishesAt)) {
                 item.isLocked = true;
                 currentAudio = item;
             }

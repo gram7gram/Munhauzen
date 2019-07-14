@@ -7,9 +7,11 @@ import ua.gram.munhauzen.entity.StoryInteraction;
 import ua.gram.munhauzen.interaction.ContinueInteraction;
 import ua.gram.munhauzen.interaction.GeneralsInteraction;
 import ua.gram.munhauzen.interaction.HareInteraction;
+import ua.gram.munhauzen.interaction.PictureInteraction;
 import ua.gram.munhauzen.interaction.TimerInteraction;
 import ua.gram.munhauzen.interaction.generals.fragment.GeneralsProgressBarFragment;
 import ua.gram.munhauzen.interaction.hare.fragment.HareProgressBarFragment;
+import ua.gram.munhauzen.interaction.picture.fragment.PictureProgressBarFragment;
 import ua.gram.munhauzen.interaction.timer.fragment.TimerProgressBarFragment;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.utils.Log;
@@ -53,6 +55,23 @@ public class StageInputListener extends ClickListener {
 
                 if (storyInteraction.interaction instanceof HareInteraction) {
                     HareProgressBarFragment barFragment = ((HareInteraction) storyInteraction.interaction).progressBarFragment;
+
+                    if (barFragment != null) {
+                        if (!barFragment.getRoot().isVisible()) {
+                            if (!barFragment.isFadeIn) {
+                                barFragment.fadeIn();
+                                barFragment.scheduleFadeOut();
+                            }
+                        } else {
+                            if (!barFragment.isFadeOut) {
+                                barFragment.fadeOut();
+                            }
+                        }
+                    }
+                }
+
+                if (storyInteraction.interaction instanceof PictureInteraction) {
+                    PictureProgressBarFragment barFragment = ((PictureInteraction) storyInteraction.interaction).progressBarFragment;
 
                     if (barFragment != null) {
                         if (!barFragment.getRoot().isVisible()) {

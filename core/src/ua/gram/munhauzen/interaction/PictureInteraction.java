@@ -1,8 +1,17 @@
 package ua.gram.munhauzen.interaction;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.Array;
 
+import ua.gram.munhauzen.entity.GameState;
+import ua.gram.munhauzen.interaction.picture.PictureImageService;
+import ua.gram.munhauzen.interaction.picture.PictureScenario;
+import ua.gram.munhauzen.interaction.picture.PictureStory;
+import ua.gram.munhauzen.interaction.picture.PictureStoryManager;
 import ua.gram.munhauzen.interaction.picture.fragment.PictureImageFragment;
+import ua.gram.munhauzen.interaction.picture.fragment.PictureProgressBarFragment;
+import ua.gram.munhauzen.interaction.picture.fragment.PictureScenarioFragment;
 import ua.gram.munhauzen.screen.GameScreen;
 
 /**
@@ -12,6 +21,11 @@ public class PictureInteraction extends AbstractInteraction {
 
     boolean isLoaded;
     public PictureImageFragment imageFragment;
+    public PictureScenarioFragment scenarioFragment;
+    public PictureProgressBarFragment progressBarFragment;
+    public PictureStoryManager storyManager;
+    public Array<PictureScenario> scenarioRegistry;
+    public PictureImageService imageService;
 
     public PictureInteraction(GameScreen gameScreen) {
         super(gameScreen);
@@ -23,6 +37,12 @@ public class PictureInteraction extends AbstractInteraction {
 
         gameScreen.hideProgressBar();
 
+        scenarioRegistry = gameScreen.game.databaseManager.loadPictureScenario();
+
+        storyManager = new PictureStoryManager(gameScreen, this);
+
+        imageService = new PictureImageService(gameScreen, this);
+
         assetManager.load("picture/p35_what.jpg", Texture.class);
     }
 
@@ -33,6 +53,13 @@ public class PictureInteraction extends AbstractInteraction {
         imageFragment.create();
 
         gameScreen.gameLayers.setInteractionLayer(imageFragment);
+
+        progressBarFragment = new PictureProgressBarFragment(gameScreen, this);
+        progressBarFragment.create();
+
+        gameScreen.gameLayers.setInteractionProgressBarLayer(progressBarFragment);
+
+        storyManager.resume();
     }
 
     @Override
@@ -50,9 +77,39 @@ public class PictureInteraction extends AbstractInteraction {
             return;
         }
 
+        if (imageService != null) {
+            imageService.update();
+        }
+
+        PictureStory story = storyManager.pictureStory;
+
+        if (!story.isCompleted) {
+
+            if (!GameState.isPaused) {
+                storyManager.update(
+                        story.progress + (Gdx.graphics.getDeltaTime() * 1000),
+                        story.totalDuration
+                );
+
+                if (story.isCompleted) {
+
+                    storyManager.onCompleted();
+
+                } else {
+                    storyManager.startLoadingResources();
+                }
+            }
+        }
+
         if (imageFragment != null) {
             imageFragment.update();
         }
+
+        if (progressBarFragment != null)
+            progressBarFragment.update();
+
+        if (scenarioFragment != null)
+            scenarioFragment.update();
     }
 
     @Override
@@ -62,8 +119,18 @@ public class PictureInteraction extends AbstractInteraction {
         isLoaded = false;
 
         if (imageFragment != null) {
-            imageFragment.dispose();
+            imageFragment.destroy();
             imageFragment = null;
+        }
+
+        if (progressBarFragment != null) {
+            progressBarFragment.destroy();
+            progressBarFragment = null;
+        }
+
+        if (scenarioFragment != null) {
+            scenarioFragment.destroy();
+            scenarioFragment = null;
         }
 
     }

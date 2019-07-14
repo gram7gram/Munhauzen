@@ -21,6 +21,8 @@ import ua.gram.munhauzen.fragment.GameControlsFragment;
 import ua.gram.munhauzen.fragment.ImageFragment;
 import ua.gram.munhauzen.fragment.ProgressBarFragment;
 import ua.gram.munhauzen.fragment.ScenarioFragment;
+import ua.gram.munhauzen.interaction.PictureInteraction;
+import ua.gram.munhauzen.interaction.picture.fragment.PictureScenarioFragment;
 import ua.gram.munhauzen.listener.StageInputListener;
 import ua.gram.munhauzen.service.AudioService;
 import ua.gram.munhauzen.service.ExternalImageService;
@@ -227,6 +229,13 @@ public class GameScreen implements Screen {
         if (ui != null) {
             ui.act(delta);
             ui.draw();
+        }
+
+        if (story != null && story.currentInteraction != null && story.currentInteraction.interaction instanceof PictureInteraction) {
+            PictureScenarioFragment fragment = ((PictureInteraction) story.currentInteraction.interaction).scenarioFragment;
+            if (fragment != null) {
+                fragment.draw();
+            }
         }
 
         if (MunhauzenGame.DEBUG_RENDER_INFO)
