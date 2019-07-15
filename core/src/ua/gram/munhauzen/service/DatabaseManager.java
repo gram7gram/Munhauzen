@@ -27,6 +27,8 @@ import ua.gram.munhauzen.interaction.generals.GeneralsStoryImage;
 import ua.gram.munhauzen.interaction.hare.HareScenario;
 import ua.gram.munhauzen.interaction.picture.PictureScenario;
 import ua.gram.munhauzen.interaction.timer.TimerScenario;
+import ua.gram.munhauzen.interaction.wauwau.WauScenario;
+import ua.gram.munhauzen.interaction.wauwau.WauStoryImage;
 import ua.gram.munhauzen.utils.ExternalFiles;
 import ua.gram.munhauzen.utils.Files;
 import ua.gram.munhauzen.utils.Log;
@@ -202,6 +204,18 @@ public class DatabaseManager {
         json.setElementType(Scenario.class, "translations", ScenarioTranslation.class);
 
         return json.fromJson(Array.class, GeneralsScenario.class, Files.getGeneralsScenarioFile());
+    }
+
+    @SuppressWarnings("unchecked")
+    public Array<WauScenario> loadWauwauScenario() {
+        Json json = new Json(JsonWriter.OutputType.json);
+        json.setIgnoreUnknownFields(true);
+        json.setElementType(Scenario.class, "decisions", Decision.class);
+        json.setElementType(Scenario.class, "images", WauStoryImage.class);
+        json.setElementType(Scenario.class, "audio", StoryAudio.class);
+        json.setElementType(Scenario.class, "translations", ScenarioTranslation.class);
+
+        return json.fromJson(Array.class, WauScenario.class, Files.getWauwauScenarioFile());
     }
 
     @SuppressWarnings("unchecked")

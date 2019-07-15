@@ -110,7 +110,7 @@ public class PictureStoryScenario extends StoryMedia<PictureStoryScenario> {
                 if ((int) progress == max) {
                     currentImage = scenario.lastImage();
                 } else {
-                    currentImage = scenario.images.get(0);
+                    currentImage = scenario.firstImage();
                 }
             }
 
@@ -136,7 +136,7 @@ public class PictureStoryScenario extends StoryMedia<PictureStoryScenario> {
                 if ((int) progress == max) {
                     currentAudio = scenario.lastAudio();
                 } else {
-                    currentAudio = scenario.audio.get(0);
+                    currentAudio = scenario.firstAudio();
                 }
             }
 

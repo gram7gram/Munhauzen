@@ -1,0 +1,150 @@
+package ua.gram.munhauzen.interaction;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.Array;
+
+import ua.gram.munhauzen.entity.GameState;
+import ua.gram.munhauzen.interaction.wauwau.WauImageService;
+import ua.gram.munhauzen.interaction.wauwau.WauScenario;
+import ua.gram.munhauzen.interaction.wauwau.WauStory;
+import ua.gram.munhauzen.interaction.wauwau.WauStoryManager;
+import ua.gram.munhauzen.interaction.wauwau.fragment.WauImageFragment;
+import ua.gram.munhauzen.interaction.wauwau.fragment.WauProgressBarFragment;
+import ua.gram.munhauzen.interaction.wauwau.fragment.WauScenarioFragment;
+import ua.gram.munhauzen.screen.GameScreen;
+import ua.gram.munhauzen.utils.Log;
+
+/**
+ * @author Gram <gram7gram@gmail.com>
+ */
+public class WauInteraction extends AbstractInteraction {
+
+    public Array<WauScenario> scenarioRegistry;
+    public WauStoryManager storyManager;
+    public WauProgressBarFragment progressBarFragment;
+    public WauScenarioFragment scenarioFragment;
+    boolean isLoaded;
+    public WauImageService imageService;
+    public WauImageFragment imageFragment;
+    public int wauCounter, maxWauCounter = 5;
+
+    public WauInteraction(GameScreen gameScreen) {
+        super(gameScreen);
+    }
+
+    @Override
+    public void start() {
+        super.start();
+
+        wauCounter = 0;
+
+        gameScreen.hideProgressBar();
+
+        scenarioRegistry = gameScreen.game.databaseManager.loadWauwauScenario();
+
+        storyManager = new WauStoryManager(gameScreen, this);
+        imageService = new WauImageService(gameScreen, this);
+
+        assetManager.load("wau/wau_sheet_1x4.png", Texture.class);
+    }
+
+    public void onResourcesLoaded() {
+        isLoaded = true;
+
+        progressBarFragment = new WauProgressBarFragment(gameScreen, this);
+        progressBarFragment.create();
+
+        gameScreen.gameLayers.setInteractionProgressBarLayer(progressBarFragment);
+
+        imageFragment = new WauImageFragment(this);
+        imageFragment.create();
+
+        gameScreen.gameLayers.setInteractionLayer(imageFragment);
+
+        storyManager.resume();
+    }
+
+    @Override
+    public void update() {
+        super.update();
+
+        gameScreen.hideProgressBar();
+
+        assetManager.update();
+
+        if (!isLoaded) {
+            if (assetManager.isFinished()) {
+                onResourcesLoaded();
+            }
+            return;
+        }
+
+        if (imageService != null) {
+            imageService.update();
+        }
+
+        WauStory story = storyManager.story;
+
+        if (!story.isCompleted) {
+
+            if (!GameState.isPaused) {
+                storyManager.update(
+                        story.progress + (Gdx.graphics.getDeltaTime() * 1000),
+                        story.totalDuration
+                );
+
+                if (story.isCompleted) {
+
+                    storyManager.onCompleted();
+
+                } else {
+                    storyManager.startLoadingResources();
+                }
+            }
+        }
+
+
+        if (imageFragment != null) {
+            imageFragment.update();
+        }
+
+        if (progressBarFragment != null)
+            progressBarFragment.update();
+
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+
+        try {
+
+            if (progressBarFragment != null) {
+                progressBarFragment.dispose();
+                progressBarFragment = null;
+            }
+
+            if (scenarioFragment != null) {
+                scenarioFragment.dispose();
+                scenarioFragment = null;
+            }
+
+            if (imageService != null) {
+                imageService.dispose();
+                imageService = null;
+            }
+
+            isLoaded = false;
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+    }
+
+    public void showProgressBar() {
+        if (progressBarFragment != null) {
+            progressBarFragment.fadeIn();
+        }
+    }
+}

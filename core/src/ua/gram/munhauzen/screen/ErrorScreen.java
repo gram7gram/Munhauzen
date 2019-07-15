@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -64,16 +65,6 @@ public class ErrorScreen implements Screen {
         ));
         description.setWrap(true);
 
-        Table tableTop = new Table();
-        tableTop.pad(10);
-        tableTop.add(causeLbl).width(MunhauzenGame.WORLD_WIDTH - 20).padBottom(5).row();
-        tableTop.add(title).width(MunhauzenGame.WORLD_WIDTH - 20);
-        tableTop.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture(pm1))));
-
-        Table tableBottom = new Table();
-        tableBottom.pad(10);
-        tableBottom.add(description).width(MunhauzenGame.WORLD_WIDTH - 20);
-
         PrimaryButton button = game.buttonBuilder.primary("To menu", new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -84,16 +75,33 @@ public class ErrorScreen implements Screen {
             }
         });
 
-        Table group = new Table();
-        group.setFillParent(true);
-        group.add(tableTop).top().expandX().row();
-        group.add(tableBottom).top().expand().row();
-        group.add(button).center()
+        Table tableTop = new Table();
+        tableTop.pad(10);
+        tableTop.add(causeLbl).width(MunhauzenGame.WORLD_WIDTH - 20).padBottom(5).row();
+        tableTop.add(title).width(MunhauzenGame.WORLD_WIDTH - 20);
+        tableTop.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture(pm1))));
+
+        Table tableCenter = new Table();
+        tableCenter.pad(10);
+        tableCenter.add(description).width(MunhauzenGame.WORLD_WIDTH - 20);
+
+        Table tableBottom = new Table();
+        tableBottom.pad(10);
+        tableBottom.add(button).center()
                 .width(MunhauzenGame.WORLD_WIDTH / 3f)
                 .height(MunhauzenGame.WORLD_HEIGHT / 15f)
                 .expand().row();
 
-        ui.addActor(group);
+
+        Table group = new Table();
+        group.add(tableTop).top().expandX().row();
+        group.add(tableCenter).top().expand().row();
+        group.add(tableBottom).top().expand().row();
+
+        ScrollPane scrollPane = new ScrollPane(group);
+        scrollPane.setFillParent(true);
+
+        ui.addActor(scrollPane);
 
         Gdx.input.setInputProcessor(ui);
     }

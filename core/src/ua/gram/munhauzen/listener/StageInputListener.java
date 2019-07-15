@@ -9,10 +9,12 @@ import ua.gram.munhauzen.interaction.GeneralsInteraction;
 import ua.gram.munhauzen.interaction.HareInteraction;
 import ua.gram.munhauzen.interaction.PictureInteraction;
 import ua.gram.munhauzen.interaction.TimerInteraction;
+import ua.gram.munhauzen.interaction.WauInteraction;
 import ua.gram.munhauzen.interaction.generals.fragment.GeneralsProgressBarFragment;
 import ua.gram.munhauzen.interaction.hare.fragment.HareProgressBarFragment;
 import ua.gram.munhauzen.interaction.picture.fragment.PictureProgressBarFragment;
 import ua.gram.munhauzen.interaction.timer.fragment.TimerProgressBarFragment;
+import ua.gram.munhauzen.interaction.wauwau.fragment.WauProgressBarFragment;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.utils.Log;
 
@@ -48,6 +50,23 @@ public class StageInputListener extends ClickListener {
                         } else {
                             if (!continueInteraction.isFadeOut) {
                                 continueInteraction.fadeOut();
+                            }
+                        }
+                    }
+                }
+
+                if (storyInteraction.interaction instanceof WauInteraction) {
+                    WauProgressBarFragment barFragment = ((WauInteraction) storyInteraction.interaction).progressBarFragment;
+
+                    if (barFragment != null) {
+                        if (!barFragment.getRoot().isVisible()) {
+                            if (!barFragment.isFadeIn) {
+                                barFragment.fadeIn();
+                                barFragment.scheduleFadeOut();
+                            }
+                        } else {
+                            if (!barFragment.isFadeOut) {
+                                barFragment.fadeOut();
                             }
                         }
                     }

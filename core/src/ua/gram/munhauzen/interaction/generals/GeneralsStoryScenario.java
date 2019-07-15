@@ -106,8 +106,8 @@ public class GeneralsStoryScenario extends StoryMedia<GeneralsStoryScenario> {
             currentImage = scenario.lastImage();
             currentAudio = scenario.lastAudio();
         } else {
-            currentImage = scenario.images.get(0);
-            currentAudio = scenario.audio.get(0);
+            currentImage = scenario.firstImage();
+            currentAudio = scenario.firstAudio();
         }
 
         for (GeneralsStoryImage item : scenario.images) {

@@ -121,22 +121,23 @@ public class Story {
             currentScenario = last();
         }
 
-        for (StoryScenario scenarioOption : scenarios) {
+        for (StoryScenario item : scenarios) {
 
-            scenarioOption.isCompleted = false;
-            scenarioOption.isLocked = false;
-            scenarioOption.progress = progress;
+            item.isCompleted = false;
+            item.isLocked = false;
+            item.progress = progress;
 
-            if (scenarioOption.startsAt <= progress && progress < scenarioOption.finishesAt) {
-                scenarioOption.isLocked = true;
+            if (item.startsAt <= progress && (last() == item || progress < item.finishesAt)) {
+                item.isLocked = true;
 
-                currentScenario = scenarioOption;
-
-            } else if (scenarioOption.finishesAt <= progress) {
-                scenarioOption.isCompleted = true;
+                currentScenario = item;
             }
 
-            scenarioOption.update(progress, totalDuration);
+            if (progress >= item.finishesAt) {
+                item.isCompleted = true;
+            }
+
+            item.update(progress, totalDuration);
         }
 
     }

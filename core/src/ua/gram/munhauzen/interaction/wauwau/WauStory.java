@@ -1,17 +1,17 @@
-package ua.gram.munhauzen.interaction.picture;
+package ua.gram.munhauzen.interaction.wauwau;
 
 import com.badlogic.gdx.utils.Array;
 
-public class PictureStory {
+public class WauStory {
 
     public String id;
     public int totalDuration;
     public boolean isCompleted;
     public float progress;
-    public final Array<PictureStoryScenario> scenarios;
-    public PictureStoryScenario currentScenario;
+    public final Array<WauStoryScenario> scenarios;
+    public WauStoryScenario currentScenario;
 
-    public PictureStory() {
+    public WauStory() {
         scenarios = new Array<>();
     }
 
@@ -36,10 +36,10 @@ public class PictureStory {
         totalDuration = 0;
 
         for (int i = 0; i < size; i++) {
-            PictureStoryScenario current = scenarios.get(i);
+            WauStoryScenario current = scenarios.get(i);
 
-            PictureStoryScenario next = null;
-            PictureStoryScenario prev = null;
+            WauStoryScenario next = null;
+            WauStoryScenario prev = null;
             if (size > 1) {
                 if (i == 0) {
                     next = scenarios.get(i + 1);
@@ -65,13 +65,13 @@ public class PictureStory {
         update();
     }
 
-    public PictureStoryScenario first() {
+    public WauStoryScenario first() {
         if (scenarios.size == 0) return null;
 
         return scenarios.get(0);
     }
 
-    public PictureStoryScenario last() {
+    public WauStoryScenario last() {
         if (scenarios.size == 0) return null;
 
         return scenarios.get(scenarios.size - 1);
@@ -112,7 +112,7 @@ public class PictureStory {
             currentScenario = last();
         }
 
-        for (PictureStoryScenario item : scenarios) {
+        for (WauStoryScenario item : scenarios) {
 
             item.isCompleted = false;
             item.isLocked = false;
@@ -130,6 +130,5 @@ public class PictureStory {
 
             item.update(progress, totalDuration);
         }
-
     }
 }

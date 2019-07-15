@@ -253,6 +253,7 @@ public class AudioService implements Disposable {
     public void updateMusicState() {
         try {
             Story story = gameScreen.getStory();
+            if (story == null) return;
 
             if (story.isCompleted) {
                 stop();

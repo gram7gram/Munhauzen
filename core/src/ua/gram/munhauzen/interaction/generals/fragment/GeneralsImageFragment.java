@@ -70,16 +70,7 @@ public class GeneralsImageFragment extends Fragment {
                 super.tap(event, x, y, count, button);
 
                 try {
-                    if (!interaction.progressBarFragment.getRoot().isVisible()) {
-                        if (!interaction.progressBarFragment.isFadeIn) {
-                            interaction.progressBarFragment.fadeIn();
-                            interaction.progressBarFragment.scheduleFadeOut();
-                        }
-                    } else {
-                        if (!interaction.progressBarFragment.isFadeOut) {
-                            interaction.progressBarFragment.fadeOut();
-                        }
-                    }
+                    interaction.gameScreen.stageInputListener.clicked(event, x, y);
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }

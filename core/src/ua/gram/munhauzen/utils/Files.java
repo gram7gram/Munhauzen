@@ -41,20 +41,12 @@ public class Files {
         return getInternal("game/generals-scenario.json");
     }
 
+    public static FileHandle getWauwauScenarioFile() {
+        return getInternal("game/wauwau-scenario.json");
+    }
+
     public static FileHandle getTimerScenarioFile() {
         return getInternal("game/timer-scenario.json");
-    }
-
-    public static FileHandle getBalloonTrajectory1() {
-        return getInternal("game/balloon-1.json");
-    }
-
-    public static FileHandle getBalloonTrajectory2() {
-        return getInternal("game/balloon-2.json");
-    }
-
-    public static FileHandle getBalloonTrajectory3() {
-        return getInternal("game/balloon-3.json");
     }
 
     public static FileHandle getScenarioFile() {

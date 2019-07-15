@@ -1,11 +1,11 @@
-package ua.gram.munhauzen.interaction.generals;
+package ua.gram.munhauzen.interaction.wauwau;
 
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.StoryImage;
-import ua.gram.munhauzen.interaction.GeneralsInteraction;
+import ua.gram.munhauzen.interaction.WauInteraction;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.service.InternalImageService;
 import ua.gram.munhauzen.utils.Log;
@@ -13,11 +13,11 @@ import ua.gram.munhauzen.utils.Log;
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class GeneralsImageService extends InternalImageService {
+public class WauImageService extends InternalImageService {
 
-    final GeneralsInteraction interaction;
+    final WauInteraction interaction;
 
-    public GeneralsImageService(GameScreen gameScreen, GeneralsInteraction interaction) {
+    public WauImageService(GameScreen gameScreen, WauInteraction interaction) {
         super(gameScreen);
         this.interaction = interaction;
     }
@@ -26,8 +26,8 @@ public class GeneralsImageService extends InternalImageService {
 
         Log.i(tag, "displayImage " + getResource(item));
 
-        GeneralsStory story = interaction.storyManager.generalsStory;
-        for (GeneralsStoryScenario scenarioOption : story.scenarios) {
+        WauStory story = interaction.storyManager.story;
+        for (WauStoryScenario scenarioOption : story.scenarios) {
             for (StoryImage image : scenarioOption.scenario.images) {
                 image.isActive = false;
             }
@@ -37,7 +37,7 @@ public class GeneralsImageService extends InternalImageService {
 
         gameScreen.hideImageFragment();
 
-        final Image targetImage = interaction.imageFragment.background;
+        Image targetImage = interaction.imageFragment.background;
 
         targetImage.setDrawable(item.drawable);
         targetImage.setName(getResource(item));

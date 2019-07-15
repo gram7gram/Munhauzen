@@ -2,8 +2,6 @@ package ua.gram.munhauzen.interaction.timer;
 
 import com.badlogic.gdx.utils.Array;
 
-import ua.gram.munhauzen.interaction.hare.HareStoryScenario;
-
 public class TimerStory {
 
     public String id;
@@ -114,22 +112,23 @@ public class TimerStory {
             currentScenario = last();
         }
 
-        for (TimerStoryScenario scenarioOption : scenarios) {
+        for (TimerStoryScenario item : scenarios) {
 
-            scenarioOption.isCompleted = false;
-            scenarioOption.isLocked = false;
-            scenarioOption.progress = progress;
+            item.isCompleted = false;
+            item.isLocked = false;
+            item.progress = progress;
 
-            if (scenarioOption.startsAt <= progress && progress < scenarioOption.finishesAt) {
-                scenarioOption.isLocked = true;
+            if (item.startsAt <= progress && (last() == item || progress < item.finishesAt)) {
+                item.isLocked = true;
 
-                currentScenario = scenarioOption;
-
-            } else if (scenarioOption.finishesAt <= progress) {
-                scenarioOption.isCompleted = true;
+                currentScenario = item;
             }
 
-            scenarioOption.update(progress, totalDuration);
+            if (progress >= item.finishesAt) {
+                item.isCompleted = true;
+            }
+
+            item.update(progress, totalDuration);
         }
 
     }
