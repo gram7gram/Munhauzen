@@ -1,7 +1,6 @@
 package ua.gram.munhauzen.interaction.timer.animation;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
@@ -22,7 +21,7 @@ public class SparkAnimation extends AnimatedImage {
         animate(texture, 8, 1, 8, 0.12f);
 
         this.bomb = bomb;
-        this.duration = duration / 1000f;
+        this.duration = duration;
         this.width = width;
     }
 

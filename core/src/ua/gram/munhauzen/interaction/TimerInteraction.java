@@ -28,13 +28,13 @@ public class TimerInteraction extends AbstractInteraction {
     public TimerImageService imageService;
     boolean isLoaded;
     public final String burnAudio;
-    public final float burnDuration;
+    public final float burnDurationInSeconds;
 
     public TimerInteraction(GameScreen gameScreen, String burnAudio, float burnDuration) {
         super(gameScreen);
 
         this.burnAudio = burnAudio;
-        this.burnDuration = burnDuration;
+        this.burnDurationInSeconds = burnDuration;
 
     }
 
@@ -98,6 +98,10 @@ public class TimerInteraction extends AbstractInteraction {
                 onResourcesLoaded();
             }
             return;
+        }
+
+        if (imageService != null) {
+            imageService.update();
         }
 
         TimerStory story = storyManager.timerStory;

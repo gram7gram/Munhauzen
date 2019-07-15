@@ -224,6 +224,7 @@ public class AudioService implements Disposable {
     public void updateVolume() {
         try {
             Story story = gameScreen.getStory();
+            if (story == null) return;
 
             int volume = GameState.isMute ? 0 : 1;
 

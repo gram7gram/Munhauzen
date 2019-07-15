@@ -36,7 +36,7 @@ public class ErrorScreen implements Screen {
     public void show() {
         ui = new MunhauzenStage(game);
 
-        String msg = e.getMessage(), desc = "Причина:\n";
+        String cause = e.getClass().getSimpleName(), msg = e.getMessage(), desc = "Причина:\n";
 
         for (StackTraceElement trace : e.getStackTrace()) {
             desc += trace.toString() + "\n";
@@ -45,6 +45,12 @@ public class ErrorScreen implements Screen {
         Pixmap pm1 = new Pixmap(1, 1, Pixmap.Format.RGB565);
         pm1.setColor(Color.SCARLET);
         pm1.fill();
+
+        Label causeLbl = new Label(cause, new Label.LabelStyle(
+                game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
+                Color.BLACK
+        ));
+        causeLbl.setWrap(true);
 
         Label title = new Label(msg, new Label.LabelStyle(
                 game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.h3),
@@ -60,6 +66,7 @@ public class ErrorScreen implements Screen {
 
         Table tableTop = new Table();
         tableTop.pad(10);
+        tableTop.add(causeLbl).width(MunhauzenGame.WORLD_WIDTH - 20).padBottom(5).row();
         tableTop.add(title).width(MunhauzenGame.WORLD_WIDTH - 20);
         tableTop.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture(pm1))));
 

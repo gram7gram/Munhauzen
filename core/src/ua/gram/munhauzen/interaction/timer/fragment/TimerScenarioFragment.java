@@ -107,7 +107,9 @@ public class TimerScenarioFragment extends Fragment {
     public void createTimer() {
 
         bomb = new Bomb(interaction.assetManager.get("timer/inter_bomb.png", Texture.class));
-        spark = new SparkAnimation(interaction.assetManager.get("timer/an_timer_sheet_1x8.png", Texture.class), bomb, bomb.getWidth(), interaction.burnDuration);
+        spark = new SparkAnimation(
+                interaction.assetManager.get("timer/an_timer_sheet_1x8.png", Texture.class),
+                bomb, bomb.getWidth(), interaction.burnDurationInSeconds);
         bar = new Bar(bomb, spark);
 
         timerGroup = new Group();

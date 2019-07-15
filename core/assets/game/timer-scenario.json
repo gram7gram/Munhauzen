@@ -45,6 +45,8 @@
   {
     "name": "a32_0_interaction_proxy",
     "action": "CLICK",
+    "images": [],
+    "audio": [],
     "decisions": [
       {
         "scenario": "a32_a",
@@ -97,6 +99,7 @@
   {
     "name": "a32_b",
     "action": "GOTO",
+    "images": [],
     "audio": [
       {
         "audio": "s32_b"
@@ -117,6 +120,7 @@
   {
     "name": "a32_c",
     "action": "GOTO",
+    "images": [],
     "audio": [
       {
         "audio": "s32_c"
@@ -137,6 +141,7 @@
   {
     "name": "a32_d",
     "action": "GOTO",
+    "images": [],
     "audio": [
       {
         "audio": "s32_d"
@@ -157,6 +162,7 @@
   {
     "name": "a32_e",
     "action": "GOTO",
+    "images": [],
     "audio": [
       {
         "audio": "s32_e"

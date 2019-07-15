@@ -57,6 +57,8 @@ public class InteractionService {
             interaction.interaction.start();
         } catch (Throwable e) {
             Log.e(tag, e);
+
+            gameScreen.onCriticalError(e);
         }
     }
 
