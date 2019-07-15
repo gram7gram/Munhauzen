@@ -68,15 +68,25 @@ public class BalloonsImageFragment extends Fragment {
         Texture bal4Texture = interaction.assetManager.get("balloons/inter_balloons_4.png", Texture.class);
 
         DucksAnimation ducks = new DucksAnimation(ducksTexture);
+        int cloudSize = (int) (MunhauzenGame.WORLD_WIDTH / 4f);
+        int balloonSize = (int) (MunhauzenGame.WORLD_WIDTH / 8f);
 
-        balloon1 = new Balloon(interaction, bal1Texture, 100, 150);
-        balloon2 = new Balloon(interaction, bal2Texture, 100, 150);
-        balloon3 = new Balloon(interaction, bal3Texture, 100, 150);
-        balloon4 = new Balloon(interaction, bal4Texture, 100, 150);
+        balloon1 = new Balloon(interaction, bal1Texture, balloonSize, (int) (balloonSize * 1.5f));
+        balloon2 = new Balloon(interaction, bal2Texture, balloonSize, (int) (balloonSize * 1.5f));
+        balloon3 = new Balloon(interaction, bal3Texture, balloonSize, (int) (balloonSize * 1.5f));
+        balloon4 = new Balloon(interaction, bal4Texture, balloonSize, (int) (balloonSize * 1.5f));
 
-        Cloud cloud1 = new Cloud(cloud1Texture, 200, 100, -100, MunhauzenGame.WORLD_HEIGHT * .9f);
-        Cloud cloud2 = new Cloud(cloud2Texture, 200, 100, -200, MunhauzenGame.WORLD_HEIGHT * .8f);
-        Cloud cloud3 = new Cloud(cloud3Texture, 200, 100, -180, MunhauzenGame.WORLD_HEIGHT * .75f);
+        Cloud cloud1 = new Cloud(cloud1Texture,
+                cloudSize, cloudSize / 2,
+                -cloudSize, MunhauzenGame.WORLD_HEIGHT * .9f);
+
+        Cloud cloud2 = new Cloud(cloud2Texture,
+                cloudSize, cloudSize / 2,
+                -cloudSize * 2, MunhauzenGame.WORLD_HEIGHT * .8f);
+
+        Cloud cloud3 = new Cloud(cloud3Texture,
+                cloudSize, cloudSize / 2,
+                -cloudSize - 100, MunhauzenGame.WORLD_HEIGHT * .75f);
 
         Label title = new Label("Catch them all!", new Label.LabelStyle(
                 interaction.gameScreen.game.fontProvider.getFont(FontProvider.h1),

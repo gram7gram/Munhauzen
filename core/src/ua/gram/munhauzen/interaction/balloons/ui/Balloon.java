@@ -73,27 +73,11 @@ public class Balloon extends FitImage {
 
     public void start(boolean isSuperFast) {
 
-        clearActions();
+        reset();
 
         isLocked = true;
 
-        setVisible(true);
-
-        Runnable onComplete = new Runnable() {
-            @Override
-            public void run() {
-                isLocked = false;
-
-                reset();
-
-                if (onMiss != null) {
-                    addAction(Actions.run(onMiss));
-                }
-            }
-        };
-
         SequenceAction sequenceAction = new SequenceAction();
-        sequenceAction.addAction(Actions.alpha(1));
 
         MoveByTrajectoryAction trajectoryAction;
 
@@ -111,7 +95,7 @@ public class Balloon extends FitImage {
             trajectory = new CatmullRomSpline<>(dataSet, false);
 
             trajectoryAction = new MoveByTrajectoryAction(trajectory);
-            trajectoryAction.setDuration(2.5f);
+            trajectoryAction.setDuration(10f);
         } else {
 
             dataSet = SimpleTrajectoryProvider.obtain();
@@ -128,8 +112,26 @@ public class Balloon extends FitImage {
 
         }
 
+        sequenceAction.addAction(Actions.alpha(1));
+        sequenceAction.addAction(Actions.run(new Runnable() {
+            @Override
+            public void run() {
+                setVisible(true);
+            }
+        }));
         sequenceAction.addAction(trajectoryAction);
-        sequenceAction.addAction(Actions.run(onComplete));
+        sequenceAction.addAction(Actions.run(new Runnable() {
+            @Override
+            public void run() {
+                isLocked = false;
+
+                reset();
+
+                if (onMiss != null) {
+                    addAction(Actions.run(onMiss));
+                }
+            }
+        }));
 
         addAction(sequenceAction);
 
@@ -137,7 +139,7 @@ public class Balloon extends FitImage {
     }
 
     private void updateTrajectoryCache() {
-        int size = 100;
+        int size = trajectory.controlPoints.length * 10;
         pointCache = new Vector2[size];
         for (int i = 0; i < size; i++) {
             pointCache[i] = new Vector2();

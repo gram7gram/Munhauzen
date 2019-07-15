@@ -44,11 +44,33 @@ public class SimpleTrajectoryProvider {
             new Vector2(50, 100),//duplicate
     };
 
+    private static final Vector2[] t4 = new Vector2[]{
+            new Vector2(80, 0),//duplicate
+            new Vector2(80, 0),
+
+            new Vector2(60, 0),
+            new Vector2(70, 10),
+            new Vector2(50, 15),
+            new Vector2(60, 25),
+            new Vector2(40, 30),
+            new Vector2(50, 40),
+            new Vector2(30, 50),
+            new Vector2(40, 55),
+            new Vector2(20, 75),
+            new Vector2(30, 80),
+            new Vector2(10, 85),
+            new Vector2(20, 90),
+
+            new Vector2(10, 100),
+            new Vector2(10, 100),//duplicate
+    };
+
     public static Vector2[] obtain() {
         Vector2[] match = MathUtils.random(new Vector2[][]{
                 t1,
                 t2,
                 t3,
+                t4,
         });
 
         Vector2[] copy = new Vector2[match.length];
