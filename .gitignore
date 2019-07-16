@@ -7,7 +7,7 @@ package-lock.json
 obb/en
 obb/ru
 obb/uk
-obb/expansion*
+obb/1-*
 
 ## Robovm
 /ios/robovm-build/

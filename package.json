@@ -19,6 +19,7 @@
   "dependencies": {
     "archiver": "^3.0.0",
     "fs-extra": "^8.1.0",
+    "md5": "^2.2.1",
     "musicmetadata": "^2.0.5",
     "wav-file-info": "0.0.8",
     "xlsx": "^0.14.3"

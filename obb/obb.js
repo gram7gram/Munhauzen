@@ -1,5 +1,6 @@
 const fs = require('fs-extra')
 const archiver = require('archiver');
+const md5 = require('md5');
 
 const obbDir = "/Users/master/Projects/Munhauzen/obb"
 const audioDir = "/Users/master/Projects/MunhauzenDocs/Elements/AUDIO_FINAL"
@@ -123,6 +124,7 @@ const onComplete = () => {
 for (let part = 1; part <= PARTS; part++) {
 
     const dest = obbDir + `/${VERSION}-${LOCALE}-${DEVICE}-${DPI}/`
+    const output = `${dest}/part${part}.zip`
 
     fs.ensureDir(dest, () => {})
 
@@ -131,17 +133,29 @@ for (let part = 1; part <= PARTS; part++) {
     });
 
     archive.on('end', function () {
-      completed.push({ size: archive.pointer(), part: part});
 
-      if (completed.length === PARTS) {
-          onComplete()
-      }
+        console.log(" => Completed #" + part)
+
+        fs.readFile(output, function (err, buf) {
+
+            const checksum = md5(buf)
+
+            completed.push({
+                size: archive.pointer(),
+                part,
+                checksum
+            });
+
+            if (completed.length === PARTS) {
+                onComplete()
+            }
+        });
     });
 
     archive.directory(`/tmp/part${part}/audio`, 'audio')
     archive.directory(`/tmp/part${part}/images`, 'images')
 
-    archive.pipe(fs.createWriteStream(`${dest}/part${part}.zip`));
+    archive.pipe(fs.createWriteStream(output));
 
     archive.finalize();
 }

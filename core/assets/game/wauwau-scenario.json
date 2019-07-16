@@ -3,8 +3,16 @@
     "isBegin": true,
     "name": "awau_2",
     "action": "CLICK",
-    "audio": [],
-    "images": [],
+    "audio": [
+      {
+        "audio": "awau_a_cont"
+      }
+    ],
+    "images": [
+      {
+        "image": "wau/pwau.jpg"
+      }
+    ],
     "decisions": [
       {
         "scenario": "awau_2_a",
@@ -111,10 +119,6 @@
       {
         "audio": "swau_2_c",
         "duration": 197000
-      },
-      {
-        "audio": "swau_2_cont",
-        "duration": 447000
       }
     ],
     "images": [
@@ -135,14 +139,6 @@
         "internalFile": "wau/inter_wauwau_font.jpg",
         "withWau": true,
         "duration": 71000
-      },
-      {
-        "internalFile": "wau/pwau_4.jpg",
-        "duration": 220000
-      },
-      {
-        "internalFile": "wau/pwau_3.jpg",
-        "duration": 226000
       }
     ],
     "decisions": [],
@@ -187,33 +183,16 @@
       {
         "audio": "swau_2_a_win",
         "duration": 36000
-      },
-      {
-        "audio": "swau_2_cont",
-        "duration": 447000
       }
     ],
     "images": [
       {
         "internalFile": "wau/inter_wauwau_font.jpg",
         "duration": 35000
-      },
-      {
-        "internalFile": "wau/pwau_4.jpg",
-        "duration": 158000
-      },
-      {
-        "internalFile": "wau/pwau_3.jpg",
-        "duration": 290000
       }
     ],
     "decisions": [],
-    "translations": [
-      {
-        "locale": "en",
-        "text": "To stun Wau-wau with stones"
-      }
-    ]
+    "translations": []
   },
   {
     "name": "awau_2_a_loose",
