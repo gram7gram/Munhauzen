@@ -47,7 +47,7 @@ public class BalloonsImageFragment extends Fragment {
     Table titleTable, restartTable, winTable;
     int progress, max = 21, spawnCount;
     Timer.Task task;
-    StoryAudio winAudio, missAudio;
+    StoryAudio introAudio, winAudio, missAudio, balloon21Audio;
 
     public BalloonsImageFragment(BalloonsInteraction interaction) {
         this.interaction = interaction;
@@ -227,11 +227,6 @@ public class BalloonsImageFragment extends Fragment {
             public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchDown(event, x, y, pointer, button);
 
-                hit();
-            }
-
-            public void hit() {
-
                 Log.i(tag, "Clicked balloon");
 
                 progress += 1;
@@ -248,11 +243,6 @@ public class BalloonsImageFragment extends Fragment {
             @Override
             public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchDown(event, x, y, pointer, button);
-
-                hit();
-            }
-
-            public void hit() {
 
                 Log.i(tag, "Clicked balloon");
 
@@ -272,11 +262,6 @@ public class BalloonsImageFragment extends Fragment {
             public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchDown(event, x, y, pointer, button);
 
-                hit();
-            }
-
-            public void hit() {
-
                 Log.i(tag, "Clicked balloon");
 
                 progress += 1;
@@ -293,11 +278,6 @@ public class BalloonsImageFragment extends Fragment {
             @Override
             public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchDown(event, x, y, pointer, button);
-
-                hit();
-            }
-
-            public void hit() {
 
                 Log.i(tag, "Clicked balloon");
 
@@ -362,12 +342,23 @@ public class BalloonsImageFragment extends Fragment {
 
             Log.i(tag, "spawnBalloon " + spawnCount + "/" + max);
 
-            balloon.start(spawnCount == max);
+            boolean isLast = spawnCount == max;
 
-            if (spawnCount == max) {
+            if (isLast) {
+                balloon.startFast(new Runnable() {
+                    @Override
+                    public void run() {
+                        stopBalloon21();
+                    }
+                });
+            } else {
+                balloon.start();
+            }
+
+            if (isLast) {
                 stopSpawn();
 
-                playFastBalloon();
+                playBalloon21();
             }
         }
     }
@@ -453,23 +444,23 @@ public class BalloonsImageFragment extends Fragment {
         }
     }
 
-    private void playIntro() {
+    private void playBalloon21() {
         try {
-            StoryAudio storyAudio = new StoryAudio();
-            storyAudio.audio = "sfx_inter_balloons_start";
+            balloon21Audio = new StoryAudio();
+            balloon21Audio.audio = "sfx_inter_balloons_21";
 
-            interaction.gameScreen.audioService.prepareAndPlay(storyAudio);
+            interaction.gameScreen.audioService.prepareAndPlay(balloon21Audio);
         } catch (Throwable e) {
             Log.e(tag, e);
         }
     }
 
-    private void playFastBalloon() {
+    private void playIntro() {
         try {
-            StoryAudio storyAudio = new StoryAudio();
-            storyAudio.audio = "sfx_inter_balloons_21";
+            introAudio = new StoryAudio();
+            introAudio.audio = "sfx_inter_balloons_start";
 
-            interaction.gameScreen.audioService.prepareAndPlay(storyAudio);
+            interaction.gameScreen.audioService.prepareAndPlay(introAudio);
         } catch (Throwable e) {
             Log.e(tag, e);
         }
@@ -533,10 +524,22 @@ public class BalloonsImageFragment extends Fragment {
         if (winAudio != null) {
             interaction.gameScreen.audioService.updateVolume(winAudio);
         }
+
+        if (introAudio != null) {
+            interaction.gameScreen.audioService.updateVolume(introAudio);
+        }
+
         if (missAudio != null) {
             interaction.gameScreen.audioService.updateVolume(missAudio);
         }
 
+    }
+
+    private void stopBalloon21() {
+        if (balloon21Audio != null) {
+            interaction.gameScreen.audioService.stop(balloon21Audio);
+            balloon21Audio = null;
+        }
     }
 
     @Override
@@ -551,6 +554,13 @@ public class BalloonsImageFragment extends Fragment {
             interaction.gameScreen.audioService.stop(winAudio);
             winAudio = null;
         }
+
+        if (introAudio != null) {
+            interaction.gameScreen.audioService.stop(introAudio);
+            introAudio = null;
+        }
+
+        stopBalloon21();
 
         if (missAudio != null) {
             interaction.gameScreen.audioService.stop(missAudio);

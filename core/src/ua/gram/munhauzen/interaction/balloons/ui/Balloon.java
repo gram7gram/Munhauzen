@@ -71,7 +71,7 @@ public class Balloon extends FitImage {
         pointCache = null;
     }
 
-    public void start(boolean isSuperFast) {
+    public void start() {
 
         reset();
 
@@ -79,38 +79,66 @@ public class Balloon extends FitImage {
 
         SequenceAction sequenceAction = new SequenceAction();
 
-        MoveByTrajectoryAction trajectoryAction;
+        dataSet = SimpleTrajectoryProvider.obtain();
 
-        if (isSuperFast) {
-
-            sequenceAction.addAction(Actions.delay(r.between(3, 10)));
-
-            dataSet = ComplexTrajectoryProvider.obtain();
-
-            for (Vector2 vector2 : dataSet) {
-                vector2.x *= MunhauzenGame.WORLD_WIDTH / 100f;
-                vector2.y *= MunhauzenGame.WORLD_HEIGHT / 100f;
-            }
-
-            trajectory = new CatmullRomSpline<>(dataSet, false);
-
-            trajectoryAction = new MoveByTrajectoryAction(trajectory);
-            trajectoryAction.setDuration(10f);
-        } else {
-
-            dataSet = SimpleTrajectoryProvider.obtain();
-
-            for (Vector2 vector2 : dataSet) {
-                vector2.x *= MunhauzenGame.WORLD_WIDTH / 100f;
-                vector2.y *= MunhauzenGame.WORLD_HEIGHT / 100f;
-            }
-
-            trajectory = new CatmullRomSpline<>(dataSet, false);
-
-            trajectoryAction = new MoveByTrajectoryAction(trajectory);
-            trajectoryAction.setDuration(4f);
-
+        for (Vector2 vector2 : dataSet) {
+            vector2.x *= MunhauzenGame.WORLD_WIDTH / 100f;
+            vector2.y *= MunhauzenGame.WORLD_HEIGHT / 100f;
         }
+
+        trajectory = new CatmullRomSpline<>(dataSet, false);
+
+        MoveByTrajectoryAction trajectoryAction = new MoveByTrajectoryAction(trajectory);
+        trajectoryAction.setDuration(4f);
+
+        sequenceAction.addAction(Actions.alpha(1));
+        sequenceAction.addAction(Actions.run(new Runnable() {
+            @Override
+            public void run() {
+                setVisible(true);
+            }
+        }));
+        sequenceAction.addAction(trajectoryAction);
+        sequenceAction.addAction(Actions.run(new Runnable() {
+            @Override
+            public void run() {
+                isLocked = false;
+
+                reset();
+
+                if (onMiss != null) {
+                    addAction(Actions.run(onMiss));
+                }
+            }
+        }));
+
+        addAction(sequenceAction);
+
+        updateTrajectoryCache();
+    }
+
+    public void startFast(Runnable task) {
+
+        reset();
+
+        isLocked = true;
+
+        SequenceAction sequenceAction = new SequenceAction();
+
+        sequenceAction.addAction(Actions.delay(r.between(3, 10)));
+        sequenceAction.addAction(Actions.run(task));
+
+        dataSet = ComplexTrajectoryProvider.obtain();
+
+        for (Vector2 vector2 : dataSet) {
+            vector2.x *= MunhauzenGame.WORLD_WIDTH / 100f;
+            vector2.y *= MunhauzenGame.WORLD_HEIGHT / 100f;
+        }
+
+        trajectory = new CatmullRomSpline<>(dataSet, false);
+
+        MoveByTrajectoryAction trajectoryAction = new MoveByTrajectoryAction(trajectory);
+        trajectoryAction.setDuration(10f);
 
         sequenceAction.addAction(Actions.alpha(1));
         sequenceAction.addAction(Actions.run(new Runnable() {
