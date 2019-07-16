@@ -43,11 +43,25 @@ public class WauImageService extends InternalImageService {
         targetImage.setName(getResource(item));
         targetImage.setTouchable(Touchable.enabled);
 
-        float scale = 1f * MunhauzenGame.WORLD_HEIGHT / item.drawable.getMinHeight();
-        float width = 1f * item.drawable.getMinWidth() * scale;
+        if (item.drawable.getMinWidth() > item.drawable.getMinHeight()) {
 
-        item.height = MunhauzenGame.WORLD_HEIGHT;
-        item.width = width;
+            float scale = 1f * MunhauzenGame.WORLD_HEIGHT / item.drawable.getMinHeight();
+            float width = 1f * item.drawable.getMinWidth() * scale;
+
+            item.height = MunhauzenGame.WORLD_HEIGHT;
+            item.width = width;
+
+        } else {
+
+            float scale = 1f * MunhauzenGame.WORLD_WIDTH / item.drawable.getMinWidth();
+            float height = 1f * item.drawable.getMinHeight() * scale;
+
+            item.width = MunhauzenGame.WORLD_WIDTH;
+            item.height = height;
+        }
+
+        interaction.imageFragment.backgroundHeight = item.height;
+        interaction.imageFragment.backgroundWidth = item.width;
 
         interaction.imageFragment.backgroundTable.getCell(targetImage)
                 .width(item.width)

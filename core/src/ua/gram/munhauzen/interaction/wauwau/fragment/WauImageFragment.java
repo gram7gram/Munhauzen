@@ -27,6 +27,7 @@ public class WauImageFragment extends Fragment {
     public Group root, items;
     public Image background;
     public Table backgroundTable;
+    public float backgroundWidth, backgroundHeight;
 
     public WauImageFragment(WauInteraction interaction) {
         this.interaction = interaction;
@@ -39,14 +40,13 @@ public class WauImageFragment extends Fragment {
         background = new FitImage();
 
         wauAnimation = new WauAnimation(
-                interaction.assetManager.get("wau/wau_sheet_1x4.png", Texture.class)
+                interaction.assetManager.get("wau/wau_sheet_1x4.png", Texture.class),
+                this
         );
 
         backgroundTable = new Table();
         backgroundTable.setFillParent(true);
         backgroundTable.add(background).right().expand().fill();
-
-        wauAnimation.setVisible(false);
 
         items = new Group();
 
@@ -82,7 +82,7 @@ public class WauImageFragment extends Fragment {
             public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchDown(event, x, y, pointer, button);
 
-                wauAnimation.clearActions();
+                wauAnimation.stopMovement();
             }
 
             @Override
@@ -156,23 +156,25 @@ public class WauImageFragment extends Fragment {
         if (story.currentScenario != null) {
 
             WauStoryImage image = story.currentScenario.currentImage;
-            if (image != null && image.isActive) {
+            if (image != null) {
 
                 if (image.withWau) {
-                    if (!wauAnimation.isStarted) {
+                    if (wauAnimation.getStage() == null) {
 
                         Log.i(tag, "show wauAnimation");
 
-                        wauAnimation.init(story.currentScenario.currentImage);
-
-                        wauAnimation.start();
+                        wauAnimation.init();
 
                         root.addActor(wauAnimation);
 
+                        if (!wauAnimation.isMoving) {
+                            wauAnimation.startMovement();
+                        }
                     }
+
                 } else {
-                    wauAnimation.clearActions();
-                    wauAnimation.setVisible(false);
+                    wauAnimation.stopMovement();
+                    wauAnimation.remove();
                 }
 
             }

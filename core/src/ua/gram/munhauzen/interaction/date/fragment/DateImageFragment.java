@@ -265,21 +265,21 @@ public class DateImageFragment extends Fragment {
 
             playFailed();
 
+            dateContainer.addAction(Actions.sequence(
+                    Actions.alpha(0, .3f),
+                    Actions.run(new Runnable() {
+                        @Override
+                        public void run() {
+                            dateContainer.setVisible(false);
+                        }
+                    })
+            ));
+
             failedTask = Timer.instance().scheduleTask(new Timer.Task() {
                 @Override
                 public void run() {
 
                     try {
-
-                        dateContainer.addAction(Actions.sequence(
-                                Actions.alpha(0, .3f),
-                                Actions.run(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        dateContainer.setVisible(false);
-                                    }
-                                })
-                        ));
 
                         completeDialog.create();
 
@@ -301,7 +301,7 @@ public class DateImageFragment extends Fragment {
     private void playFailed() {
         try {
             failedAudio = new StoryAudio();
-            failedAudio.audio = "s24_a";
+            failedAudio.audio = "smoon_incorrect";
 
             interaction.gameScreen.audioService.prepareAndPlay(failedAudio);
 

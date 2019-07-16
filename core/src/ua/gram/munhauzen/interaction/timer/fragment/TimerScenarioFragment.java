@@ -67,6 +67,7 @@ public class TimerScenarioFragment extends Fragment {
     SparkAnimation spark;
     Bomb bomb;
     Bar bar;
+    StoryAudio failureAudio;
 
     public TimerScenarioFragment(GameScreen gameScreen, TimerInteraction interaction) {
         this.game = gameScreen.game;
@@ -102,6 +103,17 @@ public class TimerScenarioFragment extends Fragment {
         super.dispose();
         assetManager.dispose();
         buttonList.clear();
+
+        if (failureAudio != null) {
+            interaction.gameScreen.audioService.stop(failureAudio);
+            failureAudio = null;
+        }
+    }
+
+    public void update() {
+        if (failureAudio != null) {
+            interaction.gameScreen.audioService.updateVolume(failureAudio);
+        }
     }
 
     public void createTimer() {
@@ -153,7 +165,7 @@ public class TimerScenarioFragment extends Fragment {
                 button.addAction(Actions.fadeOut(.5f));
             }
 
-            float delay = playFailure();
+            playFailure();
 
             Timer.instance().scheduleTask(new Timer.Task() {
                 @Override
@@ -172,27 +184,25 @@ public class TimerScenarioFragment extends Fragment {
                         interaction.gameScreen.onCriticalError(e);
                     }
                 }
-            }, delay / 1000f);
+            }, failureAudio.duration / 1000f);
 
         } catch (Throwable e) {
             Log.e(tag, e);
         }
     }
 
-    private float playFailure() {
+    private void playFailure() {
         try {
-            StoryAudio storyAudio = new StoryAudio();
-            storyAudio.audio = interaction.burnAudio;
+            failureAudio = new StoryAudio();
+            failureAudio.audio = interaction.burnAudio;
 
-            interaction.gameScreen.audioService.prepareAndPlay(storyAudio);
-
-            return storyAudio.duration;
+            interaction.gameScreen.audioService.prepareAndPlay(failureAudio);
 
         } catch (Throwable e) {
             Log.e(tag, e);
-        }
 
-        return 1000;
+            interaction.gameScreen.onCriticalError(e);
+        }
     }
 
     public void create(ArrayList<Decision> decisions) {

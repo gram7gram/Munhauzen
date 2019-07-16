@@ -61,7 +61,8 @@ public abstract class AnimatedImage extends Image {
     }
 
     public void updateFrame(float delta) {
-        setDrawable(animation.getKeyFrame(duration));
+
+        setDrawable(getCurrentDrawable());
 
         boolean isFinished = animation.isAnimationFinished(duration);
 
@@ -77,6 +78,10 @@ public abstract class AnimatedImage extends Image {
         if (isStarted) {
             duration += delta;
         }
+    }
+
+    public TextureRegionDrawable getCurrentDrawable() {
+        return animation.getKeyFrame(duration);
     }
 
     public void start() {

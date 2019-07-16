@@ -5,12 +5,14 @@
     "action": "CLICK",
     "audio": [
       {
-        "audio": "awau_a_cont"
+        "audio": "swau_a_cont",
+        "duration": 46000
       }
     ],
     "images": [
       {
-        "image": "wau/pwau.jpg"
+        "internalFile": "wau/pwau.jpg",
+        "duration": 46000
       }
     ],
     "decisions": [

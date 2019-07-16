@@ -130,6 +130,9 @@ public class TimerInteraction extends AbstractInteraction {
         if (imageFragment != null)
             imageFragment.update();
 
+        if (scenarioFragment != null)
+            scenarioFragment.update();
+
     }
 
     @Override
