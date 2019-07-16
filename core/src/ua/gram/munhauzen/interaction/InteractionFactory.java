@@ -25,6 +25,7 @@ public class InteractionFactory {
     public final static String LIONS = "LIONS";
     public final static String SERVANTS = "SERVANTS";
     public final static String WAUWAU = "WAUWAU";
+    public final static String CANNONS = "CANNONS";
 
     public static AbstractInteraction create(GameScreen gameScreen, String type) {
 
@@ -57,6 +58,8 @@ public class InteractionFactory {
                 return new ServantsInteraction(gameScreen);
             case WAUWAU:
                 return new WauInteraction(gameScreen);
+            case CANNONS:
+                return new CannonsInteraction(gameScreen);
         }
 
         if (type.indexOf(TIMER) == 0) {

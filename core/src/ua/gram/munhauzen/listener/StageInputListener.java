@@ -4,12 +4,14 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import ua.gram.munhauzen.entity.StoryInteraction;
+import ua.gram.munhauzen.interaction.CannonsInteraction;
 import ua.gram.munhauzen.interaction.ContinueInteraction;
 import ua.gram.munhauzen.interaction.GeneralsInteraction;
 import ua.gram.munhauzen.interaction.HareInteraction;
 import ua.gram.munhauzen.interaction.PictureInteraction;
 import ua.gram.munhauzen.interaction.TimerInteraction;
 import ua.gram.munhauzen.interaction.WauInteraction;
+import ua.gram.munhauzen.interaction.cannons.fragment.CannonsProgressBarFragment;
 import ua.gram.munhauzen.interaction.generals.fragment.GeneralsProgressBarFragment;
 import ua.gram.munhauzen.interaction.hare.fragment.HareProgressBarFragment;
 import ua.gram.munhauzen.interaction.picture.fragment.PictureProgressBarFragment;
@@ -57,6 +59,23 @@ public class StageInputListener extends ClickListener {
 
                 if (storyInteraction.interaction instanceof WauInteraction) {
                     WauProgressBarFragment barFragment = ((WauInteraction) storyInteraction.interaction).progressBarFragment;
+
+                    if (barFragment != null) {
+                        if (!barFragment.getRoot().isVisible()) {
+                            if (!barFragment.isFadeIn) {
+                                barFragment.fadeIn();
+                                barFragment.scheduleFadeOut();
+                            }
+                        } else {
+                            if (!barFragment.isFadeOut) {
+                                barFragment.fadeOut();
+                            }
+                        }
+                    }
+                }
+
+                if (storyInteraction.interaction instanceof CannonsInteraction) {
+                    CannonsProgressBarFragment barFragment = ((CannonsInteraction) storyInteraction.interaction).progressBarFragment;
 
                     if (barFragment != null) {
                         if (!barFragment.getRoot().isVisible()) {

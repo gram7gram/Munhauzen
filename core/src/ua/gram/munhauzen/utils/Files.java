@@ -45,6 +45,10 @@ public class Files {
         return getInternal("game/wauwau-scenario.json");
     }
 
+    public static FileHandle getCannonsScenarioFile() {
+        return getInternal("game/cannons-scenario.json");
+    }
+
     public static FileHandle getTimerScenarioFile() {
         return getInternal("game/timer-scenario.json");
     }

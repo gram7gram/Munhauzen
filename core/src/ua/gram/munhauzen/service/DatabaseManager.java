@@ -22,6 +22,8 @@ import ua.gram.munhauzen.entity.StatueTranslation;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.entity.StoryImage;
 import ua.gram.munhauzen.history.History;
+import ua.gram.munhauzen.interaction.cannons.CannonsScenario;
+import ua.gram.munhauzen.interaction.cannons.CannonsStoryImage;
 import ua.gram.munhauzen.interaction.generals.GeneralsScenario;
 import ua.gram.munhauzen.interaction.generals.GeneralsStoryImage;
 import ua.gram.munhauzen.interaction.hare.HareScenario;
@@ -216,6 +218,18 @@ public class DatabaseManager {
         json.setElementType(Scenario.class, "translations", ScenarioTranslation.class);
 
         return json.fromJson(Array.class, WauScenario.class, Files.getWauwauScenarioFile());
+    }
+
+    @SuppressWarnings("unchecked")
+    public Array<CannonsScenario> loadCannonsScenario() {
+        Json json = new Json(JsonWriter.OutputType.json);
+        json.setIgnoreUnknownFields(true);
+        json.setElementType(Scenario.class, "decisions", Decision.class);
+        json.setElementType(Scenario.class, "images", CannonsStoryImage.class);
+        json.setElementType(Scenario.class, "audio", StoryAudio.class);
+        json.setElementType(Scenario.class, "translations", ScenarioTranslation.class);
+
+        return json.fromJson(Array.class, CannonsScenario.class, Files.getCannonsScenarioFile());
     }
 
     @SuppressWarnings("unchecked")

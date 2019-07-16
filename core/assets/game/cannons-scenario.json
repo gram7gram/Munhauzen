@@ -1,0 +1,405 @@
+[
+  {
+    "isBegin": true,
+    "name": "sworm_interaction_proxy",
+    "action": "CLICK",
+    "audio": [],
+    "images": [
+      {
+        "internalFile": "cannons/inter_cannons_font.jpg",
+        "duration": 100
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "sworm_a",
+        "order": 1
+      },
+      {
+        "scenario": "sworm_b",
+        "order": 2
+      },
+      {
+        "scenario": "sworm_c",
+        "order": 3
+      },
+      {
+        "scenario": "sworm_d",
+        "order": 4
+      }
+    ],
+    "translations": []
+  },
+  {
+    "name": "sworm_a",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "sworm_a",
+        "duration": 0
+      }
+    ],
+    "images": [
+      {
+        "internalFile": "cannons/inter_cannons_font.jpg",
+        "withBurnWorm": true,
+        "duration": 0
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "sworm_check_a"
+      }
+    ],
+    "translations": [
+      {
+        "locale": "en",
+        "text": "Burnt it"
+      }
+    ]
+  },
+  {
+    "name": "sworm_b",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "sworm_b",
+        "duration": 0
+      }
+    ],
+    "images": [
+      {
+        "internalFile": "cannons/inter_cannons_font.jpg",
+        "withFloodWorm": true,
+        "duration": 0
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "sworm_check_b"
+      }
+    ],
+    "translations": [
+      {
+        "locale": "en",
+        "text": "Flooded it"
+      }
+    ]
+  },
+  {
+    "name": "sworm_c",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "sworm_c",
+        "duration": 0
+      }
+    ],
+    "images": [
+      {
+        "internalFile": "cannons/inter_cannons_font.jpg",
+        "withEatWorm": true,
+        "duration": 0
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "sworm_check_c"
+      }
+    ],
+    "translations": [
+      {
+        "locale": "en",
+        "text": "Sent an iron woodpecker"
+      }
+    ]
+  },
+  {
+    "isExit": true,
+    "name": "sworm_d",
+    "audio": [
+      {
+        "audio": "sworm_d",
+        "duration": 0
+      }
+    ],
+    "images": [
+      {
+        "internalFile": "cannons/inter_cannons_font.jpg",
+        "duration": 5000
+      },
+      {
+        "internalFile": "cannons/sworm_d.png",
+        "duration": 0
+      }
+    ],
+    "decisions": [],
+    "translations": [
+      {
+        "locale": "en",
+        "text": "Made a poison"
+      }
+    ]
+  },
+  {
+    "name": "sworm_check_a",
+    "action": "GOTO",
+    "audio": [],
+    "images": [],
+    "decisions": [],
+    "translations": []
+  },
+  {
+    "name": "sworm_check_b",
+    "action": "GOTO",
+    "audio": [],
+    "images": [],
+    "decisions": [],
+    "translations": []
+  },
+  {
+    "name": "sworm_check_c",
+    "action": "GOTO",
+    "audio": [],
+    "images": [],
+    "decisions": [],
+    "translations": []
+  },
+  {
+    "name": "sworm_a_170",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "sworm_a_plus37",
+        "duration": 0
+      },
+      {
+        "audio": "sworm_a_170",
+        "duration": 0
+      },
+      {
+        "audio": "sworm_a_cont",
+        "duration": 0
+      },
+      {
+        "audio": "sworm_epidemy",
+        "duration": 0
+      }
+    ],
+    "images": [],
+    "decisions": [
+      {
+        "scenario": "sworm_interaction_proxy"
+      }
+    ],
+    "translations": []
+  },
+  {
+    "name": "sworm_a_133",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "sworm_a_plus51",
+        "duration": 0
+      },
+      {
+        "audio": "sworm_a_133",
+        "duration": 0
+      },
+      {
+        "audio": "sworm_a_cont",
+        "duration": 0
+      }
+    ],
+    "images": [],
+    "decisions": [
+      {
+        "scenario": "sworm_interaction_proxy"
+      }
+    ],
+    "translations": []
+  },
+  {
+    "name": "sworm_a_82",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "sworm_a_plus11",
+        "duration": 0
+      },
+      {
+        "audio": "sworm_a_82",
+        "duration": 0
+      },
+      {
+        "audio": "sworm_a_cont",
+        "duration": 0
+      }
+    ],
+    "images": [],
+    "decisions": [
+      {
+        "scenario": "sworm_interaction_proxy"
+      }
+    ],
+    "translations": []
+  },
+  {
+    "name": "sworm_b_170",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "sworm_b_plus37",
+        "duration": 0
+      },
+      {
+        "audio": "sworm_b_170",
+        "duration": 0
+      },
+      {
+        "audio": "sworm_b_cont",
+        "duration": 0
+      },
+      {
+        "audio": "sworm_epidemy",
+        "duration": 0
+      }
+    ],
+    "images": [],
+    "decisions": [
+      {
+        "scenario": "sworm_interaction_proxy"
+      }
+    ],
+    "translations": []
+  },
+  {
+    "name": "sworm_b_133",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "sworm_b_plus51",
+        "duration": 0
+      },
+      {
+        "audio": "sworm_b_133",
+        "duration": 0
+      },
+      {
+        "audio": "sworm_b_cont",
+        "duration": 0
+      }
+    ],
+    "images": [],
+    "decisions": [
+      {
+        "scenario": "sworm_interaction_proxy"
+      }
+    ],
+    "translations": []
+  },
+  {
+    "name": "sworm_b_82",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "sworm_b_plus11",
+        "duration": 0
+      },
+      {
+        "audio": "sworm_b_82",
+        "duration": 0
+      },
+      {
+        "audio": "sworm_b_cont",
+        "duration": 0
+      }
+    ],
+    "images": [],
+    "decisions": [
+      {
+        "scenario": "sworm_interaction_proxy"
+      }
+    ],
+    "translations": []
+  },
+  {
+    "name": "sworm_c_170",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "sworm_c_plus37",
+        "duration": 0
+      },
+      {
+        "audio": "sworm_c_170",
+        "duration": 0
+      },
+      {
+        "audio": "sworm_c_cont",
+        "duration": 0
+      },
+      {
+        "audio": "sworm_epidemy",
+        "duration": 0
+      }
+    ],
+    "images": [],
+    "decisions": [
+      {
+        "scenario": "sworm_interaction_proxy"
+      }
+    ],
+    "translations": []
+  },
+  {
+    "name": "sworm_c_133",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "sworm_c_plus51",
+        "duration": 0
+      },
+      {
+        "audio": "sworm_c_133",
+        "duration": 0
+      },
+      {
+        "audio": "sworm_c_cont",
+        "duration": 0
+      }
+    ],
+    "images": [],
+    "decisions": [
+      {
+        "scenario": "sworm_interaction_proxy"
+      }
+    ],
+    "translations": []
+  },
+  {
+    "name": "sworm_c_82",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "sworm_c_plus51",
+        "duration": 0
+      },
+      {
+        "audio": "sworm_c_82",
+        "duration": 0
+      },
+      {
+        "audio": "sworm_c_cont",
+        "duration": 0
+      }
+    ],
+    "images": [],
+    "decisions": [
+      {
+        "scenario": "sworm_interaction_proxy"
+      }
+    ],
+    "translations": []
+  }
+]

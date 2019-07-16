@@ -40,7 +40,7 @@ public class ExpansionDownloadManager {
     public void start() {
         Log.i(tag, "start");
 
-        restoreFromFile();
+        //restoreFromFile();
 
         if (expansionResponse == null) {
             fetchExpansionInfo();
