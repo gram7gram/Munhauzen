@@ -44,6 +44,8 @@ public class Balloon extends FitImage {
     }
 
     public void onHit() {
+        clearActions();
+        isLocked = false;
 
         addAction(Actions.sequence(
                 Actions.parallel(
@@ -92,23 +94,19 @@ public class Balloon extends FitImage {
         trajectoryAction.setDuration(4f);
 
         sequenceAction.addAction(Actions.alpha(1));
-        sequenceAction.addAction(Actions.run(new Runnable() {
-            @Override
-            public void run() {
-                setVisible(true);
-            }
-        }));
+        sequenceAction.addAction(Actions.visible(true));
         sequenceAction.addAction(trajectoryAction);
         sequenceAction.addAction(Actions.run(new Runnable() {
             @Override
             public void run() {
-                isLocked = false;
-
-                reset();
 
                 if (onMiss != null) {
                     addAction(Actions.run(onMiss));
                 }
+
+                isLocked = false;
+
+                reset();
             }
         }));
 
@@ -138,15 +136,10 @@ public class Balloon extends FitImage {
         trajectory = new CatmullRomSpline<>(dataSet, false);
 
         MoveByTrajectoryAction trajectoryAction = new MoveByTrajectoryAction(trajectory);
-        trajectoryAction.setDuration(10f);
+        trajectoryAction.setDuration(8f);
 
         sequenceAction.addAction(Actions.alpha(1));
-        sequenceAction.addAction(Actions.run(new Runnable() {
-            @Override
-            public void run() {
-                setVisible(true);
-            }
-        }));
+        sequenceAction.addAction(Actions.visible(true));
         sequenceAction.addAction(trajectoryAction);
         sequenceAction.addAction(Actions.run(new Runnable() {
             @Override

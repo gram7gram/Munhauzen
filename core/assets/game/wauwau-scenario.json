@@ -199,7 +199,12 @@
   {
     "name": "awau_2_a_loose",
     "action": "GOTO",
-    "audio": [],
+    "audio": [
+      {
+        "audio": "swau_2_a_loose",
+        "duration": 23000
+      }
+    ],
     "images": [],
     "decisions": [
       {

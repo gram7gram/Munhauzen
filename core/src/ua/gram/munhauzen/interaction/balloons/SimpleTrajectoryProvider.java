@@ -5,8 +5,8 @@ import com.badlogic.gdx.math.Vector2;
 public class SimpleTrajectoryProvider {
 
     private static final Vector2[] t1 = new Vector2[]{
-            new Vector2(50, 0),//duplicate
-            new Vector2(50, 0),
+            new Vector2(50, -10),//duplicate
+            new Vector2(50, -10),
 
             new Vector2(40, 20),
             new Vector2(70, 40),
@@ -18,8 +18,8 @@ public class SimpleTrajectoryProvider {
     };
 
     private static final Vector2[] t2 = new Vector2[]{
-            new Vector2(40, 0),//duplicate
-            new Vector2(40, 0),
+            new Vector2(40, -10),//duplicate
+            new Vector2(40, -10),
 
             new Vector2(30, 30),
             new Vector2(50, 60),
@@ -31,8 +31,8 @@ public class SimpleTrajectoryProvider {
     };
 
     private static final Vector2[] t3 = new Vector2[]{
-            new Vector2(10, 0),//duplicate
-            new Vector2(10, 0),
+            new Vector2(10, -10),//duplicate
+            new Vector2(10, -10),
 
             new Vector2(20, 0),
             new Vector2(60, 20),
@@ -45,42 +45,29 @@ public class SimpleTrajectoryProvider {
     };
 
     private static final Vector2[] t4 = new Vector2[]{
-            new Vector2(60, 0),//duplicate
-            new Vector2(60, 0),
+            new Vector2(60, -10),//duplicate
+            new Vector2(60, -10),
 
-            new Vector2(70, 10),
-            new Vector2(50, 15),
-            new Vector2(60, 25),
-            new Vector2(40, 30),
-            new Vector2(50, 40),
-            new Vector2(30, 50),
-            new Vector2(40, 55),
-            new Vector2(20, 75),
-            new Vector2(30, 80),
-            new Vector2(10, 85),
-            new Vector2(20, 90),
+            new Vector2(50, 0),
+            new Vector2(60, 30),
+            new Vector2(50, 60),
 
-            new Vector2(10, 100),
-            new Vector2(10, 100),//duplicate
+            new Vector2(60, 100),
+            new Vector2(60, 100),//duplicate
     };
 
     private static final Vector2[] t5 = new Vector2[]{
-            new Vector2(100, 0),//duplicate
-            new Vector2(100, 0),
+            new Vector2(30, -10),//duplicate
+            new Vector2(30, -10),
 
-            new Vector2(70, 10),
-            new Vector2(95, 20),
-            new Vector2(60, 25),
-            new Vector2(70, 35),
+            new Vector2(60, 0),
+            new Vector2(40, 20),
             new Vector2(50, 40),
-            new Vector2(40, 50),
-            new Vector2(50, 60),
-            new Vector2(60, 70),
-            new Vector2(70, 80),
-            new Vector2(30, 90),
+            new Vector2(40, 60),
+            new Vector2(45, 80),
 
-            new Vector2(0, 100),
-            new Vector2(0, 100),//duplicate
+            new Vector2(60, 100),
+            new Vector2(60, 100),//duplicate
     };
 
     private static Vector2[][] trajectories = new Vector2[][]{
