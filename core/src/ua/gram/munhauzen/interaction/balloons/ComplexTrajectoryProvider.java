@@ -5,8 +5,8 @@ import com.badlogic.gdx.math.Vector2;
 public class ComplexTrajectoryProvider {
 
     private static final Vector2[] t1 = new Vector2[]{
-            new Vector2(50, 0),//duplicate
-            new Vector2(50, 0),
+            new Vector2(50, -20),//duplicate
+            new Vector2(50, -20),
 
             new Vector2(30, 20),
             new Vector2(60, 30),

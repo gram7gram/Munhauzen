@@ -3,7 +3,7 @@ package ua.gram.munhauzen.interaction.timer.fragment;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 
@@ -18,9 +18,10 @@ import ua.gram.munhauzen.ui.FitImage;
 public class TimerImageFragment extends Fragment {
 
     final TimerInteraction interaction;
-    Group root;
+    Stack root;
     public Table backgroundTable;
     public FitImage background;
+    TimerBombFragment bombFragment;
 
     public TimerImageFragment(TimerInteraction interaction) {
         this.interaction = interaction;
@@ -35,13 +36,25 @@ public class TimerImageFragment extends Fragment {
         backgroundTable.setFillParent(true);
         backgroundTable.add(background).center().expand().fill();
 
-        root = new Group();
+        root = new Stack();
         root.addActor(backgroundTable);
     }
 
+    public void startTimer() {
+
+        if (bombFragment == null) {
+
+            bombFragment = new TimerBombFragment(interaction);
+            bombFragment.create();
+
+            root.addActor(bombFragment.getRoot());
+        }
+    }
+
     public void update() {
-
-
+        if (bombFragment != null) {
+            bombFragment.update();
+        }
     }
 
     public void setBackground(Texture texture) {
@@ -73,5 +86,9 @@ public class TimerImageFragment extends Fragment {
     public void dispose() {
         super.dispose();
 
+        if (bombFragment != null) {
+            bombFragment.destroy();
+            bombFragment = null;
+        }
     }
 }

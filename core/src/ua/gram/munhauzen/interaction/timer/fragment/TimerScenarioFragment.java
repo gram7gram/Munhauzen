@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -32,15 +31,10 @@ import ua.gram.munhauzen.animation.CannonLetterAnimation;
 import ua.gram.munhauzen.entity.Decision;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.ScenarioTranslation;
-import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.fragment.Fragment;
 import ua.gram.munhauzen.interaction.TimerInteraction;
 import ua.gram.munhauzen.interaction.timer.TimerScenario;
 import ua.gram.munhauzen.interaction.timer.TimerStory;
-import ua.gram.munhauzen.interaction.timer.animation.Bar;
-import ua.gram.munhauzen.interaction.timer.animation.Bomb;
-import ua.gram.munhauzen.interaction.timer.animation.BoomAnimation;
-import ua.gram.munhauzen.interaction.timer.animation.SparkAnimation;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.ui.WrapLabel;
@@ -59,14 +53,10 @@ public class TimerScenarioFragment extends Fragment {
     private FitImage imgLeft, imgRight, imgTop;
     private Table decorLeft, decorRight, decorTop;
     public Stack root;
-    public Group timerGroup;
     private final ArrayList<Actor> buttonList;
     private final HashMap<Integer, String> map = new HashMap<>(7);
     private final HashMap<Integer, String> animatedMap = new HashMap<>(7);
     private final float headerSize, buttonSize;
-    SparkAnimation spark;
-    Bomb bomb;
-    Bar bar;
 
     public TimerScenarioFragment(GameScreen gameScreen, TimerInteraction interaction) {
         this.game = gameScreen.game;
@@ -95,83 +85,6 @@ public class TimerScenarioFragment extends Fragment {
     public void update() {
         interaction.gameScreen.hideProgressBar();
         interaction.hideProgressBar();
-    }
-
-    public void createTimer() {
-
-        bomb = new Bomb(interaction.assetManager.get("timer/inter_bomb.png", Texture.class));
-        spark = new SparkAnimation(
-                interaction.assetManager.get("timer/an_timer_sheet_1x8.png", Texture.class),
-                bomb, bomb.getWidth(), interaction.burnDurationInSeconds);
-        bar = new Bar(bomb, spark);
-
-        timerGroup = new Group();
-        timerGroup.setTouchable(Touchable.disabled);
-        timerGroup.addActor(bar);
-        timerGroup.addActor(spark);
-        timerGroup.addActor(bomb);
-
-        spark.start(new Runnable() {
-            @Override
-            public void run() {
-                failed();
-            }
-        });
-    }
-
-    public void stopTimer() {
-        spark.reset();
-    }
-
-    public void failed() {
-
-        Log.i(tag, "failed");
-
-        try {
-
-            root.setTouchable(Touchable.disabled);
-
-            stopTimer();
-
-            bomb.setVisible(false);
-            spark.setVisible(false);
-            bar.setVisible(false);
-
-            BoomAnimation boom = new BoomAnimation(
-                    interaction.assetManager.get("timer/an_bam_sheet_1x7.png", Texture.class),
-                    bomb, bomb.getWidth());
-
-            timerGroup.addActor(boom);
-
-            boom.start();
-
-            for (Actor button : buttonList) {
-                button.addAction(Actions.fadeOut(.5f));
-            }
-
-            Timer.instance().scheduleTask(new Timer.Task() {
-                @Override
-                public void run() {
-
-                    GameState.unpause();
-
-                    interaction.gameScreen.interactionService.complete();
-
-                    interaction.gameScreen.restoreProgressBarIfDestroyed();
-
-                    Story newStory = interaction.gameScreen.storyManager.create(interaction.burnScenario);
-
-                    interaction.gameScreen.setStory(newStory);
-
-                    interaction.gameScreen.storyManager.startLoadingResources();
-                }
-            }, 1);
-
-        } catch (Throwable e) {
-            Log.e(tag, e);
-
-            interaction.gameScreen.onCriticalError(e);
-        }
     }
 
     public void create(ArrayList<Decision> decisions) {
@@ -233,7 +146,7 @@ public class TimerScenarioFragment extends Fragment {
                 public void clicked(InputEvent event, float x, float y) {
                     super.clicked(event, x, y);
 
-                    stopTimer();
+                    //stopTimer();
 
                     makeDecision(currentIndex, decision);
                 }
@@ -285,11 +198,8 @@ public class TimerScenarioFragment extends Fragment {
                 .width(MunhauzenGame.WORLD_WIDTH / 3f)
                 .height(MunhauzenGame.WORLD_HEIGHT / 4f);
 
-        createTimer();
-
         root = new Stack();
         root.add(table);
-        root.add(timerGroup);
         root.add(decorLeft);
         root.add(decorTop);
         root.add(decorRight);
@@ -299,11 +209,22 @@ public class TimerScenarioFragment extends Fragment {
         GameState.pause();
 
         root.setName(tag);
+
+        interaction.imageFragment.startTimer();
     }
 
     private void makeDecision(final int currentIndex, Decision decision) {
         try {
             Log.i(tag, "makeDecision " + decision.scenario);
+
+            for (TimerScenario timerScenario : interaction.scenarioRegistry) {
+                if (timerScenario.name.equals(decision.scenario)) {
+                    if (timerScenario.isExit) {
+                        interaction.imageFragment.bombFragment.cancelTimer();
+                        break;
+                    }
+                }
+            }
 
 //            Sound sfx = assetManager.get("sfx/sfx_decision.mp3", Sound.class);
 //            sfx.play();
@@ -313,9 +234,6 @@ public class TimerScenarioFragment extends Fragment {
             final Runnable onComplete = new Runnable() {
                 @Override
                 public void run() {
-
-                    Log.i(tag, "fadeOut button complete");
-
                     if (interaction.scenarioFragment != null) {
                         interaction.scenarioFragment.destroy();
                         interaction.scenarioFragment = null;
@@ -325,18 +243,11 @@ public class TimerScenarioFragment extends Fragment {
 
             fadeOutDecoration();
 
-            try {
-                TimerStory newStory = interaction.storyManager.create(decision.scenario);
+            TimerStory newStory = interaction.storyManager.create(decision.scenario);
 
-                interaction.storyManager.timerStory = newStory;
+            interaction.storyManager.timerStory = newStory;
 
-                interaction.storyManager.startLoadingResources();
-            } catch (Throwable e) {
-                Log.e(tag, e);
-
-                interaction.gameScreen.onCriticalError(e);
-                return;
-            }
+            interaction.storyManager.startLoadingResources();
 
             //let cannon animation complete...
             Timer.schedule(new Timer.Task() {
@@ -346,10 +257,6 @@ public class TimerScenarioFragment extends Fragment {
                         for (Actor button : buttonList) {
 
                             boolean isCurrent = buttonList.indexOf(button) == currentIndex;
-
-                            button.setTouchable(Touchable.disabled);
-
-                            Log.i(tag, "fadeOut button " + (isCurrent ? "+" : "-"));
 
                             if (isCurrent) {
                                 button.addAction(
@@ -370,6 +277,8 @@ public class TimerScenarioFragment extends Fragment {
             }, 1);
         } catch (Throwable e) {
             Log.e(tag, e);
+
+            interaction.gameScreen.onCriticalError(e);
         }
     }
 
@@ -642,8 +551,5 @@ public class TimerScenarioFragment extends Fragment {
 
         assetManager.dispose();
         buttonList.clear();
-
-        stopTimer();
-
     }
 }
