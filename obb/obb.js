@@ -134,22 +134,24 @@ for (let part = 1; part <= PARTS; part++) {
 
     archive.on('end', function () {
 
-        console.log(" => Completed #" + part)
+        console.log("=> Completed #" + part)
 
-        fs.readFile(output, function (err, buf) {
+        setTimeout(() => {
+            fs.readFile(output, function (err, buf) {
 
-            const checksum = md5(buf)
+                const checksum = md5(buf)
 
-            completed.push({
-                size: archive.pointer(),
-                part,
-                checksum
+                completed.push({
+                    size: archive.pointer(),
+                    part,
+                    checksum
+                });
+
+                if (completed.length === PARTS) {
+                    onComplete()
+                }
             });
-
-            if (completed.length === PARTS) {
-                onComplete()
-            }
-        });
+        }, 100)
     });
 
     archive.directory(`/tmp/part${part}/audio`, 'audio')

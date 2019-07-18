@@ -2,6 +2,8 @@ package ua.gram.munhauzen.service;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.ExternalFileHandleResolver;
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import ua.gram.munhauzen.entity.Image;
 import ua.gram.munhauzen.entity.StoryImage;
@@ -25,13 +27,16 @@ public class ExternalImageService extends ImageService {
 
     @Override
     public String getResource(StoryImage item) {
-        try {
-            Image image = ImageRepository.find(gameScreen.game.gameState, item.image);
+        Image image = ImageRepository.find(gameScreen.game.gameState, item.image);
 
-            return ExternalFiles.getExpansionImagesDir().path() + "/" + image.file;
-        } catch (Throwable e) {
-            return null;
+        if (ImageRepository.LAST.equals(item.image) && image == null) return null;
+
+        FileHandle file = ExternalFiles.getExpansionImage(image);
+        if (!file.exists()) {
+            throw new GdxRuntimeException("Image file does not exist " + image.name + " at " + file.path());
         }
+
+        return file.path();
     }
 
 }

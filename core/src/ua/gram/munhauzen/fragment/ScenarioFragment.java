@@ -297,6 +297,7 @@ public class ScenarioFragment extends Fragment {
 
         root.addAction(Actions.sequence(
                 Actions.alpha(0, duration),
+                Actions.visible(false),
                 Actions.run(task)
         ));
 
@@ -324,6 +325,15 @@ public class ScenarioFragment extends Fragment {
     }
 
     public void fadeIn() {
+
+        root.clearActions();
+
+        root.setVisible(true);
+        root.addAction(Actions.sequence(
+                Actions.alpha(0),
+                Actions.alpha(1, .3f)
+        ));
+
         fadeInDecoration();
     }
 

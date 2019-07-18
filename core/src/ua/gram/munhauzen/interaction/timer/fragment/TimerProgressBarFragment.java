@@ -496,7 +496,7 @@ public class TimerProgressBarFragment extends Fragment {
     }
 
     public boolean canFadeOut() {
-        return isMounted() && root.isVisible() && !isFadeOut && interaction.scenarioFragment == null;
+        return isMounted() && root.isVisible() && !isFadeOut;
     }
 
     public void fadeOut(Runnable task) {

@@ -3,7 +3,9 @@ package ua.gram.munhauzen.service;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.ExternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.Timer;
 
 import java.util.Date;
@@ -50,7 +52,12 @@ public class AudioService implements Disposable {
             item.duration = audio.duration;
         }
 
-        String resource = ExternalFiles.getExpansionAudioDir().path() + "/" + audio.file;
+        FileHandle file = ExternalFiles.getExpansionAudio(audio);
+        if (!file.exists()) {
+            throw new GdxRuntimeException("Audio file does not exist " + audio.name + " at " + file.path());
+        }
+
+        String resource = file.path();
 
         boolean isLoaded = assetManager.isLoaded(resource, Music.class);
 
@@ -296,11 +303,7 @@ public class AudioService implements Disposable {
     }
 
     public void update() {
-        try {
-            assetManager.update();
-        } catch (Throwable e) {
-            Log.e(tag, e);
-        }
+        assetManager.update();
     }
 
     @Override

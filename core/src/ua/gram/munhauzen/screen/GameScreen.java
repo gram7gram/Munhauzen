@@ -389,21 +389,8 @@ public class GameScreen implements Screen {
     }
 
     public void hideAndDestroyScenarioFragment() {
-        if (scenarioFragment != null) {
-            scenarioFragment.fadeOut(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        if (scenarioFragment != null) {
-                            scenarioFragment.destroy();
-                            scenarioFragment = null;
-                        }
-                    } catch (Throwable e) {
-                        Log.e(tag, e);
-                    }
-                }
-            });
-        }
+        gameLayers.setStoryDecisionsLayer(null);
+        scenarioFragment = null;
     }
 
     public void onCriticalError(Throwable e) {

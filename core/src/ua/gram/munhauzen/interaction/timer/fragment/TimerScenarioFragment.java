@@ -32,7 +32,7 @@ import ua.gram.munhauzen.animation.CannonLetterAnimation;
 import ua.gram.munhauzen.entity.Decision;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.ScenarioTranslation;
-import ua.gram.munhauzen.entity.StoryAudio;
+import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.fragment.Fragment;
 import ua.gram.munhauzen.interaction.TimerInteraction;
 import ua.gram.munhauzen.interaction.timer.TimerScenario;
@@ -67,7 +67,6 @@ public class TimerScenarioFragment extends Fragment {
     SparkAnimation spark;
     Bomb bomb;
     Bar bar;
-    StoryAudio failureAudio;
 
     public TimerScenarioFragment(GameScreen gameScreen, TimerInteraction interaction) {
         this.game = gameScreen.game;
@@ -93,27 +92,9 @@ public class TimerScenarioFragment extends Fragment {
         map.put(4, "GameScreen/an_letter_E_main.png");
     }
 
-    @Override
-    public Actor getRoot() {
-        return root;
-    }
-
-    @Override
-    public void dispose() {
-        super.dispose();
-        assetManager.dispose();
-        buttonList.clear();
-
-        if (failureAudio != null) {
-            interaction.gameScreen.audioService.stop(failureAudio);
-            failureAudio = null;
-        }
-    }
-
     public void update() {
-        if (failureAudio != null) {
-            interaction.gameScreen.audioService.updateVolume(failureAudio);
-        }
+        interaction.gameScreen.hideProgressBar();
+        interaction.hideProgressBar();
     }
 
     public void createTimer() {
@@ -138,6 +119,10 @@ public class TimerScenarioFragment extends Fragment {
         });
     }
 
+    public void stopTimer() {
+        spark.reset();
+    }
+
     public void failed() {
 
         Log.i(tag, "failed");
@@ -146,57 +131,41 @@ public class TimerScenarioFragment extends Fragment {
 
             root.setTouchable(Touchable.disabled);
 
-            spark.reset();
+            stopTimer();
 
             bomb.setVisible(false);
             spark.setVisible(false);
             bar.setVisible(false);
 
-            BoomAnimation boom = new BoomAnimation(interaction.assetManager.get("timer/an_bam_sheet_1x7.png", Texture.class), bomb, bomb.getWidth());
+            BoomAnimation boom = new BoomAnimation(
+                    interaction.assetManager.get("timer/an_bam_sheet_1x7.png", Texture.class),
+                    bomb, bomb.getWidth());
 
             timerGroup.addActor(boom);
 
             boom.start();
 
             for (Actor button : buttonList) {
-
-                button.setTouchable(Touchable.disabled);
-
                 button.addAction(Actions.fadeOut(.5f));
             }
-
-            playFailure();
 
             Timer.instance().scheduleTask(new Timer.Task() {
                 @Override
                 public void run() {
-                    try {
 
-                        interaction.gameScreen.interactionService.complete();
+                    GameState.isPaused = false;
 
-                        interaction.gameScreen.interactionService.findStoryAfterInteraction();
+                    interaction.gameScreen.interactionService.complete();
 
-                        interaction.gameScreen.restoreProgressBarIfDestroyed();
+                    interaction.gameScreen.restoreProgressBarIfDestroyed();
 
-                    } catch (Throwable e) {
-                        Log.e(tag, e);
+                    Story newStory = interaction.gameScreen.storyManager.create(interaction.burnScenario);
 
-                        interaction.gameScreen.onCriticalError(e);
-                    }
+                    interaction.gameScreen.setStory(newStory);
+
+                    interaction.gameScreen.storyManager.startLoadingResources();
                 }
-            }, failureAudio.duration / 1000f);
-
-        } catch (Throwable e) {
-            Log.e(tag, e);
-        }
-    }
-
-    private void playFailure() {
-        try {
-            failureAudio = new StoryAudio();
-            failureAudio.audio = interaction.burnAudio;
-
-            interaction.gameScreen.audioService.prepareAndPlay(failureAudio);
+            }, 1);
 
         } catch (Throwable e) {
             Log.e(tag, e);
@@ -209,7 +178,7 @@ public class TimerScenarioFragment extends Fragment {
 
         Log.i(tag, "create x" + decisions.size());
 
-        interaction.showProgressBar();
+        interaction.hideProgressBar();
 
 //        assetManager.load("sfx/sfx_decision.mp3", Sound.class);
         assetManager.load("GameScreen/an_cannons_main.png", Texture.class);
@@ -263,6 +232,8 @@ public class TimerScenarioFragment extends Fragment {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     super.clicked(event, x, y);
+
+                    stopTimer();
 
                     makeDecision(currentIndex, decision);
                 }
@@ -333,8 +304,6 @@ public class TimerScenarioFragment extends Fragment {
     private void makeDecision(final int currentIndex, Decision decision) {
         try {
             Log.i(tag, "makeDecision " + decision.scenario);
-
-            spark.reset();
 
 //            Sound sfx = assetManager.get("sfx/sfx_decision.mp3", Sound.class);
 //            sfx.play();
@@ -412,6 +381,7 @@ public class TimerScenarioFragment extends Fragment {
 
         root.addAction(Actions.sequence(
                 Actions.alpha(0, duration),
+                Actions.visible(false),
                 Actions.run(task)
         ));
 
@@ -444,6 +414,12 @@ public class TimerScenarioFragment extends Fragment {
     public void fadeIn() {
 
         if (!isMounted()) return;
+
+        root.setVisible(true);
+        root.addAction(Actions.sequence(
+                Actions.alpha(0),
+                Actions.alpha(1, .3f)
+        ));
 
         fadeInDecoration();
     }
@@ -651,5 +627,21 @@ public class TimerScenarioFragment extends Fragment {
         root.add(layer3);
 
         return root;
+    }
+
+    @Override
+    public Actor getRoot() {
+        return root;
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+
+        assetManager.dispose();
+        buttonList.clear();
+
+        stopTimer();
+
     }
 }

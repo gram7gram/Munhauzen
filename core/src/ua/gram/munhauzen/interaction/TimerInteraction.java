@@ -27,13 +27,13 @@ public class TimerInteraction extends AbstractInteraction {
     public TimerScenarioFragment scenarioFragment;
     public TimerImageService imageService;
     boolean isLoaded;
-    public final String burnAudio;
+    public final String burnScenario;
     public final float burnDurationInSeconds;
 
     public TimerInteraction(GameScreen gameScreen, String burnAudio, float burnDuration) {
         super(gameScreen);
 
-        this.burnAudio = burnAudio;
+        this.burnScenario = burnAudio;
         this.burnDurationInSeconds = burnDuration;
 
     }
@@ -162,6 +162,12 @@ public class TimerInteraction extends AbstractInteraction {
     public void showProgressBar() {
         if (progressBarFragment != null) {
             progressBarFragment.fadeIn();
+        }
+    }
+
+    public void hideProgressBar() {
+        if (progressBarFragment != null) {
+            progressBarFragment.fadeOut();
         }
     }
 }

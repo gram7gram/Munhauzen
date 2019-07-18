@@ -133,13 +133,14 @@ public class StoryManager {
 
     public void update(float progress, int duration) {
 
-        Story story = gameState.history.activeSave.story;
+        Story story = gameScreen.getStory();
 
         story.update(progress, duration);
     }
 
     public void startLoadingImages() {
-        Story story = gameState.history.activeSave.story;
+        Story story = gameScreen.getStory();
+        if (story == null) return;
 
         try {
             StoryScenario option = story.currentScenario;
@@ -225,9 +226,11 @@ public class StoryManager {
 
     public void onCompleted() {
 
+        Story story = gameScreen.getStory();
+        if (story == null) return;
+
         startLoadingImages();
 
-        Story story = gameScreen.getStory();
         Log.i(tag, "onCompleted " + story.id);
 
         for (StoryScenario storyScenario : story.scenarios) {
@@ -261,7 +264,7 @@ public class StoryManager {
             }
         }
 
-        if (availableDecisions.size() > 0) {
+        if (availableDecisions.size() > 0 && !story.isInteractionLocked()) {
 
             Collections.sort(availableDecisions, new Comparator<Decision>() {
                 @Override

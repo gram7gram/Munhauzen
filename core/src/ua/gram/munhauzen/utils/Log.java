@@ -18,6 +18,11 @@ public class Log {
             trace += "\r\n" + prefix + "trace "+ tr.toString();
         }
         Log.e(tag, e.getClass().getSimpleName() + ": " + e.getMessage() + trace);
+
+        Throwable cause = e.getCause();
+        if (cause != null) {
+            e(tag, cause);
+        }
     }
 
     public static void e(String tag, String message) {

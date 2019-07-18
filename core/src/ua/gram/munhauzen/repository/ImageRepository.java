@@ -9,12 +9,10 @@ public class ImageRepository {
 
     public static final String LAST = "Last";
 
-    public static Image find(GameState gameState, final String id) {
+    public static Image find(GameState gameState, String id) {
 
         if (LAST.equals(id)) {
-            if (gameState.lastImage != null) {
-                return gameState.lastImage;
-            }
+            return gameState.lastImage;
         }
 
         for (Image o : gameState.imageRegistry) {

@@ -39,7 +39,8 @@ public class SparkAnimation extends AnimatedImage {
 
         addAction(Actions.sequence(
                 Actions.moveTo(0, bomb.getY() + bomb.getHeight() / 2f, duration),
-                Actions.run(onComplete)));
+                Actions.run(onComplete))
+        );
     }
 
     public void reset() {

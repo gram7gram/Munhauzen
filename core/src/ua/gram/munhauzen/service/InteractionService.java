@@ -22,6 +22,8 @@ public class InteractionService {
     public void update() {
         try {
             Story story = gameScreen.getStory();
+            if (story == null) return;
+
             if (story.currentScenario == null) return;
 
             String name = story.currentScenario.scenario.interaction;
@@ -54,6 +56,8 @@ public class InteractionService {
 
             story.progress = story.currentScenario.finishesAt;
 
+            gameScreen.hideAndDestroyScenarioFragment();
+
             interaction.interaction.start();
         } catch (Throwable e) {
             Log.e(tag, e);
@@ -65,6 +69,7 @@ public class InteractionService {
     public void findStoryAfterInteraction() {
         try {
             Story story = gameScreen.getStory();
+            if (story == null) return;
             if (story.currentScenario == null) return;
 
             Scenario nextAfterInteraction = gameScreen.storyManager.getNextScenarioFromDecisions(story.currentScenario.scenario);

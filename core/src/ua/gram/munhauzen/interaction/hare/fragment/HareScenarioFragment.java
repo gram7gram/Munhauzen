@@ -294,6 +294,7 @@ public class HareScenarioFragment extends Fragment {
 
         root.addAction(Actions.sequence(
                 Actions.alpha(0, duration),
+                Actions.visible(false),
                 Actions.run(task)
         ));
 
@@ -326,6 +327,12 @@ public class HareScenarioFragment extends Fragment {
     public void fadeIn() {
 
         if (!isMounted()) return;
+
+        root.setVisible(true);
+        root.addAction(Actions.sequence(
+                Actions.alpha(0),
+                Actions.alpha(1, .3f)
+        ));
 
         fadeInDecoration();
     }

@@ -34,6 +34,8 @@ public class ChapterImageFragment extends Fragment {
 
     private final ChapterInteraction interaction;
     public ScrollPane root;
+    Timer.Task task;
+    StoryAudio chapterAudio;
 
     public ChapterImageFragment(ChapterInteraction interaction) {
         this.interaction = interaction;
@@ -113,32 +115,32 @@ public class ChapterImageFragment extends Fragment {
 
         root.setName(tag);
 
+        header.addAction(Actions.alpha(0));
         header.addAction(Actions.sequence(
-                Actions.alpha(0),
                 Actions.alpha(1, .3f)
         ));
 
+        description.addAction(Actions.alpha(0));
         description.addAction(Actions.sequence(
-                Actions.alpha(0),
                 Actions.delay(.2f),
                 Actions.alpha(1, .3f)
         ));
 
+        head.addAction(Actions.alpha(0));
         head.addAction(Actions.sequence(
-                Actions.alpha(0),
                 Actions.alpha(1, .3f)
         ));
 
+        frameTop.addAction(Actions.alpha(0));
         frameTop.addAction(Actions.sequence(
-                Actions.alpha(0),
                 Actions.parallel(
                         Actions.moveBy(0, 10, .3f),
                         Actions.alpha(1, .3f)
                 )
         ));
 
+        frameBottom.addAction(Actions.alpha(0));
         frameBottom.addAction(Actions.sequence(
-                Actions.alpha(0),
                 Actions.parallel(
                         Actions.moveBy(0, -10, .3f),
                         Actions.alpha(1, .3f)
@@ -147,15 +149,15 @@ public class ChapterImageFragment extends Fragment {
 
         int duration = 3000;
         if (chapter.chapterAudio != null) {
-            StoryAudio storyAudio = new StoryAudio();
-            storyAudio.audio = chapter.chapterAudio;
+            chapterAudio = new StoryAudio();
+            chapterAudio.audio = chapter.chapterAudio;
 
-            interaction.gameScreen.audioService.prepareAndPlay(storyAudio);
+            interaction.gameScreen.audioService.prepareAndPlay(chapterAudio);
 
-            duration = storyAudio.duration;
+            duration = chapterAudio.duration;
         }
 
-        Timer.instance().scheduleTask(new Timer.Task() {
+        task = Timer.instance().scheduleTask(new Timer.Task() {
             @Override
             public void run() {
                 try {
@@ -192,12 +194,24 @@ public class ChapterImageFragment extends Fragment {
     }
 
     public void update() {
-
+        if (chapterAudio != null) {
+            interaction.gameScreen.audioService.updateVolume(chapterAudio);
+        }
     }
 
     @Override
     public void dispose() {
         super.dispose();
+
+        if (task != null) {
+            task.cancel();
+            task = null;
+        }
+
+        if (chapterAudio != null) {
+            interaction.gameScreen.audioService.stop(chapterAudio);
+            chapterAudio = null;
+        }
 
 
     }
