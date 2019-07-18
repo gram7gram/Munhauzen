@@ -15,6 +15,7 @@ import ua.gram.munhauzen.interaction.BalloonsInteraction;
 import ua.gram.munhauzen.interaction.balloons.ComplexTrajectoryProvider;
 import ua.gram.munhauzen.interaction.balloons.SimpleTrajectoryProvider;
 import ua.gram.munhauzen.interaction.balloons.action.MoveByTrajectoryAction;
+import ua.gram.munhauzen.interaction.balloons.animation.ArcToAction;
 import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.utils.Random;
 
@@ -80,6 +81,8 @@ public class Balloon extends FitImage {
         isLocked = true;
 
         SequenceAction sequenceAction = new SequenceAction();
+        sequenceAction.addAction(Actions.alpha(1));
+        sequenceAction.addAction(Actions.visible(true));
 
         dataSet = SimpleTrajectoryProvider.obtain();
 
@@ -88,20 +91,18 @@ public class Balloon extends FitImage {
             vector2.y *= MunhauzenGame.WORLD_HEIGHT / 100f;
         }
 
-        trajectory = new CatmullRomSpline<>(dataSet, false);
+        Vector2 start = dataSet[0];
+        Vector2 end = dataSet[dataSet.length - 1];
 
-        MoveByTrajectoryAction trajectoryAction = new MoveByTrajectoryAction(trajectory);
-        trajectoryAction.setDuration(4f);
+        sequenceAction.addAction(ArcToAction.action(start.x, start.y, 0));
+        sequenceAction.addAction(ArcToAction.action(end.x, end.y, 2.5f));
 
-        sequenceAction.addAction(Actions.alpha(1));
-        sequenceAction.addAction(Actions.visible(true));
-        sequenceAction.addAction(trajectoryAction);
         sequenceAction.addAction(Actions.run(new Runnable() {
             @Override
             public void run() {
 
                 if (onMiss != null) {
-                    addAction(Actions.run(onMiss));
+                    onMiss.run();
                 }
 
                 isLocked = false;
@@ -125,6 +126,8 @@ public class Balloon extends FitImage {
 
         sequenceAction.addAction(Actions.delay(r.between(3, 10)));
         sequenceAction.addAction(Actions.run(task));
+        sequenceAction.addAction(Actions.alpha(1));
+        sequenceAction.addAction(Actions.visible(true));
 
         dataSet = ComplexTrajectoryProvider.obtain();
 
@@ -138,19 +141,18 @@ public class Balloon extends FitImage {
         MoveByTrajectoryAction trajectoryAction = new MoveByTrajectoryAction(trajectory);
         trajectoryAction.setDuration(8f);
 
-        sequenceAction.addAction(Actions.alpha(1));
-        sequenceAction.addAction(Actions.visible(true));
         sequenceAction.addAction(trajectoryAction);
         sequenceAction.addAction(Actions.run(new Runnable() {
             @Override
             public void run() {
+
+                if (onMiss != null) {
+                    onMiss.run();
+                }
+
                 isLocked = false;
 
                 reset();
-
-                if (onMiss != null) {
-                    addAction(Actions.run(onMiss));
-                }
             }
         }));
 

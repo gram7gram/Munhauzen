@@ -5,8 +5,8 @@ import com.badlogic.gdx.math.Vector2;
 public class SimpleTrajectoryProvider {
 
     private static final Vector2[] t1 = new Vector2[]{
-            new Vector2(50, -10),//duplicate
-            new Vector2(50, -10),
+            new Vector2(50, -20),//duplicate
+            new Vector2(50, -20),
 
             new Vector2(40, 20),
             new Vector2(70, 40),
@@ -18,8 +18,8 @@ public class SimpleTrajectoryProvider {
     };
 
     private static final Vector2[] t2 = new Vector2[]{
-            new Vector2(40, -10),//duplicate
-            new Vector2(40, -10),
+            new Vector2(40, -20),//duplicate
+            new Vector2(40, -20),
 
             new Vector2(30, 30),
             new Vector2(50, 60),
@@ -31,8 +31,8 @@ public class SimpleTrajectoryProvider {
     };
 
     private static final Vector2[] t3 = new Vector2[]{
-            new Vector2(10, -10),//duplicate
-            new Vector2(10, -10),
+            new Vector2(10, -20),//duplicate
+            new Vector2(10, -20),
 
             new Vector2(20, 0),
             new Vector2(60, 20),
@@ -45,8 +45,8 @@ public class SimpleTrajectoryProvider {
     };
 
     private static final Vector2[] t4 = new Vector2[]{
-            new Vector2(60, -10),//duplicate
-            new Vector2(60, -10),
+            new Vector2(60, -20),//duplicate
+            new Vector2(60, -20),
 
             new Vector2(50, 0),
             new Vector2(60, 30),
@@ -57,8 +57,8 @@ public class SimpleTrajectoryProvider {
     };
 
     private static final Vector2[] t5 = new Vector2[]{
-            new Vector2(30, -10),//duplicate
-            new Vector2(30, -10),
+            new Vector2(30, -20),//duplicate
+            new Vector2(30, -20),
 
             new Vector2(60, 0),
             new Vector2(40, 20),

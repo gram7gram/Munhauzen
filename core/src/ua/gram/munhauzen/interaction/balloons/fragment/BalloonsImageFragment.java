@@ -319,7 +319,7 @@ public class BalloonsImageFragment extends Fragment {
             public void run() {
                 spawnBalloon();
             }
-        }, 1, 2);
+        }, 1, 2.5f);
     }
 
     private ArrayList<Balloon> getActiveBalloons() {
