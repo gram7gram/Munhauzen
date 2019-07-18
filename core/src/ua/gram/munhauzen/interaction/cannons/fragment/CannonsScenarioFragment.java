@@ -30,11 +30,13 @@ import ua.gram.munhauzen.animation.CannonAnimation;
 import ua.gram.munhauzen.animation.CannonLetterAnimation;
 import ua.gram.munhauzen.entity.Decision;
 import ua.gram.munhauzen.entity.GameState;
+import ua.gram.munhauzen.entity.Inventory;
 import ua.gram.munhauzen.entity.ScenarioTranslation;
 import ua.gram.munhauzen.fragment.Fragment;
 import ua.gram.munhauzen.interaction.CannonsInteraction;
 import ua.gram.munhauzen.interaction.cannons.CannonsScenario;
 import ua.gram.munhauzen.interaction.cannons.CannonsStory;
+import ua.gram.munhauzen.repository.InventoryRepository;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.ui.WrapLabel;
@@ -238,18 +240,12 @@ public class CannonsScenarioFragment extends Fragment {
 
             fadeOutDecoration();
 
-            try {
                 CannonsStory newStory = interaction.storyManager.create(decision.scenario);
 
                 interaction.storyManager.story = newStory;
 
                 interaction.storyManager.startLoadingResources();
-            } catch (Throwable e) {
-                Log.e(tag, e);
 
-                interaction.gameScreen.onCriticalError(e);
-                return;
-            }
 
             if (decision.scenario.equals("awau_2_a")) {
 
@@ -257,6 +253,24 @@ public class CannonsScenarioFragment extends Fragment {
 
                 Log.i(tag, "wauCounter=" + interaction.wauCounter + "/" + interaction.maxWauCounter);
             }
+
+
+            Inventory burnWorm = InventoryRepository.find(interaction.gameScreen.game.gameState, "BURN_WORM");
+            Inventory floodWorm = InventoryRepository.find(interaction.gameScreen.game.gameState, "FLOOD_WORM");
+            Inventory eatWorm = InventoryRepository.find(interaction.gameScreen.game.gameState, "EAT_WORM");
+
+            switch (decision.scenario) {
+                case "sworm_a":
+                    interaction.gameScreen.game.inventoryService.addInventory(burnWorm);
+                    break;
+                case "sworm_b":
+                    interaction.gameScreen.game.inventoryService.addInventory(floodWorm);
+                    break;
+                case "sworm_c":
+                    interaction.gameScreen.game.inventoryService.addInventory(eatWorm);
+                    break;
+            }
+
 
             //let cannon animation complete...
             Timer.schedule(new Timer.Task() {
@@ -290,6 +304,8 @@ public class CannonsScenarioFragment extends Fragment {
             }, 1);
         } catch (Throwable e) {
             Log.e(tag, e);
+
+            interaction.gameScreen.onCriticalError(e);
         }
     }
 

@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
@@ -37,7 +38,9 @@ public class ErrorScreen implements Screen {
     public void show() {
         ui = new MunhauzenStage(game);
 
-        String cause = e.getClass().getSimpleName(), msg = e.getMessage(), desc = "Причина:\n";
+        String cause = e.getClass().getSimpleName(),
+                msg = e.getMessage().replace(GdxRuntimeException.class.getCanonicalName() + ": ", ""),
+                desc = "Причина:\n";
 
         for (StackTraceElement trace : e.getStackTrace()) {
             desc += trace.toString() + "\n";

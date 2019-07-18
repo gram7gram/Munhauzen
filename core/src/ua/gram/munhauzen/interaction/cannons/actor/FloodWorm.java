@@ -16,10 +16,7 @@ public class FloodWorm extends Image {
         this.fragment = fragment;
     }
 
-    @Override
-    public void act(float delta) {
-        super.act(delta);
-
+    public void updateBounds() {
         float width = fragment.backgroundWidth * .519f;
         float height = fragment.backgroundHeight * .499f;
 
@@ -27,5 +24,12 @@ public class FloodWorm extends Image {
         float topLeftY = fragment.background.getY() + fragment.backgroundHeight * .5f;
 
         setBounds(topLeftX, topLeftY - height, width, height);
+    }
+
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+
+        updateBounds();
     }
 }

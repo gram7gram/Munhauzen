@@ -42,8 +42,8 @@
     "images": [
       {
         "internalFile": "cannons/inter_cannons_font.jpg",
-        "withBurnWorm": true,
-        "duration": 0
+        "withWorms": true,
+        "duration": 5000
       }
     ],
     "decisions": [
@@ -70,8 +70,8 @@
     "images": [
       {
         "internalFile": "cannons/inter_cannons_font.jpg",
-        "withFloodWorm": true,
-        "duration": 0
+        "withWorms": true,
+        "duration": 5000
       }
     ],
     "decisions": [
@@ -98,8 +98,8 @@
     "images": [
       {
         "internalFile": "cannons/inter_cannons_font.jpg",
-        "withEatWorm": true,
-        "duration": 0
+        "withWorms": true,
+        "duration": 5000
       }
     ],
     "decisions": [
@@ -126,11 +126,12 @@
     "images": [
       {
         "internalFile": "cannons/inter_cannons_font.jpg",
+        "withWorms": true,
         "duration": 5000
       },
       {
         "internalFile": "cannons/sworm_d.png",
-        "duration": 0
+        "duration": 3000
       }
     ],
     "decisions": [],
@@ -186,7 +187,13 @@
         "duration": 0
       }
     ],
-    "images": [],
+    "images": [
+      {
+        "internalFile": "cannons/inter_cannons_font.jpg",
+        "withWorms": true,
+        "duration": 2000
+      }
+    ],
     "decisions": [
       {
         "scenario": "sworm_interaction_proxy"
@@ -211,7 +218,13 @@
         "duration": 0
       }
     ],
-    "images": [],
+    "images": [
+      {
+        "internalFile": "cannons/inter_cannons_font.jpg",
+        "withWorms": true,
+        "duration": 2000
+      }
+    ],
     "decisions": [
       {
         "scenario": "sworm_interaction_proxy"
@@ -236,7 +249,13 @@
         "duration": 0
       }
     ],
-    "images": [],
+    "images": [
+      {
+        "internalFile": "cannons/inter_cannons_font.jpg",
+        "withWorms": true,
+        "duration": 2000
+      }
+    ],
     "decisions": [
       {
         "scenario": "sworm_interaction_proxy"
@@ -265,7 +284,13 @@
         "duration": 0
       }
     ],
-    "images": [],
+    "images": [
+      {
+        "internalFile": "cannons/inter_cannons_font.jpg",
+        "withWorms": true,
+        "duration": 2000
+      }
+    ],
     "decisions": [
       {
         "scenario": "sworm_interaction_proxy"
@@ -290,7 +315,13 @@
         "duration": 0
       }
     ],
-    "images": [],
+    "images": [
+      {
+        "internalFile": "cannons/inter_cannons_font.jpg",
+        "withWorms": true,
+        "duration": 2000
+      }
+    ],
     "decisions": [
       {
         "scenario": "sworm_interaction_proxy"
@@ -315,7 +346,13 @@
         "duration": 0
       }
     ],
-    "images": [],
+    "images": [
+      {
+        "internalFile": "cannons/inter_cannons_font.jpg",
+        "withWorms": true,
+        "duration": 2000
+      }
+    ],
     "decisions": [
       {
         "scenario": "sworm_interaction_proxy"
@@ -344,7 +381,13 @@
         "duration": 0
       }
     ],
-    "images": [],
+    "images": [
+      {
+        "internalFile": "cannons/inter_cannons_font.jpg",
+        "withWorms": true,
+        "duration": 2000
+      }
+    ],
     "decisions": [
       {
         "scenario": "sworm_interaction_proxy"
@@ -369,7 +412,13 @@
         "duration": 0
       }
     ],
-    "images": [],
+    "images": [
+      {
+        "internalFile": "cannons/inter_cannons_font.jpg",
+        "withWorms": true,
+        "duration": 2000
+      }
+    ],
     "decisions": [
       {
         "scenario": "sworm_interaction_proxy"
@@ -394,7 +443,13 @@
         "duration": 0
       }
     ],
-    "images": [],
+    "images": [
+      {
+        "internalFile": "cannons/inter_cannons_font.jpg",
+        "withWorms": true,
+        "duration": 2000
+      }
+    ],
     "decisions": [
       {
         "scenario": "sworm_interaction_proxy"

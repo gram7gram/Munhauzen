@@ -16,16 +16,20 @@ public class BurnWorm extends Image {
         this.fragment = fragment;
     }
 
-    @Override
-    public void act(float delta) {
-        super.act(delta);
-
+    public void updateBounds() {
         float width = fragment.backgroundWidth * .327f;
         float height = fragment.backgroundHeight * .478f;
 
         float topLeftX = fragment.background.getX() + fragment.backgroundWidth * .259f;
-        float topLeftY = fragment.background.getY() + fragment.backgroundHeight * .016f;
+        float topLeftY = fragment.background.getY() + fragment.backgroundHeight;
 
         setBounds(topLeftX, topLeftY - height, width, height);
+    }
+
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+
+        updateBounds();
     }
 }

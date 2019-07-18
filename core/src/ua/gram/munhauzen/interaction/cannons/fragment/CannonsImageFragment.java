@@ -134,7 +134,7 @@ public class CannonsImageFragment extends Fragment {
         if (story.currentScenario != null) {
 
             CannonsStoryImage image = story.currentScenario.currentImage;
-            if (image != null && image.isActive) {
+            if (image != null && image.withWorms) {
 
                 Inventory burnWormItem = InventoryRepository.find(interaction.gameScreen.game.gameState, "BURN_WORM");
                 Inventory floodWormItem = InventoryRepository.find(interaction.gameScreen.game.gameState, "FLOOD_WORM");
@@ -145,34 +145,40 @@ public class CannonsImageFragment extends Fragment {
                 boolean hasEatWorm = interaction.gameScreen.game.inventoryService.isInInventory(eatWormItem);
 
                 if (hasBurnWorm) {
-                    if (!burnWorm.isVisible()) {
+                    if (burnWorm.getParent() == null) {
 
                         burnWorm.setVisible(true);
 
                         root.addActor(burnWorm);
                     }
+
+                    burnWorm.updateBounds();
                 } else {
                     burnWorm.remove();
                 }
 
                 if (hasFloodWorm) {
-                    if (!floodWorm.isVisible()) {
+                    if (floodWorm.getParent() == null) {
 
                         floodWorm.setVisible(true);
 
                         root.addActor(floodWorm);
                     }
+
+                    floodWorm.updateBounds();
                 } else {
-                    burnWorm.remove();
+                    floodWorm.remove();
                 }
 
                 if (hasEatWorm) {
-                    if (!eatWorm.isVisible()) {
+                    if (eatWorm.getParent() == null) {
 
                         eatWorm.setVisible(true);
 
                         root.addActor(eatWorm);
                     }
+
+                    eatWorm.updateBounds();
                 } else {
                     eatWorm.remove();
                 }
