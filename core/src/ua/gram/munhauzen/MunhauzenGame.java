@@ -27,7 +27,7 @@ public class MunhauzenGame extends Game {
     public static final boolean IS_EXPANSION_HIDDEN = true;
     public static final boolean DEBUG_RENDER_INFO = true;
     public static final int PROGRESS_BAR_FADE_OUT_DELAY = 5;
-    public static String developmentScenario;// = "a1_d";
+    public static String developmentScenario;// = "amoon_a";
 
     private final String tag = getClass().getSimpleName();
 
@@ -84,16 +84,25 @@ public class MunhauzenGame extends Game {
 
     @Override
     public void dispose() {
-        if (batch != null)
-            batch.dispose();
+        try {
+            super.dispose();
 
-        if (fontProvider != null)
-            fontProvider.dispose();
+            if (batch != null)
+                batch.dispose();
 
-        databaseManager = null;
-        inventoryService = null;
+            if (fontProvider != null)
+                fontProvider.dispose();
 
-        ExceptionHandler.dispose();
+            databaseManager = null;
+            inventoryService = null;
+
+            ExceptionHandler.dispose();
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            onCriticalError(e);
+        }
     }
 
     @Override

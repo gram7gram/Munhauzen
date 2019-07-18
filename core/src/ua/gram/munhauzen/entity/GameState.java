@@ -43,4 +43,14 @@ public class GameState {
             Log.e(tag, e);
         }
     }
+
+    public static void pause() {
+        Log.i(tag, "pause");
+        isPaused = true;
+    }
+
+    public static void unpause() {
+        Log.i(tag, "unpause");
+        isPaused = false;
+    }
 }

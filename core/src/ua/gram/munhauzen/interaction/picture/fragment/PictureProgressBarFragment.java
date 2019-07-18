@@ -159,7 +159,7 @@ public class PictureProgressBarFragment extends Fragment {
                 try {
                     Log.i(tag, "playButton clicked");
 
-                    GameState.isPaused = false;
+                    GameState.unpause();
 
                     startCurrentMusicIfPaused();
 
@@ -180,7 +180,7 @@ public class PictureProgressBarFragment extends Fragment {
 
                     gameScreen.audioService.stop();
 
-                    GameState.isPaused = true;
+                    GameState.pause();
 
                     scheduleFadeOut();
                 } catch (Throwable e) {
@@ -215,7 +215,7 @@ public class PictureProgressBarFragment extends Fragment {
                             try {
                                 PictureStory story = interaction.storyManager.pictureStory;
 
-                                GameState.isPaused = true;
+                                GameState.pause();
 
                                 story.progress -= story.totalDuration * 0.025f;
 
@@ -237,7 +237,7 @@ public class PictureProgressBarFragment extends Fragment {
                 try {
                     Log.i(tag, "rewindBackButton enter");
 
-                    GameState.isPaused = false;
+                    GameState.unpause();
 
                     progressTask.cancel();
                     progressTask = null;
@@ -273,7 +273,7 @@ public class PictureProgressBarFragment extends Fragment {
                             try {
                                 PictureStory story = interaction.storyManager.pictureStory;
 
-                                GameState.isPaused = true;
+                                GameState.pause();
 
                                 story.progress += story.totalDuration * 0.025f;
 
@@ -296,7 +296,7 @@ public class PictureProgressBarFragment extends Fragment {
                 try {
                     Log.i(tag, "rewindForwardButton exit");
 
-                    GameState.isPaused = false;
+                    GameState.unpause();
 
                     progressTask.cancel();
                     progressTask = null;
@@ -347,7 +347,7 @@ public class PictureProgressBarFragment extends Fragment {
                 super.touchUp(event, x, y, pointer, button);
 
                 try {
-                    GameState.isPaused = false;
+                    GameState.unpause();
 
                     startCurrentMusicIfPaused();
 
@@ -366,7 +366,7 @@ public class PictureProgressBarFragment extends Fragment {
 
                     float percent = x / totalLength;
 
-                    GameState.isPaused = true;
+                    GameState.pause();
 
                     scrollTo(percent);
                 } catch (Throwable e) {
@@ -383,7 +383,7 @@ public class PictureProgressBarFragment extends Fragment {
 
                     float percent = x / totalLength;
 
-                    GameState.isPaused = true;
+                    GameState.pause();
 
                     scrollTo(percent);
                 } catch (Throwable e) {

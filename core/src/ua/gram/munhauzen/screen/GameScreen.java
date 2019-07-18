@@ -83,7 +83,7 @@ public class GameScreen implements Screen {
         stageInputListener = new StageInputListener(this);
 
         isLoaded = false;
-        GameState.isPaused = false;
+        GameState.unpause();
 
         assetManager.load("GameScreen/t_putty.png", Texture.class);
 
@@ -216,12 +216,6 @@ public class GameScreen implements Screen {
             } else if (!isInteractionLocked) {
                 restoreProgressBarIfDestroyed();
             }
-        }
-
-        if (audioService != null) {
-            audioService.updateVolume();
-
-            audioService.updateMusicState();
         }
 
         if (ui != null) {

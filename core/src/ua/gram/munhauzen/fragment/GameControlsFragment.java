@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
@@ -124,11 +125,24 @@ public class GameControlsFragment extends Fragment {
 
     private void addListenersToMenuButton() {
 
-        final ClickListener slideUp = new ClickListener() {
+        final ActorGestureListener slideUp = new ActorGestureListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
+            public void fling(InputEvent event, float velocityX, float velocityY, int button) {
+                super.fling(event, velocityX, velocityY, button);
 
+                if (velocityY > 100) {
+                    start();
+                }
+            }
+
+            @Override
+            public void tap(InputEvent event, float x, float y, int count, int button) {
+                super.tap(event, x, y, count, button);
+
+                start();
+            }
+
+            private void start() {
                 Log.i(tag, "Slide up menu");
 
                 menuGroup.clearActions();
@@ -148,10 +162,25 @@ public class GameControlsFragment extends Fragment {
 
         menuTailButton.setTouchable(Touchable.enabled);
         menuTailButton.clearListeners();
-        menuTailButton.addListener(new ClickListener() {
+        menuTailButton.addListener(new ActorGestureListener() {
+
             @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
+            public void fling(InputEvent event, float velocityX, float velocityY, int button) {
+                super.fling(event, velocityX, velocityY, button);
+
+                if (velocityY < -100) {
+                    start();
+                }
+            }
+
+            @Override
+            public void tap(InputEvent event, float x, float y, int count, int button) {
+                super.tap(event, x, y, count, button);
+
+                start();
+            }
+
+            private void start() {
 
                 Log.i(tag, "Slide down menu");
 
@@ -218,10 +247,25 @@ public class GameControlsFragment extends Fragment {
 
     private void addListenersToSoundButton() {
 
-        final ClickListener slideUp = new ClickListener() {
+        final ActorGestureListener slideUp = new ActorGestureListener() {
+
             @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
+            public void fling(InputEvent event, float velocityX, float velocityY, int button) {
+                super.fling(event, velocityX, velocityY, button);
+
+                if (velocityY > 100) {
+                    start();
+                }
+            }
+
+            @Override
+            public void tap(InputEvent event, float x, float y, int count, int button) {
+                super.tap(event, x, y, count, button);
+
+                start();
+            }
+
+            private void start() {
 
                 Log.i(tag, "Slide up sound");
 
@@ -242,10 +286,25 @@ public class GameControlsFragment extends Fragment {
 
         soundTailButton.setTouchable(Touchable.enabled);
         soundTailButton.clearListeners();
-        soundTailButton.addListener(new ClickListener() {
+        soundTailButton.addListener(new ActorGestureListener() {
+
             @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
+            public void fling(InputEvent event, float velocityX, float velocityY, int button) {
+                super.fling(event, velocityX, velocityY, button);
+
+                if (velocityY < -100) {
+                    start();
+                }
+            }
+
+            @Override
+            public void tap(InputEvent event, float x, float y, int count, int button) {
+                super.tap(event, x, y, count, button);
+
+                start();
+            }
+
+            private void start() {
 
                 Log.i(tag, "Slide down sound");
 

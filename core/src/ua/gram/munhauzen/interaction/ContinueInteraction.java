@@ -78,7 +78,7 @@ public class ContinueInteraction extends AbstractInteraction {
                 new SimpleFragment(root)
         );
 
-        GameState.isPaused = true;
+        GameState.pause();
 
     }
 
@@ -129,7 +129,7 @@ public class ContinueInteraction extends AbstractInteraction {
                                 public void run() {
                                     try {
 
-                                        GameState.isPaused = false;
+                                        GameState.unpause();
 
                                         //Continue interaction is NEVER completed.
                                         //When scrolling back the interaction should reappear

@@ -211,7 +211,7 @@ public class CannonsScenarioFragment extends Fragment {
 
         fadeIn();
 
-        GameState.isPaused = true;
+        GameState.pause();
 
         root.setName(tag);
     }
@@ -223,7 +223,7 @@ public class CannonsScenarioFragment extends Fragment {
 //            Sound sfx = assetManager.get("sfx/sfx_decision.mp3", Sound.class);
 //            sfx.play();
 
-            GameState.isPaused = false;
+            GameState.unpause();
 
             final Runnable onComplete = new Runnable() {
                 @Override
@@ -443,6 +443,8 @@ public class CannonsScenarioFragment extends Fragment {
             @Override
             public void clicked(final InputEvent event, final float x, final float y) {
                 super.clicked(event, x, y);
+
+                root.setTouchable(Touchable.disabled);
 
                 try {
                     Stack animated = createAnimatedHeader(index);

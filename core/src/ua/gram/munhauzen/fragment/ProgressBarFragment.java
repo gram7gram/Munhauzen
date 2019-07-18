@@ -167,7 +167,7 @@ public class ProgressBarFragment extends Fragment {
                     Log.i(tag, "playButton clicked");
 
                     if (canUnpause())
-                        GameState.isPaused = false;
+                        GameState.unpause();
 
                     startCurrentMusicIfPaused();
 
@@ -188,7 +188,7 @@ public class ProgressBarFragment extends Fragment {
 
                     gameScreen.audioService.stop();
 
-                    GameState.isPaused = true;
+                    GameState.pause();
 
                     scheduleFadeOut();
                 } catch (Throwable e) {
@@ -225,7 +225,7 @@ public class ProgressBarFragment extends Fragment {
 
                     story.progress = skipTo.startsAt;
 
-                    GameState.isPaused = true;
+                    GameState.pause();
 
                     postProgressChanged(story.isCompleted);
                 } catch (Throwable e) {
@@ -239,7 +239,7 @@ public class ProgressBarFragment extends Fragment {
 
                 try {
                     if (canUnpause())
-                        GameState.isPaused = false;
+                        GameState.unpause();
 
                     startCurrentMusicIfPaused();
 
@@ -263,7 +263,7 @@ public class ProgressBarFragment extends Fragment {
                     Story story = gameScreen.getStory();
                     if (story.currentScenario == null) return;
 
-                    GameState.isPaused = true;
+                    GameState.pause();
 
                     if (story.currentScenario.next != null) {
                         story.progress = story.currentScenario.next.startsAt;
@@ -283,7 +283,7 @@ public class ProgressBarFragment extends Fragment {
 
                 try {
                     if (canUnpause())
-                        GameState.isPaused = false;
+                        GameState.unpause();
 
                     startCurrentMusicIfPaused();
 
@@ -319,7 +319,7 @@ public class ProgressBarFragment extends Fragment {
                             try {
                                 Story story = gameScreen.getStory();
 
-                                GameState.isPaused = true;
+                                GameState.pause();
 
                                 story.progress -= story.totalDuration * 0.025f;
 
@@ -344,7 +344,7 @@ public class ProgressBarFragment extends Fragment {
                     Log.i(tag, "rewindBackButton enter");
 
                     if (canUnpause())
-                        GameState.isPaused = false;
+                        GameState.unpause();
 
                     progressTask.cancel();
                     progressTask = null;
@@ -380,7 +380,7 @@ public class ProgressBarFragment extends Fragment {
                             try {
                                 Story story = gameScreen.getStory();
 
-                                GameState.isPaused = true;
+                                GameState.pause();
 
                                 story.progress += story.totalDuration * 0.025f;
 
@@ -403,7 +403,7 @@ public class ProgressBarFragment extends Fragment {
                     Log.i(tag, "rewindForwardButton exit");
 
                     if (canUnpause())
-                        GameState.isPaused = false;
+                        GameState.unpause();
 
                     progressTask.cancel();
                     progressTask = null;
@@ -452,7 +452,7 @@ public class ProgressBarFragment extends Fragment {
                 super.touchUp(event, x, y, pointer, button);
                 try {
                     if (canUnpause())
-                        GameState.isPaused = false;
+                        GameState.unpause();
 
                     startCurrentMusicIfPaused();
 
@@ -480,7 +480,7 @@ public class ProgressBarFragment extends Fragment {
                         if (percent > currentPercent) return;
                     }
 
-                    GameState.isPaused = true;
+                    GameState.pause();
 
                     scrollTo(percent);
                 } catch (Throwable e) {
@@ -505,7 +505,7 @@ public class ProgressBarFragment extends Fragment {
                         if (percent > currentPercent) return;
                     }
 
-                    GameState.isPaused = true;
+                    GameState.pause();
 
                     scrollTo(percent);
                 } catch (Throwable e) {

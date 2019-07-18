@@ -215,7 +215,7 @@ public class ScenarioFragment extends Fragment {
 
         fadeIn();
 
-        GameState.isPaused = true;
+        GameState.pause();
 
         root.setName(tag);
     }
@@ -224,19 +224,16 @@ public class ScenarioFragment extends Fragment {
         try {
             Log.i(tag, "primaryDecision clicked " + decision.scenario);
 
-            GameState.isPaused = false;
+            GameState.unpause();
+
+            gameScreen.audioService.dispose();
 
             final Runnable onComplete = new Runnable() {
                 @Override
                 public void run() {
 
                     try {
-                        Log.i(tag, "fadeOut button complete");
-
-                        if (gameScreen.scenarioFragment != null) {
-                            gameScreen.scenarioFragment.destroy();
-                            gameScreen.scenarioFragment = null;
-                        }
+                        gameScreen.hideAndDestroyScenarioFragment();
                     } catch (Throwable e) {
                         Log.e(tag, e);
                     }
@@ -419,6 +416,8 @@ public class ScenarioFragment extends Fragment {
             @Override
             public void clicked(final InputEvent event, final float x, final float y) {
                 super.clicked(event, x, y);
+
+                root.setTouchable(Touchable.disabled);
 
                 try {
                     Stack animated = createAnimatedHeader(index);

@@ -267,12 +267,7 @@ public class DateImageFragment extends Fragment {
 
             dateContainer.addAction(Actions.sequence(
                     Actions.alpha(0, .3f),
-                    Actions.run(new Runnable() {
-                        @Override
-                        public void run() {
-                            dateContainer.setVisible(false);
-                        }
-                    })
+                    Actions.visible(false)
             ));
 
             failedTask = Timer.instance().scheduleTask(new Timer.Task() {
@@ -304,7 +299,6 @@ public class DateImageFragment extends Fragment {
             failedAudio.audio = "smoon_incorrect";
 
             interaction.gameScreen.audioService.prepareAndPlay(failedAudio);
-
 
         } catch (Throwable e) {
             Log.e(tag, e);
