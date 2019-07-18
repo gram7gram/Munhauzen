@@ -1,7 +1,7 @@
 [
   {
     "isBegin": true,
-    "name": "sworm_interaction_proxy",
+    "name": "aworm_interaction_proxy",
     "action": "CLICK",
     "audio": [],
     "images": [
@@ -31,7 +31,7 @@
     "translations": []
   },
   {
-    "name": "sworm_a",
+    "name": "aworm_a",
     "action": "GOTO",
     "audio": [
       {
@@ -59,7 +59,7 @@
     ]
   },
   {
-    "name": "sworm_b",
+    "name": "aworm_b",
     "action": "GOTO",
     "audio": [
       {
@@ -87,7 +87,7 @@
     ]
   },
   {
-    "name": "sworm_c",
+    "name": "aworm_c",
     "action": "GOTO",
     "audio": [
       {
@@ -116,7 +116,7 @@
   },
   {
     "isExit": true,
-    "name": "sworm_d",
+    "name": "aworm_d",
     "audio": [
       {
         "audio": "sworm_d",
@@ -130,7 +130,7 @@
         "duration": 5000
       },
       {
-        "internalFile": "cannons/sworm_d.png",
+        "internalFile": "cannons/pworm_d.png",
         "duration": 3000
       }
     ],
@@ -143,7 +143,7 @@
     ]
   },
   {
-    "name": "sworm_check_a",
+    "name": "aworm_check_a",
     "action": "GOTO",
     "audio": [],
     "images": [],
@@ -151,7 +151,7 @@
     "translations": []
   },
   {
-    "name": "sworm_check_b",
+    "name": "aworm_check_b",
     "action": "GOTO",
     "audio": [],
     "images": [],
@@ -159,7 +159,7 @@
     "translations": []
   },
   {
-    "name": "sworm_check_c",
+    "name": "aworm_check_c",
     "action": "GOTO",
     "audio": [],
     "images": [],
@@ -167,7 +167,7 @@
     "translations": []
   },
   {
-    "name": "sworm_a_170",
+    "name": "aworm_a_170",
     "action": "GOTO",
     "audio": [
       {
@@ -202,7 +202,7 @@
     "translations": []
   },
   {
-    "name": "sworm_a_133",
+    "name": "aworm_a_133",
     "action": "GOTO",
     "audio": [
       {
@@ -233,7 +233,7 @@
     "translations": []
   },
   {
-    "name": "sworm_a_82",
+    "name": "aworm_a_82",
     "action": "GOTO",
     "audio": [
       {
@@ -264,7 +264,7 @@
     "translations": []
   },
   {
-    "name": "sworm_b_170",
+    "name": "aworm_b_170",
     "action": "GOTO",
     "audio": [
       {
@@ -299,7 +299,7 @@
     "translations": []
   },
   {
-    "name": "sworm_b_133",
+    "name": "aworm_b_133",
     "action": "GOTO",
     "audio": [
       {
@@ -330,7 +330,7 @@
     "translations": []
   },
   {
-    "name": "sworm_b_82",
+    "name": "aworm_b_82",
     "action": "GOTO",
     "audio": [
       {
@@ -361,7 +361,7 @@
     "translations": []
   },
   {
-    "name": "sworm_c_170",
+    "name": "aworm_c_170",
     "action": "GOTO",
     "audio": [
       {
@@ -396,7 +396,7 @@
     "translations": []
   },
   {
-    "name": "sworm_c_133",
+    "name": "aworm_c_133",
     "action": "GOTO",
     "audio": [
       {
@@ -427,7 +427,7 @@
     "translations": []
   },
   {
-    "name": "sworm_c_82",
+    "name": "aworm_c_82",
     "action": "GOTO",
     "audio": [
       {

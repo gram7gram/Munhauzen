@@ -234,54 +234,54 @@ public class CannonsStoryManager {
             return;
         }
 
-        if ("sworm_check_a".equals(story.currentScenario.scenario.name)) {
+        if ("aworm_check_a".equals(story.currentScenario.scenario.name)) {
             String decision;
 
             switch (wormCount) {
                 case 3:
-                    decision = "sworm_a_170";
+                    decision = "aworm_a_170";
                     break;
                 case 2:
-                    decision = "sworm_a_133";
+                    decision = "aworm_a_133";
                     break;
                 default:
-                    decision = "sworm_a_82";
+                    decision = "aworm_a_82";
             }
 
             redirect(decision);
             return;
         }
 
-        if ("sworm_check_b".equals(story.currentScenario.scenario.name)) {
+        if ("aworm_check_b".equals(story.currentScenario.scenario.name)) {
             String decision;
 
             switch (wormCount) {
                 case 3:
-                    decision = "sworm_b_170";
+                    decision = "aworm_b_170";
                     break;
                 case 2:
-                    decision = "sworm_b_133";
+                    decision = "aworm_b_133";
                     break;
                 default:
-                    decision = "sworm_b_82";
+                    decision = "aworm_b_82";
             }
 
             redirect(decision);
             return;
         }
 
-        if ("sworm_check_c".equals(story.currentScenario.scenario.name)) {
+        if ("aworm_check_c".equals(story.currentScenario.scenario.name)) {
             String decision;
 
             switch (wormCount) {
                 case 3:
-                    decision = "sworm_c_170";
+                    decision = "aworm_c_170";
                     break;
                 case 2:
-                    decision = "sworm_c_133";
+                    decision = "aworm_c_133";
                     break;
                 default:
-                    decision = "sworm_c_82";
+                    decision = "aworm_c_82";
             }
 
             redirect(decision);

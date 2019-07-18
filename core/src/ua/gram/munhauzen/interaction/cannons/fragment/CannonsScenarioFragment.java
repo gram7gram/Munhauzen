@@ -254,23 +254,21 @@ public class CannonsScenarioFragment extends Fragment {
                 Log.i(tag, "wauCounter=" + interaction.wauCounter + "/" + interaction.maxWauCounter);
             }
 
-
             Inventory burnWorm = InventoryRepository.find(interaction.gameScreen.game.gameState, "BURN_WORM");
             Inventory floodWorm = InventoryRepository.find(interaction.gameScreen.game.gameState, "FLOOD_WORM");
             Inventory eatWorm = InventoryRepository.find(interaction.gameScreen.game.gameState, "EAT_WORM");
 
             switch (decision.scenario) {
-                case "sworm_a":
+                case "aworm_a":
                     interaction.gameScreen.game.inventoryService.addInventory(burnWorm);
                     break;
-                case "sworm_b":
+                case "aworm_b":
                     interaction.gameScreen.game.inventoryService.addInventory(floodWorm);
                     break;
-                case "sworm_c":
+                case "aworm_c":
                     interaction.gameScreen.game.inventoryService.addInventory(eatWorm);
                     break;
             }
-
 
             //let cannon animation complete...
             Timer.schedule(new Timer.Task() {
