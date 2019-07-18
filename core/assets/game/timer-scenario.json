@@ -5,18 +5,15 @@
     "action": "CLICK",
     "audio": [
       {
-        "audio": "s32_0"
+        "audio": "s32_0",
+        "duration": 69000
       }
     ],
     "images": [
 
       {
-        "internalFile": "timer/p1_1.jpg",
-        "duration": 140000
-      },
-      {
-        "internalFile": "timer/p1_2.jpg",
-        "duration": 140000
+        "internalFile": "timer/p32_0.jpg",
+        "duration": 69000
       }
     ],
     "decisions": [
@@ -75,17 +72,18 @@
     "name": "a32_a",
     "audio": [
       {
-        "audio": "s32_a"
+        "audio": "s32_a",
+        "duration": 56000
       }
     ],
     "images": [
       {
-        "internalFile": "timer/p1_2.jpg",
-        "duration": 3000
+        "internalFile": "timer/p32_0.jpg",
+        "duration": 5000
       },
       {
-        "internalFile": "timer/p1_d.jpg",
-        "duration": 3000
+        "internalFile": "timer/p32_a.jpg",
+        "duration": 51000
       }
     ],
     "decisions": [],
@@ -99,10 +97,16 @@
   {
     "name": "a32_b",
     "action": "GOTO",
-    "images": [],
     "audio": [
       {
-        "audio": "s32_b"
+        "audio": "s32_b",
+        "duration": 17000
+      }
+    ],
+    "images": [
+      {
+        "internalFile": "timer/p32_0.jpg",
+        "duration": 17000
       }
     ],
     "decisions": [
@@ -120,10 +124,16 @@
   {
     "name": "a32_c",
     "action": "GOTO",
-    "images": [],
     "audio": [
       {
-        "audio": "s32_c"
+        "audio": "s32_c",
+        "duration": 24000
+      }
+    ],
+    "images": [
+      {
+        "internalFile": "timer/p32_0.jpg",
+        "duration": 24000
       }
     ],
     "decisions": [
@@ -141,10 +151,16 @@
   {
     "name": "a32_d",
     "action": "GOTO",
-    "images": [],
     "audio": [
       {
-        "audio": "s32_d"
+        "audio": "s32_d",
+        "duration": 141000
+      }
+    ],
+    "images": [
+      {
+        "internalFile": "timer/p32_0.jpg",
+        "duration": 141000
       }
     ],
     "decisions": [
@@ -162,10 +178,16 @@
   {
     "name": "a32_e",
     "action": "GOTO",
-    "images": [],
     "audio": [
       {
-        "audio": "s32_e"
+        "audio": "s32_e",
+        "duration": 21000
+      }
+    ],
+    "images": [
+      {
+        "internalFile": "timer/p32_0.jpg",
+        "duration": 21000
       }
     ],
     "decisions": [
