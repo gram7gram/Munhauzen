@@ -845,6 +845,6 @@ public class ProgressBarFragment extends Fragment {
     }
 
     private boolean canUnpause() {
-        return !gameScreen.getStory().isInteractionLocked();
+        return true;//!gameScreen.getStory().isInteractionLocked();
     }
 }

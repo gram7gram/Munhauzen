@@ -71,7 +71,7 @@
     ],
     "images": [
       {
-        "internalFile": "wau/inter_wauwau_font.jpg",
+        "internalFile": "wau/pwau.jpg",
         "duration": 22000
       }
     ],
@@ -98,7 +98,7 @@
     ],
     "images": [
       {
-        "internalFile": "wau/inter_wauwau_font.jpg",
+        "internalFile": "wau/pwau.jpg",
         "duration": 106000
       }
     ],
@@ -125,7 +125,7 @@
     ],
     "images": [
       {
-        "internalFile": "wau/inter_wauwau_font.jpg",
+        "internalFile": "wau/pwau.jpg",
         "duration": 4000
       },
       {
@@ -162,7 +162,7 @@
     ],
     "images": [
       {
-        "internalFile": "wau/inter_wauwau_font.jpg",
+        "internalFile": "wau/pwau.jpg",
         "duration": 70000
       }
     ],
@@ -189,7 +189,7 @@
     ],
     "images": [
       {
-        "internalFile": "wau/inter_wauwau_font.jpg",
+        "internalFile": "wau/pwau.jpg",
         "duration": 35000
       }
     ],
@@ -205,7 +205,12 @@
         "duration": 23000
       }
     ],
-    "images": [],
+    "images": [
+      {
+        "internalFile": "wau/pwau.jpg",
+        "duration": 23000
+      }
+    ],
     "decisions": [
       {
         "scenario": "awau_2_proxy"
