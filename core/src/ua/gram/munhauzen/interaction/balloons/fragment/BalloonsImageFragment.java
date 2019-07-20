@@ -507,6 +507,11 @@ public class BalloonsImageFragment extends Fragment {
 
         interaction.gameScreen.hideImageFragment();
 
+        ua.gram.munhauzen.entity.Image current = new ua.gram.munhauzen.entity.Image();
+        current.name = tag;
+
+        interaction.gameScreen.setLastBackground(current);
+
         background.setDrawable(new SpriteDrawable(new Sprite(texture)));
 
         float scale = 1f * MunhauzenGame.WORLD_WIDTH / background.getDrawable().getMinWidth();

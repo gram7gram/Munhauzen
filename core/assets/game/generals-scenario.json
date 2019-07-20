@@ -10,15 +10,15 @@
     ],
     "images": [
       {
-        "internalFile": "generals/p33_d.jpg",
+        "image": "generals/p33_d.jpg",
         "duration": 76000
       },
       {
-        "internalFile": "generals/inter_general_1.jpg",
+        "image": "generals/inter_general_1.jpg",
         "duration": 10000
       },
       {
-        "internalFile": "generals/inter_general_1.jpg",
+        "image": "generals/inter_general_1.jpg",
         "withFumes": true,
         "duration": 85000
       }
@@ -85,12 +85,12 @@
     ],
     "images": [
       {
-        "internalFile": "generals/inter_general_1.jpg",
+        "image": "generals/inter_general_1.jpg",
         "withFumes": true,
         "duration": 18000
       },
       {
-        "internalFile": "generals/inter_general_2.jpg",
+        "image": "generals/inter_general_2.jpg",
         "withFireLeft": true,
         "withFireRight": true,
         "duration": 39000
@@ -114,7 +114,7 @@
     ],
     "images": [
       {
-        "internalFile": "generals/inter_general_1.jpg",
+        "image": "generals/inter_general_1.jpg",
         "withFumes": true,
         "duration": 0
       }
@@ -141,7 +141,7 @@
     ],
     "images": [
       {
-        "internalFile": "generals/inter_general_1.jpg",
+        "image": "generals/inter_general_1.jpg",
         "withFumes": true,
         "duration": 0
       }
@@ -168,7 +168,7 @@
     ],
     "images": [
       {
-        "internalFile": "generals/inter_general_1.jpg",
+        "image": "generals/inter_general_1.jpg",
         "withFumes": true,
         "duration": 0
       }

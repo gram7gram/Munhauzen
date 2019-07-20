@@ -40,11 +40,15 @@ public class ExternalFiles {
     }
 
     public static FileHandle getExpansionAudio(Audio audio) {
-        return Gdx.files.external(getExpansionAudioDir().path() + "/" + audio.file);
+        return Gdx.files.external(getExpansionDir().path() + "/" + audio.file);
     }
 
     public static FileHandle getExpansionImage(Image image) {
-        return Gdx.files.external(getExpansionImagesDir().path() + "/" + image.file);
+        return Gdx.files.external(getExpansionDir().path() + "/" + image.file);
+    }
+
+    public static FileHandle getExpansionFile(String file) {
+        return Gdx.files.external(getExpansionDir().path() + "/" + file);
     }
 
     public static FileHandle getGameArchiveFile() {

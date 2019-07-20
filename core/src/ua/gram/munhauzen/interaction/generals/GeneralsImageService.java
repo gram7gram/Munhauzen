@@ -7,13 +7,13 @@ import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.StoryImage;
 import ua.gram.munhauzen.interaction.GeneralsInteraction;
 import ua.gram.munhauzen.screen.GameScreen;
-import ua.gram.munhauzen.service.InternalImageService;
+import ua.gram.munhauzen.service.InteractionImageService;
 import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class GeneralsImageService extends InternalImageService {
+public class GeneralsImageService extends InteractionImageService {
 
     final GeneralsInteraction interaction;
 

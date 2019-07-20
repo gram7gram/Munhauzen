@@ -11,7 +11,7 @@
     ],
     "images": [
       {
-        "internalFile": "wau/pwau.jpg",
+        "image": "wau/pwau.jpg",
         "duration": 46000
       }
     ],
@@ -71,7 +71,7 @@
     ],
     "images": [
       {
-        "internalFile": "wau/pwau.jpg",
+        "image": "wau/pwau.jpg",
         "duration": 22000
       }
     ],
@@ -98,7 +98,7 @@
     ],
     "images": [
       {
-        "internalFile": "wau/pwau.jpg",
+        "image": "wau/pwau.jpg",
         "duration": 106000
       }
     ],
@@ -125,20 +125,20 @@
     ],
     "images": [
       {
-        "internalFile": "wau/pwau.jpg",
+        "image": "wau/pwau.jpg",
         "duration": 4000
       },
       {
-        "internalFile": "wau/inter_wauwau_font.jpg",
+        "image": "wau/inter_wauwau_font.jpg",
         "withWau": true,
         "duration": 96000
       },
       {
-        "internalFile": "p0.jpg",
+        "image": "p0.jpg",
         "duration": 27000
       },
       {
-        "internalFile": "wau/inter_wauwau_font.jpg",
+        "image": "wau/inter_wauwau_font.jpg",
         "withWau": true,
         "duration": 71000
       }
@@ -162,7 +162,7 @@
     ],
     "images": [
       {
-        "internalFile": "wau/pwau.jpg",
+        "image": "wau/pwau.jpg",
         "duration": 70000
       }
     ],
@@ -189,7 +189,7 @@
     ],
     "images": [
       {
-        "internalFile": "wau/pwau.jpg",
+        "image": "wau/pwau.jpg",
         "duration": 35000
       }
     ],
@@ -207,7 +207,7 @@
     ],
     "images": [
       {
-        "internalFile": "wau/pwau.jpg",
+        "image": "wau/pwau.jpg",
         "duration": 23000
       }
     ],

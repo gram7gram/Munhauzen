@@ -9,6 +9,10 @@ fi
 
 VERSION="${VERSION}-en-phone-hdpi"
 
+mkdir -p /Users/master/Projects/munhauzen-web/api/public/expansions/$VERSION
+
+cp ./${VERSION}/* /Users/master/Projects/munhauzen-web/api/public/expansions/$VERSION
+
 ssh root@munhauzen.fingertips.cf "mkdir -p /var/www/munhauzen-web/api/public/expansions/${VERSION}"
 
 scp ./${VERSION}/* \

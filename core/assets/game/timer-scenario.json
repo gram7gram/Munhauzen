@@ -12,7 +12,7 @@
     "images": [
 
       {
-        "internalFile": "timer/p32_0.jpg",
+        "image": "timer/p32_0.jpg",
         "duration": 69000
       }
     ],
@@ -78,11 +78,11 @@
     ],
     "images": [
       {
-        "internalFile": "timer/p32_0.jpg",
+        "image": "timer/p32_0.jpg",
         "duration": 5000
       },
       {
-        "internalFile": "timer/p32_a.jpg",
+        "image": "timer/p32_a.jpg",
         "duration": 51000
       }
     ],
@@ -105,7 +105,7 @@
     ],
     "images": [
       {
-        "internalFile": "timer/p32_0.jpg",
+        "image": "timer/p32_0.jpg",
         "duration": 17000
       }
     ],
@@ -132,7 +132,7 @@
     ],
     "images": [
       {
-        "internalFile": "timer/p32_0.jpg",
+        "image": "timer/p32_0.jpg",
         "duration": 24000
       }
     ],
@@ -159,7 +159,7 @@
     ],
     "images": [
       {
-        "internalFile": "timer/p32_0.jpg",
+        "image": "timer/p32_0.jpg",
         "duration": 141000
       }
     ],
@@ -186,7 +186,7 @@
     ],
     "images": [
       {
-        "internalFile": "timer/p32_0.jpg",
+        "image": "timer/p32_0.jpg",
         "duration": 21000
       }
     ],

@@ -9,13 +9,13 @@ import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.StoryImage;
 import ua.gram.munhauzen.interaction.PictureInteraction;
 import ua.gram.munhauzen.screen.GameScreen;
-import ua.gram.munhauzen.service.InternalImageService;
+import ua.gram.munhauzen.service.InteractionImageService;
 import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class PictureImageService extends InternalImageService {
+public class PictureImageService extends InteractionImageService {
 
     final PictureInteraction interaction;
 
@@ -37,8 +37,7 @@ public class PictureImageService extends InternalImageService {
 
         item.isActive = true;
 
-        gameScreen.imageFragment.layer1ImageGroup.setVisible(false);
-        gameScreen.imageFragment.layer2ImageGroup.setVisible(false);
+        gameScreen.hideImageFragment();
 
         final Image targetImage = interaction.imageFragment.background;
 

@@ -51,12 +51,17 @@ public class ScenarioFragment extends Fragment {
     public final GameScreen gameScreen;
     public final AssetManager assetManager;
     private FitImage imgLeft, imgRight, imgTop;
-    private Table decorLeft, decorRight, decorTop;
+    private Table decorLeft;
+    private Table decorRight;
+    private Table decorTop;
+    public Table blocks;
     private Stack root;
     private final ArrayList<Actor> buttonList;
     private final HashMap<Integer, String> map = new HashMap<>(7);
     private final HashMap<Integer, String> animatedMap = new HashMap<>(7);
     private final float headerSize, buttonSize;
+    public boolean isFadeIn;
+    public boolean isFadeOut;
 
     public ScenarioFragment(GameScreen gameScreen, String storyId) {
         this.storyId = storyId;
@@ -186,8 +191,8 @@ public class ScenarioFragment extends Fragment {
         imgRight = new FitImage(new SpriteDrawable(drawableRight));
         imgTop = new FitImage(drawableTop);
 
-        Table table = new Table();
-        table.add(scrollPane).expandY().fillY().top();
+        blocks = new Table();
+        blocks.add(scrollPane).expandY().fillY().top();
 
         decorLeft = new Table();
         decorLeft.setTouchable(Touchable.disabled);
@@ -208,7 +213,7 @@ public class ScenarioFragment extends Fragment {
                 .height(MunhauzenGame.WORLD_HEIGHT / 4f);
 
         root = new Stack();
-        root.add(table);
+        root.add(blocks);
         root.add(decorLeft);
         root.add(decorTop);
         root.add(decorRight);
@@ -290,15 +295,53 @@ public class ScenarioFragment extends Fragment {
     }
 
     public void fadeOut(Runnable task) {
+
+        isFadeIn = false;
+        isFadeOut = true;
+
         float duration = .3f;
 
-        root.addAction(Actions.sequence(
+        blocks.addAction(Actions.sequence(
                 Actions.alpha(0, duration),
                 Actions.visible(false),
+                Actions.run(new Runnable() {
+                    @Override
+                    public void run() {
+                        isFadeIn = false;
+                        isFadeOut = false;
+                    }
+                }),
                 Actions.run(task)
         ));
 
         fadeOutDecoration();
+    }
+
+    public void fadeOut() {
+
+        fadeOutWithoutDecoration();
+
+        fadeOutDecoration();
+    }
+
+    public void fadeOutWithoutDecoration() {
+
+        isFadeIn = false;
+        isFadeOut = true;
+
+        float duration = .3f;
+
+        blocks.addAction(Actions.sequence(
+                Actions.alpha(0, duration),
+                Actions.visible(false),
+                Actions.run(new Runnable() {
+                    @Override
+                    public void run() {
+                        isFadeIn = false;
+                        isFadeOut = false;
+                    }
+                })
+        ));
     }
 
     private void fadeOutDecoration() {
@@ -323,15 +366,32 @@ public class ScenarioFragment extends Fragment {
 
     public void fadeIn() {
 
-        root.clearActions();
+        if (!isMounted()) return;
 
-        root.setVisible(true);
-        root.addAction(Actions.sequence(
-                Actions.alpha(0),
-                Actions.alpha(1, .3f)
-        ));
+        fadeInWithoutDecoration();
 
         fadeInDecoration();
+    }
+
+    public void fadeInWithoutDecoration() {
+
+        if (!isMounted()) return;
+
+        isFadeIn = true;
+        isFadeOut = false;
+
+        blocks.setVisible(true);
+        blocks.addAction(Actions.sequence(
+                Actions.alpha(0),
+                Actions.alpha(1, .3f),
+                Actions.run(new Runnable() {
+                    @Override
+                    public void run() {
+                        isFadeIn = false;
+                        isFadeOut = false;
+                    }
+                })
+        ));
     }
 
     private void fadeInDecoration() {

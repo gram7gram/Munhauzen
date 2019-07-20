@@ -15,6 +15,7 @@ import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.MunhauzenStage;
 import ua.gram.munhauzen.entity.GameState;
+import ua.gram.munhauzen.entity.Image;
 import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.entity.StoryScenario;
 import ua.gram.munhauzen.fragment.GameControlsFragment;
@@ -23,9 +24,8 @@ import ua.gram.munhauzen.fragment.ProgressBarFragment;
 import ua.gram.munhauzen.fragment.ScenarioFragment;
 import ua.gram.munhauzen.listener.StageInputListener;
 import ua.gram.munhauzen.service.AudioService;
-import ua.gram.munhauzen.service.ExternalImageService;
+import ua.gram.munhauzen.service.ExpansionImageService;
 import ua.gram.munhauzen.service.InteractionService;
-import ua.gram.munhauzen.service.InternalImageService;
 import ua.gram.munhauzen.service.StoryManager;
 import ua.gram.munhauzen.ui.GameLayers;
 import ua.gram.munhauzen.utils.Log;
@@ -46,8 +46,7 @@ public class GameScreen implements Screen {
     public ImageFragment imageFragment;
     public GameControlsFragment gameControlsFragment;
     public AudioService audioService;
-    public ExternalImageService externalImageService;
-    public InternalImageService internalImageService;
+    public ExpansionImageService externalImageService;
     public InteractionService interactionService;
     private Timer.Task saveTask;
     private Texture background;
@@ -74,8 +73,7 @@ public class GameScreen implements Screen {
         Log.i(tag, "show");
 
         audioService = new AudioService(this);
-        externalImageService = new ExternalImageService(this);
-        internalImageService = new InternalImageService(this);
+        externalImageService = new ExpansionImageService(this);
         interactionService = new InteractionService(this);
 
         ui = new MunhauzenStage(game);
@@ -168,10 +166,6 @@ public class GameScreen implements Screen {
 
         if (externalImageService != null) {
             externalImageService.update();
-        }
-
-        if (internalImageService != null) {
-            internalImageService.update();
         }
 
         if (imageFragment != null) {
@@ -320,7 +314,6 @@ public class GameScreen implements Screen {
 
         audioService.dispose();
         externalImageService.dispose();
-        internalImageService.dispose();
         progressBarFragment.dispose();
 
         if (scenarioFragment != null) {
@@ -390,5 +383,13 @@ public class GameScreen implements Screen {
     public void onCriticalError(Throwable e) {
         game.onCriticalError(e);
         dispose();
+    }
+
+    public void setLastBackground(Image image) {
+        game.gameState.lastImage = image;
+    }
+
+    public Image getLastBackground() {
+        return game.gameState.lastImage;
     }
 }

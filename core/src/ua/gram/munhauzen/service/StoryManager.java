@@ -314,15 +314,12 @@ public class StoryManager {
 
         for (StoryScenario storyScenario : story.scenarios) {
 
-            String audioPath = ExternalFiles.getExpansionAudioDir().path();
-            String imagePath = ExternalFiles.getExpansionImagesDir().path();
-
             for (StoryAudio storyAudio : storyScenario.scenario.audio) {
 
                 try {
                     Audio audio = AudioRepository.find(gameScreen.game.gameState, storyAudio.audio);
 
-                    String resource = audioPath + "/" + audio.file;
+                    String resource = ExternalFiles.getExpansionAudio(audio).path();
 
                     if (gameScreen.audioService.assetManager.isLoaded(resource, Music.class)) {
                         if (gameScreen.audioService.assetManager.getReferenceCount(resource) == 0) {
@@ -337,11 +334,12 @@ public class StoryManager {
             for (StoryImage storyImage : storyScenario.scenario.images) {
                 try {
 
-                    if (storyImage.image.equals(ImageRepository.LAST)) continue;
+                    if (ImageRepository.LAST.equals(storyImage.image)) continue;
 
                     Image image = ImageRepository.find(gameScreen.game.gameState, storyImage.image);
 
-                    String resource = imagePath + "/" + image.file;
+                    String resource = ExternalFiles.getExpansionImage(image).path();
+
                     if (gameScreen.externalImageService.assetManager.isLoaded(resource, Texture.class)) {
                         if (gameScreen.externalImageService.assetManager.getReferenceCount(resource) == 0) {
                             gameScreen.externalImageService.assetManager.unload(resource);

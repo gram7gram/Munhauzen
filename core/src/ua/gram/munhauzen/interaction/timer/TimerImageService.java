@@ -3,13 +3,13 @@ package ua.gram.munhauzen.interaction.timer;
 import ua.gram.munhauzen.entity.StoryImage;
 import ua.gram.munhauzen.interaction.TimerInteraction;
 import ua.gram.munhauzen.screen.GameScreen;
-import ua.gram.munhauzen.service.InternalImageService;
+import ua.gram.munhauzen.service.InteractionImageService;
 import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class TimerImageService extends InternalImageService {
+public class TimerImageService extends InteractionImageService {
 
     final TimerInteraction interaction;
 

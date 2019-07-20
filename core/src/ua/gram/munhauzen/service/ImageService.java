@@ -89,18 +89,14 @@ public abstract class ImageService implements Disposable {
         item.prepareCompletedAt = null;
         item.prepareStartedAt = null;
 
-        if (item.image != null && !item.image.equals("Last")) {
-            Image image = ImageRepository.find(gameScreen.game.gameState, item.image);
-
-            gameScreen.game.gameState.lastImage = image;
-        }
-
         Story story = gameScreen.getStory();
         for (StoryScenario scenarioOption : story.scenarios) {
             for (StoryImage image : scenarioOption.scenario.images) {
                 image.isActive = false;
             }
         }
+
+        saveCurrentBackground(item);
 
         displayImage(item);
     }
@@ -125,6 +121,15 @@ public abstract class ImageService implements Disposable {
     public void update() {
 
         assetManager.update();
+    }
+
+    public void saveCurrentBackground(StoryImage item) {
+
+        if (item.image != null && !ImageRepository.LAST.equals(item.image)) {
+            Image image = ImageRepository.find(gameScreen.game.gameState, item.image);
+
+            gameScreen.setLastBackground(image);
+        }
     }
 
     @Override

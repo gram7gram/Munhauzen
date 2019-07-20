@@ -12,11 +12,16 @@ import ua.gram.munhauzen.interaction.PictureInteraction;
 import ua.gram.munhauzen.interaction.TimerInteraction;
 import ua.gram.munhauzen.interaction.WauInteraction;
 import ua.gram.munhauzen.interaction.cannons.fragment.CannonsProgressBarFragment;
+import ua.gram.munhauzen.interaction.cannons.fragment.CannonsScenarioFragment;
 import ua.gram.munhauzen.interaction.generals.fragment.GeneralsProgressBarFragment;
+import ua.gram.munhauzen.interaction.generals.fragment.GeneralsScenarioFragment;
 import ua.gram.munhauzen.interaction.hare.fragment.HareProgressBarFragment;
+import ua.gram.munhauzen.interaction.hare.fragment.HareScenarioFragment;
 import ua.gram.munhauzen.interaction.picture.fragment.PictureProgressBarFragment;
 import ua.gram.munhauzen.interaction.timer.fragment.TimerProgressBarFragment;
+import ua.gram.munhauzen.interaction.timer.fragment.TimerScenarioFragment;
 import ua.gram.munhauzen.interaction.wauwau.fragment.WauProgressBarFragment;
+import ua.gram.munhauzen.interaction.wauwau.fragment.WauScenarioFragment;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.utils.Log;
 
@@ -61,14 +66,32 @@ public class StageInputListener extends ClickListener {
                     WauProgressBarFragment barFragment = ((WauInteraction) storyInteraction.interaction).progressBarFragment;
 
                     if (barFragment != null) {
-                        if (!barFragment.getRoot().isVisible()) {
-                            if (!barFragment.isFadeIn) {
-                                barFragment.fadeIn();
-                                barFragment.scheduleFadeOut();
+                        if (barFragment.isMounted()) {
+                            if (!barFragment.getRoot().isVisible()) {
+                                if (!barFragment.isFadeIn) {
+                                    barFragment.fadeIn();
+                                    barFragment.scheduleFadeOut();
+                                }
+                            } else {
+                                if (!barFragment.isFadeOut) {
+                                    barFragment.fadeOut();
+                                }
                             }
-                        } else {
-                            if (!barFragment.isFadeOut) {
-                                barFragment.fadeOut();
+                        }
+                    }
+
+                    WauScenarioFragment scenarioFragment = ((WauInteraction) storyInteraction.interaction).scenarioFragment;
+
+                    if (scenarioFragment != null) {
+                        if (scenarioFragment.isMounted()) {
+                            if (!scenarioFragment.blocks.isVisible()) {
+                                if (!scenarioFragment.isFadeIn) {
+                                    scenarioFragment.fadeInWithoutDecoration();
+                                }
+                            } else {
+                                if (!scenarioFragment.isFadeOut) {
+                                    scenarioFragment.fadeOutWithoutDecoration();
+                                }
                             }
                         }
                     }
@@ -78,14 +101,32 @@ public class StageInputListener extends ClickListener {
                     CannonsProgressBarFragment barFragment = ((CannonsInteraction) storyInteraction.interaction).progressBarFragment;
 
                     if (barFragment != null) {
-                        if (!barFragment.getRoot().isVisible()) {
-                            if (!barFragment.isFadeIn) {
-                                barFragment.fadeIn();
-                                barFragment.scheduleFadeOut();
+                        if (barFragment.isMounted()) {
+                            if (!barFragment.getRoot().isVisible()) {
+                                if (!barFragment.isFadeIn) {
+                                    barFragment.fadeIn();
+                                    barFragment.scheduleFadeOut();
+                                }
+                            } else {
+                                if (!barFragment.isFadeOut) {
+                                    barFragment.fadeOut();
+                                }
                             }
-                        } else {
-                            if (!barFragment.isFadeOut) {
-                                barFragment.fadeOut();
+                        }
+                    }
+
+                    CannonsScenarioFragment scenarioFragment = ((CannonsInteraction) storyInteraction.interaction).scenarioFragment;
+
+                    if (scenarioFragment != null) {
+                        if (scenarioFragment.isMounted()) {
+                            if (!scenarioFragment.blocks.isVisible()) {
+                                if (!scenarioFragment.isFadeIn) {
+                                    scenarioFragment.fadeInWithoutDecoration();
+                                }
+                            } else {
+                                if (!scenarioFragment.isFadeOut) {
+                                    scenarioFragment.fadeOutWithoutDecoration();
+                                }
                             }
                         }
                     }
@@ -95,14 +136,32 @@ public class StageInputListener extends ClickListener {
                     HareProgressBarFragment barFragment = ((HareInteraction) storyInteraction.interaction).progressBarFragment;
 
                     if (barFragment != null) {
-                        if (!barFragment.getRoot().isVisible()) {
-                            if (!barFragment.isFadeIn) {
-                                barFragment.fadeIn();
-                                barFragment.scheduleFadeOut();
+                        if (barFragment.isMounted()) {
+                            if (!barFragment.getRoot().isVisible()) {
+                                if (!barFragment.isFadeIn) {
+                                    barFragment.fadeIn();
+                                    barFragment.scheduleFadeOut();
+                                }
+                            } else {
+                                if (!barFragment.isFadeOut) {
+                                    barFragment.fadeOut();
+                                }
                             }
-                        } else {
-                            if (!barFragment.isFadeOut) {
-                                barFragment.fadeOut();
+                        }
+                    }
+
+                    HareScenarioFragment scenarioFragment = ((HareInteraction) storyInteraction.interaction).scenarioFragment;
+
+                    if (scenarioFragment != null) {
+                        if (scenarioFragment.isMounted()) {
+                            if (!scenarioFragment.blocks.isVisible()) {
+                                if (!scenarioFragment.isFadeIn) {
+                                    scenarioFragment.fadeInWithoutDecoration();
+                                }
+                            } else {
+                                if (!scenarioFragment.isFadeOut) {
+                                    scenarioFragment.fadeOutWithoutDecoration();
+                                }
                             }
                         }
                     }
@@ -112,14 +171,16 @@ public class StageInputListener extends ClickListener {
                     PictureProgressBarFragment barFragment = ((PictureInteraction) storyInteraction.interaction).progressBarFragment;
 
                     if (barFragment != null) {
-                        if (!barFragment.getRoot().isVisible()) {
-                            if (!barFragment.isFadeIn) {
-                                barFragment.fadeIn();
-                                barFragment.scheduleFadeOut();
-                            }
-                        } else {
-                            if (!barFragment.isFadeOut) {
-                                barFragment.fadeOut();
+                        if (barFragment.isMounted()) {
+                            if (!barFragment.getRoot().isVisible()) {
+                                if (!barFragment.isFadeIn) {
+                                    barFragment.fadeIn();
+                                    barFragment.scheduleFadeOut();
+                                }
+                            } else {
+                                if (!barFragment.isFadeOut) {
+                                    barFragment.fadeOut();
+                                }
                             }
                         }
                     }
@@ -129,14 +190,32 @@ public class StageInputListener extends ClickListener {
                     GeneralsProgressBarFragment barFragment = ((GeneralsInteraction) storyInteraction.interaction).progressBarFragment;
 
                     if (barFragment != null) {
-                        if (!barFragment.getRoot().isVisible()) {
-                            if (!barFragment.isFadeIn) {
-                                barFragment.fadeIn();
-                                barFragment.scheduleFadeOut();
+                        if (barFragment.isMounted()) {
+                            if (!barFragment.getRoot().isVisible()) {
+                                if (!barFragment.isFadeIn) {
+                                    barFragment.fadeIn();
+                                    barFragment.scheduleFadeOut();
+                                }
+                            } else {
+                                if (!barFragment.isFadeOut) {
+                                    barFragment.fadeOut();
+                                }
                             }
-                        } else {
-                            if (!barFragment.isFadeOut) {
-                                barFragment.fadeOut();
+                        }
+                    }
+
+                    GeneralsScenarioFragment scenarioFragment = ((GeneralsInteraction) storyInteraction.interaction).scenarioFragment;
+
+                    if (scenarioFragment != null) {
+                        if (scenarioFragment.isMounted()) {
+                            if (!scenarioFragment.blocks.isVisible()) {
+                                if (!scenarioFragment.isFadeIn) {
+                                    scenarioFragment.fadeInWithoutDecoration();
+                                }
+                            } else {
+                                if (!scenarioFragment.isFadeOut) {
+                                    scenarioFragment.fadeOutWithoutDecoration();
+                                }
                             }
                         }
                     }
@@ -146,14 +225,32 @@ public class StageInputListener extends ClickListener {
                     TimerProgressBarFragment barFragment = ((TimerInteraction) storyInteraction.interaction).progressBarFragment;
 
                     if (barFragment != null) {
-                        if (!barFragment.getRoot().isVisible()) {
-                            if (!barFragment.isFadeIn) {
-                                barFragment.fadeIn();
-                                barFragment.scheduleFadeOut();
+                        if (barFragment.isMounted()) {
+                            if (!barFragment.getRoot().isVisible()) {
+                                if (!barFragment.isFadeIn) {
+                                    barFragment.fadeIn();
+                                    barFragment.scheduleFadeOut();
+                                }
+                            } else {
+                                if (!barFragment.isFadeOut) {
+                                    barFragment.fadeOut();
+                                }
                             }
-                        } else {
-                            if (!barFragment.isFadeOut) {
-                                barFragment.fadeOut();
+                        }
+                    }
+
+                    TimerScenarioFragment scenarioFragment = ((TimerInteraction) storyInteraction.interaction).scenarioFragment;
+
+                    if (scenarioFragment != null) {
+                        if (scenarioFragment.isMounted()) {
+                            if (!scenarioFragment.blocks.isVisible()) {
+                                if (!scenarioFragment.isFadeIn) {
+                                    scenarioFragment.fadeInWithoutDecoration();
+                                }
+                            } else {
+                                if (!scenarioFragment.isFadeOut) {
+                                    scenarioFragment.fadeOutWithoutDecoration();
+                                }
                             }
                         }
                     }
@@ -166,6 +263,20 @@ public class StageInputListener extends ClickListener {
                     gameScreen.showProgressBar();
                 } else {
                     gameScreen.hideProgressBar();
+                }
+            }
+
+            if (gameScreen.scenarioFragment != null) {
+                if (gameScreen.scenarioFragment.isMounted()) {
+                    if (!gameScreen.scenarioFragment.blocks.isVisible()) {
+                        if (!gameScreen.scenarioFragment.isFadeIn) {
+                            gameScreen.scenarioFragment.fadeInWithoutDecoration();
+                        }
+                    } else {
+                        if (!gameScreen.scenarioFragment.isFadeOut) {
+                            gameScreen.scenarioFragment.fadeOutWithoutDecoration();
+                        }
+                    }
                 }
             }
 

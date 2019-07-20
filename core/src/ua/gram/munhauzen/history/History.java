@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Stack;
 
-import ua.gram.munhauzen.entity.Inventory;
 import ua.gram.munhauzen.entity.Player;
 
 /**

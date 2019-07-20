@@ -5,6 +5,7 @@ const md5 = require('md5');
 const obbDir = "/Users/master/Projects/Munhauzen/obb"
 const audioDir = "/Users/master/Projects/MunhauzenDocs/Elements/AUDIO_FINAL"
 const picturesDir = "/Users/master/Projects/MunhauzenDocs/Elements/PICTURES_FINAL"
+const internalAssetsDir = "/Users/master/Projects/Munhauzen/core/assets"
 
 const PARTS = 10;
 const VERSION = 1;
@@ -33,6 +34,8 @@ fs.readdirSync(audioDir + "/Part_1").forEach(file => {
 
 })
 
+
+
 console.log('=> Processing audio part 2...')
 
 fs.readdirSync(audioDir + "/Part_2").forEach(file => {
@@ -51,9 +54,48 @@ fs.readdirSync(audioDir + "/Part_2").forEach(file => {
 
 
 
-console.log('=> Processing images...')
+console.log('=> Processing interaction assets...')
 
-currentPart = 1
+const interactions = [
+    "/timer",
+    "/hare",
+    "/generals",
+    "/cannons",
+    "/wau",
+    "/picture",
+    "/servants",
+    "/lions",
+    "/date",
+    "/horn",
+    "/swamp",
+    "/slap",
+    "/puzzle",
+    "/continue",
+    "/chapter",
+    "/balloons",
+]
+
+interactions.forEach(interaction => {
+    const dir = internalAssetsDir + interaction
+
+    const dest = "/tmp/part" + currentPart + interaction
+
+    fs.ensureDir(dest, () => {})
+
+    fs.readdirSync(dir).forEach(file => {
+        const source = dir + "/" + file
+
+        fs.copySync(source, dest + "/" + file)
+    })
+
+    currentPart += 1
+
+    if (currentPart > PARTS) currentPart = 1
+})
+
+
+
+console.log('=> Processing images...')
 
 fs.readdirSync(picturesDir + "/drawable").forEach(file => {
 
@@ -154,8 +196,7 @@ for (let part = 1; part <= PARTS; part++) {
         }, 100)
     });
 
-    archive.directory(`/tmp/part${part}/audio`, 'audio')
-    archive.directory(`/tmp/part${part}/images`, 'images')
+    archive.directory(`/tmp/part${part}`, "")
 
     archive.pipe(fs.createWriteStream(output));
 

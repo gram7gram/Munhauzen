@@ -7,13 +7,13 @@ import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.StoryImage;
 import ua.gram.munhauzen.interaction.WauInteraction;
 import ua.gram.munhauzen.screen.GameScreen;
-import ua.gram.munhauzen.service.InternalImageService;
+import ua.gram.munhauzen.service.InteractionImageService;
 import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class WauImageService extends InternalImageService {
+public class WauImageService extends InteractionImageService {
 
     final WauInteraction interaction;
 
@@ -22,9 +22,10 @@ public class WauImageService extends InternalImageService {
         this.interaction = interaction;
     }
 
-    public void displayImage(final StoryImage item) {
+    @Override
+    public void onPrepared(StoryImage item) {
 
-        Log.i(tag, "displayImage " + getResource(item));
+        gameScreen.hideImageFragment();
 
         WauStory story = interaction.storyManager.story;
         for (WauStoryScenario scenarioOption : story.scenarios) {
@@ -33,9 +34,14 @@ public class WauImageService extends InternalImageService {
             }
         }
 
-        item.isActive = true;
+        super.onPrepared(item);
+    }
 
-        gameScreen.hideImageFragment();
+    public void displayImage(final StoryImage item) {
+
+        Log.i(tag, "displayImage " + getResource(item));
+
+        item.isActive = true;
 
         Image targetImage = interaction.imageFragment.background;
 

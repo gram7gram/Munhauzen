@@ -14,9 +14,9 @@ import ua.gram.munhauzen.utils.ExternalFiles;
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class ExternalImageService extends ImageService {
+public class ExpansionImageService extends ImageService {
 
-    public ExternalImageService(GameScreen gameScreen) {
+    public ExpansionImageService(GameScreen gameScreen) {
         super(gameScreen);
     }
 

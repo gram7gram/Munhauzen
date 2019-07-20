@@ -6,7 +6,7 @@
     "audio": [],
     "images": [
       {
-        "internalFile": "cannons/inter_cannons_font.jpg",
+        "image": "cannons/inter_cannons_font.jpg",
         "duration": 100
       }
     ],
@@ -41,7 +41,7 @@
     ],
     "images": [
       {
-        "internalFile": "cannons/inter_cannons_font.jpg",
+        "image": "cannons/inter_cannons_font.jpg",
         "withWorms": true,
         "duration": 5000
       }
@@ -69,7 +69,7 @@
     ],
     "images": [
       {
-        "internalFile": "cannons/inter_cannons_font.jpg",
+        "image": "cannons/inter_cannons_font.jpg",
         "withWorms": true,
         "duration": 5000
       }
@@ -97,7 +97,7 @@
     ],
     "images": [
       {
-        "internalFile": "cannons/inter_cannons_font.jpg",
+        "image": "cannons/inter_cannons_font.jpg",
         "withWorms": true,
         "duration": 5000
       }
@@ -125,12 +125,12 @@
     ],
     "images": [
       {
-        "internalFile": "cannons/inter_cannons_font.jpg",
+        "image": "cannons/inter_cannons_font.jpg",
         "withWorms": true,
         "duration": 5000
       },
       {
-        "internalFile": "cannons/pworm_d.png",
+        "image": "cannons/pworm_d.png",
         "duration": 3000
       }
     ],
@@ -189,7 +189,7 @@
     ],
     "images": [
       {
-        "internalFile": "cannons/inter_cannons_font.jpg",
+        "image": "cannons/inter_cannons_font.jpg",
         "withWorms": true,
         "duration": 2000
       }
@@ -220,7 +220,7 @@
     ],
     "images": [
       {
-        "internalFile": "cannons/inter_cannons_font.jpg",
+        "image": "cannons/inter_cannons_font.jpg",
         "withWorms": true,
         "duration": 2000
       }
@@ -251,7 +251,7 @@
     ],
     "images": [
       {
-        "internalFile": "cannons/inter_cannons_font.jpg",
+        "image": "cannons/inter_cannons_font.jpg",
         "withWorms": true,
         "duration": 2000
       }
@@ -286,7 +286,7 @@
     ],
     "images": [
       {
-        "internalFile": "cannons/inter_cannons_font.jpg",
+        "image": "cannons/inter_cannons_font.jpg",
         "withWorms": true,
         "duration": 2000
       }
@@ -317,7 +317,7 @@
     ],
     "images": [
       {
-        "internalFile": "cannons/inter_cannons_font.jpg",
+        "image": "cannons/inter_cannons_font.jpg",
         "withWorms": true,
         "duration": 2000
       }
@@ -348,7 +348,7 @@
     ],
     "images": [
       {
-        "internalFile": "cannons/inter_cannons_font.jpg",
+        "image": "cannons/inter_cannons_font.jpg",
         "withWorms": true,
         "duration": 2000
       }
@@ -383,7 +383,7 @@
     ],
     "images": [
       {
-        "internalFile": "cannons/inter_cannons_font.jpg",
+        "image": "cannons/inter_cannons_font.jpg",
         "withWorms": true,
         "duration": 2000
       }
@@ -414,7 +414,7 @@
     ],
     "images": [
       {
-        "internalFile": "cannons/inter_cannons_font.jpg",
+        "image": "cannons/inter_cannons_font.jpg",
         "withWorms": true,
         "duration": 2000
       }
@@ -445,7 +445,7 @@
     ],
     "images": [
       {
-        "internalFile": "cannons/inter_cannons_font.jpg",
+        "image": "cannons/inter_cannons_font.jpg",
         "withWorms": true,
         "duration": 2000
       }
