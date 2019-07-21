@@ -50,11 +50,7 @@ public class InteractionImageService extends ImageService {
     @Override
     public void saveCurrentBackground(StoryImage item) {
         if (item.image != null && !ImageRepository.LAST.equals(item.image)) {
-            ua.gram.munhauzen.entity.Image image = new ua.gram.munhauzen.entity.Image();
-            image.name = item.image;
-            image.file = item.image;
-
-            gameScreen.setLastBackground(image);
+            gameScreen.setLastBackground(item.image);
         }
     }
 }

@@ -6,6 +6,7 @@ const obbDir = "/Users/master/Projects/Munhauzen/obb"
 const audioDir = "/Users/master/Projects/MunhauzenDocs/Elements/AUDIO_FINAL"
 const picturesDir = "/Users/master/Projects/MunhauzenDocs/Elements/PICTURES_FINAL"
 const internalAssetsDir = "/Users/master/Projects/Munhauzen/core/assets"
+const apiResourcesDir = "/Users/master/Projects/munhauzen-web/api/src/server/resources"
 
 const PARTS = 10;
 const VERSION = 1;
@@ -13,7 +14,9 @@ const LOCALE = 'en';
 const DEVICE = 'phone';
 const DPI = 'hdpi';
 
-console.log(`=> Splitting expansion in ${PARTS} parts`)
+const VERSION_NAME = VERSION + "-" + LOCALE + "-" + DEVICE + "-" + DPI
+
+console.log(`=> Splitting expansion ${VERSION_NAME} in ${PARTS} parts`)
 
 console.log('=> Processing audio part 1...')
 
@@ -152,12 +155,15 @@ const onComplete = () => {
             count: completed.length,
             items: completed.map(item => ({
                 ...item,
-                path: `/expansions/${VERSION}-${LOCALE}-${DEVICE}-${DPI}/part${item.part}.zip`
+                path: `/expansions/${VERSION_NAME}/part${item.part}.zip`
             }))
         }
     }
 
     console.log(" => Completed!")
+
+    fs.writeFileSync(apiResourcesDir + "/" + VERSION_NAME + '-expansion.json', JSON.stringify(expansion))
+
     console.log(JSON.stringify(expansion))
 
     cleanUp();
@@ -165,7 +171,7 @@ const onComplete = () => {
 
 for (let part = 1; part <= PARTS; part++) {
 
-    const dest = obbDir + `/${VERSION}-${LOCALE}-${DEVICE}-${DPI}/`
+    const dest = obbDir + `/${VERSION_NAME}/`
     const output = `${dest}/part${part}.zip`
 
     fs.ensureDir(dest, () => {})
@@ -180,6 +186,8 @@ for (let part = 1; part <= PARTS; part++) {
 
         setTimeout(() => {
             fs.readFile(output, function (err, buf) {
+
+                if (err) throw err
 
                 const checksum = md5(buf)
 

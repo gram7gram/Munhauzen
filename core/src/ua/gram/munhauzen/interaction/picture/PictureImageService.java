@@ -29,9 +29,11 @@ public class PictureImageService extends InteractionImageService {
         Log.i(tag, "displayImage " + getResource(item));
 
         PictureStory story = interaction.storyManager.pictureStory;
-        for (PictureStoryScenario scenarioOption : story.scenarios) {
-            for (StoryImage image : scenarioOption.scenario.images) {
-                image.isActive = false;
+        if (story != null) {
+            for (PictureStoryScenario scenarioOption : story.scenarios) {
+                for (StoryImage image : scenarioOption.scenario.images) {
+                    image.isActive = false;
+                }
             }
         }
 

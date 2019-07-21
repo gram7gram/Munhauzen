@@ -19,4 +19,5 @@ public abstract class StoryMedia<T> {
     public boolean isPreparing;
     public Date prepareStartedAt;
     public Date prepareCompletedAt;
+    public String resource;
 }

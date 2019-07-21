@@ -39,8 +39,12 @@ public class ErrorScreen implements Screen {
         ui = new MunhauzenStage(game);
 
         String cause = e.getClass().getSimpleName(),
-                msg = e.getMessage().replace(GdxRuntimeException.class.getCanonicalName() + ": ", ""),
+                msg = e.getMessage(),
                 desc = "Причина:\n";
+
+        if (msg != null) {
+            msg = msg.replace(GdxRuntimeException.class.getCanonicalName() + ": ", "");
+        }
 
         for (StackTraceElement trace : e.getStackTrace()) {
             desc += trace.toString() + "\n";

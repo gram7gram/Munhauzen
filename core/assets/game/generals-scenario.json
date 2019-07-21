@@ -5,7 +5,8 @@
     "action": "CLICK",
     "audio": [
       {
-        "audio": "s2_2_0"
+        "audio": "s2_2_0",
+        "duration": 171000
       }
     ],
     "images": [
@@ -109,14 +110,15 @@
     "action": "GOTO",
     "audio": [
       {
-        "audio": "s2_2_b"
+        "audio": "s2_2_b",
+        "duration": 14000
       }
     ],
     "images": [
       {
         "image": "generals/inter_general_1.jpg",
         "withFumes": true,
-        "duration": 0
+        "duration": 14000
       }
     ],
     "decisions": [
@@ -136,14 +138,15 @@
     "action": "GOTO",
     "audio": [
       {
-        "audio": "s2_2_c"
+        "audio": "s2_2_c",
+        "duration": 62000
       }
     ],
     "images": [
       {
         "image": "generals/inter_general_1.jpg",
         "withFumes": true,
-        "duration": 0
+        "duration": 62000
       }
     ],
     "decisions": [
@@ -163,14 +166,15 @@
     "action": "GOTO",
     "audio": [
       {
-        "audio": "s2_2_d"
+        "audio": "s2_2_d",
+        "duration": 44000
       }
     ],
     "images": [
       {
         "image": "generals/inter_general_1.jpg",
         "withFumes": true,
-        "duration": 0
+        "duration": 44000
       }
     ],
     "decisions": [

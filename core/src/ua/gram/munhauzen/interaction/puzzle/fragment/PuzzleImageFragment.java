@@ -61,7 +61,6 @@ public class PuzzleImageFragment extends Fragment {
         Texture tex8 = interaction.assetManager.get("puzzle/inter_puzzle_arrows_1.png", Texture.class);
         Texture tex9 = interaction.assetManager.get("puzzle/inter_puzzle_powder_1.png", Texture.class);
         Texture tex10 = interaction.assetManager.get("puzzle/inter_puzzle_rope_1.png", Texture.class);
-        Texture tex11 = interaction.assetManager.get("puzzle/inter_puzzle_fond_1.png", Texture.class);
         Texture tex12 = interaction.assetManager.get("puzzle/inter_puzzle_fond_2.png", Texture.class);
 
         resetButton = interaction.gameScreen.game.buttonBuilder.primary("Again", new ClickListener() {
@@ -100,7 +99,10 @@ public class PuzzleImageFragment extends Fragment {
         backgroundTable.setFillParent(true);
         backgroundTable.add(background).center();
 
-        setBackground(tex11);
+        setBackground(
+                interaction.assetManager.get("puzzle/inter_puzzle_fond_1.png", Texture.class),
+                "puzzle/inter_puzzle_fond_1.png"
+        );
 
         resultGroup = new Group();
 
@@ -331,7 +333,7 @@ public class PuzzleImageFragment extends Fragment {
         );
     }
 
-    public void setBackground(Texture texture) {
+    public void setBackground(Texture texture, String file) {
 
         interaction.gameScreen.hideImageFragment();
 
@@ -343,5 +345,7 @@ public class PuzzleImageFragment extends Fragment {
         backgroundTable.getCell(background)
                 .width(MunhauzenGame.WORLD_WIDTH)
                 .height(height);
+
+        interaction.gameScreen.setLastBackground(file);
     }
 }

@@ -178,7 +178,7 @@ public class PictureProgressBarFragment extends Fragment {
 
                     Log.i(tag, "pauseButton clicked");
 
-                    gameScreen.audioService.stop();
+                    gameScreen.audioService.pause();
 
                     GameState.pause();
 
@@ -200,7 +200,7 @@ public class PictureProgressBarFragment extends Fragment {
 
                     Log.i(tag, "rewindBackButton enter");
 
-                    gameScreen.audioService.stop();
+                    gameScreen.audioService.pause();
 
                     cancelFadeOut();
 
@@ -263,7 +263,7 @@ public class PictureProgressBarFragment extends Fragment {
                 try {
                     Log.i(tag, "rewindForwardButton enter");
 
-                    gameScreen.audioService.stop();
+                    gameScreen.audioService.pause();
 
                     cancelFadeOut();
 
@@ -316,7 +316,7 @@ public class PictureProgressBarFragment extends Fragment {
             private void scrollTo(float percent) {
 
                 try {
-                    gameScreen.audioService.stop();
+                    gameScreen.audioService.pause();
 
                     PictureStory story = interaction.storyManager.pictureStory;
 

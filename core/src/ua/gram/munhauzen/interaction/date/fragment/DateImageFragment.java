@@ -187,7 +187,8 @@ public class DateImageFragment extends Fragment {
         root.addActor(dialogContainer);
 
         setBackground(
-                interaction.assetManager.get("date/back.jpg", Texture.class)
+                interaction.assetManager.get("date/back.jpg", Texture.class),
+                "date/back.jpg"
         );
 
         setSeason1Background(
@@ -312,7 +313,7 @@ public class DateImageFragment extends Fragment {
         return root;
     }
 
-    public void setBackground(Texture texture) {
+    public void setBackground(Texture texture, String file) {
 
         background.setDrawable(new SpriteDrawable(new Sprite(texture)));
 
@@ -323,6 +324,8 @@ public class DateImageFragment extends Fragment {
         backgroundTable.getCell(background)
                 .width(width)
                 .height(height);
+
+        interaction.gameScreen.setLastBackground(file);
     }
 
     public void setSeason1Background(Texture texture) {

@@ -46,7 +46,7 @@ public class GameScreen implements Screen {
     public ImageFragment imageFragment;
     public GameControlsFragment gameControlsFragment;
     public AudioService audioService;
-    public ExpansionImageService externalImageService;
+    public ExpansionImageService imageService;
     public InteractionService interactionService;
     private Timer.Task saveTask;
     private Texture background;
@@ -73,7 +73,7 @@ public class GameScreen implements Screen {
         Log.i(tag, "show");
 
         audioService = new AudioService(this);
-        externalImageService = new ExpansionImageService(this);
+        imageService = new ExpansionImageService(this);
         interactionService = new InteractionService(this);
 
         ui = new MunhauzenStage(game);
@@ -84,6 +84,26 @@ public class GameScreen implements Screen {
         GameState.unpause();
 
         assetManager.load("GameScreen/t_putty.png", Texture.class);
+        assetManager.load("ui/playbar_pause.png", Texture.class);
+        assetManager.load("ui/playbar_play.png", Texture.class);
+
+        assetManager.load("ui/playbar_rewind_backward.png", Texture.class);
+        assetManager.load("ui/playbar_rewind_backward_off.png", Texture.class);
+
+        assetManager.load("ui/playbar_rewind_forward.png", Texture.class);
+        assetManager.load("ui/playbar_rewind_forward_off.png", Texture.class);
+
+        assetManager.load("ui/playbar_skip_backward.png", Texture.class);
+        assetManager.load("ui/playbar_skip_backward_off.png", Texture.class);
+
+        assetManager.load("ui/playbar_skip_forward.png", Texture.class);
+        assetManager.load("ui/playbar_skip_forward_off.png", Texture.class);
+
+        assetManager.load("ui/elements_player_fond_1.png", Texture.class);
+        assetManager.load("ui/elements_player_fond_2.png", Texture.class);
+        assetManager.load("ui/elements_player_fond_3.png", Texture.class);
+        assetManager.load("ui/player_progress_bar_progress.9.jpg", Texture.class);
+        assetManager.load("ui/player_progress_bar_knob.png", Texture.class);
 
         Story story = getStory();
         if (story != null && story.isValid()) {
@@ -164,8 +184,8 @@ public class GameScreen implements Screen {
 
         drawBackground();
 
-        if (externalImageService != null) {
-            externalImageService.update();
+        if (imageService != null) {
+            imageService.update();
         }
 
         if (imageFragment != null) {
@@ -231,7 +251,7 @@ public class GameScreen implements Screen {
         Story story = getStory();
         if (story == null) return;
 
-        int fontSize = FontProvider.h4;
+        int fontSize = FontProvider.p;
         BitmapFont font = game.fontProvider.getFont(FontProvider.DroidSansMono, fontSize);
         if (font != null) {
 
@@ -251,6 +271,19 @@ public class GameScreen implements Screen {
                             + "" + (scenarioOption.scenario.interaction != null ? " (" + scenarioOption.scenario.interaction + ")" : "")
                             + "" + (scenarioOption.isLocked ? " lock" : "")
                     );
+//                    for (StoryAudio audio : scenarioOption.scenario.audio) {
+//                        strings.add("--audio:" + audio.audio
+//                                + "" + (audio.isLocked ? " L" : "")
+//                                + "" + (audio.isActive ? " A" : "")
+//                                + "" + (audio.player != null && audio.player.isPlaying() ? "+" : "")
+//                        );
+//                    }
+//                    for (StoryImage image : scenarioOption.scenario.images) {
+//                        strings.add("--image:" + image.image
+//                                + "" + (image.isLocked ? " L" : "")
+//                                + "" + (image.isActive ? " A" : "")
+//                        );
+//                    }
                 }
             }
 
@@ -313,7 +346,7 @@ public class GameScreen implements Screen {
         }
 
         audioService.dispose();
-        externalImageService.dispose();
+        imageService.dispose();
         progressBarFragment.dispose();
 
         if (scenarioFragment != null) {
@@ -375,6 +408,14 @@ public class GameScreen implements Screen {
         }
     }
 
+    public void showImageFragment() {
+
+        if (imageFragment != null) {
+            imageFragment.layer1ImageGroup.setVisible(true);
+            imageFragment.layer2ImageGroup.setVisible(true);
+        }
+    }
+
     public void hideAndDestroyScenarioFragment() {
         gameLayers.setStoryDecisionsLayer(null);
         scenarioFragment = null;
@@ -383,6 +424,15 @@ public class GameScreen implements Screen {
     public void onCriticalError(Throwable e) {
         game.onCriticalError(e);
         dispose();
+    }
+
+    public void setLastBackground(String file) {
+
+        Image image = new Image();
+        image.name = file;
+        image.file = file;
+
+        setLastBackground(image);
     }
 
     public void setLastBackground(Image image) {

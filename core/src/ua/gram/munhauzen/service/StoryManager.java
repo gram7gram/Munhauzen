@@ -148,11 +148,11 @@ public class StoryManager {
 
             final StoryImage optionImage = option.currentImage;
             if (optionImage != null) {
-                gameScreen.externalImageService.prepare(optionImage, new Timer.Task() {
+                gameScreen.imageService.prepare(optionImage, new Timer.Task() {
                     @Override
                     public void run() {
                         try {
-                            gameScreen.externalImageService.onPrepared(optionImage);
+                            gameScreen.imageService.onPrepared(optionImage);
                         } catch (Throwable e) {
                             Log.e(tag, e);
 
@@ -162,7 +162,7 @@ public class StoryManager {
                 });
 
                 if (optionImage.next != null) {
-                    gameScreen.externalImageService.prepare(optionImage.next, new Timer.Task() {
+                    gameScreen.imageService.prepare(optionImage.next, new Timer.Task() {
                         @Override
                         public void run() {
 
@@ -340,9 +340,9 @@ public class StoryManager {
 
                     String resource = ExternalFiles.getExpansionImage(image).path();
 
-                    if (gameScreen.externalImageService.assetManager.isLoaded(resource, Texture.class)) {
-                        if (gameScreen.externalImageService.assetManager.getReferenceCount(resource) == 0) {
-                            gameScreen.externalImageService.assetManager.unload(resource);
+                    if (gameScreen.imageService.assetManager.isLoaded(resource, Texture.class)) {
+                        if (gameScreen.imageService.assetManager.getReferenceCount(resource) == 0) {
+                            gameScreen.imageService.assetManager.unload(resource);
                         }
                     }
                 } catch (Throwable e) {

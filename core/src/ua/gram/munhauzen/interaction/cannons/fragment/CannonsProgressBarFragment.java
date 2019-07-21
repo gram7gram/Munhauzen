@@ -178,7 +178,7 @@ public class CannonsProgressBarFragment extends Fragment {
 
                     Log.i(tag, "pauseButton clicked");
 
-                    gameScreen.audioService.stop();
+                    gameScreen.audioService.pause();
 
                     GameState.pause();
 
@@ -200,7 +200,7 @@ public class CannonsProgressBarFragment extends Fragment {
 
                     Log.i(tag, "rewindBackButton enter");
 
-                    gameScreen.audioService.stop();
+                    gameScreen.audioService.pause();
 
                     cancelFadeOut();
 
@@ -274,7 +274,7 @@ public class CannonsProgressBarFragment extends Fragment {
                 try {
                     Log.i(tag, "rewindForwardButton enter");
 
-                    gameScreen.audioService.stop();
+                    gameScreen.audioService.pause();
 
                     cancelFadeOut();
 
@@ -326,7 +326,7 @@ public class CannonsProgressBarFragment extends Fragment {
             private void scrollTo(float percent) {
 
                 try {
-                    gameScreen.audioService.stop();
+                    gameScreen.audioService.pause();
 
                     CannonsStory story = interaction.storyManager.story;
 

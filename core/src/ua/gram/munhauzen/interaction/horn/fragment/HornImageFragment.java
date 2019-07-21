@@ -86,7 +86,8 @@ public class HornImageFragment extends Fragment {
         root.addActor(btnTable);
 
         setHornBackground(
-                interaction.assetManager.get("horn/int_horn_horn.png", Texture.class)
+                interaction.assetManager.get("horn/int_horn_horn.png", Texture.class),
+                "horn/int_horn_horn.png"
         );
 
         setNote1Background(
@@ -178,7 +179,7 @@ public class HornImageFragment extends Fragment {
         return root;
     }
 
-    public void setHornBackground(Texture texture) {
+    public void setHornBackground(Texture texture, String file) {
 
         horn.setDrawable(new SpriteDrawable(new Sprite(texture)));
 
@@ -189,6 +190,8 @@ public class HornImageFragment extends Fragment {
         hornTable.getCell(horn)
                 .width(width)
                 .height(hornHeight);
+
+        interaction.gameScreen.setLastBackground(file);
     }
 
     public void setNote1Background(Texture texture) {

@@ -27,9 +27,11 @@ public class CannonsImageService extends InteractionImageService {
         Log.i(tag, "displayImage " + getResource(item));
 
         CannonsStory story = interaction.storyManager.story;
-        for (CannonsStoryScenario scenarioOption : story.scenarios) {
-            for (StoryImage image : scenarioOption.scenario.images) {
-                image.isActive = false;
+        if (story != null) {
+            for (CannonsStoryScenario scenarioOption : story.scenarios) {
+                for (StoryImage image : scenarioOption.scenario.images) {
+                    image.isActive = false;
+                }
             }
         }
 

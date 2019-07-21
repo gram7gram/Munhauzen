@@ -41,6 +41,25 @@ public abstract class ImageService implements Disposable {
 
     public abstract String getResource(StoryImage item);
 
+    public void prepareAndDisplayLast() {
+
+        final StoryImage lastImage = new StoryImage();
+        lastImage.image = ImageRepository.LAST;
+
+        prepare(lastImage, new Timer.Task() {
+            @Override
+            public void run() {
+                try {
+                    onPrepared(lastImage);
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+
+                    gameScreen.onCriticalError(e);
+                }
+            }
+        });
+    }
+
     public void prepare(StoryImage item, Timer.Task onComplete) {
         if (item.isPrepared && item.drawable != null) {
             if (item.isLocked && !item.isActive) {
@@ -54,19 +73,16 @@ public abstract class ImageService implements Disposable {
 
         boolean isLoaded = assetManager.isLoaded(resource, Texture.class);
 
-        if (!item.isPreparing) {
+        if (!isLoaded) {
+            if (!item.isPreparing) {
 
-            if (!isLoaded) {
                 item.isPreparing = true;
                 item.prepareStartedAt = new Date();
 
                 assetManager.load(resource, Texture.class);
-                return;
             }
 
-        }
-
-        if (isLoaded) {
+        } else {
 
             item.isPreparing = false;
             item.isPrepared = true;
@@ -80,19 +96,21 @@ public abstract class ImageService implements Disposable {
 
     public void onPrepared(StoryImage item) {
 
-        if (!item.isLocked) return;
         if (item.isActive) return;
 
-        Log.i(tag, "onPrepared " + getResource(item)
-                + " in " + DateUtils.getDateDiff(item.prepareCompletedAt, item.prepareStartedAt, TimeUnit.MILLISECONDS) + "ms");
+        long diff = DateUtils.getDateDiff(item.prepareCompletedAt, item.prepareStartedAt, TimeUnit.MILLISECONDS);
 
         item.prepareCompletedAt = null;
         item.prepareStartedAt = null;
 
+        Log.i(tag, "onPrepared " + getResource(item) + " in " + diff + "ms");
+
         Story story = gameScreen.getStory();
-        for (StoryScenario scenarioOption : story.scenarios) {
-            for (StoryImage image : scenarioOption.scenario.images) {
-                image.isActive = false;
+        if (story != null) {
+            for (StoryScenario scenarioOption : story.scenarios) {
+                for (StoryImage image : scenarioOption.scenario.images) {
+                    image.isActive = false;
+                }
             }
         }
 
@@ -106,6 +124,8 @@ public abstract class ImageService implements Disposable {
         Log.i(tag, "displayImage " + getResource(item));
 
         item.isActive = true;
+
+        gameScreen.showImageFragment();
 
         Transition transition;
 
@@ -121,6 +141,27 @@ public abstract class ImageService implements Disposable {
     public void update() {
 
         assetManager.update();
+
+        Story story = gameScreen.getStory();
+        if (story != null) {
+            for (StoryScenario scenario : story.scenarios) {
+                if (story.progress < scenario.finishesAt) {
+                    if (scenario.scenario.images != null && scenario.scenario.images.size > 0) {
+                        for (StoryImage storyImage : scenario.scenario.images) {
+                            if (storyImage.startsAt <= story.progress && story.progress < storyImage.finishesAt) {
+                                if (!ImageRepository.LAST.equals(storyImage.image)) {
+
+                                    Image image = ImageRepository.find(gameScreen.game.gameState, storyImage.image);
+
+                                    gameScreen.setLastBackground(image);
+                                }
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
     }
 
     public void saveCurrentBackground(StoryImage item) {

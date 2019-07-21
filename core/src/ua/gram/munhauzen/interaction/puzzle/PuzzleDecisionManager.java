@@ -30,6 +30,8 @@ public class PuzzleDecisionManager {
     public final PuzzleInteraction interaction;
     public final HashSet<String> items;
     public ActivePuzzleItem activeStick, activeSpoon, activeShoes, activePeas, activeKey, activeHair, activeClocks, activeArrows, activePowder, activeRope;
+    StoryAudio bombAudio, crowAudio, clockAudio, rodAudio, destroyAudio;
+    Timer.Task bombTask, crowTask, clockTask, rodTask1, rodTask2, destroyTask;
 
     public PuzzleDecisionManager(PuzzleInteraction interaction) {
         this.interaction = interaction;
@@ -278,35 +280,33 @@ public class PuzzleDecisionManager {
 
         InventoryService inventoryService = interaction.gameScreen.game.inventoryService;
 
-        Inventory inventoryCrow = InventoryRepository.find(interaction.gameScreen.game.gameState, "CROW");
-
-        String soundName;
-        if (!inventoryService.isInInventory(inventoryCrow)) {
-
-            soundName = MathUtils.random(new String[]{
-                    "s15broken_1", "s15broken_2", "s15broken_3", "s15broken_4", "s15broken_5"
-            });
-        } else {
-
-            soundName = MathUtils.random(new String[]{
-                    "s15crow_1", "s15crow_2", "s15crow_3", "s15crow_4", "s15crow_5"
-            });
-        }
-
         try {
-            final StoryAudio storyAudio = new StoryAudio();
-            storyAudio.audio = soundName;
+            Inventory inventoryCrow = InventoryRepository.find(interaction.gameScreen.game.gameState, "CROW");
 
-            interaction.gameScreen.audioService.prepareAndPlay(storyAudio);
+            String soundName;
+            if (!inventoryService.isInInventory(inventoryCrow)) {
 
-            Log.i(tag, "started random audio " + storyAudio.duration + "ms");
+                soundName = MathUtils.random(new String[]{
+                        "s15broken_1", "s15broken_2", "s15broken_3", "s15broken_4", "s15broken_5"
+                });
+            } else {
 
-            Timer.instance().scheduleTask(new Timer.Task() {
+                soundName = MathUtils.random(new String[]{
+                        "s15crow_1", "s15crow_2", "s15crow_3", "s15crow_4", "s15crow_5"
+                });
+            }
+
+            destroyAudio = new StoryAudio();
+            destroyAudio.audio = soundName;
+
+            interaction.gameScreen.audioService.prepareAndPlay(destroyAudio);
+
+            destroyTask = Timer.instance().scheduleTask(new Timer.Task() {
                 @Override
                 public void run() {
                     reset();
                 }
-            }, storyAudio.duration / 1000f);
+            }, destroyAudio.duration / 1000f);
 
         } catch (Throwable e) {
             Log.e(tag, e);
@@ -476,50 +476,57 @@ public class PuzzleDecisionManager {
 
         animateCombination();
 
-        final StoryAudio storyAudio = new StoryAudio();
-        storyAudio.audio = "s15_1_d";
+        try {
+            rodAudio = new StoryAudio();
+            rodAudio.audio = "s15_1_d";
 
-        interaction.gameScreen.audioService.prepareAndPlay(storyAudio);
+            interaction.gameScreen.audioService.prepareAndPlay(rodAudio);
 
-        interaction.assetManager.load("puzzle/pbear_fin.jpg", Texture.class);
+            interaction.assetManager.load("puzzle/pbear_fin.jpg", Texture.class);
 
-        Timer.instance().scheduleTask(new Timer.Task() {
-            @Override
-            public void run() {
-                try {
+            rodTask1 = Timer.instance().scheduleTask(new Timer.Task() {
+                @Override
+                public void run() {
+                    try {
 
-                    Texture back = interaction.assetManager.get("puzzle/pbear_fin.jpg", Texture.class);
+                        interaction.imageFragment.sourceGroup.addAction(Actions.alpha(0, .3f));
+                        interaction.imageFragment.resultGroup.addAction(Actions.alpha(0, .3f));
+                        interaction.imageFragment.resetButton.addAction(Actions.alpha(0, .3f));
 
-                    interaction.imageFragment.sourceGroup.addAction(Actions.alpha(0, .3f));
-                    interaction.imageFragment.resultGroup.addAction(Actions.alpha(0, .3f));
-                    interaction.imageFragment.resetButton.addAction(Actions.alpha(0, .3f));
+                        interaction.imageFragment.setBackground(
+                                interaction.assetManager.get("puzzle/pbear_fin.jpg", Texture.class),
+                                "puzzle/pbear_fin.jpg"
+                        );
 
-                    interaction.imageFragment.setBackground(back);
-
-                } catch (Throwable e) {
-                    Log.e(tag, e);
+                    } catch (Throwable e) {
+                        Log.e(tag, e);
+                    }
                 }
-            }
-        }, 10);
+            }, 10);
 
-        Timer.instance().scheduleTask(new Timer.Task() {
-            @Override
-            public void run() {
-                try {
-                    interaction.gameScreen.interactionService.complete();
+            rodTask2 = Timer.instance().scheduleTask(new Timer.Task() {
+                @Override
+                public void run() {
+                    try {
+                        interaction.gameScreen.interactionService.complete();
 
-                    interaction.gameScreen.interactionService.findStoryAfterInteraction();
+                        interaction.gameScreen.interactionService.findStoryAfterInteraction();
 
-                    interaction.gameScreen.restoreProgressBarIfDestroyed();
-                } catch (Throwable e) {
-                    Log.e(tag, e);
+                        interaction.gameScreen.restoreProgressBarIfDestroyed();
+                    } catch (Throwable e) {
+                        Log.e(tag, e);
 
-                    interaction.gameScreen.onCriticalError(e);
+                        interaction.gameScreen.onCriticalError(e);
+                    }
                 }
-            }
-        }, storyAudio.duration / 1000f);
+            }, rodAudio.duration / 1000f);
 
-        interaction.assetManager.finishLoading();
+            interaction.assetManager.finishLoading();
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            interaction.gameScreen.onCriticalError(e);
+        }
     }
 
     private void onClockCombination(Timer.Task onComplete) {
@@ -540,15 +547,17 @@ public class PuzzleDecisionManager {
                 soundName = "s15_1_a";
             }
 
-            final StoryAudio storyAudio = new StoryAudio();
-            storyAudio.audio = soundName;
+            clockAudio = new StoryAudio();
+            clockAudio.audio = soundName;
 
-            interaction.gameScreen.audioService.prepareAndPlay(storyAudio);
+            interaction.gameScreen.audioService.prepareAndPlay(clockAudio);
 
-            Timer.instance().scheduleTask(onComplete, storyAudio.duration / 1000f);
+            clockTask = Timer.instance().scheduleTask(onComplete, clockAudio.duration / 1000f);
 
         } catch (Throwable e) {
             Log.e(tag, e);
+
+            interaction.gameScreen.onCriticalError(e);
         }
     }
 
@@ -559,15 +568,17 @@ public class PuzzleDecisionManager {
         try {
             Log.i(tag, "onCrowCombination");
 
-            final StoryAudio storyAudio = new StoryAudio();
-            storyAudio.audio = "s15_1_b";
+            crowAudio = new StoryAudio();
+            crowAudio.audio = "s15_1_b";
 
-            interaction.gameScreen.audioService.prepareAndPlay(storyAudio);
+            interaction.gameScreen.audioService.prepareAndPlay(crowAudio);
 
-            Timer.instance().scheduleTask(onComplete, storyAudio.duration / 1000f);
+            crowTask = Timer.instance().scheduleTask(onComplete, crowAudio.duration / 1000f);
 
         } catch (Throwable e) {
             Log.e(tag, e);
+
+            interaction.gameScreen.onCriticalError(e);
         }
     }
 
@@ -589,15 +600,17 @@ public class PuzzleDecisionManager {
                 soundName = "s15_1_с";
             }
 
-            final StoryAudio storyAudio = new StoryAudio();
-            storyAudio.audio = soundName;
+            bombAudio = new StoryAudio();
+            bombAudio.audio = soundName;
 
-            interaction.gameScreen.audioService.prepareAndPlay(storyAudio);
+            interaction.gameScreen.audioService.prepareAndPlay(bombAudio);
 
-            Timer.instance().scheduleTask(onComplete, storyAudio.duration / 1000f);
+            bombTask = Timer.instance().scheduleTask(onComplete, bombAudio.duration / 1000f);
 
         } catch (Throwable e) {
             Log.e(tag, e);
+
+            interaction.gameScreen.onCriticalError(e);
         }
     }
 
@@ -608,6 +621,8 @@ public class PuzzleDecisionManager {
             interaction.imageFragment.root.setTouchable(Touchable.enabled);
 
             items.clear();
+
+            dispose();
 
             cleanup();
 
@@ -646,6 +661,78 @@ public class PuzzleDecisionManager {
                 Actions.moveBy(0, 40, .3f),
                 Actions.moveBy(0, -40, .3f)
         ));
+    }
+
+    public void update() {
+
+        if (bombAudio != null) {
+            interaction.gameScreen.audioService.updateVolume(bombAudio);
+        }
+
+        if (crowAudio != null) {
+            interaction.gameScreen.audioService.updateVolume(crowAudio);
+        }
+
+        if (rodAudio != null) {
+            interaction.gameScreen.audioService.updateVolume(rodAudio);
+        }
+
+        if (destroyAudio != null) {
+            interaction.gameScreen.audioService.updateVolume(destroyAudio);
+        }
+    }
+
+    public void dispose() {
+        Log.i(tag, "dispose");
+
+        if (destroyTask != null) {
+            destroyTask.cancel();
+            destroyTask = null;
+        }
+        if (bombTask != null) {
+            bombTask.cancel();
+            bombTask = null;
+        }
+
+        if (crowTask != null) {
+            crowTask.cancel();
+            crowTask = null;
+        }
+
+        if (clockTask != null) {
+            clockTask.cancel();
+            clockTask = null;
+        }
+
+        if (rodTask1 != null) {
+            rodTask1.cancel();
+            rodTask1 = null;
+        }
+
+        if (rodTask2 != null) {
+            rodTask2.cancel();
+            rodTask2 = null;
+        }
+
+        if (destroyAudio != null) {
+            interaction.gameScreen.audioService.stop(destroyAudio);
+            destroyAudio = null;
+        }
+
+        if (bombAudio != null) {
+            interaction.gameScreen.audioService.stop(bombAudio);
+            rodAudio = null;
+        }
+
+        if (crowAudio != null) {
+            interaction.gameScreen.audioService.stop(crowAudio);
+            rodAudio = null;
+        }
+
+        if (rodAudio != null) {
+            interaction.gameScreen.audioService.stop(rodAudio);
+            rodAudio = null;
+        }
     }
 
     public abstract class ActivePuzzleItem extends FitImage {

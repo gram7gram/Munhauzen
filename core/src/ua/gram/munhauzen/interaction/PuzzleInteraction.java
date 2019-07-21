@@ -70,11 +70,19 @@ public class PuzzleInteraction extends AbstractInteraction {
         if (imageFragment != null) {
             imageFragment.update();
         }
+
+        if (decisionManager != null) {
+            decisionManager.update();
+        }
     }
 
     @Override
     public void dispose() {
         super.dispose();
+
+        if (decisionManager != null) {
+            decisionManager.dispose();
+        }
 
         isLoaded = false;
 

@@ -31,7 +31,7 @@ public class BalloonsInteraction extends AbstractInteraction {
         assetManager.load("LoadingScreen/lv_cloud_1.png", Texture.class);
         assetManager.load("LoadingScreen/lv_cloud_2.png", Texture.class);
         assetManager.load("LoadingScreen/lv_cloud_3.png", Texture.class);
-        assetManager.load("balloons/ducks_sheet_1x5.png", Texture.class);
+        assetManager.load("balloons/ducks_sheet_1x6.png", Texture.class);
         assetManager.load("balloons/inter_balloons_1.png", Texture.class);
         assetManager.load("balloons/inter_balloons_2.png", Texture.class);
         assetManager.load("balloons/inter_balloons_3.png", Texture.class);

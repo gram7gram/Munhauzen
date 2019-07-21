@@ -59,6 +59,7 @@ public class InteractionService {
             gameScreen.hideAndDestroyScenarioFragment();
 
             interaction.interaction.start();
+
         } catch (Throwable e) {
             Log.e(tag, e);
 

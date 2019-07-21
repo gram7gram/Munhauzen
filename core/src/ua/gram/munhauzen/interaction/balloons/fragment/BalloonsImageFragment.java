@@ -57,11 +57,10 @@ public class BalloonsImageFragment extends Fragment {
 
         Log.i(tag, "create");
 
-        final Texture backTex = interaction.assetManager.get("balloons/inter_balloons_fond.jpg", Texture.class);
         Texture cloud1Texture = interaction.assetManager.get("LoadingScreen/lv_cloud_1.png", Texture.class);
         Texture cloud2Texture = interaction.assetManager.get("LoadingScreen/lv_cloud_2.png", Texture.class);
         Texture cloud3Texture = interaction.assetManager.get("LoadingScreen/lv_cloud_3.png", Texture.class);
-        Texture ducksTexture = interaction.assetManager.get("balloons/ducks_sheet_1x5.png", Texture.class);
+        Texture ducksTexture = interaction.assetManager.get("balloons/ducks_sheet_1x6.png", Texture.class);
         final Texture bal1Texture = interaction.assetManager.get("balloons/inter_balloons_1.png", Texture.class);
         Texture bal2Texture = interaction.assetManager.get("balloons/inter_balloons_2.png", Texture.class);
         Texture bal3Texture = interaction.assetManager.get("balloons/inter_balloons_3.png", Texture.class);
@@ -121,7 +120,7 @@ public class BalloonsImageFragment extends Fragment {
         cloud2.start();
         cloud3.start();
 
-        background = new FitImage(backTex);
+        background = new FitImage();
 
         resetButton = interaction.gameScreen.game.buttonBuilder.primary("Retry", new ClickListener() {
             @Override
@@ -187,7 +186,10 @@ public class BalloonsImageFragment extends Fragment {
                 .height(MunhauzenGame.WORLD_HEIGHT / 12f)
                 .row();
 
-        setBackground(backTex);
+        setBackground(
+                interaction.assetManager.get("balloons/inter_balloons_fond.jpg", Texture.class),
+                "balloons/inter_balloons_fond.jpg"
+        );
 
         root = new Group();
         root.setTouchable(Touchable.childrenOnly);
@@ -503,7 +505,7 @@ public class BalloonsImageFragment extends Fragment {
         return root;
     }
 
-    public void setBackground(Texture texture) {
+    public void setBackground(Texture texture, String file) {
 
         interaction.gameScreen.hideImageFragment();
 
@@ -520,6 +522,8 @@ public class BalloonsImageFragment extends Fragment {
         backgroundTable.getCell(background)
                 .width(MunhauzenGame.WORLD_WIDTH)
                 .height(height);
+
+        interaction.gameScreen.setLastBackground(file);
     }
 
     public void update() {

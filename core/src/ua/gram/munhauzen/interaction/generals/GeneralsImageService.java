@@ -27,9 +27,11 @@ public class GeneralsImageService extends InteractionImageService {
         Log.i(tag, "displayImage " + getResource(item));
 
         GeneralsStory story = interaction.storyManager.generalsStory;
-        for (GeneralsStoryScenario scenarioOption : story.scenarios) {
-            for (StoryImage image : scenarioOption.scenario.images) {
-                image.isActive = false;
+        if (story != null) {
+            for (GeneralsStoryScenario scenarioOption : story.scenarios) {
+                for (StoryImage image : scenarioOption.scenario.images) {
+                    image.isActive = false;
+                }
             }
         }
 

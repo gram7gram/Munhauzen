@@ -307,7 +307,8 @@ public class ServantsHireImageFragment extends Fragment {
         interaction.assetManager.finishLoading();
 
         setBackground(
-                interaction.assetManager.get(res, Texture.class)
+                interaction.assetManager.get(res, Texture.class),
+                res
         );
 
         hireDialog.create("CARPETENER");
@@ -331,7 +332,8 @@ public class ServantsHireImageFragment extends Fragment {
         interaction.assetManager.finishLoading();
 
         setBackground(
-                interaction.assetManager.get(res, Texture.class)
+                interaction.assetManager.get(res, Texture.class),
+                res
         );
 
         hireDialog.create("BLOWER");
@@ -355,7 +357,8 @@ public class ServantsHireImageFragment extends Fragment {
         interaction.assetManager.finishLoading();
 
         setBackground(
-                interaction.assetManager.get(res, Texture.class)
+                interaction.assetManager.get(res, Texture.class),
+                res
         );
 
         hireDialog.create("SHOOTER");
@@ -380,7 +383,8 @@ public class ServantsHireImageFragment extends Fragment {
         interaction.assetManager.finishLoading();
 
         setBackground(
-                interaction.assetManager.get(res, Texture.class)
+                interaction.assetManager.get(res, Texture.class),
+                res
         );
 
         hireDialog.create("LISTENER");
@@ -405,7 +409,8 @@ public class ServantsHireImageFragment extends Fragment {
         interaction.assetManager.finishLoading();
 
         setBackground(
-                interaction.assetManager.get(res, Texture.class)
+                interaction.assetManager.get(res, Texture.class),
+                res
         );
 
         hireDialog.create("VASILIY");
@@ -430,7 +435,8 @@ public class ServantsHireImageFragment extends Fragment {
         interaction.assetManager.finishLoading();
 
         setBackground(
-                interaction.assetManager.get(res, Texture.class)
+                interaction.assetManager.get(res, Texture.class),
+                res
         );
 
         hireDialog.create("RUNNER");
@@ -455,7 +461,8 @@ public class ServantsHireImageFragment extends Fragment {
         interaction.assetManager.finishLoading();
 
         setBackground(
-                interaction.assetManager.get(res, Texture.class)
+                interaction.assetManager.get(res, Texture.class),
+                res
         );
 
 
@@ -480,7 +487,8 @@ public class ServantsHireImageFragment extends Fragment {
         interaction.assetManager.finishLoading();
 
         setBackground(
-                interaction.assetManager.get(res, Texture.class)
+                interaction.assetManager.get(res, Texture.class),
+                res
         );
 
         hireDialog.create("JOKER");
@@ -505,7 +513,8 @@ public class ServantsHireImageFragment extends Fragment {
         interaction.assetManager.finishLoading();
 
         setBackground(
-                interaction.assetManager.get(res, Texture.class)
+                interaction.assetManager.get(res, Texture.class),
+                res
         );
 
         hireDialog.create("USURER");
@@ -530,7 +539,8 @@ public class ServantsHireImageFragment extends Fragment {
         interaction.assetManager.finishLoading();
 
         setBackground(
-                interaction.assetManager.get(res, Texture.class)
+                interaction.assetManager.get(res, Texture.class),
+                res
         );
 
         hireDialog.create("GIGANT");
@@ -590,7 +600,7 @@ public class ServantsHireImageFragment extends Fragment {
         return root;
     }
 
-    public void setBackground(Texture texture) {
+    public void setBackground(Texture texture, String file) {
 
         background.setDrawable(new SpriteDrawable(new Sprite(texture)));
 
@@ -650,6 +660,8 @@ public class ServantsHireImageFragment extends Fragment {
                     .width(width)
                     .height(height);
         }
+
+        interaction.gameScreen.setLastBackground(file);
     }
 
     @Override

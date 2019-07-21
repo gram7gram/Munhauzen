@@ -28,9 +28,11 @@ public class WauImageService extends InteractionImageService {
         gameScreen.hideImageFragment();
 
         WauStory story = interaction.storyManager.story;
-        for (WauStoryScenario scenarioOption : story.scenarios) {
-            for (StoryImage image : scenarioOption.scenario.images) {
-                image.isActive = false;
+        if (story != null) {
+            for (WauStoryScenario scenarioOption : story.scenarios) {
+                for (StoryImage image : scenarioOption.scenario.images) {
+                    image.isActive = false;
+                }
             }
         }
 

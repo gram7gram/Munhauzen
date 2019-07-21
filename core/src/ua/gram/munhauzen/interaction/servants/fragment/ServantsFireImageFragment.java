@@ -191,7 +191,8 @@ public class ServantsFireImageFragment extends Fragment {
         root.setName(tag);
 
         setBackground(
-                interaction.assetManager.get("servants/inter_servants_fond.jpg", Texture.class)
+                interaction.assetManager.get("servants/inter_servants_fond.jpg", Texture.class),
+                "servants/inter_servants_fond.jpg"
         );
 
         showHiredServants();
@@ -365,7 +366,7 @@ public class ServantsFireImageFragment extends Fragment {
         }
     }
 
-    public void setBackground(Texture texture) {
+    public void setBackground(Texture texture, String file) {
 
         background.setDrawable(new SpriteDrawable(new Sprite(texture)));
 
@@ -406,6 +407,7 @@ public class ServantsFireImageFragment extends Fragment {
                 .width(backgroundWidth)
                 .height(backgroundHeight);
 
+        interaction.gameScreen.setLastBackground(file);
     }
 
     public void toggleFireDialog() {

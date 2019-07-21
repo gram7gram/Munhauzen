@@ -41,7 +41,7 @@ public class HareInteraction extends AbstractInteraction {
         assetManager.load("LoadingScreen/lv_cloud_1.png", Texture.class);
         assetManager.load("LoadingScreen/lv_cloud_2.png", Texture.class);
         assetManager.load("LoadingScreen/lv_cloud_3.png", Texture.class);
-        assetManager.load("hare/ducks_sheet_1x5.png", Texture.class);
+        assetManager.load("hare/ducks_sheet_1x6.png", Texture.class);
         assetManager.load("hare/hare_sheet_4x1.png", Texture.class);
         assetManager.load("hare/horse_sheet_5x1.png", Texture.class);
         assetManager.load("hare/inter_hare_ground.png", Texture.class);

@@ -77,7 +77,8 @@ public class LionsImageFragment extends Fragment {
         root.addActor(btnTable);
 
         setBackground(
-                interaction.assetManager.get("lions/int_lions_fond.jpg", Texture.class)
+                interaction.assetManager.get("lions/int_lions_fond.jpg", Texture.class),
+                "lions/int_lions_fond.jpg"
         );
 
         start();
@@ -313,7 +314,7 @@ public class LionsImageFragment extends Fragment {
         return root;
     }
 
-    public void setBackground(Texture texture) {
+    public void setBackground(Texture texture, String file) {
 
         background.setDrawable(new SpriteDrawable(new Sprite(texture)));
 
@@ -324,6 +325,8 @@ public class LionsImageFragment extends Fragment {
         backgroundTable.getCell(background)
                 .width(width)
                 .height(height);
+
+        interaction.gameScreen.setLastBackground(file);
     }
 
     private void stopSteady() {

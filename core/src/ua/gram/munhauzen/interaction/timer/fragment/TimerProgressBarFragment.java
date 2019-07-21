@@ -158,7 +158,7 @@ public class TimerProgressBarFragment extends Fragment {
 
                     Log.i(tag, "pauseButton clicked");
 
-                    gameScreen.audioService.stop();
+                    gameScreen.audioService.pause();
 
                     GameState.pause();
 
@@ -180,7 +180,7 @@ public class TimerProgressBarFragment extends Fragment {
 
                     Log.i(tag, "rewindBackButton enter");
 
-                    gameScreen.audioService.stop();
+                    gameScreen.audioService.pause();
 
                     cancelFadeOut();
 
@@ -254,7 +254,7 @@ public class TimerProgressBarFragment extends Fragment {
                 try {
                     Log.i(tag, "rewindForwardButton enter");
 
-                    gameScreen.audioService.stop();
+                    gameScreen.audioService.pause();
 
                     cancelFadeOut();
 
@@ -307,7 +307,7 @@ public class TimerProgressBarFragment extends Fragment {
             private void scrollTo(float percent) {
 
                 try {
-                    gameScreen.audioService.stop();
+                    gameScreen.audioService.pause();
 
                     TimerStory story = interaction.storyManager.timerStory;
 

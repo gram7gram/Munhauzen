@@ -44,6 +44,7 @@ public class ContinueInteraction extends AbstractInteraction {
 
         assetManager.load("continue/btn_enabled.png", Texture.class);
         assetManager.load("continue/btn_disabled.png", Texture.class);
+
     }
 
     private void onResourcesLoaded() {
@@ -79,6 +80,8 @@ public class ContinueInteraction extends AbstractInteraction {
         );
 
         GameState.pause();
+
+        gameScreen.imageService.prepareAndDisplayLast();
 
     }
 

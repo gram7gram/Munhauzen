@@ -38,7 +38,7 @@ public class HareImageFragment extends Fragment {
         Texture cloud1Texture = interaction.assetManager.get("LoadingScreen/lv_cloud_1.png", Texture.class);
         Texture cloud2Texture = interaction.assetManager.get("LoadingScreen/lv_cloud_2.png", Texture.class);
         Texture cloud3Texture = interaction.assetManager.get("LoadingScreen/lv_cloud_3.png", Texture.class);
-        Texture ducksTexture = interaction.assetManager.get("hare/ducks_sheet_1x5.png", Texture.class);
+        Texture ducksTexture = interaction.assetManager.get("hare/ducks_sheet_1x6.png", Texture.class);
         Texture groundTexture = interaction.assetManager.get("hare/inter_hare_ground.png", Texture.class);
         Texture hareTexture = interaction.assetManager.get("hare/hare_sheet_4x1.png", Texture.class);
         Texture horseTexture = interaction.assetManager.get("hare/horse_sheet_5x1.png", Texture.class);
@@ -126,10 +126,10 @@ public class HareImageFragment extends Fragment {
                 if (story.progress > 30000) {
 
                     if (!backgroundTable.isVisible()) {
-
-                        Texture back = interaction.assetManager.get("hare/p18_d.jpg", Texture.class);
-
-                        setBackground(back);
+                        setBackground(
+                                interaction.assetManager.get("hare/p18_d.jpg", Texture.class),
+                                "hare/p18_d.jpg"
+                        );
                     }
 
                 } else {
@@ -143,10 +143,9 @@ public class HareImageFragment extends Fragment {
 
     }
 
-    public void setBackground(Texture texture) {
+    public void setBackground(Texture texture, String file) {
 
-        interaction.gameScreen.imageFragment.layer1ImageGroup.setVisible(false);
-        interaction.gameScreen.imageFragment.layer2ImageGroup.setVisible(false);
+        interaction.gameScreen.hideImageFragment();
 
         items.setVisible(false);
         backgroundTable.setVisible(true);
@@ -159,6 +158,8 @@ public class HareImageFragment extends Fragment {
         backgroundTable.getCell(background)
                 .width(MunhauzenGame.WORLD_WIDTH)
                 .height(height);
+
+        interaction.gameScreen.setLastBackground(file);
     }
 
     @Override

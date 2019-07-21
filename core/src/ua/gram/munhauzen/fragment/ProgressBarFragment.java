@@ -1,6 +1,5 @@
 package ua.gram.munhauzen.fragment;
 
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
@@ -39,7 +38,6 @@ public class ProgressBarFragment extends Fragment {
 
     public final String tag = getClass().getSimpleName();
     public final GameScreen gameScreen;
-    public final AssetManager assetManager;
 
     public ProgressBar bar;
     public Table root;
@@ -52,41 +50,17 @@ public class ProgressBarFragment extends Fragment {
 
     public ProgressBarFragment(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
-        assetManager = new AssetManager();
     }
 
     public void create() {
 
         Log.i(tag, "create");
 
-        assetManager.load("ui/playbar_pause.png", Texture.class);
-        assetManager.load("ui/playbar_play.png", Texture.class);
-
-        assetManager.load("ui/playbar_rewind_backward.png", Texture.class);
-        assetManager.load("ui/playbar_rewind_backward_off.png", Texture.class);
-
-        assetManager.load("ui/playbar_rewind_forward.png", Texture.class);
-        assetManager.load("ui/playbar_rewind_forward_off.png", Texture.class);
-
-        assetManager.load("ui/playbar_skip_backward.png", Texture.class);
-        assetManager.load("ui/playbar_skip_backward_off.png", Texture.class);
-
-        assetManager.load("ui/playbar_skip_forward.png", Texture.class);
-        assetManager.load("ui/playbar_skip_forward_off.png", Texture.class);
-
-        assetManager.load("ui/elements_player_fond_1.png", Texture.class);
-        assetManager.load("ui/elements_player_fond_2.png", Texture.class);
-        assetManager.load("ui/elements_player_fond_3.png", Texture.class);
-        assetManager.load("ui/player_progress_bar_progress.9.jpg", Texture.class);
-        assetManager.load("ui/player_progress_bar_knob.png", Texture.class);
-
-        assetManager.finishLoading();
-
-        Texture line = assetManager.get("ui/player_progress_bar_progress.9.jpg", Texture.class);
-        Texture knob = assetManager.get("ui/player_progress_bar_knob.png", Texture.class);
-        Texture backTexture = assetManager.get("ui/elements_player_fond_1.png", Texture.class);
-        Texture sideTexture = assetManager.get("ui/elements_player_fond_3.png", Texture.class);
-        Texture centerTexture = assetManager.get("ui/elements_player_fond_2.png", Texture.class);
+        Texture line = gameScreen.assetManager.get("ui/player_progress_bar_progress.9.jpg", Texture.class);
+        Texture knob = gameScreen.assetManager.get("ui/player_progress_bar_knob.png", Texture.class);
+        Texture backTexture = gameScreen.assetManager.get("ui/elements_player_fond_1.png", Texture.class);
+        Texture sideTexture = gameScreen.assetManager.get("ui/elements_player_fond_3.png", Texture.class);
+        Texture centerTexture = gameScreen.assetManager.get("ui/elements_player_fond_2.png", Texture.class);
 
         Sprite knobSprite = new Sprite(knob);
 
@@ -166,8 +140,7 @@ public class ProgressBarFragment extends Fragment {
                 try {
                     Log.i(tag, "playButton clicked");
 
-                    if (canUnpause())
-                        GameState.unpause();
+                    GameState.unpause();
 
                     startCurrentMusicIfPaused();
 
@@ -186,7 +159,7 @@ public class ProgressBarFragment extends Fragment {
                 try {
                     Log.i(tag, "pauseButton clicked");
 
-                    gameScreen.audioService.stop();
+                    gameScreen.audioService.pause();
 
                     GameState.pause();
 
@@ -203,7 +176,7 @@ public class ProgressBarFragment extends Fragment {
                 super.enter(event, x, y, pointer, fromActor);
 
                 try {
-                    gameScreen.audioService.stop();
+                    gameScreen.audioService.pause();
 
                     cancelFadeOut();
 
@@ -238,8 +211,7 @@ public class ProgressBarFragment extends Fragment {
                 super.exit(event, x, y, pointer, toActor);
 
                 try {
-                    if (canUnpause())
-                        GameState.unpause();
+                    GameState.unpause();
 
                     startCurrentMusicIfPaused();
 
@@ -256,7 +228,9 @@ public class ProgressBarFragment extends Fragment {
                 super.enter(event, x, y, pointer, fromActor);
 
                 try {
-                    gameScreen.audioService.stop();
+                    gameScreen.audioService.pause();
+
+                    gameScreen.hideAndDestroyScenarioFragment();
 
                     cancelFadeOut();
 
@@ -282,8 +256,7 @@ public class ProgressBarFragment extends Fragment {
                 super.exit(event, x, y, pointer, toActor);
 
                 try {
-                    if (canUnpause())
-                        GameState.unpause();
+                    GameState.unpause();
 
                     startCurrentMusicIfPaused();
 
@@ -309,7 +282,7 @@ public class ProgressBarFragment extends Fragment {
 
                     destroyContinueInteraction();
 
-                    gameScreen.audioService.stop();
+                    gameScreen.audioService.pause();
 
                     gameScreen.hideAndDestroyScenarioFragment();
 
@@ -343,8 +316,7 @@ public class ProgressBarFragment extends Fragment {
                 try {
                     Log.i(tag, "rewindBackButton enter");
 
-                    if (canUnpause())
-                        GameState.unpause();
+                    GameState.unpause();
 
                     progressTask.cancel();
                     progressTask = null;
@@ -372,7 +344,9 @@ public class ProgressBarFragment extends Fragment {
 
                     cancelFadeOut();
 
-                    gameScreen.audioService.stop();
+                    gameScreen.audioService.pause();
+
+                    gameScreen.hideAndDestroyScenarioFragment();
 
                     progressTask = Timer.schedule(new Timer.Task() {
                         @Override
@@ -402,8 +376,7 @@ public class ProgressBarFragment extends Fragment {
                 try {
                     Log.i(tag, "rewindForwardButton exit");
 
-                    if (canUnpause())
-                        GameState.unpause();
+                    GameState.unpause();
 
                     progressTask.cancel();
                     progressTask = null;
@@ -422,7 +395,7 @@ public class ProgressBarFragment extends Fragment {
 
             private void scrollTo(float percent) {
                 try {
-                    gameScreen.audioService.stop();
+                    gameScreen.audioService.pause();
 
                     Story story = gameScreen.getStory();
                     story.progress = story.totalDuration * percent;
@@ -451,8 +424,7 @@ public class ProgressBarFragment extends Fragment {
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
                 try {
-                    if (canUnpause())
-                        GameState.unpause();
+                    GameState.unpause();
 
                     startCurrentMusicIfPaused();
 
@@ -572,6 +544,8 @@ public class ProgressBarFragment extends Fragment {
         if (story.currentInteraction != null) {
             if (story.currentInteraction.interaction instanceof ContinueInteraction) {
                 gameScreen.interactionService.destroy();
+
+                story.currentInteraction = null;
 
                 gameScreen.restoreProgressBarIfDestroyed();
             }
@@ -738,7 +712,6 @@ public class ProgressBarFragment extends Fragment {
     @Override
     public void dispose() {
         super.dispose();
-        assetManager.clear();
 
         cancelFadeOut();
         isFadeIn = false;
@@ -746,8 +719,8 @@ public class ProgressBarFragment extends Fragment {
     }
 
     private ImageButton getSkipBack() {
-        Texture skipBack = assetManager.get("ui/playbar_skip_backward.png", Texture.class);
-        Texture skipBackOff = assetManager.get("ui/playbar_skip_backward_off.png", Texture.class);
+        Texture skipBack = gameScreen.assetManager.get("ui/playbar_skip_backward.png", Texture.class);
+        Texture skipBackOff = gameScreen.assetManager.get("ui/playbar_skip_backward_off.png", Texture.class);
 
         ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
         style.up = new SpriteDrawable(new Sprite(skipBack));
@@ -758,8 +731,8 @@ public class ProgressBarFragment extends Fragment {
     }
 
     private ImageButton getRewindBack() {
-        Texture rewindBack = assetManager.get("ui/playbar_rewind_backward.png", Texture.class);
-        Texture rewindBackOff = assetManager.get("ui/playbar_rewind_backward_off.png", Texture.class);
+        Texture rewindBack = gameScreen.assetManager.get("ui/playbar_rewind_backward.png", Texture.class);
+        Texture rewindBackOff = gameScreen.assetManager.get("ui/playbar_rewind_backward_off.png", Texture.class);
 
         ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
         style.up = new SpriteDrawable(new Sprite(rewindBack));
@@ -770,8 +743,8 @@ public class ProgressBarFragment extends Fragment {
     }
 
     private ImageButton getRewindForward() {
-        Texture rewindForward = assetManager.get("ui/playbar_rewind_forward.png", Texture.class);
-        Texture rewindForwardOff = assetManager.get("ui/playbar_rewind_forward_off.png", Texture.class);
+        Texture rewindForward = gameScreen.assetManager.get("ui/playbar_rewind_forward.png", Texture.class);
+        Texture rewindForwardOff = gameScreen.assetManager.get("ui/playbar_rewind_forward_off.png", Texture.class);
 
         ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
         style.up = new SpriteDrawable(new Sprite(rewindForward));
@@ -782,8 +755,8 @@ public class ProgressBarFragment extends Fragment {
     }
 
     private ImageButton getSkipForward() {
-        Texture skipForward = assetManager.get("ui/playbar_skip_forward.png", Texture.class);
-        Texture skipForwardOff = assetManager.get("ui/playbar_skip_forward_off.png", Texture.class);
+        Texture skipForward = gameScreen.assetManager.get("ui/playbar_skip_forward.png", Texture.class);
+        Texture skipForwardOff = gameScreen.assetManager.get("ui/playbar_skip_forward_off.png", Texture.class);
 
         ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
         style.up = new SpriteDrawable(new Sprite(skipForward));
@@ -794,7 +767,7 @@ public class ProgressBarFragment extends Fragment {
     }
 
     private ImageButton getPause() {
-        Texture pause = assetManager.get("ui/playbar_pause.png", Texture.class);
+        Texture pause = gameScreen.assetManager.get("ui/playbar_pause.png", Texture.class);
 
         ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
         style.up = new SpriteDrawable(new Sprite(pause));
@@ -805,7 +778,7 @@ public class ProgressBarFragment extends Fragment {
     }
 
     private ImageButton getPlay() {
-        Texture play = assetManager.get("ui/playbar_play.png", Texture.class);
+        Texture play = gameScreen.assetManager.get("ui/playbar_play.png", Texture.class);
 
         ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
         style.up = new SpriteDrawable(new Sprite(play));
@@ -829,6 +802,8 @@ public class ProgressBarFragment extends Fragment {
 
                     if (canCompleteStory(story)) {
                         gameScreen.storyManager.onCompleted();
+                    } else {
+                        Log.e(tag, "complete story ignored");
                     }
 
                 }
@@ -841,10 +816,18 @@ public class ProgressBarFragment extends Fragment {
     private boolean canCompleteStory(Story story) {
         boolean isInteractionLocked = story.currentInteraction != null && story.currentInteraction.isLocked;
 
-        return !isInteractionLocked && (gameScreen.scenarioFragment == null || !gameScreen.scenarioFragment.storyId.equals(story.id));
-    }
+        if (isInteractionLocked) {
+            return false;
+        }
 
-    private boolean canUnpause() {
-        return true;//!gameScreen.getStory().isInteractionLocked();
+        if (gameScreen.scenarioFragment == null) {
+            return true;
+        }
+
+        if (gameScreen.scenarioFragment.storyId.equals(story.id)) {
+            return false;
+        }
+
+        return true;
     }
 }
