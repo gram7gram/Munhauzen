@@ -41,25 +41,6 @@ public abstract class ImageService implements Disposable {
 
     public abstract String getResource(StoryImage item);
 
-    public void prepareAndDisplayLast() {
-
-        final StoryImage lastImage = new StoryImage();
-        lastImage.image = ImageRepository.LAST;
-
-        prepare(lastImage, new Timer.Task() {
-            @Override
-            public void run() {
-                try {
-                    onPrepared(lastImage);
-                } catch (Throwable e) {
-                    Log.e(tag, e);
-
-                    gameScreen.onCriticalError(e);
-                }
-            }
-        });
-    }
-
     public void prepare(StoryImage item, Timer.Task onComplete) {
         if (item.isPrepared && item.drawable != null) {
             if (item.isLocked && !item.isActive) {
@@ -145,19 +126,22 @@ public abstract class ImageService implements Disposable {
         Story story = gameScreen.getStory();
         if (story != null) {
             for (StoryScenario scenario : story.scenarios) {
-                if (story.progress < scenario.finishesAt) {
+                if (scenario.startsAt < story.progress) {
                     if (scenario.scenario.images != null && scenario.scenario.images.size > 0) {
                         for (StoryImage storyImage : scenario.scenario.images) {
-                            if (storyImage.startsAt <= story.progress && story.progress < storyImage.finishesAt) {
+                            if (storyImage.startsAt <= story.progress) {
                                 if (!ImageRepository.LAST.equals(storyImage.image)) {
 
                                     Image image = ImageRepository.find(gameScreen.game.gameState, storyImage.image);
 
-                                    gameScreen.setLastBackground(image);
+                                    if (gameScreen.getLastBackground() != image) {
+
+                                        gameScreen.setLastBackground(image);
+
+                                    }
                                 }
                             }
                         }
-
                     }
                 }
             }

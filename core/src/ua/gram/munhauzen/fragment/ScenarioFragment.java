@@ -247,17 +247,11 @@ public class ScenarioFragment extends Fragment {
 
             fadeOutDecoration();
 
-            try {
-                Story newStory = gameScreen.storyManager.create(decision.scenario);
+            Story newStory = gameScreen.storyManager.create(decision.scenario);
 
-                gameScreen.setStory(newStory);
+            gameScreen.setStory(newStory);
 
-                gameScreen.storyManager.startLoadingResources();
-            } catch (Throwable e) {
-                Log.e(tag, e);
-
-                gameScreen.getStory().reset();
-            }
+            gameScreen.storyManager.startLoadingResources();
 
             //let cannon animation complete...
             Timer.schedule(new Timer.Task() {
@@ -291,6 +285,8 @@ public class ScenarioFragment extends Fragment {
             }, 1);
         } catch (Throwable e) {
             Log.e(tag, e);
+
+            gameScreen.onCriticalError(e);
         }
     }
 

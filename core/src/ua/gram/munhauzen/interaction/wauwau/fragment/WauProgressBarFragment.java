@@ -164,6 +164,11 @@ public class WauProgressBarFragment extends Fragment {
                     startCurrentMusicIfPaused();
 
                     scheduleFadeOut();
+
+                    if (interaction.imageFragment.wauAnimation.isVisible()) {
+                        interaction.imageFragment.wauAnimation.resumeMovement();
+                    }
+
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -183,6 +188,11 @@ public class WauProgressBarFragment extends Fragment {
                     GameState.pause();
 
                     scheduleFadeOut();
+
+                    if (interaction.imageFragment.wauAnimation.isVisible()) {
+                        interaction.imageFragment.wauAnimation.stopMovement();
+                    }
+
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -199,6 +209,8 @@ public class WauProgressBarFragment extends Fragment {
                 try {
 
                     Log.i(tag, "rewindBackButton enter");
+
+                    interaction.imageFragment.wauAnimation.stop();
 
                     gameScreen.audioService.pause();
 
@@ -276,6 +288,8 @@ public class WauProgressBarFragment extends Fragment {
 
                     gameScreen.audioService.pause();
 
+                    interaction.imageFragment.wauAnimation.stop();
+
                     cancelFadeOut();
 
                     progressTask = Timer.schedule(new Timer.Task() {
@@ -327,6 +341,8 @@ public class WauProgressBarFragment extends Fragment {
 
                 try {
                     gameScreen.audioService.pause();
+
+                    interaction.imageFragment.wauAnimation.stop();
 
                     WauStory story = interaction.storyManager.story;
 

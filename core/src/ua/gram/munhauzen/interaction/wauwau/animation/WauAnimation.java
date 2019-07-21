@@ -39,6 +39,12 @@ public class WauAnimation extends AnimatedImage {
         start();
     }
 
+    public void stop() {
+        clear();
+        remove();
+        isMoving = false;
+    }
+
     public void startMovement() {
         clearActions();
 

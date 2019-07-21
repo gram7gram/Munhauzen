@@ -12,13 +12,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
+import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.Story;
+import ua.gram.munhauzen.entity.StoryImage;
 import ua.gram.munhauzen.entity.StoryInteraction;
 import ua.gram.munhauzen.fragment.SimpleFragment;
+import ua.gram.munhauzen.repository.ImageRepository;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.ui.PrimaryButton;
 import ua.gram.munhauzen.utils.Log;
@@ -31,6 +34,7 @@ public class ContinueInteraction extends AbstractInteraction {
     public Group root;
     public boolean isFadeIn, isFadeOut, isLoaded;
     Button button;
+    StoryImage lastImage;
 
     public ContinueInteraction(GameScreen gameScreen) {
         super(gameScreen);
@@ -45,6 +49,8 @@ public class ContinueInteraction extends AbstractInteraction {
         assetManager.load("continue/btn_enabled.png", Texture.class);
         assetManager.load("continue/btn_disabled.png", Texture.class);
 
+        lastImage = new StoryImage();
+        lastImage.image = ImageRepository.LAST;
     }
 
     private void onResourcesLoaded() {
@@ -59,7 +65,6 @@ public class ContinueInteraction extends AbstractInteraction {
                 complete();
             }
         });
-
 
         Table table = new Table();
         table.setFillParent(true);
@@ -80,9 +85,6 @@ public class ContinueInteraction extends AbstractInteraction {
         );
 
         GameState.pause();
-
-        gameScreen.imageService.prepareAndDisplayLast();
-
     }
 
     @Override
@@ -100,6 +102,14 @@ public class ContinueInteraction extends AbstractInteraction {
         }
 
         try {
+
+            gameScreen.imageService.prepare(lastImage, new Timer.Task() {
+                @Override
+                public void run() {
+                    gameScreen.imageService.onPrepared(lastImage);
+                }
+            });
+
             Story story = gameScreen.getStory();
             if (story.currentScenario == null) return;
 
@@ -208,6 +218,8 @@ public class ContinueInteraction extends AbstractInteraction {
     @Override
     public void dispose() {
         super.dispose();
+
+        lastImage = null;
 
         isLoaded = false;
         assetManager.clear();

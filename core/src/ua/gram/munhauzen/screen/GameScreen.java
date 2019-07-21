@@ -17,6 +17,8 @@ import ua.gram.munhauzen.MunhauzenStage;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.Image;
 import ua.gram.munhauzen.entity.Story;
+import ua.gram.munhauzen.entity.StoryAudio;
+import ua.gram.munhauzen.entity.StoryImage;
 import ua.gram.munhauzen.entity.StoryScenario;
 import ua.gram.munhauzen.fragment.GameControlsFragment;
 import ua.gram.munhauzen.fragment.ImageFragment;
@@ -271,19 +273,18 @@ public class GameScreen implements Screen {
                             + "" + (scenarioOption.scenario.interaction != null ? " (" + scenarioOption.scenario.interaction + ")" : "")
                             + "" + (scenarioOption.isLocked ? " lock" : "")
                     );
-//                    for (StoryAudio audio : scenarioOption.scenario.audio) {
-//                        strings.add("--audio:" + audio.audio
-//                                + "" + (audio.isLocked ? " L" : "")
-//                                + "" + (audio.isActive ? " A" : "")
-//                                + "" + (audio.player != null && audio.player.isPlaying() ? "+" : "")
-//                        );
-//                    }
-//                    for (StoryImage image : scenarioOption.scenario.images) {
-//                        strings.add("--image:" + image.image
-//                                + "" + (image.isLocked ? " L" : "")
-//                                + "" + (image.isActive ? " A" : "")
-//                        );
-//                    }
+                    for (StoryAudio audio : scenarioOption.scenario.audio) {
+                        strings.add("--audio:" + audio.audio
+                                + "" + (audio.isLocked ? " locked" : "")
+                                + "" + (audio.isActive ? " active" : "")
+                        );
+                    }
+                    for (StoryImage image : scenarioOption.scenario.images) {
+                        strings.add("--image:" + image.image
+                                + "" + (image.isLocked ? " locked" : "")
+                                + "" + (image.isActive ? " active" : "")
+                        );
+                    }
                 }
             }
 
@@ -436,6 +437,7 @@ public class GameScreen implements Screen {
     }
 
     public void setLastBackground(Image image) {
+        Log.i(tag, "setLastBackground " + image.file);
         game.gameState.lastImage = image;
     }
 
