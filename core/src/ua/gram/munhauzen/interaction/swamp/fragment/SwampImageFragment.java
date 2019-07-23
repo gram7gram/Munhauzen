@@ -17,6 +17,7 @@ import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.fragment.Fragment;
 import ua.gram.munhauzen.interaction.SwampInteraction;
+import ua.gram.munhauzen.ui.BackgroundImage;
 import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.utils.Log;
 import ua.gram.munhauzen.utils.Random;
@@ -28,8 +29,9 @@ public class SwampImageFragment extends Fragment {
 
     private final SwampInteraction interaction;
     public Group root;
-    public Image background, swamp, munhauzen;
-    public Table backgroundTable, swampTable, munhauzenTable;
+    public Image swamp, munhauzen;
+    public Table swampTable, munhauzenTable;
+    public BackgroundImage backgroundImage;
     Timer.Task task;
     StoryAudio winAudio;
 
@@ -41,17 +43,13 @@ public class SwampImageFragment extends Fragment {
 
         Log.i(tag, "create");
 
-        final Texture backTex = interaction.assetManager.get("swamp/int_swamp_1.jpg", Texture.class);
+        backgroundImage = new BackgroundImage(interaction.gameScreen);
+
         final Texture munauzenTex = interaction.assetManager.get("swamp/int_swamp_2.png", Texture.class);
         final Texture swampTex = interaction.assetManager.get("swamp/int_swamp_3.png", Texture.class);
 
-        background = new FitImage();
         swamp = new FitImage();
         munhauzen = new FitImage();
-
-        backgroundTable = new Table();
-        backgroundTable.setFillParent(true);
-        backgroundTable.add(background).center().expand().fill();
 
         swampTable = new Table();
         swampTable.setFillParent(true);
@@ -107,13 +105,16 @@ public class SwampImageFragment extends Fragment {
 
         root = new Group();
         root.setTouchable(Touchable.childrenOnly);
-        root.addActor(backgroundTable);
+        root.addActor(backgroundImage);
         root.addActor(munhauzenTable);
         root.addActor(swampTable);
 
         root.setName(tag);
 
-        setBackground(backTex);
+        setBackground(
+                interaction.assetManager.get("swamp/int_swamp_1.jpg", Texture.class),
+                "swamp/int_swamp_1.jpg"
+        );
 
         setSwampBackground(swampTex);
 
@@ -200,20 +201,14 @@ public class SwampImageFragment extends Fragment {
         return root;
     }
 
-    public void setBackground(Texture texture) {
+    public void setBackground(Texture texture, String file) {
 
-        interaction.gameScreen.imageFragment.layer1ImageGroup.setVisible(false);
-        interaction.gameScreen.imageFragment.layer2ImageGroup.setVisible(false);
+        interaction.gameScreen.hideImageFragment();
 
-        background.setDrawable(new SpriteDrawable(new Sprite(texture)));
+        backgroundImage.setBackgroundDrawable(new SpriteDrawable(new Sprite(texture)));
 
-        float width = MunhauzenGame.WORLD_WIDTH;
-        float scale = 1f * width / background.getDrawable().getMinWidth();
-        float height = 1f * background.getDrawable().getMinHeight() * scale;
+        interaction.gameScreen.setLastBackground(file);
 
-        backgroundTable.getCell(background)
-                .width(width)
-                .height(height);
     }
 
     public void setSwampBackground(Texture texture) {

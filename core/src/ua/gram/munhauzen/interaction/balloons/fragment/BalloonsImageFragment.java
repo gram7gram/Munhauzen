@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
@@ -27,7 +26,7 @@ import ua.gram.munhauzen.interaction.BalloonsInteraction;
 import ua.gram.munhauzen.interaction.balloons.ui.Balloon;
 import ua.gram.munhauzen.interaction.balloons.ui.Cloud;
 import ua.gram.munhauzen.interaction.hare.animation.DucksAnimation;
-import ua.gram.munhauzen.ui.FitImage;
+import ua.gram.munhauzen.ui.BackgroundImage;
 import ua.gram.munhauzen.ui.PrimaryButton;
 import ua.gram.munhauzen.utils.Log;
 import ua.gram.munhauzen.utils.MathUtils;
@@ -39,8 +38,7 @@ public class BalloonsImageFragment extends Fragment {
 
     private final BalloonsInteraction interaction;
     public Group root;
-    public Image background;
-    public Table backgroundTable;
+    public BackgroundImage backgroundImage;
     PrimaryButton resetButton;
     Balloon balloon1, balloon2, balloon3, balloon4;
     Label progressLabel;
@@ -56,6 +54,8 @@ public class BalloonsImageFragment extends Fragment {
     public void create() {
 
         Log.i(tag, "create");
+
+        backgroundImage = new BackgroundImage(interaction.gameScreen);
 
         Texture cloud1Texture = interaction.assetManager.get("LoadingScreen/lv_cloud_1.png", Texture.class);
         Texture cloud2Texture = interaction.assetManager.get("LoadingScreen/lv_cloud_2.png", Texture.class);
@@ -120,8 +120,6 @@ public class BalloonsImageFragment extends Fragment {
         cloud2.start();
         cloud3.start();
 
-        background = new FitImage();
-
         resetButton = interaction.gameScreen.game.buttonBuilder.primary("Retry", new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -158,10 +156,6 @@ public class BalloonsImageFragment extends Fragment {
             }
         });
 
-        backgroundTable = new Table();
-        backgroundTable.setFillParent(true);
-        backgroundTable.add(background).center().expand().fill();
-
         titleTable = new Table();
         titleTable.setFillParent(true);
         titleTable.pad(10);
@@ -193,7 +187,7 @@ public class BalloonsImageFragment extends Fragment {
 
         root = new Group();
         root.setTouchable(Touchable.childrenOnly);
-        root.addActor(backgroundTable);
+        root.addActor(backgroundImage);
         root.addActor(cloud1);
         root.addActor(cloud2);
         root.addActor(cloud3);
@@ -509,19 +503,7 @@ public class BalloonsImageFragment extends Fragment {
 
         interaction.gameScreen.hideImageFragment();
 
-        ua.gram.munhauzen.entity.Image current = new ua.gram.munhauzen.entity.Image();
-        current.name = tag;
-
-        interaction.gameScreen.setLastBackground(current);
-
-        background.setDrawable(new SpriteDrawable(new Sprite(texture)));
-
-        float scale = 1f * MunhauzenGame.WORLD_WIDTH / background.getDrawable().getMinWidth();
-        float height = 1f * background.getDrawable().getMinHeight() * scale;
-
-        backgroundTable.getCell(background)
-                .width(MunhauzenGame.WORLD_WIDTH)
-                .height(height);
+        backgroundImage.setBackgroundDrawable(new SpriteDrawable(new Sprite(texture)));
 
         interaction.gameScreen.setLastBackground(file);
     }

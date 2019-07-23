@@ -33,6 +33,6 @@ public class TimerImageService extends InteractionImageService {
 
         item.isActive = true;
 
-        interaction.imageFragment.setBackground(item.drawable);
+        interaction.imageFragment.backgroundImage.setBackgroundDrawable(item.drawable);
     }
 }

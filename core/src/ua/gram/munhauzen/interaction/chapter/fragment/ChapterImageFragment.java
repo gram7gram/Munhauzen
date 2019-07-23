@@ -45,8 +45,7 @@ public class ChapterImageFragment extends Fragment {
 
         Log.i(tag, "create");
 
-        interaction.gameScreen.imageFragment.layer1ImageGroup.setVisible(false);
-        interaction.gameScreen.imageFragment.layer2ImageGroup.setVisible(false);
+        interaction.gameScreen.hideImageFragment();
 
         Texture texFrame = interaction.assetManager.get("chapter/frame_2.png", Texture.class);
 

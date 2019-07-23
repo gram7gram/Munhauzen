@@ -31,7 +31,7 @@ public class MunhauzenGame extends Game {
 //    public static String developmentScenario = "a2_2_0"; //GENERALS
 //    public static String developmentScenario = "a18_0"; //HARE
 //    public static String developmentScenario = "awau_2_interaction"; //WAUWAU
-    public static String developmentScenario;
+    public static String developmentScenario;// = "a21_1_a";
 
     private final String tag = getClass().getSimpleName();
 

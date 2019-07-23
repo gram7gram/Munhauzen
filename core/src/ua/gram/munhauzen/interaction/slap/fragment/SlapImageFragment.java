@@ -120,7 +120,10 @@ public class SlapImageFragment extends Fragment {
 
         setBeforeBackground(interaction.assetManager.get("slap/inter_slap_1.jpg", Texture.class));
 
-        setAfterBackground(interaction.assetManager.get("slap/inter_slap_2.jpg", Texture.class));
+        setAfterBackground(
+                interaction.assetManager.get("slap/inter_slap_2.jpg", Texture.class),
+                "slap/inter_slap_2.jpg"
+        );
 
         setDoorsBackground(interaction.assetManager.get("slap/inter_slap_doors.png", Texture.class));
 
@@ -229,8 +232,7 @@ public class SlapImageFragment extends Fragment {
 
     public void setBeforeBackground(Texture texture) {
 
-        interaction.gameScreen.imageFragment.layer1ImageGroup.setVisible(false);
-        interaction.gameScreen.imageFragment.layer2ImageGroup.setVisible(false);
+        interaction.gameScreen.hideImageFragment();
 
         beforeImg.setDrawable(new SpriteDrawable(new Sprite(texture)));
 
@@ -252,7 +254,7 @@ public class SlapImageFragment extends Fragment {
                 .height(MunhauzenGame.WORLD_HEIGHT);
     }
 
-    public void setAfterBackground(Texture texture) {
+    public void setAfterBackground(Texture texture, String file) {
 
         afterImg.setDrawable(new SpriteDrawable(new Sprite(texture)));
 
@@ -263,6 +265,8 @@ public class SlapImageFragment extends Fragment {
         afterTable.getCell(afterImg)
                 .width(afterWidth)
                 .height(height);
+
+        interaction.gameScreen.setLastBackground(file);
     }
 
     public void setBetweenBackground(Texture texture) {

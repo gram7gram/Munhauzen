@@ -9,6 +9,7 @@ import ua.gram.munhauzen.interaction.ContinueInteraction;
 import ua.gram.munhauzen.interaction.GeneralsInteraction;
 import ua.gram.munhauzen.interaction.HareInteraction;
 import ua.gram.munhauzen.interaction.PictureInteraction;
+import ua.gram.munhauzen.interaction.ServantsInteraction;
 import ua.gram.munhauzen.interaction.TimerInteraction;
 import ua.gram.munhauzen.interaction.WauInteraction;
 import ua.gram.munhauzen.interaction.cannons.fragment.CannonsProgressBarFragment;
@@ -18,6 +19,7 @@ import ua.gram.munhauzen.interaction.generals.fragment.GeneralsScenarioFragment;
 import ua.gram.munhauzen.interaction.hare.fragment.HareProgressBarFragment;
 import ua.gram.munhauzen.interaction.hare.fragment.HareScenarioFragment;
 import ua.gram.munhauzen.interaction.picture.fragment.PictureProgressBarFragment;
+import ua.gram.munhauzen.interaction.servants.fragment.ServantsHireImageFragment;
 import ua.gram.munhauzen.interaction.timer.fragment.TimerProgressBarFragment;
 import ua.gram.munhauzen.interaction.timer.fragment.TimerScenarioFragment;
 import ua.gram.munhauzen.interaction.wauwau.fragment.WauProgressBarFragment;
@@ -253,6 +255,14 @@ public class StageInputListener extends ClickListener {
                                 }
                             }
                         }
+                    }
+                }
+
+                if (storyInteraction.interaction instanceof ServantsInteraction) {
+                    ServantsHireImageFragment hireImageFragment = ((ServantsInteraction) storyInteraction.interaction).hireFragment;
+
+                    if (hireImageFragment != null) {
+                        hireImageFragment.toggleHireDialog();
                     }
                 }
             }

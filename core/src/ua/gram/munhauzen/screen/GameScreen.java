@@ -404,16 +404,16 @@ public class GameScreen implements Screen {
     public void hideImageFragment() {
 
         if (imageFragment != null) {
-            imageFragment.layer1ImageGroup.setVisible(false);
-            imageFragment.layer2ImageGroup.setVisible(false);
+            imageFragment.backgroundBottomImage.setVisible(false);
+            imageFragment.backgroundTopImage.setVisible(false);
         }
     }
 
     public void showImageFragment() {
 
         if (imageFragment != null) {
-            imageFragment.layer1ImageGroup.setVisible(true);
-            imageFragment.layer2ImageGroup.setVisible(true);
+            imageFragment.backgroundBottomImage.setVisible(true);
+            imageFragment.backgroundTopImage.setVisible(true);
         }
     }
 
@@ -437,7 +437,6 @@ public class GameScreen implements Screen {
     }
 
     public void setLastBackground(Image image) {
-        Log.i(tag, "setLastBackground " + image.file);
         game.gameState.lastImage = image;
     }
 

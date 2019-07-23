@@ -12,19 +12,19 @@
     ],
     "decisions": [
       {
-        "scenario": "sworm_a",
+        "scenario": "aworm_a",
         "order": 1
       },
       {
-        "scenario": "sworm_b",
+        "scenario": "aworm_b",
         "order": 2
       },
       {
-        "scenario": "sworm_c",
+        "scenario": "aworm_c",
         "order": 3
       },
       {
-        "scenario": "sworm_d",
+        "scenario": "aworm_d",
         "order": 4
       }
     ],
@@ -48,7 +48,7 @@
     ],
     "decisions": [
       {
-        "scenario": "sworm_check_a"
+        "scenario": "aworm_check_a"
       }
     ],
     "translations": [
@@ -76,7 +76,7 @@
     ],
     "decisions": [
       {
-        "scenario": "sworm_check_b"
+        "scenario": "aworm_check_b"
       }
     ],
     "translations": [
@@ -104,7 +104,7 @@
     ],
     "decisions": [
       {
-        "scenario": "sworm_check_c"
+        "scenario": "aworm_check_c"
       }
     ],
     "translations": [
@@ -196,7 +196,7 @@
     ],
     "decisions": [
       {
-        "scenario": "sworm_interaction_proxy"
+        "scenario": "aworm_interaction_proxy"
       }
     ],
     "translations": []
@@ -227,7 +227,7 @@
     ],
     "decisions": [
       {
-        "scenario": "sworm_interaction_proxy"
+        "scenario": "aworm_interaction_proxy"
       }
     ],
     "translations": []
@@ -258,7 +258,7 @@
     ],
     "decisions": [
       {
-        "scenario": "sworm_interaction_proxy"
+        "scenario": "aworm_interaction_proxy"
       }
     ],
     "translations": []
@@ -293,7 +293,7 @@
     ],
     "decisions": [
       {
-        "scenario": "sworm_interaction_proxy"
+        "scenario": "aworm_interaction_proxy"
       }
     ],
     "translations": []
@@ -324,7 +324,7 @@
     ],
     "decisions": [
       {
-        "scenario": "sworm_interaction_proxy"
+        "scenario": "aworm_interaction_proxy"
       }
     ],
     "translations": []
@@ -355,7 +355,7 @@
     ],
     "decisions": [
       {
-        "scenario": "sworm_interaction_proxy"
+        "scenario": "aworm_interaction_proxy"
       }
     ],
     "translations": []
@@ -390,7 +390,7 @@
     ],
     "decisions": [
       {
-        "scenario": "sworm_interaction_proxy"
+        "scenario": "aworm_interaction_proxy"
       }
     ],
     "translations": []
@@ -421,7 +421,7 @@
     ],
     "decisions": [
       {
-        "scenario": "sworm_interaction_proxy"
+        "scenario": "aworm_interaction_proxy"
       }
     ],
     "translations": []
@@ -452,7 +452,7 @@
     ],
     "decisions": [
       {
-        "scenario": "sworm_interaction_proxy"
+        "scenario": "aworm_interaction_proxy"
       }
     ],
     "translations": []

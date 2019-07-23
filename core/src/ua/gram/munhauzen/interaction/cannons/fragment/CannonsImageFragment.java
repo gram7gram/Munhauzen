@@ -3,12 +3,7 @@ package ua.gram.munhauzen.interaction.cannons.fragment;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 
-import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.Inventory;
 import ua.gram.munhauzen.fragment.Fragment;
 import ua.gram.munhauzen.interaction.CannonsInteraction;
@@ -18,7 +13,7 @@ import ua.gram.munhauzen.interaction.cannons.actor.BurnWorm;
 import ua.gram.munhauzen.interaction.cannons.actor.EatWorm;
 import ua.gram.munhauzen.interaction.cannons.actor.FloodWorm;
 import ua.gram.munhauzen.repository.InventoryRepository;
-import ua.gram.munhauzen.ui.FitImage;
+import ua.gram.munhauzen.ui.BackgroundImage;
 import ua.gram.munhauzen.utils.Log;
 
 /**
@@ -31,9 +26,7 @@ public class CannonsImageFragment extends Fragment {
     BurnWorm burnWorm;
     EatWorm eatWorm;
     public Group root, items;
-    public Image background;
-    public Table backgroundTable;
-    public float backgroundWidth, backgroundHeight;
+    public BackgroundImage backgroundImage;
 
     public CannonsImageFragment(CannonsInteraction interaction) {
         this.interaction = interaction;
@@ -43,7 +36,7 @@ public class CannonsImageFragment extends Fragment {
 
         Log.i(tag, "create");
 
-        background = new FitImage();
+        backgroundImage = new BackgroundImage(interaction.gameScreen);
 
         floodWorm = new FloodWorm(
                 interaction.assetManager.get("cannons/inter_cannons_flood_worm.png", Texture.class),
@@ -60,10 +53,6 @@ public class CannonsImageFragment extends Fragment {
                 this
         );
 
-        backgroundTable = new Table();
-        backgroundTable.setFillParent(true);
-        backgroundTable.add(background).right().expand().fill();
-
         burnWorm.setVisible(false);
         eatWorm.setVisible(false);
         floodWorm.setVisible(false);
@@ -71,53 +60,7 @@ public class CannonsImageFragment extends Fragment {
         items = new Group();
 
         root = new Group();
-        root.addActor(backgroundTable);
-
-        root.addListener(new ActorGestureListener() {
-
-            @Override
-            public void tap(InputEvent event, float x, float y, int count, int button) {
-                super.tap(event, x, y, count, button);
-
-                try {
-                    interaction.gameScreen.stageInputListener.clicked(event, x, y);
-                } catch (Throwable e) {
-                    Log.e(tag, e);
-                }
-            }
-
-            @Override
-            public void pan(InputEvent event, float x, float y, float deltaX, float deltaY) {
-                super.pan(event, x, y, deltaX, deltaY);
-
-                moveBackground(deltaX);
-            }
-
-            private void moveBackground(float deltaX) {
-                try {
-
-                    CannonsStory story = interaction.storyManager.story;
-
-                    if (story.currentScenario.currentImage == null) return;
-
-                    float newX = background.getX() + deltaX;
-                    float currentWidth = story.currentScenario.currentImage.width;
-
-                    float leftBound = -currentWidth + MunhauzenGame.WORLD_WIDTH;
-                    float rightBound = 0;
-
-                    if (leftBound < newX && newX < rightBound) {
-                        background.setX(newX);
-                    }
-
-                    if (background.getX() > rightBound) background.setX(rightBound);
-                    if (background.getX() < leftBound) background.setX(leftBound);
-
-                } catch (Throwable e) {
-                    Log.e(tag, e);
-                }
-            }
-        });
+        root.addActor(backgroundImage);
 
         root.setName(tag);
     }

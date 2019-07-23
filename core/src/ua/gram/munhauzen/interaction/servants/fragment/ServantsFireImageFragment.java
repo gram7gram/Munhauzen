@@ -6,11 +6,9 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
@@ -26,7 +24,7 @@ import ua.gram.munhauzen.interaction.ServantsInteraction;
 import ua.gram.munhauzen.interaction.servants.FireDialog;
 import ua.gram.munhauzen.interaction.servants.HiredServant;
 import ua.gram.munhauzen.repository.InventoryRepository;
-import ua.gram.munhauzen.ui.FitImage;
+import ua.gram.munhauzen.ui.BackgroundImage;
 import ua.gram.munhauzen.ui.PrimaryButton;
 import ua.gram.munhauzen.utils.Log;
 import ua.gram.munhauzen.utils.MathUtils;
@@ -38,14 +36,10 @@ public class ServantsFireImageFragment extends Fragment {
 
     private final MunhauzenGame game;
     private final ServantsInteraction interaction;
+    public BackgroundImage backgroundImage;
     public Stack root;
     public Group items;
-    /**
-     * 1540x1200
-     */
-    public Image background;
-    public Table backgroundTable, fireContainer;
-    float backgroundWidth, backgroundHeight;
+    public Table fireContainer;
     public FireDialog fireDialog;
     public ArrayList<HiredServant> hiredServants;
     final int servantLimit = 5;
@@ -77,9 +71,9 @@ public class ServantsFireImageFragment extends Fragment {
 
         Log.i(tag, "create");
 
-        fireDialog = new FireDialog(interaction);
+        backgroundImage = new BackgroundImage(interaction.gameScreen);
 
-        background = new FitImage();
+        fireDialog = new FireDialog(interaction);
 
         PrimaryButton backBtn = interaction.gameScreen.game.buttonBuilder.primary("Back", new ClickListener() {
             @Override
@@ -146,47 +140,14 @@ public class ServantsFireImageFragment extends Fragment {
 
         fireContainer = new Table();
 
-        backgroundTable = new Table();
-        backgroundTable.setFillParent(true);
-        backgroundTable.add(background).right().expand().fill();
-
         items = new Group();
 
         root = new Stack();
         root.setFillParent(true);
-        root.addActor(backgroundTable);
+        root.addActor(backgroundImage);
         root.addActor(items);
         root.addActor(fireContainer);
         root.addActor(uiTable);
-
-        root.addListener(new ActorGestureListener() {
-
-            @Override
-            public void pan(InputEvent event, float x, float y, float deltaX, float deltaY) {
-                super.pan(event, x, y, deltaX, deltaY);
-
-                try {
-
-                    root.clearActions();
-
-                    float newX = background.getX() + deltaX;
-
-                    float leftBound = -backgroundWidth + MunhauzenGame.WORLD_WIDTH;
-                    float rightBound = 0;
-
-                    if (leftBound < newX && newX < rightBound) {
-                        background.setX(background.getX() + deltaX);
-                    }
-
-                    if (background.getX() > 0) background.setX(0);
-                    if (background.getX() < leftBound) background.setX(leftBound);
-
-                } catch (Throwable e) {
-                    Log.e(tag, e);
-                }
-
-            }
-        });
 
         root.setName(tag);
 
@@ -368,44 +329,9 @@ public class ServantsFireImageFragment extends Fragment {
 
     public void setBackground(Texture texture, String file) {
 
-        background.setDrawable(new SpriteDrawable(new Sprite(texture)));
+        interaction.gameScreen.hideImageFragment();
 
-        background.clearListeners();
-
-        backgroundHeight = MunhauzenGame.WORLD_HEIGHT;
-        float scale = 1f * backgroundHeight / background.getDrawable().getMinHeight();
-        backgroundWidth = 1f * background.getDrawable().getMinWidth() * scale;
-
-        background.addListener(new ActorGestureListener() {
-
-            @Override
-            public void pan(InputEvent event, float x, float y, float deltaX, float deltaY) {
-                super.pan(event, x, y, deltaX, deltaY);
-
-                Log.i(tag, "pan");
-
-                try {
-                    float newX = background.getX() + deltaX;
-
-                    float leftBound = -backgroundWidth + MunhauzenGame.WORLD_WIDTH;
-                    float rightBound = 0;
-
-                    if (leftBound < newX && newX < rightBound) {
-                        background.setX(background.getX() + deltaX);
-                    }
-
-                    if (background.getX() > 0) background.setX(0);
-                    if (background.getX() < leftBound) background.setX(leftBound);
-                } catch (Throwable e) {
-                    Log.e(tag, e);
-                }
-
-            }
-        });
-
-        backgroundTable.getCell(background)
-                .width(backgroundWidth)
-                .height(backgroundHeight);
+        backgroundImage.setBackgroundDrawable(new SpriteDrawable(new Sprite(texture)));
 
         interaction.gameScreen.setLastBackground(file);
     }
@@ -486,7 +412,8 @@ public class ServantsFireImageFragment extends Fragment {
         public void act(float delta) {
             super.act(delta);
 
-            setPosition(background.getX() + backgroundWidth * (30 / 1520f), background.getY() + backgroundHeight * (100 / 1200f));
+            setPosition(backgroundImage.background.getX() + backgroundImage.backgroundWidth * (30 / 1520f),
+                    backgroundImage.background.getY() + backgroundImage.backgroundHeight * (100 / 1200f));
         }
     }
 
@@ -500,7 +427,8 @@ public class ServantsFireImageFragment extends Fragment {
         public void act(float delta) {
             super.act(delta);
 
-            setPosition(background.getX() + backgroundWidth * (1100 / 1520f), background.getY() + backgroundHeight * (80 / 1200f));
+            setPosition(backgroundImage.background.getX() + backgroundImage.backgroundWidth * (1100 / 1520f),
+                    backgroundImage.background.getY() + backgroundImage.backgroundHeight * (80 / 1200f));
         }
     }
 
@@ -514,7 +442,8 @@ public class ServantsFireImageFragment extends Fragment {
         public void act(float delta) {
             super.act(delta);
 
-            setPosition(background.getX() + backgroundWidth * (910 / 1520f), background.getY() + backgroundHeight * (100 / 1200f));
+            setPosition(backgroundImage.background.getX() + backgroundImage.backgroundWidth * (910 / 1520f),
+                    backgroundImage.background.getY() + backgroundImage.backgroundHeight * (100 / 1200f));
         }
     }
 
@@ -528,7 +457,8 @@ public class ServantsFireImageFragment extends Fragment {
         public void act(float delta) {
             super.act(delta);
 
-            setPosition(background.getX() + backgroundWidth * (660 / 1520f), background.getY() + backgroundHeight * (100 / 1200f));
+            setPosition(backgroundImage.background.getX() + backgroundImage.backgroundWidth * (660 / 1520f),
+                    backgroundImage.background.getY() + backgroundImage.backgroundHeight * (100 / 1200f));
         }
     }
 
@@ -542,7 +472,8 @@ public class ServantsFireImageFragment extends Fragment {
         public void act(float delta) {
             super.act(delta);
 
-            setPosition(background.getX() + backgroundWidth * (600 / 1520f), background.getY() + backgroundHeight * (100 / 1200f));
+            setPosition(backgroundImage.background.getX() + backgroundImage.backgroundWidth * (600 / 1520f),
+                    backgroundImage.background.getY() + backgroundImage.backgroundHeight * (100 / 1200f));
         }
     }
 
@@ -556,7 +487,8 @@ public class ServantsFireImageFragment extends Fragment {
         public void act(float delta) {
             super.act(delta);
 
-            setPosition(background.getX() + backgroundWidth * (150 / 1520f), background.getY() + backgroundHeight * (100 / 1200f));
+            setPosition(backgroundImage.background.getX() + backgroundImage.backgroundWidth * (150 / 1520f),
+                    backgroundImage.background.getY() + backgroundImage.backgroundHeight * (100 / 1200f));
         }
     }
 
@@ -570,7 +502,8 @@ public class ServantsFireImageFragment extends Fragment {
         public void act(float delta) {
             super.act(delta);
 
-            setPosition(background.getX() + backgroundWidth * (300 / 1520f), background.getY() + backgroundHeight * (200 / 1200f));
+            setPosition(backgroundImage.background.getX() + backgroundImage.backgroundWidth * (300 / 1520f),
+                    backgroundImage.background.getY() + backgroundImage.backgroundHeight * (200 / 1200f));
         }
     }
 
@@ -584,7 +517,8 @@ public class ServantsFireImageFragment extends Fragment {
         public void act(float delta) {
             super.act(delta);
 
-            setPosition(background.getX() + backgroundWidth * (400 / 1520f), background.getY() + backgroundHeight * (100 / 1200f));
+            setPosition(backgroundImage.background.getX() + backgroundImage.backgroundWidth * (400 / 1520f),
+                    backgroundImage.background.getY() + backgroundImage.backgroundHeight * (100 / 1200f));
         }
     }
 
@@ -598,7 +532,8 @@ public class ServantsFireImageFragment extends Fragment {
         public void act(float delta) {
             super.act(delta);
 
-            setPosition(background.getX() + backgroundWidth * (1200 / 1520f), background.getY() + backgroundHeight * (50 / 1200f));
+            setPosition(backgroundImage.background.getX() + backgroundImage.backgroundWidth * (1200 / 1520f),
+                    backgroundImage.background.getY() + backgroundImage.backgroundHeight * (50 / 1200f));
         }
     }
 
@@ -612,7 +547,8 @@ public class ServantsFireImageFragment extends Fragment {
         public void act(float delta) {
             super.act(delta);
 
-            setPosition(background.getX() + backgroundWidth * (1000 / 1520f), background.getY() + backgroundHeight * (80 / 1200f));
+            setPosition(backgroundImage.background.getX() + backgroundImage.backgroundWidth * (1000 / 1520f),
+                    backgroundImage.background.getY() + backgroundImage.backgroundHeight * (80 / 1200f));
         }
     }
 }

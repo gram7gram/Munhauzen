@@ -34,7 +34,8 @@ public class WauAnimation extends AnimatedImage {
 
         setSize(width, height);
 
-        setX(fragment.background.getX() + fragment.backgroundWidth);
+        setX(fragment.backgroundImage.background.getX() + fragment.backgroundImage.backgroundWidth);
+        setY(MunhauzenGame.WORLD_HEIGHT * .225f);
 
         start();
     }
@@ -48,15 +49,15 @@ public class WauAnimation extends AnimatedImage {
     public void startMovement() {
         clearActions();
 
+        setY(MunhauzenGame.WORLD_HEIGHT * .225f);
+
         isMoving = true;
 
         addAction(Actions.forever(
                 Actions.sequence(
-                        Actions.visible(false),
-                        Actions.delay(2),
                         Actions.visible(true),
-                        Actions.moveTo(fragment.background.getX() + fragment.backgroundWidth, getY()),
-                        Actions.moveTo(fragment.background.getX() - width, getY(), 5)
+                        Actions.moveTo(fragment.backgroundImage.background.getX() + fragment.backgroundImage.backgroundWidth, getY()),
+                        Actions.moveTo(fragment.backgroundImage.background.getX() - width, getY(), 5)
                 )
         ));
     }
@@ -69,14 +70,18 @@ public class WauAnimation extends AnimatedImage {
     public void resumeMovement() {
         clearActions();
 
+        setY(MunhauzenGame.WORLD_HEIGHT * .225f);
+
         isMoving = true;
 
         float x = getX() + width;
-        float distance = fragment.backgroundWidth + width;
+        float distance = fragment.backgroundImage.backgroundWidth + width;
         float duration = 5;
 
+        float delta = distance > 0 ? duration * x / distance : 1;
+
         addAction(Actions.sequence(
-                Actions.moveTo(fragment.background.getX() - width, getY(), duration * x / distance),
+                Actions.moveTo(fragment.backgroundImage.background.getX() - width, getY(), delta),
                 Actions.run(new Runnable() {
                     @Override
                     public void run() {
@@ -90,6 +95,11 @@ public class WauAnimation extends AnimatedImage {
     public void act(float delta) {
         super.act(delta);
 
+        width = MunhauzenGame.WORLD_WIDTH * .5f;
+        float scale = 1f * width / getCurrentDrawable().getMinWidth();
+        height = scale * getCurrentDrawable().getMinHeight();
+
+        setSize(width, height);
 
         setY(MunhauzenGame.WORLD_HEIGHT * .225f);
     }

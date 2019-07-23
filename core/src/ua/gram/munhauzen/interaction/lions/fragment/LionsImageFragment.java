@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -19,7 +18,7 @@ import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.fragment.Fragment;
 import ua.gram.munhauzen.interaction.LionsInteraction;
 import ua.gram.munhauzen.repository.InventoryRepository;
-import ua.gram.munhauzen.ui.FitImage;
+import ua.gram.munhauzen.ui.BackgroundImage;
 import ua.gram.munhauzen.ui.PrimaryButton;
 import ua.gram.munhauzen.utils.Log;
 import ua.gram.munhauzen.utils.MathUtils;
@@ -32,8 +31,7 @@ public class LionsImageFragment extends Fragment {
 
     private final LionsInteraction interaction;
     public Stack root;
-    Image background;
-    Table backgroundTable;
+    BackgroundImage backgroundImage;
     PrimaryButton attackBtn;
     StoryAudio steadyAudio, goAudio, sleepAudio;
     Timer.Task sleepTask, delayedTask, readyTask;
@@ -46,6 +44,8 @@ public class LionsImageFragment extends Fragment {
 
         Log.i(tag, "create");
 
+        backgroundImage = new BackgroundImage(interaction.gameScreen);
+
         interaction.gameScreen.hideImageFragment();
 
         attackBtn = interaction.gameScreen.game.buttonBuilder.primary("Attack...", new ClickListener() {
@@ -55,12 +55,6 @@ public class LionsImageFragment extends Fragment {
 
             }
         });
-
-        background = new FitImage();
-
-        backgroundTable = new Table();
-        backgroundTable.setFillParent(true);
-        backgroundTable.add(background).bottom().expand();
 
         Table btnTable = new Table();
         btnTable.setFillParent(true);
@@ -73,7 +67,7 @@ public class LionsImageFragment extends Fragment {
         root = new Stack();
         root.setFillParent(true);
         root.setTouchable(Touchable.childrenOnly);
-        root.addActor(backgroundTable);
+        root.addActor(backgroundImage);
         root.addActor(btnTable);
 
         setBackground(
@@ -316,15 +310,7 @@ public class LionsImageFragment extends Fragment {
 
     public void setBackground(Texture texture, String file) {
 
-        background.setDrawable(new SpriteDrawable(new Sprite(texture)));
-
-        float width = MunhauzenGame.WORLD_WIDTH;
-        float scale = 1f * width / background.getDrawable().getMinWidth();
-        float height = 1f * background.getDrawable().getMinHeight() * scale;
-
-        backgroundTable.getCell(background)
-                .width(width)
-                .height(height);
+        backgroundImage.setBackgroundDrawable(new SpriteDrawable(new Sprite(texture)));
 
         interaction.gameScreen.setLastBackground(file);
     }

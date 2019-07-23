@@ -20,6 +20,7 @@ import ua.gram.munhauzen.fragment.Fragment;
 import ua.gram.munhauzen.interaction.PictureInteraction;
 import ua.gram.munhauzen.interaction.picture.Area;
 import ua.gram.munhauzen.interaction.picture.PictureStory;
+import ua.gram.munhauzen.ui.BackgroundImage;
 import ua.gram.munhauzen.utils.Log;
 
 /**
@@ -113,11 +114,11 @@ public class PictureScenarioFragment extends Fragment {
         for (int i = 0; i < vertices.length; i += 2) {
             float x = vertices[i], y = vertices[i + 1];
 
-            pixels[i] = interaction.imageFragment.background.getX()
-                    + x * interaction.imageFragment.backgroundWidth / 100;
+            pixels[i] = interaction.imageFragment.backgroundImage.background.getX()
+                    + x * interaction.imageFragment.backgroundImage.backgroundWidth / 100;
 
-            pixels[i + 1] = interaction.imageFragment.background.getY()
-                    + y * interaction.imageFragment.backgroundHeight / 100;
+            pixels[i + 1] = interaction.imageFragment.backgroundImage.background.getY()
+                    + y * interaction.imageFragment.backgroundImage.backgroundHeight / 100;
         }
 
         return pixels;
@@ -134,8 +135,8 @@ public class PictureScenarioFragment extends Fragment {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                int xPercent = (int) (100 * x / interaction.imageFragment.backgroundWidth);
-                int yPercent = (int) (100 * y / interaction.imageFragment.backgroundHeight);
+                int xPercent = (int) (100 * x / interaction.imageFragment.backgroundImage.backgroundWidth);
+                int yPercent = (int) (100 * y / interaction.imageFragment.backgroundImage.backgroundHeight);
 
                 Log.i(tag, "clicked % " + xPercent + "x" + yPercent);
 
@@ -185,14 +186,17 @@ public class PictureScenarioFragment extends Fragment {
     public void update() {
 
         if (interaction.imageFragment != null) {
+
+            BackgroundImage backgroundImage = interaction.imageFragment.backgroundImage;
+
             actor.setPosition(
-                    interaction.imageFragment.background.getX(),
-                    interaction.imageFragment.background.getY()
+                    backgroundImage.background.getX(),
+                    backgroundImage.background.getY()
             );
 
             actor.setSize(
-                    interaction.imageFragment.backgroundWidth,
-                    interaction.imageFragment.backgroundHeight
+                    backgroundImage.backgroundWidth,
+                    backgroundImage.backgroundHeight
             );
         }
 

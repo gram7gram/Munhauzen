@@ -31,6 +31,7 @@ public abstract class ImageService implements Disposable {
     protected final String tag = getClass().getSimpleName();
     protected final GameScreen gameScreen;
     protected final AssetManager assetManager;
+    Transition transition;
 
     public ImageService(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
@@ -102,13 +103,15 @@ public abstract class ImageService implements Disposable {
 
     public void displayImage(final StoryImage item) {
 
+        if (transition != null) {
+            if (transition.isLocked) return;
+        }
+
         Log.i(tag, "displayImage " + getResource(item));
 
         item.isActive = true;
 
         gameScreen.showImageFragment();
-
-        Transition transition;
 
         if (Scenario.FADE_IN.equals(item.transition)) {
             transition = new FadeTransition(gameScreen);
@@ -127,19 +130,10 @@ public abstract class ImageService implements Disposable {
         if (story != null) {
             for (StoryScenario scenario : story.scenarios) {
                 if (scenario.startsAt < story.progress) {
-                    if (scenario.scenario.images != null && scenario.scenario.images.size > 0) {
+                    if (scenario.scenario.images != null) {
                         for (StoryImage storyImage : scenario.scenario.images) {
                             if (storyImage.startsAt <= story.progress) {
-                                if (!ImageRepository.LAST.equals(storyImage.image)) {
-
-                                    Image image = ImageRepository.find(gameScreen.game.gameState, storyImage.image);
-
-                                    if (gameScreen.getLastBackground() != image) {
-
-                                        gameScreen.setLastBackground(image);
-
-                                    }
-                                }
+                                saveCurrentBackground(storyImage);
                             }
                         }
                     }
@@ -153,7 +147,9 @@ public abstract class ImageService implements Disposable {
         if (item.image != null && !ImageRepository.LAST.equals(item.image)) {
             Image image = ImageRepository.find(gameScreen.game.gameState, item.image);
 
-            gameScreen.setLastBackground(image);
+            if (gameScreen.getLastBackground() != image) {
+                gameScreen.setLastBackground(image);
+            }
         }
     }
 

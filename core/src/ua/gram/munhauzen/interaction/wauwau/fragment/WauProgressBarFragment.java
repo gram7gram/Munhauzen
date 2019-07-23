@@ -29,6 +29,7 @@ import ua.gram.munhauzen.fragment.Fragment;
 import ua.gram.munhauzen.interaction.WauInteraction;
 import ua.gram.munhauzen.interaction.wauwau.WauStory;
 import ua.gram.munhauzen.interaction.wauwau.WauStoryScenario;
+import ua.gram.munhauzen.interaction.wauwau.animation.WauAnimation;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.utils.Log;
@@ -165,8 +166,10 @@ public class WauProgressBarFragment extends Fragment {
 
                     scheduleFadeOut();
 
-                    if (interaction.imageFragment.wauAnimation.isVisible()) {
-                        interaction.imageFragment.wauAnimation.resumeMovement();
+                    WauAnimation wauAnimation = interaction.imageFragment.wauAnimation;
+
+                    if (wauAnimation.getStage() != null) {
+                        wauAnimation.resumeMovement();
                     }
 
                 } catch (Throwable e) {
@@ -189,8 +192,10 @@ public class WauProgressBarFragment extends Fragment {
 
                     scheduleFadeOut();
 
-                    if (interaction.imageFragment.wauAnimation.isVisible()) {
-                        interaction.imageFragment.wauAnimation.stopMovement();
+                    WauAnimation wauAnimation = interaction.imageFragment.wauAnimation;
+
+                    if (wauAnimation.getStage() != null) {
+                        wauAnimation.stopMovement();
                     }
 
                 } catch (Throwable e) {

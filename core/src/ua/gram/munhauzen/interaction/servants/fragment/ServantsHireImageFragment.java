@@ -6,12 +6,10 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
@@ -24,7 +22,7 @@ import ua.gram.munhauzen.interaction.ServantsInteraction;
 import ua.gram.munhauzen.interaction.servants.CompleteDialog;
 import ua.gram.munhauzen.interaction.servants.HireDialog;
 import ua.gram.munhauzen.repository.InventoryRepository;
-import ua.gram.munhauzen.ui.FitImage;
+import ua.gram.munhauzen.ui.BackgroundImage;
 import ua.gram.munhauzen.ui.PrimaryButton;
 import ua.gram.munhauzen.utils.Log;
 
@@ -35,8 +33,6 @@ public class ServantsHireImageFragment extends Fragment {
 
     private final ServantsInteraction interaction;
     public Stack root;
-    Image background;
-    Table backgroundTable;
     PrimaryButton servantsBtn;
     int page;
     public int servantCount;
@@ -46,6 +42,7 @@ public class ServantsHireImageFragment extends Fragment {
     Label progressLabel;
     HireDialog hireDialog;
     CompleteDialog completeDialog;
+    public BackgroundImage backgroundImage;
 
     public ServantsHireImageFragment(ServantsInteraction interaction) {
         this.interaction = interaction;
@@ -54,6 +51,8 @@ public class ServantsHireImageFragment extends Fragment {
     public void create() {
 
         Log.i(tag, "create");
+
+        backgroundImage = new BackgroundImage(interaction.gameScreen);
 
         interaction.gameScreen.hideImageFragment();
 
@@ -101,12 +100,6 @@ public class ServantsHireImageFragment extends Fragment {
             }
         });
 
-        background = new FitImage();
-
-        backgroundTable = new Table();
-        backgroundTable.setFillParent(true);
-        backgroundTable.add(background).bottom().expand();
-
         hireContainer = new Table();
 
         Table btnTable = new Table();
@@ -135,7 +128,7 @@ public class ServantsHireImageFragment extends Fragment {
 
         root = new Stack();
         root.setFillParent(true);
-        root.addActor(backgroundTable);
+        root.addActor(backgroundImage);
         root.addActor(hireTable);
         root.addActor(uiTable);
         root.addActor(hireContainer);
@@ -154,7 +147,7 @@ public class ServantsHireImageFragment extends Fragment {
         start();
     }
 
-    private void toggleHireDialog() {
+    public void toggleHireDialog() {
         if (completeDialog.isMounted()) return;
 
         if (!hireDialog.isMounted()) return;
@@ -602,64 +595,9 @@ public class ServantsHireImageFragment extends Fragment {
 
     public void setBackground(Texture texture, String file) {
 
-        background.setDrawable(new SpriteDrawable(new Sprite(texture)));
+        interaction.gameScreen.hideImageFragment();
 
-        background.clearListeners();
-
-        if (background.getDrawable().getMinWidth() > background.getDrawable().getMinHeight()) {
-
-            float height = MunhauzenGame.WORLD_HEIGHT;
-            float scale = 1f * height / background.getDrawable().getMinHeight();
-            final float width = 1f * background.getDrawable().getMinWidth() * scale;
-
-            background.addListener(new ActorGestureListener() {
-
-                @Override
-                public void tap(InputEvent event, float x, float y, int count, int button) {
-                    super.tap(event, x, y, count, button);
-
-                    toggleHireDialog();
-                }
-
-                @Override
-                public void pan(InputEvent event, float x, float y, float deltaX, float deltaY) {
-                    super.pan(event, x, y, deltaX, deltaY);
-
-                    Log.i(tag, "pan");
-
-                    try {
-                        float newX = background.getX() + deltaX;
-
-                        float leftBound = -width + MunhauzenGame.WORLD_WIDTH;
-                        float rightBound = 0;
-
-                        if (leftBound < newX && newX < rightBound) {
-                            background.setX(background.getX() + deltaX);
-                        }
-
-                        if (background.getX() > 0) background.setX(0);
-                        if (background.getX() < leftBound) background.setX(leftBound);
-                    } catch (Throwable e) {
-                        Log.e(tag, e);
-                    }
-
-                }
-            });
-
-            backgroundTable.getCell(background)
-                    .width(width)
-                    .height(height);
-
-        } else {
-
-            float width = MunhauzenGame.WORLD_WIDTH;
-            float scale = 1f * width / background.getDrawable().getMinWidth();
-            float height = 1f * background.getDrawable().getMinHeight() * scale;
-
-            backgroundTable.getCell(background)
-                    .width(width)
-                    .height(height);
-        }
+        backgroundImage.setBackgroundDrawable(new SpriteDrawable(new Sprite(texture)));
 
         interaction.gameScreen.setLastBackground(file);
     }

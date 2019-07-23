@@ -748,8 +748,8 @@ public class PuzzleDecisionManager {
             float height = width * (1 / scale);
 
             setSize(
-                    width * interaction.imageFragment.backgroundScale,
-                    height * interaction.imageFragment.backgroundScale
+                    width * interaction.imageFragment.backgroundImage.backgroundScale,
+                    height * interaction.imageFragment.backgroundImage.backgroundScale
             );
 
             setOrigin(Align.bottom);

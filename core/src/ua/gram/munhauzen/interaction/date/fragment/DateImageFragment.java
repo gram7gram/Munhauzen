@@ -19,6 +19,7 @@ import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.fragment.Fragment;
 import ua.gram.munhauzen.interaction.DateInteraction;
 import ua.gram.munhauzen.interaction.date.CompleteDialog;
+import ua.gram.munhauzen.ui.BackgroundImage;
 import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.ui.PrimaryButton;
 import ua.gram.munhauzen.utils.Log;
@@ -30,8 +31,9 @@ public class DateImageFragment extends Fragment {
 
     private final DateInteraction interaction;
     public Stack root;
-    Image background, season1, season2, season3, season4;
-    Table backgroundTable, season1Table, season2Table, season3Table, season4Table, seasonsTable;
+    public BackgroundImage backgroundImage;
+    Image season1, season2, season3, season4;
+    Table season1Table, season2Table, season3Table, season4Table, seasonsTable;
     String currentSeason;
     Table seasonGroup, dialogContainer, dateContainer;
     ImageButton prevBtn, nextBtn;
@@ -47,6 +49,8 @@ public class DateImageFragment extends Fragment {
     public void create() {
 
         Log.i(tag, "create");
+
+        backgroundImage = new BackgroundImage(interaction.gameScreen);
 
         interaction.gameScreen.hideImageFragment();
 
@@ -65,15 +69,10 @@ public class DateImageFragment extends Fragment {
             }
         });
 
-        background = new FitImage();
         season1 = new FitImage();
         season2 = new FitImage();
         season3 = new FitImage();
         season4 = new FitImage();
-
-        backgroundTable = new Table();
-        backgroundTable.setFillParent(true);
-        backgroundTable.add(background).bottom().expand();
 
         season1.addListener(new ClickListener() {
             @Override
@@ -182,7 +181,7 @@ public class DateImageFragment extends Fragment {
         root = new Stack();
         root.setFillParent(true);
         root.setTouchable(Touchable.childrenOnly);
-        root.addActor(backgroundTable);
+        root.addActor(backgroundImage);
         root.addActor(dateContainer);
         root.addActor(dialogContainer);
 
@@ -315,15 +314,7 @@ public class DateImageFragment extends Fragment {
 
     public void setBackground(Texture texture, String file) {
 
-        background.setDrawable(new SpriteDrawable(new Sprite(texture)));
-
-        float width = MunhauzenGame.WORLD_WIDTH;
-        float scale = 1f * width / background.getDrawable().getMinWidth();
-        float height = 1f * background.getDrawable().getMinHeight() * scale;
-
-        backgroundTable.getCell(background)
-                .width(width)
-                .height(height);
+        backgroundImage.setBackgroundDrawable(new SpriteDrawable(new Sprite(texture)));
 
         interaction.gameScreen.setLastBackground(file);
     }

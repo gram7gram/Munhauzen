@@ -9,7 +9,7 @@ public class Scenario {
 
     public static final String DEATH = "DEATH";
     public static final String VICTORY = "VICTORY";
-    public static final String FADE_IN = "FADE_IN";
+    public static final String FADE_IN = "FADE";
 
     public Array<StoryImage> images;
     public Array<StoryAudio> audio;

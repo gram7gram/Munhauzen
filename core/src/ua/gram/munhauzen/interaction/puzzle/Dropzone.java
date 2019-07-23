@@ -24,8 +24,8 @@ public class Dropzone extends Actor {
         float height = width * (1 / scale);
 
         setSize(
-                width * interaction.imageFragment.backgroundScale,
-                height * interaction.imageFragment.backgroundScale
+                width * interaction.imageFragment.backgroundImage.backgroundScale,
+                height * interaction.imageFragment.backgroundImage.backgroundScale
         );
 
         interaction.imageFragment.setPositionRelativeToBackground(this, 310, 630);

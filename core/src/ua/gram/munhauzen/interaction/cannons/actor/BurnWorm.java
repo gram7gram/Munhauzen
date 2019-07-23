@@ -17,11 +17,11 @@ public class BurnWorm extends Image {
     }
 
     public void updateBounds() {
-        float width = fragment.backgroundWidth * .327f;
-        float height = fragment.backgroundHeight * .478f;
+        float width = fragment.backgroundImage.backgroundWidth * .327f;
+        float height = fragment.backgroundImage.backgroundHeight * .478f;
 
-        float topLeftX = fragment.background.getX() + fragment.backgroundWidth * .259f;
-        float topLeftY = fragment.background.getY() + fragment.backgroundHeight;
+        float topLeftX = fragment.backgroundImage.background.getX() + fragment.backgroundImage.backgroundWidth * .259f;
+        float topLeftY = fragment.backgroundImage.background.getY() + fragment.backgroundImage.backgroundHeight;
 
         setBounds(topLeftX, topLeftY - height, width, height);
     }

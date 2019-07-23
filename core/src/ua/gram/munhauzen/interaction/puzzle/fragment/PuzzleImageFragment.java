@@ -6,8 +6,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
@@ -17,6 +15,7 @@ import ua.gram.munhauzen.fragment.Fragment;
 import ua.gram.munhauzen.interaction.PuzzleInteraction;
 import ua.gram.munhauzen.interaction.puzzle.Dropzone;
 import ua.gram.munhauzen.interaction.puzzle.PuzzleItem;
+import ua.gram.munhauzen.ui.BackgroundImage;
 import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.ui.PrimaryButton;
 import ua.gram.munhauzen.utils.Log;
@@ -30,15 +29,10 @@ public class PuzzleImageFragment extends Fragment {
     public Group root, resultGroup, sourceGroup;
     public Dropzone dropzone;
 
-    /**
-     * 800x1000
-     */
-    public Image background;
-    public float backgroundScale;
+    public BackgroundImage backgroundImage;
 
     public PuzzleItem stick, spoon, shoes, peas, key, hair, clocks, arrows, powder, rope;
     public Foot foot;
-    public Table backgroundTable;
     public PrimaryButton resetButton;
 
     boolean areActorsInitialized;
@@ -50,6 +44,8 @@ public class PuzzleImageFragment extends Fragment {
     public void create() {
 
         Log.i(tag, "create");
+
+        backgroundImage = new BackgroundImage(interaction.gameScreen);
 
         Texture tex1 = interaction.assetManager.get("puzzle/inter_puzzle_stick_1.png", Texture.class);
         Texture tex2 = interaction.assetManager.get("puzzle/inter_puzzle_spoon_1.png", Texture.class);
@@ -80,8 +76,6 @@ public class PuzzleImageFragment extends Fragment {
         resetButton .setHeight(MunhauzenGame.WORLD_HEIGHT / 12f);
         resetButton.setPosition(10, 10);
 
-        background = new FitImage();
-
         stick = new Stick(tex1);
         spoon = new Spoon(tex2);
         shoes = new Shoes(tex3);
@@ -94,10 +88,6 @@ public class PuzzleImageFragment extends Fragment {
         rope = new Rope(tex10);
         foot = new Foot(tex12);
         dropzone = new Dropzone(interaction);
-
-        backgroundTable = new Table();
-        backgroundTable.setFillParent(true);
-        backgroundTable.add(background).center();
 
         setBackground(
                 interaction.assetManager.get("puzzle/inter_puzzle_fond_1.png", Texture.class),
@@ -121,7 +111,7 @@ public class PuzzleImageFragment extends Fragment {
 
         root = new Group();
         root.setTouchable(Touchable.enabled);
-        root.addActor(backgroundTable);
+        root.addActor(backgroundImage);
         root.addActor(sourceGroup);
         root.addActor(dropzone);
         root.addActor(resultGroup);
@@ -315,8 +305,8 @@ public class PuzzleImageFragment extends Fragment {
 
     public void setPositionRelativeToBackground(Actor actor, float x, float y) {
         actor.setPosition(
-                background.getX() + background.getWidth() * (x / 800f),
-                background.getY() + background.getHeight() * ((1000 - y) / 1000f)
+                backgroundImage.background.getX() + backgroundImage.backgroundWidth * (x / 800f),
+                backgroundImage.background.getY() + backgroundImage.backgroundHeight * ((1000 - y) / 1000f)
         );
         actor.setBounds(
                 actor.getX(),
@@ -328,8 +318,8 @@ public class PuzzleImageFragment extends Fragment {
 
     public void setSizeRelativeToBackground(Actor actor, Drawable texture) {
         actor.setSize(
-                texture.getMinWidth() * backgroundScale * .6f,
-                texture.getMinHeight() * backgroundScale * .6f
+                texture.getMinWidth() * backgroundImage.backgroundScale * .6f,
+                texture.getMinHeight() * backgroundImage.backgroundScale * .6f
         );
     }
 
@@ -337,14 +327,7 @@ public class PuzzleImageFragment extends Fragment {
 
         interaction.gameScreen.hideImageFragment();
 
-        background.setDrawable(new SpriteDrawable(new Sprite(texture)));
-
-        backgroundScale = 1f * MunhauzenGame.WORLD_WIDTH / background.getDrawable().getMinWidth();
-        float height = 1f * background.getDrawable().getMinHeight() * backgroundScale;
-
-        backgroundTable.getCell(background)
-                .width(MunhauzenGame.WORLD_WIDTH)
-                .height(height);
+        backgroundImage.setBackgroundDrawable(new SpriteDrawable(new Sprite(texture)));
 
         interaction.gameScreen.setLastBackground(file);
     }

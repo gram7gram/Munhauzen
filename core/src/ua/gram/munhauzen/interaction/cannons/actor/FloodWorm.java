@@ -17,11 +17,11 @@ public class FloodWorm extends Image {
     }
 
     public void updateBounds() {
-        float width = fragment.backgroundWidth * .519f;
-        float height = fragment.backgroundHeight * .499f;
+        float width = fragment.backgroundImage.backgroundWidth * .519f;
+        float height = fragment.backgroundImage.backgroundHeight * .499f;
 
-        float topLeftX = fragment.background.getX() + fragment.backgroundWidth * .461f;
-        float topLeftY = fragment.background.getY() + fragment.backgroundHeight * .5f;
+        float topLeftX = fragment.backgroundImage.background.getX() + fragment.backgroundImage.backgroundWidth * .461f;
+        float topLeftY = fragment.backgroundImage.background.getY() + fragment.backgroundImage.backgroundHeight * .5f;
 
         setBounds(topLeftX, topLeftY - height, width, height);
     }

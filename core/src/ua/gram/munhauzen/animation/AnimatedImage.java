@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.Scaling;
  */
 public abstract class AnimatedImage extends Image {
 
+    protected final String tag = getClass().getSimpleName();
     public Animation<TextureRegionDrawable> animation;
     public float duration;
     public boolean isStarted;

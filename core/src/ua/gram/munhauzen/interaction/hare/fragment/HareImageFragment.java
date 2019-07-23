@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 
 import ua.gram.munhauzen.MunhauzenGame;
@@ -18,7 +17,8 @@ import ua.gram.munhauzen.interaction.hare.animation.HorseAnimation;
 import ua.gram.munhauzen.interaction.hare.ui.Cloud;
 import ua.gram.munhauzen.interaction.hare.ui.Ground;
 import ua.gram.munhauzen.interaction.hare.ui.Misc;
-import ua.gram.munhauzen.ui.FitImage;
+import ua.gram.munhauzen.ui.BackgroundImage;
+import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
@@ -27,14 +27,18 @@ public class HareImageFragment extends Fragment {
 
     final HareInteraction interaction;
     Group root, items;
-    Table backgroundTable;
-    FitImage background;
+    public BackgroundImage backgroundImage;
 
     public HareImageFragment(HareInteraction interaction) {
         this.interaction = interaction;
     }
 
     public void create() {
+
+        Log.i(tag, "create");
+
+        backgroundImage = new BackgroundImage(interaction.gameScreen);
+
         Texture cloud1Texture = interaction.assetManager.get("LoadingScreen/lv_cloud_1.png", Texture.class);
         Texture cloud2Texture = interaction.assetManager.get("LoadingScreen/lv_cloud_2.png", Texture.class);
         Texture cloud3Texture = interaction.assetManager.get("LoadingScreen/lv_cloud_3.png", Texture.class);
@@ -75,13 +79,7 @@ public class HareImageFragment extends Fragment {
         misc5.addAction(Actions.rotateBy(-190));
         misc6.addAction(Actions.rotateBy(-250));
 
-        background = new FitImage();
-
-        backgroundTable = new Table();
-        backgroundTable.setFillParent(true);
-        backgroundTable.add(background).center().expand().fill();
-
-        backgroundTable.setVisible(false);
+        backgroundImage.setVisible(false);
 
         items = new Group();
         items.addActor(ground);
@@ -114,7 +112,7 @@ public class HareImageFragment extends Fragment {
 
         root = new Group();
         root.addActor(items);
-        root.addActor(backgroundTable);
+        root.addActor(backgroundImage);
     }
 
     public void update() {
@@ -125,7 +123,7 @@ public class HareImageFragment extends Fragment {
 
                 if (story.progress > 30000) {
 
-                    if (!backgroundTable.isVisible()) {
+                    if (!backgroundImage.isVisible()) {
                         setBackground(
                                 interaction.assetManager.get("hare/p18_d.jpg", Texture.class),
                                 "hare/p18_d.jpg"
@@ -135,7 +133,7 @@ public class HareImageFragment extends Fragment {
                 } else {
 
                     items.setVisible(true);
-                    backgroundTable.setVisible(false);
+                    backgroundImage.setVisible(false);
                 }
 
             }
@@ -148,16 +146,9 @@ public class HareImageFragment extends Fragment {
         interaction.gameScreen.hideImageFragment();
 
         items.setVisible(false);
-        backgroundTable.setVisible(true);
+        backgroundImage.setVisible(true);
 
-        background.setDrawable(new SpriteDrawable(new Sprite(texture)));
-
-        float scale = 1f * MunhauzenGame.WORLD_WIDTH / background.getDrawable().getMinWidth();
-        float height = 1f * background.getDrawable().getMinHeight() * scale;
-
-        backgroundTable.getCell(background)
-                .width(MunhauzenGame.WORLD_WIDTH)
-                .height(height);
+        backgroundImage.setBackgroundDrawable(new SpriteDrawable(new Sprite(texture)));
 
         interaction.gameScreen.setLastBackground(file);
     }

@@ -18,14 +18,13 @@ public class EatWorm extends Image {
 
     public void updateBounds() {
 
-        float width = fragment.backgroundWidth * .087f;
-        float height = fragment.backgroundHeight * .102f;
+        float width = fragment.backgroundImage.backgroundWidth * .087f;
+        float height = fragment.backgroundImage.backgroundHeight * .102f;
 
-        float topLeftX = fragment.background.getX() + fragment.backgroundWidth * .166f;
-        float topLeftY = fragment.background.getY() + fragment.backgroundHeight * .44f;
+        float topLeftX = fragment.backgroundImage.background.getX() + fragment.backgroundImage.backgroundWidth * .166f;
+        float topLeftY = fragment.backgroundImage.background.getY() + fragment.backgroundImage.backgroundHeight * .44f;
 
         setBounds(topLeftX, topLeftY - height, width, height);
-
     }
 
     @Override

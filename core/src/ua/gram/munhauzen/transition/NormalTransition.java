@@ -1,16 +1,10 @@
 package ua.gram.munhauzen.transition;
 
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 
-import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.StoryImage;
 import ua.gram.munhauzen.fragment.ImageFragment;
 import ua.gram.munhauzen.screen.GameScreen;
-import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
@@ -23,81 +17,17 @@ public class NormalTransition extends Transition {
 
     @Override
     public void prepare(final StoryImage item) {
-
-        if (item.drawable == null) return;
+        isLocked = true;
 
         final ImageFragment fragment = gameScreen.imageFragment;
 
-        fragment.layer1Image.clear();
-        fragment.layer2Image.clear();
+        fragment.backgroundBottomImage.setVisible(true);
+        fragment.backgroundTopImage.setVisible(false);
 
-        fragment.layer1ImageGroup.setVisible(true);
-        fragment.layer2ImageGroup.setVisible(false);
+        fragment.backgroundBottomImage.addAction(Actions.alpha(1));
 
-        fragment.layer1Image.addAction(Actions.alpha(1));
-        //fragment.layer2Image.addAction(Actions.alpha(1));
+        fragment.backgroundBottomImage.setBackgroundDrawable(item.drawable);
 
-        final Image targetImage = fragment.layer1Image;
-
-        targetImage.setDrawable(item.drawable);
-        targetImage.setName(item.image);
-        targetImage.setTouchable(Touchable.enabled);
-
-        if (item.drawable.getMinWidth() > item.drawable.getMinHeight()) {
-
-            float scale = 1f * MunhauzenGame.WORLD_HEIGHT / item.drawable.getMinHeight();
-            float width = 1f * item.drawable.getMinWidth() * scale;
-
-            item.height = MunhauzenGame.WORLD_HEIGHT;
-            item.width = width;
-
-            targetImage.addListener(new ActorGestureListener() {
-
-                @Override
-                public void tap(InputEvent event, float x, float y, int count, int button) {
-                    super.tap(event, x, y, count, button);
-
-                    gameScreen.stageInputListener.clicked(event, x, y);
-                }
-
-                @Override
-                public void pan(InputEvent event, float x, float y, float deltaX, float deltaY) {
-                    super.pan(event, x, y, deltaX, deltaY);
-
-                    Log.i(tag, "pan");
-
-                    try {
-                        float newX = targetImage.getX() + deltaX;
-                        float currentWidth = item.width;
-
-                        float leftBound = -currentWidth + MunhauzenGame.WORLD_WIDTH;
-                        float rightBound = 0;
-
-                        if (leftBound < newX && newX < rightBound) {
-                            targetImage.setX(targetImage.getX() + deltaX);
-                        }
-
-                        if (targetImage.getX() > 0) targetImage.setX(0);
-                        if (targetImage.getX() < leftBound) targetImage.setX(leftBound);
-                    } catch (Throwable e) {
-                        Log.e(tag, e);
-                    }
-
-                }
-            });
-
-        } else {
-
-            float scale = 1f * MunhauzenGame.WORLD_WIDTH / item.drawable.getMinWidth();
-            float height = 1f * item.drawable.getMinHeight() * scale;
-
-            item.width = MunhauzenGame.WORLD_WIDTH;
-            item.height = height;
-        }
-
-        fragment.layer1ImageTable.getCell(targetImage)
-                .width(item.width)
-                .height(item.height);
-
+        isLocked = false;
     }
 }
