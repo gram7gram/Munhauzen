@@ -262,7 +262,9 @@ public class StageInputListener extends ClickListener {
                     ServantsHireImageFragment hireImageFragment = ((ServantsInteraction) storyInteraction.interaction).hireFragment;
 
                     if (hireImageFragment != null) {
-                        hireImageFragment.toggleHireDialog();
+                        if (hireImageFragment.isMounted()) {
+                            hireImageFragment.toggleHireDialog();
+                        }
                     }
                 }
             }

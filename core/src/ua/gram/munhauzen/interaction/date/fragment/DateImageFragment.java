@@ -21,6 +21,7 @@ import ua.gram.munhauzen.interaction.DateInteraction;
 import ua.gram.munhauzen.interaction.date.CompleteDialog;
 import ua.gram.munhauzen.ui.BackgroundImage;
 import ua.gram.munhauzen.ui.FitImage;
+import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.ui.PrimaryButton;
 import ua.gram.munhauzen.utils.Log;
 
@@ -30,7 +31,7 @@ import ua.gram.munhauzen.utils.Log;
 public class DateImageFragment extends Fragment {
 
     private final DateInteraction interaction;
-    public Stack root;
+    public FragmentRoot root;
     public BackgroundImage backgroundImage;
     Image season1, season2, season3, season4;
     Table season1Table, season2Table, season3Table, season4Table, seasonsTable;
@@ -178,12 +179,11 @@ public class DateImageFragment extends Fragment {
 
         dialogContainer = new Table();
 
-        root = new Stack();
-        root.setFillParent(true);
+        root = new FragmentRoot();
         root.setTouchable(Touchable.childrenOnly);
-        root.addActor(backgroundImage);
-        root.addActor(dateContainer);
-        root.addActor(dialogContainer);
+        root.addContainer(backgroundImage);
+        root.addContainer(dateContainer);
+        root.addContainer(dialogContainer);
 
         setBackground(
                 interaction.assetManager.get("date/back.jpg", Texture.class),

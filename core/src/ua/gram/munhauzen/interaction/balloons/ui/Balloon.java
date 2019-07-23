@@ -1,9 +1,6 @@
 package ua.gram.munhauzen.interaction.balloons.ui;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.CatmullRomSpline;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -31,15 +28,16 @@ public class Balloon extends FitImage {
     CatmullRomSpline<Vector2> trajectory;
     Vector2[] dataSet;
     Vector2[] pointCache;
+    final float width, height;
 
     public Balloon(BalloonsInteraction interaction, Texture texture, int width, int height) {
         super(texture);
 
         this.interaction = interaction;
+        this.width = width;
+        this.height = height;
 
         setOrigin(Align.center);
-
-        setSize(width, height);
 
         r = new Random();
     }
@@ -171,30 +169,16 @@ public class Balloon extends FitImage {
     }
 
     @Override
-    public void draw(Batch batch, float parentAlpha) {
-        super.draw(batch, parentAlpha);
+    public void layout() {
+        super.layout();
 
-        if (isVisible()) {
+        setSize(width, height);
+    }
 
-            batch.end();
+    @Override
+    public void act(float delta) {
+        super.act(delta);
 
-            if (interaction.shapeRenderer != null && pointCache != null && dataSet != null) {
-                interaction.shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
 
-                interaction.shapeRenderer.setColor(Color.RED);
-                for (int i = 0; i < pointCache.length - 1; i++) {
-                    interaction.shapeRenderer.line(pointCache[i], pointCache[i + 1]);
-                }
-
-                interaction.shapeRenderer.setColor(Color.BLUE);
-                for (int i = 1; i < dataSet.length; i++) {
-                    interaction.shapeRenderer.line(dataSet[i - 1], dataSet[i]);
-                }
-
-                interaction.shapeRenderer.end();
-            }
-
-            batch.begin();
-        }
     }
 }

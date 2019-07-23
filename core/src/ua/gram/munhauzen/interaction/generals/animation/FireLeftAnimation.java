@@ -7,18 +7,19 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.animation.AnimatedImage;
 import ua.gram.munhauzen.interaction.generals.GeneralsStoryImage;
+import ua.gram.munhauzen.ui.BackgroundImage;
 
 /**
  * @author Gram <gram7gram@gmail.com>
  */
 public class FireLeftAnimation extends AnimatedImage {
 
-    Image generals;
+    BackgroundImage generals;
 
     /**
      * 1444x1200 is original generals image
      */
-    public FireLeftAnimation(Texture texture, Image generals) {
+    public FireLeftAnimation(Texture texture, BackgroundImage generals) {
         super(texture);
 
         this.generals = generals;
@@ -27,20 +28,23 @@ public class FireLeftAnimation extends AnimatedImage {
         setTouchable(Touchable.disabled);
     }
 
-    public void init(GeneralsStoryImage image) {
+    @Override
+    public void layout() {
+        super.layout();
 
-        setWidth(image.width * 400f / 1444);
-        setHeight(image.height * 221f / 1200);
+        setWidth(generals.backgroundWidth * 400f / 1444);
+        setHeight(generals.backgroundHeight * 221f / 1200);
         setVisible(true);
-
-        setY(MunhauzenGame.WORLD_HEIGHT * (534 / 1200f));
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
 
-        setX(generals.getX() + generals.getWidth() * (116 / 1444f));
+
+        setX(generals.background.getX() + generals.backgroundWidth * (116 / 1444f));
+        setY(MunhauzenGame.WORLD_HEIGHT * (534 / 1200f));
+
     }
 }
 

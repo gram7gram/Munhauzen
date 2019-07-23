@@ -2,7 +2,7 @@ package ua.gram.munhauzen.interaction.generals.fragment;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
 
 import ua.gram.munhauzen.fragment.Fragment;
 import ua.gram.munhauzen.interaction.GeneralsInteraction;
@@ -12,6 +12,7 @@ import ua.gram.munhauzen.interaction.generals.animation.FireLeftAnimation;
 import ua.gram.munhauzen.interaction.generals.animation.FireRightAnimation;
 import ua.gram.munhauzen.interaction.generals.animation.FumesAnimation;
 import ua.gram.munhauzen.ui.BackgroundImage;
+import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.utils.Log;
 
 /**
@@ -23,7 +24,7 @@ public class GeneralsImageFragment extends Fragment {
     FumesAnimation fumes;
     FireLeftAnimation fireLeft;
     FireRightAnimation fireRight;
-    public Group root, items;
+    public FragmentRoot root;
     public BackgroundImage backgroundImage;
 
     public GeneralsImageFragment(GeneralsInteraction interaction) {
@@ -40,18 +41,16 @@ public class GeneralsImageFragment extends Fragment {
         Texture fireLeftTexture = interaction.assetManager.get("generals/an_general_2_sheet_3x1.png", Texture.class);
         Texture fireRightTexture = interaction.assetManager.get("generals/an_general_3_sheet_3x1.png", Texture.class);
 
-        fumes = new FumesAnimation(fumesTexture, backgroundImage.background);
-        fireLeft = new FireLeftAnimation(fireLeftTexture, backgroundImage.background);
-        fireRight = new FireRightAnimation(fireRightTexture, backgroundImage.background);
+        fumes = new FumesAnimation(fumesTexture, backgroundImage);
+        fireLeft = new FireLeftAnimation(fireLeftTexture, backgroundImage);
+        fireRight = new FireRightAnimation(fireRightTexture, backgroundImage);
 
         fumes.setVisible(false);
         fireLeft.setVisible(false);
         fireRight.setVisible(false);
 
-        items = new Group();
-
-        root = new Group();
-        root.addActor(backgroundImage);
+        root = new FragmentRoot();
+        root.addContainer(backgroundImage);
         root.setName(tag);
     }
 
@@ -71,17 +70,15 @@ public class GeneralsImageFragment extends Fragment {
 
                 if (image.withFumes) {
 
-                    if (story.currentScenario.currentImage.width > 0) {
+                    if (backgroundImage.backgroundWidth > 0) {
 
                         if (!fumes.isVisible()) {
 
                             Log.i(tag, "show fumes");
 
-                            fumes.init(story.currentScenario.currentImage);
-
                             fumes.start();
 
-                            root.addActor(fumes);
+                            root.addContainer(new Container<>(fumes));
                         }
                     }
                 } else {
@@ -90,17 +87,15 @@ public class GeneralsImageFragment extends Fragment {
 
                 if (image.withFireLeft) {
 
-                    if (story.currentScenario.currentImage.width > 0) {
+                    if (backgroundImage.backgroundWidth > 0) {
 
                         if (!fireLeft.isVisible()) {
 
                             Log.i(tag, "show fire left");
 
-                            fireLeft.init(story.currentScenario.currentImage);
-
                             fireLeft.start();
 
-                            root.addActor(fireLeft);
+                            root.addContainer(new Container<>(fireLeft));
                         }
                     }
                 } else {
@@ -109,17 +104,15 @@ public class GeneralsImageFragment extends Fragment {
 
                 if (image.withFireRight) {
 
-                    if (story.currentScenario.currentImage.width > 0) {
+                    if (backgroundImage.backgroundWidth > 0) {
 
                         if (!fireRight.isVisible()) {
 
                             Log.i(tag, "show fire right");
 
-                            fireRight.init(story.currentScenario.currentImage);
-
                             fireRight.start();
 
-                            root.addActor(fireRight);
+                            root.addContainer(new Container<>(fireRight));
                         }
                     }
                 } else {

@@ -200,8 +200,7 @@ public class PictureScenarioFragment extends Fragment {
             );
         }
 
-        drawPolygons();
-
+        //drawPolygons();
     }
 
     private void drawPolygons() {

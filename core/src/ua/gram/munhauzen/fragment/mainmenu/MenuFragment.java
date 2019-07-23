@@ -33,6 +33,7 @@ import ua.gram.munhauzen.expansion.ExtractGameConfigTask;
 import ua.gram.munhauzen.fragment.Fragment;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.service.ExpansionDownloadManager;
+import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.utils.ExternalFiles;
 import ua.gram.munhauzen.utils.Log;
 
@@ -44,7 +45,7 @@ public class MenuFragment extends Fragment {
     private final String tag = getClass().getSimpleName();
     private final MunhauzenGame game;
     private final AssetManager assetManager;
-    public Stack root;
+    public FragmentRoot root;
     ScrollPane scroll;
     TextButton downloadButton;
     public TextButton expansionButton;
@@ -184,10 +185,9 @@ public class MenuFragment extends Fragment {
         scroll.setFillParent(true);
         scroll.setName(tag);
 
-        root = new Stack();
-        root.setFillParent(true);
-        root.addActor(scroll);
-        root.addActor(container3);
+        root = new FragmentRoot();
+        root.addContainer(scroll);
+        root.addContainer(container3);
     }
 
     private void createInventoryTable() {

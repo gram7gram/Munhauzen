@@ -19,6 +19,7 @@ import ua.gram.munhauzen.fragment.Fragment;
 import ua.gram.munhauzen.interaction.SwampInteraction;
 import ua.gram.munhauzen.ui.BackgroundImage;
 import ua.gram.munhauzen.ui.FitImage;
+import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.utils.Log;
 import ua.gram.munhauzen.utils.Random;
 
@@ -28,7 +29,7 @@ import ua.gram.munhauzen.utils.Random;
 public class SwampImageFragment extends Fragment {
 
     private final SwampInteraction interaction;
-    public Group root;
+    public FragmentRoot root;
     public Image swamp, munhauzen;
     public Table swampTable, munhauzenTable;
     public BackgroundImage backgroundImage;
@@ -103,11 +104,11 @@ public class SwampImageFragment extends Fragment {
             }
         }, 0, .01f);
 
-        root = new Group();
+        root = new FragmentRoot();
         root.setTouchable(Touchable.childrenOnly);
-        root.addActor(backgroundImage);
-        root.addActor(munhauzenTable);
-        root.addActor(swampTable);
+        root.addContainer(backgroundImage);
+        root.addContainer(munhauzenTable);
+        root.addContainer(swampTable);
 
         root.setName(tag);
 

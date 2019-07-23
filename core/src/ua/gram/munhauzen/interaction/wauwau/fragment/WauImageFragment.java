@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 
@@ -14,6 +15,7 @@ import ua.gram.munhauzen.interaction.wauwau.WauStory;
 import ua.gram.munhauzen.interaction.wauwau.WauStoryImage;
 import ua.gram.munhauzen.interaction.wauwau.animation.WauAnimation;
 import ua.gram.munhauzen.ui.BackgroundImage;
+import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.utils.Log;
 
 /**
@@ -23,7 +25,8 @@ public class WauImageFragment extends Fragment {
 
     private final WauInteraction interaction;
     WauAnimation wauAnimation;
-    public Group root, items;
+    public Group items;
+    public FragmentRoot root;
     public BackgroundImage backgroundImage;
 
     public WauImageFragment(WauInteraction interaction) {
@@ -43,8 +46,8 @@ public class WauImageFragment extends Fragment {
 
         items = new Group();
 
-        root = new Stack();
-        root.addActor(backgroundImage);
+        root = new FragmentRoot();
+        root.addContainer(backgroundImage);
 
         root.setName(tag);
 
@@ -118,7 +121,7 @@ public class WauImageFragment extends Fragment {
 
                         wauAnimation.init();
 
-                        root.addActor(wauAnimation);
+                        root.addContainer(new Container<>(wauAnimation));
                     }
 
                     if (!wauAnimation.isMoving) {

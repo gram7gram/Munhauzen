@@ -12,14 +12,16 @@ import ua.gram.munhauzen.utils.Random;
  */
 public class Cloud extends Image {
 
+    final float width, height, x, y;
 
     public Cloud(Texture texture, int width, int height, float x, float y) {
 
         super(texture);
 
-
-        setSize(width, height);
-        setPosition(x - width - 20, y);
+        this.width = width;
+        this.height = height;
+        this.x = x;
+        this.y = y;
     }
 
     public void start() {
@@ -31,12 +33,23 @@ public class Cloud extends Image {
         addAction(
                 Actions.forever(
                         Actions.sequence(
+                                Actions.visible(false),
                                 Actions.delay(r.between(0, 2)),
-                                Actions.moveTo(-width, getY()),
-                                Actions.moveTo(MunhauzenGame.WORLD_WIDTH, getY(), r.between(5, 10)),
+                                Actions.visible(true),
+                                Actions.moveTo(-width, y),
+                                Actions.moveTo(MunhauzenGame.WORLD_WIDTH, y, r.between(5, 10)),
                                 Actions.delay(r.between(1, 2))
                         )
                 )
         );
+    }
+
+    @Override
+    public void layout() {
+        super.layout();
+
+        setPosition(x - width - 20, y);
+
+        setSize(width, height);
     }
 }

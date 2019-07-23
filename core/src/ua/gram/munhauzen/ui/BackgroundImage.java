@@ -147,6 +147,8 @@ public class BackgroundImage extends Group {
     public void setOverlayTexture(Texture texture) {
 
         SpriteDrawable drawable = new SpriteDrawable(new Sprite(texture));
+        overlayBottom.setDrawable(drawable);
+        overlayTop.setDrawable(drawable);
 
 //        Pixmap red = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
 //        red.setColor(Color.RED);
@@ -158,9 +160,6 @@ public class BackgroundImage extends Group {
 //
 //        overlayBottom.setDrawable(new SpriteDrawable(new Sprite(new Texture(red))));
 //        overlayTop.setDrawable(new SpriteDrawable(new Sprite(new Texture(blue))));
-
-        overlayBottom.setDrawable(drawable);
-        overlayTop.setDrawable(drawable);
     }
 
     public void setBackgroundDrawable(SpriteDrawable drawable) {
@@ -280,8 +279,8 @@ public class BackgroundImage extends Group {
             if (background.getX() > rightBound) background.setX(rightBound);
             if (background.getX() < leftBound) background.setX(leftBound);
 
-            rightArrow.setDisabled((int) background.getX() <= (int) leftBound);
-            leftArrow.setDisabled((int) background.getX() >= (int) rightBound);
+            rightArrow.setVisible(!((int) background.getX() <= (int) leftBound));
+            leftArrow.setVisible(!((int) background.getX() >= (int) rightBound));
 
             return background.getX() - xBefore;
 

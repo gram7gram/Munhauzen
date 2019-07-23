@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -25,6 +26,7 @@ import ua.gram.munhauzen.interaction.servants.FireDialog;
 import ua.gram.munhauzen.interaction.servants.HiredServant;
 import ua.gram.munhauzen.repository.InventoryRepository;
 import ua.gram.munhauzen.ui.BackgroundImage;
+import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.ui.PrimaryButton;
 import ua.gram.munhauzen.utils.Log;
 import ua.gram.munhauzen.utils.MathUtils;
@@ -37,7 +39,7 @@ public class ServantsFireImageFragment extends Fragment {
     private final MunhauzenGame game;
     private final ServantsInteraction interaction;
     public BackgroundImage backgroundImage;
-    public Stack root;
+    public FragmentRoot root;
     public Group items;
     public Table fireContainer;
     public FireDialog fireDialog;
@@ -45,7 +47,6 @@ public class ServantsFireImageFragment extends Fragment {
     final int servantLimit = 5;
     Label progressLabel;
     StoryAudio fireAudio;
-
 
     final String[] names = {
             "CARPETENER",
@@ -84,6 +85,8 @@ public class ServantsFireImageFragment extends Fragment {
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
+
+                    interaction.gameScreen.onCriticalError(e);
                 }
             }
         });
@@ -111,6 +114,8 @@ public class ServantsFireImageFragment extends Fragment {
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
+
+                    interaction.gameScreen.onCriticalError(e);
                 }
             }
         });
@@ -120,8 +125,7 @@ public class ServantsFireImageFragment extends Fragment {
                 Color.BLACK
         ));
 
-        final Table btnTable = new Table();
-
+        Table btnTable = new Table();
         btnTable.add(backBtn).padRight(10).left()
                 .width(MunhauzenGame.WORLD_WIDTH * .25f)
                 .height(MunhauzenGame.WORLD_HEIGHT / 15f);
@@ -132,7 +136,6 @@ public class ServantsFireImageFragment extends Fragment {
                 .width(MunhauzenGame.WORLD_WIDTH * .25f)
                 .height(MunhauzenGame.WORLD_HEIGHT / 15f);
 
-
         Table uiTable = new Table();
         uiTable.setFillParent(true);
         uiTable.pad(10);
@@ -141,13 +144,14 @@ public class ServantsFireImageFragment extends Fragment {
         fireContainer = new Table();
 
         items = new Group();
+        items.setTouchable(Touchable.childrenOnly);
 
-        root = new Stack();
-        root.setFillParent(true);
-        root.addActor(backgroundImage);
-        root.addActor(items);
-        root.addActor(fireContainer);
-        root.addActor(uiTable);
+        root = new FragmentRoot();
+        root.setTouchable(Touchable.childrenOnly);
+        root.addContainer(backgroundImage);
+        root.addContainer(items);
+        root.addContainer(fireContainer);
+        root.addContainer(uiTable);
 
         root.setName(tag);
 
@@ -170,7 +174,7 @@ public class ServantsFireImageFragment extends Fragment {
                     final HiredServant hiredServant;
                     Texture on, off;
 
-                    switch (name) {
+                    switch (item.name) {
                         case "CARPETENER":
 
                             interaction.assetManager.load("servants/inter_servants_carpenter_2.png", Texture.class);

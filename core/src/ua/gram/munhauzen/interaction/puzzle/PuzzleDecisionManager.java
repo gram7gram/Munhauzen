@@ -489,9 +489,24 @@ public class PuzzleDecisionManager {
                 public void run() {
                     try {
 
-                        interaction.imageFragment.sourceGroup.addAction(Actions.alpha(0, .3f));
-                        interaction.imageFragment.resultGroup.addAction(Actions.alpha(0, .3f));
-                        interaction.imageFragment.resetButton.addAction(Actions.alpha(0, .3f));
+                        interaction.imageFragment.sourceGroup.addAction(
+                                Actions.sequence(
+                                        Actions.alpha(0, .3f),
+                                        Actions.visible(false)
+                                )
+                        );
+                        interaction.imageFragment.resultGroup.addAction(
+                                Actions.sequence(
+                                        Actions.alpha(0, .3f),
+                                        Actions.visible(false)
+                                )
+                        );
+                        interaction.imageFragment.resetButton.addAction(
+                                Actions.sequence(
+                                        Actions.alpha(0, .3f),
+                                        Actions.visible(false)
+                                )
+                        );
 
                         interaction.imageFragment.setBackground(
                                 interaction.assetManager.get("puzzle/pbear_fin.jpg", Texture.class),

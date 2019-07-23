@@ -1,10 +1,10 @@
 package ua.gram.munhauzen.fragment;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.ui.BackgroundImage;
+import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.utils.Log;
 
 /**
@@ -14,7 +14,7 @@ public class ImageFragment extends Fragment {
 
     private final String tag = getClass().getSimpleName();
     private final GameScreen gameScreen;
-    public Stack root;
+    public FragmentRoot root;
 
     public BackgroundImage backgroundTopImage;
     public BackgroundImage backgroundBottomImage;
@@ -31,11 +31,9 @@ public class ImageFragment extends Fragment {
 
         backgroundBottomImage = new BackgroundImage(gameScreen);
 
-        root = new Stack();
-        root.setFillParent(true);
-
-        root.add(backgroundBottomImage);
-        root.add(backgroundTopImage);
+        root = new FragmentRoot();
+        root.addContainer(backgroundBottomImage);
+        root.addContainer(backgroundTopImage);
 
         root.setName(tag);
     }

@@ -18,6 +18,7 @@ import ua.gram.munhauzen.interaction.hare.ui.Cloud;
 import ua.gram.munhauzen.interaction.hare.ui.Ground;
 import ua.gram.munhauzen.interaction.hare.ui.Misc;
 import ua.gram.munhauzen.ui.BackgroundImage;
+import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.utils.Log;
 
 /**
@@ -26,7 +27,8 @@ import ua.gram.munhauzen.utils.Log;
 public class HareImageFragment extends Fragment {
 
     final HareInteraction interaction;
-    Group root, items;
+    FragmentRoot root;
+    Group items;
     public BackgroundImage backgroundImage;
 
     public HareImageFragment(HareInteraction interaction) {
@@ -110,9 +112,9 @@ public class HareImageFragment extends Fragment {
         cloud2.start();
         cloud3.start();
 
-        root = new Group();
-        root.addActor(items);
-        root.addActor(backgroundImage);
+        root = new FragmentRoot();
+        root.addContainer(backgroundImage);
+        root.addContainer(items);
     }
 
     public void update() {

@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
@@ -21,8 +20,9 @@ import ua.gram.munhauzen.fragment.Fragment;
 import ua.gram.munhauzen.interaction.ServantsInteraction;
 import ua.gram.munhauzen.interaction.servants.CompleteDialog;
 import ua.gram.munhauzen.interaction.servants.HireDialog;
+import ua.gram.munhauzen.interaction.servants.ServantImage;
 import ua.gram.munhauzen.repository.InventoryRepository;
-import ua.gram.munhauzen.ui.BackgroundImage;
+import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.ui.PrimaryButton;
 import ua.gram.munhauzen.utils.Log;
 
@@ -32,7 +32,7 @@ import ua.gram.munhauzen.utils.Log;
 public class ServantsHireImageFragment extends Fragment {
 
     private final ServantsInteraction interaction;
-    public Stack root;
+    public FragmentRoot root;
     PrimaryButton servantsBtn;
     int page;
     public int servantCount;
@@ -42,7 +42,7 @@ public class ServantsHireImageFragment extends Fragment {
     Label progressLabel;
     HireDialog hireDialog;
     CompleteDialog completeDialog;
-    public BackgroundImage backgroundImage;
+    public ServantImage backgroundImage;
 
     public ServantsHireImageFragment(ServantsInteraction interaction) {
         this.interaction = interaction;
@@ -52,7 +52,7 @@ public class ServantsHireImageFragment extends Fragment {
 
         Log.i(tag, "create");
 
-        backgroundImage = new BackgroundImage(interaction.gameScreen);
+        backgroundImage = new ServantImage(interaction.gameScreen);
 
         interaction.gameScreen.hideImageFragment();
 
@@ -60,8 +60,13 @@ public class ServantsHireImageFragment extends Fragment {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
+                try {
+                    interaction.openFireFragment();
+                } catch (Throwable e) {
+                    Log.e(tag, e);
 
-                interaction.openFireFragment();
+                    interaction.gameScreen.onCriticalError(e);
+                }
             }
         });
 
@@ -126,23 +131,11 @@ public class ServantsHireImageFragment extends Fragment {
         hireDialog = new HireDialog(interaction);
         completeDialog = new CompleteDialog(interaction);
 
-        root = new Stack();
-        root.setFillParent(true);
-        root.addActor(backgroundImage);
-        root.addActor(hireTable);
-        root.addActor(uiTable);
-        root.addActor(hireContainer);
-
-        root.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-
-                if (event.isHandled()) return;
-
-                toggleHireDialog();
-            }
-        });
+        root = new FragmentRoot();
+        root.addContainer(backgroundImage);
+        root.addContainer(hireTable);
+        root.addContainer(uiTable);
+        root.addContainer(hireContainer);
 
         start();
     }

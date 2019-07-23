@@ -1,7 +1,6 @@
 package ua.gram.munhauzen.interaction;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import ua.gram.munhauzen.interaction.balloons.fragment.BalloonsImageFragment;
 import ua.gram.munhauzen.screen.GameScreen;
@@ -14,7 +13,6 @@ public class BalloonsInteraction extends AbstractInteraction {
 
     public BalloonsImageFragment imageFragment;
     boolean isLoaded;
-    public ShapeRenderer shapeRenderer;
 
     public BalloonsInteraction(GameScreen gameScreen) {
         super(gameScreen);
@@ -25,8 +23,6 @@ public class BalloonsInteraction extends AbstractInteraction {
         super.start();
 
         gameScreen.hideProgressBar();
-
-        shapeRenderer = new ShapeRenderer();
 
         assetManager.load("LoadingScreen/lv_cloud_1.png", Texture.class);
         assetManager.load("LoadingScreen/lv_cloud_2.png", Texture.class);

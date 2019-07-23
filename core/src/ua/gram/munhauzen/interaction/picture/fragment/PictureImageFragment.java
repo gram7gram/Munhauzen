@@ -2,11 +2,11 @@ package ua.gram.munhauzen.interaction.picture.fragment;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 
 import ua.gram.munhauzen.fragment.Fragment;
 import ua.gram.munhauzen.interaction.PictureInteraction;
 import ua.gram.munhauzen.ui.BackgroundImage;
+import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.utils.Log;
 
 /**
@@ -15,7 +15,7 @@ import ua.gram.munhauzen.utils.Log;
 public class PictureImageFragment extends Fragment {
 
     private final PictureInteraction interaction;
-    public Stack root;
+    public FragmentRoot root;
     public BackgroundImage backgroundImage;
 
     public PictureImageFragment(PictureInteraction interaction) {
@@ -28,10 +28,9 @@ public class PictureImageFragment extends Fragment {
 
         backgroundImage = new BackgroundImage(interaction.gameScreen);
 
-        root = new Stack();
-        root.setFillParent(true);
+        root = new FragmentRoot();
         root.setTouchable(Touchable.childrenOnly);
-        root.addActor(backgroundImage);
+        root.addContainer(backgroundImage);
     }
 
     @Override

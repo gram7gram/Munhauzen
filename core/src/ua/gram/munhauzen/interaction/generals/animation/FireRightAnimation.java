@@ -2,23 +2,22 @@ package ua.gram.munhauzen.interaction.generals.animation;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.animation.AnimatedImage;
-import ua.gram.munhauzen.interaction.generals.GeneralsStoryImage;
+import ua.gram.munhauzen.ui.BackgroundImage;
 
 /**
  * @author Gram <gram7gram@gmail.com>
  */
 public class FireRightAnimation extends AnimatedImage {
 
-    Image generals;
+    BackgroundImage generals;
 
     /**
      * 1444x1200 is original generals image
      */
-    public FireRightAnimation(Texture texture, Image generals) {
+    public FireRightAnimation(Texture texture, BackgroundImage generals) {
         super(texture);
 
         this.generals = generals;
@@ -27,20 +26,22 @@ public class FireRightAnimation extends AnimatedImage {
         setTouchable(Touchable.disabled);
     }
 
-    public void init(GeneralsStoryImage image) {
+    @Override
+    public void layout() {
+        super.layout();
 
-        setWidth(image.width * 180f / 1444);
-        setHeight(image.height * 190f / 1200);
+        setWidth(generals.backgroundWidth * 180f / 1444);
+        setHeight(generals.backgroundHeight * 190f / 1200);
         setVisible(true);
-
-        setY(MunhauzenGame.WORLD_HEIGHT * (878 / 1200f));
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
 
-        setX(generals.getX() + generals.getWidth() * (1024 / 1444f));
+        setX(generals.background.getX() + generals.backgroundWidth * (1024 / 1444f));
+        setY(MunhauzenGame.WORLD_HEIGHT * (878 / 1200f));
+
     }
 }
 

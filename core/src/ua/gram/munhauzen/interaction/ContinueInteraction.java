@@ -23,6 +23,7 @@ import ua.gram.munhauzen.entity.StoryInteraction;
 import ua.gram.munhauzen.fragment.SimpleFragment;
 import ua.gram.munhauzen.repository.ImageRepository;
 import ua.gram.munhauzen.screen.GameScreen;
+import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.ui.PrimaryButton;
 import ua.gram.munhauzen.utils.Log;
 
@@ -31,7 +32,7 @@ import ua.gram.munhauzen.utils.Log;
  */
 public class ContinueInteraction extends AbstractInteraction {
 
-    public Group root;
+    public FragmentRoot root;
     public boolean isFadeIn, isFadeOut, isLoaded;
     Button button;
     StoryImage lastImage;
@@ -55,8 +56,6 @@ public class ContinueInteraction extends AbstractInteraction {
 
     private void onResourcesLoaded() {
 
-        root = new Group();
-
         button = button("Continue", new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -73,7 +72,8 @@ public class ContinueInteraction extends AbstractInteraction {
                 .width(MunhauzenGame.WORLD_WIDTH / 3f)
                 .height(MunhauzenGame.WORLD_HEIGHT / 12f);
 
-        root.addActor(table);
+        root = new FragmentRoot();
+        root.addContainer(table);
 
         root.addAction(Actions.sequence(
                 Actions.alpha(0),
@@ -124,6 +124,8 @@ public class ContinueInteraction extends AbstractInteraction {
             }
         } catch (Throwable e) {
             Log.e(tag, e);
+
+            gameScreen.onCriticalError(e);
         }
     }
 

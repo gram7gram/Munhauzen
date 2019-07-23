@@ -8,7 +8,10 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -23,10 +26,11 @@ import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.fragment.Fragment;
 import ua.gram.munhauzen.interaction.BalloonsInteraction;
+import ua.gram.munhauzen.interaction.balloons.animation.DucksAnimation;
 import ua.gram.munhauzen.interaction.balloons.ui.Balloon;
 import ua.gram.munhauzen.interaction.balloons.ui.Cloud;
-import ua.gram.munhauzen.interaction.hare.animation.DucksAnimation;
 import ua.gram.munhauzen.ui.BackgroundImage;
+import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.ui.PrimaryButton;
 import ua.gram.munhauzen.utils.Log;
 import ua.gram.munhauzen.utils.MathUtils;
@@ -37,7 +41,7 @@ import ua.gram.munhauzen.utils.MathUtils;
 public class BalloonsImageFragment extends Fragment {
 
     private final BalloonsInteraction interaction;
-    public Group root;
+    public FragmentRoot root;
     public BackgroundImage backgroundImage;
     PrimaryButton resetButton;
     Balloon balloon1, balloon2, balloon3, balloon4;
@@ -185,20 +189,20 @@ public class BalloonsImageFragment extends Fragment {
                 "balloons/inter_balloons_fond.jpg"
         );
 
-        root = new Group();
+        root = new FragmentRoot();
         root.setTouchable(Touchable.childrenOnly);
-        root.addActor(backgroundImage);
-        root.addActor(cloud1);
-        root.addActor(cloud2);
-        root.addActor(cloud3);
-        root.addActor(ducks);
-        root.addActor(balloon1);
-        root.addActor(balloon2);
-        root.addActor(balloon3);
-        root.addActor(balloon4);
-        root.addActor(titleTable);
-        root.addActor(restartTable);
-        root.addActor(winTable);
+        root.addContainer(backgroundImage);
+        root.addContainer(new Container<>(cloud1));
+        root.addContainer(new Container<>(cloud2));
+        root.addContainer(new Container<>(cloud3));
+        root.addContainer(new Container<>(ducks));
+        root.addContainer(new Container<>(balloon1));
+        root.addContainer(new Container<>(balloon2));
+        root.addContainer(new Container<>(balloon3));
+        root.addContainer(new Container<>(balloon4));
+        root.addContainer(titleTable);
+        root.addContainer(restartTable);
+        root.addContainer(winTable);
 
         root.setName(tag);
 

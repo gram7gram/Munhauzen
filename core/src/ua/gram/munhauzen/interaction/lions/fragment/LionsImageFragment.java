@@ -19,6 +19,7 @@ import ua.gram.munhauzen.fragment.Fragment;
 import ua.gram.munhauzen.interaction.LionsInteraction;
 import ua.gram.munhauzen.repository.InventoryRepository;
 import ua.gram.munhauzen.ui.BackgroundImage;
+import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.ui.PrimaryButton;
 import ua.gram.munhauzen.utils.Log;
 import ua.gram.munhauzen.utils.MathUtils;
@@ -30,7 +31,7 @@ import ua.gram.munhauzen.utils.Random;
 public class LionsImageFragment extends Fragment {
 
     private final LionsInteraction interaction;
-    public Stack root;
+    public FragmentRoot root;
     BackgroundImage backgroundImage;
     PrimaryButton attackBtn;
     StoryAudio steadyAudio, goAudio, sleepAudio;
@@ -53,6 +54,7 @@ public class LionsImageFragment extends Fragment {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
+                //dummy
             }
         });
 
@@ -64,11 +66,10 @@ public class LionsImageFragment extends Fragment {
                 .height(MunhauzenGame.WORLD_HEIGHT / 12f)
                 .padBottom(80);
 
-        root = new Stack();
-        root.setFillParent(true);
+        root = new FragmentRoot();
         root.setTouchable(Touchable.childrenOnly);
-        root.addActor(backgroundImage);
-        root.addActor(btnTable);
+        root.addContainer(backgroundImage);
+        root.addContainer(btnTable);
 
         setBackground(
                 interaction.assetManager.get("lions/int_lions_fond.jpg", Texture.class),
@@ -175,9 +176,7 @@ public class LionsImageFragment extends Fragment {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            interaction.gameScreen.onCriticalError(e);
-
-            steadyAudio.duration = 1000;
+            //interaction.gameScreen.onCriticalError(e);
         }
 
     }
@@ -195,9 +194,7 @@ public class LionsImageFragment extends Fragment {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            interaction.gameScreen.onCriticalError(e);
-
-            sleepAudio.duration = 1000;
+            //interaction.gameScreen.onCriticalError(e);
         }
 
     }
@@ -219,9 +216,7 @@ public class LionsImageFragment extends Fragment {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            interaction.gameScreen.onCriticalError(e);
-
-            goAudio.duration = 1000;
+            //interaction.gameScreen.onCriticalError(e);
         }
 
     }
@@ -259,7 +254,7 @@ public class LionsImageFragment extends Fragment {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            interaction.gameScreen.onCriticalError(e);
+            //interaction.gameScreen.onCriticalError(e);
         }
     }
 
@@ -279,7 +274,7 @@ public class LionsImageFragment extends Fragment {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            interaction.gameScreen.onCriticalError(e);
+            //interaction.gameScreen.onCriticalError(e);
         }
     }
 
@@ -299,7 +294,7 @@ public class LionsImageFragment extends Fragment {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            interaction.gameScreen.onCriticalError(e);
+            //interaction.gameScreen.onCriticalError(e);
         }
     }
 

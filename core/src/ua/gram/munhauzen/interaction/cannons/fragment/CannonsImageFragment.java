@@ -3,6 +3,7 @@ package ua.gram.munhauzen.interaction.cannons.fragment;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
 
 import ua.gram.munhauzen.entity.Inventory;
 import ua.gram.munhauzen.fragment.Fragment;
@@ -14,6 +15,7 @@ import ua.gram.munhauzen.interaction.cannons.actor.EatWorm;
 import ua.gram.munhauzen.interaction.cannons.actor.FloodWorm;
 import ua.gram.munhauzen.repository.InventoryRepository;
 import ua.gram.munhauzen.ui.BackgroundImage;
+import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.utils.Log;
 
 /**
@@ -25,7 +27,8 @@ public class CannonsImageFragment extends Fragment {
     FloodWorm floodWorm;
     BurnWorm burnWorm;
     EatWorm eatWorm;
-    public Group root, items;
+    public FragmentRoot root;
+    public Group items;
     public BackgroundImage backgroundImage;
 
     public CannonsImageFragment(CannonsInteraction interaction) {
@@ -59,8 +62,8 @@ public class CannonsImageFragment extends Fragment {
 
         items = new Group();
 
-        root = new Group();
-        root.addActor(backgroundImage);
+        root = new FragmentRoot();
+        root.addContainer(backgroundImage);
 
         root.setName(tag);
     }
@@ -92,7 +95,7 @@ public class CannonsImageFragment extends Fragment {
 
                         burnWorm.setVisible(true);
 
-                        root.addActor(burnWorm);
+                        root.addContainer(new Container<>(burnWorm));
                     }
 
                     burnWorm.updateBounds();
@@ -105,7 +108,7 @@ public class CannonsImageFragment extends Fragment {
 
                         floodWorm.setVisible(true);
 
-                        root.addActor(floodWorm);
+                        root.addActor(new Container<>(floodWorm));
                     }
 
                     floodWorm.updateBounds();
@@ -118,7 +121,7 @@ public class CannonsImageFragment extends Fragment {
 
                         eatWorm.setVisible(true);
 
-                        root.addActor(eatWorm);
+                        root.addActor(new Container<>(eatWorm));
                     }
 
                     eatWorm.updateBounds();

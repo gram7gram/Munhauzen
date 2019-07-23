@@ -6,9 +6,12 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
+import com.badlogic.gdx.utils.Align;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.fragment.Fragment;
@@ -17,6 +20,7 @@ import ua.gram.munhauzen.interaction.puzzle.Dropzone;
 import ua.gram.munhauzen.interaction.puzzle.PuzzleItem;
 import ua.gram.munhauzen.ui.BackgroundImage;
 import ua.gram.munhauzen.ui.FitImage;
+import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.ui.PrimaryButton;
 import ua.gram.munhauzen.utils.Log;
 
@@ -26,7 +30,8 @@ import ua.gram.munhauzen.utils.Log;
 public class PuzzleImageFragment extends Fragment {
 
     private final PuzzleInteraction interaction;
-    public Group root, resultGroup, sourceGroup;
+    public FragmentRoot root;
+    public Group resultGroup, sourceGroup;
     public Dropzone dropzone;
 
     public BackgroundImage backgroundImage;
@@ -72,10 +77,6 @@ public class PuzzleImageFragment extends Fragment {
             }
         });
 
-        resetButton.setWidth(MunhauzenGame.WORLD_WIDTH / 3f);
-        resetButton .setHeight(MunhauzenGame.WORLD_HEIGHT / 12f);
-        resetButton.setPosition(10, 10);
-
         stick = new Stick(tex1);
         spoon = new Spoon(tex2);
         shoes = new Shoes(tex3);
@@ -95,6 +96,7 @@ public class PuzzleImageFragment extends Fragment {
         );
 
         resultGroup = new Group();
+        resultGroup.setTouchable(Touchable.disabled);
 
         sourceGroup = new Group();
         sourceGroup.addActor(stick);
@@ -109,13 +111,23 @@ public class PuzzleImageFragment extends Fragment {
         sourceGroup.addActor(rope);
         sourceGroup.addActor(foot);
 
-        root = new Group();
-        root.setTouchable(Touchable.enabled);
-        root.addActor(backgroundImage);
-        root.addActor(sourceGroup);
-        root.addActor(dropzone);
-        root.addActor(resultGroup);
-        root.addActor(resetButton);
+        Table resetTable = new Table();
+        resetTable.pad(10);
+        resetTable.add(resetButton).align(Align.bottomLeft)
+                .width(MunhauzenGame.WORLD_WIDTH / 3f)
+                .height(MunhauzenGame.WORLD_HEIGHT / 12f)
+                .expand();
+
+        Container dropzoneContainer = new Container<>(dropzone);
+        dropzoneContainer.setTouchable(Touchable.childrenOnly);
+
+        root = new FragmentRoot();
+        root.setTouchable(Touchable.childrenOnly);
+        root.addContainer(backgroundImage);
+        root.addContainer(dropzoneContainer);
+        root.addContainer(sourceGroup);
+        root.addContainer(resultGroup);
+        root.addContainer(resetTable);
 
         root.setName(tag);
     }
