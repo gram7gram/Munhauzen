@@ -21,7 +21,7 @@ import com.badlogic.gdx.utils.Timer;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.StoryAudio;
-import ua.gram.munhauzen.fragment.Fragment;
+import ua.gram.munhauzen.fragment.InteractionFragment;
 import ua.gram.munhauzen.interaction.SlapInteraction;
 import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.utils.Log;
@@ -29,7 +29,7 @@ import ua.gram.munhauzen.utils.Log;
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class SlapImageFragment extends Fragment {
+public class SlapImageFragment extends InteractionFragment {
 
     private final SlapInteraction interaction;
     public Stack root;

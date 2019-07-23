@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 
 import ua.gram.munhauzen.MunhauzenGame;
-import ua.gram.munhauzen.fragment.Fragment;
+import ua.gram.munhauzen.fragment.InteractionFragment;
 import ua.gram.munhauzen.interaction.HareInteraction;
 import ua.gram.munhauzen.interaction.hare.HareStory;
 import ua.gram.munhauzen.interaction.hare.animation.DucksAnimation;
@@ -24,7 +24,7 @@ import ua.gram.munhauzen.utils.Log;
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class HareImageFragment extends Fragment {
+public class HareImageFragment extends InteractionFragment {
 
     final HareInteraction interaction;
     FragmentRoot root;

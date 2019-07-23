@@ -43,6 +43,8 @@ public class BalloonsInteraction extends AbstractInteraction {
 
         gameScreen.gameLayers.setInteractionLayer(imageFragment);
 
+        imageFragment.fadeInRoot();
+
     }
 
     @Override

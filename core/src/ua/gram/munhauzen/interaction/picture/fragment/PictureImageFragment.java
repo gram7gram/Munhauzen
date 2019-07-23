@@ -3,7 +3,7 @@ package ua.gram.munhauzen.interaction.picture.fragment;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 
-import ua.gram.munhauzen.fragment.Fragment;
+import ua.gram.munhauzen.fragment.InteractionFragment;
 import ua.gram.munhauzen.interaction.PictureInteraction;
 import ua.gram.munhauzen.ui.BackgroundImage;
 import ua.gram.munhauzen.ui.FragmentRoot;
@@ -12,7 +12,7 @@ import ua.gram.munhauzen.utils.Log;
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class PictureImageFragment extends Fragment {
+public class PictureImageFragment extends InteractionFragment {
 
     private final PictureInteraction interaction;
     public FragmentRoot root;

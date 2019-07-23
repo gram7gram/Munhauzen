@@ -14,7 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 
 import ua.gram.munhauzen.MunhauzenGame;
-import ua.gram.munhauzen.fragment.Fragment;
+import ua.gram.munhauzen.fragment.InteractionFragment;
 import ua.gram.munhauzen.interaction.PuzzleInteraction;
 import ua.gram.munhauzen.interaction.puzzle.Dropzone;
 import ua.gram.munhauzen.interaction.puzzle.PuzzleItem;
@@ -27,7 +27,7 @@ import ua.gram.munhauzen.utils.Log;
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class PuzzleImageFragment extends Fragment {
+public class PuzzleImageFragment extends InteractionFragment {
 
     private final PuzzleInteraction interaction;
     public FragmentRoot root;

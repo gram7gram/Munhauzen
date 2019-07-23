@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
@@ -15,7 +14,7 @@ import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.Inventory;
 import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.entity.StoryAudio;
-import ua.gram.munhauzen.fragment.Fragment;
+import ua.gram.munhauzen.fragment.InteractionFragment;
 import ua.gram.munhauzen.interaction.LionsInteraction;
 import ua.gram.munhauzen.repository.InventoryRepository;
 import ua.gram.munhauzen.ui.BackgroundImage;
@@ -28,7 +27,7 @@ import ua.gram.munhauzen.utils.Random;
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class LionsImageFragment extends Fragment {
+public class LionsImageFragment extends InteractionFragment {
 
     private final LionsInteraction interaction;
     public FragmentRoot root;

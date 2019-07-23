@@ -50,6 +50,8 @@ public class DateInteraction extends AbstractInteraction {
         imageFragment.create();
 
         gameScreen.gameLayers.setInteractionLayer(imageFragment);
+
+        imageFragment.fadeInRoot();
     }
 
     public void complete() {

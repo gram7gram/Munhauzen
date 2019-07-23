@@ -14,6 +14,7 @@ import ua.gram.munhauzen.interaction.TimerInteraction;
 import ua.gram.munhauzen.interaction.WauInteraction;
 import ua.gram.munhauzen.interaction.cannons.fragment.CannonsProgressBarFragment;
 import ua.gram.munhauzen.interaction.cannons.fragment.CannonsScenarioFragment;
+import ua.gram.munhauzen.interaction.continye.fragment.ContinueImageFragment;
 import ua.gram.munhauzen.interaction.generals.fragment.GeneralsProgressBarFragment;
 import ua.gram.munhauzen.interaction.generals.fragment.GeneralsScenarioFragment;
 import ua.gram.munhauzen.interaction.hare.fragment.HareProgressBarFragment;
@@ -49,16 +50,18 @@ public class StageInputListener extends ClickListener {
 
             if (storyInteraction != null) {
                 if (storyInteraction.interaction instanceof ContinueInteraction) {
-                    ContinueInteraction continueInteraction = (ContinueInteraction) storyInteraction.interaction;
+                    ContinueImageFragment imageFragment = ((ContinueInteraction) storyInteraction.interaction).imageFragment;
 
-                    if (continueInteraction.root != null) {
-                        if (!continueInteraction.root.isVisible()) {
-                            if (!continueInteraction.isFadeIn) {
-                                continueInteraction.fadeIn();
-                            }
-                        } else {
-                            if (!continueInteraction.isFadeOut) {
-                                continueInteraction.fadeOut();
+                    if (imageFragment != null) {
+                        if (imageFragment.isMounted()) {
+                            if (!imageFragment.getRoot().isVisible()) {
+                                if (!imageFragment.isFadeIn) {
+                                    imageFragment.fadeIn();
+                                }
+                            } else {
+                                if (!imageFragment.isFadeOut) {
+                                    imageFragment.fadeOut();
+                                }
                             }
                         }
                     }

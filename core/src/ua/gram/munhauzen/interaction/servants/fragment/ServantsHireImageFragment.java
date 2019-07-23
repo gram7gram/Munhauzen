@@ -16,7 +16,7 @@ import com.badlogic.gdx.utils.Align;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.Inventory;
-import ua.gram.munhauzen.fragment.Fragment;
+import ua.gram.munhauzen.fragment.InteractionFragment;
 import ua.gram.munhauzen.interaction.ServantsInteraction;
 import ua.gram.munhauzen.interaction.servants.CompleteDialog;
 import ua.gram.munhauzen.interaction.servants.HireDialog;
@@ -29,7 +29,7 @@ import ua.gram.munhauzen.utils.Log;
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class ServantsHireImageFragment extends Fragment {
+public class ServantsHireImageFragment extends InteractionFragment {
 
     private final ServantsInteraction interaction;
     public FragmentRoot root;

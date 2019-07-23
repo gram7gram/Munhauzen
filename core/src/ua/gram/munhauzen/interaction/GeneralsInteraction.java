@@ -62,6 +62,8 @@ public class GeneralsInteraction extends AbstractInteraction {
 
         gameScreen.gameLayers.setInteractionLayer(imageFragment);
 
+        imageFragment.fadeInRoot();
+
         storyManager.resume();
     }
 

@@ -35,6 +35,8 @@ public class HornInteraction extends AbstractInteraction {
         imageFragment.create();
 
         gameScreen.gameLayers.setInteractionLayer(imageFragment);
+
+        imageFragment.fadeInRoot();
     }
 
     @Override

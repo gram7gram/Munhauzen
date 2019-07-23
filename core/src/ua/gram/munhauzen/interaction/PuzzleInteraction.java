@@ -48,6 +48,8 @@ public class PuzzleInteraction extends AbstractInteraction {
         imageFragment.create();
 
         gameScreen.gameLayers.setInteractionLayer(imageFragment);
+
+        imageFragment.fadeInRoot();
     }
 
     @Override

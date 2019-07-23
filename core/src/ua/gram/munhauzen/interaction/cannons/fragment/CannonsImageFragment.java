@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 
 import ua.gram.munhauzen.entity.Inventory;
-import ua.gram.munhauzen.fragment.Fragment;
+import ua.gram.munhauzen.fragment.InteractionFragment;
 import ua.gram.munhauzen.interaction.CannonsInteraction;
 import ua.gram.munhauzen.interaction.cannons.CannonsStory;
 import ua.gram.munhauzen.interaction.cannons.CannonsStoryImage;
@@ -21,7 +21,7 @@ import ua.gram.munhauzen.utils.Log;
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class CannonsImageFragment extends Fragment {
+public class CannonsImageFragment extends InteractionFragment {
 
     private final CannonsInteraction interaction;
     FloodWorm floodWorm;

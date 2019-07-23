@@ -52,6 +52,8 @@ public class ServantsInteraction extends AbstractInteraction {
         hireFragment.create();
 
         gameScreen.gameLayers.setInteractionLayer(hireFragment);
+
+        hireFragment.fadeInRoot();
     }
 
     public void openFireFragment() {
@@ -73,6 +75,8 @@ public class ServantsInteraction extends AbstractInteraction {
         fireFragment.create();
 
         gameScreen.gameLayers.setInteractionLayer(fireFragment);
+
+        fireFragment.fadeInRoot();
     }
 
     public void complete() {

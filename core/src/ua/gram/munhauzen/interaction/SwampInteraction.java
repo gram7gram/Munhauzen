@@ -36,6 +36,8 @@ public class SwampInteraction extends AbstractInteraction {
 
         gameScreen.gameLayers.setInteractionLayer(imageFragment);
 
+        imageFragment.fadeInRoot();
+
     }
 
     @Override

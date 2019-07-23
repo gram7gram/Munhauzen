@@ -37,6 +37,8 @@ public class SlapInteraction extends AbstractInteraction {
 
         gameScreen.gameLayers.setInteractionLayer(imageFragment);
 
+        imageFragment.fadeInRoot();
+
     }
 
     @Override

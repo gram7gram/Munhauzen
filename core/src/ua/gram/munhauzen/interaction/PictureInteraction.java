@@ -54,6 +54,8 @@ public class PictureInteraction extends AbstractInteraction {
 
         gameScreen.gameLayers.setInteractionLayer(imageFragment);
 
+        imageFragment.fadeInRoot();
+
         progressBarFragment = new PictureProgressBarFragment(gameScreen, this);
         progressBarFragment.create();
 

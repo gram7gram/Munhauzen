@@ -3,7 +3,6 @@ package ua.gram.munhauzen.interaction.swamp.fragment;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -15,7 +14,7 @@ import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.StoryAudio;
-import ua.gram.munhauzen.fragment.Fragment;
+import ua.gram.munhauzen.fragment.InteractionFragment;
 import ua.gram.munhauzen.interaction.SwampInteraction;
 import ua.gram.munhauzen.ui.BackgroundImage;
 import ua.gram.munhauzen.ui.FitImage;
@@ -26,7 +25,7 @@ import ua.gram.munhauzen.utils.Random;
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class SwampImageFragment extends Fragment {
+public class SwampImageFragment extends InteractionFragment {
 
     private final SwampInteraction interaction;
     public FragmentRoot root;

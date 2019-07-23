@@ -64,6 +64,8 @@ public class CannonsInteraction extends AbstractInteraction {
 
         gameScreen.gameLayers.setInteractionLayer(imageFragment);
 
+        imageFragment.fadeInRoot();
+
         storyManager.resume();
     }
 

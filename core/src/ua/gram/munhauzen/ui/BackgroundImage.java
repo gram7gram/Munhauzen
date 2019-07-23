@@ -106,7 +106,7 @@ public class BackgroundImage extends Group {
                 task = Timer.instance().scheduleTask(new Timer.Task() {
                     @Override
                     public void run() {
-                        moveBackground(15);
+                        moveBackground(50);
                     }
                 }, 0, 0.05f);
             }
@@ -133,7 +133,7 @@ public class BackgroundImage extends Group {
                 task = Timer.instance().scheduleTask(new Timer.Task() {
                     @Override
                     public void run() {
-                        moveBackground(-15);
+                        moveBackground(-50);
                     }
                 }, 0, 0.05f);
             }
@@ -267,20 +267,20 @@ public class BackgroundImage extends Group {
     public float moveBackground(float deltaX) {
         try {
             float xBefore = background.getX();
-            float newX = xBefore + deltaX;
+            int newX = (int) (xBefore + deltaX);
 
-            float leftBound = -backgroundWidth + MunhauzenGame.WORLD_WIDTH;
-            float rightBound = 0;
+            int leftBound = (int) (-backgroundWidth + MunhauzenGame.WORLD_WIDTH);
+            int rightBound = 0;
 
             if (leftBound <= newX && newX <= rightBound) {
                 background.setX(newX);
             }
 
-            if (background.getX() > rightBound) background.setX(rightBound);
-            if (background.getX() < leftBound) background.setX(leftBound);
+            rightArrow.setDisabled(newX <= leftBound + 25);
+            leftArrow.setDisabled(newX >= rightBound - 25);
 
-            rightArrow.setVisible(!((int) background.getX() <= (int) leftBound));
-            leftArrow.setVisible(!((int) background.getX() >= (int) rightBound));
+            rightArrow.setVisible(!(newX <= leftBound));
+            leftArrow.setVisible(!(newX >= rightBound));
 
             return background.getX() - xBefore;
 

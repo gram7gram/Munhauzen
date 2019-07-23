@@ -3,7 +3,7 @@ package ua.gram.munhauzen.interaction.timer.fragment;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 
-import ua.gram.munhauzen.fragment.Fragment;
+import ua.gram.munhauzen.fragment.InteractionFragment;
 import ua.gram.munhauzen.interaction.TimerInteraction;
 import ua.gram.munhauzen.ui.BackgroundImage;
 import ua.gram.munhauzen.utils.Log;
@@ -11,7 +11,7 @@ import ua.gram.munhauzen.utils.Log;
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class TimerImageFragment extends Fragment {
+public class TimerImageFragment extends InteractionFragment {
 
     final TimerInteraction interaction;
     Stack root;

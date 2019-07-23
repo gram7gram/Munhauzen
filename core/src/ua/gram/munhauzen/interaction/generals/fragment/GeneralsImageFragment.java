@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 
-import ua.gram.munhauzen.fragment.Fragment;
+import ua.gram.munhauzen.fragment.InteractionFragment;
 import ua.gram.munhauzen.interaction.GeneralsInteraction;
 import ua.gram.munhauzen.interaction.generals.GeneralsStory;
 import ua.gram.munhauzen.interaction.generals.GeneralsStoryImage;
@@ -18,7 +18,7 @@ import ua.gram.munhauzen.utils.Log;
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class GeneralsImageFragment extends Fragment {
+public class GeneralsImageFragment extends InteractionFragment {
 
     private final GeneralsInteraction interaction;
     FumesAnimation fumes;
