@@ -9,7 +9,7 @@ fi
 
 VERSION="${VERSION}-en-phone-hdpi"
 
-mkdir -p /Users/master/Projects/munhauzen-web/api/public/expansions/$VERSION
+mkdir -p ~/Projects/munhauzen-web/api/public/expansions/$VERSION
 
 cp ./${VERSION}/* /Users/master/Projects/munhauzen-web/api/public/expansions/$VERSION
 
@@ -17,3 +17,9 @@ ssh root@munhauzen.fingertips.cf "mkdir -p /var/www/munhauzen-web/api/public/exp
 
 scp ./${VERSION}/* \
     root@munhauzen.fingertips.cf:/var/www/munhauzen-web/api/public/expansions/${VERSION}
+
+cd ~/Projects/munhauzen-web/
+
+git add api && git commit -m "#master hotfix" && git push origin master
+
+bash deploy.sh

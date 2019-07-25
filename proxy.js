@@ -63,6 +63,10 @@ const ImportService = (function () {
       this.scenario(workbook.Sheets['scenario_2'], 'scenario_2')
     }
 
+    if (workbook.Sheets['scenario_3']) {
+      this.scenario(workbook.Sheets['scenario_3'], 'scenario_3')
+    }
+
   }
 
   return new Service();

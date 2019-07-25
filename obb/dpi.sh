@@ -1,12 +1,6 @@
 #!/bin/bash
 
-SRC_DIR=$1
-if [[ -z "SRC_DIR" ]]; then
-	echo "Convert drawables"
-	echo "Usage: command [source_directory]"
-	exit
-fi
-
+SRC_DIR="/Users/master/Projects/MunhauzenDocs/Elements/PICTURES_FINAL/drawable"
 OBB_PATH=/Users/master/Projects/Munhauzen/obb
 
 cd $SRC_DIR

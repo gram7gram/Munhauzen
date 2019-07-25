@@ -1,6 +1,5 @@
 const fs = require('fs-extra')
 const archiver = require('archiver');
-const md5 = require('md5');
 
 const obbDir = "/Users/master/Projects/Munhauzen/obb"
 const audioDir = "/Users/master/Projects/MunhauzenDocs/Elements/AUDIO_FINAL"
@@ -57,6 +56,24 @@ fs.readdirSync(audioDir + "/Part_2").forEach(file => {
 
 
 
+console.log('=> Processing audio part 3...')
+
+fs.readdirSync(audioDir + "/Part_3").forEach(file => {
+
+    const dest = "/tmp/part" + currentPart + "/audio"
+    const source = audioDir + "/Part_3/"  + file
+
+    fs.ensureDir(dest, () => {})
+
+    fs.copySync(source, dest + "/" + file)
+
+    currentPart += 1
+
+    if (currentPart > PARTS) currentPart = 1
+})
+
+
+
 console.log('=> Processing interaction assets...')
 
 const interactions = [
@@ -98,7 +115,7 @@ interactions.forEach(interaction => {
 
 
 
-console.log('=> Processing images...')
+console.log('=> Processing drawable...')
 
 fs.readdirSync(picturesDir + "/drawable").forEach(file => {
 
@@ -113,6 +130,10 @@ fs.readdirSync(picturesDir + "/drawable").forEach(file => {
 
     if (currentPart > PARTS) currentPart = 1
 })
+
+
+
+console.log('=> Processing drawable-horizontal...')
 
 fs.readdirSync(picturesDir + "/drawable-horizontal").forEach(file => {
 
@@ -169,7 +190,7 @@ const onComplete = () => {
     cleanUp();
 }
 
-for (let part = 1; part <= PARTS; part++) {
+const createArchive = (part = 1) => {
 
     const dest = obbDir + `/${VERSION_NAME}/`
     const output = `${dest}/part${part}.zip`
@@ -184,23 +205,18 @@ for (let part = 1; part <= PARTS; part++) {
 
         console.log("=> Completed #" + part)
 
+        completed.push({
+            size: archive.pointer(),
+            part,
+            checksum: ""
+        });
+
         setTimeout(() => {
-            fs.readFile(output, function (err, buf) {
-
-                if (err) throw err
-
-                const checksum = md5(buf)
-
-                completed.push({
-                    size: archive.pointer(),
-                    part,
-                    checksum
-                });
-
-                if (completed.length === PARTS) {
-                    onComplete()
-                }
-            });
+            if (completed.length === PARTS) {
+                onComplete()
+            } else {
+                createArchive(++part)
+            }
         }, 100)
     });
 
@@ -210,3 +226,5 @@ for (let part = 1; part <= PARTS; part++) {
 
     archive.finalize();
 }
+
+createArchive()
