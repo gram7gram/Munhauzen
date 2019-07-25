@@ -15,8 +15,8 @@ import com.badlogic.gdx.utils.Align;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.StoryAudio;
-import ua.gram.munhauzen.fragment.InteractionFragment;
 import ua.gram.munhauzen.interaction.HornInteraction;
+import ua.gram.munhauzen.screen.game.fragment.InteractionFragment;
 import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.ui.PrimaryButton;
 import ua.gram.munhauzen.utils.Log;

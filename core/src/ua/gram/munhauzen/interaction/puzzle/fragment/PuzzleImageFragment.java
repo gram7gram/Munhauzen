@@ -14,11 +14,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 
 import ua.gram.munhauzen.MunhauzenGame;
-import ua.gram.munhauzen.fragment.InteractionFragment;
 import ua.gram.munhauzen.interaction.PuzzleInteraction;
 import ua.gram.munhauzen.interaction.puzzle.Dropzone;
 import ua.gram.munhauzen.interaction.puzzle.PuzzleItem;
-import ua.gram.munhauzen.ui.BackgroundImage;
+import ua.gram.munhauzen.screen.game.fragment.InteractionFragment;
+import ua.gram.munhauzen.screen.game.ui.BackgroundImage;
 import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.ui.PrimaryButton;

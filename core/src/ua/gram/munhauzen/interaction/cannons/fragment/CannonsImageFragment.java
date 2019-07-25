@@ -6,7 +6,6 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 
 import ua.gram.munhauzen.entity.Inventory;
-import ua.gram.munhauzen.fragment.InteractionFragment;
 import ua.gram.munhauzen.interaction.CannonsInteraction;
 import ua.gram.munhauzen.interaction.cannons.CannonsStory;
 import ua.gram.munhauzen.interaction.cannons.CannonsStoryImage;
@@ -14,7 +13,8 @@ import ua.gram.munhauzen.interaction.cannons.actor.BurnWorm;
 import ua.gram.munhauzen.interaction.cannons.actor.EatWorm;
 import ua.gram.munhauzen.interaction.cannons.actor.FloodWorm;
 import ua.gram.munhauzen.repository.InventoryRepository;
-import ua.gram.munhauzen.ui.BackgroundImage;
+import ua.gram.munhauzen.screen.game.fragment.InteractionFragment;
+import ua.gram.munhauzen.screen.game.ui.BackgroundImage;
 import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.utils.Log;
 

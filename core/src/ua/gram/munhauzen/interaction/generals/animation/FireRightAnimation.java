@@ -5,7 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.animation.AnimatedImage;
-import ua.gram.munhauzen.ui.BackgroundImage;
+import ua.gram.munhauzen.screen.game.ui.BackgroundImage;
 
 /**
  * @author Gram <gram7gram@gmail.com>

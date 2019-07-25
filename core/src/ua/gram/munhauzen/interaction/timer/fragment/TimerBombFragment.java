@@ -9,13 +9,13 @@ import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.Story;
-import ua.gram.munhauzen.fragment.Fragment;
 import ua.gram.munhauzen.interaction.TimerInteraction;
 import ua.gram.munhauzen.interaction.timer.animation.Bar;
 import ua.gram.munhauzen.interaction.timer.animation.Bomb;
 import ua.gram.munhauzen.interaction.timer.animation.BoomAnimation;
 import ua.gram.munhauzen.interaction.timer.animation.SparkAnimation;
 import ua.gram.munhauzen.screen.GameScreen;
+import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.utils.Log;
 
 /**

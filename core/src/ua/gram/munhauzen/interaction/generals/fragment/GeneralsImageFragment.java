@@ -4,14 +4,14 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 
-import ua.gram.munhauzen.fragment.InteractionFragment;
 import ua.gram.munhauzen.interaction.GeneralsInteraction;
 import ua.gram.munhauzen.interaction.generals.GeneralsStory;
 import ua.gram.munhauzen.interaction.generals.GeneralsStoryImage;
 import ua.gram.munhauzen.interaction.generals.animation.FireLeftAnimation;
 import ua.gram.munhauzen.interaction.generals.animation.FireRightAnimation;
 import ua.gram.munhauzen.interaction.generals.animation.FumesAnimation;
-import ua.gram.munhauzen.ui.BackgroundImage;
+import ua.gram.munhauzen.screen.game.fragment.InteractionFragment;
+import ua.gram.munhauzen.screen.game.ui.BackgroundImage;
 import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.utils.Log;
 

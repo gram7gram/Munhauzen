@@ -3,9 +3,9 @@ package ua.gram.munhauzen.interaction.picture.fragment;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 
-import ua.gram.munhauzen.fragment.InteractionFragment;
 import ua.gram.munhauzen.interaction.PictureInteraction;
-import ua.gram.munhauzen.ui.BackgroundImage;
+import ua.gram.munhauzen.screen.game.fragment.InteractionFragment;
+import ua.gram.munhauzen.screen.game.ui.BackgroundImage;
 import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.utils.Log;
 

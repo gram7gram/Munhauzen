@@ -32,13 +32,13 @@ import ua.gram.munhauzen.entity.Decision;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.Inventory;
 import ua.gram.munhauzen.entity.ScenarioTranslation;
-import ua.gram.munhauzen.fragment.Fragment;
 import ua.gram.munhauzen.interaction.CannonsInteraction;
 import ua.gram.munhauzen.interaction.cannons.CannonsScenario;
 import ua.gram.munhauzen.interaction.cannons.CannonsStory;
 import ua.gram.munhauzen.repository.InventoryRepository;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.ui.FitImage;
+import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.ui.WrapLabel;
 import ua.gram.munhauzen.utils.Log;
 

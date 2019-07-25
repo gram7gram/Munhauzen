@@ -2,12 +2,10 @@ package ua.gram.munhauzen.interaction.generals.animation;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.animation.AnimatedImage;
-import ua.gram.munhauzen.interaction.generals.GeneralsStoryImage;
-import ua.gram.munhauzen.ui.BackgroundImage;
+import ua.gram.munhauzen.screen.game.ui.BackgroundImage;
 
 /**
  * @author Gram <gram7gram@gmail.com>
