@@ -31,12 +31,12 @@ import ua.gram.munhauzen.animation.CannonLetterAnimation;
 import ua.gram.munhauzen.entity.Decision;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.ScenarioTranslation;
-import ua.gram.munhauzen.fragment.Fragment;
 import ua.gram.munhauzen.interaction.GeneralsInteraction;
 import ua.gram.munhauzen.interaction.generals.GeneralsScenario;
 import ua.gram.munhauzen.interaction.generals.GeneralsStory;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.ui.FitImage;
+import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.ui.WrapLabel;
 import ua.gram.munhauzen.utils.Log;
 
@@ -495,8 +495,6 @@ public class GeneralsScenarioFragment extends Fragment {
                 }
             }
         });
-
-        stack.setName("harePrimaryDecision-" + index);
 
         return stack;
     }

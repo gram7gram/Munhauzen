@@ -17,9 +17,9 @@ import ua.gram.munhauzen.entity.StoryImage;
 import ua.gram.munhauzen.entity.StoryScenario;
 import ua.gram.munhauzen.repository.ImageRepository;
 import ua.gram.munhauzen.screen.GameScreen;
-import ua.gram.munhauzen.transition.FadeTransition;
-import ua.gram.munhauzen.transition.NormalTransition;
-import ua.gram.munhauzen.transition.Transition;
+import ua.gram.munhauzen.screen.game.transition.FadeTransition;
+import ua.gram.munhauzen.screen.game.transition.NormalTransition;
+import ua.gram.munhauzen.screen.game.transition.Transition;
 import ua.gram.munhauzen.utils.DateUtils;
 import ua.gram.munhauzen.utils.Log;
 

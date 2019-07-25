@@ -60,7 +60,7 @@ public class LoadingScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                game.setScreen(new MainMenuScreen(game));
+                game.setScreen(new DebugScreen(game));
                 dispose();
             }
         });
@@ -70,7 +70,7 @@ public class LoadingScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                game.setScreen(new MainMenuScreen(game));
+                game.setScreen(new DebugScreen(game));
                 dispose();
             }
         });

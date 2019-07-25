@@ -25,12 +25,12 @@ import com.badlogic.gdx.utils.Timer;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.StoryAudio;
-import ua.gram.munhauzen.fragment.Fragment;
 import ua.gram.munhauzen.interaction.HareInteraction;
 import ua.gram.munhauzen.interaction.hare.HareStory;
 import ua.gram.munhauzen.interaction.hare.HareStoryScenario;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.ui.FitImage;
+import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.utils.Log;
 
 /**

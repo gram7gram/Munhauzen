@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 
 import ua.gram.munhauzen.MunhauzenGame;
-import ua.gram.munhauzen.fragment.InteractionFragment;
 import ua.gram.munhauzen.interaction.HareInteraction;
 import ua.gram.munhauzen.interaction.hare.HareStory;
 import ua.gram.munhauzen.interaction.hare.animation.DucksAnimation;
@@ -17,7 +16,8 @@ import ua.gram.munhauzen.interaction.hare.animation.HorseAnimation;
 import ua.gram.munhauzen.interaction.hare.ui.Cloud;
 import ua.gram.munhauzen.interaction.hare.ui.Ground;
 import ua.gram.munhauzen.interaction.hare.ui.Misc;
-import ua.gram.munhauzen.ui.BackgroundImage;
+import ua.gram.munhauzen.screen.game.fragment.InteractionFragment;
+import ua.gram.munhauzen.screen.game.ui.BackgroundImage;
 import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.utils.Log;
 

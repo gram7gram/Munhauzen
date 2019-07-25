@@ -1,7 +1,7 @@
 package ua.gram.munhauzen.interaction.servants;
 
 import ua.gram.munhauzen.screen.GameScreen;
-import ua.gram.munhauzen.ui.BackgroundImage;
+import ua.gram.munhauzen.screen.game.ui.BackgroundImage;
 
 public class ServantImage extends BackgroundImage {
 

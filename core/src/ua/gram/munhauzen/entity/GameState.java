@@ -16,6 +16,8 @@ public class GameState {
     public static boolean isMute = false;
     public static boolean isFinaleReached = false;
 
+    public short NG;
+    public boolean isContinueEnabled;
     public Image lastImage;
     public History history;
     public Array<Scenario> scenarioRegistry;

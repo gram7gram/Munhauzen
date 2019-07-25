@@ -15,7 +15,7 @@ import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.expansion.ExtractExpansionPartTask;
 import ua.gram.munhauzen.expansion.response.ExpansionResponse;
 import ua.gram.munhauzen.expansion.response.Part;
-import ua.gram.munhauzen.fragment.mainmenu.MenuFragment;
+import ua.gram.munhauzen.screen.debug.fragment.ControlsFragment;
 import ua.gram.munhauzen.utils.ExternalFiles;
 import ua.gram.munhauzen.utils.Log;
 import ua.gram.munhauzen.utils.MD5;
@@ -24,12 +24,12 @@ public class ExpansionDownloadManager {
 
     final String tag = getClass().getSimpleName();
     final MunhauzenGame game;
-    final MenuFragment fragment;
+    final ControlsFragment fragment;
     ExpansionResponse expansionResponse;
 
     final Json json;
 
-    public ExpansionDownloadManager(MunhauzenGame game, MenuFragment fragment) {
+    public ExpansionDownloadManager(MunhauzenGame game, ControlsFragment fragment) {
         this.game = game;
         this.fragment = fragment;
 

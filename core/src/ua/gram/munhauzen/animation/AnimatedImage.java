@@ -31,6 +31,10 @@ public abstract class AnimatedImage extends Image {
         this.loop = loop;
     }
 
+    public void animate(Texture walkSheet, int rows, int cols, int frameLimit) {
+        animate(walkSheet, rows, cols, frameLimit, .08f);
+    }
+
     public void animate(Texture walkSheet, int rows, int cols, int frameLimit, float speed) {
 
         TextureRegion[][] tmp = TextureRegion.split(walkSheet,

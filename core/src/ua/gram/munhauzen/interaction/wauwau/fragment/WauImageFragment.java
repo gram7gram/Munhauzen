@@ -8,12 +8,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 
 import ua.gram.munhauzen.MunhauzenGame;
-import ua.gram.munhauzen.fragment.InteractionFragment;
 import ua.gram.munhauzen.interaction.WauInteraction;
 import ua.gram.munhauzen.interaction.wauwau.WauStory;
 import ua.gram.munhauzen.interaction.wauwau.WauStoryImage;
 import ua.gram.munhauzen.interaction.wauwau.animation.WauAnimation;
-import ua.gram.munhauzen.ui.BackgroundImage;
+import ua.gram.munhauzen.screen.game.fragment.InteractionFragment;
+import ua.gram.munhauzen.screen.game.ui.BackgroundImage;
 import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.utils.Log;
 

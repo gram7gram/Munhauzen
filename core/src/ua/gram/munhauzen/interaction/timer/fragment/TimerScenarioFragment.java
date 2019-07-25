@@ -31,12 +31,12 @@ import ua.gram.munhauzen.animation.CannonLetterAnimation;
 import ua.gram.munhauzen.entity.Decision;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.ScenarioTranslation;
-import ua.gram.munhauzen.fragment.Fragment;
 import ua.gram.munhauzen.interaction.TimerInteraction;
 import ua.gram.munhauzen.interaction.timer.TimerScenario;
 import ua.gram.munhauzen.interaction.timer.TimerStory;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.ui.FitImage;
+import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.ui.WrapLabel;
 import ua.gram.munhauzen.utils.Log;
 

@@ -20,16 +20,16 @@ import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.entity.StoryImage;
 import ua.gram.munhauzen.entity.StoryScenario;
-import ua.gram.munhauzen.fragment.GameControlsFragment;
-import ua.gram.munhauzen.fragment.ImageFragment;
-import ua.gram.munhauzen.fragment.ProgressBarFragment;
-import ua.gram.munhauzen.fragment.ScenarioFragment;
-import ua.gram.munhauzen.listener.StageInputListener;
+import ua.gram.munhauzen.screen.game.fragment.ControlsFragment;
+import ua.gram.munhauzen.screen.game.fragment.ImageFragment;
+import ua.gram.munhauzen.screen.game.fragment.ProgressBarFragment;
+import ua.gram.munhauzen.screen.game.fragment.ScenarioFragment;
+import ua.gram.munhauzen.screen.game.listener.StageInputListener;
+import ua.gram.munhauzen.screen.game.ui.GameLayers;
 import ua.gram.munhauzen.service.AudioService;
 import ua.gram.munhauzen.service.ExpansionImageService;
 import ua.gram.munhauzen.service.InteractionService;
 import ua.gram.munhauzen.service.StoryManager;
-import ua.gram.munhauzen.ui.GameLayers;
 import ua.gram.munhauzen.utils.Log;
 
 /**
@@ -46,7 +46,7 @@ public class GameScreen implements Screen {
     public ScenarioFragment scenarioFragment;
     public final ProgressBarFragment progressBarFragment;
     public ImageFragment imageFragment;
-    public GameControlsFragment gameControlsFragment;
+    public ControlsFragment controlsFragment;
     public AudioService audioService;
     public ExpansionImageService imageService;
     public InteractionService interactionService;
@@ -127,15 +127,15 @@ public class GameScreen implements Screen {
 
         progressBarFragment.create();
 
-        gameControlsFragment = new GameControlsFragment(this);
-        gameControlsFragment.create();
+        controlsFragment = new ControlsFragment(this);
+        controlsFragment.create();
 
         imageFragment = new ImageFragment(this);
         imageFragment.create();
 
         gameLayers.setBackgroundImageLayer(imageFragment);
         gameLayers.setProgressBarLayer(progressBarFragment);
-        gameLayers.setControlsLayer(gameControlsFragment);
+        gameLayers.setControlsLayer(controlsFragment);
 
         Gdx.input.setInputProcessor(ui);
 
@@ -355,9 +355,9 @@ public class GameScreen implements Screen {
             scenarioFragment = null;
         }
 
-        if (gameControlsFragment != null) {
-            gameControlsFragment.dispose();
-            gameControlsFragment = null;
+        if (controlsFragment != null) {
+            controlsFragment.dispose();
+            controlsFragment = null;
         }
 
         gameLayers.dispose();

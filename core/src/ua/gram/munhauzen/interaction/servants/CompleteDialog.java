@@ -19,10 +19,10 @@ import com.badlogic.gdx.utils.Align;
 
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
-import ua.gram.munhauzen.fragment.Fragment;
 import ua.gram.munhauzen.interaction.ServantsInteraction;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.ui.FitImage;
+import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.ui.PrimaryButton;
 import ua.gram.munhauzen.ui.WrapLabel;
 import ua.gram.munhauzen.utils.Log;

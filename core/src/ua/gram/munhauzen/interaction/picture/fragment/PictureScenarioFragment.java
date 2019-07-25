@@ -16,11 +16,11 @@ import com.badlogic.gdx.utils.Array;
 
 import java.util.HashMap;
 
-import ua.gram.munhauzen.fragment.Fragment;
 import ua.gram.munhauzen.interaction.PictureInteraction;
 import ua.gram.munhauzen.interaction.picture.Area;
 import ua.gram.munhauzen.interaction.picture.PictureStory;
-import ua.gram.munhauzen.ui.BackgroundImage;
+import ua.gram.munhauzen.screen.game.ui.BackgroundImage;
+import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.utils.Log;
 
 /**
