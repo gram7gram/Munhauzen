@@ -2,7 +2,6 @@ package ua.gram.munhauzen.service;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
@@ -29,6 +28,7 @@ import ua.gram.munhauzen.interaction.generals.GeneralsStoryImage;
 import ua.gram.munhauzen.interaction.hare.HareScenario;
 import ua.gram.munhauzen.interaction.picture.PictureScenario;
 import ua.gram.munhauzen.interaction.timer.TimerScenario;
+import ua.gram.munhauzen.interaction.timer2.Timer2Scenario;
 import ua.gram.munhauzen.interaction.wauwau.WauScenario;
 import ua.gram.munhauzen.interaction.wauwau.WauStoryImage;
 import ua.gram.munhauzen.utils.ExternalFiles;
@@ -194,6 +194,18 @@ public class DatabaseManager {
         json.setElementType(Scenario.class, "translations", ScenarioTranslation.class);
 
         return json.fromJson(Array.class, TimerScenario.class, Files.getTimerScenarioFile());
+    }
+
+    @SuppressWarnings("unchecked")
+    public Array<Timer2Scenario> loadTimer2Scenario() {
+        Json json = new Json(JsonWriter.OutputType.json);
+        json.setIgnoreUnknownFields(true);
+        json.setElementType(Scenario.class, "decisions", Decision.class);
+        json.setElementType(Scenario.class, "images", StoryImage.class);
+        json.setElementType(Scenario.class, "audio", StoryAudio.class);
+        json.setElementType(Scenario.class, "translations", ScenarioTranslation.class);
+
+        return json.fromJson(Array.class, Timer2Scenario.class, Files.getTimer2ScenarioFile());
     }
 
     @SuppressWarnings("unchecked")
@@ -386,13 +398,5 @@ public class DatabaseManager {
         FileHandle file = ExternalFiles.getInventoryFile();
 
         return json.fromJson(Array.class, Inventory.class, file);
-    }
-
-    @SuppressWarnings("unchecked")
-    public Array<Vector2> loadBalloonTrajectory(FileHandle file) {
-        Json json = new Json(JsonWriter.OutputType.json);
-        json.setIgnoreUnknownFields(true);
-
-        return json.fromJson(Array.class, Vector2.class, file);
     }
 }

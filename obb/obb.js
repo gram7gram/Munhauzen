@@ -78,6 +78,7 @@ console.log('=> Processing interaction assets...')
 
 const interactions = [
     "/timer",
+    "/timer2",
     "/hare",
     "/generals",
     "/cannons",

@@ -18,6 +18,7 @@ public class InteractionFactory {
     public final static String BALLOONS = "BALLOONS";
     public final static String SWAMP = "SWAMP";
     public final static String TIMER = "TIMER";
+    public final static String TIMER_2 = "TIMER_2";
     public final static String SLAP = "SLAP";
     public final static String PICTURE = "PICTURE";
     public final static String HORN = "HORN";
@@ -60,6 +61,17 @@ public class InteractionFactory {
                 return new WauInteraction(gameScreen);
             case CANNONS:
                 return new CannonsInteraction(gameScreen);
+        }
+
+        if (type.indexOf(TIMER_2) == 0) {
+            String[] params = type.replace(TIMER_2, "").replace("(", "").replace(")", "")
+                    .toLowerCase().split(",");
+
+            if (params.length != 2) {
+                throw new GdxRuntimeException("Invalid TIMER_2 params");
+            }
+
+            return new Timer2Interaction(gameScreen, params[0], Float.parseFloat(params[1]));
         }
 
         if (type.indexOf(TIMER) == 0) {

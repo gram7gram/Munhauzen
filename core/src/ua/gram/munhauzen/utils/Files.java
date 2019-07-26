@@ -53,6 +53,10 @@ public class Files {
         return getInternal("game/timer-scenario.json");
     }
 
+    public static FileHandle getTimer2ScenarioFile() {
+        return getInternal("game/timer2-scenario.json");
+    }
+
     public static FileHandle getScenarioFile() {
         return getInternal("game/scenario.json");
     }
