@@ -154,6 +154,13 @@ public class ServantsHireImageFragment extends InteractionFragment {
 
     public void start() {
 
+        servantCount = 0;
+        for (String name : ServantsFireImageFragment.names) {
+            if (hasServant(name)) {
+                servantCount += 1;
+            }
+        }
+
         showServant1();
 
     }

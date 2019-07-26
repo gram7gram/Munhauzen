@@ -10,7 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 
-import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.interaction.servants.fragment.ServantsFireImageFragment;
 
 public abstract class HiredServant extends Image {
@@ -26,6 +25,8 @@ public abstract class HiredServant extends Image {
 
         this.fragment = fragment;
     }
+
+    public abstract float[] getPercentBounds();
 
     public void init() {
 
@@ -56,6 +57,18 @@ public abstract class HiredServant extends Image {
         super.act(delta);
 
         updateDrawable();
+
+        float[] bounds = getPercentBounds();
+
+        float width = bounds[0] / 100 * fragment.backgroundImage.backgroundWidth;
+        float height = bounds[1] / 100 * fragment.backgroundImage.backgroundHeight;
+        float x = bounds[2] / 100 * fragment.backgroundImage.backgroundWidth;
+        float y = (100 - bounds[3]) / 100 * fragment.backgroundImage.backgroundHeight;
+
+        setBounds(
+                fragment.backgroundImage.background.getX() + x,
+                fragment.backgroundImage.background.getY() + y - height,
+                width, height);
     }
 
     private void updateDrawable() {
@@ -64,12 +77,6 @@ public abstract class HiredServant extends Image {
         } else {
             setDrawable(on);
         }
-
-        float width = MunhauzenGame.WORLD_WIDTH / 2f;
-        float scale = 1f * width / getDrawable().getMinWidth();
-        float height = 1f * getDrawable().getMinHeight() * scale;
-
-        setSize(width, height);
     }
 
     public void activate() {

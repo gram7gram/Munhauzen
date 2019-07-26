@@ -47,7 +47,7 @@ public class ServantsFireImageFragment extends InteractionFragment {
     Label progressLabel;
     StoryAudio fireAudio;
 
-    final String[] names = {
+    public static final String[] names = {
             "CARPETENER",
             "BLOWER",
             "SHOOTER",
@@ -412,11 +412,10 @@ public class ServantsFireImageFragment extends InteractionFragment {
         }
 
         @Override
-        public void act(float delta) {
-            super.act(delta);
-
-            setPosition(backgroundImage.background.getX() + backgroundImage.backgroundWidth * (30 / 1520f),
-                    backgroundImage.background.getY() + backgroundImage.backgroundHeight * (100 / 1200f));
+        public float[] getPercentBounds() {
+            return new float[]{
+                    15.82f, 24.11f, 39.31f, 69.58f
+            };
         }
     }
 
@@ -427,11 +426,10 @@ public class ServantsFireImageFragment extends InteractionFragment {
         }
 
         @Override
-        public void act(float delta) {
-            super.act(delta);
-
-            setPosition(backgroundImage.background.getX() + backgroundImage.backgroundWidth * (1100 / 1520f),
-                    backgroundImage.background.getY() + backgroundImage.backgroundHeight * (80 / 1200f));
+        public float[] getPercentBounds() {
+            return new float[]{
+                    9.16f, 22.14f, 4.63f, 64.78f
+            };
         }
     }
 
@@ -442,11 +440,10 @@ public class ServantsFireImageFragment extends InteractionFragment {
         }
 
         @Override
-        public void act(float delta) {
-            super.act(delta);
-
-            setPosition(backgroundImage.background.getX() + backgroundImage.backgroundWidth * (910 / 1520f),
-                    backgroundImage.background.getY() + backgroundImage.backgroundHeight * (100 / 1200f));
+        public float[] getPercentBounds() {
+            return new float[]{
+                    16.07f, 23.47f, 57.27f, 72.46f
+            };
         }
     }
 
@@ -457,11 +454,10 @@ public class ServantsFireImageFragment extends InteractionFragment {
         }
 
         @Override
-        public void act(float delta) {
-            super.act(delta);
-
-            setPosition(backgroundImage.background.getX() + backgroundImage.backgroundWidth * (660 / 1520f),
-                    backgroundImage.background.getY() + backgroundImage.backgroundHeight * (100 / 1200f));
+        public float[] getPercentBounds() {
+            return new float[]{
+                    11.12f, 22.83f, 49.18f, 68.76f
+            };
         }
     }
 
@@ -472,11 +468,10 @@ public class ServantsFireImageFragment extends InteractionFragment {
         }
 
         @Override
-        public void act(float delta) {
-            super.act(delta);
-
-            setPosition(backgroundImage.background.getX() + backgroundImage.backgroundWidth * (600 / 1520f),
-                    backgroundImage.background.getY() + backgroundImage.backgroundHeight * (100 / 1200f));
+        public float[] getPercentBounds() {
+            return new float[]{
+                    8.52f, 23.15f, 79.94f, 63.27f
+            };
         }
     }
 
@@ -487,11 +482,10 @@ public class ServantsFireImageFragment extends InteractionFragment {
         }
 
         @Override
-        public void act(float delta) {
-            super.act(delta);
-
-            setPosition(backgroundImage.background.getX() + backgroundImage.backgroundWidth * (150 / 1520f),
-                    backgroundImage.background.getY() + backgroundImage.backgroundHeight * (100 / 1200f));
+        public float[] getPercentBounds() {
+            return new float[]{
+                    11.15f, 20.59f, 34.25f, 67.38f
+            };
         }
     }
 
@@ -502,11 +496,10 @@ public class ServantsFireImageFragment extends InteractionFragment {
         }
 
         @Override
-        public void act(float delta) {
-            super.act(delta);
-
-            setPosition(backgroundImage.background.getX() + backgroundImage.backgroundWidth * (300 / 1520f),
-                    backgroundImage.background.getY() + backgroundImage.backgroundHeight * (200 / 1200f));
+        public float[] getPercentBounds() {
+            return new float[]{
+                    12.87f, 28.13f, 28.19f, 61.12f
+            };
         }
     }
 
@@ -517,11 +510,10 @@ public class ServantsFireImageFragment extends InteractionFragment {
         }
 
         @Override
-        public void act(float delta) {
-            super.act(delta);
-
-            setPosition(backgroundImage.background.getX() + backgroundImage.backgroundWidth * (400 / 1520f),
-                    backgroundImage.background.getY() + backgroundImage.backgroundHeight * (100 / 1200f));
+        public float[] getPercentBounds() {
+            return new float[]{
+                    6.13f, 12.08f, 20.49f, 63.86f
+            };
         }
     }
 
@@ -532,11 +524,10 @@ public class ServantsFireImageFragment extends InteractionFragment {
         }
 
         @Override
-        public void act(float delta) {
-            super.act(delta);
-
-            setPosition(backgroundImage.background.getX() + backgroundImage.backgroundWidth * (1200 / 1520f),
-                    backgroundImage.background.getY() + backgroundImage.backgroundHeight * (50 / 1200f));
+        public float[] getPercentBounds() {
+            return new float[]{
+                    10.16f, 20.49f, 56.02f, 66.56f
+            };
         }
     }
 
@@ -547,11 +538,10 @@ public class ServantsFireImageFragment extends InteractionFragment {
         }
 
         @Override
-        public void act(float delta) {
-            super.act(delta);
-
-            setPosition(backgroundImage.background.getX() + backgroundImage.backgroundWidth * (1000 / 1520f),
-                    backgroundImage.background.getY() + backgroundImage.backgroundHeight * (80 / 1200f));
+        public float[] getPercentBounds() {
+            return new float[]{
+                    10.58f, 27.49f, 50.5f, 59.52f
+            };
         }
     }
 }
