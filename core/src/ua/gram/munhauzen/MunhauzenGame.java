@@ -27,11 +27,7 @@ public class MunhauzenGame extends Game {
     public static final boolean IS_EXPANSION_HIDDEN = true;
     public static final boolean DEBUG_RENDER_INFO = true;
     public static final int PROGRESS_BAR_FADE_OUT_DELAY = 5;
-    //    public static String developmentScenario = "amoon_a"; //DATE
-//    public static String developmentScenario = "a2_2_0"; //GENERALS
-//    public static String developmentScenario = "a18_0"; //HARE
-//    public static String developmentScenario = "awau_2_interaction"; //WAUWAU
-    public static String developmentScenario;// = "a21_1_a";
+    public static String developmentScenario;
 
     private final String tag = getClass().getSimpleName();
 

@@ -18,6 +18,12 @@ public abstract class AnimatedImage extends Image {
     public boolean isStarted;
     boolean loop;
 
+    public AnimatedImage() {
+        super();
+
+        loop = true;
+    }
+
     public AnimatedImage(Texture texture) {
         this(texture, true);
     }
@@ -61,11 +67,6 @@ public abstract class AnimatedImage extends Image {
     @Override
     public void act(float delta) {
         super.act(delta);
-
-        updateFrame(delta);
-    }
-
-    public void updateFrame(float delta) {
 
         setDrawable(getCurrentDrawable());
 

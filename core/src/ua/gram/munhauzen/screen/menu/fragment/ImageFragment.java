@@ -50,16 +50,30 @@ public class ImageFragment extends Fragment {
             public void run() {
                 displayImages();
             }
-        }, .1f);
+        }, 1f);
     }
 
     private void displayImages() {
 
-        DecorationImage[] images = {
-                new MunhauzenAndDaughter("menu/mmv_fond_2.png"),
+        DecorationAnimation[] animations = {
+                new Axe(backgroundImage, "menu/an_axe_sheet_3x3.png"),
+                new Books(backgroundImage, "menu/an_books_sheet_3x2.png"),
+                new Cannon(backgroundImage, "menu/an_cannon_sheet_5x2.png"),
+                new Dog(backgroundImage, "menu/an_dog_sheet_3x1.png"),
+                new EagleLeft(backgroundImage, "menu/an_eagle_1_sheet_3x2.png"),
+                new EagleRight(backgroundImage, "menu/an_eagle_2_sheet_3x2.png"),
+                new Fire(backgroundImage, "menu/an_fire_sheet_3x2.png"),
+                new Horns(backgroundImage, "menu/an_horns_sheet_4x2.png"),
+                new Horse(backgroundImage, "menu/an_horse_sheet_2x2.png"),
+                new Painting(backgroundImage, "menu/an_painting_sheet_5x4.png"),
+                new Puppet(backgroundImage, "menu/an_puppet_sheet_4x2.png"),
+                new Rifle(backgroundImage, "menu/an_rifle_sheet_4x2.png"),
+                new Sabre(backgroundImage, "menu/an_sabre_sheet_2x2.png"),
+                new Scheme(backgroundImage, "menu/an_scheme_sheet_4x2.png"),
+                new Worm(backgroundImage, "menu/an_worm_sheet_5x4.png"),
         };
 
-        for (DecorationImage decoration : images) {
+        for (DecorationAnimation decoration : animations) {
             if (decoration.canBeDisplayed()) {
 
                 Log.i(tag, decoration.getClass().getSimpleName() + " displayed");
@@ -71,25 +85,11 @@ public class ImageFragment extends Fragment {
             }
         }
 
-        DecorationAnimation[] animations = {
-                new Axe("menu/an_axe_sheet_3x3.png"),
-                new Books("menu/an_books_sheet_3x2.png"),
-                new Cannon("menu/an_cannon_sheet_5x2.png"),
-                new Dog("menu/an_dog_sheet_3x1.png"),
-                new EagleLeft("menu/an_eagle_1_sheet_3x2.png"),
-                new EagleRight("menu/an_eagle_2_sheet_3x2.png"),
-                new Fire("menu/an_fire_sheet_3x2.png"),
-                new Horns("menu/an_horns_sheet_4x2.png"),
-                new Horse("menu/an_horse_sheet_2x2.png"),
-                new Painting("menu/an_painting_sheet_5x4.png"),
-                new Puppet("menu/an_puppet_sheet_4x2.png"),
-                new Rifle("menu/an_rifle_sheet_4x2.png"),
-                new Sabre("menu/an_sabre_sheet_2x2.png"),
-                new Scheme("menu/an_scheme_sheet_4x2.png"),
-                new Worm("menu/an_worm_sheet_5x4.png"),
+        DecorationImage[] images = {
+                new MunhauzenAndDaughter(backgroundImage, "menu/mmv_fond_2.png"),
         };
 
-        for (DecorationAnimation decoration : animations) {
+        for (DecorationImage decoration : images) {
             if (decoration.canBeDisplayed()) {
 
                 Log.i(tag, decoration.getClass().getSimpleName() + " displayed");
@@ -113,8 +113,8 @@ public class ImageFragment extends Fragment {
 
     class MunhauzenAndDaughter extends DecorationImage {
 
-        public MunhauzenAndDaughter(String resource) {
-            super(resource);
+        public MunhauzenAndDaughter(BackgroundImage backgroundImage, String resource) {
+            super(backgroundImage, resource);
         }
 
         @Override
@@ -142,8 +142,8 @@ public class ImageFragment extends Fragment {
 
     class EagleLeft extends DecorationAnimation {
 
-        public EagleLeft(String resource) {
-            super(resource);
+        public EagleLeft(BackgroundImage backgroundImage, String resource) {
+            super(backgroundImage, resource);
         }
 
         @Override
@@ -173,8 +173,8 @@ public class ImageFragment extends Fragment {
 
     class EagleRight extends DecorationAnimation {
 
-        public EagleRight(String resource) {
-            super(resource);
+        public EagleRight(BackgroundImage backgroundImage, String resource) {
+            super(backgroundImage, resource);
         }
 
         @Override
@@ -204,8 +204,8 @@ public class ImageFragment extends Fragment {
 
     class Axe extends DecorationAnimation {
 
-        public Axe(String resource) {
-            super(resource);
+        public Axe(BackgroundImage backgroundImage, String resource) {
+            super(backgroundImage, resource);
         }
 
         @Override
@@ -235,8 +235,8 @@ public class ImageFragment extends Fragment {
 
     class Books extends DecorationAnimation {
 
-        public Books(String resource) {
-            super(resource);
+        public Books(BackgroundImage backgroundImage, String resource) {
+            super(backgroundImage, resource);
 
         }
 
@@ -247,7 +247,7 @@ public class ImageFragment extends Fragment {
 
             screen.assetManager.finishLoading();
 
-            animate(screen.assetManager.get(resource, Texture.class), 3, 2, 6);
+            animate(screen.assetManager.get(resource, Texture.class), 2, 3, 6);
 
             start();
         }
@@ -267,8 +267,8 @@ public class ImageFragment extends Fragment {
 
     class Cannon extends DecorationAnimation {
 
-        public Cannon(String resource) {
-            super(resource);
+        public Cannon(BackgroundImage backgroundImage, String resource) {
+            super(backgroundImage, resource);
         }
 
         @Override
@@ -278,7 +278,7 @@ public class ImageFragment extends Fragment {
 
             screen.assetManager.finishLoading();
 
-            animate(screen.assetManager.get(resource, Texture.class), 5, 2, 10);
+            animate(screen.assetManager.get(resource, Texture.class), 2, 5, 10);
 
             start();
         }
@@ -298,8 +298,8 @@ public class ImageFragment extends Fragment {
 
     class Dog extends DecorationAnimation {
 
-        public Dog(String resource) {
-            super(resource);
+        public Dog(BackgroundImage backgroundImage, String resource) {
+            super(backgroundImage, resource);
 
         }
 
@@ -310,7 +310,7 @@ public class ImageFragment extends Fragment {
 
             screen.assetManager.finishLoading();
 
-            animate(screen.assetManager.get(resource, Texture.class), 3, 1, 3);
+            animate(screen.assetManager.get(resource, Texture.class), 1, 3, 3);
 
             start();
         }
@@ -330,8 +330,8 @@ public class ImageFragment extends Fragment {
 
     class Fire extends DecorationAnimation {
 
-        public Fire(String resource) {
-            super(resource);
+        public Fire(BackgroundImage backgroundImage, String resource) {
+            super(backgroundImage, resource);
         }
 
         @Override
@@ -341,7 +341,7 @@ public class ImageFragment extends Fragment {
 
             screen.assetManager.finishLoading();
 
-            animate(screen.assetManager.get(resource, Texture.class), 3, 2, 6);
+            animate(screen.assetManager.get(resource, Texture.class), 2, 3, 6);
 
             start();
         }
@@ -361,8 +361,8 @@ public class ImageFragment extends Fragment {
 
     class Horns extends DecorationAnimation {
 
-        public Horns(String resource) {
-            super(resource);
+        public Horns(BackgroundImage backgroundImage, String resource) {
+            super(backgroundImage, resource);
         }
 
         @Override
@@ -372,7 +372,7 @@ public class ImageFragment extends Fragment {
 
             screen.assetManager.finishLoading();
 
-            animate(screen.assetManager.get(resource, Texture.class), 4, 2, 8);
+            animate(screen.assetManager.get(resource, Texture.class), 2, 4, 7);
 
             start();
         }
@@ -392,8 +392,8 @@ public class ImageFragment extends Fragment {
 
     class Horse extends DecorationAnimation {
 
-        public Horse(String resource) {
-            super(resource);
+        public Horse(BackgroundImage backgroundImage, String resource) {
+            super(backgroundImage, resource);
         }
 
         @Override
@@ -423,8 +423,8 @@ public class ImageFragment extends Fragment {
 
     class Painting extends DecorationAnimation {
 
-        public Painting(String resource) {
-            super(resource);
+        public Painting(BackgroundImage backgroundImage, String resource) {
+            super(backgroundImage, resource);
         }
 
         @Override
@@ -434,7 +434,7 @@ public class ImageFragment extends Fragment {
 
             screen.assetManager.finishLoading();
 
-            animate(screen.assetManager.get(resource, Texture.class), 5, 4, 20);
+            animate(screen.assetManager.get(resource, Texture.class), 4, 5, 17);
 
             start();
         }
@@ -454,8 +454,8 @@ public class ImageFragment extends Fragment {
 
     class Worm extends DecorationAnimation {
 
-        public Worm(String resource) {
-            super(resource);
+        public Worm(BackgroundImage backgroundImage, String resource) {
+            super(backgroundImage, resource);
         }
 
         @Override
@@ -465,7 +465,7 @@ public class ImageFragment extends Fragment {
 
             screen.assetManager.finishLoading();
 
-            animate(screen.assetManager.get(resource, Texture.class), 5, 4, 20);
+            animate(screen.assetManager.get(resource, Texture.class), 4, 5, 18);
 
             start();
         }
@@ -485,8 +485,8 @@ public class ImageFragment extends Fragment {
 
     class Scheme extends DecorationAnimation {
 
-        public Scheme(String resource) {
-            super(resource);
+        public Scheme(BackgroundImage backgroundImage, String resource) {
+            super(backgroundImage, resource);
 
         }
 
@@ -497,7 +497,7 @@ public class ImageFragment extends Fragment {
 
             screen.assetManager.finishLoading();
 
-            animate(screen.assetManager.get(resource, Texture.class), 4, 2, 8);
+            animate(screen.assetManager.get(resource, Texture.class), 2, 4, 7);
 
             start();
         }
@@ -517,8 +517,8 @@ public class ImageFragment extends Fragment {
 
     class Sabre extends DecorationAnimation {
 
-        public Sabre(String resource) {
-            super(resource);
+        public Sabre(BackgroundImage backgroundImage, String resource) {
+            super(backgroundImage, resource);
         }
 
 
@@ -549,8 +549,8 @@ public class ImageFragment extends Fragment {
 
     class Rifle extends DecorationAnimation {
 
-        public Rifle(String resource) {
-            super(resource);
+        public Rifle(BackgroundImage backgroundImage, String resource) {
+            super(backgroundImage, resource);
         }
 
 
@@ -561,7 +561,7 @@ public class ImageFragment extends Fragment {
 
             screen.assetManager.finishLoading();
 
-            animate(screen.assetManager.get(resource, Texture.class), 4, 2, 8);
+            animate(screen.assetManager.get(resource, Texture.class), 2, 4, 7);
 
             start();
         }
@@ -581,8 +581,8 @@ public class ImageFragment extends Fragment {
 
     class Puppet extends DecorationAnimation {
 
-        public Puppet(String resource) {
-            super(resource);
+        public Puppet(BackgroundImage backgroundImage, String resource) {
+            super(backgroundImage, resource);
 
         }
 
@@ -593,7 +593,7 @@ public class ImageFragment extends Fragment {
 
             screen.assetManager.finishLoading();
 
-            animate(screen.assetManager.get(resource, Texture.class), 4, 2, 8);
+            animate(screen.assetManager.get(resource, Texture.class), 2, 4, 8);
 
             start();
         }
@@ -613,8 +613,8 @@ public class ImageFragment extends Fragment {
 
     class Badge extends DecorationAnimation {
 
-        public Badge(String resource) {
-            super(resource);
+        public Badge(BackgroundImage backgroundImage, String resource) {
+            super(backgroundImage, resource);
         }
 
         @Override

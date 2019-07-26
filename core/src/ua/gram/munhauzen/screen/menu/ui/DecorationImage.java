@@ -2,14 +2,14 @@ package ua.gram.munhauzen.screen.menu.ui;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
-import ua.gram.munhauzen.MunhauzenGame;
-
 public abstract class DecorationImage extends Image {
 
+    public final BackgroundImage backgroundImage;
     public final String resource;
 
-    public DecorationImage(String resource) {
+    public DecorationImage(BackgroundImage backgroundImage, String resource) {
         super();
+        this.backgroundImage = backgroundImage;
         this.resource = resource;
     }
 
@@ -19,12 +19,15 @@ public abstract class DecorationImage extends Image {
 
         float[] bounds = getPercentBounds();
 
-        float width = bounds[0] / 100 * MunhauzenGame.WORLD_WIDTH;
-        float height = bounds[1] / 100 * MunhauzenGame.WORLD_HEIGHT;
-        float x = bounds[2] / 100 * MunhauzenGame.WORLD_WIDTH;
-        float y = bounds[3] / 100 * MunhauzenGame.WORLD_HEIGHT;
+        float width = bounds[0] / 100 * backgroundImage.backgroundWidth;
+        float height = bounds[1] / 100 * backgroundImage.backgroundHeight;
+        float x = bounds[2] / 100 * backgroundImage.backgroundWidth;
+        float y = (100 - bounds[3]) / 100 * backgroundImage.backgroundHeight;
 
-        setBounds(x, y - height, width, height);
+        setBounds(
+                backgroundImage.background.getX() + x,
+                backgroundImage.background.getY() + y - height,
+                width, height);
     }
 
     public abstract void init();
