@@ -17,7 +17,7 @@
       },
       {
         "scenario": "aworm_b",
-        "order": 2
+        "order": 4
       },
       {
         "scenario": "aworm_c",
@@ -25,7 +25,7 @@
       },
       {
         "scenario": "aworm_d",
-        "order": 4
+        "order": 2
       }
     ],
     "translations": []
@@ -59,6 +59,7 @@
     ]
   },
   {
+    "isExit": true,
     "name": "aworm_b",
     "action": "GOTO",
     "audio": [
@@ -74,15 +75,11 @@
         "duration": 5000
       }
     ],
-    "decisions": [
-      {
-        "scenario": "aworm_check_b"
-      }
-    ],
+    "decisions": [],
     "translations": [
       {
         "locale": "en",
-        "text": "Flooded it"
+        "text": "Made a poison"
       }
     ]
   },
@@ -115,8 +112,8 @@
     ]
   },
   {
-    "isExit": true,
     "name": "aworm_d",
+    "action": "GOTO",
     "audio": [
       {
         "audio": "sworm_d",
@@ -134,11 +131,15 @@
         "duration": 3000
       }
     ],
-    "decisions": [],
+    "decisions": [
+      {
+        "scenario": "aworm_check_d"
+      }
+    ],
     "translations": [
       {
         "locale": "en",
-        "text": "Made a poison"
+        "text": "Flooded it"
       }
     ]
   },
@@ -264,19 +265,19 @@
     "translations": []
   },
   {
-    "name": "aworm_b_170",
+    "name": "aworm_d_170",
     "action": "GOTO",
     "audio": [
       {
-        "audio": "sworm_b_plus37",
+        "audio": "sworm_d_plus37",
         "duration": 0
       },
       {
-        "audio": "sworm_b_170",
+        "audio": "sworm_d_170",
         "duration": 0
       },
       {
-        "audio": "sworm_b_cont",
+        "audio": "sworm_d_cont",
         "duration": 0
       },
       {
@@ -299,19 +300,19 @@
     "translations": []
   },
   {
-    "name": "aworm_b_133",
+    "name": "aworm_d_133",
     "action": "GOTO",
     "audio": [
       {
-        "audio": "sworm_b_plus51",
+        "audio": "sworm_d_plus51",
         "duration": 0
       },
       {
-        "audio": "sworm_b_133",
+        "audio": "sworm_d_133",
         "duration": 0
       },
       {
-        "audio": "sworm_b_cont",
+        "audio": "sworm_d_cont",
         "duration": 0
       }
     ],
@@ -330,19 +331,19 @@
     "translations": []
   },
   {
-    "name": "aworm_b_82",
+    "name": "aworm_d_82",
     "action": "GOTO",
     "audio": [
       {
-        "audio": "sworm_b_plus11",
+        "audio": "sworm_d_plus11",
         "duration": 0
       },
       {
-        "audio": "sworm_b_82",
+        "audio": "sworm_d_82",
         "duration": 0
       },
       {
-        "audio": "sworm_b_cont",
+        "audio": "sworm_d_cont",
         "duration": 0
       }
     ],
@@ -365,15 +366,15 @@
     "action": "GOTO",
     "audio": [
       {
-        "audio": "sworm_c_plus37",
+        "audio": "sworm_a_plus37",
         "duration": 0
       },
       {
-        "audio": "sworm_c_170",
+        "audio": "sworm_a_170",
         "duration": 0
       },
       {
-        "audio": "sworm_c_cont",
+        "audio": "sworm_a_cont",
         "duration": 0
       },
       {
@@ -400,15 +401,15 @@
     "action": "GOTO",
     "audio": [
       {
-        "audio": "sworm_c_plus51",
+        "audio": "sworm_a_plus51",
         "duration": 0
       },
       {
-        "audio": "sworm_c_133",
+        "audio": "sworm_a_133",
         "duration": 0
       },
       {
-        "audio": "sworm_c_cont",
+        "audio": "sworm_a_cont",
         "duration": 0
       }
     ],
@@ -431,15 +432,15 @@
     "action": "GOTO",
     "audio": [
       {
-        "audio": "sworm_c_plus51",
+        "audio": "sworm_a_plus51",
         "duration": 0
       },
       {
-        "audio": "sworm_c_82",
+        "audio": "sworm_a_82",
         "duration": 0
       },
       {
-        "audio": "sworm_c_cont",
+        "audio": "sworm_a_cont",
         "duration": 0
       }
     ],
