@@ -11,6 +11,7 @@ public abstract class DecorationAnimation extends AnimatedImage {
         super();
         this.backgroundImage = backgroundImage;
         this.resource = resource;
+        loop = false;
     }
 
     @Override
@@ -35,5 +36,9 @@ public abstract class DecorationAnimation extends AnimatedImage {
     public abstract boolean canBeDisplayed();
 
     public abstract float[] getPercentBounds();
+
+    public abstract float getInterval();
+
+    public abstract float getDelay();
 
 }

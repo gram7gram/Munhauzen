@@ -2,6 +2,7 @@ package ua.gram.munhauzen.interaction;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.screen.GameScreen;
@@ -39,6 +40,8 @@ public abstract class AbstractInteraction implements Disposable {
         Log.i(tag, "dispose");
         assetManager.dispose();
         gameScreen.audioService.dispose();
+
+        Timer.instance().clear();
 
         GameState.unpause();
     }

@@ -16,7 +16,7 @@ public abstract class AnimatedImage extends Image {
     public Animation<TextureRegionDrawable> animation;
     public float duration;
     public boolean isStarted;
-    boolean loop;
+    public boolean loop;
 
     public AnimatedImage() {
         super();

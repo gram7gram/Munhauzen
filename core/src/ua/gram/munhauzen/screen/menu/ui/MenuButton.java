@@ -27,6 +27,8 @@ public abstract class MenuButton extends Stack {
     final MenuScreen screen;
     float iconSize, buttonSize;
     AnimatedImage animation;
+    public boolean hasLock = true;
+    Actor lock;
 
     public MenuButton(MenuScreen screen) {
         this.screen = screen;
@@ -66,9 +68,12 @@ public abstract class MenuButton extends Stack {
         labelContainer.add(label)
                 .center().fillX().expand();
 
+        lock = createLock();
+
         addActor(imgContainer);
         addActor(labelContainer);
         addActor(createHeader());
+        addActor(lock);
 
         addListener(new ClickListener() {
             @Override
@@ -89,6 +94,15 @@ public abstract class MenuButton extends Stack {
         });
     }
 
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+
+        if (lock != null) {
+            lock.setVisible(hasLock);
+        }
+    }
+
     private Actor createHeader() {
 
         animation = createAnimationIcon();
@@ -100,6 +114,25 @@ public abstract class MenuButton extends Stack {
         table.add(animation).expand()
                 .align(Align.top)
                 .width(iconSize)
+                .height(height);
+
+        return table;
+    }
+
+    private Actor createLock() {
+
+        Texture txt = screen.assetManager.get("menu/b_lock.png", Texture.class);
+
+        Image img = new Image(txt);
+
+        float width = iconSize * .9f;
+        float scale = 1f * width / txt.getWidth();
+        float height = scale * txt.getHeight();
+
+        Table table = new Table();
+        table.add(img).expand()
+                .align(Align.bottomRight)
+                .width(width)
                 .height(height);
 
         return table;

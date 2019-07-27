@@ -5,6 +5,8 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.MunhauzenStage;
@@ -51,6 +53,16 @@ public class MenuScreen implements Screen {
         assetManager.load("menu/icon_shield_sheet_1x8.png", Texture.class);
         assetManager.load("menu/mmv_btn.png", Texture.class);
         assetManager.load("menu/mmv_fond_1.jpg", Texture.class);
+        assetManager.load("menu/b_share.png", Texture.class);
+        assetManager.load("menu/b_share_disabled.png", Texture.class);
+        assetManager.load("menu/b_rate.png", Texture.class);
+        assetManager.load("menu/b_rate_disabled.png", Texture.class);
+        assetManager.load("menu/b_demo.png", Texture.class);
+        assetManager.load("menu/b_demo_disabled.png", Texture.class);
+        assetManager.load("menu/b_menu.png", Texture.class);
+        assetManager.load("menu/b_exit_on.png", Texture.class);
+        assetManager.load("menu/menu_logo.png", Texture.class);
+        assetManager.load("menu/b_lock.png", Texture.class);
     }
 
     private void onResourcesLoaded() {
@@ -72,7 +84,20 @@ public class MenuScreen implements Screen {
         imageFragment.create();
 
         layers.setBackgroundLayer(imageFragment);
-        //layers.setControlsLayer(controlsFragment);
+        layers.setControlsLayer(controlsFragment);
+
+        ui.addListener(new ActorGestureListener() {
+            @Override
+            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                super.touchDown(event, x, y, pointer, button);
+
+                try {
+                    controlsFragment.scheduleFadeOut();
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
+            }
+        });
 
         Gdx.input.setInputProcessor(ui);
     }
