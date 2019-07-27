@@ -8,8 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.entity.GameState;
-import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.interaction.TimerInteraction;
+import ua.gram.munhauzen.interaction.timer.TimerStory;
 import ua.gram.munhauzen.interaction.timer.animation.Bar;
 import ua.gram.munhauzen.interaction.timer.animation.Bomb;
 import ua.gram.munhauzen.interaction.timer.animation.BoomAnimation;
@@ -115,15 +115,18 @@ public class TimerBombFragment extends Fragment {
 
                     GameState.unpause();
 
-                    interaction.gameScreen.interactionService.complete();
+                    try {
 
-                    interaction.gameScreen.restoreProgressBarIfDestroyed();
+                        TimerStory newStory = interaction.storyManager.create(interaction.burnScenario);
 
-                    Story newStory = interaction.gameScreen.storyManager.create(interaction.burnScenario);
+                        interaction.storyManager.timerStory = newStory;
 
-                    interaction.gameScreen.setStory(newStory);
+                        interaction.storyManager.startLoadingResources();
+                    } catch (Throwable e) {
+                        Log.e(tag, e);
 
-                    interaction.gameScreen.storyManager.startLoadingResources();
+                        interaction.gameScreen.onCriticalError(e);
+                    }
                 }
             }, 1);
 

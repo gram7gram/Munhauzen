@@ -30,10 +30,10 @@ public class Timer2Interaction extends AbstractInteraction {
     public final String burnScenario;
     public final float burnDurationInSeconds;
 
-    public Timer2Interaction(GameScreen gameScreen, String burnAudio, float burnDuration) {
+    public Timer2Interaction(GameScreen gameScreen, String burnScenario, float burnDuration) {
         super(gameScreen);
 
-        this.burnScenario = burnAudio;
+        this.burnScenario = burnScenario;
         this.burnDurationInSeconds = burnDuration;
 
     }

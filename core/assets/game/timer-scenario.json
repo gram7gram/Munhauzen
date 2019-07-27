@@ -201,5 +201,27 @@
         "text": "Very badly whipped the horses!"
       }
     ]
+  },
+  {
+    "name": "acarriage",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "scarriage",
+        "duration": 29000
+      }
+    ],
+    "images": [
+      {
+        "image": "timer/p32_0.jpg",
+        "duration": 29000
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "a32_0_interaction_proxy"
+      }
+    ],
+    "translations": []
   }
 ]

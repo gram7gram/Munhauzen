@@ -6,13 +6,13 @@
     "audio": [
       {
         "audio": "sprisoners",
-        "duration": 69000
+        "duration": 12000
       }
     ],
     "images": [
       {
         "image": "timer2/pprisoners.jpg",
-        "duration": 69000
+        "duration": 12000
       }
     ],
     "decisions": [
@@ -165,5 +165,27 @@
         "text": "Closed the cannon ball in the closet"
       }
     ]
+  },
+  {
+    "name": "aprisoners_exploded",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "sprisoners_exploded",
+        "duration": 34000
+      }
+    ],
+    "images": [
+      {
+        "image": "timer2/pprisoners_exploded.jpg",
+        "duration": 34000
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "aprisoners_proxy"
+      }
+    ],
+    "translations": []
   }
 ]

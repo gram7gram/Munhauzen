@@ -10,8 +10,8 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import ua.gram.munhauzen.entity.GameState;
+import ua.gram.munhauzen.screen.DebugScreen;
 import ua.gram.munhauzen.screen.ErrorScreen;
-import ua.gram.munhauzen.screen.MenuScreen;
 import ua.gram.munhauzen.service.DatabaseManager;
 import ua.gram.munhauzen.service.InventoryService;
 import ua.gram.munhauzen.utils.ExceptionHandler;
@@ -79,8 +79,8 @@ public class MunhauzenGame extends Game {
         inventoryService = new InventoryService(gameState);
         buttonBuilder = new ButtonBuilder(this);
 
-//        setScreen(new DebugScreen(this));
-        setScreen(new MenuScreen(this));
+        setScreen(new DebugScreen(this));
+//        setScreen(new MenuScreen(this));
     }
 
     @Override
