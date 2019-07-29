@@ -163,6 +163,7 @@ public class AudioService implements Disposable {
     public void playAudio(StoryAudio item) {
 
         try {
+            if (item == null) return;
             if (GameState.isPaused) return;
 
             float delay = Math.max(0, (item.progress - item.startsAt) / 1000);
@@ -247,23 +248,28 @@ public class AudioService implements Disposable {
 
                 for (StoryScenario option : story.scenarios) {
                     for (StoryAudio audio : option.scenario.audio) {
-                        if (audio.player != null) {
-                            audio.isActive = false;
-                            audio.player.pause();
-                        }
+                        pause(audio);
                     }
                 }
             }
 
             for (StoryAudio audio : activeAudio.values()) {
-                if (audio.player != null) {
-                    audio.isActive = false;
-                    audio.player.pause();
-                }
+                pause(audio);
             }
 
         } catch (Throwable e) {
             Log.e(tag, e);
+        }
+    }
+
+    public void pause(StoryAudio audio) {
+
+        if (audio == null) return;
+
+        audio.isActive = false;
+
+        if (audio.player != null) {
+            audio.player.pause();
         }
     }
 

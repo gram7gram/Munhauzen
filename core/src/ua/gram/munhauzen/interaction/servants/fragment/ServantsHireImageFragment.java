@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.Align;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.Inventory;
+import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.interaction.ServantsInteraction;
 import ua.gram.munhauzen.interaction.servants.CompleteDialog;
 import ua.gram.munhauzen.interaction.servants.HireDialog;
@@ -25,24 +26,23 @@ import ua.gram.munhauzen.screen.game.fragment.InteractionFragment;
 import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.ui.PrimaryButton;
 import ua.gram.munhauzen.utils.Log;
+import ua.gram.munhauzen.utils.MathUtils;
 
-/**
- * @author Gram <gram7gram@gmail.com>
- */
 public class ServantsHireImageFragment extends InteractionFragment {
 
     private final ServantsInteraction interaction;
     public FragmentRoot root;
     PrimaryButton servantsBtn;
-    int page;
+    public int page;
     public int servantCount;
-    public int servantLimit = 5;
+    public final int servantLimit = 5;
     ImageButton prevBtn, nextBtn;
     Table hireContainer;
     Label progressLabel;
     HireDialog hireDialog;
     CompleteDialog completeDialog;
     public ServantImage backgroundImage;
+    StoryAudio egyptAudio;
 
     public ServantsHireImageFragment(ServantsInteraction interaction) {
         this.interaction = interaction;
@@ -75,7 +75,9 @@ public class ServantsHireImageFragment extends InteractionFragment {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                showEgypt();
+                page = 11;
+
+                showCurrent(true);
             }
         });
 
@@ -154,6 +156,7 @@ public class ServantsHireImageFragment extends InteractionFragment {
 
     public void start() {
 
+        page = 1;
         servantCount = 0;
         for (String name : ServantsFireImageFragment.names) {
             if (hasServant(name)) {
@@ -161,116 +164,76 @@ public class ServantsHireImageFragment extends InteractionFragment {
             }
         }
 
-        showServant1();
+        showCurrent(true);
+    }
 
+    public void showCurrent(boolean withAudio) {
+
+        try {
+            Log.i(tag, "showCurrent " + page);
+
+            interaction.progressBarFragment.stop();
+
+            stopEgypt();
+
+            switch (page) {
+                case 1:
+                    showServant1(withAudio);
+                    break;
+                case 2:
+                    showServant2(withAudio);
+                    break;
+                case 3:
+                    showServant3(withAudio);
+                    break;
+                case 4:
+                    showServant4(withAudio);
+                    break;
+                case 5:
+                    showServant5(withAudio);
+                    break;
+                case 6:
+                    showServant6(withAudio);
+                    break;
+                case 7:
+                    showServant7(withAudio);
+                    break;
+                case 8:
+                    showServant8(withAudio);
+                    break;
+                case 9:
+                    showServant9(withAudio);
+                    break;
+                case 10:
+                    showServant10(withAudio);
+                    break;
+                case 11:
+                    showEgypt(withAudio);
+                    break;
+            }
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            interaction.gameScreen.onCriticalError(e);
+        }
     }
 
     public void next() {
-        switch (page) {
-            case 1:
-                showServant2();
-                break;
-            case 2:
-                showServant3();
-                break;
-            case 3:
-                showServant4();
-                break;
-            case 4:
-                showServant5();
-                break;
-            case 5:
-                showServant6();
-                break;
-            case 6:
-                showServant7();
-                break;
-            case 7:
-                showServant8();
-                break;
-            case 8:
-                showServant9();
-                break;
-            case 9:
-                showServant10();
-                break;
-            case 10:
-                showEgypt();
-                break;
-        }
-    }
 
-    public void showCurrent() {
-        switch (page) {
-            case 1:
-                showServant1();
-                break;
-            case 2:
-                showServant2();
-                break;
-            case 3:
-                showServant3();
-                break;
-            case 4:
-                showServant4();
-                break;
-            case 5:
-                showServant5();
-                break;
-            case 6:
-                showServant6();
-                break;
-            case 7:
-                showServant7();
-                break;
-            case 8:
-                showServant8();
-                break;
-            case 9:
-                showServant9();
-                break;
-            case 10:
-                showServant10();
-                break;
-            case 11:
-                showEgypt();
-                break;
-        }
+        page += 1;
+
+        hireDialog.destroy();
+
+        showCurrent(true);
     }
 
     public void prev() {
-        switch (page) {
-            case 2:
-                showServant1();
-                break;
-            case 3:
-                showServant2();
-                break;
-            case 4:
-                showServant3();
-                break;
-            case 5:
-                showServant4();
-                break;
-            case 6:
-                showServant5();
-                break;
-            case 7:
-                showServant6();
-                break;
-            case 8:
-                showServant7();
-                break;
-            case 9:
-                showServant8();
-                break;
-            case 10:
-                showServant9();
-                break;
-            case 11:
-                showServant10();
-                break;
-        }
+
+        page -= 1;
+
+        hireDialog.destroy();
+
+        showCurrent(true);
     }
 
     public boolean hasServant(String name) {
@@ -285,11 +248,9 @@ public class ServantsHireImageFragment extends InteractionFragment {
         return false;
     }
 
-    private void showServant1() {
+    private void showServant10(boolean withAudio) {
 
         unload();
-
-        page = 1;
 
         boolean hasServant = hasServant("CARPETENER");
 
@@ -308,13 +269,13 @@ public class ServantsHireImageFragment extends InteractionFragment {
 
         hireContainer.clearChildren();
         hireContainer.add(hireDialog.getRoot());
+
+        if (withAudio && !hasServant) interaction.progressBarFragment.play("s41_8");
     }
 
-    private void showServant2() {
+    private void showServant7(boolean withAudio) {
 
         unload();
-
-        page = 2;
 
         boolean hasServant = hasServant("BLOWER");
 
@@ -333,13 +294,13 @@ public class ServantsHireImageFragment extends InteractionFragment {
 
         hireContainer.clearChildren();
         hireContainer.add(hireDialog.getRoot());
+
+        if (withAudio && !hasServant) interaction.progressBarFragment.play("s41_6");
     }
 
-    private void showServant3() {
+    private void showServant5(boolean withAudio) {
 
         unload();
-
-        page = 3;
 
         boolean hasServant = hasServant("SHOOTER");
 
@@ -359,13 +320,13 @@ public class ServantsHireImageFragment extends InteractionFragment {
         hireContainer.clearChildren();
         hireContainer.add(hireDialog.getRoot());
 
+        if (withAudio && !hasServant) interaction.progressBarFragment.play("s41_4");
+
     }
 
-    private void showServant4() {
+    private void showServant2(boolean withAudio) {
 
         unload();
-
-        page = 4;
 
         boolean hasServant = hasServant("LISTENER");
 
@@ -385,13 +346,13 @@ public class ServantsHireImageFragment extends InteractionFragment {
         hireContainer.clearChildren();
         hireContainer.add(hireDialog.getRoot());
 
+        if (withAudio && !hasServant) interaction.progressBarFragment.play("s41_3");
+
     }
 
-    private void showServant5() {
+    private void showServant3(boolean withAudio) {
 
         unload();
-
-        page = 5;
 
         boolean hasServant = hasServant("VASILIY");
 
@@ -411,13 +372,13 @@ public class ServantsHireImageFragment extends InteractionFragment {
         hireContainer.clearChildren();
         hireContainer.add(hireDialog.getRoot());
 
+        if (withAudio && !hasServant) interaction.progressBarFragment.play("s41_11");
+
     }
 
-    private void showServant6() {
+    private void showServant1(boolean withAudio) {
 
         unload();
-
-        page = 6;
 
         boolean hasServant = hasServant("RUNNER");
 
@@ -437,13 +398,13 @@ public class ServantsHireImageFragment extends InteractionFragment {
         hireContainer.clearChildren();
         hireContainer.add(hireDialog.getRoot());
 
+        if (withAudio && !hasServant) interaction.progressBarFragment.play("s41_2");
+
     }
 
-    private void showServant7() {
+    private void showServant9(boolean withAudio) {
 
         unload();
-
-        page = 7;
 
         boolean hasServant = hasServant("JUMPER");
 
@@ -463,13 +424,13 @@ public class ServantsHireImageFragment extends InteractionFragment {
 
         hireContainer.clearChildren();
         hireContainer.add(hireDialog.getRoot());
+
+        if (withAudio && !hasServant) interaction.progressBarFragment.play("s41_7");
     }
 
-    private void showServant8() {
+    private void showServant6(boolean withAudio) {
 
         unload();
-
-        page = 8;
 
         boolean hasServant = hasServant("JOKER");
 
@@ -489,13 +450,13 @@ public class ServantsHireImageFragment extends InteractionFragment {
         hireContainer.clearChildren();
         hireContainer.add(hireDialog.getRoot());
 
+        if (withAudio && !hasServant) interaction.progressBarFragment.play("s41_9");
+
     }
 
-    private void showServant9() {
+    private void showServant4(boolean withAudio) {
 
         unload();
-
-        page = 9;
 
         boolean hasServant = hasServant("USURER");
 
@@ -515,13 +476,13 @@ public class ServantsHireImageFragment extends InteractionFragment {
         hireContainer.clearChildren();
         hireContainer.add(hireDialog.getRoot());
 
+        if (withAudio && !hasServant) interaction.progressBarFragment.play("s41_10");
+
     }
 
-    private void showServant10() {
+    private void showServant8(boolean withAudio) {
 
         unload();
-
-        page = 10;
 
         boolean hasServant = hasServant("GIGANT");
 
@@ -541,11 +502,18 @@ public class ServantsHireImageFragment extends InteractionFragment {
         hireContainer.clearChildren();
         hireContainer.add(hireDialog.getRoot());
 
+        if (withAudio && !hasServant) interaction.progressBarFragment.play("s41_5");
+
     }
 
-    private void showEgypt() {
+    private void showEgypt(boolean withAudio) {
 
-        page = 11;
+        String res = "p0.jpg";
+
+        setBackground(
+                interaction.gameScreen.game.assetManager.get(res, Texture.class),
+                res
+        );
 
         completeDialog.create();
 
@@ -554,6 +522,9 @@ public class ServantsHireImageFragment extends InteractionFragment {
 
         completeDialog.fadeIn();
 
+        interaction.progressBarFragment.fadeOut();
+
+        if (withAudio) playEgypt();
     }
 
     public void update() {
@@ -564,6 +535,14 @@ public class ServantsHireImageFragment extends InteractionFragment {
         nextBtn.setDisabled(page == 11);
 
         progressLabel.setText(servantCount + "/" + servantLimit);
+
+        if (hireDialog != null) {
+            hireDialog.update();
+        }
+
+        if (egyptAudio != null) {
+            interaction.gameScreen.audioService.updateVolume(egyptAudio);
+        }
     }
 
     private void unload() {
@@ -609,6 +588,8 @@ public class ServantsHireImageFragment extends InteractionFragment {
         page = 1;
         servantCount = 0;
 
+        stopEgypt();
+
         if (hireDialog != null) {
             hireDialog.destroy();
             hireDialog = null;
@@ -618,6 +599,33 @@ public class ServantsHireImageFragment extends InteractionFragment {
             completeDialog = null;
         }
 
+    }
+
+    private void stopEgypt() {
+        if (egyptAudio != null) {
+            interaction.gameScreen.audioService.stop(egyptAudio);
+            egyptAudio = null;
+        }
+    }
+
+    private void playEgypt() {
+        try {
+
+            egyptAudio = new StoryAudio();
+            egyptAudio.audio = MathUtils.random(new String[]{
+                    "s41_too_much_1",
+                    "s41_too_much_2",
+                    "s41_too_much_3",
+                    "s41_too_much_4"
+            });
+
+            interaction.gameScreen.audioService.prepareAndPlay(egyptAudio);
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            interaction.gameScreen.onCriticalError(e);
+        }
     }
 
     private ImageButton getPrev() {

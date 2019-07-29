@@ -20,6 +20,7 @@ import com.badlogic.gdx.utils.Align;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.Inventory;
+import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.interaction.ServantsInteraction;
 import ua.gram.munhauzen.repository.InventoryRepository;
 import ua.gram.munhauzen.screen.GameScreen;
@@ -28,6 +29,7 @@ import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.ui.PrimaryButton;
 import ua.gram.munhauzen.ui.WrapLabel;
 import ua.gram.munhauzen.utils.Log;
+import ua.gram.munhauzen.utils.MathUtils;
 
 /**
  * @author Gram <gram7gram@gmail.com>
@@ -41,6 +43,8 @@ public class HireDialog extends Fragment {
     public Table root;
     private final float headerSize, buttonSize;
     PrimaryButton yesBtn, noBtn;
+    StoryAudio muchAudio, confirmAudio, cancelAudio;
+    public String servantName;
 
     public HireDialog(ServantsInteraction interaction) {
         this.game = interaction.gameScreen.game;
@@ -56,19 +60,31 @@ public class HireDialog extends Fragment {
         return root;
     }
 
-    public void create(final String name) {
+    public void create(String name) {
 
-        Log.i(tag, "create");
+        if (name.equals(this.servantName)) return;
 
-        boolean hasServant = interaction.hireFragment.hasServant(name);
+        this.servantName = name;
+
+        Log.i(tag, "create " + servantName);
 
         yesBtn = game.buttonBuilder.danger("Yes", new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
+                yesBtn.setDisabled(true);
+
+                interaction.progressBarFragment.stop();
+
+                interaction.progressBarFragment.fadeOut();
+
+                stopAllAudio();
+
+                playConfirm();
+
                 try {
-                    Inventory item = InventoryRepository.find(interaction.gameScreen.game.gameState, name);
+                    Inventory item = InventoryRepository.find(interaction.gameScreen.game.gameState, servantName);
 
                     interaction.gameScreen.game.inventoryService.addInventory(item);
 
@@ -77,18 +93,24 @@ public class HireDialog extends Fragment {
                     Log.e(tag, e);
                 }
 
-                interaction.hireFragment.showCurrent();
+                fadeOut();
+
+                interaction.hireFragment.showCurrent(false);
             }
         });
-
-        yesBtn.setDisabled(hasServant || interaction.hireFragment.servantCount == interaction.hireFragment.servantLimit);
 
         noBtn = game.buttonBuilder.danger("No", new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                interaction.hireFragment.next();
+                noBtn.setDisabled(true);
+
+                stopAllAudio();
+
+                playCancel();
+
+                fadeOut();
             }
         });
 
@@ -111,9 +133,123 @@ public class HireDialog extends Fragment {
         root.setName(tag);
 
         root.setVisible(false);
-
     }
 
+    private void playToMuch() {
+        try {
+
+            muchAudio = new StoryAudio();
+            muchAudio.audio = MathUtils.random(new String[]{
+                    "s41_too_much_1",
+                    "s41_too_much_2",
+                    "s41_too_much_3",
+                    "s41_too_much_4"
+            });
+
+            gameScreen.audioService.prepareAndPlay(muchAudio);
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            gameScreen.onCriticalError(e);
+        }
+    }
+
+    private void playCancel() {
+        try {
+            cancelAudio = new StoryAudio();
+
+            switch (servantName) {
+                case "CARPETENER":
+                    cancelAudio.audio = "s41_8_b";
+                    break;
+                case "BLOWER":
+                    cancelAudio.audio = "s41_6_b";
+                    break;
+                case "SHOOTER":
+                    cancelAudio.audio = "s41_4_b";
+                    break;
+                case "LISTENER":
+                    cancelAudio.audio = "s41_3_b";
+                    break;
+                case "VASILIY":
+                    cancelAudio.audio = "s41_11_b";
+                    break;
+                case "RUNNER":
+                    cancelAudio.audio = "s41_2_b";
+                    break;
+                case "JUMPER":
+                    cancelAudio.audio = "s41_7_b";
+                    break;
+                case "JOKER":
+                    cancelAudio.audio = "s41_9_b";
+                    break;
+                case "USURER":
+                    cancelAudio.audio = "s41_10_b";
+                    break;
+                case "GIGANT":
+                    cancelAudio.audio = "s41_5_b";
+                    break;
+            }
+
+            Log.i(tag, "playCancel " + servantName + " " + cancelAudio.audio);
+
+            gameScreen.audioService.prepareAndPlay(cancelAudio);
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            gameScreen.onCriticalError(e);
+        }
+    }
+
+    private void playConfirm() {
+        try {
+            confirmAudio = new StoryAudio();
+
+            switch (servantName) {
+                case "CARPETENER":
+                    confirmAudio.audio = "s41_8_a";
+                    break;
+                case "BLOWER":
+                    confirmAudio.audio = "s41_6_a";
+                    break;
+                case "SHOOTER":
+                    confirmAudio.audio = "s41_4_a";
+                    break;
+                case "LISTENER":
+                    confirmAudio.audio = "s41_3_a";
+                    break;
+                case "VASILIY":
+                    confirmAudio.audio = "s41_11_a";
+                    break;
+                case "RUNNER":
+                    confirmAudio.audio = "s41_2_a";
+                    break;
+                case "JUMPER":
+                    confirmAudio.audio = "s41_7_a";
+                    break;
+                case "JOKER":
+                    confirmAudio.audio = "s41_9_a";
+                    break;
+                case "USURER":
+                    confirmAudio.audio = "s41_10_a";
+                    break;
+                case "GIGANT":
+                    confirmAudio.audio = "s41_5_a";
+                    break;
+            }
+
+            Log.i(tag, "playConfirm " + servantName + " " + confirmAudio.audio);
+
+            gameScreen.audioService.prepareAndPlay(confirmAudio);
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            gameScreen.onCriticalError(e);
+        }
+    }
 
     public void fadeIn() {
         root.clearActions();
@@ -127,6 +263,17 @@ public class HireDialog extends Fragment {
                         Actions.moveBy(0, -20, .3f)
                 )
         ));
+
+        boolean hasServant = interaction.hireFragment.hasServant(servantName);
+
+        yesBtn.setDisabled(hasServant || interaction.hireFragment.servantCount == interaction.hireFragment.servantLimit);
+        noBtn.setDisabled(false);
+
+        //stopAllAudio();
+
+        if (interaction.hireFragment.servantCount == interaction.hireFragment.servantLimit && !hasServant) {
+            playToMuch();
+        }
     }
 
     public void fadeOut() {
@@ -138,12 +285,7 @@ public class HireDialog extends Fragment {
                         Actions.alpha(0, .3f),
                         Actions.moveBy(0, 20, .3f)
                 ),
-                Actions.run(new Runnable() {
-                    @Override
-                    public void run() {
-                        root.setVisible(false);
-                    }
-                })
+                Actions.visible(false)
         ));
     }
 
@@ -231,5 +373,40 @@ public class HireDialog extends Fragment {
         root.add(layer3);
 
         return root;
+    }
+
+    public void update() {
+        if (muchAudio != null) {
+            gameScreen.audioService.updateVolume(muchAudio);
+        }
+        if (confirmAudio != null) {
+            gameScreen.audioService.updateVolume(confirmAudio);
+        }
+        if (cancelAudio != null) {
+            gameScreen.audioService.updateVolume(cancelAudio);
+        }
+    }
+
+    public void stopAllAudio() {
+        if (muchAudio != null) {
+            gameScreen.audioService.stop(muchAudio);
+            muchAudio = null;
+        }
+        if (confirmAudio != null) {
+            gameScreen.audioService.stop(confirmAudio);
+            confirmAudio = null;
+        }
+        if (cancelAudio != null) {
+            gameScreen.audioService.stop(cancelAudio);
+            cancelAudio = null;
+        }
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+
+        stopAllAudio();
+
     }
 }

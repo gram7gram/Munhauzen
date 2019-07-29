@@ -124,21 +124,24 @@ public class ServantsFireImageFragment extends InteractionFragment {
                 Color.BLACK
         ));
 
-        Table btnTable = new Table();
-        btnTable.add(backBtn).padRight(10).left()
-                .width(MunhauzenGame.WORLD_WIDTH * .25f)
-                .height(MunhauzenGame.WORLD_HEIGHT / 15f);
-
-        btnTable.add(progressLabel).left().padRight(10);
-
-        btnTable.add(clearBtn).left()
-                .width(MunhauzenGame.WORLD_WIDTH * .25f)
-                .height(MunhauzenGame.WORLD_HEIGHT / 15f);
-
         Table uiTable = new Table();
         uiTable.setFillParent(true);
         uiTable.pad(10);
-        uiTable.add(btnTable).align(Align.topLeft).expand();
+        uiTable.add(progressLabel).align(Align.topLeft).expandX().row();
+
+        uiTable.add().expand().row();
+
+        uiTable.add(backBtn)
+                .left()
+                .width(MunhauzenGame.WORLD_WIDTH * .25f)
+                .height(MunhauzenGame.WORLD_HEIGHT / 15f)
+                .expandX();
+
+        uiTable.add(clearBtn)
+                .right()
+                .width(MunhauzenGame.WORLD_WIDTH * .25f)
+                .height(MunhauzenGame.WORLD_HEIGHT / 15f)
+                .expandX();
 
         fireContainer = new Table();
 
@@ -163,9 +166,9 @@ public class ServantsFireImageFragment extends InteractionFragment {
     }
 
     public void showHiredServants() {
+        try {
 
-        for (String name : names) {
-            try {
+            for (String name : names) {
                 Inventory item = InventoryRepository.find(game.gameState, name);
 
                 if (game.inventoryService.isInInventory(item)) {
@@ -318,15 +321,18 @@ public class ServantsFireImageFragment extends InteractionFragment {
                     hiredServants.add(hiredServant);
 
                 }
-            } catch (Throwable e) {
-                Log.e(tag, e);
             }
-        }
 
-        items.clearChildren();
+            items.clearChildren();
 
-        for (HiredServant hiredServant : hiredServants) {
-            items.addActor(hiredServant);
+            for (HiredServant hiredServant : hiredServants) {
+                items.addActor(hiredServant);
+            }
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            interaction.gameScreen.onCriticalError(e);
         }
     }
 
@@ -361,6 +367,10 @@ public class ServantsFireImageFragment extends InteractionFragment {
 
         if (fireAudio != null) {
             interaction.gameScreen.audioService.updateVolume(fireAudio);
+        }
+
+        if (fireDialog != null) {
+            fireDialog.update();
         }
 
     }

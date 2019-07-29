@@ -20,6 +20,7 @@ import com.badlogic.gdx.utils.Align;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.Inventory;
+import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.interaction.ServantsInteraction;
 import ua.gram.munhauzen.repository.InventoryRepository;
 import ua.gram.munhauzen.screen.GameScreen;
@@ -41,7 +42,7 @@ public class FireDialog extends Fragment {
     public Table root;
     private final float headerSize, buttonSize;
     PrimaryButton yesBtn, noBtn;
-
+    StoryAudio fireAudio;
     HiredServant hiredServant;
 
     public FireDialog(ServantsInteraction interaction) {
@@ -72,6 +73,8 @@ public class FireDialog extends Fragment {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
+
+                playFire(hiredServant.getName());
 
                 try {
                     Inventory item = InventoryRepository.find(game.gameState, hiredServant.getName());
@@ -148,8 +151,14 @@ public class FireDialog extends Fragment {
 
         root.setVisible(false);
 
+        stopAllAudio();
     }
 
+    public void update() {
+        if (fireAudio != null) {
+            gameScreen.audioService.updateVolume(fireAudio);
+        }
+    }
 
     public void fadeIn() {
         root.clearActions();
@@ -292,5 +301,65 @@ public class FireDialog extends Fragment {
         root.add(layer3);
 
         return root;
+    }
+
+    private void playFire(String servant) {
+        try {
+            fireAudio = new StoryAudio();
+
+            switch (servant) {
+                case "CARPETENER":
+                    fireAudio.audio = "s41_8_bye";
+                    break;
+                case "BLOWER":
+                    fireAudio.audio = "s41_6_bye";
+                    break;
+                case "SHOOTER":
+                    fireAudio.audio = "s41_4_bye";
+                    break;
+                case "LISTENER":
+                    fireAudio.audio = "s41_3_bye";
+                    break;
+                case "VASILIY":
+                    fireAudio.audio = "s41_11_bye";
+                    break;
+                case "RUNNER":
+                    fireAudio.audio = "s41_2_bye";
+                    break;
+                case "JUMPER":
+                    fireAudio.audio = "s41_7_bye";
+                    break;
+                case "JOKER":
+                    fireAudio.audio = "s41_9_bye";
+                    break;
+                case "USURER":
+                    fireAudio.audio = "s41_10_bye";
+                    break;
+                case "GIGANT":
+                    fireAudio.audio = "s41_5_bye";
+                    break;
+            }
+
+            gameScreen.audioService.prepareAndPlay(fireAudio);
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            gameScreen.onCriticalError(e);
+        }
+    }
+
+    private void stopAllAudio() {
+        if (fireAudio != null) {
+            gameScreen.audioService.stop(fireAudio);
+            fireAudio = null;
+        }
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+
+        stopAllAudio();
     }
 }
