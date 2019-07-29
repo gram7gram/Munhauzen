@@ -170,7 +170,7 @@ public class HornImageFragment extends InteractionFragment {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            introAudio.duration = 1000;
+            interaction.gameScreen.onCriticalError(e);
         }
     }
 

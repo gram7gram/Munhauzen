@@ -205,7 +205,7 @@ public class SlapImageFragment extends InteractionFragment {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            winAudio.duration = 1000;
+            interaction.gameScreen.onCriticalError(e);
         }
     }
 
@@ -221,7 +221,7 @@ public class SlapImageFragment extends InteractionFragment {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            introAudio.duration = 1000;
+            interaction.gameScreen.onCriticalError(e);
         }
     }
 
