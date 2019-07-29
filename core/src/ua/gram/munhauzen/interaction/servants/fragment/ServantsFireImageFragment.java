@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Timer;
 
 import java.util.ArrayList;
 
@@ -30,9 +31,6 @@ import ua.gram.munhauzen.ui.PrimaryButton;
 import ua.gram.munhauzen.utils.Log;
 import ua.gram.munhauzen.utils.MathUtils;
 
-/**
- * @author Gram <gram7gram@gmail.com>
- */
 public class ServantsFireImageFragment extends InteractionFragment {
 
     private final MunhauzenGame game;
@@ -45,7 +43,7 @@ public class ServantsFireImageFragment extends InteractionFragment {
     public ArrayList<HiredServant> hiredServants;
     final int servantLimit = 5;
     Label progressLabel;
-    StoryAudio fireAudio;
+    StoryAudio dismissAudio, backAudio, discardAudio;
 
     public static final String[] names = {
             "CARPETENER",
@@ -79,14 +77,25 @@ public class ServantsFireImageFragment extends InteractionFragment {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                try {
-                    interaction.openHireFragment();
 
-                } catch (Throwable e) {
-                    Log.e(tag, e);
+                root.setTouchable(Touchable.disabled);
 
-                    interaction.gameScreen.onCriticalError(e);
-                }
+                playBack();
+
+                Timer.instance().scheduleTask(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        try {
+                            interaction.openHireFragment();
+
+                        } catch (Throwable e) {
+                            Log.e(tag, e);
+
+                            interaction.gameScreen.onCriticalError(e);
+                        }
+                    }
+                }, backAudio.duration / 1000f);
+
             }
         });
 
@@ -95,27 +104,32 @@ public class ServantsFireImageFragment extends InteractionFragment {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                try {
+                root.setTouchable(Touchable.disabled);
 
-                    for (String name : names) {
+                playDiscard();
+
+                Timer.instance().scheduleTask(new Timer.Task() {
+                    @Override
+                    public void run() {
                         try {
-                            Inventory item = InventoryRepository.find(game.gameState, name);
 
-                            if (game.inventoryService.isInInventory(item)) {
-                                game.inventoryService.remove(item);
+                            for (String name : names) {
+                                Inventory item = InventoryRepository.find(game.gameState, name);
+
+                                if (game.inventoryService.isInInventory(item)) {
+                                    game.inventoryService.remove(item);
+                                }
                             }
+
+                            interaction.openHireFragment();
+
                         } catch (Throwable e) {
                             Log.e(tag, e);
+
+                            interaction.gameScreen.onCriticalError(e);
                         }
                     }
-
-                    interaction.openHireFragment();
-
-                } catch (Throwable e) {
-                    Log.e(tag, e);
-
-                    interaction.gameScreen.onCriticalError(e);
-                }
+                }, discardAudio.duration / 1000f);
             }
         });
 
@@ -365,8 +379,16 @@ public class ServantsFireImageFragment extends InteractionFragment {
 
         progressLabel.setText(hiredServants.size() + "/" + servantLimit);
 
-        if (fireAudio != null) {
-            interaction.gameScreen.audioService.updateVolume(fireAudio);
+        if (dismissAudio != null) {
+            interaction.gameScreen.audioService.updateVolume(dismissAudio);
+        }
+
+        if (backAudio != null) {
+            interaction.gameScreen.audioService.updateVolume(backAudio);
+        }
+
+        if (discardAudio != null) {
+            interaction.gameScreen.audioService.updateVolume(discardAudio);
         }
 
         if (fireDialog != null) {
@@ -375,31 +397,88 @@ public class ServantsFireImageFragment extends InteractionFragment {
 
     }
 
-    public void stopFired() {
-        if (fireAudio != null) {
-            interaction.gameScreen.audioService.stop(fireAudio);
-            fireAudio = null;
+    public void stopDismiss() {
+        if (dismissAudio != null) {
+            interaction.gameScreen.audioService.stop(dismissAudio);
+            dismissAudio = null;
         }
     }
 
-    public void playFired() {
+    public void playDismiss() {
         try {
 
-            stopFired();
+            stopDismiss();
 
-            fireAudio = new StoryAudio();
-            fireAudio.audio = MathUtils.random(new String[]{
-                    "sfx_inter_servants_fire_1",
-                    "sfx_inter_servants_fire_2",
-                    "sfx_inter_servants_fire_3",
-                    "sfx_inter_servants_fire_4",
-                    "sfx_inter_servants_fire_4"
+            dismissAudio = new StoryAudio();
+            dismissAudio.audio = MathUtils.random(new String[]{
+                    "sfx_inter_servants_dismiss_1",
+                    "sfx_inter_servants_dismiss_2",
+                    "sfx_inter_servants_dismiss_3",
+                    "sfx_inter_servants_dismiss_4"
             });
 
-            interaction.gameScreen.audioService.prepareAndPlay(fireAudio);
+            interaction.gameScreen.audioService.prepareAndPlay(dismissAudio);
 
         } catch (Throwable e) {
             Log.e(tag, e);
+
+            //interaction.gameScreen.onCriticalError(e);
+        }
+    }
+
+    public void stopBack() {
+        if (backAudio != null) {
+            interaction.gameScreen.audioService.stop(backAudio);
+            backAudio = null;
+        }
+    }
+
+    public void playBack() {
+        try {
+
+            stopBack();
+
+            backAudio = new StoryAudio();
+            backAudio.audio = MathUtils.random(new String[]{
+                    "sfx_inter_servants_back_1",
+                    "sfx_inter_servants_back_2",
+                    "sfx_inter_servants_back_3",
+                    "sfx_inter_servants_back_4"
+            });
+
+            interaction.gameScreen.audioService.prepareAndPlay(backAudio);
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            //interaction.gameScreen.onCriticalError(e);
+        }
+    }
+
+    public void stopDiscard() {
+        if (discardAudio != null) {
+            interaction.gameScreen.audioService.stop(discardAudio);
+            discardAudio = null;
+        }
+    }
+
+    public void playDiscard() {
+        try {
+
+            stopDiscard();
+
+            discardAudio = new StoryAudio();
+            discardAudio.audio = MathUtils.random(new String[]{
+                    "sfx_inter_servants_restart_1",
+                    "sfx_inter_servants_restart_2"
+            });
+
+            interaction.gameScreen.audioService.prepareAndPlay(discardAudio);
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            //interaction.gameScreen.onCriticalError(e);
         }
     }
 
@@ -412,7 +491,11 @@ public class ServantsFireImageFragment extends InteractionFragment {
             fireDialog = null;
         }
 
-        stopFired();
+        stopDismiss();
+
+        stopBack();
+
+        stopDiscard();
     }
 
     class CarpetenerServant extends HiredServant {

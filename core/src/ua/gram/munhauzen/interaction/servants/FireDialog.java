@@ -74,6 +74,8 @@ public class FireDialog extends Fragment {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
+                yesBtn.setDisabled(true);
+
                 playFire(hiredServant.getName());
 
                 try {
@@ -87,16 +89,7 @@ public class FireDialog extends Fragment {
 
                     interaction.fireFragment.hiredServants.remove(hiredServant);
 
-                    interaction.fireFragment.fireDialog.fadeOut(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                interaction.fireFragment.fireDialog.destroy();
-                            } catch (Throwable e) {
-                                Log.e(tag, e);
-                            }
-                        }
-                    });
+                    interaction.fireFragment.fireDialog.fadeOut();
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -163,7 +156,7 @@ public class FireDialog extends Fragment {
     public void fadeIn() {
         root.clearActions();
 
-        interaction.fireFragment.playFired();
+        interaction.fireFragment.playDismiss();
 
         hiredServant.activate();
 
@@ -182,19 +175,14 @@ public class FireDialog extends Fragment {
 
         root.clearActions();
 
-        interaction.fireFragment.stopFired();
+        interaction.fireFragment.stopDismiss();
 
         root.addAction(Actions.sequence(
                 Actions.parallel(
                         Actions.alpha(0, .3f),
                         Actions.moveBy(0, 20, .3f)
                 ),
-                Actions.run(new Runnable() {
-                    @Override
-                    public void run() {
-                        root.setVisible(false);
-                    }
-                })
+                Actions.visible(false)
         ));
     }
 
@@ -339,6 +327,8 @@ public class FireDialog extends Fragment {
                     fireAudio.audio = "s41_5_bye";
                     break;
             }
+
+            Log.i(tag, "playFired " + servant + " " + fireAudio.audio);
 
             gameScreen.audioService.prepareAndPlay(fireAudio);
 

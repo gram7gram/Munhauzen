@@ -26,7 +26,7 @@ public class InteractionService {
 
             if (story.currentScenario == null) return;
 
-            String name = InteractionFactory.SERVANTS;//story.currentScenario.scenario.interaction;
+            String name = story.currentScenario.scenario.interaction;
             if (name == null) return;
 
             StoryInteraction interaction = story.currentInteraction;
