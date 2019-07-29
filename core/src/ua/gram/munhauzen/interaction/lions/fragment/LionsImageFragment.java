@@ -21,7 +21,6 @@ import ua.gram.munhauzen.screen.game.ui.BackgroundImage;
 import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.ui.PrimaryButton;
 import ua.gram.munhauzen.utils.Log;
-import ua.gram.munhauzen.utils.MathUtils;
 import ua.gram.munhauzen.utils.Random;
 
 /**
@@ -33,7 +32,7 @@ public class LionsImageFragment extends InteractionFragment {
     public FragmentRoot root;
     BackgroundImage backgroundImage;
     PrimaryButton attackBtn;
-    StoryAudio steadyAudio, goAudio, sleepAudio;
+    StoryAudio freezeAudio, attackAudio, sleepAudio;
     Timer.Task sleepTask, delayedTask, readyTask;
 
     public LionsImageFragment(LionsInteraction interaction) {
@@ -92,15 +91,15 @@ public class LionsImageFragment extends InteractionFragment {
             }
         });
 
-        playSteady();
+        playFreeze();
 
         delayedTask = Timer.instance().scheduleTask(new Timer.Task() {
             @Override
             public void run() {
 
-                stopSteady();
+                stopFreeze();
 
-                playGo();
+                playAttack();
 
                 readyTask = Timer.instance().scheduleTask(new Timer.Task() {
                     @Override
@@ -156,26 +155,26 @@ public class LionsImageFragment extends InteractionFragment {
                         }, .4f);
 
                     }
-                }, goAudio.duration / 1000f);
+                }, attackAudio.duration / 1000f);
 
             }
         }, new Random().between(3, 15));
     }
 
-    private void playSteady() {
+    private void playFreeze() {
         try {
 
-            steadyAudio = new StoryAudio();
-            steadyAudio.audio = "alions_steady";
+            freezeAudio = new StoryAudio();
+            freezeAudio.audio = "slions_attack_freeze";
 
-            interaction.gameScreen.audioService.prepareAndPlay(steadyAudio);
+            interaction.gameScreen.audioService.prepareAndPlay(freezeAudio);
 
-            steadyAudio.player.setLooping(true);
+            freezeAudio.player.setLooping(true);
 
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            //interaction.gameScreen.onCriticalError(e);
+            interaction.gameScreen.onCriticalError(e);
         }
 
     }
@@ -193,29 +192,23 @@ public class LionsImageFragment extends InteractionFragment {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            //interaction.gameScreen.onCriticalError(e);
+            interaction.gameScreen.onCriticalError(e);
         }
 
     }
 
-    private void playGo() {
+    private void playAttack() {
         try {
 
-            goAudio = new StoryAudio();
-            goAudio.audio = MathUtils.random(new String[]{
-                    "alions_attacklion_1",
-                    "alions_attacklion_2",
-                    "alions_attacklion_3",
-                    "alions_attacklion_4",
-                    "alions_attacklion_5"
-            });
+            attackAudio = new StoryAudio();
+            attackAudio.audio = "slions_attack_lion";
 
-            interaction.gameScreen.audioService.prepareAndPlay(goAudio);
+            interaction.gameScreen.audioService.prepareAndPlay(attackAudio);
 
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            //interaction.gameScreen.onCriticalError(e);
+            interaction.gameScreen.onCriticalError(e);
         }
 
     }
@@ -224,11 +217,11 @@ public class LionsImageFragment extends InteractionFragment {
 
         attackBtn.setTouchable(Touchable.enabled); //always touchable
 
-        if (steadyAudio != null) {
-            interaction.gameScreen.audioService.updateVolume(steadyAudio);
+        if (freezeAudio != null) {
+            interaction.gameScreen.audioService.updateVolume(freezeAudio);
         }
-        if (goAudio != null) {
-            interaction.gameScreen.audioService.updateVolume(goAudio);
+        if (attackAudio != null) {
+            interaction.gameScreen.audioService.updateVolume(attackAudio);
         }
 
     }
@@ -238,6 +231,10 @@ public class LionsImageFragment extends InteractionFragment {
 
         try {
 
+            Inventory item = InventoryRepository.find(interaction.gameScreen.game.gameState, "ST_LION");
+
+            interaction.gameScreen.game.inventoryService.addInventory(item);
+
             interaction.gameScreen.interactionService.complete();
 
             Story newStory = interaction.gameScreen.storyManager.create("alions_attack_win");
@@ -246,14 +243,10 @@ public class LionsImageFragment extends InteractionFragment {
 
             interaction.gameScreen.restoreProgressBarIfDestroyed();
 
-            Inventory item = InventoryRepository.find(interaction.gameScreen.game.gameState, "ST_LION");
-
-            interaction.gameScreen.game.inventoryService.addInventory(item);
-
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            //interaction.gameScreen.onCriticalError(e);
+            interaction.gameScreen.onCriticalError(e);
         }
     }
 
@@ -273,7 +266,7 @@ public class LionsImageFragment extends InteractionFragment {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            //interaction.gameScreen.onCriticalError(e);
+            interaction.gameScreen.onCriticalError(e);
         }
     }
 
@@ -293,7 +286,7 @@ public class LionsImageFragment extends InteractionFragment {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            //interaction.gameScreen.onCriticalError(e);
+            interaction.gameScreen.onCriticalError(e);
         }
     }
 
@@ -309,10 +302,10 @@ public class LionsImageFragment extends InteractionFragment {
         interaction.gameScreen.setLastBackground(file);
     }
 
-    private void stopSteady() {
-        if (steadyAudio != null) {
-            interaction.gameScreen.audioService.stop(steadyAudio);
-            steadyAudio = null;
+    private void stopFreeze() {
+        if (freezeAudio != null) {
+            interaction.gameScreen.audioService.stop(freezeAudio);
+            freezeAudio = null;
         }
     }
 
@@ -320,11 +313,11 @@ public class LionsImageFragment extends InteractionFragment {
     public void dispose() {
         super.dispose();
 
-        stopSteady();
+        stopFreeze();
 
-        if (goAudio != null) {
-            interaction.gameScreen.audioService.stop(goAudio);
-            goAudio = null;
+        if (attackAudio != null) {
+            interaction.gameScreen.audioService.stop(attackAudio);
+            attackAudio = null;
         }
 
         if (sleepAudio != null) {

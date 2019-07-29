@@ -83,7 +83,7 @@ public class ExternalFiles {
         return getExternal("game/scenario.json");
     }
 
-    private static FileHandle getExternal(String name) {
+    public static FileHandle getExternal(String name) {
 
         if (MunhauzenGame.IS_EXPANSION_HIDDEN) {
             FileHandle dir = Gdx.files.external("Munhauzen");

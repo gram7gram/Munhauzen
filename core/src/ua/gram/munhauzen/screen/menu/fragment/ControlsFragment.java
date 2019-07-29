@@ -403,7 +403,20 @@ public class ControlsFragment extends Fragment {
         style.down = new SpriteDrawable(new Sprite(txt));
         style.disabled = new SpriteDrawable(new Sprite(txtOff));
 
-        return new ImageButton(style);
+        ImageButton btn = new ImageButton(style);
+
+        btn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                cancelFadeOut();
+
+                fadeOut();
+            }
+        });
+
+        return btn;
     }
 
     private ImageButton getRateBtn() {
@@ -415,7 +428,20 @@ public class ControlsFragment extends Fragment {
         style.down = new SpriteDrawable(new Sprite(txt));
         style.disabled = new SpriteDrawable(new Sprite(txtOff));
 
-        return new ImageButton(style);
+        ImageButton btn = new ImageButton(style);
+
+        btn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                cancelFadeOut();
+
+                fadeOut();
+            }
+        });
+
+        return btn;
     }
 
     private ImageButton getDemoBtn() {
@@ -427,7 +453,20 @@ public class ControlsFragment extends Fragment {
         style.down = new SpriteDrawable(new Sprite(txt));
         style.disabled = new SpriteDrawable(new Sprite(txtOff));
 
-        return new ImageButton(style);
+        ImageButton btn = new ImageButton(style);
+
+        btn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                cancelFadeOut();
+
+                fadeOut();
+            }
+        });
+
+        return btn;
     }
 
     private ImageButton getExitBtn() {
@@ -438,7 +477,20 @@ public class ControlsFragment extends Fragment {
         style.down = new SpriteDrawable(new Sprite(txt));
         style.disabled = new SpriteDrawable(new Sprite(txt));
 
-        return new ImageButton(style);
+        ImageButton btn = new ImageButton(style);
+
+        btn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                cancelFadeOut();
+
+                fadeOut();
+            }
+        });
+
+        return btn;
     }
 
     private ImageButton getMenuBtn() {

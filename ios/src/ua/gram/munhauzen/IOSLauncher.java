@@ -13,7 +13,6 @@ public class IOSLauncher extends IOSApplication.Delegate {
 
         config.useAccelerometer = false;
         config.useCompass = false;
-//        config. = true;
 
         PlatformParams params = new PlatformParams();
         params.versionCode = 1;

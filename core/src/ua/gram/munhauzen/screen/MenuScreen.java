@@ -7,11 +7,13 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
+import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.MunhauzenStage;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.screen.menu.fragment.ControlsFragment;
+import ua.gram.munhauzen.screen.menu.fragment.GreetingBanner;
 import ua.gram.munhauzen.screen.menu.fragment.ImageFragment;
 import ua.gram.munhauzen.ui.MenuLayers;
 import ua.gram.munhauzen.utils.Log;
@@ -30,6 +32,7 @@ public class MenuScreen implements Screen {
     public ControlsFragment controlsFragment;
     private Texture background;
     private boolean isLoaded;
+    public GreetingBanner greetingBanner;
 
     public MenuScreen(MunhauzenGame game) {
         this.game = game;
@@ -63,6 +66,7 @@ public class MenuScreen implements Screen {
         assetManager.load("menu/b_exit_on.png", Texture.class);
         assetManager.load("menu/menu_logo.png", Texture.class);
         assetManager.load("menu/b_lock.png", Texture.class);
+        assetManager.load("menu/banner_fond_1.png", Texture.class);
     }
 
     private void onResourcesLoaded() {
@@ -80,11 +84,12 @@ public class MenuScreen implements Screen {
         controlsFragment = new ControlsFragment(this);
         controlsFragment.create();
 
+        layers.setControlsLayer(controlsFragment);
+
         imageFragment = new ImageFragment(this);
         imageFragment.create();
 
         layers.setBackgroundLayer(imageFragment);
-        layers.setControlsLayer(controlsFragment);
 
         ui.addListener(new ActorGestureListener() {
             @Override
@@ -100,6 +105,34 @@ public class MenuScreen implements Screen {
         });
 
         Gdx.input.setInputProcessor(ui);
+
+        boolean isGreetingViewed = game.preferences.getBoolean(tag + ":isGreetingViewed");
+
+        if (!isGreetingViewed) {
+            Timer.instance().scheduleTask(new Timer.Task() {
+                @Override
+                public void run() {
+
+                    try {
+                        greetingBanner = new GreetingBanner(MenuScreen.this);
+                        greetingBanner.create();
+
+                        layers.setBannerLayer(greetingBanner);
+
+                        greetingBanner.fadeIn();
+
+                        Timer.instance().postTask(new Timer.Task() {
+                            @Override
+                            public void run() {
+                                game.preferences.putBoolean(tag + ":isGreetingViewed", true).flush();
+                            }
+                        });
+                    } catch (Throwable e) {
+                        Log.e(tag, e);
+                    }
+                }
+            }, 2);
+        }
     }
 
     @Override
@@ -123,6 +156,10 @@ public class MenuScreen implements Screen {
         }
 
         drawBackground();
+
+        if (greetingBanner != null) {
+            greetingBanner.update();
+        }
 
         if (ui != null) {
             ui.act(delta);
