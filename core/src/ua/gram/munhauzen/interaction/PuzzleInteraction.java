@@ -2,9 +2,11 @@ package ua.gram.munhauzen.interaction;
 
 import com.badlogic.gdx.graphics.Texture;
 
+import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.interaction.puzzle.PuzzleDecisionManager;
 import ua.gram.munhauzen.interaction.puzzle.fragment.PuzzleImageFragment;
 import ua.gram.munhauzen.screen.GameScreen;
+import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
@@ -14,6 +16,7 @@ public class PuzzleInteraction extends AbstractInteraction {
     boolean isLoaded;
     public PuzzleImageFragment imageFragment;
     public PuzzleDecisionManager decisionManager;
+    StoryAudio introAudio;
 
     public PuzzleInteraction(GameScreen gameScreen) {
         super(gameScreen);
@@ -50,6 +53,23 @@ public class PuzzleInteraction extends AbstractInteraction {
         gameScreen.gameLayers.setInteractionLayer(imageFragment);
 
         imageFragment.fadeInRoot();
+
+        playIntro();
+    }
+
+    private void playIntro() {
+        try {
+
+            introAudio = new StoryAudio();
+            introAudio.audio = "sfx_inter_puzzle_1";
+
+            gameScreen.audioService.prepareAndPlay(introAudio);
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            gameScreen.onCriticalError(e);
+        }
     }
 
     @Override
@@ -76,6 +96,10 @@ public class PuzzleInteraction extends AbstractInteraction {
         if (decisionManager != null) {
             decisionManager.update();
         }
+
+        if (introAudio != null) {
+            gameScreen.audioService.updateVolume(introAudio);
+        }
     }
 
     @Override
@@ -84,6 +108,11 @@ public class PuzzleInteraction extends AbstractInteraction {
 
         if (decisionManager != null) {
             decisionManager.dispose();
+        }
+
+        if (introAudio != null) {
+            gameScreen.audioService.stop(introAudio);
+            introAudio = null;
         }
 
         isLoaded = false;

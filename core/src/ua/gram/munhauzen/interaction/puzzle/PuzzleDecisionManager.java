@@ -308,15 +308,6 @@ public class PuzzleDecisionManager {
                 }
             }, destroyAudio.duration / 1000f);
 
-        } catch (Throwable e) {
-            Log.e(tag, e);
-
-            reset();
-
-            return;
-        }
-
-        try {
             Timer.instance().scheduleTask(new Timer.Task() {
                 @Override
                 public void run() {
@@ -364,6 +355,8 @@ public class PuzzleDecisionManager {
             }, 1);
         } catch (Throwable e) {
             Log.e(tag, e);
+
+            interaction.gameScreen.onCriticalError(e);
         }
 
     }
@@ -515,6 +508,8 @@ public class PuzzleDecisionManager {
 
                     } catch (Throwable e) {
                         Log.e(tag, e);
+
+                        interaction.gameScreen.onCriticalError(e);
                     }
                 }
             }, 10);
