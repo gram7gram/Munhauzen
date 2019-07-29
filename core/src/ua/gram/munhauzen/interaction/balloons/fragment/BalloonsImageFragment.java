@@ -206,9 +206,6 @@ public class BalloonsImageFragment extends InteractionFragment {
         Runnable onMiss = new Runnable() {
             @Override
             public void run() {
-
-                playMiss();
-
                 failed();
             }
         };
@@ -406,25 +403,41 @@ public class BalloonsImageFragment extends InteractionFragment {
     }
 
     private void failed() {
-        Log.i(tag, "failed");
 
-        spawnCount = 0;
+        try {
+            Log.i(tag, "failed");
 
-        balloon1.reset();
+            boolean isLast = spawnCount == max;
 
-        balloon2.reset();
+            if (!isLast) {
+                playMiss();
+            } else {
+                playLastMiss();
+            }
 
-        balloon3.reset();
+            spawnCount = 0;
 
-        balloon4.reset();
+            balloon1.reset();
+            balloon2.reset();
+            balloon3.reset();
+            balloon4.reset();
 
-        stopSpawn();
+            stopSpawn();
 
-        restartTable.setVisible(true);
-        restartTable.addAction(Actions.sequence(
-                Actions.alpha(0),
-                Actions.alpha(1, .3f)
-        ));
+            Timer.instance().scheduleTask(new Timer.Task() {
+                @Override
+                public void run() {
+                    restartTable.setVisible(true);
+                    restartTable.addAction(Actions.sequence(
+                            Actions.alpha(0),
+                            Actions.alpha(1, .3f)
+                    ));
+                }
+            }, missAudio.duration / 1000f);
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
     }
 
     private void playWin() {
@@ -438,17 +451,21 @@ public class BalloonsImageFragment extends InteractionFragment {
 
         } catch (Throwable e) {
             Log.e(tag, e);
+
+            interaction.gameScreen.onCriticalError(e);
         }
     }
 
     private void playBalloon21() {
         try {
             balloon21Audio = new StoryAudio();
-            balloon21Audio.audio = "sfx_inter_balloons_21";
+            balloon21Audio.audio = "sfx_inter_last";
 
             interaction.gameScreen.audioService.prepareAndPlay(balloon21Audio);
         } catch (Throwable e) {
             Log.e(tag, e);
+
+            interaction.gameScreen.onCriticalError(e);
         }
     }
 
@@ -460,6 +477,8 @@ public class BalloonsImageFragment extends InteractionFragment {
             interaction.gameScreen.audioService.prepareAndPlay(introAudio);
         } catch (Throwable e) {
             Log.e(tag, e);
+
+            interaction.gameScreen.onCriticalError(e);
         }
     }
 
@@ -477,6 +496,8 @@ public class BalloonsImageFragment extends InteractionFragment {
             interaction.gameScreen.audioService.prepareAndPlay(storyAudio);
         } catch (Throwable e) {
             Log.e(tag, e);
+
+            interaction.gameScreen.onCriticalError(e);
         }
     }
 
@@ -492,6 +513,21 @@ public class BalloonsImageFragment extends InteractionFragment {
             interaction.gameScreen.audioService.prepareAndPlay(missAudio);
         } catch (Throwable e) {
             Log.e(tag, e);
+
+            interaction.gameScreen.onCriticalError(e);
+        }
+    }
+
+    private void playLastMiss() {
+        try {
+            missAudio = new StoryAudio();
+            missAudio.audio = "sfx_inter_last_loose";
+
+            interaction.gameScreen.audioService.prepareAndPlay(missAudio);
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            interaction.gameScreen.onCriticalError(e);
         }
     }
 

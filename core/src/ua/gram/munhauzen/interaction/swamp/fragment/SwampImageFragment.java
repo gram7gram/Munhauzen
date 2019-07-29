@@ -33,7 +33,7 @@ public class SwampImageFragment extends InteractionFragment {
     public Table swampTable, munhauzenTable;
     public BackgroundImage backgroundImage;
     Timer.Task task;
-    StoryAudio winAudio;
+    StoryAudio winAudio, bounceAudio, pullAudio;
 
     public SwampImageFragment(SwampInteraction interaction) {
         this.interaction = interaction;
@@ -60,6 +60,21 @@ public class SwampImageFragment extends InteractionFragment {
         munhauzenTable.add(munhauzen).center();
 
         munhauzen.addListener(new ActorGestureListener() {
+
+            @Override
+            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                super.touchDown(event, x, y, pointer, button);
+
+                playPull();
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                super.touchUp(event, x, y, pointer, button);
+
+                pausePull();
+            }
+
             @Override
             public void pan(InputEvent event, float x, float y, float deltaX, float deltaY) {
                 super.pan(event, x, y, deltaX, deltaY);
@@ -125,12 +140,22 @@ public class SwampImageFragment extends InteractionFragment {
         if (winAudio != null) {
             interaction.gameScreen.audioService.updateVolume(winAudio);
         }
+
+        if (pullAudio != null) {
+            interaction.gameScreen.audioService.updateVolume(pullAudio);
+        }
+
+        if (bounceAudio != null) {
+            interaction.gameScreen.audioService.updateVolume(bounceAudio);
+        }
     }
 
     private void checkIfWinner() {
 
         if (munhauzen.getY() > swamp.getY() + swamp.getHeight()) {
             munhauzen.setTouchable(Touchable.disabled);
+
+            pausePull();
 
             complete();
         }
@@ -157,18 +182,33 @@ public class SwampImageFragment extends InteractionFragment {
                 )
         ));
 
-        playWin();
+        playBounceBeforeWin();
 
         Timer.instance().scheduleTask(new Timer.Task() {
             @Override
             public void run() {
                 try {
 
-                    interaction.gameScreen.interactionService.complete();
+                    playWin();
 
-                    interaction.gameScreen.interactionService.findStoryAfterInteraction();
+                    Timer.instance().scheduleTask(new Timer.Task() {
+                        @Override
+                        public void run() {
+                            try {
 
-                    interaction.gameScreen.restoreProgressBarIfDestroyed();
+                                interaction.gameScreen.interactionService.complete();
+
+                                interaction.gameScreen.interactionService.findStoryAfterInteraction();
+
+                                interaction.gameScreen.restoreProgressBarIfDestroyed();
+
+                            } catch (Throwable e) {
+                                Log.e(tag, e);
+
+                                interaction.gameScreen.onCriticalError(e);
+                            }
+                        }
+                    }, winAudio.duration / 1000f);
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -176,8 +216,28 @@ public class SwampImageFragment extends InteractionFragment {
                     interaction.gameScreen.onCriticalError(e);
                 }
             }
-        }, winAudio.duration / 1000f);
+        }, bounceAudio.duration / 1000f);
 
+    }
+
+    private void playBounceBeforeWin() {
+        try {
+
+            if (bounceAudio != null && bounceAudio.player != null) {
+                bounceAudio.player.play();
+                return;
+            }
+
+            bounceAudio = new StoryAudio();
+            bounceAudio.audio = "sfx_inter_swamp_2";
+
+            interaction.gameScreen.audioService.prepareAndPlay(bounceAudio);
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            interaction.gameScreen.onCriticalError(e);
+        }
     }
 
 
@@ -187,6 +247,31 @@ public class SwampImageFragment extends InteractionFragment {
             winAudio.audio = "s24_a";
 
             interaction.gameScreen.audioService.prepareAndPlay(winAudio);
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            interaction.gameScreen.onCriticalError(e);
+        }
+    }
+
+    private void pausePull() {
+        if (pullAudio != null && pullAudio.player != null) {
+            pullAudio.player.pause();
+        }
+    }
+
+    private void playPull() {
+        try {
+            if (pullAudio != null && pullAudio.player != null) {
+                pullAudio.player.play();
+                return;
+            }
+
+            pullAudio = new StoryAudio();
+            pullAudio.audio = "sfx_inter_swamp_1";
+
+            interaction.gameScreen.audioService.prepareAndPlay(pullAudio);
 
         } catch (Throwable e) {
             Log.e(tag, e);
@@ -253,6 +338,16 @@ public class SwampImageFragment extends InteractionFragment {
         if (winAudio != null) {
             interaction.gameScreen.audioService.stop(winAudio);
             winAudio = null;
+        }
+
+        if (bounceAudio != null) {
+            interaction.gameScreen.audioService.stop(bounceAudio);
+            bounceAudio = null;
+        }
+
+        if (pullAudio != null) {
+            interaction.gameScreen.audioService.stop(pullAudio);
+            pullAudio = null;
         }
 
     }

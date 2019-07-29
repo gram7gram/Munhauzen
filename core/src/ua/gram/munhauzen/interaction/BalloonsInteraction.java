@@ -2,9 +2,11 @@ package ua.gram.munhauzen.interaction;
 
 import com.badlogic.gdx.graphics.Texture;
 
+import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.interaction.balloons.fragment.BalloonsImageFragment;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.utils.Log;
+import ua.gram.munhauzen.utils.MathUtils;
 
 /**
  * @author Gram <gram7gram@gmail.com>
@@ -13,6 +15,7 @@ public class BalloonsInteraction extends AbstractInteraction {
 
     public BalloonsImageFragment imageFragment;
     boolean isLoaded;
+    StoryAudio introAudio;
 
     public BalloonsInteraction(GameScreen gameScreen) {
         super(gameScreen);
@@ -45,6 +48,26 @@ public class BalloonsInteraction extends AbstractInteraction {
 
         imageFragment.fadeInRoot();
 
+        playIntro();
+    }
+
+    private void playIntro() {
+        try {
+            introAudio = new StoryAudio();
+            introAudio.audio = MathUtils.random(new String[]{
+                    "sfx_inter_start_1",
+                    "sfx_inter_start_2",
+                    "sfx_inter_start_3",
+                    "sfx_inter_start_4"
+            });
+
+            gameScreen.audioService.prepareAndPlay(introAudio);
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            gameScreen.onCriticalError(e);
+        }
     }
 
     @Override
@@ -64,11 +87,20 @@ public class BalloonsInteraction extends AbstractInteraction {
 
         if (imageFragment != null)
             imageFragment.update();
+
+        if (introAudio != null) {
+            gameScreen.audioService.updateVolume(introAudio);
+        }
     }
 
     @Override
     public void dispose() {
         super.dispose();
+
+        if (introAudio != null) {
+            gameScreen.audioService.stop(introAudio);
+            introAudio = null;
+        }
 
         isLoaded = false;
     }
