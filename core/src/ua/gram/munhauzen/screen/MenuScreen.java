@@ -128,7 +128,11 @@ public class MenuScreen implements Screen {
         boolean isGreetingViewed = game.preferences.getBoolean(tag + ":isGreetingViewed");
         boolean isShareViewed = game.preferences.getBoolean(tag + ":isShareViewed");
 
-        if (!isGreetingViewed) {
+        boolean canOpenGreeting = !isGreetingViewed;
+        boolean canOpenShare = !isShareViewed && openCount % 5 == 0;
+        boolean canOpenVersion = openCount % 7 == 0;
+
+        if (canOpenGreeting) {
             Timer.instance().scheduleTask(new Timer.Task() {
                 @Override
                 public void run() {
@@ -152,30 +156,55 @@ public class MenuScreen implements Screen {
                     }
                 }
             }, 2);
-        } else if (!isShareViewed) {
+        } else if (canOpenShare) {
+            Timer.instance().scheduleTask(new Timer.Task() {
+                @Override
+                public void run() {
 
-            if (openCount % 5 == 0) {
+                    try {
+                        greetingBanner = new GreetingBanner(MenuScreen.this);
+                        greetingBanner.create();
 
-                openCount = 0;
+                        layers.setBannerLayer(greetingBanner);
 
-                Timer.instance().scheduleTask(new Timer.Task() {
-                    @Override
-                    public void run() {
+                        greetingBanner.fadeIn();
 
-                        try {
-                            greetingBanner = new GreetingBanner(MenuScreen.this);
-                            greetingBanner.create();
-
-                            layers.setBannerLayer(greetingBanner);
-
-                            greetingBanner.fadeIn();
-
-                        } catch (Throwable e) {
-                            Log.e(tag, e);
-                        }
+                    } catch (Throwable e) {
+                        Log.e(tag, e);
                     }
-                }, 2);
-            }
+                }
+            }, 2);
+        } else if (canOpenVersion) {
+            Timer.instance().scheduleTask(new Timer.Task() {
+                @Override
+                public void run() {
+
+                    try {
+                        if (game.params.isPro) {
+                            proBanner = new ProBanner(MenuScreen.this);
+                            proBanner.create();
+
+                            layers.setBannerLayer(proBanner);
+
+                            proBanner.fadeIn();
+                        } else {
+                            demoBanner = new DemoBanner(MenuScreen.this);
+                            demoBanner.create();
+
+                            layers.setBannerLayer(demoBanner);
+
+                            demoBanner.fadeIn();
+                        }
+
+                    } catch (Throwable e) {
+                        Log.e(tag, e);
+                    }
+                }
+            }, 2);
+        }
+
+        if (openCount % 7 == 0) {
+            openCount = 0;
         }
 
         final int openCountToSave = openCount + 1;
@@ -259,6 +288,8 @@ public class MenuScreen implements Screen {
 
     @Override
     public void dispose() {
+
+        Timer.instance().clear();
 
         Log.i(tag, "dispose");
 

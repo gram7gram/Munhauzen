@@ -14,9 +14,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.screen.MenuScreen;
 import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.ui.Fragment;
@@ -31,6 +33,7 @@ public class ProBanner extends Fragment {
     Table content;
     public boolean isFadeIn;
     public boolean isFadeOut;
+    StoryAudio introAudio, clickAudio;
 
     public ProBanner(MenuScreen screen) {
         this.screen = screen;
@@ -69,14 +72,35 @@ public class ProBanner extends Fragment {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
+                try {
 
-                fadeOut(new Runnable() {
-                    @Override
-                    public void run() {
-                        destroy();
-                        screen.rateBanner = null;
-                    }
-                });
+                    root.setTouchable(Touchable.disabled);
+
+                    stopIntro();
+
+                    playClick();
+
+                    Timer.instance().scheduleTask(new Timer.Task() {
+                        @Override
+                        public void run() {
+
+                            try {
+                                fadeOut(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        destroy();
+                                        screen.rateBanner = null;
+                                    }
+                                });
+                            } catch (Throwable e) {
+                                Log.e(tag, e);
+                            }
+                        }
+                    }, clickAudio.duration / 1000f);
+
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
             }
         });
 
@@ -132,6 +156,12 @@ public class ProBanner extends Fragment {
     }
 
     public void update() {
+        if (introAudio != null) {
+            screen.audioService.updateVolume(introAudio);
+        }
+        if (clickAudio != null) {
+            screen.audioService.updateVolume(clickAudio);
+        }
     }
 
     public void fadeIn() {
@@ -158,6 +188,8 @@ public class ProBanner extends Fragment {
                     }
                 })
         ));
+
+        playIntro();
     }
 
     public boolean canFadeOut() {
@@ -214,5 +246,54 @@ public class ProBanner extends Fragment {
     @Override
     public Actor getRoot() {
         return root;
+    }
+
+    public void playIntro() {
+        try {
+            stopIntro();
+
+            introAudio = new StoryAudio();
+            introAudio.audio = "sfx_menu_full_0";
+
+            screen.audioService.prepareAndPlay(introAudio);
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+    }
+
+    public void stopIntro() {
+        if (introAudio != null) {
+            screen.audioService.stop(introAudio);
+            introAudio = null;
+        }
+    }
+
+    public void playClick() {
+        try {
+            stopClick();
+
+            clickAudio = new StoryAudio();
+            clickAudio.audio = "sfx_menu_full_1";
+
+            screen.audioService.prepareAndPlay(clickAudio);
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+    }
+
+    public void stopClick() {
+        if (clickAudio != null) {
+            screen.audioService.stop(clickAudio);
+            clickAudio = null;
+        }
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+
+        stopIntro();
+
+        stopClick();
     }
 }
