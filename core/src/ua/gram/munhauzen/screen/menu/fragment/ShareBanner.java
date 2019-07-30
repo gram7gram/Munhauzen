@@ -399,12 +399,7 @@ public class ShareBanner extends Fragment {
 
     private void onBtnCLicked(final String url) {
 
-        Timer.instance().postTask(new Timer.Task() {
-            @Override
-            public void run() {
-                screen.game.preferences.putBoolean(tag + ":isShareViewed", true).flush();
-            }
-        });
+        screen.game.gameState.menuState.isShareViewed = true;
 
         root.setTouchable(Touchable.disabled);
 

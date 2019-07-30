@@ -26,6 +26,7 @@ public class GameState {
     public Array<AudioFail> audioFailRegistry;
     public Array<Inventory> inventoryRegistry;
     public Array<Chapter> chapterRegistry;
+    public MenuState menuState;
 
     public GameState() {
         scenarioRegistry = new Array<>();
@@ -34,6 +35,7 @@ public class GameState {
         audioFailRegistry = new Array<>();
         inventoryRegistry = new Array<>();
         chapterRegistry = new Array<>();
+        menuState = new MenuState();
     }
 
     public void reset() {

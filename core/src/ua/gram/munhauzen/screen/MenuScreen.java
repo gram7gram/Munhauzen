@@ -123,10 +123,10 @@ public class MenuScreen implements Screen {
 
         Gdx.input.setInputProcessor(ui);
 
-        int openCount = game.preferences.getInteger(tag + ":menuOpenCount");
+        int openCount = game.gameState.menuState.openCount;
 
-        boolean isGreetingViewed = game.preferences.getBoolean(tag + ":isGreetingViewed");
-        boolean isShareViewed = game.preferences.getBoolean(tag + ":isShareViewed");
+        boolean isGreetingViewed = game.gameState.menuState.isGreetingViewed;
+        boolean isShareViewed = game.gameState.menuState.isShareViewed;
 
         boolean canOpenGreeting = !isGreetingViewed;
         boolean canOpenShare = !isShareViewed && openCount % 5 == 0;
@@ -145,12 +145,7 @@ public class MenuScreen implements Screen {
 
                         greetingBanner.fadeIn();
 
-                        Timer.instance().postTask(new Timer.Task() {
-                            @Override
-                            public void run() {
-                                game.preferences.putBoolean(tag + ":isGreetingViewed", true).flush();
-                            }
-                        });
+                        game.gameState.menuState.isGreetingViewed = true;
                     } catch (Throwable e) {
                         Log.e(tag, e);
                     }
@@ -162,12 +157,12 @@ public class MenuScreen implements Screen {
                 public void run() {
 
                     try {
-                        greetingBanner = new GreetingBanner(MenuScreen.this);
-                        greetingBanner.create();
+                        shareBanner = new ShareBanner(MenuScreen.this);
+                        shareBanner.create();
 
-                        layers.setBannerLayer(greetingBanner);
+                        layers.setBannerLayer(shareBanner);
 
-                        greetingBanner.fadeIn();
+                        shareBanner.fadeIn();
 
                     } catch (Throwable e) {
                         Log.e(tag, e);
@@ -207,14 +202,7 @@ public class MenuScreen implements Screen {
             openCount = 0;
         }
 
-        final int openCountToSave = openCount + 1;
-
-        Timer.instance().postTask(new Timer.Task() {
-            @Override
-            public void run() {
-                game.preferences.putInteger(tag + ":menuOpenCount", openCountToSave).flush();
-            }
-        });
+        game.gameState.menuState.openCount = openCount;
 
     }
 
