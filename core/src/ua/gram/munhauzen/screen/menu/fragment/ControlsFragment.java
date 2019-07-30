@@ -72,9 +72,10 @@ public class ControlsFragment extends Fragment {
 
         ImageButton shareBtn = getShareBtn();
         ImageButton rateBtn = getRateBtn();
-        ImageButton demoBtn = getDemoBtn();
         ImageButton menuBtn = getMenuBtn();
         ImageButton exitBtn = getExitBtn();
+
+        ImageButton demoBtn = screen.game.params.isPro ? getProBtn() : getDemoBtn();
 
         float iconSize = MunhauzenGame.WORLD_WIDTH * .18f;
         float iconSize2 = iconSize * 1.5f;
@@ -229,10 +230,6 @@ public class ControlsFragment extends Fragment {
                     }
                 })
         ));
-
-    }
-
-    public void fadeOutFancy(Runnable task) {
 
     }
 
@@ -478,9 +475,51 @@ public class ControlsFragment extends Fragment {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                cancelFadeOut();
+                try {
 
-                fadeOut();
+                    screen.demoBanner = new DemoBanner(screen);
+                    screen.demoBanner.create();
+
+                    screen.layers.setBannerLayer(screen.demoBanner);
+
+                    screen.demoBanner.fadeIn();
+
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
+            }
+        });
+
+        return btn;
+    }
+
+    private ImageButton getProBtn() {
+        Texture txt = screen.assetManager.get("menu/b_full_version.png", Texture.class);
+
+        ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
+        style.up = new SpriteDrawable(new Sprite(txt));
+        style.down = new SpriteDrawable(new Sprite(txt));
+        style.disabled = new SpriteDrawable(new Sprite(txt));
+
+        ImageButton btn = new ImageButton(style);
+
+        btn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                try {
+
+                    screen.proBanner = new ProBanner(screen);
+                    screen.proBanner.create();
+
+                    screen.layers.setBannerLayer(screen.proBanner);
+
+                    screen.proBanner.fadeIn();
+
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
             }
         });
 

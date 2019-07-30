@@ -20,6 +20,8 @@ public class AndroidLauncher extends AndroidApplication {
 
         PlatformParams params = new PlatformParams();
         params.applicationId = BuildConfig.APPLICATION_ID;
+        params.applicationProId = "ua.gram.munhauzen.pro";
+        params.applicationDemoId = "ua.gram.munhauzen.free";
         params.versionCode = BuildConfig.VERSION_CODE;
         params.versionName = BuildConfig.VERSION_NAME;
         params.locale = "en";

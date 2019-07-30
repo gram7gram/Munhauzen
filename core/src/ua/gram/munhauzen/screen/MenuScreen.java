@@ -13,8 +13,10 @@ import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.MunhauzenStage;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.screen.menu.fragment.ControlsFragment;
+import ua.gram.munhauzen.screen.menu.fragment.DemoBanner;
 import ua.gram.munhauzen.screen.menu.fragment.GreetingBanner;
 import ua.gram.munhauzen.screen.menu.fragment.ImageFragment;
+import ua.gram.munhauzen.screen.menu.fragment.ProBanner;
 import ua.gram.munhauzen.screen.menu.fragment.RateBanner;
 import ua.gram.munhauzen.screen.menu.fragment.ShareBanner;
 import ua.gram.munhauzen.service.AudioService;
@@ -38,6 +40,8 @@ public class MenuScreen implements Screen {
     private boolean isLoaded;
     public GreetingBanner greetingBanner;
     public RateBanner rateBanner;
+    public DemoBanner demoBanner;
+    public ProBanner proBanner;
     public AudioService audioService;
 
     public MenuScreen(MunhauzenGame game) {
@@ -73,6 +77,7 @@ public class MenuScreen implements Screen {
         assetManager.load("menu/b_exit_on.png", Texture.class);
         assetManager.load("menu/menu_logo.png", Texture.class);
         assetManager.load("menu/b_lock.png", Texture.class);
+        assetManager.load("menu/b_full_version.png", Texture.class);
     }
 
     private void onResourcesLoaded() {

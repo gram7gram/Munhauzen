@@ -16,6 +16,8 @@ public class PlatformParams {
     public int versionCode;
     public boolean isPro;
     public String applicationId;
+    public String applicationProId;
+    public String applicationDemoId;
 
     public String getExpansionUrl() {
         return gameHost + "/api/v1/expansions/" + versionCode + "/" + locale + "/" + device + "/" + dpi;
