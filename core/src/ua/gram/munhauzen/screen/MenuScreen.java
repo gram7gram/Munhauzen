@@ -15,6 +15,7 @@ import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.screen.menu.fragment.ControlsFragment;
 import ua.gram.munhauzen.screen.menu.fragment.GreetingBanner;
 import ua.gram.munhauzen.screen.menu.fragment.ImageFragment;
+import ua.gram.munhauzen.screen.menu.fragment.RateBanner;
 import ua.gram.munhauzen.ui.MenuLayers;
 import ua.gram.munhauzen.utils.Log;
 
@@ -33,6 +34,7 @@ public class MenuScreen implements Screen {
     private Texture background;
     private boolean isLoaded;
     public GreetingBanner greetingBanner;
+    public RateBanner rateBanner;
 
     public MenuScreen(MunhauzenGame game) {
         this.game = game;
@@ -59,6 +61,7 @@ public class MenuScreen implements Screen {
         assetManager.load("menu/b_share.png", Texture.class);
         assetManager.load("menu/b_share_disabled.png", Texture.class);
         assetManager.load("menu/b_rate.png", Texture.class);
+        assetManager.load("menu/b_rate_2.png", Texture.class);
         assetManager.load("menu/b_rate_disabled.png", Texture.class);
         assetManager.load("menu/b_demo.png", Texture.class);
         assetManager.load("menu/b_demo_disabled.png", Texture.class);
@@ -96,8 +99,14 @@ public class MenuScreen implements Screen {
             public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchDown(event, x, y, pointer, button);
 
+                Log.i(tag, "ui clicked");
+
                 try {
-                    controlsFragment.scheduleFadeOut();
+
+                    if (controlsFragment != null) {
+                        controlsFragment.scheduleFadeOut();
+                    }
+
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }

@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -17,34 +18,32 @@ import com.badlogic.gdx.utils.Align;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.screen.MenuScreen;
+import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.ui.PrimaryButton;
 import ua.gram.munhauzen.utils.Log;
 
-public class GreetingBanner extends Fragment {
+public class RateBanner extends Fragment {
 
     final MenuScreen screen;
     FragmentRoot root;
     Table content;
     public boolean isFadeIn;
     public boolean isFadeOut;
+    PrimaryButton btn;
 
-    public GreetingBanner(MenuScreen screen) {
+    public RateBanner(MenuScreen screen) {
         this.screen = screen;
     }
 
     public void create() {
 
         String[] sentences = {
-                "Приветствуем, друзья!",
-                "Наша команда вложила силы и душу в даный проэкт! И да, дорогие слушатели, я не побоюсь его назвать шедевром! Да, не побоюсь!",
-                "Надеемся, что наша аудиокнига внесёт в вашу жизнь много прекрасных позитивных эмоцций, и пусть на лице озарится улыбка!",
-                "Слушайте и наслаждайтесь!",
+                "Please, rate out application or leave a positive review",
         };
 
         content = new Table();
-        content.pad(50, 100, 50, 100);
 
         Label.LabelStyle style = new Label.LabelStyle(
                 screen.game.fontProvider.getFont(FontProvider.h4),
@@ -59,16 +58,18 @@ public class GreetingBanner extends Fragment {
             content.add(label).padBottom(10).growX().row();
         }
 
-        PrimaryButton btn = screen.game.buttonBuilder.primary("Hip, hip, hoorey!", new ClickListener() {
+        btn = screen.game.buttonBuilder.primary("Rate", new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
+
+                screen.game.params.appStore.openRateUrl();
 
                 fadeOut(new Runnable() {
                     @Override
                     public void run() {
                         destroy();
-                        screen.greetingBanner = null;
+                        screen.rateBanner = null;
                     }
                 });
             }
@@ -79,12 +80,22 @@ public class GreetingBanner extends Fragment {
                 .height(MunhauzenGame.WORLD_HEIGHT / 12f)
                 .expandX().row();
 
-        content.setBackground(new SpriteDrawable(new Sprite(
+        FitImage img = new FitImage(
+                screen.assetManager.get("menu/b_rate_2.png", Texture.class)
+        );
+
+        Table columns = new Table();
+        columns.pad(50, 100, 50, 100);
+        columns.add(content).center().expandX();
+        columns.add(img).center().expandX();
+
+        columns.setBackground(new SpriteDrawable(new Sprite(
                 screen.assetManager.get("menu/banner_fond_1.png", Texture.class)
         )));
 
-        Container<Table> container = new Container<>(content);
+        Container<Table> container = new Container<>(columns);
         container.pad(MunhauzenGame.WORLD_WIDTH * .05f);
+        container.setTouchable(Touchable.enabled);
 
         root = new FragmentRoot();
         root.addContainer(container);
@@ -106,7 +117,7 @@ public class GreetingBanner extends Fragment {
                     @Override
                     public void run() {
                         destroy();
-                        screen.greetingBanner = null;
+                        screen.rateBanner = null;
                     }
                 });
             }
@@ -116,7 +127,7 @@ public class GreetingBanner extends Fragment {
     }
 
     public void update() {
-
+        btn.setDisabled(screen.game.params.appStore == null);
     }
 
     public void fadeIn() {

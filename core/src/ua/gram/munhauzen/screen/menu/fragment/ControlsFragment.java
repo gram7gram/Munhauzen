@@ -435,9 +435,18 @@ public class ControlsFragment extends Fragment {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                cancelFadeOut();
+                try {
 
-                fadeOut();
+                    screen.rateBanner = new RateBanner(screen);
+                    screen.rateBanner.create();
+
+                    screen.layers.setBannerLayer(screen.rateBanner);
+
+                    screen.rateBanner.fadeIn();
+
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
             }
         });
 
