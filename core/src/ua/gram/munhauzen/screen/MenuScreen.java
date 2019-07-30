@@ -16,6 +16,8 @@ import ua.gram.munhauzen.screen.menu.fragment.ControlsFragment;
 import ua.gram.munhauzen.screen.menu.fragment.GreetingBanner;
 import ua.gram.munhauzen.screen.menu.fragment.ImageFragment;
 import ua.gram.munhauzen.screen.menu.fragment.RateBanner;
+import ua.gram.munhauzen.screen.menu.fragment.ShareBanner;
+import ua.gram.munhauzen.service.AudioService;
 import ua.gram.munhauzen.ui.MenuLayers;
 import ua.gram.munhauzen.utils.Log;
 
@@ -31,10 +33,12 @@ public class MenuScreen implements Screen {
     public final AssetManager assetManager;
     public ImageFragment imageFragment;
     public ControlsFragment controlsFragment;
+    public ShareBanner shareBanner;
     private Texture background;
     private boolean isLoaded;
     public GreetingBanner greetingBanner;
     public RateBanner rateBanner;
+    public AudioService audioService;
 
     public MenuScreen(MunhauzenGame game) {
         this.game = game;
@@ -46,6 +50,7 @@ public class MenuScreen implements Screen {
 
         Log.i(tag, "show");
 
+        audioService = new AudioService(game);
         ui = new MunhauzenStage(game);
 
         isLoaded = false;
@@ -61,7 +66,6 @@ public class MenuScreen implements Screen {
         assetManager.load("menu/b_share.png", Texture.class);
         assetManager.load("menu/b_share_disabled.png", Texture.class);
         assetManager.load("menu/b_rate.png", Texture.class);
-        assetManager.load("menu/b_rate_2.png", Texture.class);
         assetManager.load("menu/b_rate_disabled.png", Texture.class);
         assetManager.load("menu/b_demo.png", Texture.class);
         assetManager.load("menu/b_demo_disabled.png", Texture.class);
@@ -69,7 +73,6 @@ public class MenuScreen implements Screen {
         assetManager.load("menu/b_exit_on.png", Texture.class);
         assetManager.load("menu/menu_logo.png", Texture.class);
         assetManager.load("menu/b_lock.png", Texture.class);
-        assetManager.load("menu/banner_fond_1.png", Texture.class);
     }
 
     private void onResourcesLoaded() {
@@ -115,7 +118,10 @@ public class MenuScreen implements Screen {
 
         Gdx.input.setInputProcessor(ui);
 
+        int openCount = game.preferences.getInteger(tag + ":menuOpenCount");
+
         boolean isGreetingViewed = game.preferences.getBoolean(tag + ":isGreetingViewed");
+        boolean isShareViewed = game.preferences.getBoolean(tag + ":isShareViewed");
 
         if (!isGreetingViewed) {
             Timer.instance().scheduleTask(new Timer.Task() {
@@ -141,7 +147,41 @@ public class MenuScreen implements Screen {
                     }
                 }
             }, 2);
+        } else if (!isShareViewed) {
+
+            if (openCount % 5 == 0) {
+
+                openCount = 0;
+
+                Timer.instance().scheduleTask(new Timer.Task() {
+                    @Override
+                    public void run() {
+
+                        try {
+                            greetingBanner = new GreetingBanner(MenuScreen.this);
+                            greetingBanner.create();
+
+                            layers.setBannerLayer(greetingBanner);
+
+                            greetingBanner.fadeIn();
+
+                        } catch (Throwable e) {
+                            Log.e(tag, e);
+                        }
+                    }
+                }, 2);
+            }
         }
+
+        final int openCountToSave = openCount + 1;
+
+        Timer.instance().postTask(new Timer.Task() {
+            @Override
+            public void run() {
+                game.preferences.putInteger(tag + ":menuOpenCount", openCountToSave).flush();
+            }
+        });
+
     }
 
     @Override
@@ -168,6 +208,14 @@ public class MenuScreen implements Screen {
 
         if (greetingBanner != null) {
             greetingBanner.update();
+        }
+
+        if (shareBanner != null) {
+            shareBanner.update();
+        }
+
+        if (rateBanner != null) {
+            rateBanner.update();
         }
 
         if (ui != null) {
@@ -212,6 +260,8 @@ public class MenuScreen implements Screen {
         isLoaded = false;
 
         assetManager.dispose();
+
+        audioService.dispose();
 
         if (ui != null) {
             ui.dispose();

@@ -36,6 +36,10 @@ public class GreetingBanner extends Fragment {
 
     public void create() {
 
+        screen.assetManager.load("menu/banner_fond_1.png", Texture.class);
+
+        screen.assetManager.finishLoading();
+
         String[] sentences = {
                 "Приветствуем, друзья!",
                 "Наша команда вложила силы и душу в даный проэкт! И да, дорогие слушатели, я не побоюсь его назвать шедевром! Да, не побоюсь!",
@@ -56,7 +60,9 @@ public class GreetingBanner extends Fragment {
             label.setAlignment(Align.center);
             label.setWrap(true);
 
-            content.add(label).padBottom(10).growX().row();
+            content.add(label)
+                    .width(MunhauzenGame.WORLD_WIDTH * .6f)
+                    .padBottom(10).growX().row();
         }
 
         PrimaryButton btn = screen.game.buttonBuilder.primary("Hip, hip, hoorey!", new ClickListener() {

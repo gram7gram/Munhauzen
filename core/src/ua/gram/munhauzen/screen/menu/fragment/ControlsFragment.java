@@ -410,9 +410,18 @@ public class ControlsFragment extends Fragment {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                cancelFadeOut();
+                try {
 
-                fadeOut();
+                    screen.shareBanner = new ShareBanner(screen);
+                    screen.shareBanner.create();
+
+                    screen.layers.setBannerLayer(screen.shareBanner);
+
+                    screen.shareBanner.fadeIn();
+
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
             }
         });
 

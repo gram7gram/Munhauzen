@@ -26,8 +26,8 @@ import ua.gram.munhauzen.screen.game.fragment.ProgressBarFragment;
 import ua.gram.munhauzen.screen.game.fragment.ScenarioFragment;
 import ua.gram.munhauzen.screen.game.listener.StageInputListener;
 import ua.gram.munhauzen.screen.game.ui.GameLayers;
-import ua.gram.munhauzen.service.AudioService;
 import ua.gram.munhauzen.service.ExpansionImageService;
+import ua.gram.munhauzen.service.GameAudioService;
 import ua.gram.munhauzen.service.InteractionService;
 import ua.gram.munhauzen.service.StoryManager;
 import ua.gram.munhauzen.utils.Log;
@@ -47,7 +47,7 @@ public class GameScreen implements Screen {
     public final ProgressBarFragment progressBarFragment;
     public ImageFragment imageFragment;
     public ControlsFragment controlsFragment;
-    public AudioService audioService;
+    public GameAudioService audioService;
     public ExpansionImageService imageService;
     public InteractionService interactionService;
     private Timer.Task saveTask;
@@ -74,7 +74,7 @@ public class GameScreen implements Screen {
 
         Log.i(tag, "show");
 
-        audioService = new AudioService(this);
+        audioService = new GameAudioService(this);
         imageService = new ExpansionImageService(this);
         interactionService = new InteractionService(this);
 

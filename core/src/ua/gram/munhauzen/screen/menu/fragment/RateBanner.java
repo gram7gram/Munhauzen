@@ -39,6 +39,11 @@ public class RateBanner extends Fragment {
 
     public void create() {
 
+        screen.assetManager.load("menu/banner_fond_1.png", Texture.class);
+        screen.assetManager.load("menu/b_rate_2.png", Texture.class);
+
+        screen.assetManager.finishLoading();
+
         String[] sentences = {
                 "Please, rate out application or leave a positive review",
         };
@@ -55,7 +60,9 @@ public class RateBanner extends Fragment {
             label.setAlignment(Align.center);
             label.setWrap(true);
 
-            content.add(label).padBottom(10).growX().row();
+            content.add(label)
+                    .width(MunhauzenGame.WORLD_WIDTH / 3f)
+                    .padBottom(10).growX().row();
         }
 
         btn = screen.game.buttonBuilder.primary("Rate", new ClickListener() {
@@ -87,7 +94,7 @@ public class RateBanner extends Fragment {
         Table columns = new Table();
         columns.pad(50, 100, 50, 100);
         columns.add(content).center().expandX();
-        columns.add(img).center().expandX();
+        columns.add(img).width(MunhauzenGame.WORLD_WIDTH * .3f).center().expandX();
 
         columns.setBackground(new SpriteDrawable(new Sprite(
                 screen.assetManager.get("menu/banner_fond_1.png", Texture.class)
