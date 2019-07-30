@@ -32,8 +32,7 @@ public class LionsImageFragment extends InteractionFragment {
     public FragmentRoot root;
     BackgroundImage backgroundImage;
     PrimaryButton attackBtn;
-    StoryAudio freezeAudio, attackAudio, sleepAudio;
-    Timer.Task sleepTask, delayedTask, readyTask;
+    StoryAudio freezeAudio, attackAudio, steadyAudio;
 
     public LionsImageFragment(LionsInteraction interaction) {
         this.interaction = interaction;
@@ -74,10 +73,45 @@ public class LionsImageFragment extends InteractionFragment {
                 "lions/int_lions_fond.jpg"
         );
 
-        start();
+        freeze();
     }
 
-    private void start() {
+    private void freeze() {
+
+        attackBtn.setVisible(false);
+
+        playFreeze();
+
+        Timer.instance().scheduleTask(new Timer.Task() {
+            @Override
+            public void run() {
+
+                stopFreeze();
+
+                steady();
+
+            }
+        }, freezeAudio.duration / 1000f);
+    }
+
+    private void steady() {
+
+        playSteady();
+
+        Timer.instance().scheduleTask(new Timer.Task() {
+            @Override
+            public void run() {
+
+                stopSteady();
+
+                attack();
+
+            }
+        }, new Random().between(3, 15));
+
+        attackBtn.setVisible(true);
+        attackBtn.setDisabled(false);
+        attackBtn.setTouchable(Touchable.enabled);
 
         attackBtn.clearListeners();
         attackBtn.addListener(new ClickListener() {
@@ -86,79 +120,59 @@ public class LionsImageFragment extends InteractionFragment {
                 super.clicked(event, x, y);
 
                 attackBtn.setDisabled(true);
+                attackBtn.setTouchable(Touchable.disabled);
+
+                Timer.instance().clear();
 
                 failedEarly();
             }
         });
+    }
 
-        playFreeze();
+    private void attack() {
 
-        delayedTask = Timer.instance().scheduleTask(new Timer.Task() {
+        playAttack();
+
+        attackBtn.setText("Attack now!");
+
+        attackBtn.clearListeners();
+        attackBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                attackBtn.setDisabled(true);
+                attackBtn.setTouchable(Touchable.disabled);
+
+                Timer.instance().clear();
+
+                complete();
+            }
+        });
+
+        Timer.instance().scheduleTask(new Timer.Task() {
             @Override
             public void run() {
 
-                stopFreeze();
+                attackBtn.setText("Attack");
 
-                playAttack();
-
-                readyTask = Timer.instance().scheduleTask(new Timer.Task() {
+                attackBtn.clearListeners();
+                attackBtn.addListener(new ClickListener() {
                     @Override
-                    public void run() {
+                    public void clicked(InputEvent event, float x, float y) {
+                        super.clicked(event, x, y);
 
-                        attackBtn.setText("Attack now!");
+                        attackBtn.setDisabled(true);
+                        attackBtn.setTouchable(Touchable.disabled);
 
-                        attackBtn.clearListeners();
-                        attackBtn.addListener(new ClickListener() {
-                            @Override
-                            public void clicked(InputEvent event, float x, float y) {
-                                super.clicked(event, x, y);
+                        Timer.instance().clear();
 
-                                attackBtn.setDisabled(true);
-
-                                if (sleepTask != null) {
-                                    sleepTask.cancel();
-                                    sleepTask = null;
-                                }
-
-                                complete();
-                            }
-                        });
-
-                        sleepTask = Timer.instance().scheduleTask(new Timer.Task() {
-                            @Override
-                            public void run() {
-
-                                playSleep();
-
-                            }
-                        }, 5);
-
-                        Timer.instance().scheduleTask(new Timer.Task() {
-                            @Override
-                            public void run() {
-
-                                attackBtn.setText("Attack");
-
-                                attackBtn.clearListeners();
-                                attackBtn.addListener(new ClickListener() {
-                                    @Override
-                                    public void clicked(InputEvent event, float x, float y) {
-                                        super.clicked(event, x, y);
-
-                                        attackBtn.setDisabled(true);
-
-                                        failedLate();
-                                    }
-                                });
-
-                            }
-                        }, .4f);
-
+                        failedLate();
                     }
-                }, attackAudio.duration / 1000f);
+                });
 
             }
-        }, new Random().between(3, 15));
+        }, .5f);
     }
 
     private void playFreeze() {
@@ -179,15 +193,15 @@ public class LionsImageFragment extends InteractionFragment {
 
     }
 
-    private void playSleep() {
+    private void playSteady() {
         try {
 
-            sleepAudio = new StoryAudio();
-            sleepAudio.audio = "alions_sleep";
+            steadyAudio = new StoryAudio();
+            steadyAudio.audio = "sfx_inter_lions_steady";
 
-            interaction.gameScreen.audioService.prepareAndPlay(sleepAudio);
+            interaction.gameScreen.audioService.prepareAndPlay(steadyAudio);
 
-            sleepAudio.player.setLooping(true);
+            steadyAudio.player.setLooping(true);
 
         } catch (Throwable e) {
             Log.e(tag, e);
@@ -215,13 +229,14 @@ public class LionsImageFragment extends InteractionFragment {
 
     public void update() {
 
-        attackBtn.setTouchable(Touchable.enabled); //always touchable
-
         if (freezeAudio != null) {
             interaction.gameScreen.audioService.updateVolume(freezeAudio);
         }
         if (attackAudio != null) {
             interaction.gameScreen.audioService.updateVolume(attackAudio);
+        }
+        if (steadyAudio != null) {
+            interaction.gameScreen.audioService.updateVolume(steadyAudio);
         }
 
     }
@@ -309,35 +324,24 @@ public class LionsImageFragment extends InteractionFragment {
         }
     }
 
+    private void stopSteady() {
+        if (steadyAudio != null) {
+            interaction.gameScreen.audioService.stop(steadyAudio);
+            steadyAudio = null;
+        }
+    }
+
     @Override
     public void dispose() {
         super.dispose();
 
         stopFreeze();
 
+        stopSteady();
+
         if (attackAudio != null) {
             interaction.gameScreen.audioService.stop(attackAudio);
             attackAudio = null;
-        }
-
-        if (sleepAudio != null) {
-            interaction.gameScreen.audioService.stop(sleepAudio);
-            sleepAudio = null;
-        }
-
-        if (sleepTask != null) {
-            sleepTask.cancel();
-            sleepTask = null;
-        }
-
-        if (delayedTask != null) {
-            delayedTask.cancel();
-            delayedTask = null;
-        }
-
-        if (readyTask != null) {
-            readyTask.cancel();
-            readyTask = null;
         }
 
     }
