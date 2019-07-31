@@ -74,6 +74,24 @@ fs.readdirSync(audioDir + "/Part_3").forEach(file => {
 
 
 
+console.log('=> Processing audio sfx...')
+
+fs.readdirSync(audioDir + "/Sfx").forEach(file => {
+
+    const dest = "/tmp/part" + currentPart + "/audio"
+    const source = audioDir + "/Sfx/"  + file
+
+    fs.ensureDir(dest, () => {})
+
+    fs.copySync(source, dest + "/" + file)
+
+    currentPart += 1
+
+    if (currentPart > PARTS) currentPart = 1
+})
+
+
+
 console.log('=> Processing interaction assets...')
 
 const interactions = [
@@ -152,6 +170,32 @@ fs.readdirSync(picturesDir + "/drawable-horizontal").forEach(file => {
 
 
 
+console.log('=> Processing other assets...')
+
+const otherAssets = [
+    '/menu',
+    '/GameScreen',
+]
+
+otherAssets.forEach(dir => {
+
+    fs.readdirSync(internalAssetsDir + dir).forEach(file => {
+
+        const dest = "/tmp/part" + currentPart + dir
+        const source = internalAssetsDir + dir + "/"  + file
+
+        fs.ensureDir(dest, () => {})
+
+        fs.copySync(source, dest + "/" + file)
+
+        currentPart += 1
+
+        if (currentPart > PARTS) currentPart = 1
+    })
+})
+
+
+
 console.log('=> Creating archive...')
 
 const completed = []
@@ -184,7 +228,7 @@ const onComplete = () => {
 
     console.log(" => Completed!")
 
-    fs.writeFileSync(apiResourcesDir + "/" + VERSION_NAME + '-expansion.json', JSON.stringify(expansion))
+    fs.writeFileSync(`./${VERSION_NAME}-expansion.json`, JSON.stringify(expansion))
 
     console.log(JSON.stringify(expansion))
 

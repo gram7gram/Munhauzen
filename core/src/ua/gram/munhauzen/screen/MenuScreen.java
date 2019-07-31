@@ -14,6 +14,7 @@ import ua.gram.munhauzen.MunhauzenStage;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.screen.menu.fragment.ControlsFragment;
 import ua.gram.munhauzen.screen.menu.fragment.DemoBanner;
+import ua.gram.munhauzen.screen.menu.fragment.ExitDialog;
 import ua.gram.munhauzen.screen.menu.fragment.GreetingBanner;
 import ua.gram.munhauzen.screen.menu.fragment.ImageFragment;
 import ua.gram.munhauzen.screen.menu.fragment.ProBanner;
@@ -42,6 +43,7 @@ public class MenuScreen implements Screen {
     public RateBanner rateBanner;
     public DemoBanner demoBanner;
     public ProBanner proBanner;
+    public ExitDialog exitDialog;
     public AudioService audioService;
 
     public MenuScreen(MunhauzenGame game) {
@@ -128,9 +130,10 @@ public class MenuScreen implements Screen {
         boolean isGreetingViewed = game.gameState.menuState.isGreetingViewed;
         boolean isShareViewed = game.gameState.menuState.isShareViewed;
 
-        boolean canOpenGreeting = !isGreetingViewed;
-        boolean canOpenShare = !isShareViewed && openCount % 5 == 0;
-        boolean canOpenVersion = openCount % 7 == 0;
+        boolean isBannerActive = layers.bannerLayer != null;
+        boolean canOpenGreeting = !isBannerActive && !isGreetingViewed;
+        boolean canOpenShare = !isBannerActive && !isShareViewed && openCount % 5 == 0;
+        boolean canOpenVersion = !isBannerActive && openCount % 7 == 0;
 
         if (canOpenGreeting) {
             Timer.instance().scheduleTask(new Timer.Task() {
@@ -138,6 +141,9 @@ public class MenuScreen implements Screen {
                 public void run() {
 
                     try {
+
+                        if (layers.bannerLayer != null) return;
+
                         greetingBanner = new GreetingBanner(MenuScreen.this);
                         greetingBanner.create();
 
@@ -157,6 +163,9 @@ public class MenuScreen implements Screen {
                 public void run() {
 
                     try {
+
+                        if (layers.bannerLayer != null) return;
+
                         shareBanner = new ShareBanner(MenuScreen.this);
                         shareBanner.create();
 
@@ -175,6 +184,9 @@ public class MenuScreen implements Screen {
                 public void run() {
 
                     try {
+
+                        if (layers.bannerLayer != null) return;
+
                         if (game.params.isPro) {
                             proBanner = new ProBanner(MenuScreen.this);
                             proBanner.create();
@@ -198,7 +210,9 @@ public class MenuScreen implements Screen {
             }, 2);
         }
 
-        if (openCount % 7 == 0) {
+        ++openCount;
+
+        if (openCount > 7) {
             openCount = 0;
         }
 
@@ -238,6 +252,10 @@ public class MenuScreen implements Screen {
 
         if (rateBanner != null) {
             rateBanner.update();
+        }
+
+        if (exitDialog != null) {
+            exitDialog.update();
         }
 
         if (ui != null) {
@@ -293,6 +311,36 @@ public class MenuScreen implements Screen {
         }
 
         layers.dispose();
+
+        if (exitDialog != null) {
+            exitDialog.destroy();
+            exitDialog = null;
+        }
+
+        if (greetingBanner != null) {
+            greetingBanner.destroy();
+            greetingBanner = null;
+        }
+
+        if (proBanner != null) {
+            proBanner.destroy();
+            proBanner = null;
+        }
+
+        if (demoBanner != null) {
+            demoBanner.destroy();
+            demoBanner = null;
+        }
+
+        if (shareBanner != null) {
+            shareBanner.destroy();
+            shareBanner = null;
+        }
+
+        if (rateBanner != null) {
+            rateBanner.destroy();
+            rateBanner = null;
+        }
 
         background = null;
     }

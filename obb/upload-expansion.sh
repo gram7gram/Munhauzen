@@ -18,6 +18,8 @@ ssh root@munhauzen.fingertips.cf "mkdir -p /var/www/munhauzen-web/api/public/exp
 scp ./${VERSION}/* \
     root@munhauzen.fingertips.cf:/var/www/munhauzen-web/api/public/expansions/${VERSION}
 
+cp ./${VERSION}-expansion.json ~/Projects/munhauzen-web/api/src/server/resources/$VERSION-expansion.json
+
 cd ~/Projects/munhauzen-web/
 
 git add api && git commit -m "#master hotfix" && git push origin master

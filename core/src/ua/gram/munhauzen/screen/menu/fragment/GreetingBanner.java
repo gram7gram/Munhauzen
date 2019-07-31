@@ -26,7 +26,6 @@ public class GreetingBanner extends Fragment {
 
     final MenuScreen screen;
     FragmentRoot root;
-    Table content;
     public boolean isFadeIn;
     public boolean isFadeOut;
 
@@ -47,7 +46,7 @@ public class GreetingBanner extends Fragment {
                 "Слушайте и наслаждайтесь!",
         };
 
-        content = new Table();
+        Table content = new Table();
         content.pad(50, 100, 50, 100);
 
         Label.LabelStyle style = new Label.LabelStyle(
@@ -81,7 +80,7 @@ public class GreetingBanner extends Fragment {
         });
 
         content.add(btn)
-                .width(MunhauzenGame.WORLD_WIDTH / 3f)
+                .width(MunhauzenGame.WORLD_WIDTH * .4f)
                 .height(MunhauzenGame.WORLD_HEIGHT / 12f)
                 .expandX().row();
 
@@ -105,6 +104,8 @@ public class GreetingBanner extends Fragment {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
+
+                if (event.isHandled()) return;
 
                 Log.i(tag, "root clicked");
 

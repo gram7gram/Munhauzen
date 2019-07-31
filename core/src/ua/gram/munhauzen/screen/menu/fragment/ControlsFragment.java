@@ -418,6 +418,8 @@ public class ControlsFragment extends Fragment {
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
+
+                    screen.onCriticalError(e);
                 }
             }
         });
@@ -452,6 +454,8 @@ public class ControlsFragment extends Fragment {
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
+
+                    screen.onCriticalError(e);
                 }
             }
         });
@@ -486,6 +490,8 @@ public class ControlsFragment extends Fragment {
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
+
+                    screen.onCriticalError(e);
                 }
             }
         });
@@ -519,6 +525,8 @@ public class ControlsFragment extends Fragment {
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
+
+                    screen.onCriticalError(e);
                 }
             }
         });
@@ -541,9 +549,20 @@ public class ControlsFragment extends Fragment {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                cancelFadeOut();
+                try {
 
-                fadeOut();
+                    screen.exitDialog = new ExitDialog(screen);
+                    screen.exitDialog.create();
+
+                    screen.layers.setBannerLayer(screen.exitDialog);
+
+                    screen.exitDialog.fadeIn();
+
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+
+                    screen.onCriticalError(e);
+                }
             }
         });
 

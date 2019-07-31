@@ -108,6 +108,8 @@ public class ShareBanner extends Fragment {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
+                if (event.isHandled()) return;
+
                 Log.i(tag, "root clicked");
 
                 fadeOut(new Runnable() {

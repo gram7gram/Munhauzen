@@ -30,9 +30,11 @@ import ua.gram.munhauzen.entity.Scenario;
 import ua.gram.munhauzen.expansion.ExportResponse;
 import ua.gram.munhauzen.expansion.ExtractGameConfigTask;
 import ua.gram.munhauzen.screen.GameScreen;
+import ua.gram.munhauzen.screen.MenuScreen;
 import ua.gram.munhauzen.service.ExpansionDownloadManager;
 import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.ui.FragmentRoot;
+import ua.gram.munhauzen.ui.PrimaryButton;
 import ua.gram.munhauzen.utils.ExternalFiles;
 import ua.gram.munhauzen.utils.Log;
 
@@ -82,6 +84,21 @@ public class ControlsFragment extends Fragment {
 
                 try {
                     game.setScreen(new GameScreen(game));
+                    dispose();
+
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
+            }
+        });
+
+        PrimaryButton menuButton = game.buttonBuilder.primary("Menu", new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                try {
+                    game.setScreen(new MenuScreen(game));
                     dispose();
 
                 } catch (Throwable e) {
@@ -143,6 +160,10 @@ public class ControlsFragment extends Fragment {
         Table container = new Table();
         container.padBottom(80);
         container.add(startButton)
+                .width(MunhauzenGame.WORLD_WIDTH * .5f)
+                .height(MunhauzenGame.WORLD_HEIGHT / 15f)
+                .expandX().row();
+        container.add(menuButton)
                 .width(MunhauzenGame.WORLD_WIDTH * .5f)
                 .height(MunhauzenGame.WORLD_HEIGHT / 15f)
                 .padBottom(80).expandX().row();
