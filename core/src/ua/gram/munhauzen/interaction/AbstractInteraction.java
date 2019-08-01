@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.screen.GameScreen;
+import ua.gram.munhauzen.utils.ExpansionAssetManager;
 import ua.gram.munhauzen.utils.Log;
 
 /**
@@ -19,7 +20,7 @@ public abstract class AbstractInteraction implements Disposable {
 
     public AbstractInteraction(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
-        assetManager = new AssetManager();
+        assetManager = new ExpansionAssetManager();
     }
 
     public void start() {

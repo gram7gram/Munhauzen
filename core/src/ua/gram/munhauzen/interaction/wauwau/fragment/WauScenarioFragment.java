@@ -1,6 +1,5 @@
 package ua.gram.munhauzen.interaction.wauwau.fragment;
 
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -49,7 +48,6 @@ public class WauScenarioFragment extends Fragment {
     private final WauInteraction interaction;
     private final MunhauzenGame game;
     public final GameScreen gameScreen;
-    public final AssetManager assetManager;
     private FitImage imgLeft, imgRight, imgTop;
     private Table decorLeft;
     private Table decorRight;
@@ -67,7 +65,6 @@ public class WauScenarioFragment extends Fragment {
         this.gameScreen = gameScreen;
         this.interaction = interaction;
 
-        assetManager = new AssetManager();
         buttonList = new ArrayList<>(4);
 
         headerSize = MunhauzenGame.WORLD_HEIGHT / 20f;
@@ -92,7 +89,7 @@ public class WauScenarioFragment extends Fragment {
     @Override
     public void dispose() {
         super.dispose();
-        assetManager.dispose();
+
         buttonList.clear();
     }
 
@@ -102,18 +99,17 @@ public class WauScenarioFragment extends Fragment {
 
         interaction.showProgressBar();
 
-//        assetManager.load("sfx/sfx_decision.mp3", Sound.class);
-        assetManager.load("GameScreen/an_cannons_main.png", Texture.class);
-        assetManager.load("GameScreen/b_star_game.png", Texture.class);
-        assetManager.load("GameScreen/b_tulip_1.png", Texture.class);
-        assetManager.load("GameScreen/b_decision_add_line.png", Texture.class);
-        assetManager.load("GameScreen/b_decision_first_line.png", Texture.class);
-        assetManager.load("GameScreen/b_decision_last_line.png", Texture.class);
+        interaction.assetManager.load("GameScreen/an_cannons_main.png", Texture.class);
+        interaction.assetManager.load("GameScreen/b_star_game.png", Texture.class);
+        interaction.assetManager.load("GameScreen/b_tulip_1.png", Texture.class);
+        interaction.assetManager.load("GameScreen/b_decision_add_line.png", Texture.class);
+        interaction.assetManager.load("GameScreen/b_decision_first_line.png", Texture.class);
+        interaction.assetManager.load("GameScreen/b_decision_last_line.png", Texture.class);
 
-        assetManager.finishLoading();
+        interaction.assetManager.finishLoading();
 
-        Texture borders = assetManager.get("GameScreen/b_tulip_1.png", Texture.class);
-        Texture drawableTop = assetManager.get("GameScreen/b_star_game.png", Texture.class);
+        Texture borders = interaction.assetManager.get("GameScreen/b_tulip_1.png", Texture.class);
+        Texture drawableTop = interaction.assetManager.get("GameScreen/b_star_game.png", Texture.class);
 
         final Table buttons = new Table();
         buttons.add()
@@ -441,9 +437,9 @@ public class WauScenarioFragment extends Fragment {
 
     private Actor primaryDecision(String text, final int index, float buttonBounds, final ClickListener onClick) {
 
-        Texture bottom = assetManager.get("GameScreen/b_decision_last_line.png", Texture.class);
-        Texture middle = assetManager.get("GameScreen/b_decision_add_line.png", Texture.class);
-        Texture top = assetManager.get("GameScreen/b_decision_first_line.png", Texture.class);
+        Texture bottom = interaction.assetManager.get("GameScreen/b_decision_last_line.png", Texture.class);
+        Texture middle = interaction.assetManager.get("GameScreen/b_decision_add_line.png", Texture.class);
+        Texture top = interaction.assetManager.get("GameScreen/b_decision_first_line.png", Texture.class);
 
         final NinePatchDrawable middleBackground = new NinePatchDrawable(new NinePatch(
                 middle, 0, 0, 5, 5
@@ -516,12 +512,12 @@ public class WauScenarioFragment extends Fragment {
 
         String letterResource = map.get(index);
 
-        assetManager.load(letterResource, Texture.class);
+        interaction.assetManager.load(letterResource, Texture.class);
 
-        assetManager.finishLoading();
+        interaction.assetManager.finishLoading();
 
-        Texture cannon = assetManager.get("GameScreen/an_cannons_main.png", Texture.class);
-        Texture letter = assetManager.get(letterResource, Texture.class);
+        Texture cannon = interaction.assetManager.get("GameScreen/an_cannons_main.png", Texture.class);
+        Texture letter = interaction.assetManager.get(letterResource, Texture.class);
 
         SpriteDrawable cannonDrawable = new SpriteDrawable(new Sprite(cannon));
         SpriteDrawable cannonDrawableRight = new SpriteDrawable(new Sprite(cannon));
@@ -565,15 +561,15 @@ public class WauScenarioFragment extends Fragment {
 
         String letterResource = animatedMap.get(index);
 
-        assetManager.load(letterResource, Texture.class);
-        assetManager.load("GameScreen/an_cannons_sheet.png", Texture.class);
-        assetManager.load("GameScreen/an_cannons_left_sheet.png", Texture.class);
+        interaction.assetManager.load(letterResource, Texture.class);
+        interaction.assetManager.load("GameScreen/an_cannons_sheet.png", Texture.class);
+        interaction.assetManager.load("GameScreen/an_cannons_left_sheet.png", Texture.class);
 
-        assetManager.finishLoading();
+        interaction.assetManager.finishLoading();
 
-        Texture letter = assetManager.get(letterResource, Texture.class);
-        Texture sheet = assetManager.get("GameScreen/an_cannons_sheet.png", Texture.class);
-        Texture sheetLeft = assetManager.get("GameScreen/an_cannons_left_sheet.png", Texture.class);
+        Texture letter = interaction.assetManager.get(letterResource, Texture.class);
+        Texture sheet = interaction.assetManager.get("GameScreen/an_cannons_sheet.png", Texture.class);
+        Texture sheetLeft = interaction.assetManager.get("GameScreen/an_cannons_left_sheet.png", Texture.class);
 
         CannonLetterAnimation center = new CannonLetterAnimation(letter);
         CannonAnimation left = new CannonAnimation(sheet);

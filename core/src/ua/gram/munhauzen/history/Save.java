@@ -6,14 +6,15 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Stack;
 
+import ua.gram.munhauzen.entity.Image;
 import ua.gram.munhauzen.entity.Story;
+import ua.gram.munhauzen.utils.DateUtils;
 import ua.gram.munhauzen.utils.StringUtils;
 
 /**
  * @author Gram <gram7gram@gmail.com>
  */
 public class Save {
-
 
     public boolean isEnabled;
 
@@ -22,9 +23,21 @@ public class Save {
      */
     public String id;
     /**
+     * Date of last update
+     */
+    public String updatedAt;
+    /**
+     * Current chapter
+     */
+    public String chapter;
+    /**
      * Name of the save
      */
     public String name;
+    /**
+     * Last image from scenario of interaction
+     */
+    public Image lastImage;
     /**
      * Save order
      */
@@ -54,14 +67,6 @@ public class Save {
      */
     public Array<OptionActionEntry> completedOptionActions;
     /**
-     * Current background drawable
-     */
-    public String currentBackground;
-    /**
-     * Last background drawable that was used instead of `unknown`
-     */
-    public String lastUnknownBackground;
-    /**
      * Cid of the last branch that was clicked by player
      */
     public Stack<String> clickedBranches;
@@ -73,6 +78,7 @@ public class Save {
     public Save() {
 
         id = StringUtils.cid();
+        updatedAt = DateUtils.now();
         order = 0;
         steps = new Stack<>();
         inventory = new HashSet<>();
@@ -94,16 +100,6 @@ public class Save {
         story = new Story();
 
         clickedBranches.clear();
-    }
-
-    public Set<String> getUniqueInventory() {
-        HashSet<String> values = new HashSet<>(inventory.size());
-
-        values.addAll(inventory);
-
-        values.add("DEFAULT");
-
-        return values;
     }
 
 }

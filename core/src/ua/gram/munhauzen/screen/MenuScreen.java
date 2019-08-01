@@ -1,17 +1,12 @@
 package ua.gram.munhauzen.screen;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.MunhauzenGame;
-import ua.gram.munhauzen.MunhauzenStage;
-import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.screen.menu.fragment.ControlsFragment;
 import ua.gram.munhauzen.screen.menu.fragment.DemoBanner;
 import ua.gram.munhauzen.screen.menu.fragment.ExitDialog;
@@ -20,25 +15,19 @@ import ua.gram.munhauzen.screen.menu.fragment.ImageFragment;
 import ua.gram.munhauzen.screen.menu.fragment.ProBanner;
 import ua.gram.munhauzen.screen.menu.fragment.RateBanner;
 import ua.gram.munhauzen.screen.menu.fragment.ShareBanner;
+import ua.gram.munhauzen.screen.menu.ui.MenuLayers;
 import ua.gram.munhauzen.service.AudioService;
-import ua.gram.munhauzen.ui.MenuLayers;
 import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class MenuScreen implements Screen {
+public class MenuScreen extends AbstractScreen {
 
-    private final String tag = getClass().getSimpleName();
-    public final MunhauzenGame game;
-    public MunhauzenStage ui;
     public MenuLayers layers;
-    public final AssetManager assetManager;
     public ImageFragment imageFragment;
     public ControlsFragment controlsFragment;
     public ShareBanner shareBanner;
-    private Texture background;
-    private boolean isLoaded;
     public GreetingBanner greetingBanner;
     public RateBanner rateBanner;
     public DemoBanner demoBanner;
@@ -47,20 +36,14 @@ public class MenuScreen implements Screen {
     public AudioService audioService;
 
     public MenuScreen(MunhauzenGame game) {
-        this.game = game;
-        assetManager = new AssetManager();
+        super(game);
     }
 
     @Override
     public void show() {
-
-        Log.i(tag, "show");
+        super.show();
 
         audioService = new AudioService(game);
-        ui = new MunhauzenStage(game);
-
-        isLoaded = false;
-        GameState.unpause();
 
         assetManager.load("menu/icon_crown_sheet_1x9.png", Texture.class);
         assetManager.load("menu/icon_helm_sheet_1x5.png", Texture.class);
@@ -82,15 +65,11 @@ public class MenuScreen implements Screen {
         assetManager.load("menu/b_full_version.png", Texture.class);
     }
 
-    private void onResourcesLoaded() {
+    @Override
+    protected void onResourcesLoaded() {
+        super.onResourcesLoaded();
 
-        Log.i(tag, "onResourcesLoaded");
-
-        isLoaded = true;
-
-        background = game.assetManager.get("p0.jpg", Texture.class);
-
-        layers = new MenuLayers(this);
+        layers = new MenuLayers();
 
         ui.addActor(layers);
 
@@ -221,26 +200,7 @@ public class MenuScreen implements Screen {
     }
 
     @Override
-    public void hide() {
-        Gdx.input.setInputProcessor(null);
-    }
-
-    @Override
-    public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-
-        assetManager.update();
-
-        if (!isLoaded) {
-
-            if (assetManager.isFinished()) {
-                onResourcesLoaded();
-            }
-            return;
-        }
-
-        drawBackground();
+    public void renderAfterLoaded(float delta) {
 
         if (greetingBanner != null) {
             greetingBanner.update();
@@ -257,58 +217,13 @@ public class MenuScreen implements Screen {
         if (exitDialog != null) {
             exitDialog.update();
         }
-
-        if (ui != null) {
-            ui.act(delta);
-            ui.draw();
-        }
-    }
-
-    private void drawBackground() {
-        game.batch.begin();
-        game.batch.disableBlending();
-
-        game.batch.draw(background,
-                0, 0, //position
-                MunhauzenGame.WORLD_WIDTH, MunhauzenGame.WORLD_HEIGHT //width
-        );
-
-        game.batch.enableBlending();
-        game.batch.end();
-    }
-
-    @Override
-    public void resize(int width, int height) {
-
-    }
-
-    @Override
-    public void pause() {
-        MunhauzenGame.pauseGame();
-    }
-
-    @Override
-    public void resume() {
-        MunhauzenGame.resumeGame();
     }
 
     @Override
     public void dispose() {
-
-        Timer.instance().clear();
-
-        Log.i(tag, "dispose");
-
-        isLoaded = false;
-
-        assetManager.dispose();
+        super.dispose();
 
         audioService.dispose();
-
-        if (ui != null) {
-            ui.dispose();
-            ui = null;
-        }
 
         layers.dispose();
 
@@ -341,12 +256,5 @@ public class MenuScreen implements Screen {
             rateBanner.destroy();
             rateBanner = null;
         }
-
-        background = null;
-    }
-
-    public void onCriticalError(Throwable e) {
-        game.onCriticalError(e);
-        dispose();
     }
 }

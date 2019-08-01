@@ -1,7 +1,5 @@
 package ua.gram.munhauzen.service;
 
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.assets.loaders.resolvers.ExternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Disposable;
@@ -38,6 +36,7 @@ import ua.gram.munhauzen.interaction.wauwau.WauStoryScenario;
 import ua.gram.munhauzen.repository.AudioRepository;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.utils.DateUtils;
+import ua.gram.munhauzen.utils.ExpansionAssetManager;
 import ua.gram.munhauzen.utils.ExternalFiles;
 import ua.gram.munhauzen.utils.Log;
 
@@ -48,12 +47,12 @@ public class GameAudioService implements Disposable {
 
     private final String tag = getClass().getSimpleName();
     private final GameScreen gameScreen;
-    public final AssetManager assetManager;
+    public final ExpansionAssetManager assetManager;
     public final HashMap<String, StoryAudio> activeAudio;
 
     public GameAudioService(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
-        assetManager = new AssetManager(new ExternalFileHandleResolver());
+        assetManager = new ExpansionAssetManager();
         activeAudio = new HashMap<>();
     }
 

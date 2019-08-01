@@ -41,7 +41,7 @@ public class ShareBanner extends Fragment {
 
     public void create() {
 
-        screen.assetManager.load("menu/banner_fond_1.png", Texture.class);
+        screen.assetManager.load("ui/banner_fond_1.png", Texture.class);
         screen.assetManager.load("menu/b_share_2.png", Texture.class);
         screen.assetManager.load("menu/vk_icon.jpg", Texture.class);
         screen.assetManager.load("menu/twitter_icon.jpg", Texture.class);
@@ -87,7 +87,7 @@ public class ShareBanner extends Fragment {
         columns.add(getTwBtn()).padBottom(5).padRight(5).growX().row();
 
         columns.setBackground(new SpriteDrawable(new Sprite(
-                screen.assetManager.get("menu/banner_fond_1.png", Texture.class)
+                screen.assetManager.get("ui/banner_fond_1.png", Texture.class)
         )));
 
         Container<Table> container = new Container<>(columns);

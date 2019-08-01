@@ -2,7 +2,6 @@ package ua.gram.munhauzen.screen.debug.fragment;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Net;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.net.HttpRequestBuilder;
@@ -45,7 +44,6 @@ public class ControlsFragment extends Fragment {
 
     private final String tag = getClass().getSimpleName();
     private final MunhauzenGame game;
-    private final AssetManager assetManager;
     public FragmentRoot root;
     ScrollPane scroll;
     TextButton downloadButton;
@@ -60,7 +58,6 @@ public class ControlsFragment extends Fragment {
 
     public ControlsFragment(MunhauzenGame game) {
         this.game = game;
-        assetManager = new AssetManager();
     }
 
     public void create() {
@@ -387,12 +384,6 @@ public class ControlsFragment extends Fragment {
     @Override
     public Actor getRoot() {
         return root;
-    }
-
-    @Override
-    public void dispose() {
-        super.dispose();
-        assetManager.clear();
     }
 
     private void startDownload() {

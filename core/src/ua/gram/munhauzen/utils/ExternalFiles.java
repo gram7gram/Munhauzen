@@ -19,8 +19,30 @@ public class ExternalFiles {
     }
 
     public static void updateNomedia() {
-        getExternal(getExpansionAudioDir() + "/.nomedia").write(false);
-        getExternal(getExpansionImagesDir() + "/.nomedia").write(false);
+        getExternal("expansion/images/.nomedia").write(false);
+        getExternal("expansion/audio/.nomedia").write(false);
+        getExternal("expansion/balloons/.nomedia").write(false);
+        getExternal("expansion/cannons/.nomedia").write(false);
+        getExternal("expansion/chapter/.nomedia").write(false);
+        getExternal("expansion/continue/.nomedia").write(false);
+        getExternal("expansion/date/.nomedia").write(false);
+        getExternal("expansion/GameScreen/.nomedia").write(false);
+        getExternal("expansion/generals/.nomedia").write(false);
+        getExternal("expansion/hare/.nomedia").write(false);
+        getExternal("expansion/horn/.nomedia").write(false);
+        getExternal("expansion/lions/.nomedia").write(false);
+        getExternal("expansion/menu/.nomedia").write(false);
+        getExternal("expansion/picture/.nomedia").write(false);
+        getExternal("expansion/puzzle/.nomedia").write(false);
+        getExternal("expansion/saves/.nomedia").write(false);
+        getExternal("expansion/servants/.nomedia").write(false);
+        getExternal("expansion/slap/.nomedia").write(false);
+        getExternal("expansion/swamp/.nomedia").write(false);
+        getExternal("expansion/timer/.nomedia").write(false);
+        getExternal("expansion/timer2/.nomedia").write(false);
+        getExternal("expansion/ui/.nomedia").write(false);
+        getExternal("expansion/wau/.nomedia").write(false);
+        getExternal("expansion/.nomedia").write(false);
     }
 
     public static FileHandle getExpansionInfoFile(PlatformParams params) {
@@ -57,6 +79,10 @@ public class ExternalFiles {
 
     public static FileHandle getHistoryFile() {
         return getExternal("history.json");
+    }
+
+    public static FileHandle getSaveFile(String id) {
+        return getExternal("save-" + id + ".json");
     }
 
     public static FileHandle getImagesFile() {

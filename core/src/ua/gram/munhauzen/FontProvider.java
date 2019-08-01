@@ -7,7 +7,6 @@ import com.badlogic.gdx.utils.Disposable;
 
 import java.util.HashMap;
 
-import ua.gram.munhauzen.service.DatabaseManager;
 import ua.gram.munhauzen.utils.Log;
 
 /**
@@ -33,7 +32,6 @@ public class FontProvider implements Disposable {
 
     public void load() {
 
-        Log.i(tag, "Internal assets:" + DatabaseManager.listInternalAssets(""));
         Log.i(tag, "load");
 
         String[] fonts = new String[]{CalligraphModern, DroidSansMono};
@@ -67,6 +65,9 @@ public class FontProvider implements Disposable {
 
     @Override
     public void dispose() {
+
+        Log.i(tag, "dispose");
+
         for (String font : map.keySet()) {
             HashMap<Integer, BitmapFont> variants = map.get(font);
             for (Integer size : variants.keySet()) {

@@ -18,7 +18,6 @@ public class GameState {
 
     public short NG;
     public boolean isContinueEnabled;
-    public Image lastImage;
     public History history;
     public Array<Scenario> scenarioRegistry;
     public Array<Image> imageRegistry;

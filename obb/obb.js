@@ -7,7 +7,7 @@ const picturesDir = "/Users/master/Projects/MunhauzenDocs/Elements/PICTURES_FINA
 const internalAssetsDir = "/Users/master/Projects/Munhauzen/core/assets"
 const apiResourcesDir = "/Users/master/Projects/munhauzen-web/api/src/server/resources"
 
-const PARTS = 10;
+const PARTS = 1;
 const VERSION = 1;
 const LOCALE = 'en';
 const DEVICE = 'phone';
@@ -15,105 +15,69 @@ const DPI = 'hdpi';
 
 const VERSION_NAME = VERSION + "-" + LOCALE + "-" + DEVICE + "-" + DPI
 
-console.log(`=> Splitting expansion ${VERSION_NAME} in ${PARTS} parts`)
+const audioParts = [
+//    "/Part_1",
+//    "/Part_2",
+//    "/Part_3",
+//    "/Sfx",
+]
 
-console.log('=> Processing audio part 1...')
+const otherAssets = [
+//    '/menu',
+//    '/GameScreen',
+    '/ui',
+    '/saves',
+]
+
+const imagesParts = [
+//    "/drawable",
+//    "/drawable-horizontal",
+]
+
+const interactions = [
+//    "/timer",
+//    "/timer2",
+//    "/hare",
+//    "/generals",
+//    "/cannons",
+//    "/wau",
+//    "/picture",
+//    "/servants",
+//    "/lions",
+//    "/date",
+//    "/horn",
+//    "/swamp",
+//    "/slap",
+//    "/puzzle",
+//    "/continue",
+//    "/chapter",
+//    "/balloons",
+]
+
+console.log(`=> Splitting expansion ${VERSION_NAME} in ${PARTS} parts`)
 
 let currentPart = 1
 
-fs.readdirSync(audioDir + "/Part_1").forEach(file => {
+console.log('=> Processing audio...')
+audioParts.forEach(dir => {
+    fs.readdirSync(audioDir + dir).forEach(file => {
 
-    const dest = "/tmp/part" + currentPart + "/audio"
-    const source = audioDir + "/Part_1/"  + file
+        const dest = "/tmp/part" + currentPart + "/audio"
+        const source = audioDir + dir + file
 
-    fs.ensureDir(dest, () => {})
+        fs.ensureDir(dest, () => {})
 
-    fs.copySync(source, dest + "/" + file)
+        fs.copySync(source, dest + "/" + file)
 
-    currentPart += 1
+        currentPart += 1
 
-    if (currentPart > PARTS) currentPart = 1
+        if (currentPart > PARTS) currentPart = 1
 
+    })
 })
-
-
-
-console.log('=> Processing audio part 2...')
-
-fs.readdirSync(audioDir + "/Part_2").forEach(file => {
-
-    const dest = "/tmp/part" + currentPart + "/audio"
-    const source = audioDir + "/Part_2/"  + file
-
-    fs.ensureDir(dest, () => {})
-
-    fs.copySync(source, dest + "/" + file)
-
-    currentPart += 1
-
-    if (currentPart > PARTS) currentPart = 1
-})
-
-
-
-console.log('=> Processing audio part 3...')
-
-fs.readdirSync(audioDir + "/Part_3").forEach(file => {
-
-    const dest = "/tmp/part" + currentPart + "/audio"
-    const source = audioDir + "/Part_3/"  + file
-
-    fs.ensureDir(dest, () => {})
-
-    fs.copySync(source, dest + "/" + file)
-
-    currentPart += 1
-
-    if (currentPart > PARTS) currentPart = 1
-})
-
-
-
-console.log('=> Processing audio sfx...')
-
-fs.readdirSync(audioDir + "/Sfx").forEach(file => {
-
-    const dest = "/tmp/part" + currentPart + "/audio"
-    const source = audioDir + "/Sfx/"  + file
-
-    fs.ensureDir(dest, () => {})
-
-    fs.copySync(source, dest + "/" + file)
-
-    currentPart += 1
-
-    if (currentPart > PARTS) currentPart = 1
-})
-
 
 
 console.log('=> Processing interaction assets...')
-
-const interactions = [
-    "/timer",
-    "/timer2",
-    "/hare",
-    "/generals",
-    "/cannons",
-    "/wau",
-    "/picture",
-    "/servants",
-    "/lions",
-    "/date",
-    "/horn",
-    "/swamp",
-    "/slap",
-    "/puzzle",
-    "/continue",
-    "/chapter",
-    "/balloons",
-]
-
 interactions.forEach(interaction => {
     const dir = internalAssetsDir + interaction
 
@@ -132,51 +96,25 @@ interactions.forEach(interaction => {
     if (currentPart > PARTS) currentPart = 1
 })
 
+console.log('=> Processing images...')
+imagesParts.forEach(dir => {
+    fs.readdirSync(picturesDir + dir).forEach(file => {
 
+        const dest = "/tmp/part" + currentPart + "/images"
+        const source = picturesDir + dir + file
 
-console.log('=> Processing drawable...')
+        fs.ensureDir(dest, () => {})
 
-fs.readdirSync(picturesDir + "/drawable").forEach(file => {
+        fs.copySync(source, dest + "/" + file)
 
-    const dest = "/tmp/part" + currentPart + "/images"
-    const source = picturesDir + "/drawable/"  + file
+        currentPart += 1
 
-    fs.ensureDir(dest, () => {})
-
-    fs.copySync(source, dest + "/" + file)
-
-    currentPart += 1
-
-    if (currentPart > PARTS) currentPart = 1
+        if (currentPart > PARTS) currentPart = 1
+    })
 })
-
-
-
-console.log('=> Processing drawable-horizontal...')
-
-fs.readdirSync(picturesDir + "/drawable-horizontal").forEach(file => {
-
-    const dest = "/tmp/part" + currentPart + "/images"
-    const source = picturesDir + "/drawable-horizontal/"  + file
-
-    fs.ensureDir(dest, () => {})
-
-    fs.copySync(source, dest + "/" + file)
-
-    currentPart += 1
-
-    if (currentPart > PARTS) currentPart = 1
-})
-
 
 
 console.log('=> Processing other assets...')
-
-const otherAssets = [
-    '/menu',
-    '/GameScreen',
-]
-
 otherAssets.forEach(dir => {
 
     fs.readdirSync(internalAssetsDir + dir).forEach(file => {
@@ -271,5 +209,7 @@ const createArchive = (part = 1) => {
 
     archive.finalize();
 }
+
+fs.emptyDirSync(obbDir + `/${VERSION_NAME}/`)
 
 createArchive()

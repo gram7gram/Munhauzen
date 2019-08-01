@@ -35,7 +35,7 @@ public class GreetingBanner extends Fragment {
 
     public void create() {
 
-        screen.assetManager.load("menu/banner_fond_1.png", Texture.class);
+        screen.assetManager.load("ui/banner_fond_1.png", Texture.class);
 
         screen.assetManager.finishLoading();
 
@@ -85,7 +85,7 @@ public class GreetingBanner extends Fragment {
                 .expandX().row();
 
         content.setBackground(new SpriteDrawable(new Sprite(
-                screen.assetManager.get("menu/banner_fond_1.png", Texture.class)
+                screen.assetManager.get("ui/banner_fond_1.png", Texture.class)
         )));
 
         Container<Table> container = new Container<>(content);

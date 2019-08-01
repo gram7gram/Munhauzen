@@ -1,6 +1,5 @@
 package ua.gram.munhauzen.screen.game.fragment;
 
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -29,35 +28,33 @@ public class ControlsFragment extends Fragment {
 
     private final String tag = getClass().getSimpleName();
     private final GameScreen gameScreen;
-    private final AssetManager assetManager;
     public Image soundButton, soundTailButton, menuButton, menuTailButton;
     public Group soundGroup, menuGroup, root;
 
     public ControlsFragment(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
-        assetManager = new AssetManager();
     }
 
     public void create() {
 
-        assetManager.load("GameScreen/b_booksound_off.png", Texture.class);
-        assetManager.load("GameScreen/b_booksound_on.png", Texture.class);
-        assetManager.load("GameScreen/b_booksound_tail.png", Texture.class);
-        assetManager.load("GameScreen/b_bookmenu.png", Texture.class);
-        assetManager.load("GameScreen/b_bookmenu_tail.png", Texture.class);
+        gameScreen.assetManager.load("GameScreen/b_booksound_off.png", Texture.class);
+        gameScreen.assetManager.load("GameScreen/b_booksound_on.png", Texture.class);
+        gameScreen.assetManager.load("GameScreen/b_booksound_tail.png", Texture.class);
+        gameScreen.assetManager.load("GameScreen/b_bookmenu.png", Texture.class);
+        gameScreen.assetManager.load("GameScreen/b_bookmenu_tail.png", Texture.class);
 
-        assetManager.finishLoading();
+        gameScreen.assetManager.finishLoading();
 
         soundButton = new FitImage(getSoundButtonBackground());
 
         soundTailButton = new FitImage(new SpriteDrawable(new Sprite(
-                assetManager.get("GameScreen/b_booksound_tail.png", Texture.class))));
+                gameScreen.assetManager.get("GameScreen/b_booksound_tail.png", Texture.class))));
 
         menuButton = new FitImage(new SpriteDrawable(new Sprite(
-                assetManager.get("GameScreen/b_bookmenu.png", Texture.class))));
+                gameScreen.assetManager.get("GameScreen/b_bookmenu.png", Texture.class))));
 
         menuTailButton = new FitImage(new SpriteDrawable(new Sprite(
-                assetManager.get("GameScreen/b_bookmenu_tail.png", Texture.class))));
+                gameScreen.assetManager.get("GameScreen/b_bookmenu_tail.png", Texture.class))));
 
         float width = MunhauzenGame.WORLD_WIDTH * .15f;
         float menuScale = 1f * width / menuButton.getWidth();
@@ -118,8 +115,8 @@ public class ControlsFragment extends Fragment {
 
     private Drawable getSoundButtonBackground() {
         Texture texture = GameState.isMute
-                ? assetManager.get("GameScreen/b_booksound_off.png", Texture.class)
-                : assetManager.get("GameScreen/b_booksound_on.png", Texture.class);
+                ? gameScreen.assetManager.get("GameScreen/b_booksound_off.png", Texture.class)
+                : gameScreen.assetManager.get("GameScreen/b_booksound_on.png", Texture.class);
 
         return new SpriteDrawable(new Sprite(texture));
     }
@@ -396,7 +393,7 @@ public class ControlsFragment extends Fragment {
     @Override
     public void dispose() {
         super.dispose();
-        assetManager.dispose();
+        gameScreen.assetManager.dispose();
         menuGroup.remove();
         soundGroup.remove();
     }

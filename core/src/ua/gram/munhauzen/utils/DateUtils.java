@@ -21,6 +21,11 @@ public class DateUtils {
         return dateFormat.format(new Date());
     }
 
+    public static String format(String date, String format) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(format, Locale.ENGLISH);
+        return dateFormat.format(toDate(date));
+    }
+
     public static Date toDate(String value) {
         SimpleDateFormat dateFormat = new SimpleDateFormat(FORMAT, Locale.ENGLISH);
         try {

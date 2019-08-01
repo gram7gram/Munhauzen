@@ -13,12 +13,14 @@ mkdir -p ~/Projects/munhauzen-web/api/public/expansions/$VERSION
 
 cp ./${VERSION}/* /Users/master/Projects/munhauzen-web/api/public/expansions/$VERSION
 
+cp ./${VERSION}-expansion.json ~/Projects/munhauzen-web/api/src/server/resources/$VERSION-expansion.json
+
+exit 0;
+
 ssh root@munhauzen.fingertips.cf "mkdir -p /var/www/munhauzen-web/api/public/expansions/${VERSION}"
 
 scp ./${VERSION}/* \
     root@munhauzen.fingertips.cf:/var/www/munhauzen-web/api/public/expansions/${VERSION}
-
-cp ./${VERSION}-expansion.json ~/Projects/munhauzen-web/api/src/server/resources/$VERSION-expansion.json
 
 cd ~/Projects/munhauzen-web/
 

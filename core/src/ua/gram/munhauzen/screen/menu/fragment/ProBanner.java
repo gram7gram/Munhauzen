@@ -41,7 +41,7 @@ public class ProBanner extends Fragment {
 
     public void create() {
 
-        screen.assetManager.load("menu/banner_fond_1.png", Texture.class);
+        screen.assetManager.load("ui/banner_fond_1.png", Texture.class);
         screen.assetManager.load("menu/b_full_version_2.png", Texture.class);
 
         screen.assetManager.finishLoading();
@@ -119,7 +119,7 @@ public class ProBanner extends Fragment {
         columns.add(img).width(MunhauzenGame.WORLD_WIDTH * .3f).center().expandX();
 
         columns.setBackground(new SpriteDrawable(new Sprite(
-                screen.assetManager.get("menu/banner_fond_1.png", Texture.class)
+                screen.assetManager.get("ui/banner_fond_1.png", Texture.class)
         )));
 
         Container<Table> container = new Container<>(columns);

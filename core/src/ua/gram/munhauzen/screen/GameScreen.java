@@ -30,6 +30,7 @@ import ua.gram.munhauzen.service.ExpansionImageService;
 import ua.gram.munhauzen.service.GameAudioService;
 import ua.gram.munhauzen.service.InteractionService;
 import ua.gram.munhauzen.service.StoryManager;
+import ua.gram.munhauzen.utils.ExpansionAssetManager;
 import ua.gram.munhauzen.utils.Log;
 
 /**
@@ -57,7 +58,7 @@ public class GameScreen implements Screen {
 
     public GameScreen(MunhauzenGame game) {
         this.game = game;
-        assetManager = new AssetManager();
+        assetManager = new ExpansionAssetManager();
         progressBarFragment = new ProgressBarFragment(this);
     }
 
@@ -437,10 +438,10 @@ public class GameScreen implements Screen {
     }
 
     public void setLastBackground(Image image) {
-        game.gameState.lastImage = image;
+        game.gameState.history.activeSave.lastImage = image;
     }
 
     public Image getLastBackground() {
-        return game.gameState.lastImage;
+        return game.gameState.history.activeSave.lastImage;
     }
 }

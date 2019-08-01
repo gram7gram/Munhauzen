@@ -21,6 +21,7 @@ import ua.gram.munhauzen.entity.StatueTranslation;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.entity.StoryImage;
 import ua.gram.munhauzen.history.History;
+import ua.gram.munhauzen.history.Save;
 import ua.gram.munhauzen.interaction.cannons.CannonsScenario;
 import ua.gram.munhauzen.interaction.cannons.CannonsStoryImage;
 import ua.gram.munhauzen.interaction.generals.GeneralsScenario;
@@ -181,7 +182,39 @@ public class DatabaseManager {
             history = json.fromJson(History.class, file);
         }
 
+        loadActiveSave(history);
+
         return history;
+    }
+
+    private void loadActiveSave(History history) {
+        Save save = loadSave(history.activeSaveId);
+
+        history.activeSave = save;
+        history.activeSaveId = save.id;
+    }
+
+    public Save loadSave(String id) {
+        Json json = new Json(JsonWriter.OutputType.json);
+        json.setIgnoreUnknownFields(true);
+
+        Save save;
+
+        FileHandle saveFile = ExternalFiles.getSaveFile(id);
+        if (saveFile.exists()) {
+            save = json.fromJson(Save.class, saveFile);
+        } else {
+            save = new Save();
+        }
+
+        return save;
+    }
+
+    public void persistSave(Save save, FileHandle saveFile) {
+        Json json = new Json(JsonWriter.OutputType.json);
+        json.setIgnoreUnknownFields(true);
+
+        json.toJson(save, saveFile);
     }
 
     @SuppressWarnings("unchecked")

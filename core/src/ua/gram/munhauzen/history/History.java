@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Stack;
 
 import ua.gram.munhauzen.entity.Player;
+import ua.gram.munhauzen.utils.StringUtils;
 
 /**
  * @author Gram <gram7gram@gmail.com>
@@ -30,13 +31,9 @@ public class History {
      */
     public String cid;
     /**
-     * Create date of the history
-     */
-    public String createdAt;
-    /**
      * Saves for player
      */
-    public ArrayList<Save> saves;
+    public HashSet<String> saves;
     /**
      * Opened images on all iterations
      */
@@ -58,12 +55,20 @@ public class History {
      */
     public int achievementPoints;
     /**
+     * Current save id
+     */
+    public String activeSaveId;
+    /**
      * Current save
      */
     public Save activeSave;
 
     public History() {
-        saves = new ArrayList<>(SAVE_LIMIT);
+        saves = new HashSet<>(SAVE_LIMIT);
+        for (int i = 0; i < SAVE_LIMIT; i++) {
+            saves.add(StringUtils.cid());//dummy ids
+        }
+
         completedInteractions = new ArrayList<>(5);
         globalInventory = new HashSet<>();
         completedOptions = new HashSet<>();

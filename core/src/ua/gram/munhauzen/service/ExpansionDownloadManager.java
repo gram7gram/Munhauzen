@@ -89,7 +89,7 @@ public class ExpansionDownloadManager {
         Net.HttpRequest httpRequest = requestBuilder.newRequest()
                 .method(Net.HttpMethods.GET)
                 .url(part.url)
-                .timeout(60000)
+                .timeout(10000)
                 .build();
 
         Gdx.net.sendHttpRequest(httpRequest, new Net.HttpResponseListener() {
@@ -259,7 +259,7 @@ public class ExpansionDownloadManager {
 
                 try {
 
-                    ExternalFiles.getExpansionDir().deleteDirectory();
+                    //ExternalFiles.getExpansionDir().deleteDirectory();
 
                     expansionResponse = json.fromJson(ExpansionResponse.class, httpResponse.getResultAsString());
                     final float sizeMb = (float) (expansionResponse.size / 1024f / 1024f);

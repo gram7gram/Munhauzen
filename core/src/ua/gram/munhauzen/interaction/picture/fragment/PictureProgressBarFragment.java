@@ -1,6 +1,5 @@
 package ua.gram.munhauzen.interaction.picture.fragment;
 
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
@@ -41,7 +40,6 @@ public class PictureProgressBarFragment extends Fragment {
     public final String tag = getClass().getSimpleName();
     public final PictureInteraction interaction;
     public final GameScreen gameScreen;
-    public final AssetManager assetManager;
 
     public ProgressBar bar;
     public Table root;
@@ -55,35 +53,34 @@ public class PictureProgressBarFragment extends Fragment {
     public PictureProgressBarFragment(GameScreen gameScreen, PictureInteraction interaction) {
         this.gameScreen = gameScreen;
         this.interaction = interaction;
-        assetManager = new AssetManager();
     }
 
     public void create() {
 
         Log.i(tag, "create");
 
-        assetManager.load("ui/playbar_pause.png", Texture.class);
-        assetManager.load("ui/playbar_play.png", Texture.class);
+        interaction.assetManager.load("ui/playbar_pause.png", Texture.class);
+        interaction.assetManager.load("ui/playbar_play.png", Texture.class);
 
-        assetManager.load("ui/playbar_rewind_backward.png", Texture.class);
-        assetManager.load("ui/playbar_rewind_backward_off.png", Texture.class);
+        interaction.assetManager.load("ui/playbar_rewind_backward.png", Texture.class);
+        interaction.assetManager.load("ui/playbar_rewind_backward_off.png", Texture.class);
 
-        assetManager.load("ui/playbar_rewind_forward.png", Texture.class);
-        assetManager.load("ui/playbar_rewind_forward_off.png", Texture.class);
+        interaction.assetManager.load("ui/playbar_rewind_forward.png", Texture.class);
+        interaction.assetManager.load("ui/playbar_rewind_forward_off.png", Texture.class);
 
-        assetManager.load("ui/elements_player_fond_1.png", Texture.class);
-        assetManager.load("ui/elements_player_fond_2.png", Texture.class);
-        assetManager.load("ui/elements_player_fond_3.png", Texture.class);
-        assetManager.load("ui/player_progress_bar_progress.9.jpg", Texture.class);
-        assetManager.load("ui/player_progress_bar_knob.png", Texture.class);
+        interaction.assetManager.load("ui/elements_player_fond_1.png", Texture.class);
+        interaction.assetManager.load("ui/elements_player_fond_2.png", Texture.class);
+        interaction.assetManager.load("ui/elements_player_fond_3.png", Texture.class);
+        interaction.assetManager.load("ui/player_progress_bar_progress.9.jpg", Texture.class);
+        interaction.assetManager.load("ui/player_progress_bar_knob.png", Texture.class);
 
-        assetManager.finishLoading();
+        interaction.assetManager.finishLoading();
 
-        Texture line = assetManager.get("ui/player_progress_bar_progress.9.jpg", Texture.class);
-        Texture knob = assetManager.get("ui/player_progress_bar_knob.png", Texture.class);
-        Texture backTexture = assetManager.get("ui/elements_player_fond_1.png", Texture.class);
-        Texture sideTexture = assetManager.get("ui/elements_player_fond_3.png", Texture.class);
-        Texture centerTexture = assetManager.get("ui/elements_player_fond_2.png", Texture.class);
+        Texture line = interaction.assetManager.get("ui/player_progress_bar_progress.9.jpg", Texture.class);
+        Texture knob = interaction.assetManager.get("ui/player_progress_bar_knob.png", Texture.class);
+        Texture backTexture = interaction.assetManager.get("ui/elements_player_fond_1.png", Texture.class);
+        Texture sideTexture = interaction.assetManager.get("ui/elements_player_fond_3.png", Texture.class);
+        Texture centerTexture = interaction.assetManager.get("ui/elements_player_fond_2.png", Texture.class);
 
         Sprite knobSprite = new Sprite(knob);
 
@@ -583,7 +580,6 @@ public class PictureProgressBarFragment extends Fragment {
     @Override
     public void dispose() {
         super.dispose();
-        assetManager.dispose();
 
         cancelFadeOut();
         isFadeIn = false;
@@ -592,8 +588,8 @@ public class PictureProgressBarFragment extends Fragment {
     }
 
     private ImageButton getRewindBack() {
-        Texture rewindBack = assetManager.get("ui/playbar_rewind_backward.png", Texture.class);
-        Texture rewindBackOff = assetManager.get("ui/playbar_rewind_backward_off.png", Texture.class);
+        Texture rewindBack = interaction.assetManager.get("ui/playbar_rewind_backward.png", Texture.class);
+        Texture rewindBackOff = interaction.assetManager.get("ui/playbar_rewind_backward_off.png", Texture.class);
 
         ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
         style.up = new SpriteDrawable(new Sprite(rewindBack));
@@ -604,8 +600,8 @@ public class PictureProgressBarFragment extends Fragment {
     }
 
     private ImageButton getRewindForward() {
-        Texture rewindForward = assetManager.get("ui/playbar_rewind_forward.png", Texture.class);
-        Texture rewindForwardOff = assetManager.get("ui/playbar_rewind_forward_off.png", Texture.class);
+        Texture rewindForward = interaction.assetManager.get("ui/playbar_rewind_forward.png", Texture.class);
+        Texture rewindForwardOff = interaction.assetManager.get("ui/playbar_rewind_forward_off.png", Texture.class);
 
         ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
         style.up = new SpriteDrawable(new Sprite(rewindForward));
@@ -616,7 +612,7 @@ public class PictureProgressBarFragment extends Fragment {
     }
 
     private ImageButton getPause() {
-        Texture pause = assetManager.get("ui/playbar_pause.png", Texture.class);
+        Texture pause = interaction.assetManager.get("ui/playbar_pause.png", Texture.class);
 
         ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
         style.up = new SpriteDrawable(new Sprite(pause));
@@ -627,7 +623,7 @@ public class PictureProgressBarFragment extends Fragment {
     }
 
     private ImageButton getPlay() {
-        Texture play = assetManager.get("ui/playbar_play.png", Texture.class);
+        Texture play = interaction.assetManager.get("ui/playbar_play.png", Texture.class);
 
         ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
         style.up = new SpriteDrawable(new Sprite(play));

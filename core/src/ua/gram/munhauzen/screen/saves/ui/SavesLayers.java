@@ -1,25 +1,22 @@
-package ua.gram.munhauzen.ui;
+package ua.gram.munhauzen.screen.saves.ui;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.utils.Disposable;
 
-import ua.gram.munhauzen.screen.MenuScreen;
+import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class MenuLayers extends Stack implements Disposable {
+public class SavesLayers extends Stack implements Disposable {
 
     final String tag = getClass().getSimpleName();
-    final MenuScreen screen;
-    public Fragment backgroundLayer, controlsLayer, bannerLayer;
+    public Fragment contentLayer, bannerLayer;
 
-    public MenuLayers(MenuScreen screen) {
-        this.screen = screen;
-
+    public SavesLayers() {
         setFillParent(true);
 
         update();
@@ -31,16 +28,10 @@ public class MenuLayers extends Stack implements Disposable {
 
         clearChildren();
 
-        if (backgroundLayer != null) {
-            addActor(backgroundLayer.getRoot());
+        if (contentLayer != null) {
+            addActor(contentLayer.getRoot());
         } else {
-            addActor(createDummy("backgroundLayer"));
-        }
-
-        if (controlsLayer != null) {
-            addActor(controlsLayer.getRoot());
-        } else {
-            addActor(createDummy("controlsLayer"));
+            addActor(createDummy("contentLayer"));
         }
 
         if (bannerLayer != null) {
@@ -51,22 +42,12 @@ public class MenuLayers extends Stack implements Disposable {
 
     }
 
-    public void setBackgroundLayer(Fragment actor) {
-        if (backgroundLayer != null) {
-            removeActor(backgroundLayer.getRoot());
-            backgroundLayer.destroy();
+    public void setContentLayer(Fragment actor) {
+        if (contentLayer != null) {
+            removeActor(contentLayer.getRoot());
+            contentLayer.destroy();
         }
-        backgroundLayer = actor;
-
-        update();
-    }
-
-    public void setControlsLayer(Fragment actor) {
-        if (controlsLayer != null) {
-            removeActor(controlsLayer.getRoot());
-            controlsLayer.destroy();
-        }
-        controlsLayer = actor;
+        contentLayer = actor;
 
         update();
     }
@@ -92,14 +73,9 @@ public class MenuLayers extends Stack implements Disposable {
 
     @Override
     public void dispose() {
-        if (controlsLayer != null) {
-            controlsLayer.destroy();
-            controlsLayer = null;
-        }
-
-        if (backgroundLayer != null) {
-            backgroundLayer.destroy();
-            backgroundLayer = null;
+        if (contentLayer != null) {
+            contentLayer.destroy();
+            contentLayer = null;
         }
 
         if (bannerLayer != null) {

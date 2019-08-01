@@ -1,23 +1,17 @@
-package ua.gram.munhauzen.screen.menu.fragment;
+package ua.gram.munhauzen.screen.saves.fragment;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Timer;
@@ -25,32 +19,33 @@ import com.badlogic.gdx.utils.Timer;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.StoryAudio;
-import ua.gram.munhauzen.screen.MenuScreen;
-import ua.gram.munhauzen.ui.FitImage;
+import ua.gram.munhauzen.history.History;
+import ua.gram.munhauzen.history.Save;
+import ua.gram.munhauzen.screen.GameScreen;
+import ua.gram.munhauzen.screen.SavesScreen;
 import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.ui.PrimaryButton;
-import ua.gram.munhauzen.ui.WrapLabel;
+import ua.gram.munhauzen.utils.ExternalFiles;
 import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class ExitDialog extends Fragment {
+public class SaveDialog extends Fragment {
 
     private final String tag = getClass().getSimpleName();
     private final MunhauzenGame game;
-    public final MenuScreen screen;
+    public final SavesScreen screen;
+    public final Save save;
     public FragmentRoot root;
-    private final float headerSize, buttonSize;
+    PrimaryButton startBtn, saveBtn;
     StoryAudio yesAudio, noAudio;
 
-    public ExitDialog(MenuScreen screen) {
+    public SaveDialog(SavesScreen screen, Save save) {
         this.game = screen.game;
         this.screen = screen;
-
-        headerSize = MunhauzenGame.WORLD_HEIGHT / 20f;
-        buttonSize = MunhauzenGame.WORLD_WIDTH * 3 / 4f;
+        this.save = save;
     }
 
     @Override
@@ -60,21 +55,14 @@ public class ExitDialog extends Fragment {
 
     public void create() {
 
-        screen.assetManager.load("GameScreen/b_decision_last_line.png", Texture.class);
-        screen.assetManager.load("GameScreen/b_decision_add_line.png", Texture.class);
-        screen.assetManager.load("GameScreen/b_decision_first_line.png", Texture.class);
-        screen.assetManager.load("GameScreen/an_cannons_main.png", Texture.class);
-
-        screen.assetManager.finishLoading();
-
         Log.i(tag, "create");
 
-        PrimaryButton yesBtn = game.buttonBuilder.danger("Yes", new ClickListener() {
+        saveBtn = game.buttonBuilder.primary("Save", new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                Log.i(tag, "yes clicked");
+                Log.i(tag, "save clicked");
 
                 try {
                     root.setTouchable(Touchable.disabled);
@@ -87,21 +75,25 @@ public class ExitDialog extends Fragment {
                         Timer.instance().scheduleTask(new Timer.Task() {
                             @Override
                             public void run() {
-                                Gdx.app.exit();
+
+                                onSaveClicked();
                             }
                         }, yesAudio.duration / 1000f);
+
                 } catch (Throwable e) {
                     Log.e(tag, e);
+
+                    screen.onCriticalError(e);
                 }
             }
         });
 
-        PrimaryButton noBtn = game.buttonBuilder.danger("No", new ClickListener() {
+        startBtn = game.buttonBuilder.danger("Start", new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                Log.i(tag, "no clicked");
+                Log.i(tag, "start clicked");
 
                 try {
                     root.setTouchable(Touchable.disabled);
@@ -114,39 +106,47 @@ public class ExitDialog extends Fragment {
                         Timer.instance().scheduleTask(new Timer.Task() {
                             @Override
                             public void run() {
-                                fadeOut(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        destroy();
-                                        screen.exitDialog = null;
-                                    }
-                                });
+
+                                onStartClicked();
                             }
                         }, noAudio.duration / 1000f);
+
                 } catch (Throwable e) {
                     Log.e(tag, e);
+
+                    screen.onCriticalError(e);
                 }
             }
         });
 
-        Actor button = primaryDecision("You want to exit?", buttonSize);
-
-        Table table = new Table();
-        table.add(yesBtn).left().expandX().padRight(5)
-                .width(MunhauzenGame.WORLD_WIDTH / 3f)
-                .height(MunhauzenGame.WORLD_HEIGHT / 10f);
-        table.add(noBtn).right().expandX().padLeft(5)
-                .width(MunhauzenGame.WORLD_WIDTH / 3f)
-                .height(MunhauzenGame.WORLD_HEIGHT / 10f);
+        Label title = new Label("What do you need?", new Label.LabelStyle(
+                screen.game.fontProvider.getFont(FontProvider.h2),
+                Color.BLACK
+        ));
+        title.setAlignment(Align.center);
 
         Table content = new Table();
-        content.add(button).width(buttonSize).maxWidth(1000)
-                .padBottom(10).row();
-        content.add(table).width(buttonSize)
-                .maxWidth(1000);
+        content.pad(50, 100, 50, 100);
+
+        content.add(title).center().colspan(2).expandX().padBottom(30)
+                .width(MunhauzenGame.WORLD_WIDTH * .6f)
+                .row();
+
+        content.add(saveBtn).left()
+                .width(MunhauzenGame.WORLD_WIDTH * .25f)
+                .height(MunhauzenGame.WORLD_HEIGHT / 15f);
+
+        content.add(startBtn).right()
+                .width(MunhauzenGame.WORLD_WIDTH * .25f)
+                .height(MunhauzenGame.WORLD_HEIGHT / 15f);
+
+        content.setBackground(new SpriteDrawable(new Sprite(
+                screen.assetManager.get("ui/banner_fond_3.png", Texture.class)
+        )));
 
         Container<Table> container = new Container<>(content);
         container.pad(MunhauzenGame.WORLD_WIDTH * .05f);
+        container.setTouchable(Touchable.enabled);
 
         Pixmap px = new Pixmap(1, 1, Pixmap.Format.RGBA4444);
         px.setColor(Color.BLACK.r, Color.BLACK.g, Color.BLACK.b, .3f);
@@ -167,7 +167,7 @@ public class ExitDialog extends Fragment {
                     @Override
                     public void run() {
                         destroy();
-                        screen.exitDialog = null;
+                        screen.saveDialog = null;
                     }
                 });
             }
@@ -179,11 +179,54 @@ public class ExitDialog extends Fragment {
         root.setVisible(false);
     }
 
+    private void onStartClicked() {
+        try {
+            History history = game.gameState.history;
+
+            history.activeSaveId = save.id;
+            history.activeSave = save;
+
+            game.setScreen(new GameScreen(game));
+            screen.dispose();
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            screen.onCriticalError(e);
+        }
+    }
+
+    private void onSaveClicked() {
+        try {
+            History history = game.gameState.history;
+
+            game.databaseManager.persistSave(history.activeSave, ExternalFiles.getSaveFile(save.id));
+
+            screen.updateSaves();
+
+            screen.savesFragment.root.invalidate();
+
+            fadeOut(new Runnable() {
+                @Override
+                public void run() {
+                    destroy();
+
+                    screen.saveDialog = null;
+                }
+            });
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            screen.onCriticalError(e);
+        }
+    }
+
     private void playYes() {
         try {
 
             yesAudio = new StoryAudio();
-            yesAudio.audio = "sfx_exit_yes";
+            yesAudio.audio = "sfx_save_yes";
 
             screen.audioService.prepareAndPlay(yesAudio);
 
@@ -198,7 +241,7 @@ public class ExitDialog extends Fragment {
         try {
 
             noAudio = new StoryAudio();
-            noAudio.audio = "sfx_exit_no";
+            noAudio.audio = "sfx_save_no";
 
             screen.audioService.prepareAndPlay(noAudio);
 
@@ -237,84 +280,6 @@ public class ExitDialog extends Fragment {
         ));
     }
 
-    private Actor primaryDecision(String text, float buttonBounds) {
-
-        Texture bottom = screen.assetManager.get("GameScreen/b_decision_last_line.png", Texture.class);
-        Texture middle = screen.assetManager.get("GameScreen/b_decision_add_line.png", Texture.class);
-        Texture top = screen.assetManager.get("GameScreen/b_decision_first_line.png", Texture.class);
-
-        final NinePatchDrawable middleBackground = new NinePatchDrawable(new NinePatch(
-                middle, 0, 0, 5, 5
-        ));
-
-        Image backMiddle = new Image(middleBackground);
-        Image backBottom = new Image(bottom);
-        Image backTop = new Image(top);
-
-        BitmapFont font = game.fontProvider.getFont(FontProvider.h2);
-
-        Label label = new WrapLabel(text,
-                new Label.LabelStyle(font, Color.BLACK),
-                buttonBounds);
-        label.setAlignment(Align.center);
-
-        Table labelContainer = new Table();
-        labelContainer.add(label).center().fillX().expand()
-                .padTop(5).padBottom(5)
-                .padLeft(headerSize / 5f).padRight(headerSize / 5f);
-
-        Stack stackMiddle = new Stack();
-        stackMiddle.addActor(backMiddle);
-        stackMiddle.addActor(labelContainer);
-
-        final Table table = new Table();
-
-        table.add(backTop)
-                .expandX().height(headerSize).row();
-        table.add(stackMiddle).row();
-        table.add(backBottom)
-                .expandX().height(50).row();
-
-        final Stack header = createDefaultHeader();
-
-        final Stack stack = new Stack();
-        stack.addActorAt(0, table);
-        stack.addActorAt(1, header);
-
-        return stack;
-    }
-
-    private Stack createDefaultHeader() {
-
-        Texture cannon = screen.assetManager.get("GameScreen/an_cannons_main.png", Texture.class);
-
-        SpriteDrawable cannonDrawable = new SpriteDrawable(new Sprite(cannon));
-        SpriteDrawable cannonDrawableRight = new SpriteDrawable(new Sprite(cannon));
-        cannonDrawableRight.getSprite().setFlip(true, false);
-
-        FitImage left = new FitImage(cannonDrawable);
-        FitImage right = new FitImage(cannonDrawableRight);
-
-        Table layer1 = new Table();
-        layer1.add(left).expand()
-                .align(Align.topLeft)
-                .padLeft(buttonSize / 2 - headerSize * 3)
-                .height(headerSize).width(headerSize * 2);
-
-        Table layer3 = new Table();
-        layer3.add(right).expand()
-                .align(Align.topRight)
-                .padRight(buttonSize / 2 - headerSize * 3)
-                .height(headerSize).width(headerSize * 2);
-
-        Stack root = new Stack();
-        root.setFillParent(true);
-        root.add(layer1);
-        root.add(layer3);
-
-        return root;
-    }
-
     public void update() {
         if (yesAudio != null) {
             screen.audioService.updateVolume(yesAudio);
@@ -322,6 +287,11 @@ public class ExitDialog extends Fragment {
         if (noAudio != null) {
             screen.audioService.updateVolume(noAudio);
         }
+
+        History history = game.gameState.history;
+
+        startBtn.setDisabled(save.chapter == null);
+        saveBtn.setDisabled(history.activeSave.chapter == null);
     }
 
     public void stopAllAudio() {
