@@ -20,6 +20,7 @@ import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.entity.StoryImage;
 import ua.gram.munhauzen.entity.StoryScenario;
+import ua.gram.munhauzen.history.Save;
 import ua.gram.munhauzen.screen.game.fragment.ControlsFragment;
 import ua.gram.munhauzen.screen.game.fragment.ImageFragment;
 import ua.gram.munhauzen.screen.game.fragment.ProgressBarFragment;
@@ -438,10 +439,14 @@ public class GameScreen implements Screen {
     }
 
     public void setLastBackground(Image image) {
-        game.gameState.history.activeSave.lastImage = image;
+        getActiveSave().lastImage = image;
     }
 
     public Image getLastBackground() {
-        return game.gameState.history.activeSave.lastImage;
+        return getActiveSave().lastImage;
+    }
+
+    public Save getActiveSave() {
+        return game.gameState.history.activeSave;
     }
 }

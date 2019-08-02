@@ -11,6 +11,7 @@ import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.Chapter;
 import ua.gram.munhauzen.history.Save;
 import ua.gram.munhauzen.repository.ChapterRepository;
+import ua.gram.munhauzen.screen.saves.fragment.ControlsFragment;
 import ua.gram.munhauzen.screen.saves.fragment.SaveDialog;
 import ua.gram.munhauzen.screen.saves.fragment.SavesFragment;
 import ua.gram.munhauzen.screen.saves.ui.SavesLayers;
@@ -28,6 +29,7 @@ public class SavesScreen extends AbstractScreen {
     public SaveDialog saveDialog;
     public SavesFragment savesFragment;
     public ArrayList<Save> saves;
+    public ControlsFragment controlsFragment;
 
     public SavesScreen(MunhauzenGame game) {
         super(game);
@@ -40,6 +42,7 @@ public class SavesScreen extends AbstractScreen {
         saves = new ArrayList<>();
         audioService = new AudioService(game);
 
+        assetManager.load("menu/b_menu.png", Texture.class);
         assetManager.load("saves/gv_paper_1.png", Texture.class);
         assetManager.load("saves/gv_paper_2.png", Texture.class);
         assetManager.load("saves/gv_paper_3.png", Texture.class);
@@ -82,6 +85,13 @@ public class SavesScreen extends AbstractScreen {
         layers = new SavesLayers();
 
         ui.addActor(layers);
+
+        controlsFragment = new ControlsFragment(this);
+        controlsFragment.create();
+
+        layers.setControlsLayer(controlsFragment);
+
+        controlsFragment.fadeIn();
 
         savesFragment = new SavesFragment(this);
         savesFragment.create();
@@ -140,6 +150,11 @@ public class SavesScreen extends AbstractScreen {
         if (savesFragment != null) {
             savesFragment.destroy();
             savesFragment = null;
+        }
+
+        if (controlsFragment != null) {
+            controlsFragment.destroy();
+            controlsFragment = null;
         }
     }
 }

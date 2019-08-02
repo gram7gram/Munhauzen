@@ -30,7 +30,6 @@ public class PictureStory {
 
         reset();
 
-        int offset = 0;
         int size = scenarios.size;
         progress = 0;
         totalDuration = 0;
@@ -51,13 +50,14 @@ public class PictureStory {
                 }
             }
 
-            current.init(offset);
+            current.startsAt = prev != null ? prev.finishesAt : 0;
+
+            current.init();
 
             current.previous = prev;
             current.next = next;
 
-            current.startsAt = offset;
-            current.finishesAt = offset += current.duration;
+            current.finishesAt = current.startsAt + current.duration;
 
             totalDuration += current.duration;
         }

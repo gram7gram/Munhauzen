@@ -19,6 +19,7 @@ import com.badlogic.gdx.utils.Align;
 
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.Inventory;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.interaction.ServantsInteraction;
@@ -45,6 +46,7 @@ public class HireDialog extends Fragment {
     PrimaryButton yesBtn, noBtn;
     StoryAudio muchAudio, confirmAudio, cancelAudio;
     public String servantName;
+    public boolean isFadeIn;
 
     public HireDialog(ServantsInteraction interaction) {
         this.game = interaction.gameScreen.game;
@@ -106,6 +108,8 @@ public class HireDialog extends Fragment {
 
                 noBtn.setDisabled(true);
 
+                interaction.progressBarFragment.pause();
+
                 stopAllAudio();
 
                 playCancel();
@@ -151,7 +155,7 @@ public class HireDialog extends Fragment {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            gameScreen.onCriticalError(e);
+            //gameScreen.onCriticalError(e);
         }
     }
 
@@ -199,7 +203,7 @@ public class HireDialog extends Fragment {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            gameScreen.onCriticalError(e);
+            //gameScreen.onCriticalError(e);
         }
     }
 
@@ -247,11 +251,16 @@ public class HireDialog extends Fragment {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            gameScreen.onCriticalError(e);
+            //gameScreen.onCriticalError(e);
         }
     }
 
     public void fadeIn() {
+
+        if (isFadeIn) return;
+
+        isFadeIn = true;
+
         root.clearActions();
 
         root.setVisible(true);
@@ -261,17 +270,21 @@ public class HireDialog extends Fragment {
                 Actions.parallel(
                         Actions.alpha(1, .3f),
                         Actions.moveBy(0, -20, .3f)
-                )
+                ),
+                Actions.run(new Runnable() {
+                    @Override
+                    public void run() {
+                        isFadeIn = false;
+                    }
+                })
         ));
 
         boolean hasServant = interaction.hireFragment.hasServant(servantName);
 
-        yesBtn.setDisabled(hasServant || interaction.hireFragment.servantCount == interaction.hireFragment.servantLimit);
+        yesBtn.setDisabled(hasServant || interaction.isLimitReached());
         noBtn.setDisabled(false);
 
-        //stopAllAudio();
-
-        if (interaction.hireFragment.servantCount == interaction.hireFragment.servantLimit && !hasServant) {
+        if (interaction.isLimitReached() && !hasServant) {
             playToMuch();
         }
     }
@@ -281,12 +294,11 @@ public class HireDialog extends Fragment {
         root.clearActions();
 
         root.addAction(Actions.sequence(
-                Actions.parallel(
-                        Actions.alpha(0, .3f),
-                        Actions.moveBy(0, 20, .3f)
-                ),
+                Actions.alpha(0, .3f),
                 Actions.visible(false)
         ));
+
+        GameState.unpause();
     }
 
     private Actor primaryDecision(String text, float buttonBounds) {

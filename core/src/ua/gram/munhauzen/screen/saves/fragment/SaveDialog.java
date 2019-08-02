@@ -71,14 +71,16 @@ public class SaveDialog extends Fragment {
 
                     playYes();
 
-                    if (yesAudio != null)
+                    if (yesAudio == null) {
+                        onSaveClicked();
+                    } else {
                         Timer.instance().scheduleTask(new Timer.Task() {
                             @Override
                             public void run() {
-
                                 onSaveClicked();
                             }
                         }, yesAudio.duration / 1000f);
+                    }
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -102,14 +104,16 @@ public class SaveDialog extends Fragment {
 
                     playNo();
 
-                    if (noAudio != null)
+                    if (noAudio == null) {
+                        onStartClicked();
+                    } else {
                         Timer.instance().scheduleTask(new Timer.Task() {
                             @Override
                             public void run() {
-
                                 onStartClicked();
                             }
                         }, noAudio.duration / 1000f);
+                    }
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -233,7 +237,7 @@ public class SaveDialog extends Fragment {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            screen.onCriticalError(e);
+//            screen.onCriticalError(e);
         }
     }
 
@@ -248,7 +252,7 @@ public class SaveDialog extends Fragment {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            screen.onCriticalError(e);
+//            screen.onCriticalError(e);
         }
     }
 

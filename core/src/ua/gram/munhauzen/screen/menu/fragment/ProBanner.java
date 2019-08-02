@@ -80,23 +80,16 @@ public class ProBanner extends Fragment {
 
                     playClick();
 
-                    Timer.instance().scheduleTask(new Timer.Task() {
-                        @Override
-                        public void run() {
-
-                            try {
-                                fadeOut(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        destroy();
-                                        screen.rateBanner = null;
-                                    }
-                                });
-                            } catch (Throwable e) {
-                                Log.e(tag, e);
+                    if (clickAudio == null) {
+                        onOkClicked();
+                    } else {
+                        Timer.instance().scheduleTask(new Timer.Task() {
+                            @Override
+                            public void run() {
+                                onOkClicked();
                             }
-                        }
-                    }, clickAudio.duration / 1000f);
+                        }, clickAudio.duration / 1000f);
+                    }
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -155,6 +148,16 @@ public class ProBanner extends Fragment {
         });
 
         root.setVisible(false);
+    }
+
+    private void onOkClicked() {
+        fadeOut(new Runnable() {
+            @Override
+            public void run() {
+                destroy();
+                screen.rateBanner = null;
+            }
+        });
     }
 
     public void update() {
@@ -260,6 +263,8 @@ public class ProBanner extends Fragment {
             screen.audioService.prepareAndPlay(introAudio);
         } catch (Throwable e) {
             Log.e(tag, e);
+
+//            screen.onCriticalError(e);
         }
     }
 
@@ -280,6 +285,8 @@ public class ProBanner extends Fragment {
             screen.audioService.prepareAndPlay(clickAudio);
         } catch (Throwable e) {
             Log.e(tag, e);
+
+//            screen.onCriticalError(e);
         }
     }
 

@@ -46,7 +46,7 @@ public class LionsImageFragment extends InteractionFragment {
 
         interaction.gameScreen.hideImageFragment();
 
-        attackBtn = interaction.gameScreen.game.buttonBuilder.primary("Attack...", new ClickListener() {
+        attackBtn = interaction.gameScreen.game.buttonBuilder.primary("Attack", new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
@@ -80,13 +80,15 @@ public class LionsImageFragment extends InteractionFragment {
 
         attackBtn.setVisible(false);
 
+        stopAllAudio();
+
         playFreeze();
 
         Timer.instance().scheduleTask(new Timer.Task() {
             @Override
             public void run() {
 
-                stopFreeze();
+                stopAllAudio();
 
                 steady();
 
@@ -102,7 +104,7 @@ public class LionsImageFragment extends InteractionFragment {
             @Override
             public void run() {
 
-                stopSteady();
+                stopAllAudio();
 
                 attack();
 
@@ -131,9 +133,9 @@ public class LionsImageFragment extends InteractionFragment {
 
     private void attack() {
 
-        playAttack();
+        final float attackDuration = .7f;
 
-        attackBtn.setText("Attack now!");
+        playAttack();
 
         attackBtn.clearListeners();
         attackBtn.addListener(new ClickListener() {
@@ -142,19 +144,23 @@ public class LionsImageFragment extends InteractionFragment {
                 super.clicked(event, x, y);
 
                 attackBtn.setDisabled(true);
-                attackBtn.setTouchable(Touchable.disabled);
+
+                root.setTouchable(Touchable.disabled);
 
                 Timer.instance().clear();
 
-                complete();
+                Timer.instance().scheduleTask(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        complete();
+                    }
+                }, attackAudio.duration / 1000f - attackDuration);
             }
         });
 
         Timer.instance().scheduleTask(new Timer.Task() {
             @Override
             public void run() {
-
-                attackBtn.setText("Attack");
 
                 attackBtn.clearListeners();
                 attackBtn.addListener(new ClickListener() {
@@ -163,7 +169,8 @@ public class LionsImageFragment extends InteractionFragment {
                         super.clicked(event, x, y);
 
                         attackBtn.setDisabled(true);
-                        attackBtn.setTouchable(Touchable.disabled);
+
+                        root.setTouchable(Touchable.disabled);
 
                         Timer.instance().clear();
 
@@ -172,7 +179,7 @@ public class LionsImageFragment extends InteractionFragment {
                 });
 
             }
-        }, .5f);
+        }, attackDuration);
     }
 
     private void playFreeze() {
@@ -182,8 +189,6 @@ public class LionsImageFragment extends InteractionFragment {
             freezeAudio.audio = "slions_attack_freeze";
 
             interaction.gameScreen.audioService.prepareAndPlay(freezeAudio);
-
-            freezeAudio.player.setLooping(true);
 
         } catch (Throwable e) {
             Log.e(tag, e);
@@ -206,7 +211,7 @@ public class LionsImageFragment extends InteractionFragment {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            interaction.gameScreen.onCriticalError(e);
+            //interaction.gameScreen.onCriticalError(e);
         }
 
     }
@@ -222,7 +227,7 @@ public class LionsImageFragment extends InteractionFragment {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            interaction.gameScreen.onCriticalError(e);
+            //interaction.gameScreen.onCriticalError(e);
         }
 
     }
@@ -317,17 +322,18 @@ public class LionsImageFragment extends InteractionFragment {
         interaction.gameScreen.setLastBackground(file);
     }
 
-    private void stopFreeze() {
+    private void stopAllAudio() {
         if (freezeAudio != null) {
             interaction.gameScreen.audioService.stop(freezeAudio);
             freezeAudio = null;
         }
-    }
-
-    private void stopSteady() {
         if (steadyAudio != null) {
             interaction.gameScreen.audioService.stop(steadyAudio);
             steadyAudio = null;
+        }
+        if (attackAudio != null) {
+            interaction.gameScreen.audioService.stop(attackAudio);
+            attackAudio = null;
         }
     }
 
@@ -335,14 +341,6 @@ public class LionsImageFragment extends InteractionFragment {
     public void dispose() {
         super.dispose();
 
-        stopFreeze();
-
-        stopSteady();
-
-        if (attackAudio != null) {
-            interaction.gameScreen.audioService.stop(attackAudio);
-            attackAudio = null;
-        }
-
+        stopAllAudio();
     }
 }

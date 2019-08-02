@@ -79,25 +79,16 @@ public class DemoBanner extends Fragment {
 
                     playClick();
 
-                    Timer.instance().scheduleTask(new Timer.Task() {
-                        @Override
-                        public void run() {
-
-                            try {
-                                screen.game.params.appStore.openProUrl();
-
-                                fadeOut(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        destroy();
-                                        screen.rateBanner = null;
-                                    }
-                                });
-                            } catch (Throwable e) {
-                                Log.e(tag, e);
+                    if (clickAudio == null) {
+                        onPurchaseClicked();
+                    } else {
+                        Timer.instance().scheduleTask(new Timer.Task() {
+                            @Override
+                            public void run() {
+                                onPurchaseClicked();
                             }
-                        }
-                    }, clickAudio.duration / 1000f);
+                        }, clickAudio.duration / 1000f);
+                    }
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -157,6 +148,22 @@ public class DemoBanner extends Fragment {
         });
 
         root.setVisible(false);
+    }
+
+    private void onPurchaseClicked() {
+        try {
+            screen.game.params.appStore.openProUrl();
+
+            fadeOut(new Runnable() {
+                @Override
+                public void run() {
+                    destroy();
+                    screen.rateBanner = null;
+                }
+            });
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
     }
 
     public void update() {
@@ -262,6 +269,8 @@ public class DemoBanner extends Fragment {
             screen.audioService.prepareAndPlay(introAudio);
         } catch (Throwable e) {
             Log.e(tag, e);
+
+            //screen.onCriticalError(e);
         }
     }
 
@@ -282,6 +291,8 @@ public class DemoBanner extends Fragment {
             screen.audioService.prepareAndPlay(clickAudio);
         } catch (Throwable e) {
             Log.e(tag, e);
+
+//            screen.onCriticalError(e);
         }
     }
 

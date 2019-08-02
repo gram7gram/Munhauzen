@@ -18,11 +18,10 @@ public class CannonsStoryScenario extends StoryMedia<CannonsStoryScenario> {
         this.gameState = gameState;
     }
 
-    public void init(final int offset) {
+    public void init() {
         currentImage = null;
         currentAudio = null;
 
-        int imageOffset = offset;
         int size = scenario.images.size;
         int imageDuration = 0;
 
@@ -48,17 +47,12 @@ public class CannonsStoryScenario extends StoryMedia<CannonsStoryScenario> {
             current.previous = prev;
             current.next = next;
 
-            current.startsAt = imageOffset;
-            current.finishesAt = imageOffset += current.duration;
+            current.startsAt = prev != null ? prev.finishesAt : startsAt;
+            current.finishesAt = current.startsAt + current.duration;
 
-            if (i == size - 1) {
-                current.finishesAt = Math.max(current.finishesAt, duration);
-
-                imageDuration = current.finishesAt;
-            }
+            imageDuration += current.duration;
         }
 
-        int audioOffset = offset;
         size = scenario.audio.size;
         int audioDuration = 0;
 
@@ -87,14 +81,10 @@ public class CannonsStoryScenario extends StoryMedia<CannonsStoryScenario> {
             current.previous = prev;
             current.next = next;
 
-            current.startsAt = audioOffset;
-            current.finishesAt = audioOffset += current.duration;
+            current.startsAt = prev != null ? prev.finishesAt : startsAt;
+            current.finishesAt = current.startsAt + current.duration;
 
-            if (i == size - 1) {
-                current.finishesAt = Math.max(current.finishesAt, duration);
-
-                audioDuration = current.finishesAt;
-            }
+            audioDuration += current.duration;
         }
 
         duration = Math.max(imageDuration, audioDuration);

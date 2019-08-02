@@ -17,10 +17,9 @@ public class HareStoryScenario extends StoryMedia<HareStoryScenario> {
         this.gameState = gameState;
     }
 
-    public void init(final int offset) {
+    public void init() {
         currentAudio = null;
 
-        int audioOffset = offset;
         int size = scenario.audio.size;
         int audioDuration = 0;
 
@@ -49,14 +48,11 @@ public class HareStoryScenario extends StoryMedia<HareStoryScenario> {
             current.previous = prev;
             current.next = next;
 
-            current.startsAt = audioOffset;
-            current.finishesAt = audioOffset += current.duration;
+            current.startsAt = prev != null ? prev.finishesAt : startsAt;
+            current.finishesAt = current.startsAt + current.duration;
 
             audioDuration += current.duration;
 
-            if (i == size - 1) {
-                current.finishesAt = Math.max(current.finishesAt, duration);
-            }
         }
 
         duration = audioDuration;

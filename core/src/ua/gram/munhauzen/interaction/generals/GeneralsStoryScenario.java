@@ -18,11 +18,10 @@ public class GeneralsStoryScenario extends StoryMedia<GeneralsStoryScenario> {
         this.gameState = gameState;
     }
 
-    public void init(final int offset) {
+    public void init() {
         currentImage = null;
         currentAudio = null;
 
-        int imageOffset = offset;
         int size = scenario.images.size;
         int imageDuration = 0;
 
@@ -48,17 +47,13 @@ public class GeneralsStoryScenario extends StoryMedia<GeneralsStoryScenario> {
             current.previous = prev;
             current.next = next;
 
-            current.startsAt = imageOffset;
-            current.finishesAt = imageOffset += current.duration;
+            current.startsAt = prev != null ? prev.finishesAt : startsAt;
+            current.finishesAt = current.startsAt + current.duration;
 
-            if (i == size - 1) {
-                current.finishesAt = Math.max(current.finishesAt, duration);
+            imageDuration += current.duration;
 
-                imageDuration = current.finishesAt;
-            }
         }
 
-        int audioOffset = offset;
         size = scenario.audio.size;
         int audioDuration = 0;
 
@@ -87,14 +82,11 @@ public class GeneralsStoryScenario extends StoryMedia<GeneralsStoryScenario> {
             current.previous = prev;
             current.next = next;
 
-            current.startsAt = audioOffset;
-            current.finishesAt = audioOffset += current.duration;
+            current.startsAt = prev != null ? prev.finishesAt : startsAt;
+            current.finishesAt = current.startsAt + current.duration;
 
-            if (i == size - 1) {
-                current.finishesAt = Math.max(current.finishesAt, duration);
+            audioDuration += current.duration;
 
-                audioDuration = current.finishesAt;
-            }
         }
 
         duration = Math.max(imageDuration, audioDuration);

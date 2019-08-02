@@ -4,10 +4,9 @@ const archiver = require('archiver');
 const obbDir = "/Users/master/Projects/Munhauzen/obb"
 const audioDir = "/Users/master/Projects/MunhauzenDocs/Elements/AUDIO_FINAL"
 const picturesDir = "/Users/master/Projects/MunhauzenDocs/Elements/PICTURES_FINAL"
-const internalAssetsDir = "/Users/master/Projects/Munhauzen/core/assets"
-const apiResourcesDir = "/Users/master/Projects/munhauzen-web/api/src/server/resources"
+const internalAssetsDir = obbDir + "/assets"
 
-const PARTS = 1;
+const PARTS = 10;
 const VERSION = 1;
 const LOCALE = 'en';
 const DEVICE = 'phone';
@@ -16,42 +15,42 @@ const DPI = 'hdpi';
 const VERSION_NAME = VERSION + "-" + LOCALE + "-" + DEVICE + "-" + DPI
 
 const audioParts = [
-//    "/Part_1",
-//    "/Part_2",
-//    "/Part_3",
-//    "/Sfx",
+    "/Part_1",
+    "/Part_2",
+    "/Part_3",
+    "/Sfx",
 ]
 
 const otherAssets = [
-//    '/menu',
-//    '/GameScreen',
+    '/menu',
+    '/GameScreen',
     '/ui',
     '/saves',
 ]
 
 const imagesParts = [
-//    "/drawable",
-//    "/drawable-horizontal",
+    "/drawable",
+    "/drawable-horizontal",
 ]
 
 const interactions = [
-//    "/timer",
-//    "/timer2",
-//    "/hare",
-//    "/generals",
-//    "/cannons",
-//    "/wau",
-//    "/picture",
-//    "/servants",
-//    "/lions",
-//    "/date",
-//    "/horn",
-//    "/swamp",
-//    "/slap",
-//    "/puzzle",
-//    "/continue",
-//    "/chapter",
-//    "/balloons",
+    "/timer",
+    "/timer2",
+    "/hare",
+    "/generals",
+    "/cannons",
+    "/wau",
+    "/picture",
+    "/servants",
+    "/lions",
+    "/date",
+    "/horn",
+    "/swamp",
+    "/slap",
+    "/puzzle",
+    "/continue",
+    "/chapter",
+    "/balloons",
 ]
 
 console.log(`=> Splitting expansion ${VERSION_NAME} in ${PARTS} parts`)
@@ -63,7 +62,7 @@ audioParts.forEach(dir => {
     fs.readdirSync(audioDir + dir).forEach(file => {
 
         const dest = "/tmp/part" + currentPart + "/audio"
-        const source = audioDir + dir + file
+        const source = audioDir + dir + "/" + file
 
         fs.ensureDir(dest, () => {})
 
@@ -101,7 +100,7 @@ imagesParts.forEach(dir => {
     fs.readdirSync(picturesDir + dir).forEach(file => {
 
         const dest = "/tmp/part" + currentPart + "/images"
-        const source = picturesDir + dir + file
+        const source = picturesDir + dir + "/" + file
 
         fs.ensureDir(dest, () => {})
 
@@ -120,7 +119,7 @@ otherAssets.forEach(dir => {
     fs.readdirSync(internalAssetsDir + dir).forEach(file => {
 
         const dest = "/tmp/part" + currentPart + dir
-        const source = internalAssetsDir + dir + "/"  + file
+        const source = internalAssetsDir + dir + "/" + file
 
         fs.ensureDir(dest, () => {})
 

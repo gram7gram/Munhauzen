@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.Stack;
 
 import ua.gram.munhauzen.entity.Image;
+import ua.gram.munhauzen.entity.ServantsState;
 import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.utils.DateUtils;
 import ua.gram.munhauzen.utils.StringUtils;
@@ -75,6 +76,8 @@ public class Save {
      */
     public Array<InteractionEntry> completedInteractions;
 
+    public ServantsState servantsInteractionState;
+
     public Save() {
 
         id = StringUtils.cid();
@@ -88,6 +91,7 @@ public class Save {
         story = new Story();
         clickedBranches = new Stack<>();
         storyStack = new Stack<>();
+        servantsInteractionState = new ServantsState();
     }
 
     public void reset() {

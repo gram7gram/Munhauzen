@@ -46,16 +46,16 @@ public class ServantsFireImageFragment extends InteractionFragment {
     StoryAudio dismissAudio, backAudio, discardAudio;
 
     public static final String[] names = {
-            "CARPETENER",
-            "BLOWER",
-            "SHOOTER",
-            "LISTENER",
-            "VASILIY",
-            "RUNNER",
-            "JUMPER",
-            "JOKER",
-            "USURER",
             "GIGANT",
+            "USURER",
+            "JOKER",
+            "JUMPER",
+            "RUNNER",
+            "VASILIY",
+            "LISTENER",
+            "SHOOTER",
+            "BLOWER",
+            "CARPETENER",
     };
 
     public ServantsFireImageFragment(ServantsInteraction interaction) {
@@ -301,13 +301,13 @@ public class ServantsFireImageFragment extends InteractionFragment {
 
                             break;
                         case "USURER":
-                            interaction.assetManager.load("servants/inter_servants_usurper_2.png", Texture.class);
-                            interaction.assetManager.load("servants/inter_servants_usurper_2_off.png", Texture.class);
+                            interaction.assetManager.load("servants/inter_servants_usurer_2.png", Texture.class);
+                            interaction.assetManager.load("servants/inter_servants_usurer_2_off.png", Texture.class);
 
                             interaction.assetManager.finishLoading();
 
-                            on = interaction.assetManager.get("servants/inter_servants_usurper_2.png", Texture.class);
-                            off = interaction.assetManager.get("servants/inter_servants_usurper_2_off.png", Texture.class);
+                            on = interaction.assetManager.get("servants/inter_servants_usurer_2.png", Texture.class);
+                            off = interaction.assetManager.get("servants/inter_servants_usurer_2_off.png", Texture.class);
 
                             hiredServant = new UsurperServant(on, off);
                             hiredServant.init();

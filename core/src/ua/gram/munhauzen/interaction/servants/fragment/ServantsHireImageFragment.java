@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
@@ -16,6 +18,7 @@ import com.badlogic.gdx.utils.Align;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.Inventory;
+import ua.gram.munhauzen.entity.ServantsState;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.interaction.ServantsInteraction;
 import ua.gram.munhauzen.interaction.servants.CompleteDialog;
@@ -70,17 +73,6 @@ public class ServantsHireImageFragment extends InteractionFragment {
             }
         });
 
-        PrimaryButton departBtn = interaction.gameScreen.game.buttonBuilder.danger("Depart", new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-
-                page = 11;
-
-                showCurrent(true);
-            }
-        });
-
         progressLabel = new Label("", new Label.LabelStyle(
                 interaction.gameScreen.game.fontProvider.getFont(FontProvider.h1),
                 Color.BLACK
@@ -114,9 +106,6 @@ public class ServantsHireImageFragment extends InteractionFragment {
                 .width(MunhauzenGame.WORLD_WIDTH * .25f)
                 .height(MunhauzenGame.WORLD_HEIGHT / 15f);
         btnTable.add(progressLabel).left().padRight(10);
-        btnTable.add(departBtn).left()
-                .width(MunhauzenGame.WORLD_WIDTH * .25f)
-                .height(MunhauzenGame.WORLD_HEIGHT / 15f);
 
         Table hireTable = new Table();
         hireTable.setFillParent(true);
@@ -531,8 +520,24 @@ public class ServantsHireImageFragment extends InteractionFragment {
 
         servantsBtn.setTouchable(Touchable.enabled); //always touchable
 
+        ServantsState state = interaction.gameScreen.getActiveSave().servantsInteractionState;
+
+        boolean isVisited = hireDialog != null && state.viewedServants.contains(hireDialog.servantName);
+
+        nextBtn.setDisabled(false);
+
+        if (!isVisited) {
+            nextBtn.setDisabled(true);
+        }
+
+        if (hireDialog != null && hasServant(hireDialog.servantName)) {
+            nextBtn.setDisabled(false);
+        }
+
         prevBtn.setDisabled(page == 1);
-        nextBtn.setDisabled(page == 11);
+
+        nextBtn.setVisible(page != 11);
+
 
         progressLabel.setText(servantCount + "/" + servantLimit);
 
@@ -590,14 +595,9 @@ public class ServantsHireImageFragment extends InteractionFragment {
 
         stopEgypt();
 
-        if (hireDialog != null) {
-            hireDialog.destroy();
-            hireDialog = null;
-        }
-        if (completeDialog != null) {
-            completeDialog.destroy();
-            completeDialog = null;
-        }
+        hireDialog.destroy();
+
+        completeDialog.destroy();
 
     }
 
@@ -637,7 +637,20 @@ public class ServantsHireImageFragment extends InteractionFragment {
         style.down = new SpriteDrawable(new Sprite(skipBack));
         style.disabled = new SpriteDrawable(new Sprite(skipBackOff));
 
-        return new ImageButton(style);
+        final ImageButton btn = new ImageButton(style);
+
+        btn.addCaptureListener(new EventListener() {
+            @Override
+            public boolean handle(Event event) {
+                if (btn.isDisabled()) {
+                    event.cancel();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        return btn;
     }
 
 
@@ -650,6 +663,19 @@ public class ServantsHireImageFragment extends InteractionFragment {
         style.down = new SpriteDrawable(new Sprite(skipBack));
         style.disabled = new SpriteDrawable(new Sprite(skipBackOff));
 
-        return new ImageButton(style);
+        final ImageButton btn = new ImageButton(style);
+
+        btn.addCaptureListener(new EventListener() {
+            @Override
+            public boolean handle(Event event) {
+                if (btn.isDisabled()) {
+                    event.cancel();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        return btn;
     }
 }

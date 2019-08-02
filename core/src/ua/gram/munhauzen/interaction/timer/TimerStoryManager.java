@@ -194,6 +194,8 @@ public class TimerStoryManager {
 
         Set<String> inventory = gameScreen.game.inventoryService.getAllInventory();
 
+        if (timerStory.currentScenario == null) return;
+
         for (StoryAudio audio : timerStory.currentScenario.scenario.audio) {
             if (audio.player != null) {
                 audio.player.pause();

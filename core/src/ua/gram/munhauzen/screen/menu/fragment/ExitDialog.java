@@ -83,13 +83,17 @@ public class ExitDialog extends Fragment {
 
                     playYes();
 
-                    if (yesAudio != null)
+                    if (yesAudio == null) {
+                        onYesClicked();
+                    } else {
                         Timer.instance().scheduleTask(new Timer.Task() {
                             @Override
                             public void run() {
-                                Gdx.app.exit();
+                                onYesClicked();
                             }
                         }, yesAudio.duration / 1000f);
+                    }
+
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -110,19 +114,17 @@ public class ExitDialog extends Fragment {
 
                     playNo();
 
-                    if (noAudio != null)
+                    if (noAudio == null) {
+                        onNoClicked();
+                    } else {
                         Timer.instance().scheduleTask(new Timer.Task() {
                             @Override
                             public void run() {
-                                fadeOut(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        destroy();
-                                        screen.exitDialog = null;
-                                    }
-                                });
+                                onNoClicked();
                             }
                         }, noAudio.duration / 1000f);
+                    }
+
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -177,6 +179,20 @@ public class ExitDialog extends Fragment {
         root.addContainer(container);
 
         root.setVisible(false);
+    }
+
+    private void onNoClicked() {
+        fadeOut(new Runnable() {
+            @Override
+            public void run() {
+                destroy();
+                screen.exitDialog = null;
+            }
+        });
+    }
+
+    private void onYesClicked() {
+        Gdx.app.exit();
     }
 
     private void playYes() {

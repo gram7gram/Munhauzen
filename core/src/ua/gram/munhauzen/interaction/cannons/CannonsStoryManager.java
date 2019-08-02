@@ -33,19 +33,55 @@ public class CannonsStoryManager {
 
         reset();
 
+        int wormCount = 0;
+
+        try {
+
+            Inventory burnWorm = InventoryRepository.find(interaction.gameScreen.game.gameState, "BURN_WORM");
+            Inventory floodWorm = InventoryRepository.find(interaction.gameScreen.game.gameState, "FLOOD_WORM");
+            Inventory eatWorm = InventoryRepository.find(interaction.gameScreen.game.gameState, "EAT_WORM");
+            Inventory epydemy = InventoryRepository.find(interaction.gameScreen.game.gameState, "EPYDEMY");
+
+            boolean hasBurnWorm = interaction.gameScreen.game.inventoryService.isInInventory(burnWorm);
+            boolean hasFloodWorm = interaction.gameScreen.game.inventoryService.isInInventory(floodWorm);
+            boolean hasEatWorm = interaction.gameScreen.game.inventoryService.isInInventory(eatWorm);
+
+            if (hasBurnWorm) ++wormCount;
+            if (hasFloodWorm) ++wormCount;
+            if (hasEatWorm) ++wormCount;
+
+            if (wormCount == 3) {
+                interaction.gameScreen.game.inventoryService.addInventory(epydemy);
+            }
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            interaction.gameScreen.onCriticalError(e);
+            return null;
+        }
+
         CannonsStory story = new CannonsStory();
         story.id = StringUtils.cid();
 
-        Log.i(tag, "create from " + begin + " " + story.id);
+        String log = "create from " + begin + " " + story.id;
 
         for (CannonsScenario scenario : interaction.scenarioRegistry) {
             if (scenario.name.equals(begin)) {
-                findNext(scenario, story);
+                findNext(scenario, story, wormCount);
                 break;
             }
         }
 
         story.init();
+
+        for (CannonsStoryScenario scenario : story.scenarios) {
+            log += "\n => " + scenario.scenario.name
+                    + " " + scenario.duration
+                    + " " + scenario.startsAt + " - " + scenario.finishesAt;
+        }
+
+        Log.i(tag, log);
 
         return story;
     }
@@ -66,9 +102,75 @@ public class CannonsStoryManager {
         Log.i(tag, "resume " + story.id);
     }
 
-    private void findNext(CannonsScenario from, CannonsStory story) {
+    private void findNext(CannonsScenario from, CannonsStory story, int wormCount) {
 
         Log.i(tag, "findNext " + from.name + " #" + story.scenarios.size);
+
+        if ("aworm_check_a".equals(from.name)) {
+            String decision;
+
+            switch (wormCount) {
+                case 3:
+                    decision = "aworm_a_170";
+                    break;
+                case 2:
+                    decision = "aworm_a_133";
+                    break;
+                default:
+                    decision = "aworm_a_82";
+            }
+
+            for (CannonsScenario scenario : interaction.scenarioRegistry) {
+                if (scenario.name.equals(decision)) {
+                    findNext(scenario, story, wormCount);
+                    return;
+                }
+            }
+        }
+
+        if ("aworm_check_b".equals(from.name)) {
+            String decision;
+
+            switch (wormCount) {
+                case 3:
+                    decision = "aworm_b_170";
+                    break;
+                case 2:
+                    decision = "aworm_b_133";
+                    break;
+                default:
+                    decision = "aworm_b_82";
+            }
+
+            for (CannonsScenario scenario : interaction.scenarioRegistry) {
+                if (scenario.name.equals(decision)) {
+                    findNext(scenario, story, wormCount);
+                    return;
+                }
+            }
+        }
+
+        if ("aworm_check_c".equals(from.name)) {
+            String decision;
+
+            switch (wormCount) {
+                case 3:
+                    decision = "aworm_c_170";
+                    break;
+                case 2:
+                    decision = "aworm_c_133";
+                    break;
+                default:
+                    decision = "aworm_c_82";
+            }
+
+            for (CannonsScenario scenario : interaction.scenarioRegistry) {
+                if (scenario.name.equals(decision)) {
+                    findNext(scenario, story, wormCount);
+                    return;
+                }
+            }
+        }
 
         CannonsStoryScenario storyScenario = new CannonsStoryScenario(gameScreen.game.gameState);
         storyScenario.scenario = from;
@@ -82,7 +184,7 @@ public class CannonsStoryManager {
                 for (CannonsScenario scenario : interaction.scenarioRegistry) {
                     if (scenario.name.equals(decision.scenario)) {
 
-                        findNext(scenario, story);
+                        findNext(scenario, story, wormCount);
 
                         break;
                     }
@@ -206,89 +308,6 @@ public class CannonsStoryManager {
             return;
         }
 
-        int wormCount = 0;
-
-        try {
-
-            Inventory burnWorm = InventoryRepository.find(interaction.gameScreen.game.gameState, "BURN_WORM");
-            Inventory floodWorm = InventoryRepository.find(interaction.gameScreen.game.gameState, "FLOOD_WORM");
-            Inventory eatWorm = InventoryRepository.find(interaction.gameScreen.game.gameState, "EAT_WORM");
-            Inventory epydemy = InventoryRepository.find(interaction.gameScreen.game.gameState, "EPYDEMY");
-
-            boolean hasBurnWorm = interaction.gameScreen.game.inventoryService.isInInventory(burnWorm);
-            boolean hasFloodWorm = interaction.gameScreen.game.inventoryService.isInInventory(floodWorm);
-            boolean hasEatWorm = interaction.gameScreen.game.inventoryService.isInInventory(eatWorm);
-
-            if (hasBurnWorm) ++wormCount;
-            if (hasFloodWorm) ++wormCount;
-            if (hasEatWorm) ++wormCount;
-
-            if (wormCount == 3) {
-                interaction.gameScreen.game.inventoryService.addInventory(epydemy);
-            }
-
-        } catch (Throwable e) {
-            Log.e(tag, e);
-
-            interaction.gameScreen.onCriticalError(e);
-            return;
-        }
-
-        if ("aworm_check_a".equals(story.currentScenario.scenario.name)) {
-            String decision;
-
-            switch (wormCount) {
-                case 3:
-                    decision = "aworm_a_170";
-                    break;
-                case 2:
-                    decision = "aworm_a_133";
-                    break;
-                default:
-                    decision = "aworm_a_82";
-            }
-
-            redirect(decision);
-            return;
-        }
-
-        if ("aworm_check_b".equals(story.currentScenario.scenario.name)) {
-            String decision;
-
-            switch (wormCount) {
-                case 3:
-                    decision = "aworm_b_170";
-                    break;
-                case 2:
-                    decision = "aworm_b_133";
-                    break;
-                default:
-                    decision = "aworm_b_82";
-            }
-
-            redirect(decision);
-            return;
-        }
-
-        if ("aworm_check_c".equals(story.currentScenario.scenario.name)) {
-            String decision;
-
-            switch (wormCount) {
-                case 3:
-                    decision = "aworm_c_170";
-                    break;
-                case 2:
-                    decision = "aworm_c_133";
-                    break;
-                default:
-                    decision = "aworm_c_82";
-            }
-
-            redirect(decision);
-            return;
-        }
-
-
         ArrayList<Decision> availableDecisions = new ArrayList<>();
         if (story.currentScenario.scenario.decisions != null) {
             for (Decision decision : story.currentScenario.scenario.decisions) {
@@ -321,20 +340,6 @@ public class CannonsStoryManager {
             gameScreen.gameLayers.setStoryDecisionsLayer(
                     interaction.scenarioFragment
             );
-        }
-    }
-
-    private void redirect(String scenario) {
-        try {
-            CannonsStory newStory = interaction.storyManager.create(scenario);
-
-            interaction.storyManager.story = newStory;
-
-            interaction.storyManager.startLoadingResources();
-        } catch (Throwable e) {
-            Log.e(tag, e);
-
-            interaction.gameScreen.onCriticalError(e);
         }
     }
 

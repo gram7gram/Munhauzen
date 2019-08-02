@@ -19,11 +19,10 @@ public class TimerStoryScenario extends StoryMedia<TimerStoryScenario> {
         this.gameState = gameState;
     }
 
-    public void init(final int offset) {
+    public void init() {
         currentImage = null;
         currentAudio = null;
 
-        int imageOffset = offset;
         int size = scenario.images.size;
         int imageDuration = 0;
 
@@ -49,17 +48,13 @@ public class TimerStoryScenario extends StoryMedia<TimerStoryScenario> {
             current.previous = prev;
             current.next = next;
 
-            current.startsAt = imageOffset;
-            current.finishesAt = imageOffset += current.duration;
+            current.startsAt = prev != null ? prev.finishesAt : startsAt;
+            current.finishesAt = current.startsAt + current.duration;
 
             imageDuration += current.duration;
 
-            if (i == size - 1) {
-                current.finishesAt = Math.max(current.finishesAt, duration);
-            }
         }
 
-        int audioOffset = offset;
         size = scenario.audio.size;
         int audioDuration = 0;
 
@@ -88,14 +83,11 @@ public class TimerStoryScenario extends StoryMedia<TimerStoryScenario> {
             current.previous = prev;
             current.next = next;
 
-            current.startsAt = audioOffset;
-            current.finishesAt = audioOffset += current.duration;
+            current.startsAt = prev != null ? prev.finishesAt : startsAt;
+            current.finishesAt = current.startsAt + current.duration;
 
             audioDuration += current.duration;
 
-            if (i == size - 1) {
-                current.finishesAt = Math.max(current.finishesAt, duration);
-            }
         }
 
         duration = Math.max(imageDuration, audioDuration);

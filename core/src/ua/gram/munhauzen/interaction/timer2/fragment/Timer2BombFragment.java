@@ -117,11 +117,15 @@ public class Timer2BombFragment extends Fragment {
 
                     try {
 
+                        Log.i(tag, "redirect to " + interaction.burnScenario);
+
                         Timer2Story newStory = interaction.storyManager.create(interaction.burnScenario);
 
                         interaction.storyManager.timerStory = newStory;
 
                         interaction.storyManager.startLoadingResources();
+
+                        interaction.progressBarFragment.fadeIn();
                     } catch (Throwable e) {
                         Log.e(tag, e);
 

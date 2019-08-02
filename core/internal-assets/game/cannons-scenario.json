@@ -1,13 +1,53 @@
 [
   {
     "isBegin": true,
+    "name": "aworm_interaction_start",
+    "action": "CLICK",
+    "audio": [
+      {
+        "audio": "sworm",
+        "duration": 202000
+      }
+    ],
+    "images": [
+      {
+        "image": "images/pworm_0.jpg",
+        "duration": 126000
+      },
+      {
+        "image": "cannons/inter_cannons_font.jpg",
+        "duration": 76000
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "aworm_a",
+        "order": 1
+      },
+      {
+        "scenario": "aworm_b",
+        "order": 4
+      },
+      {
+        "scenario": "aworm_c",
+        "order": 3
+      },
+      {
+        "scenario": "aworm_d",
+        "order": 2
+      }
+    ],
+    "translations": []
+  },
+  {
     "name": "aworm_interaction_proxy",
     "action": "CLICK",
     "audio": [],
     "images": [
       {
         "image": "cannons/inter_cannons_font.jpg",
-        "duration": 100
+        "withWorms": true,
+        "duration": 500
       }
     ],
     "decisions": [
@@ -127,7 +167,7 @@
         "duration": 5000
       },
       {
-        "image": "cannons/pworm_d.png",
+        "image": "cannons/pworm_d.jpg",
         "duration": 3000
       }
     ],

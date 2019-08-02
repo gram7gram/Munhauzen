@@ -250,6 +250,8 @@ public class TimerScenarioFragment extends Fragment {
 
             interaction.storyManager.startLoadingResources();
 
+            interaction.progressBarFragment.fadeIn();
+
             //let cannon animation complete...
             Timer.schedule(new Timer.Task() {
                 @Override

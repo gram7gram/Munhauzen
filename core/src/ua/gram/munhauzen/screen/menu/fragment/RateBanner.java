@@ -61,7 +61,6 @@ public class RateBanner extends Fragment {
             label.setWrap(true);
 
             content.add(label)
-                    .width(MunhauzenGame.WORLD_WIDTH / 3f)
                     .padBottom(10).growX().row();
         }
 
@@ -83,18 +82,18 @@ public class RateBanner extends Fragment {
         });
 
         content.add(btn)
-                .width(MunhauzenGame.WORLD_WIDTH / 3f)
+                .fillX()
                 .height(MunhauzenGame.WORLD_HEIGHT / 12f)
-                .expandX().row();
+                .row();
 
         FitImage img = new FitImage(
                 screen.assetManager.get("menu/b_rate_2.png", Texture.class)
         );
 
         Table columns = new Table();
-        columns.pad(50, 100, 50, 100);
-        columns.add(content).center().expandX();
-        columns.add(img).width(MunhauzenGame.WORLD_WIDTH * .3f).center().expandX();
+        columns.pad(10, 80, 10, 80);
+        columns.add(content).width(MunhauzenGame.WORLD_WIDTH * .4f).center();
+        columns.add(img).width(MunhauzenGame.WORLD_WIDTH * .3f).center();
 
         columns.setBackground(new SpriteDrawable(new Sprite(
                 screen.assetManager.get("ui/banner_fond_1.png", Texture.class)

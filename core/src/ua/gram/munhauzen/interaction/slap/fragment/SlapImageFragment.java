@@ -1,6 +1,5 @@
 package ua.gram.munhauzen.interaction.slap.fragment;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Interpolation;
@@ -10,20 +9,19 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Timer;
 
-import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.interaction.SlapInteraction;
 import ua.gram.munhauzen.screen.game.fragment.InteractionFragment;
 import ua.gram.munhauzen.ui.FitImage;
+import ua.gram.munhauzen.ui.PrimaryButton;
 import ua.gram.munhauzen.utils.Log;
 
 /**
@@ -47,11 +45,14 @@ public class SlapImageFragment extends InteractionFragment {
 
         Log.i(tag, "create");
 
-        Label header = new Label("Slap him!", new Label.LabelStyle(
-                interaction.gameScreen.game.fontProvider.getFont(FontProvider.h1),
-                Color.BLACK
-        ));
-        header.setAlignment(Align.center);
+        PrimaryButton btn = interaction.gameScreen.game.buttonBuilder.primary("Slap him!", new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                //ignore
+            }
+        });
 
         beforeImg = new FitImage();
         afterImg = new FitImage();
@@ -76,10 +77,13 @@ public class SlapImageFragment extends InteractionFragment {
         doorsTable.setTouchable(Touchable.disabled);
 
         headerTable = new Table();
-        headerTable.setFillParent(true);
-        headerTable.pad(10);
-        headerTable.add(header).top().expand();
         headerTable.setTouchable(Touchable.disabled);
+        headerTable.setFillParent(true);
+        headerTable.pad(10, 10, 50, 10);
+        headerTable.add(btn)
+                .width(MunhauzenGame.WORLD_WIDTH * .3f)
+                .height(MunhauzenGame.WORLD_HEIGHT / 15f)
+                .bottom().expand();
 
         group = new Group();
         group.addActor(beforeTable);
