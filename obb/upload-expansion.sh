@@ -7,6 +7,8 @@ if [[ -z "$VERSION" ]]; then
 	exit
 fi
 
+SERVER=185.227.111.144
+
 VERSION="${VERSION}-en-phone-hdpi"
 
 echo "[+] Uploading version ${VERSION}..."
@@ -23,10 +25,10 @@ cp ./${VERSION}-expansion.json ~/Projects/munhauzen-web/api/src/server/resources
 
 echo "[+] Sync with remote server..."
 
-ssh root@munhauzen.fingertips.cf "mkdir -p /var/www/munhauzen-web/api/public/expansions/${VERSION}"
+ssh root@${SERVER} "mkdir -p /var/www/munhauzen-web/api/public/expansions/${VERSION}"
 
 scp ./${VERSION}/* \
-    root@munhauzen.fingertips.cf:/var/www/munhauzen-web/api/public/expansions/${VERSION}
+    root@${SERVER}:/var/www/munhauzen-web/api/public/expansions/${VERSION}
 
 echo "[+] Deploying json expansion..."
 

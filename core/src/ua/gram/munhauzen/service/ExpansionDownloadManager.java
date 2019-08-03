@@ -73,7 +73,7 @@ public class ExpansionDownloadManager {
     }
 
     public void fetchExpansionPart(final Part part) {
-        Log.i(tag, "fetchExpansionPart part#" + part.part);
+        Log.i(tag, "fetchExpansionPart part#" + part.part + " " + part.url);
 
         final HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
 

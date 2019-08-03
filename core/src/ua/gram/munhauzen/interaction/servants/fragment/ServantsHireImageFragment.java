@@ -243,7 +243,7 @@ public class ServantsHireImageFragment extends InteractionFragment {
 
         boolean hasServant = hasServant("CARPETENER");
 
-        String res = hasServant ? "servants/inter_servants_carpenter_0.jpg" : "servants/inter_servants_carpenter_1.jpg";
+        String res = hasServant ? "images/inter_servants_carpenter_0.jpg" : "images/inter_servants_carpenter_1.jpg";
 
         interaction.assetManager.load(res, Texture.class);
 
@@ -268,7 +268,7 @@ public class ServantsHireImageFragment extends InteractionFragment {
 
         boolean hasServant = hasServant("BLOWER");
 
-        String res = hasServant ? "servants/inter_servants_blower_0.jpg" : "servants/inter_servants_blower_1.jpg";
+        String res = hasServant ? "images/inter_servants_blower_0.jpg" : "images/inter_servants_blower_1.jpg";
 
         interaction.assetManager.load(res, Texture.class);
 
@@ -293,7 +293,7 @@ public class ServantsHireImageFragment extends InteractionFragment {
 
         boolean hasServant = hasServant("SHOOTER");
 
-        String res = hasServant ? "servants/inter_servants_shooter_0.jpg" : "servants/inter_servants_shooter_1.jpg";
+        String res = hasServant ? "images/inter_servants_shooter_0.jpg" : "images/inter_servants_shooter_1.jpg";
 
         interaction.assetManager.load(res, Texture.class);
 
@@ -319,7 +319,7 @@ public class ServantsHireImageFragment extends InteractionFragment {
 
         boolean hasServant = hasServant("LISTENER");
 
-        String res = hasServant ? "servants/inter_servants_listener_0.jpg" : "servants/inter_servants_listener_1.jpg";
+        String res = hasServant ? "images/inter_servants_listener_0.jpg" : "images/inter_servants_listener_1.jpg";
 
         interaction.assetManager.load(res, Texture.class);
 
@@ -345,7 +345,7 @@ public class ServantsHireImageFragment extends InteractionFragment {
 
         boolean hasServant = hasServant("VASILIY");
 
-        String res = hasServant ? "servants/inter_servants_vasiliy_0.jpg" : "servants/inter_servants_vasiliy_1.jpg";
+        String res = hasServant ? "images/inter_servants_vasiliy_0.jpg" : "images/inter_servants_vasiliy_1.jpg";
 
         interaction.assetManager.load(res, Texture.class);
 
@@ -371,7 +371,7 @@ public class ServantsHireImageFragment extends InteractionFragment {
 
         boolean hasServant = hasServant("RUNNER");
 
-        String res = hasServant ? "servants/inter_servants_runner_0.jpg" : "servants/inter_servants_runner_1.jpg";
+        String res = hasServant ? "images/inter_servants_runner_0.jpg" : "images/inter_servants_runner_1.jpg";
 
         interaction.assetManager.load(res, Texture.class);
 
@@ -397,7 +397,7 @@ public class ServantsHireImageFragment extends InteractionFragment {
 
         boolean hasServant = hasServant("JUMPER");
 
-        String res = hasServant ? "servants/inter_servants_jumper_0.jpg" : "servants/inter_servants_jumper_1.jpg";
+        String res = hasServant ? "images/inter_servants_jumper_0.jpg" : "images/inter_servants_jumper_1.jpg";
 
         interaction.assetManager.load(res, Texture.class);
 
@@ -423,7 +423,7 @@ public class ServantsHireImageFragment extends InteractionFragment {
 
         boolean hasServant = hasServant("JOKER");
 
-        String res = hasServant ? "servants/inter_servants_joker_0.jpg" : "servants/inter_servants_joker_1.jpg";
+        String res = hasServant ? "images/inter_servants_joker_0.jpg" : "images/inter_servants_joker_1.jpg";
 
         interaction.assetManager.load(res, Texture.class);
 
@@ -449,7 +449,7 @@ public class ServantsHireImageFragment extends InteractionFragment {
 
         boolean hasServant = hasServant("USURER");
 
-        String res = hasServant ? "servants/inter_servants_usurer_0.jpg" : "servants/inter_servants_usurer_1.jpg";
+        String res = hasServant ? "images/inter_servants_usurer_0.jpg" : "images/inter_servants_usurer_1.jpg";
 
         interaction.assetManager.load(res, Texture.class);
 
@@ -475,7 +475,7 @@ public class ServantsHireImageFragment extends InteractionFragment {
 
         boolean hasServant = hasServant("GIGANT");
 
-        String res = hasServant ? "servants/inter_servants_gigant_0.jpg" : "servants/inter_servants_gigant_1.jpg";
+        String res = hasServant ? "images/inter_servants_gigant_0.jpg" : "images/inter_servants_gigant_1.jpg";
 
         interaction.assetManager.load(res, Texture.class);
 
@@ -497,10 +497,16 @@ public class ServantsHireImageFragment extends InteractionFragment {
 
     private void showEgypt(boolean withAudio) {
 
-        String res = "p0.jpg";
+        unload();
+
+        String res = "images/p41_egypt.jpg";
+
+        interaction.assetManager.load(res, Texture.class);
+
+        interaction.assetManager.finishLoading();
 
         setBackground(
-                interaction.gameScreen.game.assetManager.get(res, Texture.class),
+                interaction.assetManager.get(res, Texture.class),
                 res
         );
 
@@ -553,16 +559,17 @@ public class ServantsHireImageFragment extends InteractionFragment {
     private void unload() {
 
         String[] resources = {
-                "servants/inter_servants_carpenter_0.jpg", "servants/inter_servants_carpenter_1.jpg",
-                "servants/inter_servants_blower_0.jpg", "servants/inter_servants_blower_1.jpg",
-                "servants/inter_servants_shooter_0.jpg", "servants/inter_servants_shooter_1.jpg",
-                "servants/inter_servants_listener_0.jpg", "servants/inter_servants_listener_1.jpg",
-                "servants/inter_servants_vasiliy_0.jpg", "servants/inter_servants_vasiliy_1.jpg",
-                "servants/inter_servants_runner_0.jpg", "servants/inter_servants_runner_1.jpg",
-                "servants/inter_servants_jumper_0.jpg", "servants/inter_servants_jumper_1.jpg",
-                "servants/inter_servants_joker_0.jpg", "servants/inter_servants_joker_1.jpg",
-                "servants/inter_servants_usurer_0.jpg", "servants/inter_servants_usurer_1.jpg",
-                "servants/inter_servants_gigant_0.jpg", "servants/inter_servants_gigant_1.jpg",
+                "images/inter_servants_carpenter_0.jpg", "images/inter_servants_carpenter_1.jpg",
+                "images/inter_servants_blower_0.jpg", "images/inter_servants_blower_1.jpg",
+                "images/inter_servants_shooter_0.jpg", "images/inter_servants_shooter_1.jpg",
+                "images/inter_servants_listener_0.jpg", "images/inter_servants_listener_1.jpg",
+                "images/inter_servants_vasiliy_0.jpg", "images/inter_servants_vasiliy_1.jpg",
+                "images/inter_servants_runner_0.jpg", "images/inter_servants_runner_1.jpg",
+                "images/inter_servants_jumper_0.jpg", "images/inter_servants_jumper_1.jpg",
+                "images/inter_servants_joker_0.jpg", "images/inter_servants_joker_1.jpg",
+                "images/inter_servants_usurer_0.jpg", "images/inter_servants_usurer_1.jpg",
+                "images/inter_servants_gigant_0.jpg", "images/inter_servants_gigant_1.jpg",
+                "images/p41_egypt.jpg"
         };
 
         for (String resource : resources) {
@@ -613,10 +620,10 @@ public class ServantsHireImageFragment extends InteractionFragment {
 
             egyptAudio = new StoryAudio();
             egyptAudio.audio = MathUtils.random(new String[]{
-                    "s41_too_much_1",
-                    "s41_too_much_2",
-                    "s41_too_much_3",
-                    "s41_too_much_4"
+                    "sfx_inter_servants_start_1",
+                    "sfx_inter_servants_start_2",
+                    "sfx_inter_servants_start_3",
+                    "sfx_inter_servants_start_4"
             });
 
             interaction.gameScreen.audioService.prepareAndPlay(egyptAudio);

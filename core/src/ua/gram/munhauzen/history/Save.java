@@ -10,7 +10,6 @@ import ua.gram.munhauzen.entity.Image;
 import ua.gram.munhauzen.entity.ServantsState;
 import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.utils.DateUtils;
-import ua.gram.munhauzen.utils.StringUtils;
 
 /**
  * @author Gram <gram7gram@gmail.com>
@@ -79,8 +78,12 @@ public class Save {
     public ServantsState servantsInteractionState;
 
     public Save() {
+        this("1");
+    }
 
-        id = StringUtils.cid();
+    public Save(String id) {
+
+        this.id = id;
         updatedAt = DateUtils.now();
         order = 0;
         steps = new Stack<>();

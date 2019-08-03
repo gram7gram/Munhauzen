@@ -96,7 +96,7 @@ public class ScenarioFragment extends Fragment {
     @Override
     public void dispose() {
         super.dispose();
-        gameScreen.assetManager.clear();
+
         buttonList.clear();
     }
 

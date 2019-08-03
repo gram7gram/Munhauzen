@@ -393,7 +393,7 @@ public class ControlsFragment extends Fragment {
     @Override
     public void dispose() {
         super.dispose();
-        gameScreen.assetManager.dispose();
+
         menuGroup.remove();
         soundGroup.remove();
     }
