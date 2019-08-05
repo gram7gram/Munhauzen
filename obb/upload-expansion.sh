@@ -21,7 +21,7 @@ cp ./${VERSION}/* /Users/master/Projects/munhauzen-web/api/public/expansions/$VE
 
 cp ./${VERSION}-expansion.json ~/Projects/munhauzen-web/api/src/server/resources/$VERSION-expansion.json
 
-#exit 0;
+exit 0;
 
 echo "[+] Sync with remote server..."
 

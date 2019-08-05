@@ -21,7 +21,6 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.MunhauzenGame;
-import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.ServantsState;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.interaction.ServantsInteraction;
@@ -56,8 +55,6 @@ public class ServantsProgressBarFragment extends Fragment {
 
     public void play(String file) {
 
-        GameState.unpause();
-
         stop();
 
         try {
@@ -75,16 +72,20 @@ public class ServantsProgressBarFragment extends Fragment {
     }
 
     public void stop() {
-        if (audio != null) {
-            gameScreen.audioService.stop(audio);
-            audio = null;
-        }
+        pause();
     }
 
     public void pause() {
         if (audio != null) {
             audio.progress = audio.player.getPosition() * 1000;
             gameScreen.audioService.pause(audio);
+        }
+    }
+
+    public void resume() {
+        if (audio != null) {
+            audio.progress = audio.player.getPosition() * 1000;
+            gameScreen.audioService.playAudio(audio);
         }
     }
 
@@ -172,8 +173,6 @@ public class ServantsProgressBarFragment extends Fragment {
                 try {
                     Log.i(tag, "playButton clicked");
 
-                    GameState.unpause();
-
                     interaction.hireFragment.hireDialog.stopAllAudio();
 
                     gameScreen.audioService.playAudio(audio);
@@ -194,8 +193,6 @@ public class ServantsProgressBarFragment extends Fragment {
                     Log.i(tag, "pauseButton clicked");
 
                     pause();
-
-                    GameState.pause();
 
                     scheduleFadeOut();
                 } catch (Throwable e) {
@@ -242,8 +239,6 @@ public class ServantsProgressBarFragment extends Fragment {
 
                 try {
                     Log.i(tag, "rewindBackButton enter");
-
-                    GameState.unpause();
 
                     progressTask.cancel();
                     progressTask = null;
@@ -297,8 +292,6 @@ public class ServantsProgressBarFragment extends Fragment {
                 try {
                     Log.i(tag, "rewindForwardButton exit");
 
-                    GameState.unpause();
-
                     progressTask.cancel();
                     progressTask = null;
 
@@ -339,8 +332,6 @@ public class ServantsProgressBarFragment extends Fragment {
                 super.touchUp(event, x, y, pointer, button);
 
                 try {
-                    GameState.unpause();
-
                     gameScreen.audioService.playAudio(audio);
 
                     scheduleFadeOut();
@@ -358,8 +349,6 @@ public class ServantsProgressBarFragment extends Fragment {
 
                     float percent = x / totalLength;
 
-                    GameState.pause();
-
                     scrollTo(percent);
 
                 } catch (Throwable e) {
@@ -375,8 +364,6 @@ public class ServantsProgressBarFragment extends Fragment {
                     float totalLength = Math.max(1, bar.getWidth());
 
                     float percent = x / totalLength;
-
-                    GameState.pause();
 
                     scrollTo(percent);
                 } catch (Throwable e) {
@@ -409,8 +396,13 @@ public class ServantsProgressBarFragment extends Fragment {
         if (!isMounted()) return;
 
         boolean hasAudio = audio != null && audio.player != null;
-        int totalDuration = hasAudio && audio.duration > 0 ? audio.duration : 0;
-        int progress = hasAudio ? (int) (audio.player.getPosition() * 1000) : 0;
+
+        root.setVisible(hasAudio);
+
+        if (!hasAudio) return;
+
+        int totalDuration = audio.duration;
+        int progress = (int) (audio.player.getPosition() * 1000);
 
         boolean isCompleted = totalDuration > 0 && progress > 0 && progress >= totalDuration;
 
@@ -418,26 +410,21 @@ public class ServantsProgressBarFragment extends Fragment {
             onComplete();
         }
 
-        if (hasAudio) {
-            interaction.gameScreen.audioService.updateVolume(audio);
-        }
+        interaction.gameScreen.audioService.updateVolume(audio);
 
-        pauseButton.setVisible(hasAudio && audio.player.isPlaying());
-        playButton.setVisible(!hasAudio || !audio.player.isPlaying());
+        pauseButton.setVisible(audio.player.isPlaying());
+        playButton.setVisible(!audio.player.isPlaying());
 
-        pauseButton.setDisabled(!hasAudio);
         pauseButton.setTouchable(pauseButton.isDisabled() ? Touchable.disabled : Touchable.enabled);
 
-        playButton.setDisabled(!hasAudio);
         playButton.setTouchable(playButton.isDisabled() ? Touchable.disabled : Touchable.enabled);
 
-        rewindForwardButton.setDisabled(!hasAudio || isCompleted);
+        rewindForwardButton.setDisabled(isCompleted);
         rewindForwardButton.setTouchable(rewindForwardButton.isDisabled() ? Touchable.disabled : Touchable.enabled);
 
-        rewindBackButton.setDisabled(!hasAudio || progress == 0);
+        rewindBackButton.setDisabled(progress == 0);
         rewindBackButton.setTouchable(rewindBackButton.isDisabled() ? Touchable.disabled : Touchable.enabled);
 
-        bar.setDisabled(!hasAudio);
         bar.setTouchable(bar.isDisabled() ? Touchable.disabled : Touchable.enabled);
 
         bar.setRange(0, totalDuration);
@@ -446,9 +433,10 @@ public class ServantsProgressBarFragment extends Fragment {
 
     private void onComplete() {
 
-        if (GameState.isPaused) return;
+        if (!root.isVisible()) return;
+        if (isFadeOut) return;
 
-        GameState.pause();
+        fadeOut();
 
         ServantsState state = interaction.gameScreen.getActiveSave().servantsInteractionState;
 
@@ -586,7 +574,10 @@ public class ServantsProgressBarFragment extends Fragment {
         isFadeIn = false;
         isFadeOut = false;
 
-        stop();
+        if (audio != null) {
+            gameScreen.audioService.stop(audio);
+            audio = null;
+        }
 
     }
 

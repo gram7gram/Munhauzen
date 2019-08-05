@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const musicData = require('musicmetadata');
+const musicData = require('mp3-duration');
 const wavInfo = require('wav-file-info');
 
 const sources = [
@@ -28,30 +28,32 @@ for (let i = 0; i < sources.length; i++) {
 	for (let j = 0; j < files.length; j++) {
 		const file = files[j]
 
-		const onComplete = (e, metadata) => {
-
-			//console.log('=> parsing ' + file);//, JSON.stringify(metadata))
-
-			if (e) throw e
-
-			const duration = Number((metadata.duration * 1000).toFixed(4))
+		const onComplete = (file, duration) => {
 
 			rows.push([file.split('.')[0], file, duration].join(','))
 
-			fs.writeFile(`./audio-${suffix}.csv`, rows.join("\r\n"), () => {
-				
-			})
+			fs.writeFileSync(`./audio-${suffix}.csv`, rows.join("\r\n"))
 		}
 
 		if (file.indexOf('.wav') !== -1) {
 
-			wavInfo.infoByFilename(dir + '/' + file, onComplete);
+			wavInfo.infoByFilename(dir + '/' + file, (e, metadata) => {
+
+                if (e) throw e
+
+                const duration = Number((metadata.duration * 1000).toFixed(4))
+
+                onComplete(file, duration)
+            });
 
 		} else {
 
-			const audio = fs.createReadStream(dir + '/' + file)
+			musicData(dir + '/' + file, (e, duration) => {
 
-			musicData(audio, {duration: true}, onComplete)
+                if (e) throw e
+
+                onComplete(file, Number((duration * 1000).toFixed(4)))
+			})
 		}
 	}
 }

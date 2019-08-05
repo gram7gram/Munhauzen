@@ -143,15 +143,20 @@ public class ServantsHireImageFragment extends InteractionFragment {
         }
     }
 
-    public void start() {
-
-        page = 1;
+    public void updateServantCount() {
         servantCount = 0;
         for (String name : ServantsFireImageFragment.names) {
             if (hasServant(name)) {
                 servantCount += 1;
             }
         }
+    }
+
+    public void start() {
+
+        page = 1;
+
+        updateServantCount();
 
         showCurrent(true);
     }
@@ -243,7 +248,7 @@ public class ServantsHireImageFragment extends InteractionFragment {
 
         boolean hasServant = hasServant("CARPETENER");
 
-        String res = hasServant ? "images/inter_servants_carpenter_0.jpg" : "images/inter_servants_carpenter_1.jpg";
+        String res = hasServant ? "servants/inter_servants_carpenter_0.jpg" : "servants/inter_servants_carpenter_1.jpg";
 
         interaction.assetManager.load(res, Texture.class);
 
@@ -268,7 +273,7 @@ public class ServantsHireImageFragment extends InteractionFragment {
 
         boolean hasServant = hasServant("BLOWER");
 
-        String res = hasServant ? "images/inter_servants_blower_0.jpg" : "images/inter_servants_blower_1.jpg";
+        String res = hasServant ? "servants/inter_servants_blower_0.jpg" : "servants/inter_servants_blower_1.jpg";
 
         interaction.assetManager.load(res, Texture.class);
 
@@ -293,7 +298,7 @@ public class ServantsHireImageFragment extends InteractionFragment {
 
         boolean hasServant = hasServant("SHOOTER");
 
-        String res = hasServant ? "images/inter_servants_shooter_0.jpg" : "images/inter_servants_shooter_1.jpg";
+        String res = hasServant ? "servants/inter_servants_shooter_0.jpg" : "servants/inter_servants_shooter_1.jpg";
 
         interaction.assetManager.load(res, Texture.class);
 
@@ -319,7 +324,7 @@ public class ServantsHireImageFragment extends InteractionFragment {
 
         boolean hasServant = hasServant("LISTENER");
 
-        String res = hasServant ? "images/inter_servants_listener_0.jpg" : "images/inter_servants_listener_1.jpg";
+        String res = hasServant ? "servants/inter_servants_listener_0.jpg" : "servants/inter_servants_listener_1.jpg";
 
         interaction.assetManager.load(res, Texture.class);
 
@@ -345,7 +350,7 @@ public class ServantsHireImageFragment extends InteractionFragment {
 
         boolean hasServant = hasServant("VASILIY");
 
-        String res = hasServant ? "images/inter_servants_vasiliy_0.jpg" : "images/inter_servants_vasiliy_1.jpg";
+        String res = hasServant ? "servants/inter_servants_vasiliy_0.jpg" : "servants/inter_servants_vasiliy_1.jpg";
 
         interaction.assetManager.load(res, Texture.class);
 
@@ -371,7 +376,7 @@ public class ServantsHireImageFragment extends InteractionFragment {
 
         boolean hasServant = hasServant("RUNNER");
 
-        String res = hasServant ? "images/inter_servants_runner_0.jpg" : "images/inter_servants_runner_1.jpg";
+        String res = hasServant ? "servants/inter_servants_runner_0.jpg" : "servants/inter_servants_runner_1.jpg";
 
         interaction.assetManager.load(res, Texture.class);
 
@@ -397,7 +402,7 @@ public class ServantsHireImageFragment extends InteractionFragment {
 
         boolean hasServant = hasServant("JUMPER");
 
-        String res = hasServant ? "images/inter_servants_jumper_0.jpg" : "images/inter_servants_jumper_1.jpg";
+        String res = hasServant ? "servants/inter_servants_jumper_0.jpg" : "servants/inter_servants_jumper_1.jpg";
 
         interaction.assetManager.load(res, Texture.class);
 
@@ -423,7 +428,7 @@ public class ServantsHireImageFragment extends InteractionFragment {
 
         boolean hasServant = hasServant("JOKER");
 
-        String res = hasServant ? "images/inter_servants_joker_0.jpg" : "images/inter_servants_joker_1.jpg";
+        String res = hasServant ? "servants/inter_servants_joker_0.jpg" : "servants/inter_servants_joker_1.jpg";
 
         interaction.assetManager.load(res, Texture.class);
 
@@ -449,7 +454,7 @@ public class ServantsHireImageFragment extends InteractionFragment {
 
         boolean hasServant = hasServant("USURER");
 
-        String res = hasServant ? "images/inter_servants_usurer_0.jpg" : "images/inter_servants_usurer_1.jpg";
+        String res = hasServant ? "servants/inter_servants_usurer_0.jpg" : "servants/inter_servants_usurer_1.jpg";
 
         interaction.assetManager.load(res, Texture.class);
 
@@ -475,7 +480,7 @@ public class ServantsHireImageFragment extends InteractionFragment {
 
         boolean hasServant = hasServant("GIGANT");
 
-        String res = hasServant ? "images/inter_servants_gigant_0.jpg" : "images/inter_servants_gigant_1.jpg";
+        String res = hasServant ? "servants/inter_servants_gigant_0.jpg" : "servants/inter_servants_gigant_1.jpg";
 
         interaction.assetManager.load(res, Texture.class);
 
@@ -530,6 +535,7 @@ public class ServantsHireImageFragment extends InteractionFragment {
 
         boolean isVisited = hireDialog != null && state.viewedServants.contains(hireDialog.servantName);
 
+        prevBtn.setDisabled(page == 1);
         nextBtn.setDisabled(false);
 
         if (!isVisited) {
@@ -540,10 +546,8 @@ public class ServantsHireImageFragment extends InteractionFragment {
             nextBtn.setDisabled(false);
         }
 
-        prevBtn.setDisabled(page == 1);
-
+        prevBtn.setVisible(page != 1);
         nextBtn.setVisible(page != 11);
-
 
         progressLabel.setText(servantCount + "/" + servantLimit);
 
@@ -559,16 +563,16 @@ public class ServantsHireImageFragment extends InteractionFragment {
     private void unload() {
 
         String[] resources = {
-                "images/inter_servants_carpenter_0.jpg", "images/inter_servants_carpenter_1.jpg",
-                "images/inter_servants_blower_0.jpg", "images/inter_servants_blower_1.jpg",
-                "images/inter_servants_shooter_0.jpg", "images/inter_servants_shooter_1.jpg",
-                "images/inter_servants_listener_0.jpg", "images/inter_servants_listener_1.jpg",
-                "images/inter_servants_vasiliy_0.jpg", "images/inter_servants_vasiliy_1.jpg",
-                "images/inter_servants_runner_0.jpg", "images/inter_servants_runner_1.jpg",
-                "images/inter_servants_jumper_0.jpg", "images/inter_servants_jumper_1.jpg",
-                "images/inter_servants_joker_0.jpg", "images/inter_servants_joker_1.jpg",
-                "images/inter_servants_usurer_0.jpg", "images/inter_servants_usurer_1.jpg",
-                "images/inter_servants_gigant_0.jpg", "images/inter_servants_gigant_1.jpg",
+                "servants/inter_servants_carpenter_0.jpg", "servants/inter_servants_carpenter_1.jpg",
+                "servants/inter_servants_blower_0.jpg", "servants/inter_servants_blower_1.jpg",
+                "servants/inter_servants_shooter_0.jpg", "servants/inter_servants_shooter_1.jpg",
+                "servants/inter_servants_listener_0.jpg", "servants/inter_servants_listener_1.jpg",
+                "servants/inter_servants_vasiliy_0.jpg", "servants/inter_servants_vasiliy_1.jpg",
+                "servants/inter_servants_runner_0.jpg", "servants/inter_servants_runner_1.jpg",
+                "servants/inter_servants_jumper_0.jpg", "servants/inter_servants_jumper_1.jpg",
+                "servants/inter_servants_joker_0.jpg", "servants/inter_servants_joker_1.jpg",
+                "servants/inter_servants_usurer_0.jpg", "servants/inter_servants_usurer_1.jpg",
+                "servants/inter_servants_gigant_0.jpg", "servants/inter_servants_gigant_1.jpg",
                 "images/p41_egypt.jpg"
         };
 

@@ -19,8 +19,8 @@ import com.badlogic.gdx.utils.Align;
 
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
-import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.Inventory;
+import ua.gram.munhauzen.entity.ServantsState;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.interaction.ServantsInteraction;
 import ua.gram.munhauzen.repository.InventoryRepository;
@@ -75,29 +75,34 @@ public class HireDialog extends Fragment {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                yesBtn.setDisabled(true);
-
-                interaction.progressBarFragment.stop();
-
-                interaction.progressBarFragment.fadeOut();
-
-                stopAllAudio();
-
-                playConfirm();
-
                 try {
+                    ServantsState state = interaction.gameScreen.getActiveSave().servantsInteractionState;
+
+                    state.viewedServants.add(servantName);
+
+                    yesBtn.setDisabled(true);
+
+                    interaction.progressBarFragment.stop();
+
+                    interaction.progressBarFragment.fadeOut();
+
+                    stopAllAudio();
+
+                    playConfirm();
+
                     Inventory item = InventoryRepository.find(interaction.gameScreen.game.gameState, servantName);
 
                     interaction.gameScreen.game.inventoryService.addInventory(item);
 
-                    interaction.hireFragment.servantCount += 1;
+                    interaction.hireFragment.updateServantCount();
+
+                    fadeOut();
+
+                    interaction.hireFragment.showCurrent(false);
                 } catch (Throwable e) {
                     Log.e(tag, e);
+                    interaction.gameScreen.onCriticalError(e);
                 }
-
-                fadeOut();
-
-                interaction.hireFragment.showCurrent(false);
             }
         });
 
@@ -106,15 +111,34 @@ public class HireDialog extends Fragment {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                noBtn.setDisabled(true);
+                try {
+                    ServantsState state = interaction.gameScreen.getActiveSave().servantsInteractionState;
 
-                interaction.progressBarFragment.pause();
+                    state.viewedServants.add(servantName);
 
-                stopAllAudio();
+                    noBtn.setDisabled(true);
 
-                playCancel();
+                    interaction.progressBarFragment.pause();
 
-                fadeOut();
+                    stopAllAudio();
+
+                    playCancel();
+
+                    Inventory item = InventoryRepository.find(interaction.gameScreen.game.gameState, servantName);
+
+                    interaction.gameScreen.game.inventoryService.remove(item);
+
+                    interaction.hireFragment.updateServantCount();
+
+                    fadeOut();
+
+                    interaction.hireFragment.showCurrent(false);
+
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+
+                    interaction.gameScreen.onCriticalError(e);
+                }
             }
         });
 
@@ -297,8 +321,6 @@ public class HireDialog extends Fragment {
                 Actions.alpha(0, .3f),
                 Actions.visible(false)
         ));
-
-        GameState.unpause();
     }
 
     private Actor primaryDecision(String text, float buttonBounds) {

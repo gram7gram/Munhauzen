@@ -2,7 +2,6 @@ package ua.gram.munhauzen.interaction;
 
 import com.badlogic.gdx.graphics.Texture;
 
-import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.interaction.servants.fragment.ServantsFireImageFragment;
 import ua.gram.munhauzen.interaction.servants.fragment.ServantsHireImageFragment;
@@ -139,9 +138,7 @@ public class ServantsInteraction extends AbstractInteraction {
         try {
             gameScreen.interactionService.complete();
 
-            Story newStory = gameScreen.storyManager.create("amoon_correct");
-
-            gameScreen.setStory(newStory);
+            gameScreen.interactionService.findStoryAfterInteraction();
 
             gameScreen.restoreProgressBarIfDestroyed();
 
@@ -198,6 +195,6 @@ public class ServantsInteraction extends AbstractInteraction {
     }
 
     public boolean isLimitReached() {
-        return hireFragment.servantCount == hireFragment.servantLimit;
+        return false; //hireFragment.servantCount == hireFragment.servantLimit;
     }
 }
