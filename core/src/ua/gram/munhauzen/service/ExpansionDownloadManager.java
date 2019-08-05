@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Net;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.net.HttpRequestBuilder;
+import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
@@ -20,12 +21,13 @@ import ua.gram.munhauzen.utils.ExternalFiles;
 import ua.gram.munhauzen.utils.Log;
 import ua.gram.munhauzen.utils.MD5;
 
-public class ExpansionDownloadManager {
+public class ExpansionDownloadManager implements Disposable {
 
     final String tag = getClass().getSimpleName();
     final MunhauzenGame game;
     final ControlsFragment fragment;
-    ExpansionResponse expansionResponse;
+    ExpansionResponse localExpansionInfo, serverExpansionInfo;
+    Net.HttpRequest httpRequest;
 
     final Json json;
 
@@ -40,18 +42,14 @@ public class ExpansionDownloadManager {
     public void start() {
         Log.i(tag, "start");
 
-        //restoreFromFile();
+        restoreFromFile();
 
-        if (expansionResponse == null) {
-            fetchExpansionInfo();
-        } else {
-            processAvailablePart();
-        }
+        fetchExpansionInfo();
     }
 
     private void processAvailablePart() {
         Part nextPart = null;
-        for (Part item : expansionResponse.parts.items) {
+        for (Part item : localExpansionInfo.parts.items) {
             if (item.isDownloaded && !item.isExtracted) {
                 nextPart = item;
                 break;
@@ -79,14 +77,9 @@ public class ExpansionDownloadManager {
 
         final FileHandle output = ExternalFiles.getExpansionPartFile(part);
 
-        Gdx.app.postRunnable(new Runnable() {
-            @Override
-            public void run() {
-                fragment.progressLbl.setText("Получение part#" + part.part + "...");
-            }
-        });
+        part.isDownloading = true;
 
-        Net.HttpRequest httpRequest = requestBuilder.newRequest()
+        httpRequest = requestBuilder.newRequest()
                 .method(Net.HttpMethods.GET)
                 .url(part.url)
                 .timeout(10000)
@@ -113,18 +106,12 @@ public class ExpansionDownloadManager {
 
                     part.isDownloaded = true;
 
-                    Gdx.app.postRunnable(new Runnable() {
-                        @Override
-                        public void run() {
-                            onProgressChanged();
-                        }
-                    });
-
                 } catch (Throwable e) {
 
                     cleanup();
 
                     failed(e);
+                    return;
                 }
 
                 extractPart(part);
@@ -135,19 +122,10 @@ public class ExpansionDownloadManager {
                 Log.e(tag, t);
 
                 part.isDownloaded = false;
-
-                Gdx.app.postRunnable(new Runnable() {
-                    @Override
-                    public void run() {
-                        fragment.progressLbl.setText("Скачивание part #" + part.part + " неудачно");
-                        cancel();
-                    }
-                });
+                part.isDownloadFailure = true;
             }
 
             private void cleanup() {
-                Log.i(tag, "Clean up part #" + part.part);
-
                 output.delete();
             }
 
@@ -163,18 +141,13 @@ public class ExpansionDownloadManager {
 
         try {
 
+            part.isExtracting = true;
+
             validateDownloadedPart(part);
 
             new ExtractExpansionPartTask(game).extract(part);
 
             part.isExtracted = true;
-
-            Gdx.app.postRunnable(new Runnable() {
-                @Override
-                public void run() {
-                    onProgressChanged();
-                }
-            });
 
             ExternalFiles.getExpansionPartFile(part).delete();
 
@@ -186,16 +159,8 @@ public class ExpansionDownloadManager {
 
             discardPart(part);
 
-            Gdx.app.postRunnable(new Runnable() {
-                @Override
-                public void run() {
-                    onProgressChanged();
-
-                    fragment.progressLbl.setText("Распаковка part #" + part.part + " неудачна");
-
-                    cancel();
-                }
-            });
+            part.isExtracted = false;
+            part.isExtractFailure = true;
         }
     }
 
@@ -212,13 +177,6 @@ public class ExpansionDownloadManager {
         if (!md5.equals(part.checksum)) {
 
             discardPart(part);
-
-            Gdx.app.postRunnable(new Runnable() {
-                @Override
-                public void run() {
-                    onProgressChanged();
-                }
-            });
 
             throw new GdxRuntimeException("Expansion corrupted");
         }
@@ -246,7 +204,7 @@ public class ExpansionDownloadManager {
             }
         });
 
-        Net.HttpRequest httpRequest = requestBuilder.newRequest()
+        httpRequest = requestBuilder.newRequest()
                 .method(Net.HttpMethods.GET)
                 .url(game.params.getExpansionUrl())
                 .timeout(10000)
@@ -259,30 +217,48 @@ public class ExpansionDownloadManager {
 
                 try {
 
-                    ExternalFiles.getExpansionDir().deleteDirectory();
+                    serverExpansionInfo = json.fromJson(ExpansionResponse.class, httpResponse.getResultAsString());
+                    if (localExpansionInfo != null) {
 
-                    expansionResponse = json.fromJson(ExpansionResponse.class, httpResponse.getResultAsString());
-                    final float sizeMb = (float) (expansionResponse.size / 1024f / 1024f);
+                        for (Part serverPart : serverExpansionInfo.parts.items) {
+                            for (Part localPart : localExpansionInfo.parts.items) {
+                                if (localPart.part == serverPart.part && localPart.checksum.equals(serverPart.checksum)) {
 
-                    Gdx.app.postRunnable(new Runnable() {
-                        @Override
-                        public void run() {
-                            onProgressChanged();
-                        }
-                    });
+                                    serverPart.isDownloaded = localPart.isDownloaded;
+                                    serverPart.isExtracted = localPart.isExtracted;
 
-                    float memory = game.params.memoryUsage.megabytesAvailable();
-                    if (memory > 0) {
-                        if (sizeMb > memory) {
-                            Gdx.app.postRunnable(new Runnable() {
-                                @Override
-                                public void run() {
-                                    onLowMemory();
+                                    if (serverPart.isDownloaded && !serverPart.isExtracted) {
+                                        if (!ExternalFiles.getExpansionPartFile(serverPart).exists()) {
+                                            serverPart.isDownloaded = false;
+                                        }
+                                    }
+
+                                    break;
                                 }
-                            });
-                            return;
+
+                            }
+                        }
+
+                    } else {
+                        ExternalFiles.getExpansionDir().deleteDirectory();
+
+                        final float sizeMb = (float) (serverExpansionInfo.size / 1024f / 1024f);
+
+                        float memory = game.params.memoryUsage.megabytesAvailable();
+                        if (memory > 0) {
+                            if (sizeMb > memory) {
+                                Gdx.app.postRunnable(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        onLowMemory();
+                                    }
+                                });
+                                return;
+                            }
                         }
                     }
+
+                    localExpansionInfo = serverExpansionInfo;
 
                     processAvailablePart();
 
@@ -314,28 +290,33 @@ public class ExpansionDownloadManager {
     private void onLowMemory() {
         Log.i(tag, "onLowMemory");
 
-        cancel();
-
         fragment.progressLbl.setText("Недостаточно памяти для файла расширения");
+        cancel();
     }
 
     private void onComplete() {
         Log.i(tag, "onComplete");
         cancel();
 
+        fragment.expansionLbl.setText("");
         fragment.expansionInfoLbl.setText("");
         fragment.progressLbl.setText("Файл расширения готов к использованию");
 
-        for (Part item : expansionResponse.parts.items) {
-            ExternalFiles.getExpansionPartFile(item).delete();
+        if (localExpansionInfo != null) {
+            for (Part item : localExpansionInfo.parts.items) {
+                ExternalFiles.getExpansionPartFile(item).delete();
+            }
         }
 
         ExternalFiles.updateNomedia();
+
+        localExpansionInfo = null;
     }
 
     public void cancel() {
         fragment.expansionButton.setDisabled(false);
         fragment.expansionInfoLbl.setText("");
+        localExpansionInfo = null;
     }
 
     private void restoreFromFile() {
@@ -346,46 +327,93 @@ public class ExpansionDownloadManager {
         ExpansionResponse result = json.fromJson(ExpansionResponse.class, file.read());
 
         if (result.version == game.params.versionCode) {
-            expansionResponse = result;
-
-            onProgressChanged();
+            localExpansionInfo = result;
         }
 
     }
-
-    private void onProgressChanged() {
-        if (expansionResponse == null) return;
-
-        ExternalFiles.getExpansionInfoFile(game.params)
-                .writeString(json.toJson(expansionResponse), false);
-
-        final float sizeMb = (float) (expansionResponse.size / 1024f / 1024f);
-
-        fragment.expansionLbl.setText("Файл расширения v" + expansionResponse.version
-                + " " + String.format("%.2f", sizeMb) + "MB [" + getProgress() + "%]");
-
-        String progress = "";
-        for (Part item : expansionResponse.parts.items) {
-            progress += "#" + item.part + " [";
-            progress += item.isDownloaded ? "------" : "      ";
-            progress += item.isExtracted ? "------" : "      ";
-            progress += "]\n";
-        }
-
-        fragment.expansionInfoLbl.setText(progress);
-    }
-
 
     private int getProgress() {
-        if (expansionResponse == null) return 0;
+        if (localExpansionInfo == null) return 0;
 
         float downloadedCount = 0, extractedCount = 0;
 
-        for (Part item : expansionResponse.parts.items) {
+        for (Part item : localExpansionInfo.parts.items) {
             if (item.isDownloaded) ++downloadedCount;
             if (item.isExtracted) ++extractedCount;
         }
 
-        return (int) ((downloadedCount / expansionResponse.parts.count + extractedCount / expansionResponse.parts.count) / 2 * 100);
+        return (int) ((downloadedCount / localExpansionInfo.parts.count + extractedCount / localExpansionInfo.parts.count) / 2 * 100);
     }
+
+    public void updateProgress() {
+        if (localExpansionInfo == null) return;
+
+        ExternalFiles.getExpansionInfoFile(game.params)
+                .writeString(json.toJson(localExpansionInfo), false);
+
+        final float sizeMb = (float) (localExpansionInfo.size / 1024f / 1024f);
+
+        int progress = getProgress();
+
+        fragment.expansionLbl.setText("Файл расширения v" + localExpansionInfo.version
+                + " " + String.format("%.2f", sizeMb) + "MB [" + progress + "%]");
+
+        String text = "";
+        String progressText = "";
+        for (Part item : localExpansionInfo.parts.items) {
+
+            if (item.isDownloading) {
+                progressText = "Скачивание part #" + item.part + "...";
+            }
+
+            if (item.isExtracting) {
+                progressText = "Распаковка part #" + item.part + "...";
+            }
+
+            if (item.isDownloadFailure) {
+                progressText = "Скачивание part #" + item.part + " неудачно";
+            }
+
+            if (item.isExtractFailure) {
+                progressText = "Распаковка part #" + item.part + " неудачна";
+            }
+
+            text += "#" + item.part + " [";
+
+            if (item.isDownloaded) {
+                text += "------";
+            } else if (item.isDownloading) {
+                text += "-     ";
+            } else {
+                text += "      ";
+            }
+
+            if (item.isExtracted) {
+                text += "------";
+            } else if (item.isExtracting) {
+                text += "-     ";
+            } else {
+                text += "      ";
+            }
+
+            text += "]\n";
+        }
+
+        fragment.expansionInfoLbl.setText(text);
+        fragment.progressLbl.setText(progressText);
+
+        if (progress == 100) {
+            onComplete();
+        }
+    }
+
+    @Override
+    public void dispose() {
+        if (httpRequest != null) {
+            Gdx.net.cancelHttpRequest(httpRequest);
+            httpRequest = null;
+        }
+
+    }
+
 }

@@ -104,6 +104,23 @@ public class ControlsFragment extends Fragment {
             }
         });
 
+        final Label removeCacheLbl = new Label("[Очистить кеш]", new Label.LabelStyle(
+                game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
+                Color.RED
+        ));
+        removeCacheLbl.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                ExternalFiles.getExpansionInfoFile(game.params).delete();
+                removeCacheLbl.setVisible(false);
+            }
+        });
+        removeCacheLbl.setVisible(
+                ExternalFiles.getExpansionInfoFile(game.params).exists()
+        );
+
         progressLbl = new Label("", new Label.LabelStyle(
                 game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
                 Color.BLUE
@@ -141,12 +158,12 @@ public class ControlsFragment extends Fragment {
                 try {
                     downloader = new ExpansionDownloadManager(game, ControlsFragment.this);
 
-                    Gdx.app.postRunnable(new Runnable() {
+                    new Thread(new Runnable() {
                         @Override
                         public void run() {
                             downloader.start();
                         }
-                    });
+                    }).start();
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -172,6 +189,8 @@ public class ControlsFragment extends Fragment {
                 .width(MunhauzenGame.WORLD_WIDTH * .5f)
                 .height(MunhauzenGame.WORLD_HEIGHT / 15f)
                 .expandX().row();
+        container.add(removeCacheLbl).pad(10).expandX().row();
+
         container.add(expansionLbl).expandX().row();
         container.add(expansionInfoLbl).expandX().row();
         container.add(progressLbl).expandX().row();
@@ -358,8 +377,6 @@ public class ControlsFragment extends Fragment {
                 currentSource = "scenario_2";
 
                 createScenarioTable();
-
-
             }
         });
 
@@ -379,6 +396,10 @@ public class ControlsFragment extends Fragment {
         startButton.setDisabled(!ExternalFiles.getScenarioFile().exists());
 
         upButton.setVisible(scroll.getScrollY() > 0);
+
+        if (downloader != null) {
+            downloader.updateProgress();
+        }
     }
 
     @Override
@@ -525,4 +546,13 @@ public class ControlsFragment extends Fragment {
 
     }
 
+    @Override
+    public void dispose() {
+        super.dispose();
+
+        if (downloader != null) {
+            downloader.dispose();
+            downloader = null;
+        }
+    }
 }
