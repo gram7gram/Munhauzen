@@ -26,7 +26,7 @@
       },
       {
         "scenario": "aworm_b",
-        "order": 4
+        "order": 2
       },
       {
         "scenario": "aworm_c",
@@ -34,7 +34,7 @@
       },
       {
         "scenario": "aworm_d",
-        "order": 2
+        "order": 4
       }
     ],
     "translations": []
@@ -57,7 +57,7 @@
       },
       {
         "scenario": "aworm_b",
-        "order": 4
+        "order": 2
       },
       {
         "scenario": "aworm_c",
@@ -65,7 +65,7 @@
       },
       {
         "scenario": "aworm_d",
-        "order": 2
+        "order": 4
       }
     ],
     "translations": []
@@ -99,7 +99,6 @@
     ]
   },
   {
-    "isExit": true,
     "name": "aworm_b",
     "action": "GOTO",
     "audio": [
@@ -115,11 +114,15 @@
         "duration": 5000
       }
     ],
-    "decisions": [],
+    "decisions": [
+      {
+        "scenario": "aworm_check_d"
+      }
+    ],
     "translations": [
       {
         "locale": "en",
-        "text": "Made a poison"
+        "text": "Flooded it"
       }
     ]
   },
@@ -152,8 +155,8 @@
     ]
   },
   {
+    "isExit": true,
     "name": "aworm_d",
-    "action": "GOTO",
     "audio": [
       {
         "audio": "sworm_d",
@@ -167,19 +170,15 @@
         "duration": 5000
       },
       {
-        "image": "cannons/pworm_d.jpg",
+        "image": "images/pworm_d.jpg",
         "duration": 3000
       }
     ],
-    "decisions": [
-      {
-        "scenario": "aworm_check_d"
-      }
-    ],
+    "decisions": [],
     "translations": [
       {
         "locale": "en",
-        "text": "Flooded it"
+        "text": "Made a poison"
       }
     ]
   },
@@ -201,6 +200,14 @@
   },
   {
     "name": "aworm_check_c",
+    "action": "GOTO",
+    "audio": [],
+    "images": [],
+    "decisions": [],
+    "translations": []
+  },
+  {
+    "name": "aworm_check_d",
     "action": "GOTO",
     "audio": [],
     "images": [],

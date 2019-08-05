@@ -128,28 +128,6 @@ public class CannonsStoryManager {
             }
         }
 
-        if ("aworm_check_b".equals(from.name)) {
-            String decision;
-
-            switch (wormCount) {
-                case 3:
-                    decision = "aworm_b_170";
-                    break;
-                case 2:
-                    decision = "aworm_b_133";
-                    break;
-                default:
-                    decision = "aworm_b_82";
-            }
-
-            for (CannonsScenario scenario : interaction.scenarioRegistry) {
-                if (scenario.name.equals(decision)) {
-                    findNext(scenario, story, wormCount);
-                    return;
-                }
-            }
-        }
-
         if ("aworm_check_c".equals(from.name)) {
             String decision;
 
@@ -162,6 +140,28 @@ public class CannonsStoryManager {
                     break;
                 default:
                     decision = "aworm_c_82";
+            }
+
+            for (CannonsScenario scenario : interaction.scenarioRegistry) {
+                if (scenario.name.equals(decision)) {
+                    findNext(scenario, story, wormCount);
+                    return;
+                }
+            }
+        }
+
+        if ("aworm_check_d".equals(from.name)) {
+            String decision;
+
+            switch (wormCount) {
+                case 3:
+                    decision = "aworm_d_170";
+                    break;
+                case 2:
+                    decision = "aworm_d_133";
+                    break;
+                default:
+                    decision = "aworm_d_82";
             }
 
             for (CannonsScenario scenario : interaction.scenarioRegistry) {

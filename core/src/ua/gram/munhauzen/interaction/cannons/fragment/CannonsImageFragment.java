@@ -130,6 +130,10 @@ public class CannonsImageFragment extends InteractionFragment {
                 }
 
 
+            } else {
+                floodWorm.remove();
+                eatWorm.remove();
+                burnWorm.remove();
             }
         }
 
