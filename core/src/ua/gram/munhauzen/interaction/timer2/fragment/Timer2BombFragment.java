@@ -79,9 +79,15 @@ public class Timer2BombFragment extends Fragment {
 
         Log.i(tag, "failed");
 
+        GameState.pause();
+
         try {
 
             root.setTouchable(Touchable.disabled);
+
+            interaction.storyManager.reset();
+
+            interaction.gameScreen.audioService.stop();
 
             stopTimer();
 

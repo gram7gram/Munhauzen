@@ -135,8 +135,9 @@ public class GameAudioService implements Disposable {
 //        });
 
         item.player.play();
-
-        activeAudio.put(item.audio, item);
+        synchronized (activeAudio) {
+            activeAudio.put(item.audio, item);
+        }
     }
 
     public void onPrepared(StoryAudio item) {
@@ -175,7 +176,9 @@ public class GameAudioService implements Disposable {
             item.isActive = true;
             item.player.play();
 
-            activeAudio.put(item.audio, item);
+            synchronized (activeAudio) {
+                activeAudio.put(item.audio, item);
+            }
 
         } catch (Throwable e) {
             Log.e(tag, e);
@@ -210,7 +213,9 @@ public class GameAudioService implements Disposable {
             storyAudio.isLocked = false;
             storyAudio.player = null;
 
-            activeAudio.remove(storyAudio.audio);
+            synchronized (activeAudio) {
+                activeAudio.remove(storyAudio.audio);
+            }
 
         } catch (Throwable e) {
             Log.e(tag, e);
@@ -229,11 +234,13 @@ public class GameAudioService implements Disposable {
                 }
             }
 
-            for (StoryAudio audio : activeAudio.values()) {
-                stop(audio);
-            }
+            synchronized (activeAudio) {
+                for (StoryAudio audio : activeAudio.values()) {
+                    stop(audio);
+                }
 
-            activeAudio.clear();
+                activeAudio.clear();
+            }
 
         } catch (Throwable e) {
             Log.e(tag, e);
@@ -252,8 +259,10 @@ public class GameAudioService implements Disposable {
                 }
             }
 
-            for (StoryAudio audio : activeAudio.values()) {
-                pause(audio);
+            synchronized (activeAudio) {
+                for (StoryAudio audio : activeAudio.values()) {
+                    pause(audio);
+                }
             }
 
         } catch (Throwable e) {
@@ -302,10 +311,12 @@ public class GameAudioService implements Disposable {
                 }
             }
 
-            for (StoryAudio audio : activeAudio.values()) {
-                if (audio.player != null) {
-                    if (audio.player.getVolume() != volume) {
-                        audio.player.setVolume(volume);
+            synchronized (activeAudio) {
+                for (StoryAudio audio : activeAudio.values()) {
+                    if (audio.player != null) {
+                        if (audio.player.getVolume() != volume) {
+                            audio.player.setVolume(volume);
+                        }
                     }
                 }
             }
