@@ -131,18 +131,6 @@ public class ServantsHireImageFragment extends InteractionFragment {
         start();
     }
 
-    public void toggleHireDialog() {
-        if (completeDialog.isMounted()) return;
-
-        if (!hireDialog.isMounted()) return;
-
-        if (!hireDialog.root.isVisible()) {
-            hireDialog.fadeIn();
-        } else {
-            hireDialog.fadeOut();
-        }
-    }
-
     public void updateServantCount() {
         servantCount = 0;
         for (String name : ServantsFireImageFragment.names) {

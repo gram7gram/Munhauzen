@@ -195,6 +195,6 @@ public class ServantsInteraction extends AbstractInteraction {
     }
 
     public boolean isLimitReached() {
-        return false; //hireFragment.servantCount == hireFragment.servantLimit;
+        return hireFragment.servantCount == hireFragment.servantLimit;
     }
 }

@@ -72,18 +72,21 @@ public class ServantsProgressBarFragment extends Fragment {
     }
 
     public void stop() {
-        pause();
+        if (audio != null) {
+            gameScreen.audioService.stop(audio);
+            audio = null;
+        }
     }
 
     public void pause() {
-        if (audio != null) {
+        if (audio != null && audio.player != null) {
             audio.progress = audio.player.getPosition() * 1000;
             gameScreen.audioService.pause(audio);
         }
     }
 
     public void resume() {
-        if (audio != null) {
+        if (audio != null && audio.player != null) {
             audio.progress = audio.player.getPosition() * 1000;
             gameScreen.audioService.playAudio(audio);
         }
@@ -175,7 +178,7 @@ public class ServantsProgressBarFragment extends Fragment {
 
                     interaction.hireFragment.hireDialog.stopAllAudio();
 
-                    gameScreen.audioService.playAudio(audio);
+                    resume();
 
                     scheduleFadeOut();
                 } catch (Throwable e) {
@@ -384,6 +387,8 @@ public class ServantsProgressBarFragment extends Fragment {
 
         root.setName(tag);
 
+        root.setVisible(false);
+
         scheduleFadeOut();
     }
 
@@ -397,7 +402,7 @@ public class ServantsProgressBarFragment extends Fragment {
 
         boolean hasAudio = audio != null && audio.player != null;
 
-        root.setVisible(hasAudio);
+        stack.setVisible(hasAudio);
 
         if (!hasAudio) return;
 
@@ -408,6 +413,7 @@ public class ServantsProgressBarFragment extends Fragment {
 
         if (isCompleted) {
             onComplete();
+            return;
         }
 
         interaction.gameScreen.audioService.updateVolume(audio);
@@ -433,8 +439,12 @@ public class ServantsProgressBarFragment extends Fragment {
 
     private void onComplete() {
 
-        if (!root.isVisible()) return;
-        if (isFadeOut) return;
+        Log.i(tag, "onComplete");
+
+        if (audio != null) {
+            gameScreen.audioService.stop(audio);
+            audio = null;
+        }
 
         fadeOut();
 
@@ -442,11 +452,7 @@ public class ServantsProgressBarFragment extends Fragment {
 
         state.viewedServants.add(interaction.hireFragment.hireDialog.servantName);
 
-        if (!interaction.hireFragment.hireDialog.root.isVisible()) {
-            if (!interaction.hireFragment.hireDialog.isFadeIn) {
-                interaction.hireFragment.hireDialog.fadeIn();
-            }
-        }
+        interaction.hireFragment.hireDialog.fadeIn();
     }
 
     public void fadeIn() {
@@ -483,36 +489,6 @@ public class ServantsProgressBarFragment extends Fragment {
         return isMounted() && root.isVisible() && !isFadeOut;
     }
 
-    public void fadeOut(Runnable task) {
-
-        if (!canFadeOut()) return;
-
-        isFadeIn = false;
-        isFadeOut = true;
-
-        Log.i(tag, "fadeOut");
-
-        root.clearActions();
-        root.addAction(
-                Actions.sequence(
-                        Actions.parallel(
-                                Actions.fadeOut(.5f),
-                                Actions.moveTo(0, -40, .5f)
-                        ),
-                        Actions.run(new Runnable() {
-                            @Override
-                            public void run() {
-                                root.setVisible(false);
-
-                                isFadeIn = false;
-                                isFadeOut = false;
-                            }
-                        }),
-                        Actions.run(task)
-                )
-        );
-    }
-
     public void fadeOut() {
 
         if (!canFadeOut()) return;
@@ -520,8 +496,6 @@ public class ServantsProgressBarFragment extends Fragment {
         isFadeIn = false;
         isFadeOut = true;
 
-        Log.i(tag, "fadeOut");
-
         root.clearActions();
         root.addAction(
                 Actions.sequence(
@@ -529,11 +503,10 @@ public class ServantsProgressBarFragment extends Fragment {
                                 Actions.fadeOut(.5f),
                                 Actions.moveTo(0, -40, .5f)
                         ),
+                        Actions.visible(false),
                         Actions.run(new Runnable() {
                             @Override
                             public void run() {
-                                root.setVisible(false);
-
                                 isFadeIn = false;
                                 isFadeOut = false;
                             }

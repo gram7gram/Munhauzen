@@ -193,13 +193,13 @@ public class ServantsFireImageFragment extends InteractionFragment {
                     switch (item.name) {
                         case "CARPETENER":
 
-                            interaction.assetManager.load("images/inter_servants_carpenter_2.png", Texture.class);
-                            interaction.assetManager.load("images/inter_servants_carpenter_2_off.png", Texture.class);
+                            interaction.assetManager.load("servants/inter_servants_carpenter_2.png", Texture.class);
+                            interaction.assetManager.load("servants/inter_servants_carpenter_2_off.png", Texture.class);
 
                             interaction.assetManager.finishLoading();
 
-                            on = interaction.assetManager.get("images/inter_servants_carpenter_2.png", Texture.class);
-                            off = interaction.assetManager.get("images/inter_servants_carpenter_2_off.png", Texture.class);
+                            on = interaction.assetManager.get("servants/inter_servants_carpenter_2.png", Texture.class);
+                            off = interaction.assetManager.get("servants/inter_servants_carpenter_2_off.png", Texture.class);
 
                             hiredServant = new CarpetenerServant(on, off);
                             hiredServant.init();
@@ -207,13 +207,13 @@ public class ServantsFireImageFragment extends InteractionFragment {
                             break;
                         case "BLOWER":
 
-                            interaction.assetManager.load("images/inter_servants_blower_2.png", Texture.class);
-                            interaction.assetManager.load("images/inter_servants_blower_2_off.png", Texture.class);
+                            interaction.assetManager.load("servants/inter_servants_blower_2.png", Texture.class);
+                            interaction.assetManager.load("servants/inter_servants_blower_2_off.png", Texture.class);
 
                             interaction.assetManager.finishLoading();
 
-                            on = interaction.assetManager.get("images/inter_servants_blower_2.png", Texture.class);
-                            off = interaction.assetManager.get("images/inter_servants_blower_2_off.png", Texture.class);
+                            on = interaction.assetManager.get("servants/inter_servants_blower_2.png", Texture.class);
+                            off = interaction.assetManager.get("servants/inter_servants_blower_2_off.png", Texture.class);
 
                             hiredServant = new BlowerServant(on, off);
                             hiredServant.init();
@@ -221,13 +221,13 @@ public class ServantsFireImageFragment extends InteractionFragment {
                             break;
                         case "SHOOTER":
 
-                            interaction.assetManager.load("images/inter_servants_shooter_2.png", Texture.class);
-                            interaction.assetManager.load("images/inter_servants_shooter_2_off.png", Texture.class);
+                            interaction.assetManager.load("servants/inter_servants_shooter_2.png", Texture.class);
+                            interaction.assetManager.load("servants/inter_servants_shooter_2_off.png", Texture.class);
 
                             interaction.assetManager.finishLoading();
 
-                            on = interaction.assetManager.get("images/inter_servants_shooter_2.png", Texture.class);
-                            off = interaction.assetManager.get("images/inter_servants_shooter_2_off.png", Texture.class);
+                            on = interaction.assetManager.get("servants/inter_servants_shooter_2.png", Texture.class);
+                            off = interaction.assetManager.get("servants/inter_servants_shooter_2_off.png", Texture.class);
 
                             hiredServant = new ShooterServant(on, off);
                             hiredServant.init();
@@ -235,13 +235,13 @@ public class ServantsFireImageFragment extends InteractionFragment {
                             break;
                         case "LISTENER":
 
-                            interaction.assetManager.load("images/inter_servants_listener_2.png", Texture.class);
-                            interaction.assetManager.load("images/inter_servants_listener_2_off.png", Texture.class);
+                            interaction.assetManager.load("servants/inter_servants_listener_2.png", Texture.class);
+                            interaction.assetManager.load("servants/inter_servants_listener_2_off.png", Texture.class);
 
                             interaction.assetManager.finishLoading();
 
-                            on = interaction.assetManager.get("images/inter_servants_listener_2.png", Texture.class);
-                            off = interaction.assetManager.get("images/inter_servants_listener_2_off.png", Texture.class);
+                            on = interaction.assetManager.get("servants/inter_servants_listener_2.png", Texture.class);
+                            off = interaction.assetManager.get("servants/inter_servants_listener_2_off.png", Texture.class);
 
                             hiredServant = new ListenerServant(on, off);
                             hiredServant.init();
@@ -249,78 +249,78 @@ public class ServantsFireImageFragment extends InteractionFragment {
                             break;
                         case "VASILIY":
 
-                            interaction.assetManager.load("images/inter_servants_vasiliy_2.png", Texture.class);
-                            interaction.assetManager.load("images/inter_servants_vasiliy_2_off.png", Texture.class);
+                            interaction.assetManager.load("servants/inter_servants_vasiliy_2.png", Texture.class);
+                            interaction.assetManager.load("servants/inter_servants_vasiliy_2_off.png", Texture.class);
 
                             interaction.assetManager.finishLoading();
 
-                            on = interaction.assetManager.get("images/inter_servants_vasiliy_2.png", Texture.class);
-                            off = interaction.assetManager.get("images/inter_servants_vasiliy_2_off.png", Texture.class);
+                            on = interaction.assetManager.get("servants/inter_servants_vasiliy_2.png", Texture.class);
+                            off = interaction.assetManager.get("servants/inter_servants_vasiliy_2_off.png", Texture.class);
 
                             hiredServant = new VasiliyServant(on, off);
                             hiredServant.init();
 
                             break;
                         case "RUNNER":
-                            interaction.assetManager.load("images/inter_servants_runner_2.png", Texture.class);
-                            interaction.assetManager.load("images/inter_servants_runner_2_off.png", Texture.class);
+                            interaction.assetManager.load("servants/inter_servants_runner_2.png", Texture.class);
+                            interaction.assetManager.load("servants/inter_servants_runner_2_off.png", Texture.class);
 
                             interaction.assetManager.finishLoading();
 
-                            on = interaction.assetManager.get("images/inter_servants_runner_2.png", Texture.class);
-                            off = interaction.assetManager.get("images/inter_servants_runner_2_off.png", Texture.class);
+                            on = interaction.assetManager.get("servants/inter_servants_runner_2.png", Texture.class);
+                            off = interaction.assetManager.get("servants/inter_servants_runner_2_off.png", Texture.class);
 
                             hiredServant = new RunnerServant(on, off);
                             hiredServant.init();
 
                             break;
                         case "JUMPER":
-                            interaction.assetManager.load("images/inter_servants_jumper_2.png", Texture.class);
-                            interaction.assetManager.load("images/inter_servants_jumper_2_off.png", Texture.class);
+                            interaction.assetManager.load("servants/inter_servants_jumper_2.png", Texture.class);
+                            interaction.assetManager.load("servants/inter_servants_jumper_2_off.png", Texture.class);
 
                             interaction.assetManager.finishLoading();
 
-                            on = interaction.assetManager.get("images/inter_servants_jumper_2.png", Texture.class);
-                            off = interaction.assetManager.get("images/inter_servants_jumper_2_off.png", Texture.class);
+                            on = interaction.assetManager.get("servants/inter_servants_jumper_2.png", Texture.class);
+                            off = interaction.assetManager.get("servants/inter_servants_jumper_2_off.png", Texture.class);
 
                             hiredServant = new JumperServant(on, off);
                             hiredServant.init();
 
                             break;
                         case "JOKER":
-                            interaction.assetManager.load("images/inter_servants_joker_2.png", Texture.class);
-                            interaction.assetManager.load("images/inter_servants_joker_2_off.png", Texture.class);
+                            interaction.assetManager.load("servants/inter_servants_joker_2.png", Texture.class);
+                            interaction.assetManager.load("servants/inter_servants_joker_2_off.png", Texture.class);
 
                             interaction.assetManager.finishLoading();
 
-                            on = interaction.assetManager.get("images/inter_servants_joker_2.png", Texture.class);
-                            off = interaction.assetManager.get("images/inter_servants_joker_2_off.png", Texture.class);
+                            on = interaction.assetManager.get("servants/inter_servants_joker_2.png", Texture.class);
+                            off = interaction.assetManager.get("servants/inter_servants_joker_2_off.png", Texture.class);
 
                             hiredServant = new JokerServant(on, off);
                             hiredServant.init();
 
                             break;
                         case "USURER":
-                            interaction.assetManager.load("images/inter_servants_usurer_2.png", Texture.class);
-                            interaction.assetManager.load("images/inter_servants_usurer_2_off.png", Texture.class);
+                            interaction.assetManager.load("servants/inter_servants_usurer_2.png", Texture.class);
+                            interaction.assetManager.load("servants/inter_servants_usurer_2_off.png", Texture.class);
 
                             interaction.assetManager.finishLoading();
 
-                            on = interaction.assetManager.get("images/inter_servants_usurer_2.png", Texture.class);
-                            off = interaction.assetManager.get("images/inter_servants_usurer_2_off.png", Texture.class);
+                            on = interaction.assetManager.get("servants/inter_servants_usurer_2.png", Texture.class);
+                            off = interaction.assetManager.get("servants/inter_servants_usurer_2_off.png", Texture.class);
 
                             hiredServant = new UsurperServant(on, off);
                             hiredServant.init();
 
                             break;
                         case "GIGANT":
-                            interaction.assetManager.load("images/inter_servants_gigant_2.png", Texture.class);
-                            interaction.assetManager.load("images/inter_servants_gigant_2_off.png", Texture.class);
+                            interaction.assetManager.load("servants/inter_servants_gigant_2.png", Texture.class);
+                            interaction.assetManager.load("servants/inter_servants_gigant_2_off.png", Texture.class);
 
                             interaction.assetManager.finishLoading();
 
-                            on = interaction.assetManager.get("images/inter_servants_gigant_2.png", Texture.class);
-                            off = interaction.assetManager.get("images/inter_servants_gigant_2_off.png", Texture.class);
+                            on = interaction.assetManager.get("servants/inter_servants_gigant_2.png", Texture.class);
+                            off = interaction.assetManager.get("servants/inter_servants_gigant_2_off.png", Texture.class);
 
                             hiredServant = new GigantServant(on, off);
                             hiredServant.init();

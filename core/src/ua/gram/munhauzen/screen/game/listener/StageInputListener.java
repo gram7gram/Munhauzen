@@ -21,7 +21,6 @@ import ua.gram.munhauzen.interaction.generals.fragment.GeneralsScenarioFragment;
 import ua.gram.munhauzen.interaction.hare.fragment.HareProgressBarFragment;
 import ua.gram.munhauzen.interaction.hare.fragment.HareScenarioFragment;
 import ua.gram.munhauzen.interaction.picture.fragment.PictureProgressBarFragment;
-import ua.gram.munhauzen.interaction.servants.fragment.ServantsHireImageFragment;
 import ua.gram.munhauzen.interaction.servants.fragment.ServantsProgressBarFragment;
 import ua.gram.munhauzen.interaction.timer.fragment.TimerProgressBarFragment;
 import ua.gram.munhauzen.interaction.timer.fragment.TimerScenarioFragment;
@@ -301,19 +300,11 @@ public class StageInputListener extends ClickListener {
                 }
 
                 if (storyInteraction.interaction instanceof ServantsInteraction) {
-                    ServantsHireImageFragment hireImageFragment = ((ServantsInteraction) storyInteraction.interaction).hireFragment;
-
-                    if (hireImageFragment != null) {
-                        if (hireImageFragment.isMounted()) {
-                            hireImageFragment.toggleHireDialog();
-                        }
-                    }
-
                     ServantsProgressBarFragment barFragment = ((ServantsInteraction) storyInteraction.interaction).progressBarFragment;
 
                     if (barFragment != null) {
-                        if (barFragment.isMounted() && barFragment.audio != null) {
-                            if (!barFragment.getRoot().isVisible()) {
+                        if (barFragment.isMounted()) {
+                            if (!barFragment.root.isVisible()) {
                                 if (!barFragment.isFadeIn) {
                                     barFragment.fadeIn();
                                     barFragment.scheduleFadeOut();

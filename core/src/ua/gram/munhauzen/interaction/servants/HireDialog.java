@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
@@ -47,6 +48,7 @@ public class HireDialog extends Fragment {
     StoryAudio muchAudio, confirmAudio, cancelAudio;
     public String servantName;
     public boolean isFadeIn;
+    Timer.Task nextTask;
 
     public HireDialog(ServantsInteraction interaction) {
         this.game = interaction.gameScreen.game;
@@ -82,11 +84,11 @@ public class HireDialog extends Fragment {
 
                     yesBtn.setDisabled(true);
 
-                    interaction.progressBarFragment.stop();
-
                     interaction.progressBarFragment.fadeOut();
 
                     stopAllAudio();
+
+                    gameScreen.audioService.stop();
 
                     playConfirm();
 
@@ -99,6 +101,14 @@ public class HireDialog extends Fragment {
                     fadeOut();
 
                     interaction.hireFragment.showCurrent(false);
+
+                    nextTask = Timer.instance().scheduleTask(new Timer.Task() {
+                        @Override
+                        public void run() {
+                            interaction.hireFragment.next();
+                        }
+                    }, confirmAudio.duration / 1000f);
+
                 } catch (Throwable e) {
                     Log.e(tag, e);
                     interaction.gameScreen.onCriticalError(e);
@@ -118,9 +128,9 @@ public class HireDialog extends Fragment {
 
                     noBtn.setDisabled(true);
 
-                    interaction.progressBarFragment.pause();
-
                     stopAllAudio();
+
+                    gameScreen.audioService.stop();
 
                     playCancel();
 
@@ -133,6 +143,13 @@ public class HireDialog extends Fragment {
                     fadeOut();
 
                     interaction.hireFragment.showCurrent(false);
+
+                    nextTask = Timer.instance().scheduleTask(new Timer.Task() {
+                        @Override
+                        public void run() {
+                            interaction.hireFragment.next();
+                        }
+                    }, cancelAudio.duration / 1000f);
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -441,6 +458,11 @@ public class HireDialog extends Fragment {
         super.dispose();
 
         stopAllAudio();
+
+        if (nextTask != null) {
+            nextTask.cancel();
+            nextTask = null;
+        }
 
     }
 }
