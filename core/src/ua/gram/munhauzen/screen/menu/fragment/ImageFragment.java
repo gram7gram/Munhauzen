@@ -143,7 +143,7 @@ public class ImageFragment extends Fragment {
         try {
             Inventory item = InventoryRepository.find(screen.game.gameState, name);
 
-            return true;//screen.game.inventoryService.isInInventory(item);
+            return screen.game.inventoryService.isInInventory(item);
         } catch (Throwable e) {
             Log.e(tag, e);
         }
