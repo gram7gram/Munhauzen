@@ -259,7 +259,7 @@ public class ExpansionDownloadManager {
 
                 try {
 
-                    //ExternalFiles.getExpansionDir().deleteDirectory();
+                    ExternalFiles.getExpansionDir().deleteDirectory();
 
                     expansionResponse = json.fromJson(ExpansionResponse.class, httpResponse.getResultAsString());
                     final float sizeMb = (float) (expansionResponse.size / 1024f / 1024f);

@@ -2,8 +2,6 @@ package ua.gram.munhauzen.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.MunhauzenGame;
@@ -15,6 +13,7 @@ import ua.gram.munhauzen.screen.menu.fragment.ImageFragment;
 import ua.gram.munhauzen.screen.menu.fragment.ProBanner;
 import ua.gram.munhauzen.screen.menu.fragment.RateBanner;
 import ua.gram.munhauzen.screen.menu.fragment.ShareBanner;
+import ua.gram.munhauzen.screen.menu.listenter.MenuStageListener;
 import ua.gram.munhauzen.screen.menu.ui.MenuLayers;
 import ua.gram.munhauzen.service.AudioService;
 import ua.gram.munhauzen.utils.Log;
@@ -83,24 +82,7 @@ public class MenuScreen extends AbstractScreen {
 
         layers.setBackgroundLayer(imageFragment);
 
-        ui.addListener(new ActorGestureListener() {
-            @Override
-            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                super.touchDown(event, x, y, pointer, button);
-
-                Log.i(tag, "ui clicked");
-
-                try {
-
-                    if (controlsFragment != null) {
-                        controlsFragment.scheduleFadeOut();
-                    }
-
-                } catch (Throwable e) {
-                    Log.e(tag, e);
-                }
-            }
-        });
+        ui.addListener(new MenuStageListener(this));
 
         Gdx.input.setInputProcessor(ui);
 

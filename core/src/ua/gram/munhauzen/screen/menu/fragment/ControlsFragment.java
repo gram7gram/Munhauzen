@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
@@ -40,9 +41,9 @@ public class ControlsFragment extends Fragment {
     public FragmentRoot root;
     public MenuButton startButton, continueButton, savesButton, galleryButton, foolsButton, chronoButton;
     Table btnTable, sideTable, logoTable;
-    Container<Table> sideContainer, menuContainer, exitContainer, titleContainer;
+    Container<Table> sideContainer, exitContainer, titleContainer;
     Timer.Task fadeTask;
-    boolean isFadeIn, isFadeOut;
+    public boolean isFadeIn, isFadeOut, isVisible;
     Image logo;
 
     public ControlsFragment(MenuScreen screen) {
@@ -72,7 +73,6 @@ public class ControlsFragment extends Fragment {
 
         ImageButton shareBtn = getShareBtn();
         ImageButton rateBtn = getRateBtn();
-        ImageButton menuBtn = getMenuBtn();
         ImageButton exitBtn = getExitBtn();
 
         ImageButton demoBtn = screen.game.params.isPro ? getProBtn() : getDemoBtn();
@@ -94,39 +94,37 @@ public class ControlsFragment extends Fragment {
                 .padBottom(10)
                 .row();
 
-        Table menuTable = new Table();
-        menuTable.add(menuBtn).expandX().left().width(iconSize2).height(iconSize2 / 2f).row();
-
         Table exitTable = new Table();
         exitTable.add(exitBtn).expandX().right().width(iconSize2 / 2f).height(iconSize2).row();
 
         logoTable = new Table();
+        logoTable.setTouchable(Touchable.disabled);
         logoTable.add(logo).expandX().center().row();
 
         sideContainer = new Container<>(sideTable);
-        sideContainer.align(Align.left);
+        sideContainer.setTouchable(Touchable.childrenOnly);
+        sideContainer.align(Align.bottomLeft);
         sideContainer.pad(10);
 
-        menuContainer = new Container<>(menuTable);
-        menuContainer.align(Align.bottomLeft);
-        menuContainer.pad(10);
-
         exitContainer = new Container<>(exitTable);
+        exitContainer.setTouchable(Touchable.childrenOnly);
         exitContainer.align(Align.bottomRight);
         exitContainer.pad(10);
 
         titleContainer = new Container<>(logoTable);
+        titleContainer.setTouchable(Touchable.childrenOnly);
         titleContainer.align(Align.top);
         titleContainer.pad(10);
 
         VerticalGroup content = new VerticalGroup();
+        content.setTouchable(Touchable.childrenOnly);
         content.addActor(titleContainer);
         content.addActor(btnTable);
 
         root = new FragmentRoot();
+        root.setTouchable(Touchable.childrenOnly);
         root.addContainer(content);
         root.addContainer(sideContainer);
-        root.addContainer(menuContainer);
         root.addContainer(exitContainer);
 
         root.setName(tag);
@@ -134,6 +132,7 @@ public class ControlsFragment extends Fragment {
         scheduleFadeOut();
 
         root.setVisible(false);
+        isVisible = false;
 
         setLogoDrawable(new SpriteDrawable(new Sprite(
                 screen.assetManager.get("menu/menu_logo.png", Texture.class)
@@ -151,6 +150,7 @@ public class ControlsFragment extends Fragment {
 
         if (isFadeIn) return;
 
+        isVisible = false;
         isFadeIn = true;
         isFadeOut = false;
 
@@ -197,17 +197,6 @@ public class ControlsFragment extends Fragment {
                 )
         ));
 
-        menuContainer.addAction(Actions.sequence(
-                Actions.visible(false),
-                Actions.moveBy(0, -20),
-                Actions.alpha(0),
-                Actions.parallel(
-                        Actions.visible(true),
-                        Actions.moveBy(0, 20, .3f),
-                        Actions.alpha(1, .3f)
-                )
-        ));
-
         exitContainer.addAction(Actions.sequence(
                 Actions.visible(false),
                 Actions.moveBy(0, -20),
@@ -227,6 +216,7 @@ public class ControlsFragment extends Fragment {
                     public void run() {
                         isFadeIn = false;
                         isFadeOut = false;
+                        isVisible = true;
                     }
                 })
         ));
@@ -237,6 +227,7 @@ public class ControlsFragment extends Fragment {
 
         if (isFadeOut) return;
 
+        isVisible = true;
         isFadeIn = false;
         isFadeOut = true;
 
@@ -245,14 +236,7 @@ public class ControlsFragment extends Fragment {
                         Actions.moveBy(-20, 0, .3f),
                         Actions.alpha(0, .3f)
                 ),
-                Actions.visible(false)
-        ));
-
-        menuContainer.addAction(Actions.sequence(
-                Actions.parallel(
-                        Actions.moveBy(0, -20, .3f),
-                        Actions.alpha(0, .3f)
-                ),
+                Actions.moveBy(20, 0),
                 Actions.visible(false)
         ));
 
@@ -261,28 +245,17 @@ public class ControlsFragment extends Fragment {
                         Actions.moveBy(0, -20, .3f),
                         Actions.alpha(0, .3f)
                 ),
-                Actions.visible(false)
-        ));
-
-        titleContainer.addAction(Actions.sequence(
-                Actions.parallel(
-                        Actions.moveBy(0, 20, .3f),
-                        Actions.alpha(0, .3f)
-                ),
+                Actions.moveBy(0, 20),
                 Actions.visible(false)
         ));
 
         btnTable.addAction(Actions.sequence(
                 Actions.alpha(0, .3f),
-                Actions.visible(false)
-        ));
-
-        root.addAction(Actions.sequence(
-                Actions.delay(.4f),
                 Actions.visible(false),
                 Actions.run(new Runnable() {
                     @Override
                     public void run() {
+                        isVisible = false;
                         isFadeIn = false;
                         isFadeOut = false;
                     }
@@ -294,10 +267,12 @@ public class ControlsFragment extends Fragment {
 
         if (isFadeIn) return;
 
+        isVisible = false;
         isFadeIn = true;
         isFadeOut = false;
 
         sideContainer.addAction(Actions.sequence(
+                Actions.moveBy(-20, 0),
                 Actions.visible(true),
                 Actions.parallel(
                         Actions.moveBy(20, 0, .3f),
@@ -305,41 +280,22 @@ public class ControlsFragment extends Fragment {
                 )
         ));
 
-        menuContainer.addAction(Actions.sequence(
-                Actions.visible(true),
-                Actions.parallel(
-                        Actions.moveBy(0, 20, .3f),
-                        Actions.alpha(1, .3f)
-                )
-        ));
-
         exitContainer.addAction(Actions.sequence(
+                Actions.moveBy(0, -20),
                 Actions.visible(true),
                 Actions.parallel(
                         Actions.moveBy(0, 20, .3f),
-                        Actions.alpha(1, .3f)
-                )
-        ));
-
-        titleContainer.addAction(Actions.sequence(
-                Actions.visible(true),
-                Actions.parallel(
-                        Actions.moveBy(0, -20, .3f),
                         Actions.alpha(1, .3f)
                 )
         ));
 
         btnTable.addAction(Actions.sequence(
                 Actions.visible(true),
-                Actions.alpha(1, .3f)
-        ));
-
-        root.addAction(Actions.sequence(
-                Actions.visible(true),
-                Actions.delay(.4f),
+                Actions.alpha(1, .3f),
                 Actions.run(new Runnable() {
                     @Override
                     public void run() {
+                        isVisible = true;
                         isFadeIn = false;
                         isFadeOut = false;
                     }
@@ -563,30 +519,6 @@ public class ControlsFragment extends Fragment {
 
                     screen.onCriticalError(e);
                 }
-            }
-        });
-
-        return btn;
-    }
-
-    private ImageButton getMenuBtn() {
-        Texture txt = screen.assetManager.get("menu/b_menu.png", Texture.class);
-
-        ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
-        style.up = new SpriteDrawable(new Sprite(txt));
-        style.down = new SpriteDrawable(new Sprite(txt));
-        style.disabled = new SpriteDrawable(new Sprite(txt));
-
-        ImageButton btn = new ImageButton(style);
-
-        btn.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-
-                cancelFadeOut();
-
-                fadeOut();
             }
         });
 

@@ -6,7 +6,7 @@ const audioDir = "/Users/master/Projects/MunhauzenDocs/Elements/AUDIO_FINAL"
 const picturesDir = "/Users/master/Projects/MunhauzenDocs/Elements/PICTURES_FINAL"
 const internalAssetsDir = obbDir + "/assets"
 
-const PARTS = 1;
+const PARTS = 10;
 const VERSION = 1;
 const LOCALE = 'en';
 const DEVICE = 'phone';
@@ -15,42 +15,42 @@ const DPI = 'hdpi';
 const VERSION_NAME = VERSION + "-" + LOCALE + "-" + DEVICE + "-" + DPI
 
 const audioParts = [
-//    "/Part_1",
-//    "/Part_2",
-//    "/Part_3",
-//    "/Sfx",
+    "/Part_1",
+    "/Part_2",
+    "/Part_3",
+    "/Sfx",
 ]
 
 const otherAssets = [
-//    '/menu',
-//    '/GameScreen',
-//    '/ui',
-//    '/saves',
+    '/menu',
+    '/GameScreen',
+    '/ui',
+    '/saves',
 ]
 
 const imagesParts = [
-//    "/drawable",
-//    "/drawable-horizontal",
+    "/drawable",
+    "/drawable-horizontal",
 ]
 
 const interactions = [
-//    "/timer",
-//    "/timer2",
-//    "/hare",
-//    "/generals",
-//    "/cannons",
-//    "/wau",
-//    "/picture",
+    "/timer",
+    "/timer2",
+    "/hare",
+    "/generals",
+    "/cannons",
+    "/wau",
+    "/picture",
     "/servants",
-//    "/lions",
-//    "/date",
-//    "/horn",
-//    "/swamp",
-//    "/slap",
-//    "/puzzle",
-//    "/continue",
-//    "/chapter",
-//    "/balloons",
+    "/lions",
+    "/date",
+    "/horn",
+    "/swamp",
+    "/slap",
+    "/puzzle",
+    "/continue",
+    "/chapter",
+    "/balloons",
 ]
 
 console.log(`=> Splitting expansion ${VERSION_NAME} in ${PARTS} parts`)

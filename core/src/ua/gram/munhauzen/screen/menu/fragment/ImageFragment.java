@@ -4,9 +4,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Timer;
 
@@ -41,25 +40,11 @@ public class ImageFragment extends Fragment {
         decorations = new Group();
 
         root = new FragmentRoot();
+        root.setTouchable(Touchable.disabled);
         root.addContainer(backgroundImage);
         root.addContainer(decorations);
 
         root.setName(tag);
-
-        root.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-
-                try {
-                    if (!screen.controlsFragment.root.isVisible()) {
-                        screen.controlsFragment.fadeIn();
-                    }
-                } catch (Throwable e) {
-                    Log.e(tag, e);
-                }
-            }
-        });
 
         backgroundImage.setBackgroundDrawable(
                 new SpriteDrawable(new Sprite(screen.assetManager.get("menu/mmv_fond_1.jpg", Texture.class)))
@@ -84,9 +69,9 @@ public class ImageFragment extends Fragment {
                 new EagleRight(backgroundImage, "menu/an_eagle_2_sheet_3x2.png"),
                 new Fire(backgroundImage, "menu/an_fire_sheet_3x2.png"),
                 new Horns(backgroundImage, "menu/an_horns_sheet_4x2.png"),
+                new Puppet(backgroundImage, "menu/an_puppet_sheet_4x2.png"),
                 new Horse(backgroundImage, "menu/an_horse_sheet_2x2.png"),
                 new Painting(backgroundImage, "menu/an_painting_sheet_5x4.png"),
-                new Puppet(backgroundImage, "menu/an_puppet_sheet_4x2.png"),
                 new Rifle(backgroundImage, "menu/an_rifle_sheet_4x2.png"),
                 new Sabre(backgroundImage, "menu/an_sabre_sheet_2x2.png"),
                 new Scheme(backgroundImage, "menu/an_scheme_sheet_4x2.png"),
@@ -158,7 +143,7 @@ public class ImageFragment extends Fragment {
         try {
             Inventory item = InventoryRepository.find(screen.game.gameState, name);
 
-            return screen.game.inventoryService.isInInventory(item);
+            return true;//screen.game.inventoryService.isInInventory(item);
         } catch (Throwable e) {
             Log.e(tag, e);
         }
@@ -548,7 +533,7 @@ public class ImageFragment extends Fragment {
         @Override
         public float[] getPercentBounds() {
             return new float[]{
-                    9.083f, 8.227f, 8.052f, 46.313f
+                    9.083f, 8.226f, 11f, 46.313f
             };
         }
 
