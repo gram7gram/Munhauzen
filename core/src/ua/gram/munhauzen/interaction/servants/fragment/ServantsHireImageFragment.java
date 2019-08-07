@@ -17,6 +17,7 @@ import com.badlogic.gdx.utils.Align;
 
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.Inventory;
 import ua.gram.munhauzen.entity.ServantsState;
 import ua.gram.munhauzen.entity.StoryAudio;
@@ -34,21 +35,22 @@ import ua.gram.munhauzen.utils.MathUtils;
 public class ServantsHireImageFragment extends InteractionFragment {
 
     private final ServantsInteraction interaction;
+    final ServantsState state;
     public FragmentRoot root;
     PrimaryButton servantsBtn;
-    public int page;
     public int servantCount;
     public final int servantLimit = 5;
     ImageButton prevBtn, nextBtn;
     Table hireContainer;
     Label progressLabel;
-    HireDialog hireDialog;
+    public HireDialog hireDialog;
     CompleteDialog completeDialog;
     public ServantImage backgroundImage;
     StoryAudio egyptAudio;
 
-    public ServantsHireImageFragment(ServantsInteraction interaction) {
+    public ServantsHireImageFragment(ServantsInteraction interaction, ServantsState state) {
         this.interaction = interaction;
+        this.state = state;
     }
 
     public void create() {
@@ -142,55 +144,53 @@ public class ServantsHireImageFragment extends InteractionFragment {
 
     public void start() {
 
-        page = 1;
-
         updateServantCount();
 
-        showCurrent(true);
+        showCurrent();
     }
 
-    public void showCurrent(boolean withAudio) {
+    public void showCurrent() {
 
         try {
-            Log.i(tag, "showCurrent " + page);
+            Log.i(tag, "showCurrent " + state.hirePage);
 
-            interaction.progressBarFragment.stop();
+            interaction.gameScreen.audioService.stop();
 
             stopEgypt();
 
-            switch (page) {
+            switch (state.hirePage) {
                 case 1:
-                    showServant1(withAudio);
+                    showServant1();
                     break;
                 case 2:
-                    showServant2(withAudio);
+                    showServant2();
                     break;
                 case 3:
-                    showServant3(withAudio);
+                    showServant3();
                     break;
                 case 4:
-                    showServant4(withAudio);
+                    showServant4();
                     break;
                 case 5:
-                    showServant5(withAudio);
+                    showServant5();
                     break;
                 case 6:
-                    showServant6(withAudio);
+                    showServant6();
                     break;
                 case 7:
-                    showServant7(withAudio);
+                    showServant7();
                     break;
                 case 8:
-                    showServant8(withAudio);
+                    showServant8();
                     break;
                 case 9:
-                    showServant9(withAudio);
+                    showServant9();
                     break;
                 case 10:
-                    showServant10(withAudio);
+                    showServant10();
                     break;
                 case 11:
-                    showEgypt(withAudio);
+                    showEgypt();
                     break;
             }
         } catch (Throwable e) {
@@ -202,20 +202,20 @@ public class ServantsHireImageFragment extends InteractionFragment {
 
     public void next() {
 
-        page += 1;
+        state.hirePage += 1;
 
         hireDialog.destroy();
 
-        showCurrent(true);
+        showCurrent();
     }
 
     public void prev() {
 
-        page -= 1;
+        state.hirePage -= 1;
 
         hireDialog.destroy();
 
-        showCurrent(true);
+        showCurrent();
     }
 
     public boolean hasServant(String name) {
@@ -230,267 +230,88 @@ public class ServantsHireImageFragment extends InteractionFragment {
         return false;
     }
 
-    private void showServant10(boolean withAudio) {
+    private void showServant10() {
 
-        unload();
+        showServant("CARPETENER");
 
-        boolean hasServant = hasServant("CARPETENER");
+    }
 
-        String res = hasServant ? "servants/inter_servants_carpenter_0.jpg" : "servants/inter_servants_carpenter_1.jpg";
+    private void showServant7() {
 
-        interaction.assetManager.load(res, Texture.class);
+        showServant("BLOWER");
+    }
 
-        interaction.assetManager.finishLoading();
+    private void showServant5() {
 
-        setBackground(
-                interaction.assetManager.get(res, Texture.class),
-                res
-        );
+        showServant("SHOOTER");
 
-        hireDialog.create("CARPETENER");
+    }
+
+    private void showServant2() {
+        showServant("LISTENER");
+
+    }
+
+    private void showServant3() {
+
+        showServant("VASILIY");
+
+    }
+
+    private void showServant1() {
+
+        showServant("RUNNER");
+    }
+
+    private void showServant9() {
+        showServant("JUMPER");
+    }
+
+    private void showServant6() {
+
+        showServant("JOKER");
+
+    }
+
+    private void showServant4() {
+
+        showServant("USURER");
+
+    }
+
+    private void showServant8() {
+
+        showServant("GIGANT");
+
+    }
+
+    private void showServant(String name) {
+
+        interaction.storyManager.story = interaction.storyManager.create(name);
+
+        interaction.storyManager.startLoadingResources();
+
+        hireDialog.create(name);
 
         hireContainer.clearChildren();
         hireContainer.add(hireDialog.getRoot());
 
-        if (withAudio && !hasServant) interaction.progressBarFragment.play("s41_8");
-    }
+        interaction.progressBarFragment.fadeIn();
 
-    private void showServant7(boolean withAudio) {
-
-        unload();
-
-        boolean hasServant = hasServant("BLOWER");
-
-        String res = hasServant ? "servants/inter_servants_blower_0.jpg" : "servants/inter_servants_blower_1.jpg";
-
-        interaction.assetManager.load(res, Texture.class);
-
-        interaction.assetManager.finishLoading();
-
-        setBackground(
-                interaction.assetManager.get(res, Texture.class),
-                res
-        );
-
-        hireDialog.create("BLOWER");
-
-        hireContainer.clearChildren();
-        hireContainer.add(hireDialog.getRoot());
-
-        if (withAudio && !hasServant) interaction.progressBarFragment.play("s41_6");
-    }
-
-    private void showServant5(boolean withAudio) {
-
-        unload();
-
-        boolean hasServant = hasServant("SHOOTER");
-
-        String res = hasServant ? "servants/inter_servants_shooter_0.jpg" : "servants/inter_servants_shooter_1.jpg";
-
-        interaction.assetManager.load(res, Texture.class);
-
-        interaction.assetManager.finishLoading();
-
-        setBackground(
-                interaction.assetManager.get(res, Texture.class),
-                res
-        );
-
-        hireDialog.create("SHOOTER");
-
-        hireContainer.clearChildren();
-        hireContainer.add(hireDialog.getRoot());
-
-        if (withAudio && !hasServant) interaction.progressBarFragment.play("s41_4");
+        if (hasServant(name)) {
+            GameState.pause();
+        } else {
+            GameState.unpause();
+        }
 
     }
 
-    private void showServant2(boolean withAudio) {
+    private void showEgypt() {
 
-        unload();
+        interaction.progressBarFragment.root.setVisible(false);
 
-        boolean hasServant = hasServant("LISTENER");
-
-        String res = hasServant ? "servants/inter_servants_listener_0.jpg" : "servants/inter_servants_listener_1.jpg";
-
-        interaction.assetManager.load(res, Texture.class);
-
-        interaction.assetManager.finishLoading();
-
-        setBackground(
-                interaction.assetManager.get(res, Texture.class),
-                res
-        );
-
-        hireDialog.create("LISTENER");
-
-        hireContainer.clearChildren();
-        hireContainer.add(hireDialog.getRoot());
-
-        if (withAudio && !hasServant) interaction.progressBarFragment.play("s41_3");
-
-    }
-
-    private void showServant3(boolean withAudio) {
-
-        unload();
-
-        boolean hasServant = hasServant("VASILIY");
-
-        String res = hasServant ? "servants/inter_servants_vasiliy_0.jpg" : "servants/inter_servants_vasiliy_1.jpg";
-
-        interaction.assetManager.load(res, Texture.class);
-
-        interaction.assetManager.finishLoading();
-
-        setBackground(
-                interaction.assetManager.get(res, Texture.class),
-                res
-        );
-
-        hireDialog.create("VASILIY");
-
-        hireContainer.clearChildren();
-        hireContainer.add(hireDialog.getRoot());
-
-        if (withAudio && !hasServant) interaction.progressBarFragment.play("s41_11");
-
-    }
-
-    private void showServant1(boolean withAudio) {
-
-        unload();
-
-        boolean hasServant = hasServant("RUNNER");
-
-        String res = hasServant ? "servants/inter_servants_runner_0.jpg" : "servants/inter_servants_runner_1.jpg";
-
-        interaction.assetManager.load(res, Texture.class);
-
-        interaction.assetManager.finishLoading();
-
-        setBackground(
-                interaction.assetManager.get(res, Texture.class),
-                res
-        );
-
-        hireDialog.create("RUNNER");
-
-        hireContainer.clearChildren();
-        hireContainer.add(hireDialog.getRoot());
-
-        if (withAudio && !hasServant) interaction.progressBarFragment.play("s41_2");
-
-    }
-
-    private void showServant9(boolean withAudio) {
-
-        unload();
-
-        boolean hasServant = hasServant("JUMPER");
-
-        String res = hasServant ? "servants/inter_servants_jumper_0.jpg" : "servants/inter_servants_jumper_1.jpg";
-
-        interaction.assetManager.load(res, Texture.class);
-
-        interaction.assetManager.finishLoading();
-
-        setBackground(
-                interaction.assetManager.get(res, Texture.class),
-                res
-        );
-
-
-        hireDialog.create("JUMPER");
-
-        hireContainer.clearChildren();
-        hireContainer.add(hireDialog.getRoot());
-
-        if (withAudio && !hasServant) interaction.progressBarFragment.play("s41_7");
-    }
-
-    private void showServant6(boolean withAudio) {
-
-        unload();
-
-        boolean hasServant = hasServant("JOKER");
-
-        String res = hasServant ? "servants/inter_servants_joker_0.jpg" : "servants/inter_servants_joker_1.jpg";
-
-        interaction.assetManager.load(res, Texture.class);
-
-        interaction.assetManager.finishLoading();
-
-        setBackground(
-                interaction.assetManager.get(res, Texture.class),
-                res
-        );
-
-        hireDialog.create("JOKER");
-
-        hireContainer.clearChildren();
-        hireContainer.add(hireDialog.getRoot());
-
-        if (withAudio && !hasServant) interaction.progressBarFragment.play("s41_9");
-
-    }
-
-    private void showServant4(boolean withAudio) {
-
-        unload();
-
-        boolean hasServant = hasServant("USURER");
-
-        String res = hasServant ? "servants/inter_servants_usurer_0.jpg" : "servants/inter_servants_usurer_1.jpg";
-
-        interaction.assetManager.load(res, Texture.class);
-
-        interaction.assetManager.finishLoading();
-
-        setBackground(
-                interaction.assetManager.get(res, Texture.class),
-                res
-        );
-
-        hireDialog.create("USURER");
-
-        hireContainer.clearChildren();
-        hireContainer.add(hireDialog.getRoot());
-
-        if (withAudio && !hasServant) interaction.progressBarFragment.play("s41_10");
-
-    }
-
-    private void showServant8(boolean withAudio) {
-
-        unload();
-
-        boolean hasServant = hasServant("GIGANT");
-
-        String res = hasServant ? "servants/inter_servants_gigant_0.jpg" : "servants/inter_servants_gigant_1.jpg";
-
-        interaction.assetManager.load(res, Texture.class);
-
-        interaction.assetManager.finishLoading();
-
-        setBackground(
-                interaction.assetManager.get(res, Texture.class),
-                res
-        );
-
-        hireDialog.create("GIGANT");
-
-        hireContainer.clearChildren();
-        hireContainer.add(hireDialog.getRoot());
-
-        if (withAudio && !hasServant) interaction.progressBarFragment.play("s41_5");
-
-    }
-
-    private void showEgypt(boolean withAudio) {
-
-        unload();
+        interaction.storyManager.reset();
+        interaction.storyManager.story = null;
 
         String res = "images/p41_egypt.jpg";
 
@@ -510,9 +331,7 @@ public class ServantsHireImageFragment extends InteractionFragment {
 
         completeDialog.fadeIn();
 
-        interaction.progressBarFragment.fadeOut();
-
-        if (withAudio) playEgypt();
+        playEgypt();
     }
 
     public void update() {
@@ -523,7 +342,7 @@ public class ServantsHireImageFragment extends InteractionFragment {
 
         boolean isVisited = hireDialog != null && state.viewedServants.contains(hireDialog.servantName);
 
-        prevBtn.setDisabled(page == 1);
+        prevBtn.setDisabled(state.hirePage == 1);
         nextBtn.setDisabled(false);
 
         if (!isVisited) {
@@ -534,8 +353,8 @@ public class ServantsHireImageFragment extends InteractionFragment {
             nextBtn.setDisabled(false);
         }
 
-        prevBtn.setVisible(page != 1);
-        nextBtn.setVisible(page != 11);
+        prevBtn.setVisible(state.hirePage != 1);
+        nextBtn.setVisible(state.hirePage != 11);
 
         progressLabel.setText(servantCount + "/" + servantLimit);
 
@@ -548,39 +367,20 @@ public class ServantsHireImageFragment extends InteractionFragment {
         }
     }
 
-    private void unload() {
-
-        String[] resources = {
-                "servants/inter_servants_carpenter_0.jpg", "servants/inter_servants_carpenter_1.jpg",
-                "servants/inter_servants_blower_0.jpg", "servants/inter_servants_blower_1.jpg",
-                "servants/inter_servants_shooter_0.jpg", "servants/inter_servants_shooter_1.jpg",
-                "servants/inter_servants_listener_0.jpg", "servants/inter_servants_listener_1.jpg",
-                "servants/inter_servants_vasiliy_0.jpg", "servants/inter_servants_vasiliy_1.jpg",
-                "servants/inter_servants_runner_0.jpg", "servants/inter_servants_runner_1.jpg",
-                "servants/inter_servants_jumper_0.jpg", "servants/inter_servants_jumper_1.jpg",
-                "servants/inter_servants_joker_0.jpg", "servants/inter_servants_joker_1.jpg",
-                "servants/inter_servants_usurer_0.jpg", "servants/inter_servants_usurer_1.jpg",
-                "servants/inter_servants_gigant_0.jpg", "servants/inter_servants_gigant_1.jpg",
-                "images/p41_egypt.jpg"
-        };
-
-        for (String resource : resources) {
-            if (interaction.assetManager.isLoaded(resource)) {
-                interaction.assetManager.unload(resource);
-            }
-        }
-    }
-
     @Override
     public Actor getRoot() {
         return root;
     }
 
     public void setBackground(Texture texture, String file) {
+        setBackground(new SpriteDrawable(new Sprite(texture)), file);
+    }
+
+    public void setBackground(SpriteDrawable texture, String file) {
 
         interaction.gameScreen.hideImageFragment();
 
-        backgroundImage.setBackgroundDrawable(new SpriteDrawable(new Sprite(texture)));
+        backgroundImage.setBackgroundDrawable(texture);
 
         interaction.gameScreen.setLastBackground(file);
     }
@@ -589,7 +389,6 @@ public class ServantsHireImageFragment extends InteractionFragment {
     public void dispose() {
         super.dispose();
 
-        page = 1;
         servantCount = 0;
 
         stopEgypt();

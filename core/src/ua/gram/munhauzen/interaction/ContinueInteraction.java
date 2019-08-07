@@ -125,6 +125,5 @@ public class ContinueInteraction extends AbstractInteraction {
         super.dispose();
 
         isLoaded = false;
-        assetManager.clear();
     }
 }

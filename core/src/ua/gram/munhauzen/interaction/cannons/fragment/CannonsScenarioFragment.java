@@ -262,7 +262,7 @@ public class CannonsScenarioFragment extends Fragment {
                 case "aworm_a":
                     interaction.gameScreen.game.inventoryService.addInventory(burnWorm);
                     break;
-                case "aworm_b":
+                case "aworm_d":
                     interaction.gameScreen.game.inventoryService.addInventory(floodWorm);
                     break;
                 case "aworm_c":

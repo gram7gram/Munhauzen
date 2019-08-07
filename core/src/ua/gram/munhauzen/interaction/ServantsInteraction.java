@@ -1,11 +1,19 @@
 package ua.gram.munhauzen.interaction;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.Array;
 
+import ua.gram.munhauzen.entity.GameState;
+import ua.gram.munhauzen.entity.ServantsState;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.interaction.servants.fragment.ServantsFireImageFragment;
 import ua.gram.munhauzen.interaction.servants.fragment.ServantsHireImageFragment;
 import ua.gram.munhauzen.interaction.servants.fragment.ServantsProgressBarFragment;
+import ua.gram.munhauzen.interaction.servants.hire.HireImageService;
+import ua.gram.munhauzen.interaction.servants.hire.HireScenario;
+import ua.gram.munhauzen.interaction.servants.hire.HireStory;
+import ua.gram.munhauzen.interaction.servants.hire.HireStoryManager;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.utils.Log;
 import ua.gram.munhauzen.utils.MathUtils;
@@ -19,6 +27,9 @@ public class ServantsInteraction extends AbstractInteraction {
     public ServantsFireImageFragment fireFragment;
     public ServantsProgressBarFragment progressBarFragment;
     StoryAudio fireAudio;
+    public Array<HireScenario> hireScenarioRegistry;
+    public HireStoryManager storyManager;
+    public HireImageService imageService;
 
     public ServantsInteraction(GameScreen gameScreen) {
         super(gameScreen);
@@ -30,10 +41,17 @@ public class ServantsInteraction extends AbstractInteraction {
 
         gameScreen.hideProgressBar();
 
+        gameScreen.getActiveSave().servantsInteractionState = new ServantsState();
+
         openHireFragment();
     }
 
     public void openHireFragment() {
+
+        imageService = new HireImageService(gameScreen, this);
+        storyManager = new HireStoryManager(gameScreen, this);
+
+        hireScenarioRegistry = gameScreen.game.databaseManager.loadServantsHireScenario();
 
         assetManager.clear();
 
@@ -67,12 +85,16 @@ public class ServantsInteraction extends AbstractInteraction {
 
         assetManager.finishLoading();
 
+        ServantsState state = gameScreen.getActiveSave().servantsInteractionState;
+
         progressBarFragment = new ServantsProgressBarFragment(gameScreen, this);
         progressBarFragment.create();
 
         gameScreen.gameLayers.setInteractionProgressBarLayer(progressBarFragment);
 
-        hireFragment = new ServantsHireImageFragment(this);
+        progressBarFragment.fadeIn();
+
+        hireFragment = new ServantsHireImageFragment(this, state);
         hireFragment.create();
 
         gameScreen.gameLayers.setInteractionLayer(hireFragment);
@@ -81,6 +103,8 @@ public class ServantsInteraction extends AbstractInteraction {
     }
 
     public void openFireFragment() {
+
+        disposeHire();
 
         if (progressBarFragment != null) {
             progressBarFragment.destroy();
@@ -157,6 +181,33 @@ public class ServantsInteraction extends AbstractInteraction {
 
         assetManager.update();
 
+        if (imageService != null) {
+            imageService.update();
+        }
+
+        if (storyManager != null) {
+
+            HireStory story = storyManager.story;
+
+            if (story != null && !story.isCompleted) {
+
+                if (!GameState.isPaused) {
+                    storyManager.update(
+                            story.progress + (Gdx.graphics.getDeltaTime() * 1000),
+                            story.totalDuration
+                    );
+                }
+
+                if (story.isCompleted) {
+
+                    storyManager.onCompleted();
+
+                } else {
+                    storyManager.startLoadingResources();
+                }
+            }
+        }
+
         if (hireFragment != null) {
             hireFragment.update();
         }
@@ -174,9 +225,26 @@ public class ServantsInteraction extends AbstractInteraction {
         }
     }
 
+    private void disposeHire() {
+
+        if (imageService != null) {
+            imageService.dispose();
+            imageService = null;
+        }
+
+        if (storyManager != null) {
+            storyManager.reset();
+            storyManager = null;
+        }
+
+        hireScenarioRegistry.clear();
+    }
+
     @Override
     public void dispose() {
         super.dispose();
+
+        disposeHire();
 
         if (fireFragment != null) {
             fireFragment.dispose();
@@ -187,6 +255,7 @@ public class ServantsInteraction extends AbstractInteraction {
             hireFragment.dispose();
             hireFragment = null;
         }
+
         if (fireAudio != null) {
             gameScreen.audioService.stop(fireAudio);
             fireAudio = null;

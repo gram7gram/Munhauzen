@@ -271,7 +271,7 @@ public class AudioService implements Disposable {
         try {
             stop();
 
-            assetManager.clear();
+            assetManager.dispose();
         } catch (Throwable e) {
             Log.e(tag, e);
         }

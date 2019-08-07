@@ -213,7 +213,7 @@ public class SlapImageFragment extends InteractionFragment {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            interaction.gameScreen.onCriticalError(e);
+            //interaction.gameScreen.onCriticalError(e);
         }
     }
 
@@ -229,7 +229,7 @@ public class SlapImageFragment extends InteractionFragment {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            interaction.gameScreen.onCriticalError(e);
+            //interaction.gameScreen.onCriticalError(e);
         }
     }
 

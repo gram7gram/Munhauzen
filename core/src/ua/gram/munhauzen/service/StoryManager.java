@@ -301,10 +301,10 @@ public class StoryManager {
 
     public void reset() {
 
-        Save save = gameState.history.activeSave;
-
-        Story story = save.story;
+        Story story = gameScreen.getStory();
         if (story == null) return;
+
+        Save save = gameScreen.getActiveSave();
 
         Log.i(tag, "reset " + story.id);
 
@@ -384,5 +384,29 @@ public class StoryManager {
         }
 
         return hasRequired && !hasAbsent;
+    }
+
+    public void dispose() {
+
+        Story story = gameScreen.getStory();
+        if (story == null) return;
+
+        for (StoryScenario storyScenario : story.scenarios) {
+
+            if (storyScenario.scenario.images != null) {
+                for (StoryImage image : storyScenario.scenario.images) {
+                    image.isPrepared = false;
+                    image.drawable = null;
+                }
+            }
+
+            if (storyScenario.scenario.audio != null) {
+                for (StoryAudio audio : storyScenario.scenario.audio) {
+                    audio.isPrepared = false;
+                    audio.player = null;
+                }
+            }
+
+        }
     }
 }

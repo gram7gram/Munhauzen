@@ -156,8 +156,6 @@ public class Timer2Interaction extends AbstractInteraction {
             imageFragment = null;
         }
 
-        assetManager.clear();
-
         isLoaded = false;
     }
 

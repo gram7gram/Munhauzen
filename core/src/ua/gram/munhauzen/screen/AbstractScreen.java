@@ -20,18 +20,19 @@ public abstract class AbstractScreen implements Screen {
     protected final String tag = getClass().getSimpleName();
     public final MunhauzenGame game;
     public MunhauzenStage ui;
-    public final ExpansionAssetManager assetManager;
+    public ExpansionAssetManager assetManager;
     private Texture background;
     private boolean isLoaded;
 
     public AbstractScreen(MunhauzenGame game) {
         this.game = game;
-        assetManager = new ExpansionAssetManager();
     }
 
     @Override
     public void show() {
         Log.i(tag, "show");
+
+        assetManager = new ExpansionAssetManager();
 
         background = game.assetManager.get("p0.jpg", Texture.class);
 

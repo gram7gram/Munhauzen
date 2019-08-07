@@ -72,9 +72,7 @@ public class CompleteDialog extends Fragment {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                interaction.hireFragment.page -= 1;
-
-                interaction.hireFragment.showCurrent(true);
+                interaction.hireFragment.prev();
 
                 fadeOut();
             }

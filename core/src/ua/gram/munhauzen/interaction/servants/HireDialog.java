@@ -24,6 +24,7 @@ import ua.gram.munhauzen.entity.Inventory;
 import ua.gram.munhauzen.entity.ServantsState;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.interaction.ServantsInteraction;
+import ua.gram.munhauzen.interaction.servants.hire.HireStoryImage;
 import ua.gram.munhauzen.repository.InventoryRepository;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.ui.FitImage;
@@ -47,7 +48,7 @@ public class HireDialog extends Fragment {
     PrimaryButton yesBtn, noBtn;
     StoryAudio muchAudio, confirmAudio, cancelAudio;
     public String servantName;
-    public boolean isFadeIn;
+    public boolean isFadeIn, isDecisionActive;
     Timer.Task nextTask;
 
     public HireDialog(ServantsInteraction interaction) {
@@ -68,6 +69,7 @@ public class HireDialog extends Fragment {
 
         if (name.equals(this.servantName)) return;
 
+        isDecisionActive = false;
         this.servantName = name;
 
         Log.i(tag, "create " + servantName);
@@ -78,13 +80,13 @@ public class HireDialog extends Fragment {
                 super.clicked(event, x, y);
 
                 try {
+                    isDecisionActive = true;
+
                     ServantsState state = interaction.gameScreen.getActiveSave().servantsInteractionState;
 
                     state.viewedServants.add(servantName);
 
                     yesBtn.setDisabled(true);
-
-                    interaction.progressBarFragment.fadeOut();
 
                     stopAllAudio();
 
@@ -100,7 +102,7 @@ public class HireDialog extends Fragment {
 
                     fadeOut();
 
-                    interaction.hireFragment.showCurrent(false);
+                    triggerBackgroundUpdate();
 
                     nextTask = Timer.instance().scheduleTask(new Timer.Task() {
                         @Override
@@ -122,6 +124,8 @@ public class HireDialog extends Fragment {
                 super.clicked(event, x, y);
 
                 try {
+                    isDecisionActive = true;
+
                     ServantsState state = interaction.gameScreen.getActiveSave().servantsInteractionState;
 
                     state.viewedServants.add(servantName);
@@ -142,7 +146,7 @@ public class HireDialog extends Fragment {
 
                     fadeOut();
 
-                    interaction.hireFragment.showCurrent(false);
+                    triggerBackgroundUpdate();
 
                     nextTask = Timer.instance().scheduleTask(new Timer.Task() {
                         @Override
@@ -424,6 +428,17 @@ public class HireDialog extends Fragment {
         root.add(layer3);
 
         return root;
+    }
+
+    public void triggerBackgroundUpdate() {
+
+        HireStoryImage currentImage = interaction.storyManager.story.currentScenario.currentImage;
+        currentImage.isActive = true;
+        currentImage.isCompleted = false;
+        currentImage.isPrepared = false;
+        currentImage.drawable = null;
+
+        interaction.imageService.prepareAndDisplay(currentImage);
     }
 
     public void update() {

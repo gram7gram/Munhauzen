@@ -2,6 +2,7 @@ package ua.gram.munhauzen.interaction.cannons.actor;
 
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 import ua.gram.munhauzen.interaction.cannons.fragment.CannonsImageFragment;
@@ -12,6 +13,8 @@ public class EatWorm extends Image {
 
     public EatWorm(Texture texture, CannonsImageFragment fragment) {
         super(texture);
+
+        setTouchable(Touchable.disabled);
 
         this.fragment = fragment;
     }

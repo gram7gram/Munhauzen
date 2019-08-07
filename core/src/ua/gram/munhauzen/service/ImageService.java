@@ -30,7 +30,7 @@ public abstract class ImageService implements Disposable {
 
     protected final String tag = getClass().getSimpleName();
     protected final GameScreen gameScreen;
-    protected final AssetManager assetManager;
+    public final AssetManager assetManager;
     Transition transition;
 
     public ImageService(GameScreen gameScreen) {
@@ -42,6 +42,35 @@ public abstract class ImageService implements Disposable {
 
     public abstract String getResource(StoryImage item);
 
+    public void prepareAndDisplay(StoryImage item) {
+
+        String resource = getResource(item);
+        if (resource == null) return;
+
+        item.resource = resource;
+
+        Log.i(tag, "prepareAndDisplay " + item.resource);
+
+        if (item.isPrepared && item.drawable != null) {
+            onPrepared(item);
+            return;
+        }
+
+        if (!assetManager.isLoaded(resource, Texture.class)) {
+            assetManager.load(resource, Texture.class);
+
+            assetManager.finishLoading();
+        }
+
+        item.isPreparing = false;
+        item.isPrepared = true;
+        item.prepareCompletedAt = new Date();
+
+        item.drawable = new SpriteDrawable(new Sprite(assetManager.get(resource, Texture.class)));
+
+        displayImage(item);
+    }
+
     public void prepare(StoryImage item, Timer.Task onComplete) {
         if (item.isPrepared && item.drawable != null) {
             if (item.isLocked && !item.isActive) {
@@ -52,6 +81,8 @@ public abstract class ImageService implements Disposable {
 
         String resource = getResource(item);
         if (resource == null) return;
+
+        item.resource = resource;
 
         boolean isLoaded = assetManager.isLoaded(resource, Texture.class);
 
@@ -85,7 +116,7 @@ public abstract class ImageService implements Disposable {
         item.prepareCompletedAt = null;
         item.prepareStartedAt = null;
 
-        Log.i(tag, "onPrepared " + getResource(item) + " in " + diff + "ms");
+        Log.i(tag, "onPrepared " + item.resource + " in " + diff + "ms");
 
         Story story = gameScreen.getStory();
         if (story != null) {
@@ -107,7 +138,7 @@ public abstract class ImageService implements Disposable {
             if (transition.isLocked) return;
         }
 
-        Log.i(tag, "displayImage " + getResource(item));
+        Log.i(tag, "displayImage " + item.resource);
 
         item.isActive = true;
 
@@ -155,6 +186,6 @@ public abstract class ImageService implements Disposable {
 
     @Override
     public void dispose() {
-        assetManager.clear();
+        assetManager.dispose();
     }
 }

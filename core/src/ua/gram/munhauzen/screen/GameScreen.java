@@ -43,10 +43,10 @@ public class GameScreen implements Screen {
     public final MunhauzenGame game;
     public MunhauzenStage ui;
     public GameLayers gameLayers;
-    public final AssetManager assetManager;
+    public AssetManager assetManager;
     public StoryManager storyManager;
     public ScenarioFragment scenarioFragment;
-    public final ProgressBarFragment progressBarFragment;
+    public ProgressBarFragment progressBarFragment;
     public ImageFragment imageFragment;
     public ControlsFragment controlsFragment;
     public GameAudioService audioService;
@@ -59,8 +59,6 @@ public class GameScreen implements Screen {
 
     public GameScreen(MunhauzenGame game) {
         this.game = game;
-        assetManager = new ExpansionAssetManager();
-        progressBarFragment = new ProgressBarFragment(this);
     }
 
     public Story getStory() {
@@ -75,6 +73,9 @@ public class GameScreen implements Screen {
     public void show() {
 
         Log.i(tag, "show");
+
+        assetManager = new ExpansionAssetManager();
+        progressBarFragment = new ProgressBarFragment(this);
 
         audioService = new GameAudioService(this);
         imageService = new ExpansionImageService(this);
@@ -334,6 +335,11 @@ public class GameScreen implements Screen {
 
         Log.i(tag, "dispose");
 
+        if (storyManager != null) {
+            storyManager.dispose();
+            storyManager = null;
+        }
+
         if (saveTask != null) {
             saveTask.cancel();
             saveTask = null;
@@ -348,9 +354,20 @@ public class GameScreen implements Screen {
             ui = null;
         }
 
-        audioService.dispose();
-        imageService.dispose();
-        progressBarFragment.dispose();
+        if (audioService != null) {
+            audioService.dispose();
+            audioService = null;
+        }
+
+        if (imageService != null) {
+            imageService.dispose();
+            imageService = null;
+        }
+
+        if (progressBarFragment != null) {
+            progressBarFragment.dispose();
+            progressBarFragment = null;
+        }
 
         if (scenarioFragment != null) {
             scenarioFragment.dispose();

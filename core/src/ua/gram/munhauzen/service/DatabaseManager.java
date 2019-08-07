@@ -28,6 +28,8 @@ import ua.gram.munhauzen.interaction.generals.GeneralsScenario;
 import ua.gram.munhauzen.interaction.generals.GeneralsStoryImage;
 import ua.gram.munhauzen.interaction.hare.HareScenario;
 import ua.gram.munhauzen.interaction.picture.PictureScenario;
+import ua.gram.munhauzen.interaction.servants.hire.HireScenario;
+import ua.gram.munhauzen.interaction.servants.hire.HireStoryImage;
 import ua.gram.munhauzen.interaction.timer.TimerScenario;
 import ua.gram.munhauzen.interaction.timer2.Timer2Scenario;
 import ua.gram.munhauzen.interaction.wauwau.WauScenario;
@@ -431,5 +433,15 @@ public class DatabaseManager {
         FileHandle file = ExternalFiles.getInventoryFile();
 
         return json.fromJson(Array.class, Inventory.class, file);
+    }
+
+    @SuppressWarnings("unchecked")
+    public Array<HireScenario> loadServantsHireScenario() {
+        Json json = new Json(JsonWriter.OutputType.json);
+        json.setIgnoreUnknownFields(true);
+        json.setElementType(Scenario.class, "images", HireStoryImage.class);
+        json.setElementType(Scenario.class, "audio", StoryAudio.class);
+
+        return json.fromJson(Array.class, HireScenario.class, Files.getServantsHireScenarioFile());
     }
 }

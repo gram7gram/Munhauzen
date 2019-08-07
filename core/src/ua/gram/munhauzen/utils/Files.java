@@ -68,4 +68,8 @@ public class Files {
         }
         return file;
     }
+
+    public static FileHandle getServantsHireScenarioFile() {
+        return getInternal("game/servants-hire-scenario.json");
+    }
 }

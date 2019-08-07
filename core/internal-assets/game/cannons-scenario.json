@@ -26,7 +26,7 @@
       },
       {
         "scenario": "aworm_b",
-        "order": 2
+        "order": 4
       },
       {
         "scenario": "aworm_c",
@@ -34,7 +34,7 @@
       },
       {
         "scenario": "aworm_d",
-        "order": 4
+        "order": 2
       }
     ],
     "translations": []
@@ -57,7 +57,7 @@
       },
       {
         "scenario": "aworm_b",
-        "order": 2
+        "order": 4
       },
       {
         "scenario": "aworm_c",
@@ -65,7 +65,7 @@
       },
       {
         "scenario": "aworm_d",
-        "order": 4
+        "order": 2
       }
     ],
     "translations": []
@@ -99,11 +99,11 @@
     ]
   },
   {
-    "name": "aworm_b",
+    "name": "aworm_d",
     "action": "GOTO",
     "audio": [
       {
-        "audio": "sworm_b",
+        "audio": "sworm_d",
         "duration": 0
       }
     ],
@@ -156,10 +156,10 @@
   },
   {
     "isExit": true,
-    "name": "aworm_d",
+    "name": "aworm_b",
     "audio": [
       {
-        "audio": "sworm_d",
+        "audio": "sworm_b",
         "duration": 0
       }
     ],
