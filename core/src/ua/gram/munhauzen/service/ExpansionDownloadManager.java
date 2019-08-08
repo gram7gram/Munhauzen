@@ -355,62 +355,67 @@ public class ExpansionDownloadManager implements Disposable {
     public void updateProgress() {
         if (localExpansionInfo == null) return;
 
-        ExternalFiles.getExpansionInfoFile(game.params)
-                .writeString(json.toJson(localExpansionInfo), false);
+        try {
 
-        final float sizeMb = (float) (localExpansionInfo.size / 1024f / 1024f);
+            final float sizeMb = (float) (localExpansionInfo.size / 1024f / 1024f);
 
-        int progress = getProgress();
+            int progress = getProgress();
 
-        fragment.expansionLbl.setText("Файл расширения v" + localExpansionInfo.version
-                + " " + String.format("%.2f", sizeMb) + "MB [" + progress + "%]");
+            fragment.expansionLbl.setText("Файл расширения v" + localExpansionInfo.version
+                    + " " + String.format("%.2f", sizeMb) + "MB [" + progress + "%]");
 
-        String text = "";
-        String progressText = "";
-        for (Part item : localExpansionInfo.parts.items) {
+            String text = "";
+            String progressText = "";
+            for (Part item : localExpansionInfo.parts.items) {
 
-            if (item.isDownloading) {
-                progressText = "Скачивание part #" + item.part + "...";
+                if (item.isDownloading) {
+                    progressText = "Скачивание part #" + item.part + "...";
+                }
+
+                if (item.isExtracting) {
+                    progressText = "Распаковка part #" + item.part + "...";
+                }
+
+                if (item.isDownloadFailure) {
+                    progressText = "Скачивание part #" + item.part + " неудачно";
+                }
+
+                if (item.isExtractFailure) {
+                    progressText = "Распаковка part #" + item.part + " неудачна";
+                }
+
+                text += "#" + item.part + " [";
+
+                if (item.isDownloaded) {
+                    text += "------";
+                } else if (item.isDownloading) {
+                    text += "-     ";
+                } else {
+                    text += "      ";
+                }
+
+                if (item.isExtracted) {
+                    text += "------";
+                } else if (item.isExtracting) {
+                    text += "-     ";
+                } else {
+                    text += "      ";
+                }
+
+                text += "]\n";
             }
 
-            if (item.isExtracting) {
-                progressText = "Распаковка part #" + item.part + "...";
+            fragment.expansionInfoLbl.setText(text);
+            fragment.progressLbl.setText(progressText);
+
+            ExternalFiles.getExpansionInfoFile(game.params)
+                    .writeString(json.toJson(localExpansionInfo), false);
+
+            if (progress == 100) {
+                onComplete();
             }
-
-            if (item.isDownloadFailure) {
-                progressText = "Скачивание part #" + item.part + " неудачно";
-            }
-
-            if (item.isExtractFailure) {
-                progressText = "Распаковка part #" + item.part + " неудачна";
-            }
-
-            text += "#" + item.part + " [";
-
-            if (item.isDownloaded) {
-                text += "------";
-            } else if (item.isDownloading) {
-                text += "-     ";
-            } else {
-                text += "      ";
-            }
-
-            if (item.isExtracted) {
-                text += "------";
-            } else if (item.isExtracting) {
-                text += "-     ";
-            } else {
-                text += "      ";
-            }
-
-            text += "]\n";
-        }
-
-        fragment.expansionInfoLbl.setText(text);
-        fragment.progressLbl.setText(progressText);
-
-        if (progress == 100) {
-            onComplete();
+        } catch (Throwable e) {
+            Log.e(tag, e);
         }
     }
 

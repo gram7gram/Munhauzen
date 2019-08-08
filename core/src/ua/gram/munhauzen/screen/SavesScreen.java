@@ -2,8 +2,6 @@ package ua.gram.munhauzen.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 
 import java.util.ArrayList;
 
@@ -16,7 +14,6 @@ import ua.gram.munhauzen.screen.saves.fragment.SaveDialog;
 import ua.gram.munhauzen.screen.saves.fragment.SavesFragment;
 import ua.gram.munhauzen.screen.saves.ui.SavesLayers;
 import ua.gram.munhauzen.service.AudioService;
-import ua.gram.munhauzen.utils.Log;
 import ua.gram.munhauzen.utils.MathUtils;
 
 /**
@@ -99,23 +96,6 @@ public class SavesScreen extends AbstractScreen {
         layers.setContentLayer(savesFragment);
 
         savesFragment.fadeIn();
-
-        ui.addListener(new ActorGestureListener() {
-            @Override
-            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                super.touchDown(event, x, y, pointer, button);
-
-                if (event.isHandled()) return;
-
-                Log.i(tag, "ui clicked");
-
-                try {
-
-                } catch (Throwable e) {
-                    Log.e(tag, e);
-                }
-            }
-        });
 
         Gdx.input.setInputProcessor(ui);
 

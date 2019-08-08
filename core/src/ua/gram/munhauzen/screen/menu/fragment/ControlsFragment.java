@@ -21,10 +21,14 @@ import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.screen.MenuScreen;
 import ua.gram.munhauzen.screen.menu.ui.ChronoButton;
 import ua.gram.munhauzen.screen.menu.ui.ContinueButton;
+import ua.gram.munhauzen.screen.menu.ui.DemoSideButton;
 import ua.gram.munhauzen.screen.menu.ui.FoolsButton;
 import ua.gram.munhauzen.screen.menu.ui.GalleryButton;
 import ua.gram.munhauzen.screen.menu.ui.MenuButton;
+import ua.gram.munhauzen.screen.menu.ui.ProSideButton;
+import ua.gram.munhauzen.screen.menu.ui.RateSideButton;
 import ua.gram.munhauzen.screen.menu.ui.SavesButton;
+import ua.gram.munhauzen.screen.menu.ui.ShareSideButton;
 import ua.gram.munhauzen.screen.menu.ui.StartButton;
 import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.ui.Fragment;
@@ -75,7 +79,20 @@ public class ControlsFragment extends Fragment {
         ImageButton rateBtn = getRateBtn();
         ImageButton exitBtn = getExitBtn();
 
-        ImageButton demoBtn = screen.game.params.isPro ? getProBtn() : getDemoBtn();
+        ShareSideButton shareBtnAnimation = new ShareSideButton(screen);
+        shareBtnAnimation.start();
+
+        RateSideButton rateBtnAnimation = new RateSideButton(screen);
+        rateBtnAnimation.start();
+
+        DemoSideButton demoBtnAnimation = new DemoSideButton(screen);
+        demoBtnAnimation.start();
+
+        ProSideButton proBtnAnimation = new ProSideButton(screen);
+        proBtnAnimation.start();
+
+        ImageButton demoBtn = getDemoBtn();
+        ImageButton proBtn = getProBtn();
 
         float iconSize = MunhauzenGame.WORLD_WIDTH * .18f;
         float iconSize2 = iconSize * 1.5f;
@@ -83,15 +100,34 @@ public class ControlsFragment extends Fragment {
         sideTable = new Table();
         sideTable.add(rateBtn)
                 .size(iconSize)
-                .padBottom(10)
+                .pad(10);
+        sideTable.add(rateBtnAnimation)
+                .size(iconSize)
+                .pad(10)
                 .row();
+
         sideTable.add(shareBtn)
                 .size(iconSize)
-                .padBottom(10)
+                .pad(10);
+        sideTable.add(shareBtnAnimation)
+                .size(iconSize)
+                .pad(10)
                 .row();
+
         sideTable.add(demoBtn)
                 .size(iconSize)
-                .padBottom(10)
+                .pad(10);
+        sideTable.add(demoBtnAnimation)
+                .size(iconSize)
+                .pad(10)
+                .row();
+
+        sideTable.add(proBtn)
+                .size(iconSize)
+                .pad(10);
+        sideTable.add(proBtnAnimation)
+                .size(iconSize)
+                .pad(10)
                 .row();
 
         Table exitTable = new Table();

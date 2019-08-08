@@ -78,6 +78,7 @@ public class ImageFragment extends Fragment {
                 new Worm(backgroundImage, "menu/an_worm_sheet_5x4.png"),
                 new Badge(backgroundImage, "menu/an_badge_sheet_1x5.png"),
                 new Bear(backgroundImage, "menu/an_bear_sheet_3x5.png"),
+                new Bomb(backgroundImage, "menu/an_bomb_sheet_2x19.png"),
                 new CandleLeft(backgroundImage, "menu/an_candle_sheet_1x4.png"),
                 new CandleRight(backgroundImage, "menu/an_candle_sheet_1x4.png"),
                 new Clock(backgroundImage, "menu/an_clocks_sheet_3x4.png"),
@@ -979,6 +980,45 @@ public class ImageFragment extends Fragment {
         @Override
         public float getDelay() {
             return 16;
+        }
+    }
+
+    class Bomb extends DecorationAnimation {
+
+        public Bomb(BackgroundImage backgroundImage, String resource) {
+            super(backgroundImage, resource);
+        }
+
+        @Override
+        public void init() {
+
+            screen.assetManager.load(resource, Texture.class);
+
+            screen.assetManager.finishLoading();
+
+            animate(screen.assetManager.get(resource, Texture.class), 19, 2, 38);
+        }
+
+        @Override
+        public boolean canBeDisplayed() {
+            return hasItem("BOMB");
+        }
+
+        @Override
+        public float[] getPercentBounds() {
+            return new float[]{
+                    100f, 12.431f, 0, 87.568f
+            };
+        }
+
+        @Override
+        public float getInterval() {
+            return 19;
+        }
+
+        @Override
+        public float getDelay() {
+            return 29;
         }
     }
 }

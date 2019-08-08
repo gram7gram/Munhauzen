@@ -32,16 +32,18 @@ public class SaveBlock extends Stack {
     Image back, icon;
     Table content;
     final SpriteDrawable fallbackIcon;
+    float blockWidth;
 
     public SaveBlock(final Save save, final SavesScreen screen) {
 
-        float blockWidth = MunhauzenGame.WORLD_WIDTH * .8f;
+        blockWidth = MunhauzenGame.WORLD_WIDTH * .8f;
         float leftColumnWidth = blockWidth * .25f;
         float rightColumnWidth = blockWidth * .7f;
 
         this.screen = screen;
         this.save = save;
 
+        back = new Image();
         icon = new Image();
 
         title = new Label("", new Label.LabelStyle(
@@ -74,12 +76,16 @@ public class SaveBlock extends Stack {
         content.add(icon).size(leftColumnWidth);
         content.add(lblContent).width(rightColumnWidth).row();
 
-//        add(back);
+        add(back);
         add(content);
 
         fallbackIcon = new SpriteDrawable(new Sprite(
                 screen.assetManager.get("saves/sv_baron.png", Texture.class)
         ));
+
+        setBackground(
+                screen.assetManager.get("saves/gv_paper_2.png", Texture.class)
+        );
 
         addListener(new ClickListener() {
             @Override
@@ -150,5 +156,17 @@ public class SaveBlock extends Stack {
         }
 
 
+    }
+
+    public void setBackground(Texture texture) {
+        SpriteDrawable drawable = new SpriteDrawable(new Sprite(texture));
+
+        back.setDrawable(drawable);
+
+        float width = blockWidth;
+        float scale = 1f * width / drawable.getMinWidth();
+        float height = 1f * drawable.getMinHeight() * scale;
+
+        back.setSize(width, height);
     }
 }

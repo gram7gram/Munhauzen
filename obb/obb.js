@@ -11,8 +11,6 @@ const LOCALE = 'en';
 const DEVICE = 'phone';
 const DPI = 'hdpi';
 
-const picturesDir = obbDir + "/" + LOCALE + "/images"
-
 const VERSION_NAME = VERSION + "-" + LOCALE + "-" + DEVICE + "-" + DPI
 
 const audioParts = [
@@ -20,6 +18,10 @@ const audioParts = [
     "/Part_2",
     "/Part_3",
     "/Sfx",
+]
+
+const picturesDir = [
+    obbDir + "/" + LOCALE + "/images"
 ]
 
 const otherAssets = [
@@ -93,18 +95,20 @@ interactions.forEach(interaction => {
 
 
 console.log('=> Processing images...')
-fs.readdirSync(picturesDir).forEach(file => {
+picturesDir.forEach(dir => {
+    fs.readdirSync(dir).forEach(file => {
 
-    const dest = "/tmp/part" + currentPart + "/images"
-    const source = picturesDir + "/" + file
+        const dest = "/tmp/part" + currentPart + "/images"
+        const source = dir + "/" + file
 
-    fs.ensureDir(dest, () => {})
+        fs.ensureDir(dest, () => {})
 
-    fs.copySync(source, dest + "/" + file)
+        fs.copySync(source, dest + "/" + file)
 
-    currentPart += 1
+        currentPart += 1
 
-    if (currentPart > PARTS) currentPart = 1
+        if (currentPart > PARTS) currentPart = 1
+    })
 })
 
 
