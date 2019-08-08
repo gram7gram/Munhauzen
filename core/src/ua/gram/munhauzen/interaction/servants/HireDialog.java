@@ -20,6 +20,7 @@ import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.Inventory;
 import ua.gram.munhauzen.entity.ServantsState;
 import ua.gram.munhauzen.entity.StoryAudio;
@@ -304,6 +305,8 @@ public class HireDialog extends Fragment {
 
         if (isFadeIn) return;
 
+        GameState.pause();
+
         isFadeIn = true;
 
         root.clearActions();
@@ -442,6 +445,9 @@ public class HireDialog extends Fragment {
     }
 
     public void update() {
+
+        if (!isMounted()) return;
+
         if (muchAudio != null) {
             gameScreen.audioService.updateVolume(muchAudio);
         }

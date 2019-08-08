@@ -73,9 +73,10 @@ public class CannonsInteraction extends AbstractInteraction {
     public void update() {
         super.update();
 
+        if (assetManager == null) return;
+
         gameScreen.hideProgressBar();
 
-        assetManager.update();
 
         if (!isLoaded) {
             if (assetManager.isFinished()) {

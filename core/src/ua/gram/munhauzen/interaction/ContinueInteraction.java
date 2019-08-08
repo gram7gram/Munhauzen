@@ -49,7 +49,7 @@ public class ContinueInteraction extends AbstractInteraction {
     public void update() {
         super.update();
 
-        assetManager.update();
+        if (assetManager == null) return;
 
         if (!isLoaded) {
             if (assetManager.isFinished()) {

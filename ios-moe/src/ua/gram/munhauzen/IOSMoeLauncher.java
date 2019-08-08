@@ -27,6 +27,8 @@ public class IOSMoeLauncher extends IOSApplication.Delegate {
         params.locale = "en";
         params.isPro = true;
 
+//        window().rootViewController().
+
         return new IOSApplication(new MunhauzenGame(params), config);
     }
 

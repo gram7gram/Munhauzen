@@ -16,15 +16,18 @@ public abstract class AbstractInteraction implements Disposable {
 
     final String tag = getClass().getSimpleName();
     public final GameScreen gameScreen;
-    public final AssetManager assetManager;
+    public AssetManager assetManager;
 
     public AbstractInteraction(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
+
         assetManager = new ExpansionAssetManager();
     }
 
     public void start() {
         Log.i(tag, "start");
+
+        GameState.unpause();
 
     }
 
@@ -33,14 +36,19 @@ public abstract class AbstractInteraction implements Disposable {
     }
 
     public void update() {
-
+        if (assetManager != null) {
+            assetManager.update();
+        }
     }
 
     @Override
     public void dispose() {
         Log.i(tag, "dispose");
-        assetManager.dispose();
-        gameScreen.audioService.dispose();
+
+        if (assetManager != null) {
+            assetManager.dispose();
+            assetManager = null;
+        }
 
         Timer.instance().clear();
 

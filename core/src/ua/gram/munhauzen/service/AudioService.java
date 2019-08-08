@@ -27,7 +27,7 @@ public class AudioService implements Disposable {
 
     private final String tag = getClass().getSimpleName();
     private final MunhauzenGame game;
-    public final ExpansionAssetManager assetManager;
+    public ExpansionAssetManager assetManager;
     public final HashMap<String, StoryAudio> activeAudio;
 
     public AudioService(MunhauzenGame game) {
@@ -261,6 +261,9 @@ public class AudioService implements Disposable {
     }
 
     public void update() {
+
+        if (assetManager == null) return;
+
         assetManager.update();
 
         updateVolume();
@@ -268,12 +271,11 @@ public class AudioService implements Disposable {
 
     @Override
     public void dispose() {
-        try {
-            stop();
+        stop();
 
+        if (assetManager != null) {
             assetManager.dispose();
-        } catch (Throwable e) {
-            Log.e(tag, e);
+            assetManager = null;
         }
     }
 }

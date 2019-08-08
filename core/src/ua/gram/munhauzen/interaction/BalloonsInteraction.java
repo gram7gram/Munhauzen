@@ -27,9 +27,9 @@ public class BalloonsInteraction extends AbstractInteraction {
 
         gameScreen.hideProgressBar();
 
-        assetManager.load("LoadingScreen/lv_cloud_1.png", Texture.class);
-        assetManager.load("LoadingScreen/lv_cloud_2.png", Texture.class);
-        assetManager.load("LoadingScreen/lv_cloud_3.png", Texture.class);
+        assetManager.load("balloons/lv_cloud_1.png", Texture.class);
+        assetManager.load("balloons/lv_cloud_2.png", Texture.class);
+        assetManager.load("balloons/lv_cloud_3.png", Texture.class);
         assetManager.load("balloons/ducks_sheet_1x6.png", Texture.class);
         assetManager.load("balloons/inter_balloons_1.png", Texture.class);
         assetManager.load("balloons/inter_balloons_2.png", Texture.class);
@@ -74,9 +74,9 @@ public class BalloonsInteraction extends AbstractInteraction {
     public void update() {
         super.update();
 
-        gameScreen.hideProgressBar();
+        if (assetManager == null) return;
 
-        assetManager.update();
+        gameScreen.hideProgressBar();
 
         if (!isLoaded) {
             if (assetManager.isFinished()) {

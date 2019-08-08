@@ -8,6 +8,7 @@ obb/en
 obb/ru
 obb/uk
 obb/1-*
+obb/*.json
 
 ## Robovm
 /ios/robovm-build/

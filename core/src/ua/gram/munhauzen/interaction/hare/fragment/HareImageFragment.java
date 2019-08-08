@@ -41,9 +41,9 @@ public class HareImageFragment extends InteractionFragment {
 
         backgroundImage = new BackgroundImage(interaction.gameScreen);
 
-        Texture cloud1Texture = interaction.assetManager.get("LoadingScreen/lv_cloud_1.png", Texture.class);
-        Texture cloud2Texture = interaction.assetManager.get("LoadingScreen/lv_cloud_2.png", Texture.class);
-        Texture cloud3Texture = interaction.assetManager.get("LoadingScreen/lv_cloud_3.png", Texture.class);
+        Texture cloud1Texture = interaction.assetManager.get("hare/lv_cloud_1.png", Texture.class);
+        Texture cloud2Texture = interaction.assetManager.get("hare/lv_cloud_2.png", Texture.class);
+        Texture cloud3Texture = interaction.assetManager.get("hare/lv_cloud_3.png", Texture.class);
         Texture ducksTexture = interaction.assetManager.get("hare/ducks_sheet_1x6.png", Texture.class);
         Texture groundTexture = interaction.assetManager.get("hare/inter_hare_ground.png", Texture.class);
         Texture hareTexture = interaction.assetManager.get("hare/hare_sheet_4x1.png", Texture.class);

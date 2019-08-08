@@ -71,9 +71,9 @@ public class WauInteraction extends AbstractInteraction {
     public void update() {
         super.update();
 
-        gameScreen.hideProgressBar();
+        if (assetManager == null) return;
 
-        assetManager.update();
+        gameScreen.hideProgressBar();
 
         if (!isLoaded) {
             if (assetManager.isFinished()) {

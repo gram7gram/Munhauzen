@@ -34,7 +34,7 @@ public class SlapImageFragment extends InteractionFragment {
     public Image beforeImg, afterImg, betweenImg, doorsImg;
     public Table beforeTable, afterTable, betweenTable, headerTable, doorsTable;
     Group group;
-    float afterWidth, betweenWidth, beforeWidth;
+    float afterWidth, betweenWidth, beforeWidth, beforeHeight;
     StoryAudio introAudio, winAudio;
 
     public SlapImageFragment(SlapInteraction interaction) {
@@ -246,20 +246,24 @@ public class SlapImageFragment extends InteractionFragment {
 
         beforeWidth = MunhauzenGame.WORLD_WIDTH;
         float scale = 1f * beforeWidth / beforeImg.getDrawable().getMinWidth();
-        float height = 1f * beforeImg.getDrawable().getMinHeight() * scale;
+        beforeHeight = 1f * beforeImg.getDrawable().getMinHeight() * scale;
 
         beforeTable.getCell(beforeImg)
                 .width(beforeWidth)
-                .height(height);
+                .height(beforeHeight);
     }
 
     public void setDoorsBackground(Texture texture) {
 
         doorsImg.setDrawable(new SpriteDrawable(new Sprite(texture)));
 
+        float width = MunhauzenGame.WORLD_WIDTH;
+        float scale = 1f * width / doorsImg.getDrawable().getMinWidth();
+        float height = 1f * doorsImg.getDrawable().getMinHeight() * scale;
+
         doorsTable.getCell(doorsImg)
-                .width(MunhauzenGame.WORLD_WIDTH)
-                .height(MunhauzenGame.WORLD_HEIGHT);
+                .width(width)
+                .height(height);
     }
 
     public void setAfterBackground(Texture texture, String file) {
@@ -281,7 +285,7 @@ public class SlapImageFragment extends InteractionFragment {
 
         betweenImg.setDrawable(new SpriteDrawable(new Sprite(texture)));
 
-        float height = MunhauzenGame.WORLD_HEIGHT;
+        float height = beforeHeight;
         float scale = 1f * height / betweenImg.getDrawable().getMinHeight();
         betweenWidth = 1f * betweenImg.getDrawable().getMinWidth() * scale;
 

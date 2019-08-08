@@ -38,9 +38,9 @@ public class HareInteraction extends AbstractInteraction {
         scenarioRegistry = gameScreen.game.databaseManager.loadHareScenario();
         storyManager = new HareStoryManager(gameScreen, this);
 
-        assetManager.load("LoadingScreen/lv_cloud_1.png", Texture.class);
-        assetManager.load("LoadingScreen/lv_cloud_2.png", Texture.class);
-        assetManager.load("LoadingScreen/lv_cloud_3.png", Texture.class);
+        assetManager.load("hare/lv_cloud_1.png", Texture.class);
+        assetManager.load("hare/lv_cloud_2.png", Texture.class);
+        assetManager.load("hare/lv_cloud_3.png", Texture.class);
         assetManager.load("hare/ducks_sheet_1x6.png", Texture.class);
         assetManager.load("hare/hare_sheet_4x1.png", Texture.class);
         assetManager.load("hare/horse_sheet_5x1.png", Texture.class);
@@ -76,9 +76,9 @@ public class HareInteraction extends AbstractInteraction {
     public void update() {
         super.update();
 
-        gameScreen.hideProgressBar();
+        if (assetManager == null) return;
 
-        assetManager.update();
+        gameScreen.hideProgressBar();
 
         if (!isLoaded) {
             if (assetManager.isFinished()) {

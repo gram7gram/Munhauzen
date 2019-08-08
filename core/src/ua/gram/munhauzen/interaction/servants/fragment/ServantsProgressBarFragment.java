@@ -408,8 +408,10 @@ public class ServantsProgressBarFragment extends Fragment {
 
         interaction.hireFragment.hireDialog.root.setVisible(story.isCompleted);
 
-        pauseButton.setVisible(!GameState.isPaused);
-        playButton.setVisible(GameState.isPaused);
+        boolean canPlay = story.isCompleted || GameState.isPaused;
+
+        pauseButton.setVisible(!canPlay);
+        playButton.setVisible(canPlay);
 
         rewindForwardButton.setDisabled(story.isCompleted);
         rewindForwardButton.setTouchable(rewindForwardButton.isDisabled() ? Touchable.disabled : Touchable.enabled);
@@ -548,13 +550,11 @@ public class ServantsProgressBarFragment extends Fragment {
 
             story.update(story.progress, story.totalDuration);
 
-            gameScreen.interactionService.update();
-
             if (story.isValid()) {
 
                 if (!isCompletedBefore && story.isCompleted) {
 
-                    gameScreen.storyManager.onCompleted();
+                    interaction.storyManager.onCompleted();
 
                 }
             }

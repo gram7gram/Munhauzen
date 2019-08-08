@@ -1,6 +1,7 @@
 package ua.gram.munhauzen.expansion;
 
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -24,6 +25,10 @@ public class ExtractGameConfigTask {
     public void extract() throws IOException {
 
         FileHandle archive = ExternalFiles.getGameArchiveFile();
+        if (!archive.exists()) {
+            throw new GdxRuntimeException("Nothing to extract");
+        }
+
         ZipInputStream zis = new ZipInputStream(archive.read());
 
         try {

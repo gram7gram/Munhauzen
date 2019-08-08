@@ -30,7 +30,7 @@ public abstract class ImageService implements Disposable {
 
     protected final String tag = getClass().getSimpleName();
     protected final GameScreen gameScreen;
-    public final AssetManager assetManager;
+    public AssetManager assetManager;
     Transition transition;
 
     public ImageService(GameScreen gameScreen) {
@@ -155,6 +155,8 @@ public abstract class ImageService implements Disposable {
 
     public void update() {
 
+        if (assetManager == null) return;
+
         assetManager.update();
 
         Story story = gameScreen.getStory();
@@ -186,6 +188,9 @@ public abstract class ImageService implements Disposable {
 
     @Override
     public void dispose() {
-        assetManager.dispose();
+        if (assetManager != null) {
+            assetManager.dispose();
+            assetManager = null;
+        }
     }
 }

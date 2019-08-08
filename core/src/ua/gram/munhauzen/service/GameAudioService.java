@@ -47,7 +47,7 @@ public class GameAudioService implements Disposable {
 
     private final String tag = getClass().getSimpleName();
     private final GameScreen gameScreen;
-    public final ExpansionAssetManager assetManager;
+    public ExpansionAssetManager assetManager;
     public final HashMap<String, StoryAudio> activeAudio;
 
     public GameAudioService(GameScreen gameScreen) {
@@ -664,6 +664,8 @@ public class GameAudioService implements Disposable {
     }
 
     public void update() {
+        if (assetManager == null) return;
+
         assetManager.update();
 
         updateVolume();
@@ -721,12 +723,11 @@ public class GameAudioService implements Disposable {
 
     @Override
     public void dispose() {
-        try {
-            stop();
+        stop();
 
+        if (assetManager != null) {
             assetManager.dispose();
-        } catch (Throwable e) {
-            Log.e(tag, e);
+            assetManager = null;
         }
     }
 }

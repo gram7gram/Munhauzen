@@ -177,9 +177,9 @@ public class ServantsInteraction extends AbstractInteraction {
     public void update() {
         super.update();
 
-        gameScreen.hideProgressBar();
+        if (assetManager == null) return;
 
-        assetManager.update();
+        gameScreen.hideProgressBar();
 
         if (imageService != null) {
             imageService.update();

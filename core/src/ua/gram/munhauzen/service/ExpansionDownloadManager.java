@@ -123,6 +123,13 @@ public class ExpansionDownloadManager implements Disposable {
 
                 part.isDownloaded = false;
                 part.isDownloadFailure = true;
+
+                Gdx.app.postRunnable(new Runnable() {
+                    @Override
+                    public void run() {
+                        cancel();
+                    }
+                });
             }
 
             private void cleanup() {
@@ -244,13 +251,13 @@ public class ExpansionDownloadManager implements Disposable {
 
                         final float sizeMb = (float) (serverExpansionInfo.size / 1024f / 1024f);
 
-                        float memory = game.params.memoryUsage.megabytesAvailable();
+                        final float memory = game.params.memoryUsage.megabytesAvailable();
                         if (memory > 0) {
                             if (sizeMb > memory) {
                                 Gdx.app.postRunnable(new Runnable() {
                                     @Override
                                     public void run() {
-                                        onLowMemory();
+                                        onLowMemory(memory);
                                     }
                                 });
                                 return;
@@ -287,10 +294,10 @@ public class ExpansionDownloadManager implements Disposable {
         });
     }
 
-    private void onLowMemory() {
+    private void onLowMemory(float memory) {
         Log.i(tag, "onLowMemory");
 
-        fragment.progressLbl.setText("Недостаточно памяти для файла расширения");
+        fragment.progressLbl.setText("Недостаточно памяти для файла расширения (доступно " + memory + "mb)");
         cancel();
     }
 

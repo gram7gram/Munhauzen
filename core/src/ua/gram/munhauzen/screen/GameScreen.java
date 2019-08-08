@@ -177,6 +177,8 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
+        if (assetManager == null) return;
+
         assetManager.update();
 
         if (!isLoaded) {
@@ -347,7 +349,10 @@ public class GameScreen implements Screen {
 
         isLoaded = false;
 
-        assetManager.dispose();
+        if (assetManager != null) {
+            assetManager.dispose();
+            assetManager = null;
+        }
 
         if (ui != null) {
             ui.dispose();
@@ -379,7 +384,10 @@ public class GameScreen implements Screen {
             controlsFragment = null;
         }
 
-        gameLayers.dispose();
+        if (gameLayers != null) {
+            gameLayers.dispose();
+            gameLayers = null;
+        }
 
         background = null;
 

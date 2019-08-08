@@ -140,11 +140,19 @@ public class ControlsFragment extends Fragment {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                try {
-                    startDownload();
-                } catch (Throwable e) {
-                    Log.e(tag, e);
-                }
+
+                downloadButton.setDisabled(true);
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            startDownload();
+                        } catch (Throwable e) {
+                            Log.e(tag, e);
+                        }
+                    }
+                }).start();
             }
         });
 
@@ -443,11 +451,6 @@ public class ControlsFragment extends Fragment {
                         FileHandle output = ExternalFiles.getGameArchiveFile();
 
                         try {
-                            long length = Long.parseLong(httpResponse.getHeader("Content-Length"));
-
-                            float mb = length / 1024f / 1024f;
-                            Log.i(tag, "downloading size=" + String.format("%.2f", mb) + "MB");
-
                             InputStream is = httpResponse.getResultAsStream();
 
                             OutputStream os = output.write(false);
@@ -483,6 +486,7 @@ public class ControlsFragment extends Fragment {
                                 @Override
                                 public void run() {
                                     progressLbl.setText("Конфиги готовы к использованию");
+                                    downloadButton.setDisabled(false);
 
                                     createInventoryTable();
 
@@ -499,6 +503,7 @@ public class ControlsFragment extends Fragment {
                                 @Override
                                 public void run() {
                                     progressLbl.setText("Невозможно использовать конфиги");
+                                    downloadButton.setDisabled(false);
                                 }
                             });
 
@@ -515,6 +520,7 @@ public class ControlsFragment extends Fragment {
                             @Override
                             public void run() {
                                 progressLbl.setText("Скачивание неудачно");
+                                downloadButton.setDisabled(false);
                             }
                         });
                     }

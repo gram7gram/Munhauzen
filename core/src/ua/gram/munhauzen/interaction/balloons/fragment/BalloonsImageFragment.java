@@ -58,9 +58,9 @@ public class BalloonsImageFragment extends InteractionFragment {
 
         backgroundImage = new BackgroundImage(interaction.gameScreen);
 
-        Texture cloud1Texture = interaction.assetManager.get("LoadingScreen/lv_cloud_1.png", Texture.class);
-        Texture cloud2Texture = interaction.assetManager.get("LoadingScreen/lv_cloud_2.png", Texture.class);
-        Texture cloud3Texture = interaction.assetManager.get("LoadingScreen/lv_cloud_3.png", Texture.class);
+        Texture cloud1Texture = interaction.assetManager.get("balloons/lv_cloud_1.png", Texture.class);
+        Texture cloud2Texture = interaction.assetManager.get("balloons/lv_cloud_2.png", Texture.class);
+        Texture cloud3Texture = interaction.assetManager.get("balloons/lv_cloud_3.png", Texture.class);
         Texture ducksTexture = interaction.assetManager.get("balloons/ducks_sheet_1x6.png", Texture.class);
         final Texture bal1Texture = interaction.assetManager.get("balloons/inter_balloons_1.png", Texture.class);
         Texture bal2Texture = interaction.assetManager.get("balloons/inter_balloons_2.png", Texture.class);

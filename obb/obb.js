@@ -3,7 +3,6 @@ const archiver = require('archiver');
 
 const obbDir = "/Users/master/Projects/Munhauzen/obb"
 const audioDir = "/Users/master/Projects/MunhauzenDocs/Elements/AUDIO_FINAL"
-const picturesDir = "/Users/master/Projects/MunhauzenDocs/Elements/PICTURES_FINAL"
 const internalAssetsDir = obbDir + "/assets"
 
 const PARTS = 10;
@@ -11,6 +10,8 @@ const VERSION = 1;
 const LOCALE = 'en';
 const DEVICE = 'phone';
 const DPI = 'hdpi';
+
+const picturesDir = obbDir + "/" + LOCALE + "/images"
 
 const VERSION_NAME = VERSION + "-" + LOCALE + "-" + DEVICE + "-" + DPI
 
@@ -26,11 +27,6 @@ const otherAssets = [
     '/GameScreen',
     '/ui',
     '/saves',
-]
-
-const imagesParts = [
-    "/drawable",
-    "/drawable-horizontal",
 ]
 
 const interactions = [
@@ -95,21 +91,20 @@ interactions.forEach(interaction => {
     if (currentPart > PARTS) currentPart = 1
 })
 
+
 console.log('=> Processing images...')
-imagesParts.forEach(dir => {
-    fs.readdirSync(picturesDir + dir).forEach(file => {
+fs.readdirSync(picturesDir).forEach(file => {
 
-        const dest = "/tmp/part" + currentPart + "/images"
-        const source = picturesDir + dir + "/" + file
+    const dest = "/tmp/part" + currentPart + "/images"
+    const source = picturesDir + "/" + file
 
-        fs.ensureDir(dest, () => {})
+    fs.ensureDir(dest, () => {})
 
-        fs.copySync(source, dest + "/" + file)
+    fs.copySync(source, dest + "/" + file)
 
-        currentPart += 1
+    currentPart += 1
 
-        if (currentPart > PARTS) currentPart = 1
-    })
+    if (currentPart > PARTS) currentPart = 1
 })
 
 
