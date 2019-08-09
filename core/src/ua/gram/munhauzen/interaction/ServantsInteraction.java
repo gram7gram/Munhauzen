@@ -227,6 +227,12 @@ public class ServantsInteraction extends AbstractInteraction {
 
     private void disposeHire() {
 
+        HireStory story = storyManager.story;
+        if (story != null) {
+            gameScreen.audioService.dispose(story);
+            imageService.dispose(story);
+        }
+
         if (imageService != null) {
             imageService.dispose();
             imageService = null;
@@ -244,8 +250,6 @@ public class ServantsInteraction extends AbstractInteraction {
     public void dispose() {
         super.dispose();
 
-        disposeHire();
-
         if (fireFragment != null) {
             fireFragment.dispose();
             fireFragment = null;
@@ -260,6 +264,8 @@ public class ServantsInteraction extends AbstractInteraction {
             gameScreen.audioService.stop(fireAudio);
             fireAudio = null;
         }
+
+        disposeHire();
 
     }
 

@@ -214,6 +214,7 @@ public class CannonsScenarioFragment extends Fragment {
         GameState.pause();
 
         root.setName(tag);
+        root.setVisible(false);
     }
 
     private void makeDecision(final int currentIndex, Decision decision) {
@@ -362,6 +363,8 @@ public class CannonsScenarioFragment extends Fragment {
     public void fadeIn() {
 
         if (!isMounted()) return;
+
+        root.setVisible(true);
 
         fadeInWithoutDecoration();
 

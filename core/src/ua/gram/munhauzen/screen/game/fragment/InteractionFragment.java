@@ -15,6 +15,7 @@ public abstract class InteractionFragment extends Fragment {
         final Touchable before = actor.getTouchable();
 
         actor.setTouchable(Touchable.disabled);
+        actor.setVisible(true);
 
         actor.addAction(Actions.sequence(
                 Actions.alpha(0),

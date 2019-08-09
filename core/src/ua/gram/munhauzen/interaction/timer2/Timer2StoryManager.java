@@ -251,6 +251,8 @@ public class Timer2StoryManager {
             gameScreen.gameLayers.setStoryDecisionsLayer(
                     interaction.scenarioFragment
             );
+
+            interaction.scenarioFragment.fadeIn();
         }
     }
 

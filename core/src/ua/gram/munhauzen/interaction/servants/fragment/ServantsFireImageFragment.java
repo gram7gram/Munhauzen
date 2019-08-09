@@ -44,6 +44,7 @@ public class ServantsFireImageFragment extends InteractionFragment {
     final int servantLimit = 5;
     Label progressLabel;
     StoryAudio dismissAudio, backAudio, discardAudio;
+    PrimaryButton backBtn, clearBtn;
 
     public static final String[] names = {
             "GIGANT",
@@ -73,10 +74,12 @@ public class ServantsFireImageFragment extends InteractionFragment {
 
         fireDialog = new FireDialog(interaction);
 
-        PrimaryButton backBtn = interaction.gameScreen.game.buttonBuilder.primary("Back", new ClickListener() {
+        backBtn = interaction.gameScreen.game.buttonBuilder.primary("Back", new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
+
+                backBtn.setDisabled(true);
 
                 root.setTouchable(Touchable.disabled);
 
@@ -99,10 +102,12 @@ public class ServantsFireImageFragment extends InteractionFragment {
             }
         });
 
-        PrimaryButton clearBtn = interaction.gameScreen.game.buttonBuilder.danger("Discard", new ClickListener() {
+        clearBtn = interaction.gameScreen.game.buttonBuilder.danger("Discard", new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
+
+                clearBtn.setDisabled(true);
 
                 root.setTouchable(Touchable.disabled);
 

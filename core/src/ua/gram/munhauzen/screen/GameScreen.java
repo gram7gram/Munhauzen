@@ -408,7 +408,6 @@ public class GameScreen implements Screen {
 
             if (!progressBarFragment.isFadeIn) {
                 progressBarFragment.fadeIn();
-                progressBarFragment.scheduleFadeOut();
             }
         } catch (Throwable e) {
             Log.e(tag, e);

@@ -65,6 +65,9 @@ public class ServantsHireImageFragment extends InteractionFragment {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
+
+                servantsBtn.setDisabled(true);
+
                 try {
                     interaction.openFireFragment();
                 } catch (Throwable e) {

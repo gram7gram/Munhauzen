@@ -210,6 +210,7 @@ public class TimerScenarioFragment extends Fragment {
         GameState.pause();
 
         root.setName(tag);
+        root.setVisible(false);
 
         interaction.imageFragment.startTimer();
     }
@@ -340,6 +341,8 @@ public class TimerScenarioFragment extends Fragment {
     public void fadeIn() {
 
         if (!isMounted()) return;
+
+        root.setVisible(true);
 
         fadeInWithoutDecoration();
 

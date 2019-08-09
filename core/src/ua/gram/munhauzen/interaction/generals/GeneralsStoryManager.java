@@ -244,6 +244,8 @@ public class GeneralsStoryManager {
             gameScreen.gameLayers.setStoryDecisionsLayer(
                     interaction.scenarioFragment
             );
+
+            interaction.scenarioFragment.fadeIn();
         }
     }
 

@@ -148,6 +148,8 @@ public class StoryScenario extends StoryMedia<StoryScenario> {
             image.isActive = false;
             image.isLocked = false;
             image.isCompleted = false;
+            image.isPrepared = false;
+            image.isPreparing = false;
         }
 
         for (StoryAudio audio : scenario.audio) {
@@ -155,6 +157,8 @@ public class StoryScenario extends StoryMedia<StoryScenario> {
             audio.isActive = false;
             audio.isLocked = false;
             audio.isCompleted = false;
+            audio.isPrepared = false;
+            audio.isPreparing = false;
         }
     }
 }

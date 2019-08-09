@@ -1,7 +1,5 @@
 package ua.gram.munhauzen.service;
 
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.Timer;
 
@@ -10,10 +8,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Set;
 
-import ua.gram.munhauzen.entity.Audio;
 import ua.gram.munhauzen.entity.Decision;
 import ua.gram.munhauzen.entity.GameState;
-import ua.gram.munhauzen.entity.Image;
 import ua.gram.munhauzen.entity.Inventory;
 import ua.gram.munhauzen.entity.Scenario;
 import ua.gram.munhauzen.entity.Story;
@@ -21,15 +17,11 @@ import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.entity.StoryImage;
 import ua.gram.munhauzen.entity.StoryScenario;
 import ua.gram.munhauzen.history.Save;
-import ua.gram.munhauzen.repository.AudioRepository;
-import ua.gram.munhauzen.repository.ImageRepository;
 import ua.gram.munhauzen.repository.InventoryRepository;
 import ua.gram.munhauzen.repository.ScenarioRepository;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.screen.game.fragment.ScenarioFragment;
-import ua.gram.munhauzen.utils.ExternalFiles;
 import ua.gram.munhauzen.utils.Log;
-import ua.gram.munhauzen.utils.StringUtils;
 
 public class StoryManager {
 
@@ -47,7 +39,7 @@ public class StoryManager {
         reset();
 
         Story story = new Story();
-        story.id = StringUtils.cid();
+        story.id = optionId;
 
         Scenario scenario = ScenarioRepository.find(gameState, optionId);
 
@@ -179,7 +171,8 @@ public class StoryManager {
     }
 
     public void startLoadingAudio() {
-        Story story = gameState.history.activeSave.story;
+        Story story = gameScreen.getStory();
+        if (story == null) return;
 
         try {
             StoryScenario option = story.currentScenario;
@@ -296,6 +289,8 @@ public class StoryManager {
             gameScreen.gameLayers.setStoryDecisionsLayer(
                     gameScreen.scenarioFragment
             );
+
+            gameScreen.scenarioFragment.fadeIn();
         }
     }
 
@@ -313,47 +308,23 @@ public class StoryManager {
         }
 
         for (StoryScenario storyScenario : story.scenarios) {
-
-            for (StoryAudio storyAudio : storyScenario.scenario.audio) {
-
-                try {
-                    Audio audio = AudioRepository.find(gameScreen.game.gameState, storyAudio.audio);
-
-                    String resource = ExternalFiles.getExpansionAudio(audio).path();
-
-                    if (gameScreen.audioService.assetManager.isLoaded(resource, Music.class)) {
-                        if (gameScreen.audioService.assetManager.getReferenceCount(resource) == 0) {
-                            gameScreen.audioService.assetManager.unload(resource);
-                        }
-                    }
-                } catch (Throwable e) {
-                    Log.e(tag, e);
-                }
-            }
-
-            for (StoryImage storyImage : storyScenario.scenario.images) {
-                try {
-
-                    if (ImageRepository.LAST.equals(storyImage.image)) continue;
-
-                    Image image = ImageRepository.find(gameScreen.game.gameState, storyImage.image);
-
-                    String resource = ExternalFiles.getExpansionImage(image).path();
-
-                    if (gameScreen.imageService.assetManager.isLoaded(resource, Texture.class)) {
-                        if (gameScreen.imageService.assetManager.getReferenceCount(resource) == 0) {
-                            gameScreen.imageService.assetManager.unload(resource);
-                        }
-                    }
-                } catch (Throwable e) {
-                    Log.e(tag, e);
-                }
-            }
-
             storyScenario.reset();
         }
 
-        gameScreen.assetManager.finishLoading();
+        int beforeAudio = gameScreen.audioService.assetManager.getLoadedAssets();
+
+        gameScreen.audioService.dispose(story);
+
+        int afterAudio = gameScreen.audioService.assetManager.getLoadedAssets();
+
+        int beforeImages = gameScreen.imageService.assetManager.getLoadedAssets();
+
+        gameScreen.imageService.dispose(story, false);
+
+        int afterImages = gameScreen.imageService.assetManager.getLoadedAssets();
+
+        Log.i(tag, "audio " + beforeAudio + " => " + afterAudio);
+        Log.i(tag, "image " + beforeImages + " => " + afterImages);
 
         story.reset();
     }

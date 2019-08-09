@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -160,7 +162,6 @@ public class HareProgressBarFragment extends Fragment {
 
                     startCurrentMusicIfPaused();
 
-                    scheduleFadeOut();
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -179,7 +180,6 @@ public class HareProgressBarFragment extends Fragment {
 
                     GameState.pause();
 
-                    scheduleFadeOut();
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -252,7 +252,6 @@ public class HareProgressBarFragment extends Fragment {
 
                     startCurrentMusicIfPaused();
 
-                    scheduleFadeOut();
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -311,7 +310,6 @@ public class HareProgressBarFragment extends Fragment {
 
                     startCurrentMusicIfPaused();
 
-                    scheduleFadeOut();
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -370,7 +368,6 @@ public class HareProgressBarFragment extends Fragment {
 
                     startCurrentMusicIfPaused();
 
-                    scheduleFadeOut();
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -419,6 +416,16 @@ public class HareProgressBarFragment extends Fragment {
         stack.addActor(decorCenterContainer);
         stack.addActor(decorRightContainer);
         stack.addActor(barTable);
+
+        stack.addListener(new EventListener() {
+            @Override
+            public boolean handle(Event event) {
+
+                scheduleFadeOut();
+
+                return false;
+            }
+        });
 
         root = new Table();
         root.add(stack).align(Align.bottom).fillX().expand().row();
@@ -506,6 +513,8 @@ public class HareProgressBarFragment extends Fragment {
                             public void run() {
                                 isFadeIn = false;
                                 isFadeOut = false;
+
+                                scheduleFadeOut();
                             }
                         })
                 )

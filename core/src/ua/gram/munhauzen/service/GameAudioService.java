@@ -29,6 +29,8 @@ import ua.gram.munhauzen.interaction.hare.HareStory;
 import ua.gram.munhauzen.interaction.hare.HareStoryScenario;
 import ua.gram.munhauzen.interaction.picture.PictureStory;
 import ua.gram.munhauzen.interaction.picture.PictureStoryScenario;
+import ua.gram.munhauzen.interaction.servants.hire.HireStory;
+import ua.gram.munhauzen.interaction.servants.hire.HireStoryScenario;
 import ua.gram.munhauzen.interaction.timer.TimerStory;
 import ua.gram.munhauzen.interaction.timer.TimerStoryScenario;
 import ua.gram.munhauzen.interaction.wauwau.WauStory;
@@ -122,19 +124,8 @@ public class GameAudioService implements Disposable {
 
         item.player.setVolume(GameState.isMute ? 0 : 1);
 
-//        item.player.setOnCompletionListener(new Music.OnCompletionListener() {
-//            @Override
-//            public void onCompletion(Music music) {
-//                Log.i(tag, "onCompletion " + resource);
-//                try {
-//                    stop(item);
-//                } catch (Throwable e) {
-//                    Log.e(tag, e);
-//                }
-//            }
-//        });
-
         item.player.play();
+
         synchronized (activeAudio) {
             activeAudio.put(item.audio, item);
         }
@@ -725,9 +716,76 @@ public class GameAudioService implements Disposable {
     public void dispose() {
         stop();
 
+        Story story = gameScreen.getStory();
+        if (story != null) {
+            dispose(story);
+        }
+
         if (assetManager != null) {
             assetManager.dispose();
             assetManager = null;
         }
+    }
+
+    public synchronized void dispose(HireStory story) {
+        if (assetManager == null) return;
+
+        Log.i(tag, "dispose " + story.id);
+
+        for (HireStoryScenario storyScenario : story.scenarios) {
+
+            if (storyScenario.scenario.audio != null) {
+                for (StoryAudio item : storyScenario.scenario.audio) {
+
+                    stop(item);
+
+                    item.player = null;
+                    item.isPrepared = false;
+
+                    if (item.resource != null) {
+                        if (assetManager.isLoaded(item.resource)) {
+                            if (assetManager.getReferenceCount(item.resource) == 0) {
+                                assetManager.unload(item.resource);
+                                item.resource = null;
+                            } else {
+                                Log.e(tag, item.audio + " dispose ignored");
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+
+    public synchronized void dispose(Story story) {
+        if (assetManager == null) return;
+
+        Log.i(tag, "dispose " + story.id);
+
+        for (StoryScenario storyScenario : story.scenarios) {
+
+            if (storyScenario.scenario.audio != null) {
+                for (StoryAudio item : storyScenario.scenario.audio) {
+
+                    stop(item);
+
+                    item.player = null;
+                    item.isPrepared = false;
+
+                    if (item.resource != null) {
+                        if (assetManager.isLoaded(item.resource)) {
+                            if (assetManager.getReferenceCount(item.resource) == 0) {
+                                assetManager.unload(item.resource);
+                                item.resource = null;
+                            } else {
+                                Log.e(tag, item.audio + " dispose ignored");
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
     }
 }

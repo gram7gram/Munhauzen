@@ -201,6 +201,8 @@ public class HareStoryManager {
             gameScreen.gameLayers.setStoryDecisionsLayer(
                     interaction.scenarioFragment
             );
+
+            interaction.scenarioFragment.fadeIn();
         }
     }
 

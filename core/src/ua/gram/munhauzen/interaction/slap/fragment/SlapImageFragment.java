@@ -20,6 +20,7 @@ import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.interaction.SlapInteraction;
 import ua.gram.munhauzen.screen.game.fragment.InteractionFragment;
+import ua.gram.munhauzen.screen.game.ui.BackgroundImage;
 import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.ui.PrimaryButton;
 import ua.gram.munhauzen.utils.Log;
@@ -31,11 +32,12 @@ public class SlapImageFragment extends InteractionFragment {
 
     private final SlapInteraction interaction;
     public Stack root;
-    public Image beforeImg, afterImg, betweenImg, doorsImg;
-    public Table beforeTable, afterTable, betweenTable, headerTable, doorsTable;
+    public Image beforeImg, afterImg, betweenImg;
+    public Table beforeTable, afterTable, betweenTable, headerTable;
     Group group;
     float afterWidth, betweenWidth, beforeWidth, beforeHeight;
     StoryAudio introAudio, winAudio;
+    BackgroundImage doorBackground;
 
     public SlapImageFragment(SlapInteraction interaction) {
         this.interaction = interaction;
@@ -57,7 +59,6 @@ public class SlapImageFragment extends InteractionFragment {
         beforeImg = new FitImage();
         afterImg = new FitImage();
         betweenImg = new FitImage();
-        doorsImg = new Image();
 
         beforeTable = new Table();
         beforeTable.setFillParent(true);
@@ -71,10 +72,8 @@ public class SlapImageFragment extends InteractionFragment {
         betweenTable.setFillParent(true);
         betweenTable.add(betweenImg).center().expand().fill();
 
-        doorsTable = new Table();
-        doorsTable.setFillParent(true);
-        doorsTable.add(doorsImg).center().expand().fill();
-        doorsTable.setTouchable(Touchable.disabled);
+        doorBackground = new BackgroundImage(interaction.gameScreen);
+        doorBackground.setTouchable(Touchable.disabled);
 
         headerTable = new Table();
         headerTable.setTouchable(Touchable.disabled);
@@ -117,7 +116,7 @@ public class SlapImageFragment extends InteractionFragment {
         root.setFillParent(true);
         root.setTouchable(Touchable.childrenOnly);
         root.addActor(group);
-        root.addActor(doorsTable);
+        root.addActor(doorBackground);
         root.addActor(headerTable);
 
         root.setName(tag);
@@ -224,8 +223,6 @@ public class SlapImageFragment extends InteractionFragment {
 
             interaction.gameScreen.audioService.prepareAndPlay(introAudio);
 
-            introAudio.player.setLooping(true);
-
         } catch (Throwable e) {
             Log.e(tag, e);
 
@@ -255,15 +252,7 @@ public class SlapImageFragment extends InteractionFragment {
 
     public void setDoorsBackground(Texture texture) {
 
-        doorsImg.setDrawable(new SpriteDrawable(new Sprite(texture)));
-
-        float width = MunhauzenGame.WORLD_WIDTH;
-        float scale = 1f * width / doorsImg.getDrawable().getMinWidth();
-        float height = 1f * doorsImg.getDrawable().getMinHeight() * scale;
-
-        doorsTable.getCell(doorsImg)
-                .width(width)
-                .height(height);
+        doorBackground.setBackgroundDrawable(new SpriteDrawable(new Sprite(texture)));
     }
 
     public void setAfterBackground(Texture texture, String file) {

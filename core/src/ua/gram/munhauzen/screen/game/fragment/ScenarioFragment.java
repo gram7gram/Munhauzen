@@ -221,6 +221,8 @@ public class ScenarioFragment extends Fragment {
         GameState.pause();
 
         root.setName(tag);
+
+        root.setVisible(false);
     }
 
     private void makeDecision(final int currentIndex, Decision decision) {
@@ -228,8 +230,6 @@ public class ScenarioFragment extends Fragment {
             Log.i(tag, "primaryDecision clicked " + decision.scenario);
 
             GameState.unpause();
-
-            gameScreen.audioService.dispose();
 
             final Runnable onComplete = new Runnable() {
                 @Override
@@ -361,6 +361,8 @@ public class ScenarioFragment extends Fragment {
     public void fadeIn() {
 
         if (!isMounted()) return;
+
+        root.setVisible(true);
 
         fadeInWithoutDecoration();
 

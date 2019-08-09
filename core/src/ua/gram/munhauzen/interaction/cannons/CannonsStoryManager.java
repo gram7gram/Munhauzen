@@ -340,6 +340,8 @@ public class CannonsStoryManager {
             gameScreen.gameLayers.setStoryDecisionsLayer(
                     interaction.scenarioFragment
             );
+
+            interaction.scenarioFragment.fadeIn();
         }
     }
 

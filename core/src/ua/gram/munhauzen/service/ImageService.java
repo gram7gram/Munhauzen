@@ -15,6 +15,8 @@ import ua.gram.munhauzen.entity.Scenario;
 import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.entity.StoryImage;
 import ua.gram.munhauzen.entity.StoryScenario;
+import ua.gram.munhauzen.interaction.servants.hire.HireStory;
+import ua.gram.munhauzen.interaction.servants.hire.HireStoryScenario;
 import ua.gram.munhauzen.repository.ImageRepository;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.screen.game.transition.FadeTransition;
@@ -188,9 +190,96 @@ public abstract class ImageService implements Disposable {
 
     @Override
     public void dispose() {
+
+        Story story = gameScreen.getStory();
+        if (story != null) {
+            dispose(story, true);
+        }
+
         if (assetManager != null) {
             assetManager.dispose();
             assetManager = null;
         }
+    }
+
+    public synchronized void dispose(HireStory story) {
+        if (assetManager == null) return;
+
+        Log.i(tag, "dispose " + story.id);
+
+        Image last = gameScreen.getLastBackground();
+
+        for (HireStoryScenario storyScenario : story.scenarios) {
+
+            if (storyScenario.scenario.images != null) {
+                for (StoryImage item : storyScenario.scenario.images) {
+
+                    item.drawable = null;
+                    item.isPrepared = false;
+
+                    if (item.resource != null) {
+                        if (assetManager.isLoaded(item.resource)) {
+                            if (assetManager.getReferenceCount(item.resource) == 0) {
+                                assetManager.unload(item.resource);
+                                item.resource = null;
+                            } else {
+                                Log.e(tag, item.image + " dispose ignored");
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+
+    public synchronized void dispose(Story story, boolean force) {
+        if (assetManager == null) return;
+
+        Log.i(tag, "dispose " + story.id);
+
+        Image last = gameScreen.getLastBackground();
+
+        for (StoryScenario storyScenario : story.scenarios) {
+
+            if (storyScenario.scenario.images != null) {
+                for (StoryImage item : storyScenario.scenario.images) {
+
+                    if (force) {
+                        if (item.resource != null) {
+                            if (assetManager.isLoaded(item.resource)) {
+                                assetManager.unload(item.resource);
+                            }
+                        }
+
+                        item.drawable = null;
+                        item.isPrepared = false;
+                    } else {
+
+                        boolean isLast = (last != null && last.name.equals(item.image))
+                                || item.image.equals(ImageRepository.LAST);
+
+                        if (!isLast) {
+
+                            item.drawable = null;
+                            item.isPrepared = false;
+
+                            if (item.resource != null) {
+                                if (assetManager.isLoaded(item.resource)) {
+                                    if (assetManager.getReferenceCount(item.resource) == 0) {
+                                        assetManager.unload(item.resource);
+                                        item.resource = null;
+                                    } else {
+                                        Log.e(tag, item.image + " dispose ignored");
+                                    }
+                                }
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+
     }
 }
