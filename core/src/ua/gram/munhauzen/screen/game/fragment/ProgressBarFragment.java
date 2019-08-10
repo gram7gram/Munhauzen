@@ -177,8 +177,6 @@ public class ProgressBarFragment extends Fragment {
                 try {
                     gameScreen.audioService.pause();
 
-                    cancelFadeOut();
-
                     destroyContinueInteraction();
 
                     gameScreen.hideAndDestroyScenarioFragment();
@@ -229,8 +227,6 @@ public class ProgressBarFragment extends Fragment {
 
                     gameScreen.hideAndDestroyScenarioFragment();
 
-                    cancelFadeOut();
-
                     Story story = gameScreen.getStory();
                     if (story.currentScenario == null) return;
 
@@ -272,8 +268,6 @@ public class ProgressBarFragment extends Fragment {
 
                 try {
                     Log.i(tag, "rewindBackButton enter");
-
-                    cancelFadeOut();
 
                     destroyContinueInteraction();
 
@@ -334,8 +328,6 @@ public class ProgressBarFragment extends Fragment {
 
                 try {
                     Log.i(tag, "rewindForwardButton enter");
-
-                    cancelFadeOut();
 
                     gameScreen.audioService.pause();
 
@@ -826,10 +818,6 @@ public class ProgressBarFragment extends Fragment {
             return true;
         }
 
-        if (gameScreen.scenarioFragment.storyId.equals(story.id)) {
-            return false;
-        }
-
-        return true;
+        return !gameScreen.scenarioFragment.storyId.equals(story.id);
     }
 }

@@ -93,24 +93,33 @@ public class HireDialog extends Fragment {
 
                     gameScreen.audioService.stop();
 
-                    playConfirm();
+                    boolean hasServant = interaction.hireFragment.hasServant(servantName);
 
-                    Inventory item = InventoryRepository.find(interaction.gameScreen.game.gameState, servantName);
+                    if (interaction.isLimitReached() && !hasServant) {
 
-                    interaction.gameScreen.game.inventoryService.addInventory(item);
+                        playToMuch();
 
-                    interaction.hireFragment.updateServantCount();
+                    } else {
 
-                    fadeOut();
+                        playConfirm();
 
-                    triggerBackgroundUpdate();
+                        Inventory item = InventoryRepository.find(interaction.gameScreen.game.gameState, servantName);
 
-                    nextTask = Timer.instance().scheduleTask(new Timer.Task() {
-                        @Override
-                        public void run() {
-                            interaction.hireFragment.next();
-                        }
-                    }, confirmAudio.duration / 1000f);
+                        interaction.gameScreen.game.inventoryService.addInventory(item);
+
+                        interaction.hireFragment.updateServantCount();
+
+                        fadeOut();
+
+                        triggerBackgroundUpdate();
+
+                        nextTask = Timer.instance().scheduleTask(new Timer.Task() {
+                            @Override
+                            public void run() {
+                                interaction.hireFragment.next();
+                            }
+                        }, confirmAudio.duration / 1000f);
+                    }
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -201,7 +210,7 @@ public class HireDialog extends Fragment {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            //gameScreen.onCriticalError(e);
+            gameScreen.onCriticalError(e);
         }
     }
 
@@ -249,7 +258,7 @@ public class HireDialog extends Fragment {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            //gameScreen.onCriticalError(e);
+            gameScreen.onCriticalError(e);
         }
     }
 
@@ -297,7 +306,7 @@ public class HireDialog extends Fragment {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            //gameScreen.onCriticalError(e);
+            gameScreen.onCriticalError(e);
         }
     }
 
@@ -327,14 +336,8 @@ public class HireDialog extends Fragment {
                 })
         ));
 
-        boolean hasServant = interaction.hireFragment.hasServant(servantName);
-
-        yesBtn.setDisabled(hasServant || interaction.isLimitReached());
         noBtn.setDisabled(false);
-
-        if (interaction.isLimitReached() && !hasServant) {
-            playToMuch();
-        }
+        yesBtn.setDisabled(false);
     }
 
     public void fadeOut() {

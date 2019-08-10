@@ -290,6 +290,10 @@ public class ServantsHireImageFragment extends InteractionFragment {
 
     private void showServant(String name) {
 
+        Log.i(tag, "showServant " + name);
+
+        GameState.unpause();
+
         interaction.storyManager.story = interaction.storyManager.create(name);
 
         interaction.storyManager.startLoadingResources();

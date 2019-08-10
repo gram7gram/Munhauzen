@@ -19,6 +19,7 @@ import ua.gram.munhauzen.interaction.CannonsInteraction;
 import ua.gram.munhauzen.interaction.GeneralsInteraction;
 import ua.gram.munhauzen.interaction.HareInteraction;
 import ua.gram.munhauzen.interaction.PictureInteraction;
+import ua.gram.munhauzen.interaction.ServantsInteraction;
 import ua.gram.munhauzen.interaction.TimerInteraction;
 import ua.gram.munhauzen.interaction.WauInteraction;
 import ua.gram.munhauzen.interaction.cannons.CannonsStory;
@@ -30,6 +31,7 @@ import ua.gram.munhauzen.interaction.hare.HareStoryScenario;
 import ua.gram.munhauzen.interaction.picture.PictureStory;
 import ua.gram.munhauzen.interaction.picture.PictureStoryScenario;
 import ua.gram.munhauzen.interaction.servants.hire.HireStory;
+import ua.gram.munhauzen.interaction.servants.hire.HireStoryManager;
 import ua.gram.munhauzen.interaction.servants.hire.HireStoryScenario;
 import ua.gram.munhauzen.interaction.timer.TimerStory;
 import ua.gram.munhauzen.interaction.timer.TimerStoryScenario;
@@ -225,11 +227,11 @@ public class GameAudioService implements Disposable {
                 }
             }
 
-            synchronized (activeAudio) {
-                for (StoryAudio audio : activeAudio.values()) {
-                    stop(audio);
-                }
+            for (StoryAudio storyAudio : activeAudio.values()) {
+                stop(storyAudio);
+            }
 
+            synchronized (activeAudio) {
                 activeAudio.clear();
             }
 
@@ -654,6 +656,57 @@ public class GameAudioService implements Disposable {
         }
     }
 
+    public void updateMusicState(HireStory story) {
+        try {
+            if (story != null) {
+
+                if (story.isCompleted) {
+                    stop();
+                } else {
+
+                    if (GameState.isPaused) {
+                        for (HireStoryScenario option : story.scenarios) {
+                            for (StoryAudio audio : option.scenario.audio) {
+                                if (audio.player != null) {
+                                    audio.isActive = false;
+                                    audio.player.pause();
+                                }
+                            }
+                        }
+                    } else {
+
+                        for (HireStoryScenario option : story.scenarios) {
+                            for (StoryAudio audio : option.scenario.audio) {
+                                if (audio.player != null) {
+                                    if (audio.isCompleted) {
+                                        Log.i(tag, "paused " + audio.audio);
+                                        audio.player.pause();
+                                    }
+
+                                    if (audio.isActive && !audio.isLocked) {
+                                        Log.i(tag, "paused " + audio.audio);
+                                        audio.isActive = false;
+                                        audio.player.pause();
+                                    }
+
+                                    if (!audio.isCompleted && audio.isActive
+                                            && audio.isLocked && audio.isPrepared
+                                            && !audio.player.isPlaying()) {
+                                        Log.i(tag, "play " + audio.audio);
+                                        audio.player.play();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+    }
+
     public void update() {
         if (assetManager == null) return;
 
@@ -707,6 +760,17 @@ public class GameAudioService implements Disposable {
                             .storyManager.story;
 
                     updateMusicState(interactionStory);
+                }
+
+                if (story.currentInteraction.interaction instanceof ServantsInteraction) {
+                    HireStoryManager storyManager = ((ServantsInteraction) story.currentInteraction.interaction).storyManager;
+                    if (storyManager != null) {
+                        HireStory interactionStory = storyManager.story;
+
+                        if (interactionStory != null) {
+                            updateMusicState(interactionStory);
+                        }
+                    }
                 }
             }
         }

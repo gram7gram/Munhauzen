@@ -68,7 +68,7 @@ public class ImageFragment extends Fragment {
                 new EagleLeft(backgroundImage, "menu/an_eagle_1_sheet_3x2.png"),
                 new EagleRight(backgroundImage, "menu/an_eagle_2_sheet_3x2.png"),
                 new Fire(backgroundImage, "menu/an_fire_sheet_3x2.png"),
-                new Horns(backgroundImage, "menu/an_horns_sheet_4x2.png"),
+                new Horns(backgroundImage, "menu/an_horns_sheet_2x5.png"),
                 new Puppet(backgroundImage, "menu/an_puppet_sheet_4x2.png"),
                 new Horse(backgroundImage, "menu/an_horse_sheet_2x2.png"),
                 new Painting(backgroundImage, "menu/an_painting_sheet_5x4.png"),
@@ -87,26 +87,30 @@ public class ImageFragment extends Fragment {
         for (final DecorationAnimation decoration : animations) {
             if (decoration.canBeDisplayed()) {
 
-                Log.i(tag, decoration.getClass().getSimpleName() + " displayed");
+                try {
+                    Log.i(tag, decoration.getClass().getSimpleName() + " displayed");
 
-                decoration.init();
+                    decoration.init();
 
-                float delay = decoration.getDelay();
-                float interval = decoration.getInterval();
+                    float delay = decoration.getDelay();
+                    float interval = decoration.getInterval();
 
-                if (interval > 0) {
+                    if (interval > 0) {
 
-                    Timer.instance().scheduleTask(new Timer.Task() {
-                        @Override
-                        public void run() {
-                            decoration.start();
-                        }
-                    }, delay, interval);
-                } else {
-                    decoration.start();
+                        Timer.instance().scheduleTask(new Timer.Task() {
+                            @Override
+                            public void run() {
+                                decoration.start();
+                            }
+                        }, delay, interval);
+                    } else {
+                        decoration.start();
+                    }
+
+                    decorations.addActor(decoration);
+                } catch (Throwable e) {
+                    Log.e(tag, e);
                 }
-
-                decorations.addActor(decoration);
             }
         }
 
@@ -201,7 +205,7 @@ public class ImageFragment extends Fragment {
 
             screen.assetManager.finishLoading();
 
-            animate(screen.assetManager.get(resource, Texture.class), 2, 3, 6);
+            animate(screen.assetManager.get(resource, Texture.class), 2, 3, 6, .18f);
 
 
         }
@@ -244,7 +248,7 @@ public class ImageFragment extends Fragment {
 
             screen.assetManager.finishLoading();
 
-            animate(screen.assetManager.get(resource, Texture.class), 1, 4, 4);
+            animate(screen.assetManager.get(resource, Texture.class), 1, 4, 4, .09f);
         }
 
         @Override
@@ -285,7 +289,7 @@ public class ImageFragment extends Fragment {
 
             screen.assetManager.finishLoading();
 
-            animate(screen.assetManager.get(resource, Texture.class), 1, 4, 4);
+            animate(screen.assetManager.get(resource, Texture.class), 1, 4, 4, .09f);
         }
 
         @Override
@@ -326,7 +330,7 @@ public class ImageFragment extends Fragment {
 
             screen.assetManager.finishLoading();
 
-            animate(screen.assetManager.get(resource, Texture.class), 3, 4, 12);
+            animate(screen.assetManager.get(resource, Texture.class), 3, 4, 12, .08f);
         }
 
         @Override
@@ -365,7 +369,7 @@ public class ImageFragment extends Fragment {
 
             screen.assetManager.finishLoading();
 
-            animate(screen.assetManager.get(resource, Texture.class), 2, 3, 6);
+            animate(screen.assetManager.get(resource, Texture.class), 2, 3, 6, .18f);
         }
 
         @Override
@@ -404,7 +408,7 @@ public class ImageFragment extends Fragment {
 
             screen.assetManager.finishLoading();
 
-            animate(screen.assetManager.get(resource, Texture.class), 3, 3, 9);
+            animate(screen.assetManager.get(resource, Texture.class), 3, 3, 9, .1f);
         }
 
         @Override
@@ -415,7 +419,7 @@ public class ImageFragment extends Fragment {
         @Override
         public float[] getPercentBounds() {
             return new float[]{
-                    17.667f, 17.124f, 82.417f, 12.919f
+                    17.667f, 17.124f, 80.25f, 12.919f
             };
         }
 
@@ -444,7 +448,7 @@ public class ImageFragment extends Fragment {
 
             screen.assetManager.finishLoading();
 
-            animate(screen.assetManager.get(resource, Texture.class), 2, 3, 6);
+            animate(screen.assetManager.get(resource, Texture.class), 2, 3, 6, .15f);
         }
 
         @Override
@@ -483,7 +487,7 @@ public class ImageFragment extends Fragment {
 
             screen.assetManager.finishLoading();
 
-            animate(screen.assetManager.get(resource, Texture.class), 2, 5, 10);
+            animate(screen.assetManager.get(resource, Texture.class), 2, 5, 10, .11f);
         }
 
         @Override
@@ -523,7 +527,7 @@ public class ImageFragment extends Fragment {
 
             screen.assetManager.finishLoading();
 
-            animate(screen.assetManager.get(resource, Texture.class), 1, 3, 3);
+            animate(screen.assetManager.get(resource, Texture.class), 1, 3, 3, .25f);
         }
 
         @Override
@@ -563,7 +567,7 @@ public class ImageFragment extends Fragment {
 
             screen.assetManager.finishLoading();
 
-            animate(screen.assetManager.get(resource, Texture.class), 2, 3, 6);
+            animate(screen.assetManager.get(resource, Texture.class), 2, 3, 6, .15f);
         }
 
         @Override
@@ -574,7 +578,7 @@ public class ImageFragment extends Fragment {
         @Override
         public float[] getPercentBounds() {
             return new float[]{
-                    21.000f, 15.052f, 39.083f, 58.135f
+                    19.42f, 13.89f, 39.58f, 59.35f,
             };
         }
 
@@ -602,7 +606,7 @@ public class ImageFragment extends Fragment {
 
             screen.assetManager.finishLoading();
 
-            animate(screen.assetManager.get(resource, Texture.class), 2, 4, 7);
+            animate(screen.assetManager.get(resource, Texture.class), 2, 5, 10, .16f);
         }
 
         @Override
@@ -641,7 +645,7 @@ public class ImageFragment extends Fragment {
 
             screen.assetManager.finishLoading();
 
-            animate(screen.assetManager.get(resource, Texture.class), 2, 2, 4);
+            animate(screen.assetManager.get(resource, Texture.class), 2, 2, 4, .14f);
         }
 
         @Override
@@ -680,7 +684,7 @@ public class ImageFragment extends Fragment {
 
             screen.assetManager.finishLoading();
 
-            animate(screen.assetManager.get(resource, Texture.class), 4, 5, 17);
+            animate(screen.assetManager.get(resource, Texture.class), 6, 4, 22, .07f);
         }
 
         @Override
@@ -691,7 +695,7 @@ public class ImageFragment extends Fragment {
         @Override
         public float[] getPercentBounds() {
             return new float[]{
-                    46.583f, 33.272f, 25.750f, 20.963f
+                    46.583f, 33.272f, 28.750f, 20.963f
             };
         }
 
@@ -719,7 +723,7 @@ public class ImageFragment extends Fragment {
 
             screen.assetManager.finishLoading();
 
-            animate(screen.assetManager.get(resource, Texture.class), 4, 5, 18);
+            animate(screen.assetManager.get(resource, Texture.class), 4, 5, 18, .09f);
         }
 
         @Override
@@ -759,7 +763,7 @@ public class ImageFragment extends Fragment {
 
             screen.assetManager.finishLoading();
 
-            animate(screen.assetManager.get(resource, Texture.class), 2, 4, 7);
+            animate(screen.assetManager.get(resource, Texture.class), 2, 4, 7, .12f);
         }
 
         @Override
@@ -791,7 +795,6 @@ public class ImageFragment extends Fragment {
             super(backgroundImage, resource);
         }
 
-
         @Override
         public void init() {
 
@@ -799,7 +802,7 @@ public class ImageFragment extends Fragment {
 
             screen.assetManager.finishLoading();
 
-            animate(screen.assetManager.get(resource, Texture.class), 2, 2, 4);
+            animate(screen.assetManager.get(resource, Texture.class), 2, 2, 4, .13f);
         }
 
         @Override
@@ -831,7 +834,6 @@ public class ImageFragment extends Fragment {
             super(backgroundImage, resource);
         }
 
-
         @Override
         public void init() {
 
@@ -839,7 +841,7 @@ public class ImageFragment extends Fragment {
 
             screen.assetManager.finishLoading();
 
-            animate(screen.assetManager.get(resource, Texture.class), 2, 4, 7);
+            animate(screen.assetManager.get(resource, Texture.class), 2, 4, 7, .01f);
         }
 
         @Override
@@ -918,7 +920,7 @@ public class ImageFragment extends Fragment {
 
             screen.assetManager.finishLoading();
 
-            animate(screen.assetManager.get(resource, Texture.class), 1, 5, 5);
+            animate(screen.assetManager.get(resource, Texture.class), 1, 5, 5, .09f);
         }
 
         @Override
@@ -957,7 +959,7 @@ public class ImageFragment extends Fragment {
 
             screen.assetManager.finishLoading();
 
-            animate(screen.assetManager.get(resource, Texture.class), 3, 5, 13);
+            animate(screen.assetManager.get(resource, Texture.class), 3, 5, 13, .16f);
         }
 
         @Override
@@ -996,7 +998,7 @@ public class ImageFragment extends Fragment {
 
             screen.assetManager.finishLoading();
 
-            animate(screen.assetManager.get(resource, Texture.class), 19, 2, 38);
+            animate(screen.assetManager.get(resource, Texture.class), 19, 2, 38, .09f);
         }
 
         @Override

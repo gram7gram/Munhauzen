@@ -75,8 +75,6 @@ public class ControlsFragment extends Fragment {
         btnTable.add(foolsButton).row();
         btnTable.add(chronoButton).row();
 
-        ImageButton shareBtn = getShareBtn();
-        ImageButton rateBtn = getRateBtn();
         ImageButton exitBtn = getExitBtn();
 
         ShareSideButton shareBtnAnimation = new ShareSideButton(screen);
@@ -91,40 +89,25 @@ public class ControlsFragment extends Fragment {
         ProSideButton proBtnAnimation = new ProSideButton(screen);
         proBtnAnimation.start();
 
-        ImageButton demoBtn = getDemoBtn();
-        ImageButton proBtn = getProBtn();
-
         float iconSize = MunhauzenGame.WORLD_WIDTH * .18f;
         float iconSize2 = iconSize * 1.5f;
 
         sideTable = new Table();
-        sideTable.add(rateBtn)
-                .size(iconSize)
-                .pad(10);
         sideTable.add(rateBtnAnimation)
                 .size(iconSize)
                 .pad(10)
                 .row();
 
-        sideTable.add(shareBtn)
-                .size(iconSize)
-                .pad(10);
         sideTable.add(shareBtnAnimation)
                 .size(iconSize)
                 .pad(10)
                 .row();
 
-        sideTable.add(demoBtn)
-                .size(iconSize)
-                .pad(10);
         sideTable.add(demoBtnAnimation)
                 .size(iconSize)
                 .pad(10)
                 .row();
 
-        sideTable.add(proBtn)
-                .size(iconSize)
-                .pad(10);
         sideTable.add(proBtnAnimation)
                 .size(iconSize)
                 .pad(10)
@@ -381,149 +364,6 @@ public class ControlsFragment extends Fragment {
         logoTable.getCell(logo)
                 .width(width)
                 .height(height);
-    }
-
-    private ImageButton getShareBtn() {
-        Texture txt = screen.assetManager.get("menu/b_share.png", Texture.class);
-        Texture txtOff = screen.assetManager.get("menu/b_share_disabled.png", Texture.class);
-
-        ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
-        style.up = new SpriteDrawable(new Sprite(txt));
-        style.down = new SpriteDrawable(new Sprite(txt));
-        style.disabled = new SpriteDrawable(new Sprite(txtOff));
-
-        ImageButton btn = new ImageButton(style);
-
-        btn.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-
-                try {
-
-                    screen.shareBanner = new ShareBanner(screen);
-                    screen.shareBanner.create();
-
-                    screen.layers.setBannerLayer(screen.shareBanner);
-
-                    screen.shareBanner.fadeIn();
-
-                } catch (Throwable e) {
-                    Log.e(tag, e);
-
-                    screen.onCriticalError(e);
-                }
-            }
-        });
-
-        return btn;
-    }
-
-    private ImageButton getRateBtn() {
-        Texture txt = screen.assetManager.get("menu/b_rate.png", Texture.class);
-        Texture txtOff = screen.assetManager.get("menu/b_rate_disabled.png", Texture.class);
-
-        ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
-        style.up = new SpriteDrawable(new Sprite(txt));
-        style.down = new SpriteDrawable(new Sprite(txt));
-        style.disabled = new SpriteDrawable(new Sprite(txtOff));
-
-        ImageButton btn = new ImageButton(style);
-
-        btn.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-
-                try {
-
-                    screen.rateBanner = new RateBanner(screen);
-                    screen.rateBanner.create();
-
-                    screen.layers.setBannerLayer(screen.rateBanner);
-
-                    screen.rateBanner.fadeIn();
-
-                } catch (Throwable e) {
-                    Log.e(tag, e);
-
-                    screen.onCriticalError(e);
-                }
-            }
-        });
-
-        return btn;
-    }
-
-    private ImageButton getDemoBtn() {
-        Texture txt = screen.assetManager.get("menu/b_demo.png", Texture.class);
-        Texture txtOff = screen.assetManager.get("menu/b_demo_disabled.png", Texture.class);
-
-        ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
-        style.up = new SpriteDrawable(new Sprite(txt));
-        style.down = new SpriteDrawable(new Sprite(txt));
-        style.disabled = new SpriteDrawable(new Sprite(txtOff));
-
-        ImageButton btn = new ImageButton(style);
-
-        btn.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-
-                try {
-
-                    screen.demoBanner = new DemoBanner(screen);
-                    screen.demoBanner.create();
-
-                    screen.layers.setBannerLayer(screen.demoBanner);
-
-                    screen.demoBanner.fadeIn();
-
-                } catch (Throwable e) {
-                    Log.e(tag, e);
-
-                    screen.onCriticalError(e);
-                }
-            }
-        });
-
-        return btn;
-    }
-
-    private ImageButton getProBtn() {
-        Texture txt = screen.assetManager.get("menu/b_full_version.png", Texture.class);
-
-        ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
-        style.up = new SpriteDrawable(new Sprite(txt));
-        style.down = new SpriteDrawable(new Sprite(txt));
-        style.disabled = new SpriteDrawable(new Sprite(txt));
-
-        ImageButton btn = new ImageButton(style);
-
-        btn.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-
-                try {
-
-                    screen.proBanner = new ProBanner(screen);
-                    screen.proBanner.create();
-
-                    screen.layers.setBannerLayer(screen.proBanner);
-
-                    screen.proBanner.fadeIn();
-
-                } catch (Throwable e) {
-                    Log.e(tag, e);
-
-                    screen.onCriticalError(e);
-                }
-            }
-        });
-
-        return btn;
     }
 
     private ImageButton getExitBtn() {

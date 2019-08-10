@@ -301,13 +301,6 @@ public class ServantsProgressBarFragment extends Fragment {
             }
 
             @Override
-            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                super.touchDown(event, x, y, pointer, button);
-
-                cancelFadeOut();
-            }
-
-            @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
                 try {

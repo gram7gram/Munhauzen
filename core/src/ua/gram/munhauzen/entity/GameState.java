@@ -48,11 +48,13 @@ public class GameState {
     }
 
     public static void pause() {
+        if (isPaused) return;
         Log.i(tag, "pause");
         isPaused = true;
     }
 
     public static void unpause() {
+        if (!isPaused) return;
         Log.i(tag, "unpause");
         isPaused = false;
     }

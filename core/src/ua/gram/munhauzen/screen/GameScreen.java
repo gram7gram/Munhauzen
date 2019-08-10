@@ -74,6 +74,8 @@ public class GameScreen implements Screen {
 
         Log.i(tag, "show");
 
+        background = game.assetManager.get("p0.jpg", Texture.class);
+
         assetManager = new ExpansionAssetManager();
         progressBarFragment = new ProgressBarFragment(this);
 
@@ -121,8 +123,6 @@ public class GameScreen implements Screen {
         Log.i(tag, "onResourcesLoaded");
 
         isLoaded = true;
-
-        background = game.assetManager.get("p0.jpg", Texture.class);
 
         gameLayers = new GameLayers(this);
 
@@ -179,6 +179,8 @@ public class GameScreen implements Screen {
 
         if (assetManager == null) return;
 
+        drawBackground();
+
         assetManager.update();
 
         if (!isLoaded) {
@@ -188,8 +190,6 @@ public class GameScreen implements Screen {
             }
             return;
         }
-
-        drawBackground();
 
         if (imageService != null) {
             imageService.update();
@@ -305,6 +305,8 @@ public class GameScreen implements Screen {
     }
 
     private void drawBackground() {
+        if (game.batch == null || background == null) return;
+
         game.batch.begin();
         game.batch.disableBlending();
 
