@@ -39,7 +39,7 @@ public abstract class AbstractScreen implements Screen {
         ui = new MunhauzenStage(game);
 
         isLoaded = false;
-        GameState.unpause();
+        GameState.unpause(tag);
 
     }
 

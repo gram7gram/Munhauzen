@@ -21,7 +21,7 @@ public class HareStoryManager {
     private final GameScreen gameScreen;
     private final HareInteraction interaction;
 
-    public HareStory hareStory;
+    public HareStory story;
 
     public HareStoryManager(GameScreen gameScreen, HareInteraction interaction) {
         this.gameScreen = gameScreen;
@@ -49,18 +49,18 @@ public class HareStoryManager {
 
     public void resume() {
 
-        if (hareStory == null) {
+        if (story == null) {
             Log.e(tag, "Story is not valid. Resetting");
 
             for (HareScenario hareScenario : interaction.scenarioRegistry) {
                 if (hareScenario.isBegin) {
-                    hareStory = create(hareScenario.name);
+                    story = create(hareScenario.name);
                     break;
                 }
             }
         }
 
-        Log.i(tag, "resume " + hareStory.id);
+        Log.i(tag, "resume " + story.id);
 
     }
 
@@ -96,12 +96,12 @@ public class HareStoryManager {
     }
 
     public void update(float progress, int duration) {
-        hareStory.update(progress, duration);
+        story.update(progress, duration);
     }
 
     public void startLoadingResources() {
         try {
-            HareStory story = interaction.storyManager.hareStory;
+            HareStory story = interaction.storyManager.story;
 
             HareStoryScenario scenario = story.currentScenario;
             if (scenario == null) return;
@@ -112,7 +112,8 @@ public class HareStoryManager {
                     @Override
                     public void run() {
                         try {
-                            gameScreen.audioService.onPrepared(audio);
+                            if (gameScreen.audioService != null)
+                                gameScreen.audioService.playAudio(audio);
                         } catch (Throwable e) {
                             Log.e(tag, e);
 
@@ -140,17 +141,17 @@ public class HareStoryManager {
 
     public void onCompleted() {
 
-        Log.i(tag, "onCompleted " + hareStory.id);
+        Log.i(tag, "onCompleted " + story.id);
 
         Set<String> inventory = gameScreen.game.inventoryService.getAllInventory();
 
-        for (StoryAudio audio : hareStory.currentScenario.scenario.audio) {
+        for (StoryAudio audio : story.currentScenario.scenario.audio) {
             if (audio.player != null) {
                 audio.player.pause();
             }
         }
 
-        if (hareStory.currentScenario.scenario.isExit) {
+        if (story.currentScenario.scenario.isExit) {
 
             Log.i(tag, "Exit reached");
 
@@ -169,8 +170,8 @@ public class HareStoryManager {
         }
 
         ArrayList<Decision> availableDecisions = new ArrayList<>();
-        if (hareStory.currentScenario.scenario.decisions != null) {
-            for (Decision decision : hareStory.currentScenario.scenario.decisions) {
+        if (story.currentScenario.scenario.decisions != null) {
+            for (Decision decision : story.currentScenario.scenario.decisions) {
                 if (isDecisionAvailable(decision, inventory)) {
                     availableDecisions.add(decision);
                 }
@@ -225,15 +226,15 @@ public class HareStoryManager {
 
     public void reset() {
 
-        if (hareStory == null) return;
+        if (story == null) return;
 
-        Log.i(tag, "reset " + hareStory.id);
+        Log.i(tag, "reset " + story.id);
 
-        for (HareStoryScenario storyScenario : hareStory.scenarios) {
+        for (HareStoryScenario storyScenario : story.scenarios) {
             storyScenario.reset();
         }
 
-        hareStory.reset();
+        story.reset();
     }
 
     private boolean isDecisionAvailable(Decision decision, Set<String> inventory) {

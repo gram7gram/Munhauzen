@@ -209,7 +209,7 @@ public class WauScenarioFragment extends Fragment {
 
         fadeIn();
 
-        GameState.pause();
+        GameState.pause(tag);
 
         root.setName(tag);
         root.setVisible(false);
@@ -222,7 +222,7 @@ public class WauScenarioFragment extends Fragment {
 //            Sound sfx = assetManager.get("sfx/sfx_decision.mp3", Sound.class);
 //            sfx.play();
 
-            GameState.unpause();
+            GameState.unpause(tag);
 
             final Runnable onComplete = new Runnable() {
                 @Override

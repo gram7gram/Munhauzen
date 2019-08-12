@@ -15,7 +15,6 @@ import ua.gram.munhauzen.screen.DebugScreen;
 import ua.gram.munhauzen.screen.ErrorScreen;
 import ua.gram.munhauzen.service.DatabaseManager;
 import ua.gram.munhauzen.service.InventoryService;
-import ua.gram.munhauzen.utils.ExceptionHandler;
 import ua.gram.munhauzen.utils.ExternalFiles;
 import ua.gram.munhauzen.utils.InternalAssetManager;
 import ua.gram.munhauzen.utils.Log;
@@ -61,8 +60,6 @@ public class MunhauzenGame extends Game {
     public void create() {
         Log.i(tag, "create");
 
-        ExceptionHandler.create();
-
         ExternalFiles.updateNomedia();
 
         preferences = Gdx.app.getPreferences(params.versionCode + "-prefs");
@@ -101,8 +98,6 @@ public class MunhauzenGame extends Game {
 
             databaseManager = null;
             inventoryService = null;
-
-            ExceptionHandler.dispose();
 
         } catch (Throwable e) {
             Log.e(tag, e);

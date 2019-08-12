@@ -91,7 +91,7 @@ public class HireDialog extends Fragment {
 
                     stopAllAudio();
 
-                    gameScreen.audioService.stop();
+                    gameScreen.audioService.stop(tag);
 
                     boolean hasServant = interaction.hireFragment.hasServant(servantName);
 
@@ -144,7 +144,7 @@ public class HireDialog extends Fragment {
 
                     stopAllAudio();
 
-                    gameScreen.audioService.stop();
+                    gameScreen.audioService.stop(tag);
 
                     playCancel();
 
@@ -314,7 +314,7 @@ public class HireDialog extends Fragment {
 
         if (isFadeIn) return;
 
-        GameState.pause();
+        GameState.pause(tag);
 
         isFadeIn = true;
 

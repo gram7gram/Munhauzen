@@ -22,7 +22,7 @@ public class GeneralsImageService extends InteractionImageService {
 
         Log.i(tag, "displayImage " + getResource(item));
 
-        GeneralsStory story = interaction.storyManager.generalsStory;
+        GeneralsStory story = interaction.storyManager.story;
         if (story != null) {
             for (GeneralsStoryScenario scenarioOption : story.scenarios) {
                 for (StoryImage image : scenarioOption.scenario.images) {

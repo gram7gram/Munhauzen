@@ -158,7 +158,7 @@ public class HareProgressBarFragment extends Fragment {
                 try {
                     Log.i(tag, "playButton clicked");
 
-                    GameState.unpause();
+                    GameState.unpause(tag);
 
                     startCurrentMusicIfPaused();
 
@@ -178,7 +178,7 @@ public class HareProgressBarFragment extends Fragment {
 
                     gameScreen.audioService.pause();
 
-                    GameState.pause();
+                    GameState.pause(tag);
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -199,7 +199,7 @@ public class HareProgressBarFragment extends Fragment {
 
                     gameScreen.audioService.pause();
 
-                    cancelFadeOut();
+                    GameState.pause(tag);
 
                     if (interaction.scenarioFragment != null) {
                         interaction.scenarioFragment.fadeOut(new Runnable() {
@@ -221,9 +221,7 @@ public class HareProgressBarFragment extends Fragment {
                         @Override
                         public void run() {
                             try {
-                                HareStory story = interaction.storyManager.hareStory;
-
-                                GameState.pause();
+                                HareStory story = interaction.storyManager.story;
 
                                 story.progress -= story.totalDuration * 0.025f;
 
@@ -245,7 +243,7 @@ public class HareProgressBarFragment extends Fragment {
                 try {
                     Log.i(tag, "rewindBackButton enter");
 
-                    GameState.unpause();
+                    GameState.unpause(tag);
 
                     progressTask.cancel();
                     progressTask = null;
@@ -272,15 +270,13 @@ public class HareProgressBarFragment extends Fragment {
 
                     gameScreen.audioService.pause();
 
-                    cancelFadeOut();
+                    GameState.pause(tag);
 
                     progressTask = Timer.schedule(new Timer.Task() {
                         @Override
                         public void run() {
                             try {
-                                HareStory story = interaction.storyManager.hareStory;
-
-                                GameState.pause();
+                                HareStory story = interaction.storyManager.story;
 
                                 story.progress += story.totalDuration * 0.025f;
 
@@ -303,7 +299,7 @@ public class HareProgressBarFragment extends Fragment {
                 try {
                     Log.i(tag, "rewindForwardButton exit");
 
-                    GameState.unpause();
+                    GameState.unpause(tag);
 
                     progressTask.cancel();
                     progressTask = null;
@@ -324,7 +320,7 @@ public class HareProgressBarFragment extends Fragment {
                 try {
                     gameScreen.audioService.pause();
 
-                    HareStory story = interaction.storyManager.hareStory;
+                    HareStory story = interaction.storyManager.story;
 
                     story.progress = story.totalDuration * percent;
 
@@ -364,7 +360,7 @@ public class HareProgressBarFragment extends Fragment {
                 super.touchUp(event, x, y, pointer, button);
 
                 try {
-                    GameState.unpause();
+                    GameState.unpause(tag);
 
                     startCurrentMusicIfPaused();
 
@@ -382,7 +378,7 @@ public class HareProgressBarFragment extends Fragment {
 
                     float percent = x / totalLength;
 
-                    GameState.pause();
+                    GameState.pause(tag);
 
                     scrollTo(percent);
                 } catch (Throwable e) {
@@ -399,7 +395,7 @@ public class HareProgressBarFragment extends Fragment {
 
                     float percent = x / totalLength;
 
-                    GameState.pause();
+                    GameState.pause(tag);
 
                     scrollTo(percent);
                 } catch (Throwable e) {
@@ -441,7 +437,7 @@ public class HareProgressBarFragment extends Fragment {
 
         if (!isMounted()) return;
 
-        HareStory story = interaction.storyManager.hareStory;
+        HareStory story = interaction.storyManager.story;
 
         pauseButton.setVisible(!GameState.isPaused);
         playButton.setVisible(GameState.isPaused);
@@ -460,7 +456,7 @@ public class HareProgressBarFragment extends Fragment {
 
     public void startCurrentMusicIfPaused() {
 
-        HareStory story = interaction.storyManager.hareStory;
+        HareStory story = interaction.storyManager.story;
 
         for (HareStoryScenario scenarioOption : story.scenarios) {
             if (scenarioOption != story.currentScenario) {
@@ -666,7 +662,7 @@ public class HareProgressBarFragment extends Fragment {
 
     private void postProgressChanged(boolean isCompletedBefore) {
         try {
-            HareStory story = interaction.storyManager.hareStory;
+            HareStory story = interaction.storyManager.story;
 
             story.update(story.progress, story.totalDuration);
 

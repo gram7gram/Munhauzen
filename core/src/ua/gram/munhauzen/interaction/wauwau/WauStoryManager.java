@@ -106,7 +106,8 @@ public class WauStoryManager {
                     @Override
                     public void run() {
                         try {
-                            interaction.imageService.onPrepared(image);
+                            if (interaction.imageService != null)
+                                interaction.imageService.onPrepared(image);
                         } catch (Throwable e) {
                             Log.e(tag, e);
 
@@ -144,7 +145,8 @@ public class WauStoryManager {
                     @Override
                     public void run() {
                         try {
-                            gameScreen.audioService.onPrepared(audio);
+                            if (gameScreen.audioService != null)
+                                gameScreen.audioService.playAudio(audio);
                         } catch (Throwable e) {
                             Log.e(tag, e);
 

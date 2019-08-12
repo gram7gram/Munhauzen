@@ -83,7 +83,7 @@ public class PictureInteraction extends AbstractInteraction {
             imageService.update();
         }
 
-        PictureStory story = storyManager.pictureStory;
+        PictureStory story = storyManager.story;
 
         if (!story.isCompleted) {
 
@@ -133,6 +133,11 @@ public class PictureInteraction extends AbstractInteraction {
         if (scenarioFragment != null) {
             scenarioFragment.destroy();
             scenarioFragment = null;
+        }
+
+        if (storyManager != null) {
+            gameScreen.audioService.dispose(storyManager.story);
+            storyManager = null;
         }
 
     }

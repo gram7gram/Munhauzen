@@ -22,7 +22,7 @@ public class TimerImageService extends InteractionImageService {
 
         Log.i(tag, "displayImage " + getResource(item));
 
-        TimerStory story = interaction.storyManager.timerStory;
+        TimerStory story = interaction.storyManager.story;
         if (story != null) {
             for (TimerStoryScenario scenarioOption : story.scenarios) {
                 for (StoryImage image : scenarioOption.scenario.images) {

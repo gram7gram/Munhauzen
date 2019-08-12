@@ -21,7 +21,7 @@ public class GeneralsStoryManager {
     private final GameScreen gameScreen;
     private final GeneralsInteraction interaction;
 
-    public GeneralsStory generalsStory;
+    public GeneralsStory story;
 
     public GeneralsStoryManager(GameScreen gameScreen, GeneralsInteraction interaction) {
         this.gameScreen = gameScreen;
@@ -49,18 +49,18 @@ public class GeneralsStoryManager {
 
     public void resume() {
 
-        if (generalsStory == null) {
+        if (story == null) {
             Log.e(tag, "Story is not valid. Resetting");
 
             for (GeneralsScenario scenario : interaction.scenarioRegistry) {
                 if (scenario.isBegin) {
-                    generalsStory = create(scenario.name);
+                    story = create(scenario.name);
                     break;
                 }
             }
         }
 
-        Log.i(tag, "resume " + generalsStory.id);
+        Log.i(tag, "resume " + story.id);
 
     }
 
@@ -96,13 +96,13 @@ public class GeneralsStoryManager {
     }
 
     public void update(float progress, int duration) {
-        generalsStory.update(progress, duration);
+        story.update(progress, duration);
     }
 
     public void startLoadingImages() {
 
         try {
-            GeneralsStoryScenario scenario = generalsStory.currentScenario;
+            GeneralsStoryScenario scenario = story.currentScenario;
             if (scenario == null) return;
 
             final GeneralsStoryImage image = scenario.currentImage;
@@ -111,7 +111,8 @@ public class GeneralsStoryManager {
                     @Override
                     public void run() {
                         try {
-                            interaction.imageService.onPrepared(image);
+                            if (interaction.imageService != null)
+                                interaction.imageService.onPrepared(image);
                         } catch (Throwable e) {
                             Log.e(tag, e);
 
@@ -140,7 +141,7 @@ public class GeneralsStoryManager {
     public void startLoadingAudio() {
 
         try {
-            GeneralsStoryScenario scenario = generalsStory.currentScenario;
+            GeneralsStoryScenario scenario = story.currentScenario;
             if (scenario == null) return;
 
             final StoryAudio audio = scenario.currentAudio;
@@ -149,7 +150,8 @@ public class GeneralsStoryManager {
                     @Override
                     public void run() {
                         try {
-                            gameScreen.audioService.onPrepared(audio);
+                            if (gameScreen.audioService != null)
+                                gameScreen.audioService.playAudio(audio);
                         } catch (Throwable e) {
                             Log.e(tag, e);
 
@@ -185,17 +187,17 @@ public class GeneralsStoryManager {
 
         startLoadingImages();
 
-        Log.i(tag, "onCompleted " + generalsStory.id);
+        Log.i(tag, "onCompleted " + story.id);
 
         Set<String> inventory = gameScreen.game.inventoryService.getAllInventory();
 
-        for (StoryAudio audio : generalsStory.currentScenario.scenario.audio) {
+        for (StoryAudio audio : story.currentScenario.scenario.audio) {
             if (audio.player != null) {
                 audio.player.pause();
             }
         }
 
-        if (generalsStory.currentScenario.scenario.isExit) {
+        if (story.currentScenario.scenario.isExit) {
 
             if (interaction.progressBarFragment.canFadeOut()) {
                 interaction.progressBarFragment.fadeOut(new Runnable() {
@@ -212,8 +214,8 @@ public class GeneralsStoryManager {
         }
 
         ArrayList<Decision> availableDecisions = new ArrayList<>();
-        if (generalsStory.currentScenario.scenario.decisions != null) {
-            for (Decision decision : generalsStory.currentScenario.scenario.decisions) {
+        if (story.currentScenario.scenario.decisions != null) {
+            for (Decision decision : story.currentScenario.scenario.decisions) {
                 if (isDecisionAvailable(decision, inventory)) {
                     availableDecisions.add(decision);
                 }
@@ -268,15 +270,15 @@ public class GeneralsStoryManager {
 
     public void reset() {
 
-        if (generalsStory == null) return;
+        if (story == null) return;
 
-        Log.i(tag, "reset " + generalsStory.id);
+        Log.i(tag, "reset " + story.id);
 
-        for (GeneralsStoryScenario storyScenario : generalsStory.scenarios) {
+        for (GeneralsStoryScenario storyScenario : story.scenarios) {
             storyScenario.reset();
         }
 
-        generalsStory.reset();
+        story.reset();
     }
 
     private boolean isDecisionAvailable(Decision decision, Set<String> inventory) {

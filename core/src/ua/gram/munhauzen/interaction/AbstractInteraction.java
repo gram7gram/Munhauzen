@@ -1,6 +1,5 @@
 package ua.gram.munhauzen.interaction;
 
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.Timer;
 
@@ -16,18 +15,18 @@ public abstract class AbstractInteraction implements Disposable {
 
     final String tag = getClass().getSimpleName();
     public final GameScreen gameScreen;
-    public AssetManager assetManager;
+    public ExpansionAssetManager assetManager;
 
     public AbstractInteraction(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
-
-        assetManager = new ExpansionAssetManager();
     }
 
     public void start() {
         Log.i(tag, "start");
 
-        GameState.unpause();
+        assetManager = new ExpansionAssetManager();
+
+        GameState.unpause(tag);
 
     }
 
@@ -52,6 +51,6 @@ public abstract class AbstractInteraction implements Disposable {
 
         Timer.instance().clear();
 
-        GameState.unpause();
+        GameState.unpause(tag);
     }
 }

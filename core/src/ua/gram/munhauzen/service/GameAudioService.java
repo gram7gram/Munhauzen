@@ -8,7 +8,6 @@ import com.badlogic.gdx.utils.Timer;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.concurrent.TimeUnit;
 
 import ua.gram.munhauzen.entity.Audio;
 import ua.gram.munhauzen.entity.GameState;
@@ -20,6 +19,7 @@ import ua.gram.munhauzen.interaction.GeneralsInteraction;
 import ua.gram.munhauzen.interaction.HareInteraction;
 import ua.gram.munhauzen.interaction.PictureInteraction;
 import ua.gram.munhauzen.interaction.ServantsInteraction;
+import ua.gram.munhauzen.interaction.Timer2Interaction;
 import ua.gram.munhauzen.interaction.TimerInteraction;
 import ua.gram.munhauzen.interaction.WauInteraction;
 import ua.gram.munhauzen.interaction.cannons.CannonsStory;
@@ -35,18 +35,16 @@ import ua.gram.munhauzen.interaction.servants.hire.HireStoryManager;
 import ua.gram.munhauzen.interaction.servants.hire.HireStoryScenario;
 import ua.gram.munhauzen.interaction.timer.TimerStory;
 import ua.gram.munhauzen.interaction.timer.TimerStoryScenario;
+import ua.gram.munhauzen.interaction.timer2.Timer2Story;
+import ua.gram.munhauzen.interaction.timer2.Timer2StoryScenario;
 import ua.gram.munhauzen.interaction.wauwau.WauStory;
 import ua.gram.munhauzen.interaction.wauwau.WauStoryScenario;
 import ua.gram.munhauzen.repository.AudioRepository;
 import ua.gram.munhauzen.screen.GameScreen;
-import ua.gram.munhauzen.utils.DateUtils;
 import ua.gram.munhauzen.utils.ExpansionAssetManager;
 import ua.gram.munhauzen.utils.ExternalFiles;
 import ua.gram.munhauzen.utils.Log;
 
-/**
- * @author Gram <gram7gram@gmail.com>
- */
 public class GameAudioService implements Disposable {
 
     private final String tag = getClass().getSimpleName();
@@ -102,7 +100,7 @@ public class GameAudioService implements Disposable {
 
     }
 
-    public void prepareAndPlay(final StoryAudio item) {
+    public void prepareAndPlay(StoryAudio item) {
 
         Log.i(tag, "play " + item.audio);
 
@@ -133,31 +131,12 @@ public class GameAudioService implements Disposable {
         }
     }
 
-    public void onPrepared(StoryAudio item) {
-        try {
-            if (!item.isLocked) return;
-            if (GameState.isPaused) return;
-            if (item.isActive) return;
-
-            long diff = DateUtils.getDateDiff(item.prepareCompletedAt, item.prepareStartedAt, TimeUnit.MILLISECONDS);
-
-            Log.i(tag, "onPrepared " + item.audio + " in " + diff + "ms");
-
-            item.prepareCompletedAt = null;
-            item.prepareStartedAt = null;
-
-            playAudio(item);
-
-        } catch (Throwable e) {
-            Log.e(tag, e);
-        }
-    }
-
     public void playAudio(StoryAudio item) {
 
         try {
             if (item == null) return;
-            if (GameState.isPaused) return;
+            if (!item.isLocked) return;
+            if (item.isActive) return;
 
             float delay = Math.max(0, (item.progress - item.startsAt) / 1000);
 
@@ -181,8 +160,12 @@ public class GameAudioService implements Disposable {
     public void stop(StoryAudio storyAudio) {
         try {
 
-            if (storyAudio.player != null)
+            if (storyAudio.player != null) {
+
+                Log.i(tag, "stop " + storyAudio.audio);
+
                 storyAudio.player.stop();
+            }
 
             String resource = storyAudio.resource;
             if (resource == null) {
@@ -215,16 +198,14 @@ public class GameAudioService implements Disposable {
         }
     }
 
-    public void stop() {
+    public void stop(String referer) {
+
+        Log.i(tag, "stop " + referer);
+
         try {
             Story story = gameScreen.getStory();
             if (story != null) {
-
-                for (StoryScenario option : story.scenarios) {
-                    for (StoryAudio audio : option.scenario.audio) {
-                        stop(audio);
-                    }
-                }
+                stop(story);
             }
 
             for (StoryAudio storyAudio : activeAudio.values()) {
@@ -237,6 +218,115 @@ public class GameAudioService implements Disposable {
 
         } catch (Throwable e) {
             Log.e(tag, e);
+        }
+    }
+
+    public void stop(Story story) {
+        if (story == null) return;
+
+//        Log.i(tag, "stop story " + story.id);
+
+        for (StoryScenario option : story.scenarios) {
+            for (StoryAudio audio : option.scenario.audio) {
+                stop(audio);
+            }
+        }
+
+    }
+
+    public void stop(HireStory story) {
+        if (story == null) return;
+
+//        Log.i(tag, "stop story " + story.id);
+
+        for (HireStoryScenario option : story.scenarios) {
+            for (StoryAudio audio : option.scenario.audio) {
+                stop(audio);
+            }
+        }
+    }
+
+    public void stop(GeneralsStory story) {
+        if (story == null) return;
+
+//        Log.i(tag, "stop story " + story.id);
+
+        for (GeneralsStoryScenario option : story.scenarios) {
+            for (StoryAudio audio : option.scenario.audio) {
+                stop(audio);
+            }
+        }
+    }
+
+    public void stop(HareStory story) {
+        if (story == null) return;
+
+//        Log.i(tag, "stop story " + story.id);
+
+        for (HareStoryScenario option : story.scenarios) {
+            for (StoryAudio audio : option.scenario.audio) {
+                stop(audio);
+            }
+        }
+    }
+
+    public void stop(TimerStory story) {
+        if (story == null) return;
+
+//        Log.i(tag, "stop story " + story.id);
+
+        for (TimerStoryScenario option : story.scenarios) {
+            for (StoryAudio audio : option.scenario.audio) {
+                stop(audio);
+            }
+        }
+    }
+
+    public void stop(Timer2Story story) {
+        if (story == null) return;
+
+//        Log.i(tag, "stop story " + story.id);
+
+        for (Timer2StoryScenario option : story.scenarios) {
+            for (StoryAudio audio : option.scenario.audio) {
+                stop(audio);
+            }
+        }
+    }
+
+    public void stop(PictureStory story) {
+        if (story == null) return;
+
+//        Log.i(tag, "stop story " + story.id);
+
+        for (PictureStoryScenario option : story.scenarios) {
+            for (StoryAudio audio : option.scenario.audio) {
+                stop(audio);
+            }
+        }
+    }
+
+    public void stop(CannonsStory story) {
+        if (story == null) return;
+
+//        Log.i(tag, "stop story " + story.id);
+
+        for (CannonsStoryScenario option : story.scenarios) {
+            for (StoryAudio audio : option.scenario.audio) {
+                stop(audio);
+            }
+        }
+    }
+
+    public void stop(WauStory story) {
+        if (story == null) return;
+
+//        Log.i(tag, "stop story " + story.id);
+
+        for (WauStoryScenario option : story.scenarios) {
+            for (StoryAudio audio : option.scenario.audio) {
+                stop(audio);
+            }
         }
     }
 
@@ -323,7 +413,7 @@ public class GameAudioService implements Disposable {
             if (story != null) {
 
                 if (story.isCompleted) {
-                    stop();
+                    stop(story);
                 } else {
 
                     if (GameState.isPaused) {
@@ -373,7 +463,7 @@ public class GameAudioService implements Disposable {
             if (story != null) {
 
                 if (story.isCompleted) {
-                    stop();
+                    stop(story);
                 } else {
 
                     if (GameState.isPaused) {
@@ -421,7 +511,7 @@ public class GameAudioService implements Disposable {
             if (story != null) {
 
                 if (story.isCompleted) {
-                    stop();
+                    stop(story);
                 } else {
 
                     if (GameState.isPaused) {
@@ -469,7 +559,7 @@ public class GameAudioService implements Disposable {
             if (story != null) {
 
                 if (story.isCompleted) {
-                    stop();
+                    stop(story);
                 } else {
 
                     if (GameState.isPaused) {
@@ -517,7 +607,7 @@ public class GameAudioService implements Disposable {
             if (story != null) {
 
                 if (story.isCompleted) {
-                    stop();
+                    stop(story);
                 } else {
 
                     if (GameState.isPaused) {
@@ -560,12 +650,60 @@ public class GameAudioService implements Disposable {
         }
     }
 
+    public void updateMusicState(Timer2Story story) {
+        try {
+            if (story != null) {
+
+                if (story.isCompleted) {
+                    stop(story);
+                } else {
+
+                    if (GameState.isPaused) {
+                        for (Timer2StoryScenario option : story.scenarios) {
+                            for (StoryAudio audio : option.scenario.audio) {
+                                if (audio.player != null) {
+                                    audio.isActive = false;
+                                    audio.player.pause();
+                                }
+                            }
+                        }
+                    } else {
+
+                        for (Timer2StoryScenario option : story.scenarios) {
+                            for (StoryAudio audio : option.scenario.audio) {
+                                if (audio.player != null) {
+                                    if (audio.isCompleted) {
+                                        audio.player.pause();
+                                    }
+
+                                    if (audio.isActive && !audio.isLocked) {
+                                        audio.isActive = false;
+                                        audio.player.pause();
+                                    }
+
+                                    if (!audio.isCompleted && audio.isActive
+                                            && audio.isLocked && audio.isPrepared
+                                            && !audio.player.isPlaying()) {
+                                        audio.player.play();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+    }
+
     public void updateMusicState(GeneralsStory story) {
         try {
             if (story != null) {
 
                 if (story.isCompleted) {
-                    stop();
+                    stop(story);
                 } else {
 
                     if (GameState.isPaused) {
@@ -613,7 +751,7 @@ public class GameAudioService implements Disposable {
             if (story != null) {
 
                 if (story.isCompleted) {
-                    stop();
+                    stop(story);
                 } else {
 
                     if (GameState.isPaused) {
@@ -658,45 +796,64 @@ public class GameAudioService implements Disposable {
 
     public void updateMusicState(HireStory story) {
         try {
-            if (story != null) {
+            if (story == null) return;
 
-                if (story.isCompleted) {
-                    stop();
+            updateVolume(story);
+
+            if (story.isCompleted) {
+                stop(story);
+            } else {
+
+                if (GameState.isPaused) {
+                    for (HireStoryScenario option : story.scenarios) {
+                        for (StoryAudio audio : option.scenario.audio) {
+                            if (audio.player != null) {
+                                Log.e(tag, "updateMusicState paused " + audio.audio);
+                                audio.isActive = false;
+                                audio.player.pause();
+                            }
+                        }
+                    }
                 } else {
 
-                    if (GameState.isPaused) {
-                        for (HireStoryScenario option : story.scenarios) {
-                            for (StoryAudio audio : option.scenario.audio) {
-                                if (audio.player != null) {
+                    for (HireStoryScenario option : story.scenarios) {
+                        for (StoryAudio audio : option.scenario.audio) {
+                            if (audio.player != null) {
+                                if (audio.isCompleted) {
+                                    audio.player.pause();
+                                }
+
+                                if (audio.isActive && !audio.isLocked) {
+                                    Log.e(tag, "updateMusicState not locked " + audio.audio);
                                     audio.isActive = false;
                                     audio.player.pause();
                                 }
-                            }
-                        }
-                    } else {
 
-                        for (HireStoryScenario option : story.scenarios) {
-                            for (StoryAudio audio : option.scenario.audio) {
-                                if (audio.player != null) {
-                                    if (audio.isCompleted) {
-                                        Log.i(tag, "paused " + audio.audio);
-                                        audio.player.pause();
-                                    }
-
-                                    if (audio.isActive && !audio.isLocked) {
-                                        Log.i(tag, "paused " + audio.audio);
-                                        audio.isActive = false;
-                                        audio.player.pause();
-                                    }
-
-                                    if (!audio.isCompleted && audio.isActive
-                                            && audio.isLocked && audio.isPrepared
-                                            && !audio.player.isPlaying()) {
-                                        Log.i(tag, "play " + audio.audio);
-                                        audio.player.play();
-                                    }
+                                if (!audio.isCompleted && audio.isActive
+                                        && audio.isLocked && audio.isPrepared
+                                        && !audio.player.isPlaying()) {
+                                    audio.player.play();
                                 }
                             }
+                        }
+                    }
+                }
+            }
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+    }
+
+    public void updateVolume(HireStory story) {
+        try {
+            if (story == null) return;
+
+            for (HireStoryScenario option : story.scenarios) {
+                if (option.scenario.audio != null) {
+                    for (StoryAudio audio : option.scenario.audio) {
+                        if (audio.player != null) {
+                            audio.player.setVolume(GameState.isMute ? 0 : 1);
                         }
                     }
                 }
@@ -722,7 +879,14 @@ public class GameAudioService implements Disposable {
             if (story.currentInteraction != null) {
                 if (story.currentInteraction.interaction instanceof TimerInteraction) {
                     TimerStory interactionStory = ((TimerInteraction) story.currentInteraction.interaction)
-                            .storyManager.timerStory;
+                            .storyManager.story;
+
+                    updateMusicState(interactionStory);
+                }
+
+                if (story.currentInteraction.interaction instanceof Timer2Interaction) {
+                    Timer2Story interactionStory = ((Timer2Interaction) story.currentInteraction.interaction)
+                            .storyManager.story;
 
                     updateMusicState(interactionStory);
                 }
@@ -736,21 +900,21 @@ public class GameAudioService implements Disposable {
 
                 if (story.currentInteraction.interaction instanceof GeneralsInteraction) {
                     GeneralsStory interactionStory = ((GeneralsInteraction) story.currentInteraction.interaction)
-                            .storyManager.generalsStory;
+                            .storyManager.story;
 
                     updateMusicState(interactionStory);
                 }
 
                 if (story.currentInteraction.interaction instanceof PictureInteraction) {
                     PictureStory interactionStory = ((PictureInteraction) story.currentInteraction.interaction)
-                            .storyManager.pictureStory;
+                            .storyManager.story;
 
                     updateMusicState(interactionStory);
                 }
 
                 if (story.currentInteraction.interaction instanceof HareInteraction) {
                     HareStory interactionStory = ((HareInteraction) story.currentInteraction.interaction)
-                            .storyManager.hareStory;
+                            .storyManager.story;
 
                     updateMusicState(interactionStory);
                 }
@@ -778,11 +942,74 @@ public class GameAudioService implements Disposable {
 
     @Override
     public void dispose() {
-        stop();
+        stop(tag);
 
         Story story = gameScreen.getStory();
         if (story != null) {
+
             dispose(story);
+
+            if (story.currentInteraction != null) {
+                if (story.currentInteraction.interaction instanceof TimerInteraction) {
+                    TimerStory interactionStory = ((TimerInteraction) story.currentInteraction.interaction)
+                            .storyManager.story;
+
+                    dispose(interactionStory);
+                }
+
+                if (story.currentInteraction.interaction instanceof Timer2Interaction) {
+                    Timer2Story interactionStory = ((Timer2Interaction) story.currentInteraction.interaction)
+                            .storyManager.story;
+
+                    dispose(interactionStory);
+                }
+
+                if (story.currentInteraction.interaction instanceof WauInteraction) {
+                    WauStory interactionStory = ((WauInteraction) story.currentInteraction.interaction)
+                            .storyManager.story;
+
+                    dispose(interactionStory);
+                }
+
+                if (story.currentInteraction.interaction instanceof GeneralsInteraction) {
+                    GeneralsStory interactionStory = ((GeneralsInteraction) story.currentInteraction.interaction)
+                            .storyManager.story;
+
+                    dispose(interactionStory);
+                }
+
+                if (story.currentInteraction.interaction instanceof PictureInteraction) {
+                    PictureStory interactionStory = ((PictureInteraction) story.currentInteraction.interaction)
+                            .storyManager.story;
+
+                    dispose(interactionStory);
+                }
+
+                if (story.currentInteraction.interaction instanceof HareInteraction) {
+                    HareStory interactionStory = ((HareInteraction) story.currentInteraction.interaction)
+                            .storyManager.story;
+
+                    dispose(interactionStory);
+                }
+
+                if (story.currentInteraction.interaction instanceof CannonsInteraction) {
+                    CannonsStory interactionStory = ((CannonsInteraction) story.currentInteraction.interaction)
+                            .storyManager.story;
+
+                    dispose(interactionStory);
+                }
+
+                if (story.currentInteraction.interaction instanceof ServantsInteraction) {
+                    HireStoryManager storyManager = ((ServantsInteraction) story.currentInteraction.interaction).storyManager;
+                    if (storyManager != null) {
+                        HireStory interactionStory = storyManager.story;
+
+                        if (interactionStory != null) {
+                            dispose(interactionStory);
+                        }
+                    }
+                }
+            }
         }
 
         if (assetManager != null) {
@@ -801,21 +1028,125 @@ public class GameAudioService implements Disposable {
             if (storyScenario.scenario.audio != null) {
                 for (StoryAudio item : storyScenario.scenario.audio) {
 
-                    stop(item);
+                    dispose(item);
+                }
+            }
+        }
 
-                    item.player = null;
-                    item.isPrepared = false;
+    }
 
-                    if (item.resource != null) {
-                        if (assetManager.isLoaded(item.resource)) {
-                            if (assetManager.getReferenceCount(item.resource) == 0) {
-                                assetManager.unload(item.resource);
-                                item.resource = null;
-                            } else {
-                                Log.e(tag, item.audio + " dispose ignored");
-                            }
-                        }
-                    }
+    public synchronized void dispose(CannonsStory story) {
+        if (assetManager == null) return;
+
+        Log.i(tag, "dispose " + story.id);
+
+        for (CannonsStoryScenario storyScenario : story.scenarios) {
+
+            if (storyScenario.scenario.audio != null) {
+                for (StoryAudio item : storyScenario.scenario.audio) {
+
+                    dispose(item);
+                }
+            }
+        }
+
+    }
+
+    public synchronized void dispose(WauStory story) {
+        if (assetManager == null) return;
+
+        Log.i(tag, "dispose " + story.id);
+
+        for (WauStoryScenario storyScenario : story.scenarios) {
+
+            if (storyScenario.scenario.audio != null) {
+                for (StoryAudio item : storyScenario.scenario.audio) {
+
+                    dispose(item);
+                }
+            }
+        }
+
+    }
+
+    public synchronized void dispose(TimerStory story) {
+        if (assetManager == null) return;
+
+        Log.i(tag, "dispose " + story.id);
+
+        for (TimerStoryScenario storyScenario : story.scenarios) {
+
+            if (storyScenario.scenario.audio != null) {
+                for (StoryAudio item : storyScenario.scenario.audio) {
+
+                    dispose(item);
+                }
+            }
+        }
+
+    }
+
+    public synchronized void dispose(Timer2Story story) {
+        if (assetManager == null) return;
+
+        Log.i(tag, "dispose " + story.id);
+
+        for (Timer2StoryScenario storyScenario : story.scenarios) {
+
+            if (storyScenario.scenario.audio != null) {
+                for (StoryAudio item : storyScenario.scenario.audio) {
+
+                    dispose(item);
+                }
+            }
+        }
+
+    }
+
+    public synchronized void dispose(HareStory story) {
+        if (assetManager == null) return;
+
+        Log.i(tag, "dispose " + story.id);
+
+        for (HareStoryScenario storyScenario : story.scenarios) {
+
+            if (storyScenario.scenario.audio != null) {
+                for (StoryAudio item : storyScenario.scenario.audio) {
+
+                    dispose(item);
+                }
+            }
+        }
+
+    }
+
+    public synchronized void dispose(PictureStory story) {
+        if (assetManager == null) return;
+
+        Log.i(tag, "dispose " + story.id);
+
+        for (PictureStoryScenario storyScenario : story.scenarios) {
+
+            if (storyScenario.scenario.audio != null) {
+                for (StoryAudio item : storyScenario.scenario.audio) {
+
+                    dispose(item);
+                }
+            }
+        }
+
+    }
+
+    public synchronized void dispose(GeneralsStory story) {
+        if (assetManager == null) return;
+
+        Log.i(tag, "dispose " + story.id);
+
+        for (GeneralsStoryScenario storyScenario : story.scenarios) {
+
+            if (storyScenario.scenario.audio != null) {
+                for (StoryAudio item : storyScenario.scenario.audio) {
+                    dispose(item);
                 }
             }
         }
@@ -831,25 +1162,29 @@ public class GameAudioService implements Disposable {
 
             if (storyScenario.scenario.audio != null) {
                 for (StoryAudio item : storyScenario.scenario.audio) {
-
-                    stop(item);
-
-                    item.player = null;
-                    item.isPrepared = false;
-
-                    if (item.resource != null) {
-                        if (assetManager.isLoaded(item.resource)) {
-                            if (assetManager.getReferenceCount(item.resource) == 0) {
-                                assetManager.unload(item.resource);
-                                item.resource = null;
-                            } else {
-                                Log.e(tag, item.audio + " dispose ignored");
-                            }
-                        }
-                    }
+                    dispose(item);
                 }
             }
         }
 
+    }
+
+    private synchronized void dispose(StoryAudio item) {
+
+        stop(item);
+
+        item.player = null;
+        item.isPrepared = false;
+
+        if (item.resource != null) {
+            if (assetManager.isLoaded(item.resource)) {
+                if (assetManager.getReferenceCount(item.resource) == 0) {
+                    assetManager.unload(item.resource);
+                    item.resource = null;
+                } else {
+                    Log.e(tag, item.audio + " dispose ignored");
+                }
+            }
+        }
     }
 }

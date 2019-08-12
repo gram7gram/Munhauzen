@@ -137,6 +137,11 @@ public class WauInteraction extends AbstractInteraction {
                 imageService = null;
             }
 
+            if (storyManager != null) {
+                gameScreen.audioService.dispose(storyManager.story);
+                storyManager = null;
+            }
+
             isLoaded = false;
 
         } catch (Throwable e) {

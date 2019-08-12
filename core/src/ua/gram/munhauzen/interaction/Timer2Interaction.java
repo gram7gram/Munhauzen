@@ -106,7 +106,7 @@ public class Timer2Interaction extends AbstractInteraction {
             imageService.update();
         }
 
-        Timer2Story story = storyManager.timerStory;
+        Timer2Story story = storyManager.story;
 
         if (!story.isCompleted) {
 
@@ -154,6 +154,11 @@ public class Timer2Interaction extends AbstractInteraction {
         if (imageFragment != null) {
             imageFragment.dispose();
             imageFragment = null;
+        }
+
+        if (storyManager != null) {
+            gameScreen.audioService.dispose(storyManager.story);
+            storyManager = null;
         }
 
         isLoaded = false;

@@ -22,7 +22,7 @@ public class PictureImageService extends InteractionImageService {
 
         Log.i(tag, "displayImage " + getResource(item));
 
-        PictureStory story = interaction.storyManager.pictureStory;
+        PictureStory story = interaction.storyManager.story;
         if (story != null) {
             for (PictureStoryScenario scenarioOption : story.scenarios) {
                 for (StoryImage image : scenarioOption.scenario.images) {

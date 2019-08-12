@@ -224,7 +224,11 @@ public class ExpansionDownloadManager implements Disposable {
 
                 try {
 
-                    serverExpansionInfo = json.fromJson(ExpansionResponse.class, httpResponse.getResultAsString());
+                    String response = httpResponse.getResultAsString();
+
+                    Log.e(tag, response);
+
+                    serverExpansionInfo = json.fromJson(ExpansionResponse.class, response);
                     if (localExpansionInfo != null) {
 
                         for (Part serverPart : serverExpansionInfo.parts.items) {

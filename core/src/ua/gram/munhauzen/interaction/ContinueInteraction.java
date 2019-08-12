@@ -34,6 +34,7 @@ public class ContinueInteraction extends AbstractInteraction {
     }
 
     private void onResourcesLoaded() {
+        isLoaded = true;
 
         imageFragment = new ContinueImageFragment(this);
         imageFragment.create();
@@ -42,7 +43,7 @@ public class ContinueInteraction extends AbstractInteraction {
 
         imageFragment.fadeInRoot();
 
-        GameState.pause();
+        GameState.pause(tag);
     }
 
     @Override
@@ -54,7 +55,6 @@ public class ContinueInteraction extends AbstractInteraction {
         if (!isLoaded) {
             if (assetManager.isFinished()) {
                 onResourcesLoaded();
-                isLoaded = true;
             }
             return;
         }
@@ -74,7 +74,6 @@ public class ContinueInteraction extends AbstractInteraction {
             StoryInteraction interaction = story.currentInteraction;
 
             if (interaction != null) {
-
                 interaction.isCompleted = false;
             }
         } catch (Throwable e) {
@@ -99,7 +98,7 @@ public class ContinueInteraction extends AbstractInteraction {
                                 public void run() {
                                     try {
 
-                                        GameState.unpause();
+                                        GameState.unpause(tag);
 
                                         //Continue interaction is NEVER completed.
                                         //When scrolling back the interaction should reappear
@@ -108,6 +107,7 @@ public class ContinueInteraction extends AbstractInteraction {
                                         gameScreen.interactionService.findStoryAfterInteraction();
 
                                         gameScreen.restoreProgressBarIfDestroyed();
+
                                     } catch (Throwable e) {
                                         Log.e(tag, e);
                                     }
@@ -123,6 +123,11 @@ public class ContinueInteraction extends AbstractInteraction {
     @Override
     public void dispose() {
         super.dispose();
+
+        if (imageFragment != null) {
+            imageFragment.destroy();
+            imageFragment = null;
+        }
 
         isLoaded = false;
     }

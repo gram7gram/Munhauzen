@@ -207,7 +207,7 @@ public class TimerScenarioFragment extends Fragment {
 
         fadeIn();
 
-        GameState.pause();
+        GameState.pause(tag);
 
         root.setName(tag);
         root.setVisible(false);
@@ -231,7 +231,7 @@ public class TimerScenarioFragment extends Fragment {
 //            Sound sfx =  interaction.assetManager.get("sfx/sfx_decision.mp3", Sound.class);
 //            sfx.play();
 
-            GameState.unpause();
+            GameState.unpause(tag);
 
             final Runnable onComplete = new Runnable() {
                 @Override
@@ -247,7 +247,7 @@ public class TimerScenarioFragment extends Fragment {
 
             TimerStory newStory = interaction.storyManager.create(decision.scenario);
 
-            interaction.storyManager.timerStory = newStory;
+            interaction.storyManager.story = newStory;
 
             interaction.storyManager.startLoadingResources();
 

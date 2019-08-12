@@ -141,7 +141,7 @@ public class TimerProgressBarFragment extends Fragment {
                 try {
                     Log.i(tag, "playButton clicked");
 
-                    GameState.unpause();
+                    GameState.unpause(tag);
 
                     startCurrentMusicIfPaused();
 
@@ -161,7 +161,7 @@ public class TimerProgressBarFragment extends Fragment {
 
                     gameScreen.audioService.pause();
 
-                    GameState.pause();
+                    GameState.pause(tag);
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -182,7 +182,7 @@ public class TimerProgressBarFragment extends Fragment {
 
                     gameScreen.audioService.pause();
 
-                    cancelFadeOut();
+                    GameState.pause(tag);
 
                     if (interaction.scenarioFragment != null) {
                         interaction.scenarioFragment.fadeOut(new Runnable() {
@@ -204,9 +204,7 @@ public class TimerProgressBarFragment extends Fragment {
                         @Override
                         public void run() {
                             try {
-                                TimerStory story = interaction.storyManager.timerStory;
-
-                                GameState.pause();
+                                TimerStory story = interaction.storyManager.story;
 
                                 story.progress -= story.totalDuration * 0.025f;
 
@@ -228,7 +226,7 @@ public class TimerProgressBarFragment extends Fragment {
                 try {
                     Log.i(tag, "rewindBackButton enter");
 
-                    GameState.unpause();
+                    GameState.unpause(tag);
 
                     progressTask.cancel();
                     progressTask = null;
@@ -255,15 +253,13 @@ public class TimerProgressBarFragment extends Fragment {
 
                     gameScreen.audioService.pause();
 
-                    cancelFadeOut();
+                    GameState.pause(tag);
 
                     progressTask = Timer.schedule(new Timer.Task() {
                         @Override
                         public void run() {
                             try {
-                                TimerStory story = interaction.storyManager.timerStory;
-
-                                GameState.pause();
+                                TimerStory story = interaction.storyManager.story;
 
                                 story.progress += story.totalDuration * 0.025f;
 
@@ -286,7 +282,7 @@ public class TimerProgressBarFragment extends Fragment {
                 try {
                     Log.i(tag, "rewindForwardButton exit");
 
-                    GameState.unpause();
+                    GameState.unpause(tag);
 
                     progressTask.cancel();
                     progressTask = null;
@@ -307,7 +303,7 @@ public class TimerProgressBarFragment extends Fragment {
                 try {
                     gameScreen.audioService.pause();
 
-                    TimerStory story = interaction.storyManager.timerStory;
+                    TimerStory story = interaction.storyManager.story;
 
                     story.progress = story.totalDuration * percent;
 
@@ -347,7 +343,7 @@ public class TimerProgressBarFragment extends Fragment {
                 super.touchUp(event, x, y, pointer, button);
 
                 try {
-                    GameState.unpause();
+                    GameState.unpause(tag);
 
                     startCurrentMusicIfPaused();
 
@@ -365,7 +361,7 @@ public class TimerProgressBarFragment extends Fragment {
 
                     float percent = x / totalLength;
 
-                    GameState.pause();
+                    GameState.pause(tag);
 
                     scrollTo(percent);
                 } catch (Throwable e) {
@@ -382,7 +378,7 @@ public class TimerProgressBarFragment extends Fragment {
 
                     float percent = x / totalLength;
 
-                    GameState.pause();
+                    GameState.pause(tag);
 
                     scrollTo(percent);
                 } catch (Throwable e) {
@@ -424,7 +420,7 @@ public class TimerProgressBarFragment extends Fragment {
 
         if (!isMounted()) return;
 
-        TimerStory story = interaction.storyManager.timerStory;
+        TimerStory story = interaction.storyManager.story;
 
         pauseButton.setVisible(!GameState.isPaused);
         playButton.setVisible(GameState.isPaused);
@@ -443,7 +439,7 @@ public class TimerProgressBarFragment extends Fragment {
 
     public void startCurrentMusicIfPaused() {
 
-        TimerStory story = interaction.storyManager.timerStory;
+        TimerStory story = interaction.storyManager.story;
 
         for (TimerStoryScenario scenarioOption : story.scenarios) {
             if (scenarioOption != story.currentScenario) {
@@ -649,7 +645,7 @@ public class TimerProgressBarFragment extends Fragment {
 
     private void postProgressChanged(boolean isCompletedBefore) {
         try {
-            TimerStory story = interaction.storyManager.timerStory;
+            TimerStory story = interaction.storyManager.story;
 
             story.update(story.progress, story.totalDuration);
 

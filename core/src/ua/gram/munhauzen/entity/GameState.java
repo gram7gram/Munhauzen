@@ -47,15 +47,15 @@ public class GameState {
         }
     }
 
-    public static void pause() {
+    public static void pause(String referer) {
         if (isPaused) return;
-        Log.i(tag, "pause");
+        Log.i(tag, "pause " + referer);
         isPaused = true;
     }
 
-    public static void unpause() {
+    public static void unpause(String referer) {
         if (!isPaused) return;
-        Log.i(tag, "unpause");
+        Log.i(tag, "unpause " + referer);
         isPaused = false;
     }
 }

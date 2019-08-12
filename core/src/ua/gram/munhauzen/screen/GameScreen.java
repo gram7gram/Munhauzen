@@ -88,7 +88,7 @@ public class GameScreen implements Screen {
         stageInputListener = new StageInputListener(this);
 
         isLoaded = false;
-        GameState.unpause();
+        GameState.unpause(tag);
 
         assetManager.load("GameScreen/t_putty.png", Texture.class);
         assetManager.load("ui/playbar_pause.png", Texture.class);
@@ -398,12 +398,19 @@ public class GameScreen implements Screen {
 
     public void restoreProgressBarIfDestroyed() {
 
+        Story story = getStory();
+        if (story == null) return;
+
+        if (story.isInteraction()) return;
+
         Log.i(tag, "restoreProgressBarIfDestroyed");
 
         showProgressBar();
     }
 
     public void showProgressBar() {
+
+        if (progressBarFragment == null) return;
 
         Log.i(tag, "showProgressBar");
         try {
@@ -418,6 +425,8 @@ public class GameScreen implements Screen {
     }
 
     public void hideProgressBar() {
+
+        if (progressBarFragment == null) return;
 
         try {
             if (progressBarFragment.canFadeOut()) {
@@ -446,7 +455,9 @@ public class GameScreen implements Screen {
     }
 
     public void hideAndDestroyScenarioFragment() {
-        gameLayers.setStoryDecisionsLayer(null);
+        if (gameLayers != null) {
+            gameLayers.setStoryDecisionsLayer(null);
+        }
         scenarioFragment = null;
     }
 

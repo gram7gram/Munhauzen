@@ -79,7 +79,7 @@ public class TimerBombFragment extends Fragment {
 
         Log.i(tag, "failed");
 
-        GameState.pause();
+        GameState.pause(tag);
 
         try {
 
@@ -87,7 +87,7 @@ public class TimerBombFragment extends Fragment {
 
             interaction.storyManager.reset();
 
-            interaction.gameScreen.audioService.stop();
+            interaction.gameScreen.audioService.stop(tag);
 
             stopTimer();
 
@@ -119,7 +119,7 @@ public class TimerBombFragment extends Fragment {
                 @Override
                 public void run() {
 
-                    GameState.unpause();
+                    GameState.unpause(tag);
 
                     try {
 
@@ -127,7 +127,7 @@ public class TimerBombFragment extends Fragment {
 
                         TimerStory newStory = interaction.storyManager.create(interaction.burnScenario);
 
-                        interaction.storyManager.timerStory = newStory;
+                        interaction.storyManager.story = newStory;
 
                         interaction.storyManager.startLoadingResources();
 

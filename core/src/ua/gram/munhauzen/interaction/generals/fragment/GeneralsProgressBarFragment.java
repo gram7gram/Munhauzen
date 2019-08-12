@@ -158,7 +158,7 @@ public class GeneralsProgressBarFragment extends Fragment {
                 try {
                     Log.i(tag, "playButton clicked");
 
-                    GameState.unpause();
+                    GameState.unpause(tag);
 
                     startCurrentMusicIfPaused();
 
@@ -178,7 +178,7 @@ public class GeneralsProgressBarFragment extends Fragment {
 
                     gameScreen.audioService.pause();
 
-                    GameState.pause();
+                    GameState.pause(tag);
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -199,7 +199,7 @@ public class GeneralsProgressBarFragment extends Fragment {
 
                     gameScreen.audioService.pause();
 
-                    cancelFadeOut();
+                    GameState.pause(tag);
 
                     if (interaction.scenarioFragment != null) {
                         interaction.scenarioFragment.fadeOut(new Runnable() {
@@ -221,9 +221,7 @@ public class GeneralsProgressBarFragment extends Fragment {
                         @Override
                         public void run() {
                             try {
-                                GeneralsStory story = interaction.storyManager.generalsStory;
-
-                                GameState.pause();
+                                GeneralsStory story = interaction.storyManager.story;
 
                                 story.progress -= story.totalDuration * 0.025f;
 
@@ -245,7 +243,7 @@ public class GeneralsProgressBarFragment extends Fragment {
                 try {
                     Log.i(tag, "rewindBackButton enter");
 
-                    GameState.unpause();
+                    GameState.unpause(tag);
 
                     progressTask.cancel();
                     progressTask = null;
@@ -272,15 +270,13 @@ public class GeneralsProgressBarFragment extends Fragment {
 
                     gameScreen.audioService.pause();
 
-                    cancelFadeOut();
+                    GameState.pause(tag);
 
                     progressTask = Timer.schedule(new Timer.Task() {
                         @Override
                         public void run() {
                             try {
-                                GeneralsStory story = interaction.storyManager.generalsStory;
-
-                                GameState.pause();
+                                GeneralsStory story = interaction.storyManager.story;
 
                                 story.progress += story.totalDuration * 0.025f;
 
@@ -302,7 +298,7 @@ public class GeneralsProgressBarFragment extends Fragment {
                 try {
                     Log.i(tag, "rewindForwardButton exit");
 
-                    GameState.unpause();
+                    GameState.unpause(tag);
 
                     progressTask.cancel();
                     progressTask = null;
@@ -323,7 +319,7 @@ public class GeneralsProgressBarFragment extends Fragment {
                 try {
                     gameScreen.audioService.pause();
 
-                    GeneralsStory story = interaction.storyManager.generalsStory;
+                    GeneralsStory story = interaction.storyManager.story;
 
                     story.progress = story.totalDuration * percent;
 
@@ -363,7 +359,7 @@ public class GeneralsProgressBarFragment extends Fragment {
                 super.touchUp(event, x, y, pointer, button);
 
                 try {
-                    GameState.unpause();
+                    GameState.unpause(tag);
 
                     startCurrentMusicIfPaused();
 
@@ -381,7 +377,7 @@ public class GeneralsProgressBarFragment extends Fragment {
 
                     float percent = x / totalLength;
 
-                    GameState.pause();
+                    GameState.pause(tag);
 
                     scrollTo(percent);
                 } catch (Throwable e) {
@@ -398,7 +394,7 @@ public class GeneralsProgressBarFragment extends Fragment {
 
                     float percent = x / totalLength;
 
-                    GameState.pause();
+                    GameState.pause(tag);
 
                     scrollTo(percent);
                 } catch (Throwable e) {
@@ -440,7 +436,7 @@ public class GeneralsProgressBarFragment extends Fragment {
 
         if (!isMounted()) return;
 
-        GeneralsStory story = interaction.storyManager.generalsStory;
+        GeneralsStory story = interaction.storyManager.story;
 
         pauseButton.setVisible(!GameState.isPaused);
         playButton.setVisible(GameState.isPaused);
@@ -459,7 +455,7 @@ public class GeneralsProgressBarFragment extends Fragment {
 
     public void startCurrentMusicIfPaused() {
 
-        GeneralsStory story = interaction.storyManager.generalsStory;
+        GeneralsStory story = interaction.storyManager.story;
 
         for (GeneralsStoryScenario scenarioOption : story.scenarios) {
             if (scenarioOption != story.currentScenario) {
@@ -663,7 +659,7 @@ public class GeneralsProgressBarFragment extends Fragment {
 
     private void postProgressChanged(boolean isCompletedBefore) {
         try {
-            GeneralsStory story = interaction.storyManager.generalsStory;
+            GeneralsStory story = interaction.storyManager.story;
 
             story.update(story.progress, story.totalDuration);
 

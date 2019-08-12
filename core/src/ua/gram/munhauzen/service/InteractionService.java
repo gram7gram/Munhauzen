@@ -24,11 +24,6 @@ public class InteractionService {
             Story story = gameScreen.getStory();
             if (story == null) return;
 
-            if (story.currentScenario == null) return;
-
-            String name = story.currentScenario.scenario.interaction;
-            if (name == null) return;
-
             StoryInteraction interaction = story.currentInteraction;
 
             if (interaction != null) {
@@ -37,6 +32,27 @@ public class InteractionService {
 
                 if (interaction.isLocked) {
                     interaction.interaction.update();
+                }
+            }
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            gameScreen.onCriticalError(e);
+        }
+    }
+
+    public void create(String name) {
+        try {
+
+            Story story = gameScreen.getStory();
+            if (story == null) return;
+
+            StoryInteraction interaction = story.currentInteraction;
+
+            if (interaction != null) {
+
+                if (interaction.isCompleted) {
                     return;
                 }
 
@@ -55,10 +71,6 @@ public class InteractionService {
             story.currentInteraction = interaction;
 
             story.progress = story.currentScenario.finishesAt;
-
-            gameScreen.hideAndDestroyScenarioFragment();
-
-            interaction.interaction.start();
 
         } catch (Throwable e) {
             Log.e(tag, e);
@@ -80,21 +92,27 @@ public class InteractionService {
 
             gameScreen.setStory(newStory);
 
+            //Trigger next interaction without delay
+            if (newStory.isInteraction()) {
+                newStory.progress = newStory.totalDuration;
+            }
+
         } catch (Throwable e) {
             Log.e(tag, e);
+
+            gameScreen.onCriticalError(e);
         }
     }
 
     public void complete() {
         Story story = gameScreen.getStory();
-        if (story.currentScenario == null) return;
+        if (story == null) return;
 
         StoryInteraction interaction = story.currentInteraction;
         if (interaction == null) return;
 
         Log.i(tag, "complete " + interaction.name);
 
-        interaction.interaction.dispose();
         interaction.isCompleted = true;
 
         destroy();
@@ -102,7 +120,7 @@ public class InteractionService {
 
     public void destroy() {
         Story story = gameScreen.getStory();
-        if (story.currentScenario == null) return;
+        if (story == null) return;
 
         StoryInteraction interaction = story.currentInteraction;
         if (interaction == null) return;

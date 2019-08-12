@@ -159,7 +159,7 @@ public class WauProgressBarFragment extends Fragment {
                 try {
                     Log.i(tag, "playButton clicked");
 
-                    GameState.unpause();
+                    GameState.unpause(tag);
 
                     startCurrentMusicIfPaused();
 
@@ -185,7 +185,7 @@ public class WauProgressBarFragment extends Fragment {
 
                     gameScreen.audioService.pause();
 
-                    GameState.pause();
+                    GameState.pause(tag);
 
                     WauAnimation wauAnimation = interaction.imageFragment.wauAnimation;
 
@@ -214,7 +214,7 @@ public class WauProgressBarFragment extends Fragment {
 
                     gameScreen.audioService.pause();
 
-                    cancelFadeOut();
+                    GameState.pause(tag);
 
                     if (interaction.scenarioFragment != null) {
                         interaction.scenarioFragment.fadeOut(new Runnable() {
@@ -238,8 +238,6 @@ public class WauProgressBarFragment extends Fragment {
                             try {
                                 WauStory story = interaction.storyManager.story;
 
-                                GameState.pause();
-
                                 story.progress -= story.totalDuration * 0.025f;
 
                                 postProgressChanged(story.isCompleted);
@@ -260,7 +258,7 @@ public class WauProgressBarFragment extends Fragment {
                 try {
                     Log.i(tag, "rewindBackButton enter");
 
-                    GameState.unpause();
+                    GameState.unpause(tag);
 
                     progressTask.cancel();
                     progressTask = null;
@@ -289,15 +287,13 @@ public class WauProgressBarFragment extends Fragment {
 
                     interaction.imageFragment.wauAnimation.stop();
 
-                    cancelFadeOut();
+                    GameState.pause(tag);
 
                     progressTask = Timer.schedule(new Timer.Task() {
                         @Override
                         public void run() {
                             try {
                                 WauStory story = interaction.storyManager.story;
-
-                                GameState.pause();
 
                                 story.progress += story.totalDuration * 0.025f;
 
@@ -319,7 +315,7 @@ public class WauProgressBarFragment extends Fragment {
                 try {
                     Log.i(tag, "rewindForwardButton exit");
 
-                    GameState.unpause();
+                    GameState.unpause(tag);
 
                     progressTask.cancel();
                     progressTask = null;
@@ -382,7 +378,7 @@ public class WauProgressBarFragment extends Fragment {
                 super.touchUp(event, x, y, pointer, button);
 
                 try {
-                    GameState.unpause();
+                    GameState.unpause(tag);
 
                     startCurrentMusicIfPaused();
 
@@ -400,7 +396,7 @@ public class WauProgressBarFragment extends Fragment {
 
                     float percent = x / totalLength;
 
-                    GameState.pause();
+                    GameState.pause(tag);
 
                     scrollTo(percent);
                 } catch (Throwable e) {
@@ -417,7 +413,7 @@ public class WauProgressBarFragment extends Fragment {
 
                     float percent = x / totalLength;
 
-                    GameState.pause();
+                    GameState.pause(tag);
 
                     scrollTo(percent);
                 } catch (Throwable e) {

@@ -106,7 +106,7 @@ public class TimerInteraction extends AbstractInteraction {
             imageService.update();
         }
 
-        TimerStory story = storyManager.timerStory;
+        TimerStory story = storyManager.story;
 
         if (!story.isCompleted) {
 
@@ -154,6 +154,11 @@ public class TimerInteraction extends AbstractInteraction {
         if (imageFragment != null) {
             imageFragment.dispose();
             imageFragment = null;
+        }
+
+        if (storyManager != null) {
+            gameScreen.audioService.dispose(storyManager.story);
+            storyManager = null;
         }
 
         isLoaded = false;

@@ -158,7 +158,7 @@ public class PictureProgressBarFragment extends Fragment {
                 try {
                     Log.i(tag, "playButton clicked");
 
-                    GameState.unpause();
+                    GameState.unpause(tag);
 
                     startCurrentMusicIfPaused();
 
@@ -178,7 +178,7 @@ public class PictureProgressBarFragment extends Fragment {
 
                     gameScreen.audioService.pause();
 
-                    GameState.pause();
+                    GameState.pause(tag);
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -199,7 +199,7 @@ public class PictureProgressBarFragment extends Fragment {
 
                     gameScreen.audioService.pause();
 
-                    cancelFadeOut();
+                    GameState.pause(tag);
 
                     if (interaction.scenarioFragment != null) {
                         interaction.scenarioFragment.destroy();
@@ -210,9 +210,7 @@ public class PictureProgressBarFragment extends Fragment {
                         @Override
                         public void run() {
                             try {
-                                PictureStory story = interaction.storyManager.pictureStory;
-
-                                GameState.pause();
+                                PictureStory story = interaction.storyManager.story;
 
                                 story.progress -= story.totalDuration * 0.025f;
 
@@ -234,7 +232,7 @@ public class PictureProgressBarFragment extends Fragment {
                 try {
                     Log.i(tag, "rewindBackButton enter");
 
-                    GameState.unpause();
+                    GameState.unpause(tag);
 
                     progressTask.cancel();
                     progressTask = null;
@@ -261,15 +259,13 @@ public class PictureProgressBarFragment extends Fragment {
 
                     gameScreen.audioService.pause();
 
-                    cancelFadeOut();
+                    GameState.pause(tag);
 
                     progressTask = Timer.schedule(new Timer.Task() {
                         @Override
                         public void run() {
                             try {
-                                PictureStory story = interaction.storyManager.pictureStory;
-
-                                GameState.pause();
+                                PictureStory story = interaction.storyManager.story;
 
                                 story.progress += story.totalDuration * 0.025f;
 
@@ -292,7 +288,7 @@ public class PictureProgressBarFragment extends Fragment {
                 try {
                     Log.i(tag, "rewindForwardButton exit");
 
-                    GameState.unpause();
+                    GameState.unpause(tag);
 
                     progressTask.cancel();
                     progressTask = null;
@@ -313,7 +309,7 @@ public class PictureProgressBarFragment extends Fragment {
                 try {
                     gameScreen.audioService.pause();
 
-                    PictureStory story = interaction.storyManager.pictureStory;
+                    PictureStory story = interaction.storyManager.story;
 
                     story.progress = story.totalDuration * percent;
 
@@ -342,7 +338,7 @@ public class PictureProgressBarFragment extends Fragment {
                 super.touchUp(event, x, y, pointer, button);
 
                 try {
-                    GameState.unpause();
+                    GameState.unpause(tag);
 
                     startCurrentMusicIfPaused();
 
@@ -360,7 +356,7 @@ public class PictureProgressBarFragment extends Fragment {
 
                     float percent = x / totalLength;
 
-                    GameState.pause();
+                    GameState.pause(tag);
 
                     scrollTo(percent);
                 } catch (Throwable e) {
@@ -377,7 +373,7 @@ public class PictureProgressBarFragment extends Fragment {
 
                     float percent = x / totalLength;
 
-                    GameState.pause();
+                    GameState.pause(tag);
 
                     scrollTo(percent);
                 } catch (Throwable e) {
@@ -419,7 +415,7 @@ public class PictureProgressBarFragment extends Fragment {
 
         if (!isMounted()) return;
 
-        PictureStory story = interaction.storyManager.pictureStory;
+        PictureStory story = interaction.storyManager.story;
 
         pauseButton.setVisible(!GameState.isPaused);
         playButton.setVisible(GameState.isPaused);
@@ -438,7 +434,7 @@ public class PictureProgressBarFragment extends Fragment {
 
     public void startCurrentMusicIfPaused() {
 
-        PictureStory story = interaction.storyManager.pictureStory;
+        PictureStory story = interaction.storyManager.story;
 
         for (PictureStoryScenario scenarioOption : story.scenarios) {
             if (scenarioOption != story.currentScenario) {
@@ -644,7 +640,7 @@ public class PictureProgressBarFragment extends Fragment {
 
     private void postProgressChanged(boolean isCompletedBefore) {
         try {
-            PictureStory story = interaction.storyManager.pictureStory;
+            PictureStory story = interaction.storyManager.story;
 
             story.update(story.progress, story.totalDuration);
 

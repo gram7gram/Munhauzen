@@ -218,7 +218,7 @@ public class ScenarioFragment extends Fragment {
 
         fadeIn();
 
-        GameState.pause();
+        GameState.pause(tag);
 
         root.setName(tag);
 
@@ -229,7 +229,7 @@ public class ScenarioFragment extends Fragment {
         try {
             Log.i(tag, "primaryDecision clicked " + decision.scenario);
 
-            GameState.unpause();
+            GameState.unpause(tag);
 
             final Runnable onComplete = new Runnable() {
                 @Override

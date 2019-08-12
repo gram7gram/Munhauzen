@@ -168,7 +168,7 @@ public class PictureScenarioFragment extends Fragment {
 
             PictureStory newStory = interaction.storyManager.create(scenario);
 
-            interaction.storyManager.pictureStory = newStory;
+            interaction.storyManager.story = newStory;
 
             interaction.storyManager.startLoadingResources();
         } catch (Throwable e) {

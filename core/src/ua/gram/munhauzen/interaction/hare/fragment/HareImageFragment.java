@@ -119,7 +119,7 @@ public class HareImageFragment extends InteractionFragment {
 
     public void update() {
 
-        HareStory story = interaction.storyManager.hareStory;
+        HareStory story = interaction.storyManager.story;
         if (story.currentScenario != null) {
             if ("a18_d".equals(story.currentScenario.scenario.name)) {
 

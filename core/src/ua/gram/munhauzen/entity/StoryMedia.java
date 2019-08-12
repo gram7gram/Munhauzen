@@ -9,7 +9,11 @@ public abstract class StoryMedia<T> {
 
     public int startsAt;
     public int finishesAt;
+    /**
+     * Media is displayed or playing
+     */
     public boolean isActive;
+    /** Media should be displayed or playing */
     public boolean isLocked;
     public boolean isCompleted;
     public float progress;
@@ -19,5 +23,6 @@ public abstract class StoryMedia<T> {
     public boolean isPreparing;
     public Date prepareStartedAt;
     public Date prepareCompletedAt;
+    /** Media path to file */
     public String resource;
 }

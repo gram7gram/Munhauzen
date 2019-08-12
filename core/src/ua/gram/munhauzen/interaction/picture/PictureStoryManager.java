@@ -17,7 +17,7 @@ public class PictureStoryManager {
     private final GameScreen gameScreen;
     private final PictureInteraction interaction;
 
-    public PictureStory pictureStory;
+    public PictureStory story;
 
     public PictureStoryManager(GameScreen gameScreen, PictureInteraction interaction) {
         this.gameScreen = gameScreen;
@@ -45,18 +45,18 @@ public class PictureStoryManager {
 
     public void resume() {
 
-        if (pictureStory == null) {
+        if (story == null) {
             Log.e(tag, "Story is not valid. Resetting");
 
             for (PictureScenario pictureScenario : interaction.scenarioRegistry) {
                 if (pictureScenario.isBegin) {
-                    pictureStory = create(pictureScenario.name);
+                    story = create(pictureScenario.name);
                     break;
                 }
             }
         }
 
-        Log.i(tag, "resume " + pictureStory.id);
+        Log.i(tag, "resume " + story.id);
 
     }
 
@@ -85,12 +85,12 @@ public class PictureStoryManager {
     }
 
     public void update(float progress, int duration) {
-        pictureStory.update(progress, duration);
+        story.update(progress, duration);
     }
 
     public void startLoadingAudio() {
         try {
-            PictureStory story = interaction.storyManager.pictureStory;
+            PictureStory story = interaction.storyManager.story;
 
             PictureStoryScenario scenario = story.currentScenario;
             if (scenario == null) return;
@@ -101,7 +101,8 @@ public class PictureStoryManager {
                     @Override
                     public void run() {
                         try {
-                            gameScreen.audioService.onPrepared(audio);
+                            if (gameScreen.audioService != null)
+                                gameScreen.audioService.playAudio(audio);
                         } catch (Throwable e) {
                             Log.e(tag, e);
                         }
@@ -127,7 +128,7 @@ public class PictureStoryManager {
 
     public void startLoadingImage() {
         try {
-            PictureStory story = interaction.storyManager.pictureStory;
+            PictureStory story = interaction.storyManager.story;
 
             PictureStoryScenario scenario = story.currentScenario;
             if (scenario == null) return;
@@ -138,7 +139,8 @@ public class PictureStoryManager {
                     @Override
                     public void run() {
                         try {
-                            interaction.imageService.onPrepared(image);
+                            if (interaction.imageService != null)
+                                interaction.imageService.onPrepared(image);
                         } catch (Throwable e) {
                             Log.e(tag, e);
                         }
@@ -172,15 +174,15 @@ public class PictureStoryManager {
 
         startLoadingImage();
 
-        Log.i(tag, "onCompleted " + pictureStory.id);
+        Log.i(tag, "onCompleted " + story.id);
 
-        for (StoryAudio audio : pictureStory.currentScenario.scenario.audio) {
+        for (StoryAudio audio : story.currentScenario.scenario.audio) {
             if (audio.player != null) {
                 audio.player.pause();
             }
         }
 
-        if (pictureStory.currentScenario.scenario.isExit) {
+        if (story.currentScenario.scenario.isExit) {
 
             Log.i(tag, "Exit reached");
 
@@ -231,15 +233,15 @@ public class PictureStoryManager {
 
     public void reset() {
 
-        if (pictureStory == null) return;
+        if (story == null) return;
 
-        Log.i(tag, "reset " + pictureStory.id);
+        Log.i(tag, "reset " + story.id);
 
-        for (PictureStoryScenario storyScenario : pictureStory.scenarios) {
+        for (PictureStoryScenario storyScenario : story.scenarios) {
             storyScenario.reset();
         }
 
-        pictureStory.reset();
+        story.reset();
     }
 
 }

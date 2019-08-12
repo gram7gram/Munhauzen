@@ -22,7 +22,7 @@ public class Timer2StoryManager {
     private final GameScreen gameScreen;
     private final Timer2Interaction interaction;
 
-    public Timer2Story timerStory;
+    public Timer2Story story;
 
     public Timer2StoryManager(GameScreen gameScreen, Timer2Interaction interaction) {
         this.gameScreen = gameScreen;
@@ -50,18 +50,18 @@ public class Timer2StoryManager {
 
     public void resume() {
 
-        if (timerStory == null) {
+        if (story == null) {
             Log.e(tag, "Story is not valid. Resetting");
 
             for (Timer2Scenario timerScenario : interaction.scenarioRegistry) {
                 if (timerScenario.isBegin) {
-                    timerStory = create(timerScenario.name);
+                    story = create(timerScenario.name);
                     break;
                 }
             }
         }
 
-        Log.i(tag, "resume " + timerStory.id);
+        Log.i(tag, "resume " + story.id);
 
     }
 
@@ -97,11 +97,11 @@ public class Timer2StoryManager {
     }
 
     public void update(float progress, int duration) {
-        timerStory.update(progress, duration);
+        story.update(progress, duration);
     }
 
     public void startLoadingAudio() {
-        Timer2Story story = interaction.storyManager.timerStory;
+        Timer2Story story = interaction.storyManager.story;
 
         Timer2StoryScenario scenario = story.currentScenario;
         if (scenario == null) return;
@@ -114,7 +114,8 @@ public class Timer2StoryManager {
                     @Override
                     public void run() {
                         try {
-                            gameScreen.audioService.onPrepared(audio);
+                            if (gameScreen.audioService != null)
+                                gameScreen.audioService.playAudio(audio);
                         } catch (Throwable e) {
                             Log.e(tag, e);
 
@@ -140,7 +141,7 @@ public class Timer2StoryManager {
     }
 
     public void startLoadingImages() {
-        Timer2Story story = interaction.storyManager.timerStory;
+        Timer2Story story = interaction.storyManager.story;
 
         Timer2StoryScenario scenario = story.currentScenario;
         if (scenario == null) return;
@@ -153,7 +154,8 @@ public class Timer2StoryManager {
                     @Override
                     public void run() {
                         try {
-                            interaction.imageService.onPrepared(image);
+                            if (interaction.imageService != null)
+                                interaction.imageService.onPrepared(image);
                         } catch (Throwable e) {
                             Log.e(tag, e);
 
@@ -190,17 +192,17 @@ public class Timer2StoryManager {
 
         startLoadingImages();
 
-        Log.i(tag, "onCompleted " + timerStory.id);
+        Log.i(tag, "onCompleted " + story.id);
 
         Set<String> inventory = gameScreen.game.inventoryService.getAllInventory();
 
-        for (StoryAudio audio : timerStory.currentScenario.scenario.audio) {
+        for (StoryAudio audio : story.currentScenario.scenario.audio) {
             if (audio.player != null) {
                 audio.player.pause();
             }
         }
 
-        if (timerStory.currentScenario.scenario.isExit) {
+        if (story.currentScenario.scenario.isExit) {
 
             Log.i(tag, "Exit reached");
 
@@ -219,8 +221,8 @@ public class Timer2StoryManager {
         }
 
         ArrayList<Decision> availableDecisions = new ArrayList<>();
-        if (timerStory.currentScenario.scenario.decisions != null) {
-            for (Decision decision : timerStory.currentScenario.scenario.decisions) {
+        if (story.currentScenario.scenario.decisions != null) {
+            for (Decision decision : story.currentScenario.scenario.decisions) {
                 if (isDecisionAvailable(decision, inventory)) {
                     availableDecisions.add(decision);
                 }
@@ -275,15 +277,15 @@ public class Timer2StoryManager {
 
     public void reset() {
 
-        if (timerStory == null) return;
+        if (story == null) return;
 
-        Log.i(tag, "reset " + timerStory.id);
+        Log.i(tag, "reset " + story.id);
 
-        for (Timer2StoryScenario storyScenario : timerStory.scenarios) {
+        for (Timer2StoryScenario storyScenario : story.scenarios) {
             storyScenario.reset();
         }
 
-        timerStory.reset();
+        story.reset();
     }
 
     private boolean isDecisionAvailable(Decision decision, Set<String> inventory) {

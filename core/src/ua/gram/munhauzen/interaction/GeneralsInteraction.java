@@ -86,7 +86,7 @@ public class GeneralsInteraction extends AbstractInteraction {
             imageService.update();
         }
 
-        GeneralsStory story = storyManager.generalsStory;
+        GeneralsStory story = storyManager.story;
 
         if (!story.isCompleted) {
 
@@ -135,6 +135,11 @@ public class GeneralsInteraction extends AbstractInteraction {
             if (imageService != null) {
                 imageService.dispose();
                 imageService = null;
+            }
+
+            if (storyManager != null) {
+                gameScreen.audioService.dispose(storyManager.story);
+                storyManager = null;
             }
 
             isLoaded = false;

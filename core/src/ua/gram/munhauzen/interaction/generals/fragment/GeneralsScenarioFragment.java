@@ -209,7 +209,7 @@ public class GeneralsScenarioFragment extends Fragment {
 
         fadeIn();
 
-        GameState.pause();
+        GameState.pause(tag);
 
         root.setName(tag);
         root.setVisible(false);
@@ -222,7 +222,7 @@ public class GeneralsScenarioFragment extends Fragment {
 //            Sound sfx =  interaction.assetManager.get("sfx/sfx_decision.mp3", Sound.class);
 //            sfx.play();
 
-            GameState.unpause();
+            GameState.unpause(tag);
 
             final Runnable onComplete = new Runnable() {
                 @Override
@@ -242,7 +242,7 @@ public class GeneralsScenarioFragment extends Fragment {
             try {
                 GeneralsStory newStory = interaction.storyManager.create(decision.scenario);
 
-                interaction.storyManager.generalsStory = newStory;
+                interaction.storyManager.story = newStory;
 
                 interaction.storyManager.startLoadingResources();
             } catch (Throwable e) {

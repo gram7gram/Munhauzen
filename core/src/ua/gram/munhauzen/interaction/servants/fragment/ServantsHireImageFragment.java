@@ -157,7 +157,7 @@ public class ServantsHireImageFragment extends InteractionFragment {
         try {
             Log.i(tag, "showCurrent " + state.hirePage);
 
-            interaction.gameScreen.audioService.stop();
+            interaction.gameScreen.audioService.stop(tag);
 
             stopEgypt();
 
@@ -292,11 +292,15 @@ public class ServantsHireImageFragment extends InteractionFragment {
 
         Log.i(tag, "showServant " + name);
 
-        GameState.unpause();
+        GameState.unpause(tag);
 
         interaction.storyManager.story = interaction.storyManager.create(name);
 
-        interaction.storyManager.startLoadingResources();
+        interaction.storyManager.startLoadingImages();
+
+        if (!hasServant(name)) {
+            interaction.storyManager.startLoadingAudio();
+        }
 
         hireDialog.create(name);
 
@@ -305,11 +309,11 @@ public class ServantsHireImageFragment extends InteractionFragment {
 
         interaction.progressBarFragment.fadeIn();
 
-        if (hasServant(name)) {
-            GameState.pause();
-        } else {
-            GameState.unpause();
-        }
+//        if (hasServant(name)) {
+//            GameState.pause(tag);
+//        } else {
+//            GameState.unpause(tag);
+//        }
 
     }
 

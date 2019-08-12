@@ -61,7 +61,7 @@ public class GeneralsImageFragment extends InteractionFragment {
 
     public void update() {
 
-        GeneralsStory story = interaction.storyManager.generalsStory;
+        GeneralsStory story = interaction.storyManager.story;
 
         if (story.currentScenario != null) {
 

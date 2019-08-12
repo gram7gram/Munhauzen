@@ -141,8 +141,6 @@ public class ControlsFragment extends Fragment {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                downloadButton.setDisabled(true);
-
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -486,7 +484,6 @@ public class ControlsFragment extends Fragment {
                                 @Override
                                 public void run() {
                                     progressLbl.setText("Конфиги готовы к использованию");
-                                    downloadButton.setDisabled(false);
 
                                     createInventoryTable();
 
@@ -503,7 +500,6 @@ public class ControlsFragment extends Fragment {
                                 @Override
                                 public void run() {
                                     progressLbl.setText("Невозможно использовать конфиги");
-                                    downloadButton.setDisabled(false);
                                 }
                             });
 
@@ -520,7 +516,6 @@ public class ControlsFragment extends Fragment {
                             @Override
                             public void run() {
                                 progressLbl.setText("Скачивание неудачно");
-                                downloadButton.setDisabled(false);
                             }
                         });
                     }

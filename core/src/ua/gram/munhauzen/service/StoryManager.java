@@ -144,7 +144,8 @@ public class StoryManager {
                     @Override
                     public void run() {
                         try {
-                            gameScreen.imageService.onPrepared(optionImage);
+                            if (gameScreen.imageService != null)
+                                gameScreen.imageService.onPrepared(optionImage);
                         } catch (Throwable e) {
                             Log.e(tag, e);
 
@@ -184,7 +185,8 @@ public class StoryManager {
                     @Override
                     public void run() {
                         try {
-                            gameScreen.audioService.onPrepared(optionAudio);
+                            if (gameScreen.audioService != null)
+                                gameScreen.audioService.playAudio(optionAudio);
                         } catch (Throwable e) {
                             Log.e(tag, e);
 
@@ -219,7 +221,7 @@ public class StoryManager {
 
     public void onCompleted() {
 
-        Story story = gameScreen.getStory();
+        final Story story = gameScreen.getStory();
         if (story == null) return;
 
         startLoadingImages();
@@ -240,13 +242,48 @@ public class StoryManager {
             }
         }
 
-        Set<String> inventory = gameScreen.game.inventoryService.getAllInventory();
-
         for (StoryAudio audio : story.currentScenario.scenario.audio) {
             if (audio.player != null) {
                 audio.player.pause();
             }
         }
+
+        String interaction = story.currentScenario.scenario.interaction;
+        if (interaction != null) {
+            gameScreen.interactionService.create(interaction);
+        }
+
+        if (story.currentInteraction != null && story.currentInteraction.isLocked) {
+            startInteraction(story);
+        } else {
+            startScenarioDecisions(story);
+        }
+    }
+
+    private void startInteraction(final Story story) {
+
+        gameScreen.hideProgressBar();
+        gameScreen.hideAndDestroyScenarioFragment();
+
+        gameScreen.audioService.dispose(story);
+
+        Timer.instance().scheduleTask(new Timer.Task() {
+            @Override
+            public void run() {
+                try {
+                    story.currentInteraction.interaction.start();
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+
+                    gameScreen.onCriticalError(e);
+                }
+            }
+        }, .8f);
+    }
+
+    private void startScenarioDecisions(Story story) {
+
+        Set<String> inventory = gameScreen.game.inventoryService.getAllInventory();
 
         ArrayList<Decision> availableDecisions = new ArrayList<>();
         if (story.currentScenario.scenario.decisions != null) {
@@ -257,7 +294,7 @@ public class StoryManager {
             }
         }
 
-        if (availableDecisions.size() > 0 && !story.isInteractionLocked()) {
+        if (availableDecisions.size() > 0) {
 
             Collections.sort(availableDecisions, new Comparator<Decision>() {
                 @Override

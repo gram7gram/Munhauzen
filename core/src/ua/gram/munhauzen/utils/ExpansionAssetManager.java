@@ -1,7 +1,9 @@
 package ua.gram.munhauzen.utils;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.ExternalFileHandleResolver;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 
 public class ExpansionAssetManager extends AssetManager {
 
@@ -39,10 +41,16 @@ public class ExpansionAssetManager extends AssetManager {
     }
 
     private String getPath(String file) {
-        if (!file.contains(prefix)) {
-            return prefix + "/" + file;
+        String path = file;
+
+        if (!path.contains(prefix)) {
+            path = prefix + "/" + path;
         }
 
-        return file;
+        if (!Gdx.files.external(path).exists()) {
+            throw new GdxRuntimeException("No such asset " + path);
+        }
+
+        return path;
     }
 }

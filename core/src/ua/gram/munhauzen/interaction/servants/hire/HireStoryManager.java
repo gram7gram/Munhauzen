@@ -66,7 +66,8 @@ public class HireStoryManager {
                     @Override
                     public void run() {
                         try {
-                            gameScreen.audioService.onPrepared(audio);
+                            if (gameScreen.audioService != null)
+                                gameScreen.audioService.playAudio(audio);
                         } catch (Throwable e) {
                             Log.e(tag, e);
 
@@ -104,7 +105,8 @@ public class HireStoryManager {
                     @Override
                     public void run() {
                         try {
-                            interaction.imageService.onPrepared(image);
+                            if (interaction.imageService != null)
+                                interaction.imageService.onPrepared(image);
                         } catch (Throwable e) {
                             Log.e(tag, e);
 
@@ -149,7 +151,7 @@ public class HireStoryManager {
 
         interaction.hireFragment.hireDialog.fadeIn();
 
-        GameState.pause();
+        GameState.pause(tag);
     }
 
     public void reset() {

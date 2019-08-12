@@ -144,7 +144,7 @@ public class PuzzleDecisionManager {
 
             interaction.imageFragment.powder.setVisible(!hasBomb);
 
-            interaction.gameScreen.audioService.stop();
+            interaction.gameScreen.audioService.stop(tag);
 
         } catch (Throwable e) {
             Log.e(tag, e);
