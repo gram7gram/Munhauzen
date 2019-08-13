@@ -5,7 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import ua.gram.munhauzen.animation.AnimatedImage;
-import ua.gram.munhauzen.screen.DebugScreen;
+import ua.gram.munhauzen.screen.GalleryScreen;
 import ua.gram.munhauzen.screen.MenuScreen;
 import ua.gram.munhauzen.screen.menu.animation.ShieldAnimation;
 
@@ -19,7 +19,7 @@ public class GalleryButton extends MenuButton {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                screen.game.setScreen(new DebugScreen(screen.game));
+                screen.game.setScreen(new GalleryScreen(screen.game));
                 screen.dispose();
             }
         });

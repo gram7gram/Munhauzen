@@ -2,7 +2,6 @@ package ua.gram.munhauzen.history;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Stack;
 
 import ua.gram.munhauzen.entity.Player;
 
@@ -13,6 +12,10 @@ public class History {
 
     public static final int SAVE_LIMIT = 4;
 
+    /**
+     * Unique viewed images on all iterations
+     */
+    public HashSet<String> viewedImages;
     /**
      * Unique completed scenarios on all iterations
      */
@@ -73,6 +76,7 @@ public class History {
         completedInteractions = new ArrayList<>(5);
         globalInventory = new HashSet<>();
         completedOptions = new HashSet<>();
+        viewedImages = new HashSet<>();
         achievements = new ArrayList<>();
         ng = 0;
         achievementPoints = 1;
@@ -80,29 +84,4 @@ public class History {
         player = new Player();
     }
 
-    public Save getActiveSave() {
-        return activeSave;
-    }
-
-//    public boolean addStep(Branch branch) {
-//        if (branch == null) return false;
-//
-//        Save save = getActiveSave();
-//
-//        String id = branch.id;
-//        if (save.steps.size() > 0) {
-//            Entry last = save.steps.get(save.steps.size() - 1);
-//            if (last.name.equals(id))
-//                return false;
-//        }
-//
-//        save.steps.push(new Entry(id));
-//
-//        return true;
-//    }
-
-    public Stack<Entry> getSteps() {
-        Save save = getActiveSave();
-        return save.steps;
-    }
 }

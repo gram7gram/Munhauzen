@@ -16,7 +16,7 @@ import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.history.Save;
 import ua.gram.munhauzen.screen.SavesScreen;
-import ua.gram.munhauzen.screen.saves.ui.SaveBlock;
+import ua.gram.munhauzen.screen.saves.ui.SaveRow;
 import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.utils.Log;
@@ -43,16 +43,16 @@ public class SavesFragment extends Fragment {
 
         Log.i(tag, "create");
 
-        Image topBottom = new Image(screen.assetManager.get("saves/gv_paper_3.png", Texture.class));
+        Image footer = new Image(screen.assetManager.get("saves/gv_paper_3.png", Texture.class));
 
         Table content = new Table();
         content.add(createHeader()).expandX().row();
 
         for (Save save : screen.saves) {
-            content.add(new SaveBlock(save, screen)).row();
+            content.add(new SaveRow(save, screen)).row();
         }
 
-        content.add(topBottom).expandX().row();
+        content.add(footer).expandX().row();
 
         ScrollPane scroll = new ScrollPane(content);
 

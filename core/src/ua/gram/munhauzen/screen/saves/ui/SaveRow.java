@@ -23,7 +23,7 @@ import ua.gram.munhauzen.screen.saves.fragment.SaveDialog;
 import ua.gram.munhauzen.utils.DateUtils;
 import ua.gram.munhauzen.utils.Log;
 
-public class SaveBlock extends Stack {
+public class SaveRow extends Stack {
 
     final String tag = getClass().getSimpleName();
     final SavesScreen screen;
@@ -34,7 +34,7 @@ public class SaveBlock extends Stack {
     final SpriteDrawable fallbackIcon;
     float blockWidth;
 
-    public SaveBlock(final Save save, final SavesScreen screen) {
+    public SaveRow(final Save save, final SavesScreen screen) {
 
         blockWidth = MunhauzenGame.WORLD_WIDTH * .8f;
         float leftColumnWidth = blockWidth * .25f;

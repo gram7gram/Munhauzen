@@ -36,6 +36,8 @@ public class SavesScreen extends AbstractScreen {
     public void show() {
         super.show();
 
+        background = game.assetManager.get("p1.jpg", Texture.class);
+
         saves = new ArrayList<>();
         audioService = new AudioService(game);
 

@@ -485,7 +485,10 @@ public class GameScreen implements Screen {
     }
 
     public void setLastBackground(Image image) {
+
         getActiveSave().lastImage = image;
+
+        game.achievementService.onImageViewed(image.name);
     }
 
     public Image getLastBackground() {

@@ -21,7 +21,7 @@ public abstract class AbstractScreen implements Screen {
     public final MunhauzenGame game;
     public MunhauzenStage ui;
     public ExpansionAssetManager assetManager;
-    private Texture background;
+    protected Texture background;
     private boolean isLoaded;
 
     public AbstractScreen(MunhauzenGame game) {

@@ -26,6 +26,7 @@ public class GameState {
     public Array<Inventory> inventoryRegistry;
     public Array<Chapter> chapterRegistry;
     public MenuState menuState;
+    public GalleryState galleryState;
 
     public GameState() {
         scenarioRegistry = new Array<>();
@@ -35,6 +36,7 @@ public class GameState {
         inventoryRegistry = new Array<>();
         chapterRegistry = new Array<>();
         menuState = new MenuState();
+        galleryState = new GalleryState();
     }
 
     public void reset() {

@@ -28,8 +28,8 @@ import ua.gram.munhauzen.entity.Inventory;
 import ua.gram.munhauzen.entity.Scenario;
 import ua.gram.munhauzen.expansion.ExportResponse;
 import ua.gram.munhauzen.expansion.ExtractGameConfigTask;
+import ua.gram.munhauzen.screen.GalleryScreen;
 import ua.gram.munhauzen.screen.GameScreen;
-import ua.gram.munhauzen.screen.MenuScreen;
 import ua.gram.munhauzen.service.ExpansionDownloadManager;
 import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.ui.FragmentRoot;
@@ -81,7 +81,6 @@ public class ControlsFragment extends Fragment {
 
                 try {
                     game.setScreen(new GameScreen(game));
-                    dispose();
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -89,14 +88,13 @@ public class ControlsFragment extends Fragment {
             }
         });
 
-        PrimaryButton menuButton = game.buttonBuilder.primary("Menu", new ClickListener() {
+        PrimaryButton menuButton = game.buttonBuilder.primary("Gallery", new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
                 try {
-                    game.setScreen(new MenuScreen(game));
-                    dispose();
+                    game.setScreen(new GalleryScreen(game));
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
