@@ -47,6 +47,7 @@ public class PictureInteraction extends AbstractInteraction {
     }
 
     public void onResourcesLoaded() {
+
         isLoaded = true;
 
         imageFragment = new PictureImageFragment(this);

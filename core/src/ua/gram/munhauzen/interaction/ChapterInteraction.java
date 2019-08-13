@@ -33,6 +33,7 @@ public class ChapterInteraction extends AbstractInteraction {
     }
 
     public void onResourcesLoaded() {
+
         isLoaded = true;
 
         imageFragment = new ChapterImageFragment(this);

@@ -134,9 +134,16 @@ public class HireStoryManager {
 
     public void startLoadingResources() {
 
-        startLoadingAudio();
+        if (interaction.hireFragment != null) {
+            if (interaction.hireFragment.hireDialog.servantName != null) {
 
-        startLoadingImages();
+                startLoadingImages();
+
+                if (!interaction.hireFragment.hasServant(interaction.hireFragment.hireDialog.servantName)) {
+                    startLoadingAudio();
+                }
+            }
+        }
     }
 
     public void onCompleted() {

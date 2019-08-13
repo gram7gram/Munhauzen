@@ -30,6 +30,7 @@ public class SlapInteraction extends AbstractInteraction {
     }
 
     public void onResourcesLoaded() {
+
         isLoaded = true;
 
         imageFragment = new SlapImageFragment(this);

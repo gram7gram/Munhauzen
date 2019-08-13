@@ -29,6 +29,7 @@ public class SwampInteraction extends AbstractInteraction {
     }
 
     public void onResourcesLoaded() {
+
         isLoaded = true;
 
         imageFragment = new SwampImageFragment(this);

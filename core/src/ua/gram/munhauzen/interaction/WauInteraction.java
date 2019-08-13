@@ -50,6 +50,7 @@ public class WauInteraction extends AbstractInteraction {
     }
 
     public void onResourcesLoaded() {
+
         isLoaded = true;
 
         progressBarFragment = new WauProgressBarFragment(gameScreen, this);

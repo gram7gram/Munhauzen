@@ -1,6 +1,7 @@
 package ua.gram.munhauzen.interaction;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.interaction.balloons.fragment.BalloonsImageFragment;
@@ -39,6 +40,8 @@ public class BalloonsInteraction extends AbstractInteraction {
     }
 
     public void onResourcesLoaded() {
+
+
         isLoaded = true;
 
         imageFragment = new BalloonsImageFragment(this);
@@ -49,6 +52,13 @@ public class BalloonsInteraction extends AbstractInteraction {
         imageFragment.fadeInRoot();
 
         playIntro();
+
+        Timer.instance().scheduleTask(new Timer.Task() {
+            @Override
+            public void run() {
+                imageFragment.start();
+            }
+        }, introAudio.duration / 1000f);
     }
 
     private void playIntro() {

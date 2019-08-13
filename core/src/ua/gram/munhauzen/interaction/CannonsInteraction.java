@@ -52,6 +52,8 @@ public class CannonsInteraction extends AbstractInteraction {
     }
 
     public void onResourcesLoaded() {
+
+
         isLoaded = true;
 
         progressBarFragment = new CannonsProgressBarFragment(gameScreen, this);

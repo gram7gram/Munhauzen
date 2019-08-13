@@ -68,6 +68,28 @@ public class WauStoryManager {
 
         Log.i(tag, "findNext " + from.name + " #" + story.scenarios.size);
 
+        if ("awau_2_check".equals(from.name)) {
+            String decision;
+
+            if (interaction.wauCounter >= interaction.maxWauCounter) {
+
+                Log.i(tag, "wauCounter redirects to awau_2_a_win");
+
+                interaction.wauCounter = 0;
+
+                decision = "awau_2_a_win";
+            } else {
+                decision = "awau_2_a_loose";
+            }
+
+            for (WauScenario scenario : interaction.scenarioRegistry) {
+                if (scenario.name.equals(decision)) {
+                    findNext(scenario, story);
+                    return;
+                }
+            }
+        }
+
         WauStoryScenario storyScenario = new WauStoryScenario(gameScreen.game.gameState);
         storyScenario.scenario = from;
         storyScenario.duration = 0;
@@ -205,35 +227,6 @@ public class WauStoryManager {
 
             return;
         }
-
-        if ("awau_2_check".equals(story.currentScenario.scenario.name)) {
-            String decision;
-
-            if (interaction.wauCounter >= interaction.maxWauCounter) {
-
-                Log.i(tag, "wauCounter redirects to awau_2_a_win");
-
-                interaction.wauCounter = 0;
-
-                decision = "awau_2_a_win";
-            } else {
-                decision = "awau_2_a_loose";
-            }
-
-            try {
-                WauStory newStory = interaction.storyManager.create(decision);
-
-                interaction.storyManager.story = newStory;
-
-                interaction.storyManager.startLoadingResources();
-            } catch (Throwable e) {
-                Log.e(tag, e);
-
-                interaction.gameScreen.onCriticalError(e);
-            }
-            return;
-        }
-
 
         ArrayList<Decision> availableDecisions = new ArrayList<>();
         if (story.currentScenario.scenario.decisions != null) {

@@ -25,6 +25,7 @@ import ua.gram.munhauzen.interaction.ServantsInteraction;
 import ua.gram.munhauzen.interaction.servants.CompleteDialog;
 import ua.gram.munhauzen.interaction.servants.HireDialog;
 import ua.gram.munhauzen.interaction.servants.ServantImage;
+import ua.gram.munhauzen.interaction.servants.hire.HireStory;
 import ua.gram.munhauzen.repository.InventoryRepository;
 import ua.gram.munhauzen.screen.game.fragment.InteractionFragment;
 import ua.gram.munhauzen.ui.FragmentRoot;
@@ -157,7 +158,9 @@ public class ServantsHireImageFragment extends InteractionFragment {
         try {
             Log.i(tag, "showCurrent " + state.hirePage);
 
-            interaction.gameScreen.audioService.stop(tag);
+            HireStory story = interaction.storyManager.story;
+            if (story != null)
+                interaction.gameScreen.audioService.dispose(story);
 
             stopEgypt();
 
@@ -296,11 +299,7 @@ public class ServantsHireImageFragment extends InteractionFragment {
 
         interaction.storyManager.story = interaction.storyManager.create(name);
 
-        interaction.storyManager.startLoadingImages();
-
-        if (!hasServant(name)) {
-            interaction.storyManager.startLoadingAudio();
-        }
+        interaction.storyManager.startLoadingResources();
 
         hireDialog.create(name);
 

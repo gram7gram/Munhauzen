@@ -74,6 +74,8 @@ public class GameScreen implements Screen {
 
         Log.i(tag, "show");
 
+        isLoaded = false;
+
         background = game.assetManager.get("p0.jpg", Texture.class);
 
         assetManager = new ExpansionAssetManager();
@@ -338,6 +340,13 @@ public class GameScreen implements Screen {
     public void dispose() {
 
         Log.i(tag, "dispose");
+
+        Story story = getStory();
+        if (story != null) {
+            if (story.currentInteraction != null) {
+                story.currentInteraction.interaction.dispose();
+            }
+        }
 
         if (storyManager != null) {
             storyManager.dispose();

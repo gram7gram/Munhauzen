@@ -45,6 +45,7 @@ public class PuzzleInteraction extends AbstractInteraction {
     }
 
     public void onResourcesLoaded() {
+
         isLoaded = true;
 
         imageFragment = new PuzzleImageFragment(this);

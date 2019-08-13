@@ -28,6 +28,7 @@ public class LionsInteraction extends AbstractInteraction {
     }
 
     public void onResourcesLoaded() {
+
         isLoaded = true;
 
         imageFragment = new LionsImageFragment(this);

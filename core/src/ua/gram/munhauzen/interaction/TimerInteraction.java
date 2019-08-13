@@ -70,6 +70,7 @@ public class TimerInteraction extends AbstractInteraction {
     }
 
     public void onResourcesLoaded() {
+
         isLoaded = true;
 
         progressBarFragment = new TimerProgressBarFragment(gameScreen, this);

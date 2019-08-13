@@ -32,6 +32,7 @@ public class HornInteraction extends AbstractInteraction {
     }
 
     public void onResourcesLoaded() {
+
         isLoaded = true;
 
         imageFragment = new HornImageFragment(this);

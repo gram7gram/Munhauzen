@@ -23,21 +23,28 @@ import ua.gram.munhauzen.interaction.Timer2Interaction;
 import ua.gram.munhauzen.interaction.TimerInteraction;
 import ua.gram.munhauzen.interaction.WauInteraction;
 import ua.gram.munhauzen.interaction.cannons.CannonsStory;
+import ua.gram.munhauzen.interaction.cannons.CannonsStoryManager;
 import ua.gram.munhauzen.interaction.cannons.CannonsStoryScenario;
 import ua.gram.munhauzen.interaction.generals.GeneralsStory;
+import ua.gram.munhauzen.interaction.generals.GeneralsStoryManager;
 import ua.gram.munhauzen.interaction.generals.GeneralsStoryScenario;
 import ua.gram.munhauzen.interaction.hare.HareStory;
+import ua.gram.munhauzen.interaction.hare.HareStoryManager;
 import ua.gram.munhauzen.interaction.hare.HareStoryScenario;
 import ua.gram.munhauzen.interaction.picture.PictureStory;
+import ua.gram.munhauzen.interaction.picture.PictureStoryManager;
 import ua.gram.munhauzen.interaction.picture.PictureStoryScenario;
 import ua.gram.munhauzen.interaction.servants.hire.HireStory;
 import ua.gram.munhauzen.interaction.servants.hire.HireStoryManager;
 import ua.gram.munhauzen.interaction.servants.hire.HireStoryScenario;
 import ua.gram.munhauzen.interaction.timer.TimerStory;
+import ua.gram.munhauzen.interaction.timer.TimerStoryManager;
 import ua.gram.munhauzen.interaction.timer.TimerStoryScenario;
 import ua.gram.munhauzen.interaction.timer2.Timer2Story;
+import ua.gram.munhauzen.interaction.timer2.Timer2StoryManager;
 import ua.gram.munhauzen.interaction.timer2.Timer2StoryScenario;
 import ua.gram.munhauzen.interaction.wauwau.WauStory;
+import ua.gram.munhauzen.interaction.wauwau.WauStoryManager;
 import ua.gram.munhauzen.interaction.wauwau.WauStoryScenario;
 import ua.gram.munhauzen.repository.AudioRepository;
 import ua.gram.munhauzen.screen.GameScreen;
@@ -878,52 +885,80 @@ public class GameAudioService implements Disposable {
 
             if (story.currentInteraction != null) {
                 if (story.currentInteraction.interaction instanceof TimerInteraction) {
-                    TimerStory interactionStory = ((TimerInteraction) story.currentInteraction.interaction)
-                            .storyManager.story;
+                    TimerStoryManager storyManager = ((TimerInteraction) story.currentInteraction.interaction).storyManager;
 
-                    updateMusicState(interactionStory);
+                    if (storyManager != null) {
+                        TimerStory interactionStory = storyManager.story;
+                        if (interactionStory != null) {
+                            updateMusicState(interactionStory);
+                        }
+                    }
                 }
 
                 if (story.currentInteraction.interaction instanceof Timer2Interaction) {
-                    Timer2Story interactionStory = ((Timer2Interaction) story.currentInteraction.interaction)
-                            .storyManager.story;
+                    Timer2StoryManager storyManager = ((Timer2Interaction) story.currentInteraction.interaction).storyManager;
 
-                    updateMusicState(interactionStory);
+                    if (storyManager != null) {
+                        Timer2Story interactionStory = storyManager.story;
+                        if (interactionStory != null) {
+                            updateMusicState(interactionStory);
+                        }
+                    }
                 }
 
                 if (story.currentInteraction.interaction instanceof WauInteraction) {
-                    WauStory interactionStory = ((WauInteraction) story.currentInteraction.interaction)
-                            .storyManager.story;
+                    WauStoryManager storyManager = ((WauInteraction) story.currentInteraction.interaction).storyManager;
 
-                    updateMusicState(interactionStory);
+                    if (storyManager != null) {
+                        WauStory interactionStory = storyManager.story;
+                        if (interactionStory != null) {
+                            updateMusicState(interactionStory);
+                        }
+                    }
                 }
 
                 if (story.currentInteraction.interaction instanceof GeneralsInteraction) {
-                    GeneralsStory interactionStory = ((GeneralsInteraction) story.currentInteraction.interaction)
-                            .storyManager.story;
+                    GeneralsStoryManager storyManager = ((GeneralsInteraction) story.currentInteraction.interaction).storyManager;
 
-                    updateMusicState(interactionStory);
+                    if (storyManager != null) {
+                        GeneralsStory interactionStory = storyManager.story;
+                        if (interactionStory != null) {
+                            updateMusicState(interactionStory);
+                        }
+                    }
                 }
 
                 if (story.currentInteraction.interaction instanceof PictureInteraction) {
-                    PictureStory interactionStory = ((PictureInteraction) story.currentInteraction.interaction)
-                            .storyManager.story;
+                    PictureStoryManager storyManager = ((PictureInteraction) story.currentInteraction.interaction).storyManager;
 
-                    updateMusicState(interactionStory);
+                    if (storyManager != null) {
+                        PictureStory interactionStory = storyManager.story;
+                        if (interactionStory != null) {
+                            updateMusicState(interactionStory);
+                        }
+                    }
                 }
 
                 if (story.currentInteraction.interaction instanceof HareInteraction) {
-                    HareStory interactionStory = ((HareInteraction) story.currentInteraction.interaction)
-                            .storyManager.story;
+                    HareStoryManager storyManager = ((HareInteraction) story.currentInteraction.interaction).storyManager;
 
-                    updateMusicState(interactionStory);
+                    if (storyManager != null) {
+                        HareStory interactionStory = storyManager.story;
+                        if (interactionStory != null) {
+                            updateMusicState(interactionStory);
+                        }
+                    }
                 }
 
                 if (story.currentInteraction.interaction instanceof CannonsInteraction) {
-                    CannonsStory interactionStory = ((CannonsInteraction) story.currentInteraction.interaction)
-                            .storyManager.story;
+                    CannonsStoryManager storyManager = ((CannonsInteraction) story.currentInteraction.interaction).storyManager;
 
-                    updateMusicState(interactionStory);
+                    if (storyManager != null) {
+                        CannonsStory interactionStory = storyManager.story;
+                        if (interactionStory != null) {
+                            updateMusicState(interactionStory);
+                        }
+                    }
                 }
 
                 if (story.currentInteraction.interaction instanceof ServantsInteraction) {
@@ -951,62 +986,58 @@ public class GameAudioService implements Disposable {
 
             if (story.currentInteraction != null) {
                 if (story.currentInteraction.interaction instanceof TimerInteraction) {
-                    TimerStory interactionStory = ((TimerInteraction) story.currentInteraction.interaction)
-                            .storyManager.story;
-
-                    dispose(interactionStory);
+                    TimerStoryManager storyManager = ((TimerInteraction) story.currentInteraction.interaction).storyManager;
+                    if (storyManager != null && storyManager.story != null) {
+                        dispose(storyManager.story);
+                    }
                 }
 
                 if (story.currentInteraction.interaction instanceof Timer2Interaction) {
-                    Timer2Story interactionStory = ((Timer2Interaction) story.currentInteraction.interaction)
-                            .storyManager.story;
-
-                    dispose(interactionStory);
+                    Timer2StoryManager storyManager = ((Timer2Interaction) story.currentInteraction.interaction).storyManager;
+                    if (storyManager != null && storyManager.story != null) {
+                        dispose(storyManager.story);
+                    }
                 }
 
                 if (story.currentInteraction.interaction instanceof WauInteraction) {
-                    WauStory interactionStory = ((WauInteraction) story.currentInteraction.interaction)
-                            .storyManager.story;
-
-                    dispose(interactionStory);
+                    WauStoryManager storyManager = ((WauInteraction) story.currentInteraction.interaction).storyManager;
+                    if (storyManager != null && storyManager.story != null) {
+                        dispose(storyManager.story);
+                    }
                 }
 
                 if (story.currentInteraction.interaction instanceof GeneralsInteraction) {
-                    GeneralsStory interactionStory = ((GeneralsInteraction) story.currentInteraction.interaction)
-                            .storyManager.story;
-
-                    dispose(interactionStory);
+                    GeneralsStoryManager storyManager = ((GeneralsInteraction) story.currentInteraction.interaction).storyManager;
+                    if (storyManager != null && storyManager.story != null) {
+                        dispose(storyManager.story);
+                    }
                 }
 
                 if (story.currentInteraction.interaction instanceof PictureInteraction) {
-                    PictureStory interactionStory = ((PictureInteraction) story.currentInteraction.interaction)
-                            .storyManager.story;
-
-                    dispose(interactionStory);
+                    PictureStoryManager storyManager = ((PictureInteraction) story.currentInteraction.interaction).storyManager;
+                    if (storyManager != null && storyManager.story != null) {
+                        dispose(storyManager.story);
+                    }
                 }
 
                 if (story.currentInteraction.interaction instanceof HareInteraction) {
-                    HareStory interactionStory = ((HareInteraction) story.currentInteraction.interaction)
-                            .storyManager.story;
-
-                    dispose(interactionStory);
+                    HareStoryManager storyManager = ((HareInteraction) story.currentInteraction.interaction).storyManager;
+                    if (storyManager != null && storyManager.story != null) {
+                        dispose(storyManager.story);
+                    }
                 }
 
                 if (story.currentInteraction.interaction instanceof CannonsInteraction) {
-                    CannonsStory interactionStory = ((CannonsInteraction) story.currentInteraction.interaction)
-                            .storyManager.story;
-
-                    dispose(interactionStory);
+                    CannonsStoryManager storyManager = ((CannonsInteraction) story.currentInteraction.interaction).storyManager;
+                    if (storyManager != null && storyManager.story != null) {
+                        dispose(storyManager.story);
+                    }
                 }
 
                 if (story.currentInteraction.interaction instanceof ServantsInteraction) {
                     HireStoryManager storyManager = ((ServantsInteraction) story.currentInteraction.interaction).storyManager;
-                    if (storyManager != null) {
-                        HireStory interactionStory = storyManager.story;
-
-                        if (interactionStory != null) {
-                            dispose(interactionStory);
-                        }
+                    if (storyManager != null && storyManager.story != null) {
+                        dispose(storyManager.story);
                     }
                 }
             }
@@ -1019,7 +1050,7 @@ public class GameAudioService implements Disposable {
     }
 
     public synchronized void dispose(HireStory story) {
-        if (assetManager == null) return;
+        if (assetManager == null || story == null) return;
 
         Log.i(tag, "dispose " + story.id);
 
@@ -1036,7 +1067,7 @@ public class GameAudioService implements Disposable {
     }
 
     public synchronized void dispose(CannonsStory story) {
-        if (assetManager == null) return;
+        if (assetManager == null || story == null) return;
 
         Log.i(tag, "dispose " + story.id);
 
@@ -1053,7 +1084,7 @@ public class GameAudioService implements Disposable {
     }
 
     public synchronized void dispose(WauStory story) {
-        if (assetManager == null) return;
+        if (assetManager == null || story == null) return;
 
         Log.i(tag, "dispose " + story.id);
 
@@ -1070,7 +1101,7 @@ public class GameAudioService implements Disposable {
     }
 
     public synchronized void dispose(TimerStory story) {
-        if (assetManager == null) return;
+        if (assetManager == null || story == null) return;
 
         Log.i(tag, "dispose " + story.id);
 
@@ -1087,7 +1118,7 @@ public class GameAudioService implements Disposable {
     }
 
     public synchronized void dispose(Timer2Story story) {
-        if (assetManager == null) return;
+        if (assetManager == null || story == null) return;
 
         Log.i(tag, "dispose " + story.id);
 
@@ -1104,7 +1135,7 @@ public class GameAudioService implements Disposable {
     }
 
     public synchronized void dispose(HareStory story) {
-        if (assetManager == null) return;
+        if (assetManager == null || story == null) return;
 
         Log.i(tag, "dispose " + story.id);
 
@@ -1121,7 +1152,7 @@ public class GameAudioService implements Disposable {
     }
 
     public synchronized void dispose(PictureStory story) {
-        if (assetManager == null) return;
+        if (assetManager == null || story == null) return;
 
         Log.i(tag, "dispose " + story.id);
 
@@ -1138,7 +1169,7 @@ public class GameAudioService implements Disposable {
     }
 
     public synchronized void dispose(GeneralsStory story) {
-        if (assetManager == null) return;
+        if (assetManager == null || story == null) return;
 
         Log.i(tag, "dispose " + story.id);
 
@@ -1154,7 +1185,7 @@ public class GameAudioService implements Disposable {
     }
 
     public synchronized void dispose(Story story) {
-        if (assetManager == null) return;
+        if (assetManager == null || story == null) return;
 
         Log.i(tag, "dispose " + story.id);
 

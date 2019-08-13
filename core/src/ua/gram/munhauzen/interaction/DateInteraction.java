@@ -47,6 +47,7 @@ public class DateInteraction extends AbstractInteraction {
     }
 
     public void onResourcesLoaded() {
+
         isLoaded = true;
 
         imageFragment = new DateImageFragment(this);

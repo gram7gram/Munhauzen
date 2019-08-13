@@ -50,6 +50,7 @@ public class GeneralsInteraction extends AbstractInteraction {
     }
 
     public void onResourcesLoaded() {
+
         isLoaded = true;
 
         progressBarFragment = new GeneralsProgressBarFragment(gameScreen, this);
