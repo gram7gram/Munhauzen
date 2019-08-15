@@ -1,12 +1,14 @@
 package ua.gram.munhauzen.screen.painting.fragment;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import ua.gram.munhauzen.screen.PaintingScreen;
 import ua.gram.munhauzen.screen.painting.ui.BonusPainting;
+import ua.gram.munhauzen.screen.painting.ui.ColorPainting;
+import ua.gram.munhauzen.screen.painting.ui.Painting;
 import ua.gram.munhauzen.screen.painting.ui.SimplePainting;
+import ua.gram.munhauzen.screen.painting.ui.StatuePainting;
 import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.utils.Log;
@@ -20,7 +22,7 @@ public class ImageFragment extends Fragment {
     private final PaintingScreen screen;
     public FragmentRoot root;
 
-    public Stack painting;
+    public Painting painting;
 
     public ImageFragment(PaintingScreen screen) {
         this.screen = screen;
@@ -37,10 +39,10 @@ public class ImageFragment extends Fragment {
                     painting = new BonusPainting(screen);
                     break;
                 case "statue":
-                    painting = new SimplePainting(screen);
+                    painting = new StatuePainting(screen);
                     break;
                 case "color":
-                    painting = new SimplePainting(screen);
+                    painting = new ColorPainting(screen);
                     break;
                 default:
                     throw new GdxRuntimeException("Unknown image type " + screen.image.type);

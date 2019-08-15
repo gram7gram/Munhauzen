@@ -4,19 +4,19 @@ import com.badlogic.gdx.graphics.Texture;
 
 import ua.gram.munhauzen.screen.PaintingScreen;
 
-public class BonusFrame extends Frame {
+public class ColorFrame extends Frame {
 
-    public BonusFrame(PaintingScreen screen, Painting painting) {
+    public ColorFrame(PaintingScreen screen, Painting painting) {
         super(screen, painting);
     }
 
     @Override
     public float getFramePaddingPercent() {
-        return .08f;
+        return .19f;
     }
 
     @Override
     public Texture createTexture() {
-        return screen.assetManager.get("gallery/gv2_frame_4.png", Texture.class);
+        return screen.assetManager.get("gallery/gv2_frame_2.png", Texture.class);
     }
 }

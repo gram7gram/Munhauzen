@@ -25,7 +25,7 @@ public class PaintingScreen extends AbstractScreen {
         super(game);
 
         this.image = image;
-        this.image.type = "bonus";
+//        this.image.type = "color";
     }
 
     @Override

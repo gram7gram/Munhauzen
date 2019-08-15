@@ -60,6 +60,8 @@ public class ImageRow extends Stack {
 
         content = new Table();
 
+        float lblWidth = width - iconSize - number.getWidth();
+
         Container<Label> clippedLabel = new Container<>(title);
         clippedLabel.setClip(true);
         clippedLabel.align(Align.topLeft);
@@ -67,7 +69,7 @@ public class ImageRow extends Stack {
         content.add().width(iconSize).padTop(15).padRight(5).align(Align.topLeft);
         content.add(number).align(Align.topLeft).padRight(5);
         content.add(clippedLabel)
-                .width(width - iconSize - number.getWidth())
+                .width(lblWidth)
                 .align(Align.topLeft).row();
 
         addActor(content);

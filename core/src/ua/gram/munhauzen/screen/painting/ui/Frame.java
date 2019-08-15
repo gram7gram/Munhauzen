@@ -3,31 +3,23 @@ package ua.gram.munhauzen.screen.painting.ui;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 
 import ua.gram.munhauzen.screen.PaintingScreen;
 
-public abstract class Frame extends Table {
+public abstract class Frame extends Image {
 
     public float frameWidth, frameHeight;
     public final PaintingScreen screen;
     public final Painting painting;
-    public final Image frame;
-    PaintingDescription description;
     public float framePadding;
 
     public Frame(PaintingScreen screen, Painting painting) {
+        super();
         this.screen = screen;
         this.painting = painting;
 
         framePadding = getFramePaddingPercent();
-
-        frame = new Image();
-        description = new PaintingDescription(screen, this);
-
-        add(frame).top().row();
-        add(description).top().row();
     }
 
     public abstract Texture createTexture();
@@ -42,20 +34,16 @@ public abstract class Frame extends Table {
 
         SpriteDrawable drawable = new SpriteDrawable(sprite);
 
-        frame.setDrawable(drawable);
-
-        layout();
+        setDrawable(drawable);
     }
 
     @Override
-    public void layout() {
-        super.layout();
+    public void act(float delta) {
+        super.act(delta);
 
-        frameWidth = painting.backgroundWidth * (1 + framePadding);
-        frameHeight = painting.backgroundHeight * (1 + framePadding);
-
-        getCell(frame)
-                .width(frameWidth)
-                .height(frameHeight);
+//        frameWidth = painting.backgroundWidth * (1 + framePadding * 2);
+//        frameHeight = painting.backgroundHeight * (1 + framePadding * 2);
+//
+//        setSize(frameWidth, frameHeight);
     }
 }
