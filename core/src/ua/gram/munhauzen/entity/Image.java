@@ -11,8 +11,18 @@ public class Image extends Entity {
     public String file;
     public String description;
     public boolean isHiddenFromGallery;
-    public boolean isAnimation;
     public Array<ImageTranslation> translations;
+
+    public String getDescription(String locale) {
+
+        for (ImageTranslation translation : translations) {
+            if (translation.locale.equals(locale)) {
+                return translation.description.trim();
+            }
+        }
+
+        return name;
+    }
 
 
 }

@@ -4,22 +4,19 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 
 import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.entity.Image;
 import ua.gram.munhauzen.screen.gallery.fragment.ControlsFragment;
 import ua.gram.munhauzen.screen.gallery.fragment.GalleryFragment;
 import ua.gram.munhauzen.screen.gallery.ui.GalleryLayers;
-import ua.gram.munhauzen.screen.saves.fragment.PaintingFragment;
-import ua.gram.munhauzen.service.AudioService;
 
 /**
  * @author Gram <gram7gram@gmail.com>
  */
 public class GalleryScreen extends AbstractScreen {
 
-    public AudioService audioService;
     public GalleryLayers layers;
     public GalleryFragment galleryFragment;
     public ControlsFragment controlsFragment;
-    public PaintingFragment paintingFragment;
 
     public GalleryScreen(MunhauzenGame game) {
         super(game);
@@ -30,7 +27,6 @@ public class GalleryScreen extends AbstractScreen {
         super.show();
 
         background = game.assetManager.get("p1.jpg", Texture.class);
-        audioService = new AudioService(game);
 
         assetManager.load("menu/b_menu.png", Texture.class);
         assetManager.load("gallery/gv_paper_1.png", Texture.class);
@@ -53,19 +49,21 @@ public class GalleryScreen extends AbstractScreen {
     public void onResourcesLoaded() {
         super.onResourcesLoaded();
 
+        for (Image image : game.gameState.imageRegistry) {
+            game.gameState.history.viewedImages.add(image.name);
+        }
+
         controlsFragment = new ControlsFragment(this);
         controlsFragment.create();
 
         layers.setControlsLayer(controlsFragment);
-
-        controlsFragment.fadeIn();
 
         galleryFragment = new GalleryFragment(this);
         galleryFragment.create();
 
         layers.setContentLayer(galleryFragment);
 
-        galleryFragment.fadeIn();
+        //galleryFragment.fadeIn();
     }
 
     @Override
@@ -74,19 +72,16 @@ public class GalleryScreen extends AbstractScreen {
         if (galleryFragment != null) {
             galleryFragment.update();
         }
-
-        if (paintingFragment != null) {
-            paintingFragment.update();
-        }
     }
 
     @Override
     public void dispose() {
         super.dispose();
 
-        audioService.dispose();
-
-        layers.dispose();
+        if (layers != null) {
+            layers.dispose();
+            layers = null;
+        }
 
         if (galleryFragment != null) {
             galleryFragment.destroy();
@@ -96,11 +91,6 @@ public class GalleryScreen extends AbstractScreen {
         if (controlsFragment != null) {
             controlsFragment.destroy();
             controlsFragment = null;
-        }
-
-        if (paintingFragment != null) {
-            paintingFragment.destroy();
-            paintingFragment = null;
         }
     }
 }

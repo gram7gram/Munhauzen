@@ -16,10 +16,9 @@ import com.badlogic.gdx.utils.Align;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.entity.GalleryState;
 import ua.gram.munhauzen.entity.Image;
-import ua.gram.munhauzen.entity.ImageTranslation;
 import ua.gram.munhauzen.history.History;
 import ua.gram.munhauzen.screen.GalleryScreen;
-import ua.gram.munhauzen.screen.saves.fragment.PaintingFragment;
+import ua.gram.munhauzen.screen.PaintingScreen;
 import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.utils.Log;
 
@@ -80,12 +79,8 @@ public class ImageRow extends Stack {
 
                 try {
 
-                    screen.paintingFragment = new PaintingFragment(screen, image);
-                    screen.paintingFragment.create();
-
-                    screen.layers.setPaintingLayer(screen.paintingFragment);
-
-                    screen.paintingFragment.fadeIn();
+                    screen.game.setScreen(new PaintingScreen(screen.game, image));
+                    screen.dispose();
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -108,43 +103,26 @@ public class ImageRow extends Stack {
 
         clearListeners();
 
-        String text = image.name;
+        String text = image.getDescription(screen.game.params.locale);
 
-        boolean canAddListener = false;
+        if (!history.viewedImages.contains(image.name)) {
+            text = text.replaceAll("[^.\\s]", "#");
 
-        if (image.translations != null) {
-            for (ImageTranslation item : image.translations) {
-                if (item.locale.equals(screen.game.params.locale)) {
+            iconCell.setActor(lock);
 
-                    text = item.description.trim();
+            setLockBackground(
+                    screen.assetManager.get("gallery/b_closed_0.png", Texture.class)
+            );
+        } else if (!galleryState.visitedImages.contains(image.name)) {
 
-                    if (!history.viewedImages.contains(image.name)) {
-                        text = text.replaceAll("[^.\\s]", "#");
+            iconCell.setActor(unlock);
 
-                        iconCell.setActor(lock);
+            setUnlockBackground(
+                    screen.assetManager.get("gallery/b_opened_0.png", Texture.class)
+            );
 
-                        setLockBackground(
-                                screen.assetManager.get("gallery/b_closed_0.png", Texture.class)
-                        );
-                    } else if (!galleryState.visitedImages.contains(image.name)) {
-
-                        iconCell.setActor(unlock);
-
-                        setUnlockBackground(
-                                screen.assetManager.get("gallery/b_opened_0.png", Texture.class)
-                        );
-
-                        canAddListener = true;
-                    } else {
-                        canAddListener = true;
-                    }
-
-                    break;
-                }
-            }
-        }
-
-        if (canAddListener) {
+            addListener(clickListener);
+        } else {
             addListener(clickListener);
         }
 

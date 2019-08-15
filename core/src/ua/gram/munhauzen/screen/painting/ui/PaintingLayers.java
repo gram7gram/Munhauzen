@@ -1,4 +1,4 @@
-package ua.gram.munhauzen.screen.gallery.ui;
+package ua.gram.munhauzen.screen.painting.ui;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -11,12 +11,12 @@ import ua.gram.munhauzen.utils.Log;
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class GalleryLayers extends Stack implements Disposable {
+public class PaintingLayers extends Stack implements Disposable {
 
     final String tag = getClass().getSimpleName();
     public Fragment contentLayer, controlsLayer;
 
-    public GalleryLayers() {
+    public PaintingLayers() {
         setFillParent(true);
 
         update();

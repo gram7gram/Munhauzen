@@ -5,7 +5,6 @@ package ua.gram.munhauzen.entity;
  */
 public class Entity {
 
-    public String id;
     public String name;
 
     public Entity() {
@@ -13,6 +12,6 @@ public class Entity {
 
     @Override
     public String toString() {
-        return this.getClass().getSimpleName() + "#" + id;
+        return this.getClass().getSimpleName() + "#" + name;
     }
 }

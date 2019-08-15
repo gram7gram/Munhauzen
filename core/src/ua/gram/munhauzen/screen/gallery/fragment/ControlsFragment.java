@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -25,7 +24,6 @@ public class ControlsFragment extends Fragment {
     private final GalleryScreen screen;
     public FragmentRoot root;
     Container<Table> menuContainer;
-    boolean isFadeIn, isFadeOut;
 
     public ControlsFragment(GalleryScreen screen) {
         this.screen = screen;
@@ -44,72 +42,13 @@ public class ControlsFragment extends Fragment {
         menuTable.add(menuBtn).expandX().left().width(iconSize2).height(iconSize2 / 2f).row();
 
         menuContainer = new Container<>(menuTable);
-        menuContainer.align(Align.bottomLeft);
+        menuContainer.align(Align.topLeft);
         menuContainer.pad(10);
 
         root = new FragmentRoot();
         root.addContainer(menuContainer);
 
         root.setName(tag);
-
-        root.setVisible(false);
-    }
-
-    public void fadeOut() {
-
-        if (isFadeOut) return;
-
-        isFadeIn = false;
-        isFadeOut = true;
-
-        menuContainer.addAction(Actions.sequence(
-                Actions.parallel(
-                        Actions.moveBy(0, -20, .3f),
-                        Actions.alpha(0, .3f)
-                ),
-                Actions.visible(false)
-        ));
-
-        root.addAction(Actions.sequence(
-                Actions.delay(.4f),
-                Actions.visible(false),
-                Actions.run(new Runnable() {
-                    @Override
-                    public void run() {
-                        isFadeIn = false;
-                        isFadeOut = false;
-                    }
-                })
-        ));
-    }
-
-    public void fadeIn() {
-
-        if (isFadeIn) return;
-
-        isFadeIn = true;
-        isFadeOut = false;
-
-        menuContainer.addAction(Actions.sequence(
-                Actions.visible(true),
-                Actions.alpha(0),
-                Actions.parallel(
-                        Actions.moveBy(0, 20, .3f),
-                        Actions.alpha(1, .3f)
-                )
-        ));
-
-        root.addAction(Actions.sequence(
-                Actions.visible(true),
-                Actions.delay(.4f),
-                Actions.run(new Runnable() {
-                    @Override
-                    public void run() {
-                        isFadeIn = false;
-                        isFadeOut = false;
-                    }
-                })
-        ));
     }
 
     @Override
