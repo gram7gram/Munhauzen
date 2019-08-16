@@ -60,4 +60,16 @@ public class GameState {
         Log.i(tag, "unpause " + referer);
         isPaused = false;
     }
+
+    public Array<Image> getGalleryImages() {
+        Array<Image> items = new Array<>();
+
+        for (Image image : imageRegistry) {
+            if (image.isHiddenFromGallery) continue;
+
+            items.add(image);
+        }
+
+        return items;
+    }
 }

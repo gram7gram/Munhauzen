@@ -1,6 +1,8 @@
 package ua.gram.munhauzen.screen.painting.fragment;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import ua.gram.munhauzen.screen.PaintingScreen;
@@ -23,8 +25,9 @@ public class ImageFragment extends Fragment {
     private final String tag = getClass().getSimpleName();
     private final PaintingScreen screen;
     public FragmentRoot root;
-
     public Painting painting;
+    public Statue statue;
+    public BonusNotice bonusNotice;
 
     public ImageFragment(PaintingScreen screen) {
         this.screen = screen;
@@ -33,30 +36,29 @@ public class ImageFragment extends Fragment {
     public void create() {
         Log.i(tag, "create");
 
-        BonusNotice bonusNotice = null;
-        Statue statue = null;
-
-        if (screen.image.type == null) {
+        if (screen.paintingImage.image.type == null) {
             painting = new SimplePainting(screen);
         } else {
-            switch (screen.image.type) {
+            switch (screen.paintingImage.image.type) {
                 case "bonus":
                     painting = new BonusPainting(screen);
 
                     bonusNotice = new BonusNotice(screen);
+                    bonusNotice.setTouchable(Touchable.disabled);
 
                     break;
                 case "statue":
                     painting = new StatuePainting(screen);
 
                     statue = new Statue(screen);
+                    statue.setTouchable(Touchable.childrenOnly);
 
                     break;
                 case "color":
                     painting = new ColorPainting(screen);
                     break;
                 default:
-                    throw new GdxRuntimeException("Unknown image type " + screen.image.type);
+                    throw new GdxRuntimeException("Unknown image type " + screen.paintingImage.image.type);
             }
         }
 
@@ -72,6 +74,7 @@ public class ImageFragment extends Fragment {
         }
 
         root.setName(tag);
+        root.setVisible(false);
     }
 
     @Override
@@ -81,5 +84,28 @@ public class ImageFragment extends Fragment {
 
     public void update() {
 
+    }
+
+    public void fadeIn() {
+
+        root.setVisible(true);
+        root.addAction(Actions.sequence(
+                Actions.alpha(0),
+                Actions.parallel(
+                        Actions.alpha(1, .2f)
+                )
+        ));
+    }
+
+    public void fadeOut(Runnable task) {
+
+        root.setVisible(true);
+        root.addAction(Actions.sequence(
+                Actions.parallel(
+                        Actions.alpha(0, .15f)
+                ),
+                Actions.visible(false),
+                Actions.run(task)
+        ));
     }
 }

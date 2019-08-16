@@ -14,11 +14,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 
 import ua.gram.munhauzen.FontProvider;
-import ua.gram.munhauzen.entity.GalleryState;
-import ua.gram.munhauzen.entity.Image;
-import ua.gram.munhauzen.history.History;
 import ua.gram.munhauzen.screen.GalleryScreen;
 import ua.gram.munhauzen.screen.PaintingScreen;
+import ua.gram.munhauzen.screen.gallery.entity.PaintingImage;
 import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.utils.Log;
 
@@ -26,19 +24,18 @@ public class ImageRow extends Stack {
 
     final String tag = getClass().getSimpleName();
     final GalleryScreen screen;
-    final Image image;
+    final PaintingImage paintingImage;
     final int index;
     Label title, number;
     FitImage lock, unlock;
     Table content;
     float iconSize = 30;
-    ClickListener clickListener;
 
-    public ImageRow(final GalleryScreen screen, final Image image, int index, float width) {
+    public ImageRow(final GalleryScreen screen, final PaintingImage paintingImage, int index, float width) {
 
         this.index = index;
         this.screen = screen;
-        this.image = image;
+        this.paintingImage = paintingImage;
 
         Label.LabelStyle style = new Label.LabelStyle(
                 screen.game.fontProvider.getFont(FontProvider.h3),
@@ -74,14 +71,14 @@ public class ImageRow extends Stack {
 
         addActor(content);
 
-        clickListener = new ClickListener() {
+        addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
                 try {
 
-                    screen.game.setScreen(new PaintingScreen(screen.game, image));
+                    screen.game.setScreen(new PaintingScreen(screen.game, paintingImage));
                     screen.dispose();
 
                 } catch (Throwable e) {
@@ -90,24 +87,19 @@ public class ImageRow extends Stack {
                     screen.onCriticalError(e);
                 }
             }
-        };
+        });
     }
 
     @Override
     public void layout() {
         super.layout();
 
-        GalleryState galleryState = screen.game.gameState.galleryState;
-        History history = screen.game.gameState.history;
-
         Cell iconCell = content.getCells().get(0);
         iconCell.clearActor();
 
-        clearListeners();
+        String text = paintingImage.image.getDescription(screen.game.params.locale);
 
-        String text = image.getDescription(screen.game.params.locale);
-
-        if (!history.viewedImages.contains(image.name)) {
+        if (!paintingImage.isOpened) {
             text = text.replaceAll("[^.\\s]", "#");
 
             iconCell.setActor(lock);
@@ -115,17 +107,13 @@ public class ImageRow extends Stack {
             setLockBackground(
                     screen.assetManager.get("gallery/b_closed_0.png", Texture.class)
             );
-        } else if (!galleryState.visitedImages.contains(image.name)) {
+        } else if (!paintingImage.isViewed) {
 
             iconCell.setActor(unlock);
 
             setUnlockBackground(
                     screen.assetManager.get("gallery/b_opened_0.png", Texture.class)
             );
-
-            addListener(clickListener);
-        } else {
-            addListener(clickListener);
         }
 
         title.setText(text);

@@ -2,9 +2,11 @@ package ua.gram.munhauzen.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.Array;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.Image;
+import ua.gram.munhauzen.screen.gallery.entity.PaintingImage;
 import ua.gram.munhauzen.screen.gallery.fragment.ControlsFragment;
 import ua.gram.munhauzen.screen.gallery.fragment.GalleryFragment;
 import ua.gram.munhauzen.screen.gallery.ui.GalleryLayers;
@@ -17,6 +19,7 @@ public class GalleryScreen extends AbstractScreen {
     public GalleryLayers layers;
     public GalleryFragment galleryFragment;
     public ControlsFragment controlsFragment;
+    public Array<PaintingImage> paintings;
 
     public GalleryScreen(MunhauzenGame game) {
         super(game);
@@ -25,6 +28,8 @@ public class GalleryScreen extends AbstractScreen {
     @Override
     public void show() {
         super.show();
+
+        paintings = new Array<>();
 
         background = game.assetManager.get("p1.jpg", Texture.class);
 
@@ -49,9 +54,7 @@ public class GalleryScreen extends AbstractScreen {
     public void onResourcesLoaded() {
         super.onResourcesLoaded();
 
-        for (Image image : game.gameState.imageRegistry) {
-            game.gameState.history.viewedImages.add(image.name);
-        }
+        createPaintings();
 
         controlsFragment = new ControlsFragment(this);
         controlsFragment.create();
@@ -66,6 +69,46 @@ public class GalleryScreen extends AbstractScreen {
         //galleryFragment.fadeIn();
     }
 
+    private void createPaintings() {
+        Array<Image> galleryImages = game.gameState.getGalleryImages();
+
+        for (Image image : galleryImages) {
+
+            PaintingImage painting = new PaintingImage();
+            painting.image = image;
+
+            paintings.add(painting);
+
+            if (MunhauzenGame.OPEN_GALLERY) {
+                game.gameState.history.viewedImages.add(image.name);
+            }
+
+            painting.isOpened = game.gameState.history.viewedImages.contains(image.name);
+            painting.isViewed = game.gameState.galleryState.visitedImages.contains(image.name);
+        }
+
+        int size = paintings.size;
+        for (int i = 0; i < size; i++) {
+            PaintingImage current = paintings.get(i);
+
+            PaintingImage next = null;
+            PaintingImage prev = null;
+            if (size > 1) {
+                if (i == 0) {
+                    next = paintings.get(i + 1);
+                } else if (i == size - 1) {
+                    prev = paintings.get(i - 1);
+                } else {
+                    next = paintings.get(i + 1);
+                    prev = paintings.get(i - 1);
+                }
+            }
+
+            current.prev = prev;
+            current.next = next;
+        }
+    }
+
     @Override
     public void renderAfterLoaded(float delta) {
 
@@ -77,6 +120,11 @@ public class GalleryScreen extends AbstractScreen {
     @Override
     public void dispose() {
         super.dispose();
+
+        if (paintings != null) {
+            paintings.clear();
+            paintings = null;
+        }
 
         if (layers != null) {
             layers.dispose();

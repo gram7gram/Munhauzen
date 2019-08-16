@@ -4,12 +4,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 
@@ -33,7 +31,7 @@ public class StatueBanner extends Group {
 
         back = new Image();
 
-        String text = screen.inventory.getStatueDescription(screen.game.params.locale);
+        String text = screen.paintingImage.inventory.getStatueDescription(screen.game.params.locale);
 
         Label lbl = new Label(text, new Label.LabelStyle(
                 screen.game.fontProvider.getFont(FontProvider.h5),
@@ -54,19 +52,6 @@ public class StatueBanner extends Group {
         addActor(lblTable);
 
         setVisible(false);
-
-        statue.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-
-                if (isVisible()) {
-                    fadeOut();
-                } else {
-                    fadeIn();
-                }
-            }
-        });
     }
 
     @Override

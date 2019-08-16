@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.Align;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.screen.GalleryScreen;
+import ua.gram.munhauzen.screen.gallery.entity.PaintingImage;
 import ua.gram.munhauzen.screen.gallery.ui.ImageRow;
 import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.ui.FragmentRoot;
@@ -161,13 +162,10 @@ public class GalleryFragment extends Fragment {
 
         float width = MunhauzenGame.WORLD_WIDTH - 20 - rows.getPadLeft() - rows.getPadRight();
 
-        for (ua.gram.munhauzen.entity.Image image : screen.game.gameState.imageRegistry) {
-            if (!image.isHiddenFromGallery) {
-                rows.add(new ImageRow(screen, image, ++num, width))
-                        .padBottom(5)
-                        //.width(width)
-                        .row();
-            }
+        for (PaintingImage image : screen.paintings) {
+            rows.add(new ImageRow(screen, image, ++num, width))
+                    .padBottom(5)
+                    .row();
         }
 
         return rows;

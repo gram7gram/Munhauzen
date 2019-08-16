@@ -3,7 +3,9 @@ package ua.gram.munhauzen.screen.painting.ui;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 
 import ua.gram.munhauzen.MunhauzenGame;
@@ -25,17 +27,33 @@ public class Statue extends Group {
         item = new Image();
         statue = new Image();
 
+        addActor(statue);
+
         setStatueBackground(
                 screen.assetManager.get("gallery/gv2_statue.png", Texture.class)
         );
 
-        setItemBackground(
-                screen.assetManager.get(screen.statueResource, Texture.class)
-        );
+        if (screen.paintingImage.isOpened) {
+            addActor(statueBanner);
+            addActor(item);
 
-        addActor(statue);
-        addActor(statueBanner);
-        addActor(item);
+            setItemBackground(
+                    screen.assetManager.get(screen.paintingImage.statueResource, Texture.class)
+            );
+
+            item.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    super.clicked(event, x, y);
+
+                    if (statueBanner.isVisible()) {
+                        statueBanner.fadeOut();
+                    } else {
+                        statueBanner.fadeIn();
+                    }
+                }
+            });
+        }
     }
 
     @Override

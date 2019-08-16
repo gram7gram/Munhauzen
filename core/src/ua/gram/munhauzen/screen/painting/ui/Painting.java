@@ -4,41 +4,91 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.screen.PaintingScreen;
+import ua.gram.munhauzen.screen.gallery.entity.PaintingImage;
+import ua.gram.munhauzen.screen.painting.fragment.FullscreenFragment;
+import ua.gram.munhauzen.utils.Log;
 
 public abstract class Painting extends Group {
 
+    final String tag = getClass().getSimpleName();
     final PaintingScreen screen;
     public final Image background, descriptionBackground;
     public final Frame frame;
     Table lblTable;
+    Image lock, unlock;
 
     public float backgroundWidth, backgroundHeight, backgroundScale;
+    public float lockWidth, lockHeight;
     public float descriptionBackgroundWidth, descriptionBackgroundHeight;
     public boolean isWide;
 
-    public Painting(PaintingScreen screen) {
+    public Painting(final PaintingScreen screen) {
         super();
 
         this.screen = screen;
 
         background = new Image();
+        lock = new Image();
+        unlock = new Image();
 
         frame = createFrame();
+        frame.addListener(new ActorGestureListener() {
 
-        String text = screen.image.getDescription(screen.game.params.locale);
+            int delta;
+
+            @Override
+            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                super.touchDown(event, x, y, pointer, button);
+
+                delta = (int) x;
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                super.touchUp(event, x, y, pointer, button);
+
+                delta = (int) (delta - x);
+
+                if (delta > 100) {
+                    nextPainting();
+                } else if (delta < -100) {
+                    prevPainting();
+                }
+            }
+
+            @Override
+            public void tap(InputEvent event, float x, float y, int count, int button) {
+                super.tap(event, x, y, count, button);
+
+                try {
+
+                    screen.fullscreenFragment = new FullscreenFragment(screen);
+                    screen.fullscreenFragment.create();
+
+                    screen.layers.setFullscreenLayer(screen.fullscreenFragment);
+
+                    screen.fullscreenFragment.fadeIn();
+
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
+            }
+        });
 
         descriptionBackground = new Image();
 
-        Label descriptionLabel = new Label(text, new Label.LabelStyle(
+        Label descriptionLabel = new Label("", new Label.LabelStyle(
                 screen.game.fontProvider.getFont(FontProvider.h5),
                 Color.BLACK
         ));
@@ -49,25 +99,88 @@ public abstract class Painting extends Group {
         lblTable.pad(0, 50, 20, 30);
         lblTable.add(descriptionLabel).top().grow();
 
-        setBackground(
-                screen.assetManager.get(screen.imageResource, Texture.class)
-        );
+        addActor(background);
+        addActor(frame);
+
+        boolean canDisplayDescription = screen.paintingImage.isOpened;
+        boolean canDisplayPainting = screen.paintingImage.isOpened;
+
+        if (canDisplayPainting) {
+            setBackground(
+                    screen.assetManager.get(screen.paintingImage.imageResource, Texture.class)
+            );
+        } else {
+            setBackground(
+                    screen.assetManager.get("gallery/aquestion.png", Texture.class)
+            );
+        }
 
         setFrameBackground(
                 frame.createTexture()
         );
 
-        setDescriptionBackground(
-                screen.assetManager.get("gallery/gv_paper_3.png", Texture.class)
-        );
+        if (canDisplayDescription) {
+            addActor(descriptionBackground);
+            addActor(lblTable);
 
-        addActor(background);
-        addActor(frame);
-        addActor(descriptionBackground);
-        addActor(lblTable);
+            String text = screen.paintingImage.image.getDescription(screen.game.params.locale);
+            descriptionLabel.setText(text);
+
+            setDescriptionBackground(
+                    screen.assetManager.get("gallery/gv_paper_3.png", Texture.class)
+            );
+        }
+
+        if (!screen.paintingImage.isOpened) {
+            addActor(lock);
+
+            setLockBackground(
+                    screen.assetManager.get("gallery/b_closed_1.png", Texture.class)
+            );
+
+        } else if (!screen.paintingImage.isViewed) {
+
+            addActor(unlock);
+
+            setUnlockBackground(
+                    screen.assetManager.get("gallery/b_opened_1.png", Texture.class)
+            );
+
+        }
     }
 
     public abstract Frame createFrame();
+
+    private void nextPainting() {
+
+        final PaintingImage next = screen.paintingImage.next;
+        if (next == null) return;
+
+        Log.i(tag, "nextPainting " + next.image.name);
+
+        screen.imageFragment.fadeOut(new Runnable() {
+            @Override
+            public void run() {
+                screen.game.setScreen(new PaintingScreen(screen.game, next));
+                //screen.dispose();
+            }
+        });
+    }
+
+    private void prevPainting() {
+        final PaintingImage prev = screen.paintingImage.prev;
+        if (prev == null) return;
+
+        Log.i(tag, "prevPainting " + prev.image.name);
+
+        screen.imageFragment.fadeOut(new Runnable() {
+            @Override
+            public void run() {
+                screen.game.setScreen(new PaintingScreen(screen.game, prev));
+                //screen.dispose();
+            }
+        });
+    }
 
     @Override
     public void act(float delta) {
@@ -114,6 +227,16 @@ public abstract class Painting extends Group {
                 (MunhauzenGame.WORLD_WIDTH - descriptionWidth) / 2f,
                 background.getY() - descriptionHeight
         );
+
+        lock.setPosition(
+                background.getX() + backgroundWidth,
+                background.getY() - lockHeight
+        );
+
+        unlock.setPosition(
+                background.getX() + backgroundWidth,
+                background.getY() - lockHeight
+        );
     }
 
     public void setDescriptionBackground(Texture texture) {
@@ -148,5 +271,27 @@ public abstract class Painting extends Group {
 
     public void setFrameBackground(Texture texture) {
         frame.setBackground(texture, isWide);
+    }
+
+    public void setLockBackground(Texture texture) {
+
+        lock.setDrawable(new SpriteDrawable(new Sprite(texture)));
+
+        lockWidth = MunhauzenGame.WORLD_WIDTH * .1f;
+        float scale = 1f * lockWidth / lock.getDrawable().getMinWidth();
+        lockHeight = 1f * lock.getDrawable().getMinHeight() * scale;
+
+        lock.setSize(lockWidth, lockHeight);
+    }
+
+    public void setUnlockBackground(Texture texture) {
+
+        unlock.setDrawable(new SpriteDrawable(new Sprite(texture)));
+
+        lockWidth = MunhauzenGame.WORLD_WIDTH * .1f;
+        float scale = 1f * lockWidth / unlock.getDrawable().getMinWidth();
+        lockHeight = 1f * unlock.getDrawable().getMinHeight() * scale;
+
+        unlock.setSize(lockWidth, lockHeight);
     }
 }

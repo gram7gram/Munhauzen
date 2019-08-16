@@ -29,6 +29,7 @@ public class MunhauzenGame extends Game {
     public static final boolean IS_EXPANSION_HIDDEN = true;
     public static final boolean DEBUG_RENDER_INFO = true;
     public static final int PROGRESS_BAR_FADE_OUT_DELAY = 5;
+    public static final boolean OPEN_GALLERY = true;
     public static String developmentScenario;
 
     private final String tag = getClass().getSimpleName();

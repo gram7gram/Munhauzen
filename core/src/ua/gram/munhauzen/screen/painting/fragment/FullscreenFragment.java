@@ -1,12 +1,13 @@
-package ua.gram.munhauzen.screen.saves.fragment;
+package ua.gram.munhauzen.screen.painting.fragment;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
-import ua.gram.munhauzen.screen.SavesScreen;
+import ua.gram.munhauzen.screen.PaintingScreen;
+import ua.gram.munhauzen.screen.painting.ui.FullscreenImage;
 import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.ui.FragmentRoot;
+import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
@@ -14,13 +15,24 @@ import ua.gram.munhauzen.ui.FragmentRoot;
 public class FullscreenFragment extends Fragment {
 
     private final String tag = getClass().getSimpleName();
-    public final SavesScreen screen;
-    final Image image;
+    public final PaintingScreen screen;
     public FragmentRoot root;
+    public FullscreenImage fullscreenImage;
 
-    public FullscreenFragment(SavesScreen screen, Image image) {
+    public FullscreenFragment(PaintingScreen screen) {
         this.screen = screen;
-        this.image = image;
+    }
+
+    public void create() {
+        Log.i(tag, "create");
+
+        fullscreenImage = new FullscreenImage(this);
+
+        root = new FragmentRoot();
+        root.addContainer(fullscreenImage);
+
+        root.setName(tag);
+        root.setVisible(false);
     }
 
     @Override
@@ -28,43 +40,25 @@ public class FullscreenFragment extends Fragment {
         return root;
     }
 
-    public void create() {
-
-
-        root = new FragmentRoot();
-
-        root.setVisible(false);
-    }
-
     public void fadeIn() {
-        root.clearActions();
 
         root.setVisible(true);
         root.addAction(Actions.sequence(
                 Actions.alpha(0),
-                Actions.moveBy(0, 20),
                 Actions.parallel(
-                        Actions.alpha(1, .3f),
-                        Actions.moveBy(0, -20, .3f)
+                        Actions.alpha(1, .2f)
                 )
         ));
     }
 
-    public void fadeOut(Runnable task) {
+    public void fadeOut() {
 
-        root.clearActions();
-
+        root.setVisible(true);
         root.addAction(Actions.sequence(
                 Actions.parallel(
-                        Actions.alpha(0, .3f),
-                        Actions.moveBy(0, 20, .3f)
+                        Actions.alpha(0, .15f)
                 ),
-                Actions.visible(false),
-                Actions.run(task)
+                Actions.visible(false)
         ));
-    }
-
-    public void update() {
-
     }
 }
