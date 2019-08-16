@@ -4,10 +4,12 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import ua.gram.munhauzen.screen.PaintingScreen;
+import ua.gram.munhauzen.screen.painting.ui.BonusNotice;
 import ua.gram.munhauzen.screen.painting.ui.BonusPainting;
 import ua.gram.munhauzen.screen.painting.ui.ColorPainting;
 import ua.gram.munhauzen.screen.painting.ui.Painting;
 import ua.gram.munhauzen.screen.painting.ui.SimplePainting;
+import ua.gram.munhauzen.screen.painting.ui.Statue;
 import ua.gram.munhauzen.screen.painting.ui.StatuePainting;
 import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.ui.FragmentRoot;
@@ -31,15 +33,24 @@ public class ImageFragment extends Fragment {
     public void create() {
         Log.i(tag, "create");
 
+        BonusNotice bonusNotice = null;
+        Statue statue = null;
+
         if (screen.image.type == null) {
             painting = new SimplePainting(screen);
         } else {
             switch (screen.image.type) {
                 case "bonus":
                     painting = new BonusPainting(screen);
+
+                    bonusNotice = new BonusNotice(screen);
+
                     break;
                 case "statue":
                     painting = new StatuePainting(screen);
+
+                    statue = new Statue(screen);
+
                     break;
                 case "color":
                     painting = new ColorPainting(screen);
@@ -51,6 +62,14 @@ public class ImageFragment extends Fragment {
 
         root = new FragmentRoot();
         root.addContainer(painting);
+
+        if (bonusNotice != null) {
+            root.addContainer(bonusNotice);
+        }
+
+        if (statue != null) {
+            root.addContainer(statue);
+        }
 
         root.setName(tag);
     }

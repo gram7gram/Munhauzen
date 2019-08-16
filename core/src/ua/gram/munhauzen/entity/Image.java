@@ -9,9 +9,9 @@ public class Image extends Entity {
 
     public String type;
     public String file;
-    public String description;
     public boolean isHiddenFromGallery;
     public Array<ImageTranslation> translations;
+    public String relatedStatue;
 
     public String getDescription(String locale) {
 

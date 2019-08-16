@@ -13,6 +13,7 @@ public class Inventory extends Entity {
     public ArrayList<String> relatedScenario;
     public ArrayList<String> relatedInventory;
     public ArrayList<StatueTranslation> statueTranslations;
+    public String statueImage;
 
     public Inventory() {
         relatedScenario = new ArrayList<>(2);
@@ -21,6 +22,17 @@ public class Inventory extends Entity {
 
     public boolean isGlobal() {
         return isMenu || isStatue;
+    }
+
+    public String getStatueDescription(String locale) {
+
+        for (StatueTranslation translation : statueTranslations) {
+            if (translation.locale.equals(locale)) {
+                return translation.description.trim();
+            }
+        }
+
+        return name;
     }
 
 }
