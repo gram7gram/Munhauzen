@@ -34,9 +34,9 @@ public class GalleryScreen extends AbstractScreen {
         background = game.assetManager.get("p1.jpg", Texture.class);
 
         assetManager.load("menu/b_menu.png", Texture.class);
-        assetManager.load("gallery/gv_paper_1.png", Texture.class);
-        assetManager.load("gallery/gv_paper_2.png", Texture.class);
-        assetManager.load("gallery/gv_paper_3.png", Texture.class);
+        assetManager.load("ui/gv_paper_1.png", Texture.class);
+        assetManager.load("ui/gv_paper_2.png", Texture.class);
+        assetManager.load("ui/gv_paper_3.png", Texture.class);
         assetManager.load("gallery/gv_painting.png", Texture.class);
         assetManager.load("gallery/b_closed_0.png", Texture.class);
         assetManager.load("gallery/b_opened_0.png", Texture.class);
@@ -107,6 +107,13 @@ public class GalleryScreen extends AbstractScreen {
             current.prev = prev;
             current.next = next;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        navigateTo(new MenuScreen(game));
     }
 
     @Override

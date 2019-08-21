@@ -223,6 +223,9 @@ public class GameScreen implements Screen {
                     );
 
                     if (story.isValid()) {
+
+                        game.achievementService.onScenarioVisited(story.currentScenario.scenario.name);
+
                         if (story.isCompleted) {
 
                             storyManager.onCompleted();

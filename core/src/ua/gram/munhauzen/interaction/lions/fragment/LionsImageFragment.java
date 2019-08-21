@@ -133,7 +133,7 @@ public class LionsImageFragment extends InteractionFragment {
 
     private void attack() {
 
-        final float attackDuration = .7f;
+        final float attackDuration = 1f;//сек
 
         playAttack();
 
@@ -211,7 +211,7 @@ public class LionsImageFragment extends InteractionFragment {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            //interaction.gameScreen.onCriticalError(e);
+            interaction.gameScreen.onCriticalError(e);
         }
 
     }
@@ -227,7 +227,7 @@ public class LionsImageFragment extends InteractionFragment {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            //interaction.gameScreen.onCriticalError(e);
+            interaction.gameScreen.onCriticalError(e);
         }
 
     }

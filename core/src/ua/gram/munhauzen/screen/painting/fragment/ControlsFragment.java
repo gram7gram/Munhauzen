@@ -1,15 +1,21 @@
 package ua.gram.munhauzen.screen.painting.fragment;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.screen.GalleryScreen;
 import ua.gram.munhauzen.screen.PaintingScreen;
+import ua.gram.munhauzen.screen.gallery.entity.PaintingImage;
 import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.ui.PrimaryButton;
@@ -20,7 +26,7 @@ public class ControlsFragment extends Fragment {
     private final String tag = getClass().getSimpleName();
     private final PaintingScreen screen;
     public FragmentRoot root;
-    Container<Table> menuContainer;
+    public ImageButton leftArrow, rightArrow;
 
     public ControlsFragment(PaintingScreen screen) {
         this.screen = screen;
@@ -29,6 +35,9 @@ public class ControlsFragment extends Fragment {
     public void create() {
 
         Log.i(tag, "create");
+
+        leftArrow = getArrowLeft();
+        rightArrow = getArrowRight();
 
         PrimaryButton menuBtn = screen.game.buttonBuilder.primary("Back", new ClickListener() {
             @Override
@@ -44,24 +53,94 @@ public class ControlsFragment extends Fragment {
             }
         });
 
+        float controlsSize = MunhauzenGame.WORLD_WIDTH / 15f;
+
+        Table arrowsTable = new Table();
+        arrowsTable.setTouchable(Touchable.childrenOnly);
+        arrowsTable.setFillParent(true);
+        arrowsTable.add(leftArrow).size(controlsSize).left();
+        arrowsTable.add().center().grow();
+        arrowsTable.add(rightArrow).size(controlsSize).right();
+
         Table menuTable = new Table();
         menuTable.add(menuBtn)
                 .width(MunhauzenGame.WORLD_WIDTH * .25f)
                 .height(MunhauzenGame.WORLD_HEIGHT * .08f)
                 .row();
 
-        menuContainer = new Container<>(menuTable);
-        menuContainer.align(Align.topLeft);
+        Container menuContainer = new Container<>(menuTable);
+        menuContainer.align(Align.bottomRight);
         menuContainer.pad(10);
+
+        Container arrowsContainer = new Container<>(arrowsTable);
+        arrowsContainer.align(Align.center);
+        arrowsContainer.pad(10);
 
         root = new FragmentRoot();
         root.addContainer(menuContainer);
+        root.addContainer(arrowsTable);
 
         root.setName(tag);
+    }
+
+    public void update() {
+        if (screen.imageFragment == null) return;
+
+        PaintingImage img = screen.imageFragment.paintingImage;
+        if (img == null) return;
+
+        leftArrow.setVisible(img.prev != null);
+        rightArrow.setVisible(img.next != null);
     }
 
     @Override
     public Actor getRoot() {
         return root;
+    }
+
+    private ImageButton getArrowRight() {
+        Texture skipForward = screen.assetManager.get("ui/playbar_skip_forward.png", Texture.class);
+        Texture skipForwardOff = screen.assetManager.get("ui/playbar_skip_forward_off.png", Texture.class);
+
+        ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
+        style.up = new SpriteDrawable(new Sprite(skipForward));
+        style.down = new SpriteDrawable(new Sprite(skipForward));
+        style.disabled = new SpriteDrawable(new Sprite(skipForwardOff));
+
+        ImageButton btn = new ImageButton(style);
+
+        btn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                screen.nextPainting();
+            }
+        });
+
+        return btn;
+    }
+
+    private ImageButton getArrowLeft() {
+        Texture skipBack = screen.assetManager.get("ui/playbar_skip_backward.png", Texture.class);
+        Texture skipBackOff = screen.assetManager.get("ui/playbar_skip_backward_off.png", Texture.class);
+
+        ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
+        style.up = new SpriteDrawable(new Sprite(skipBack));
+        style.down = new SpriteDrawable(new Sprite(skipBack));
+        style.disabled = new SpriteDrawable(new Sprite(skipBackOff));
+
+        ImageButton btn = new ImageButton(style);
+
+        btn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                screen.prevPainting();
+            }
+        });
+
+        return btn;
     }
 }

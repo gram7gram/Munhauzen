@@ -2,15 +2,15 @@ package ua.gram.munhauzen.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.MunhauzenGame;
-import ua.gram.munhauzen.entity.Inventory;
 import ua.gram.munhauzen.screen.gallery.entity.PaintingImage;
 import ua.gram.munhauzen.screen.painting.fragment.ControlsFragment;
 import ua.gram.munhauzen.screen.painting.fragment.FullscreenFragment;
 import ua.gram.munhauzen.screen.painting.fragment.ImageFragment;
 import ua.gram.munhauzen.screen.painting.ui.PaintingLayers;
-import ua.gram.munhauzen.utils.ExternalFiles;
+import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
@@ -28,8 +28,6 @@ public class PaintingScreen extends AbstractScreen {
         super(game);
 
         paintingImage = image;
-//        image.image.type = "statue";
-//        image.image.relatedStatue = "ST_LION";
     }
 
     @Override
@@ -38,51 +36,13 @@ public class PaintingScreen extends AbstractScreen {
 
         background = game.assetManager.get("p1.jpg", Texture.class);
 
-        paintingImage.imageResource = ExternalFiles.getExpansionImage(paintingImage.image).path();
-
-        if (paintingImage.isOpened) {
-            assetManager.load(paintingImage.imageResource, Texture.class);
-        } else {
-            assetManager.load("gallery/aquestion.png", Texture.class);
-        }
-
-        if ("statue".equals(paintingImage.image.type)) {
-
-            for (Inventory item : game.gameState.inventoryRegistry) {
-                if (item.name.equals(paintingImage.image.relatedStatue)) {
-                    paintingImage.inventory = item;
-                    paintingImage.statueResource = item.statueImage;// = "gallery/st_lion.png";
-                    break;
-                }
-            }
-
-            if (paintingImage.isOpened) {
-                assetManager.load(paintingImage.statueResource, Texture.class);
-            }
-
-            assetManager.load("gallery/gv2_statue.png", Texture.class);
-            assetManager.load("ui/banner_fond_3.png", Texture.class);
-            assetManager.load("gallery/gv2_frame_3.png", Texture.class);
-
-        } else if ("bonus".equals(paintingImage.image.type)) {
-
-            assetManager.load("gallery/gv2_frame_4.png", Texture.class);
-            assetManager.load("gallery/gv2_bonus_back.png", Texture.class);
-            assetManager.load("gallery/gv2_bonus_stick.png", Texture.class);
-
-        } else if ("color".equals(paintingImage.image.type)) {
-
-            assetManager.load("gallery/gv2_frame_2.png", Texture.class);
-
-        } else {
-
-            assetManager.load("gallery/gv2_frame_1.png", Texture.class);
-
-        }
-
-        assetManager.load("gallery/gv_paper_3.png", Texture.class);
+        assetManager.load("ui/gv_paper_3.png", Texture.class);
         assetManager.load("gallery/b_closed_1.png", Texture.class);
         assetManager.load("gallery/b_opened_1.png", Texture.class);
+        assetManager.load("ui/playbar_skip_forward.png", Texture.class);
+        assetManager.load("ui/playbar_skip_forward_off.png", Texture.class);
+        assetManager.load("ui/playbar_skip_backward.png", Texture.class);
+        assetManager.load("ui/playbar_skip_backward_off.png", Texture.class);
 
         layers = new PaintingLayers();
 
@@ -92,11 +52,18 @@ public class PaintingScreen extends AbstractScreen {
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        navigateTo(new GalleryScreen(game));
+    }
+
+    @Override
     public void onResourcesLoaded() {
         super.onResourcesLoaded();
 
         imageFragment = new ImageFragment(this);
-        imageFragment.create();
+        imageFragment.create(paintingImage);
 
         layers.setContentLayer(imageFragment);
 
@@ -114,6 +81,94 @@ public class PaintingScreen extends AbstractScreen {
         if (imageFragment != null) {
             imageFragment.update();
         }
+
+        if (controlsFragment != null) {
+            controlsFragment.update();
+        }
+    }
+
+    public void nextPainting() {
+
+        final PaintingImage next = imageFragment.paintingImage.next;
+        if (next == null) return;
+
+        Log.i(tag, "nextPainting " + next.image.name);
+
+        imageFragment.fadeOutLeft(new Runnable() {
+            @Override
+            public void run() {
+
+                try {
+
+                    imageFragment.destroy();
+                    imageFragment = null;
+
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
+            }
+        });
+
+        Timer.instance().scheduleTask(new Timer.Task() {
+            @Override
+            public void run() {
+                try {
+
+                    imageFragment = new ImageFragment(PaintingScreen.this);
+                    imageFragment.create(next);
+
+                    layers.setContentLayer(imageFragment);
+
+                    imageFragment.fadeInLeft();
+
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
+            }
+        }, .21f);
+    }
+
+    public void prevPainting() {
+        final PaintingImage prev = imageFragment.paintingImage.prev;
+        if (prev == null) return;
+
+        Log.i(tag, "prevPainting " + prev.image.name);
+
+        final ImageFragment prevFragment = new ImageFragment(this);
+        prevFragment.create(prev);
+
+        imageFragment.fadeOutRight(new Runnable() {
+            @Override
+            public void run() {
+
+                try {
+
+                    imageFragment.destroy();
+                    imageFragment = null;
+
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
+            }
+        });
+
+        Timer.instance().scheduleTask(new Timer.Task() {
+            @Override
+            public void run() {
+                try {
+
+                    imageFragment = new ImageFragment(PaintingScreen.this);
+                    imageFragment.create(prev);
+
+                    layers.setContentLayer(imageFragment);
+
+                    imageFragment.fadeInRight();
+
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
+            }
+        }, .21f);
     }
 
     @Override
@@ -133,6 +188,11 @@ public class PaintingScreen extends AbstractScreen {
         if (controlsFragment != null) {
             controlsFragment.destroy();
             controlsFragment = null;
+        }
+
+        if (fullscreenFragment != null) {
+            fullscreenFragment.destroy();
+            fullscreenFragment = null;
         }
     }
 }

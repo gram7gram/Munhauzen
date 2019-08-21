@@ -17,10 +17,8 @@ import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.Chapter;
 import ua.gram.munhauzen.entity.ChapterTranslation;
-import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.interaction.ChapterInteraction;
-import ua.gram.munhauzen.repository.ChapterRepository;
 import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.ui.VerticalScrollPane;
@@ -41,27 +39,15 @@ public class ChapterImageFragment extends Fragment {
         this.interaction = interaction;
     }
 
-    public void create() {
+    public void create(Chapter chapter) {
 
         Log.i(tag, "create");
 
         interaction.gameScreen.hideImageFragment();
 
-        Texture texFrame = interaction.assetManager.get("chapter/frame_2.png", Texture.class);
-
-        Texture texHead;
-        if (interaction.gameScreen.game.params.isPro) {
-            texHead = interaction.assetManager.get("chapter/b_full_version_1.png", Texture.class);
-        } else {
-            texHead = interaction.assetManager.get("chapter/b_demo_version.png", Texture.class);
-        }
-
         MunhauzenGame game = interaction.gameScreen.game;
 
-        Story story = interaction.gameScreen.getStory();
-
-        String chapterName = story.currentScenario.scenario.chapter;
-        Chapter chapter = ChapterRepository.find(game.gameState, chapterName);
+        Texture texFrame = interaction.assetManager.get("chapter/frame_2.png", Texture.class);
 
         Sprite frameBottomSprite = new Sprite(texFrame);
         frameBottomSprite.setFlip(false, true);
@@ -91,7 +77,7 @@ public class ChapterImageFragment extends Fragment {
 
         Image frameTop = new FitImage(texFrame);
         Image frameBottom = new FitImage(new SpriteDrawable(frameBottomSprite));
-        Image head = new FitImage(texHead);
+        Image icon = new FitImage(interaction.getIcon());
 
         Table table1 = new Table();
         table1.pad(10);
@@ -102,7 +88,7 @@ public class ChapterImageFragment extends Fragment {
 
         Table table2 = new Table();
         table2.pad(10);
-        table2.add(head).center().height(300).row();
+        table2.add(icon).center().height(300).row();
 
         Table table3 = new Table();
         table3.pad(10);
@@ -125,8 +111,8 @@ public class ChapterImageFragment extends Fragment {
                 Actions.alpha(1, .3f)
         ));
 
-        head.addAction(Actions.alpha(0));
-        head.addAction(Actions.sequence(
+        icon.addAction(Actions.alpha(0));
+        icon.addAction(Actions.sequence(
                 Actions.alpha(1, .3f)
         ));
 

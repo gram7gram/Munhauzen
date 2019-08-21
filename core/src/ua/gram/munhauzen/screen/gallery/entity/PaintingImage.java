@@ -9,4 +9,8 @@ public class PaintingImage {
     public String imageResource, statueResource;
     public PaintingImage next, prev;
     public boolean isOpened, isViewed;
+
+    public boolean canDisplayStatueItem() {
+        return isOpened && statueResource != null;
+    }
 }

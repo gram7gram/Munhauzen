@@ -14,7 +14,6 @@ import ua.gram.munhauzen.screen.saves.fragment.SaveDialog;
 import ua.gram.munhauzen.screen.saves.fragment.SavesFragment;
 import ua.gram.munhauzen.screen.saves.ui.SavesLayers;
 import ua.gram.munhauzen.service.AudioService;
-import ua.gram.munhauzen.utils.MathUtils;
 
 /**
  * @author Gram <gram7gram@gmail.com>
@@ -42,9 +41,9 @@ public class SavesScreen extends AbstractScreen {
         audioService = new AudioService(game);
 
         assetManager.load("menu/b_menu.png", Texture.class);
-        assetManager.load("saves/gv_paper_1.png", Texture.class);
-        assetManager.load("saves/gv_paper_2.png", Texture.class);
-        assetManager.load("saves/gv_paper_3.png", Texture.class);
+        assetManager.load("ui/gv_paper_1.png", Texture.class);
+        assetManager.load("ui/gv_paper_2.png", Texture.class);
+        assetManager.load("ui/gv_paper_3.png", Texture.class);
         assetManager.load("saves/sv_baron.png", Texture.class);
 
         assetManager.load("ui/banner_fond_3.png", Texture.class);
@@ -59,10 +58,6 @@ public class SavesScreen extends AbstractScreen {
 
             Save save = game.databaseManager.loadSave(saveId);
 
-            save.chapter = MathUtils.random(new String[]{
-                    "a10", "a11", "a1", null
-            });
-
             saves.add(save);
 
             if (save.chapter != null) {
@@ -75,6 +70,13 @@ public class SavesScreen extends AbstractScreen {
             }
 
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        navigateTo(new MenuScreen(game));
     }
 
     @Override
@@ -120,9 +122,15 @@ public class SavesScreen extends AbstractScreen {
 
         saves.clear();
 
-        audioService.dispose();
+        if (audioService != null) {
+            audioService.dispose();
+            audioService = null;
+        }
 
-        layers.dispose();
+        if (layers != null) {
+            layers.dispose();
+            layers = null;
+        }
 
         if (saveDialog != null) {
             saveDialog.destroy();

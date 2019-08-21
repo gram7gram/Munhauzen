@@ -12,6 +12,7 @@ public class Image extends Entity {
     public boolean isHiddenFromGallery;
     public Array<ImageTranslation> translations;
     public String relatedStatue;
+    public String relatedScenario;
 
     public String getDescription(String locale) {
 
@@ -22,6 +23,18 @@ public class Image extends Entity {
         }
 
         return name;
+    }
+
+    public boolean isBonus() {
+        return "bonus".equals(type);
+    }
+
+    public boolean isStatue() {
+        return "statue".equals(type);
+    }
+
+    public boolean isColor() {
+        return "color".equals(type);
     }
 
 

@@ -2,7 +2,10 @@ package ua.gram.munhauzen.interaction;
 
 import com.badlogic.gdx.graphics.Texture;
 
+import ua.gram.munhauzen.entity.Chapter;
+import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.interaction.chapter.fragment.ChapterImageFragment;
+import ua.gram.munhauzen.repository.ChapterRepository;
 import ua.gram.munhauzen.screen.GameScreen;
 
 /**
@@ -12,6 +15,7 @@ public class ChapterInteraction extends AbstractInteraction {
 
     boolean isLoaded;
     public ChapterImageFragment imageFragment;
+    public Chapter chapter;
 
     public ChapterInteraction(GameScreen gameScreen) {
         super(gameScreen);
@@ -23,12 +27,37 @@ public class ChapterInteraction extends AbstractInteraction {
 
         gameScreen.hideProgressBar();
 
+        Story story = gameScreen.getStory();
+
+        String chapterName = story.currentScenario.scenario.chapter;
+        chapter = ChapterRepository.find(gameScreen.game.gameState, chapterName);
+
         assetManager.load("chapter/frame_2.png", Texture.class);
 
-        if (gameScreen.game.params.isPro) {
-            assetManager.load("chapter/b_full_version_1.png", Texture.class);
+        loadIcon();
+    }
+
+    public Texture getIcon() {
+        if (chapter.icon != null) {
+            return assetManager.get(chapter.icon, Texture.class);
         } else {
-            assetManager.load("chapter/b_demo_version.png", Texture.class);
+            if (gameScreen.game.params.isPro) {
+                return assetManager.get("chapter/b_full_version_1.png", Texture.class);
+            } else {
+                return assetManager.get("chapter/b_demo_version.png", Texture.class);
+            }
+        }
+    }
+
+    private void loadIcon() {
+        if (chapter.icon != null) {
+            assetManager.load(chapter.icon, Texture.class);
+        } else {
+            if (gameScreen.game.params.isPro) {
+                assetManager.load("chapter/b_full_version_1.png", Texture.class);
+            } else {
+                assetManager.load("chapter/b_demo_version.png", Texture.class);
+            }
         }
     }
 
@@ -37,7 +66,7 @@ public class ChapterInteraction extends AbstractInteraction {
         isLoaded = true;
 
         imageFragment = new ChapterImageFragment(this);
-        imageFragment.create();
+        imageFragment.create(chapter);
 
         gameScreen.gameLayers.setInteractionLayer(imageFragment);
     }

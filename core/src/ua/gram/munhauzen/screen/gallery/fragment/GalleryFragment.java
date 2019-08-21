@@ -60,18 +60,18 @@ public class GalleryFragment extends Fragment {
 
         body.layout();
 
-        back = new Table();
-        back.pad(10, 0, 80, 0);
-        back.align(Align.top);
-        back.add(top).top().expandX().row();
-
-        Texture middleTexture = screen.assetManager.get("gallery/gv_paper_2.png", Texture.class);
+        Texture middleTexture = screen.assetManager.get("ui/gv_paper_2.png", Texture.class);
 
         float middleWidth = MunhauzenGame.WORLD_WIDTH * .9f;
         float middleScale = 1f * middleWidth / middleTexture.getWidth();
         float middleHeight = 1f * middleTexture.getHeight() * middleScale;
 
-        int repeats = Math.max(1, (int) Math.ceil(body.getPrefHeight() / middleHeight)) + 1;
+        back = new Table();
+        back.pad(10, 0, 80, 0);
+        back.align(Align.top);
+        back.add(top).top().expandX().row();
+
+        int repeats = Math.max(1, (int) Math.ceil(body.getPrefHeight() / middleHeight));
         for (int i = 0; i < repeats; i++) {
             back.add(new Image(middleTexture))
                     .top()
@@ -91,8 +91,8 @@ public class GalleryFragment extends Fragment {
         root = new FragmentRoot();
         root.addContainer(scroll);
 
-        setTopBackground(screen.assetManager.get("gallery/gv_paper_1.png", Texture.class));
-        setBottomBackground(screen.assetManager.get("gallery/gv_paper_3.png", Texture.class));
+        setTopBackground(screen.assetManager.get("ui/gv_paper_1.png", Texture.class));
+        setBottomBackground(screen.assetManager.get("ui/gv_paper_3.png", Texture.class));
     }
 
     public void setTopBackground(Texture texture) {
@@ -191,11 +191,5 @@ public class GalleryFragment extends Fragment {
         container.align(Align.bottom);
 
         return container;
-    }
-
-    @Override
-    public void dispose() {
-        super.dispose();
-
     }
 }

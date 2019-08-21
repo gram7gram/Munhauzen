@@ -9,7 +9,6 @@ import ua.gram.munhauzen.screen.PaintingScreen;
 
 public abstract class Frame extends Image {
 
-    public float frameWidth, frameHeight;
     public final PaintingScreen screen;
     public final Painting painting;
     public float framePadding;
@@ -35,15 +34,5 @@ public abstract class Frame extends Image {
         SpriteDrawable drawable = new SpriteDrawable(sprite);
 
         setDrawable(drawable);
-    }
-
-    @Override
-    public void act(float delta) {
-        super.act(delta);
-
-//        frameWidth = painting.backgroundWidth * (1 + framePadding * 2);
-//        frameHeight = painting.backgroundHeight * (1 + framePadding * 2);
-//
-//        setSize(frameWidth, frameHeight);
     }
 }

@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.screen.PaintingScreen;
+import ua.gram.munhauzen.screen.gallery.entity.PaintingImage;
 
 public class Statue extends Group {
 
@@ -23,6 +24,8 @@ public class Statue extends Group {
 
         this.screen = screen;
 
+        PaintingImage img = screen.imageFragment.paintingImage;
+
         statueBanner = new StatueBanner(screen, this);
         item = new Image();
         statue = new Image();
@@ -30,15 +33,16 @@ public class Statue extends Group {
         addActor(statue);
 
         setStatueBackground(
-                screen.assetManager.get("gallery/gv2_statue.png", Texture.class)
+                screen.imageFragment.assetManager.get("gallery/gv2_statue.png", Texture.class)
         );
 
-        if (screen.paintingImage.isOpened) {
+        if (img.canDisplayStatueItem()) {
+
             addActor(statueBanner);
             addActor(item);
 
             setItemBackground(
-                    screen.assetManager.get(screen.paintingImage.statueResource, Texture.class)
+                    screen.imageFragment.assetManager.get(img.statueResource, Texture.class)
             );
 
             item.addListener(new ClickListener() {

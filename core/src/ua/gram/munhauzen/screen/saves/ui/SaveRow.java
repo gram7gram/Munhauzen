@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
@@ -23,14 +22,13 @@ import ua.gram.munhauzen.screen.saves.fragment.SaveDialog;
 import ua.gram.munhauzen.utils.DateUtils;
 import ua.gram.munhauzen.utils.Log;
 
-public class SaveRow extends Stack {
+public class SaveRow extends Table {
 
     final String tag = getClass().getSimpleName();
     final SavesScreen screen;
     final Save save;
     Label title, time, date;
-    Image back, icon;
-    Table content;
+    Image icon;
     final SpriteDrawable fallbackIcon;
     float blockWidth;
 
@@ -43,7 +41,6 @@ public class SaveRow extends Stack {
         this.screen = screen;
         this.save = save;
 
-        back = new Image();
         icon = new Image();
 
         title = new Label("", new Label.LabelStyle(
@@ -70,22 +67,9 @@ public class SaveRow extends Stack {
         lblContent.add(time).width(rightColumnWidth).row();
         lblContent.add(date).width(rightColumnWidth).row();
 
-        content = new Table();
-        content.pad(20);
-
-        content.add(icon).size(leftColumnWidth);
-        content.add(lblContent).width(rightColumnWidth).row();
-
-        add(back);
-        add(content);
-
         fallbackIcon = new SpriteDrawable(new Sprite(
                 screen.assetManager.get("saves/sv_baron.png", Texture.class)
         ));
-
-        setBackground(
-                screen.assetManager.get("saves/gv_paper_2.png", Texture.class)
-        );
 
         addListener(new ClickListener() {
             @Override
@@ -108,6 +92,9 @@ public class SaveRow extends Stack {
                 }
             }
         });
+
+        add(icon).size(leftColumnWidth);
+        add(lblContent).width(rightColumnWidth).row();
     }
 
     @Override
@@ -155,18 +142,5 @@ public class SaveRow extends Stack {
 
         }
 
-
-    }
-
-    public void setBackground(Texture texture) {
-        SpriteDrawable drawable = new SpriteDrawable(new Sprite(texture));
-
-        back.setDrawable(drawable);
-
-        float width = blockWidth;
-        float scale = 1f * width / drawable.getMinWidth();
-        float height = 1f * drawable.getMinHeight() * scale;
-
-        back.setSize(width, height);
     }
 }

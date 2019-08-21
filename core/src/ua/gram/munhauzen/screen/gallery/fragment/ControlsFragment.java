@@ -42,7 +42,7 @@ public class ControlsFragment extends Fragment {
         menuTable.add(menuBtn).expandX().left().width(iconSize2).height(iconSize2 / 2f).row();
 
         menuContainer = new Container<>(menuTable);
-        menuContainer.align(Align.topLeft);
+        menuContainer.align(Align.bottomLeft);
         menuContainer.pad(10);
 
         root = new FragmentRoot();

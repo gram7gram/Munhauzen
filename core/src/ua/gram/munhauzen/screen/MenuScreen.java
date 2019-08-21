@@ -187,6 +187,25 @@ public class MenuScreen extends AbstractScreen {
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        try {
+
+            exitDialog = new ExitDialog(this);
+            exitDialog.create();
+
+            layers.setBannerLayer(exitDialog);
+
+            exitDialog.fadeIn();
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+
+    }
+
+    @Override
     public void renderAfterLoaded(float delta) {
 
         if (greetingBanner != null) {

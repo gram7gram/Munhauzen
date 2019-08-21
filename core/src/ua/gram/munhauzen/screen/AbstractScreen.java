@@ -1,6 +1,7 @@
 package ua.gram.munhauzen.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -22,7 +23,7 @@ public abstract class AbstractScreen implements Screen {
     public MunhauzenStage ui;
     public ExpansionAssetManager assetManager;
     protected Texture background;
-    private boolean isLoaded;
+    private boolean isLoaded, isDisposed;
 
     public AbstractScreen(MunhauzenGame game) {
         this.game = game;
@@ -32,13 +33,15 @@ public abstract class AbstractScreen implements Screen {
     public void show() {
         Log.i(tag, "show");
 
+        isDisposed = false;
+        isLoaded = false;
+
         assetManager = new ExpansionAssetManager();
 
         background = game.assetManager.get("p0.jpg", Texture.class);
 
         ui = new MunhauzenStage(game);
 
-        isLoaded = false;
         GameState.unpause(tag);
 
     }
@@ -60,6 +63,8 @@ public abstract class AbstractScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
+        if (isDisposed) return;
+
         if (assetManager == null) return;
 
         drawBackground();
@@ -74,12 +79,24 @@ public abstract class AbstractScreen implements Screen {
             return;
         }
 
+        checkInput();
+
         renderAfterLoaded(delta);
 
         if (ui != null) {
             ui.act(delta);
             ui.draw();
         }
+    }
+
+    public void checkInput() {
+        if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
+            onBackPressed();
+        }
+    }
+
+    public void onBackPressed() {
+        Log.i(tag, "onBackPressed");
     }
 
     public abstract void renderAfterLoaded(float delta);
@@ -122,19 +139,28 @@ public abstract class AbstractScreen implements Screen {
         Log.i(tag, "dispose");
 
         isLoaded = false;
+        isDisposed = true;
 
-        assetManager.dispose();
-
-        if (ui != null) {
-            ui.dispose();
-            ui = null;
+        if (assetManager != null) {
+            assetManager.dispose();
+            assetManager = null;
         }
+
+        ui.dispose();
 
         background = null;
     }
 
     public void onCriticalError(Throwable e) {
         game.onCriticalError(e);
+        dispose();
+    }
+
+    public void navigateTo(Screen screen) {
+
+        Log.i(tag, "navigateTo " + getClass().getSimpleName() + " => " + screen.getClass().getSimpleName());
+
+        game.setScreen(screen);
         dispose();
     }
 }

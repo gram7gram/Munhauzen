@@ -10,14 +10,12 @@ import java.util.Set;
 
 import ua.gram.munhauzen.entity.Decision;
 import ua.gram.munhauzen.entity.GameState;
-import ua.gram.munhauzen.entity.Inventory;
 import ua.gram.munhauzen.entity.Scenario;
 import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.entity.StoryImage;
 import ua.gram.munhauzen.entity.StoryScenario;
 import ua.gram.munhauzen.history.Save;
-import ua.gram.munhauzen.repository.InventoryRepository;
 import ua.gram.munhauzen.repository.ScenarioRepository;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.screen.game.fragment.ScenarioFragment;
@@ -229,17 +227,7 @@ public class StoryManager {
         Log.i(tag, "onCompleted " + story.id);
 
         for (StoryScenario storyScenario : story.scenarios) {
-
-            Inventory inventory = InventoryRepository.findByScenario(gameState, storyScenario.scenario.name);
-            if (inventory != null) {
-                if (!gameScreen.game.inventoryService.isInInventory(inventory)) {
-                    if (inventory.isGlobal()) {
-                        gameScreen.game.inventoryService.addGlobalInventory(inventory);
-                    } else {
-                        gameScreen.game.inventoryService.addSaveInventory(inventory);
-                    }
-                }
-            }
+            gameScreen.game.achievementService.onScenarioVisited(storyScenario.scenario.name);
         }
 
         for (StoryAudio audio : story.currentScenario.scenario.audio) {
@@ -278,7 +266,7 @@ public class StoryManager {
                     gameScreen.onCriticalError(e);
                 }
             }
-        }, .8f);
+        }, .4f);
     }
 
     private void startScenarioDecisions(Story story) {

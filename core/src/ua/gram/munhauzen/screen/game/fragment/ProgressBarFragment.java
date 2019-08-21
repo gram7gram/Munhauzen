@@ -586,7 +586,7 @@ public class ProgressBarFragment extends Fragment {
         root.addAction(
                 Actions.sequence(
                         Actions.parallel(
-                                Actions.fadeIn(.3f),
+                                Actions.alpha(1, .3f),
                                 Actions.moveTo(0, 0, .3f)
                         ),
                         Actions.run(new Runnable() {
@@ -619,14 +619,13 @@ public class ProgressBarFragment extends Fragment {
         root.addAction(
                 Actions.sequence(
                         Actions.parallel(
-                                Actions.fadeOut(.5f),
-                                Actions.moveTo(0, -40, .5f)
+                                Actions.alpha(0, .3f),
+                                Actions.moveTo(0, -40, .3f)
                         ),
+                        Actions.visible(false),
                         Actions.run(new Runnable() {
                             @Override
                             public void run() {
-                                root.setVisible(false);
-
                                 isFadeIn = false;
                                 isFadeOut = false;
                             }

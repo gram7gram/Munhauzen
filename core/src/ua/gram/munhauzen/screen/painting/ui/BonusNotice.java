@@ -31,22 +31,22 @@ public class BonusNotice extends Group {
         back = new Image();
 
         Label lbl = new Label("Exhibit is not completed :(", new Label.LabelStyle(
-                screen.game.fontProvider.getFont(FontProvider.h5),
+                screen.game.fontProvider.getFont(FontProvider.h4),
                 Color.BLACK
         ));
         lbl.setWrap(true);
         lbl.setAlignment(Align.center);
 
         lblTable = new Table();
-        lblTable.pad(10);
+        lblTable.pad(30);
         lblTable.add(lbl).top().grow();
 
         setBackground(
-                screen.assetManager.get("gallery/gv2_bonus_back.png", Texture.class)
+                screen.imageFragment.assetManager.get("gallery/gv2_bonus_back.png", Texture.class)
         );
 
         setStickBackground(
-                screen.assetManager.get("gallery/gv2_bonus_stick.png", Texture.class)
+                screen.imageFragment.assetManager.get("gallery/gv2_bonus_stick.png", Texture.class)
         );
 
         addActor(stick);
@@ -71,7 +71,7 @@ public class BonusNotice extends Group {
                 maxHeight
         );
 
-        back.setPosition(10, 100);
+        back.setPosition(30, 120);
 
         lblTable.setPosition(
                 back.getX(),
@@ -80,7 +80,7 @@ public class BonusNotice extends Group {
 
         stick.setSize(
                 stickWidth,
-                110
+                back.getY() + 10
         );
 
         stick.setPosition(
@@ -95,7 +95,7 @@ public class BonusNotice extends Group {
 
         back.setDrawable(drawable);
 
-        backgroundWidth = MunhauzenGame.WORLD_WIDTH / 3f;
+        backgroundWidth = MunhauzenGame.WORLD_WIDTH * .4f;
         float scale = 1f * backgroundWidth / drawable.getMinWidth();
         backgroundHeight = 1f * drawable.getMinHeight() * scale;
 

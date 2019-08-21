@@ -17,6 +17,6 @@ public class StatueFrame extends Frame {
 
     @Override
     public Texture createTexture() {
-        return screen.assetManager.get("gallery/gv2_frame_3.png", Texture.class);
+        return screen.imageFragment.getStatueFrameTexture();
     }
 }

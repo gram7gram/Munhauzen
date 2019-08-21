@@ -38,16 +38,16 @@ public class ImageRow extends Stack {
         this.paintingImage = paintingImage;
 
         Label.LabelStyle style = new Label.LabelStyle(
-                screen.game.fontProvider.getFont(FontProvider.h3),
+                screen.game.fontProvider.getFont(FontProvider.h4),
                 Color.BLACK
         );
 
         number = new Label(index + ".", style);
         number.setWrap(false);
-        number.setAlignment(Align.center);
+        number.setAlignment(Align.left);
 
         title = new Label("", style);
-        title.setWrap(false);
+        title.setWrap(true);
         title.setAlignment(Align.left);
 
         unlock = new FitImage();
@@ -60,13 +60,14 @@ public class ImageRow extends Stack {
         float lblWidth = width - iconSize - number.getWidth();
 
         Container<Label> clippedLabel = new Container<>(title);
-        clippedLabel.setClip(true);
+        //clippedLabel.setClip(true);
         clippedLabel.align(Align.topLeft);
 
         content.add().width(iconSize).padTop(15).padRight(5).align(Align.topLeft);
         content.add(number).align(Align.topLeft).padRight(5);
-        content.add(clippedLabel)
+        content.add(title)
                 .width(lblWidth)
+                .grow()
                 .align(Align.topLeft).row();
 
         addActor(content);
@@ -78,8 +79,7 @@ public class ImageRow extends Stack {
 
                 try {
 
-                    screen.game.setScreen(new PaintingScreen(screen.game, paintingImage));
-                    screen.dispose();
+                    screen.navigateTo(new PaintingScreen(screen.game, paintingImage));
 
                 } catch (Throwable e) {
                     Log.e(tag, e);

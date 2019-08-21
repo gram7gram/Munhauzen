@@ -17,6 +17,6 @@ public class SimpleFrame extends Frame {
 
     @Override
     public Texture createTexture() {
-        return screen.assetManager.get("gallery/gv2_frame_1.png", Texture.class);
+        return screen.imageFragment.getSimpleFrameTexture();
     }
 }

@@ -46,7 +46,7 @@ public class BalloonsImageFragment extends InteractionFragment {
     Table titleTable, restartTable, winTable;
     int progress, max = 21, spawnCount;
     Timer.Task task;
-    StoryAudio winAudio, missAudio, balloon21Audio;
+    StoryAudio currentAudio;
 
     public BalloonsImageFragment(BalloonsInteraction interaction) {
         this.interaction = interaction;
@@ -337,12 +337,7 @@ public class BalloonsImageFragment extends InteractionFragment {
             boolean isLast = spawnCount == max;
 
             if (isLast) {
-                balloon.startFast(new Runnable() {
-                    @Override
-                    public void run() {
-                        stopBalloon21();
-                    }
-                });
+                balloon.startFast();
             } else {
                 balloon.start();
             }
@@ -431,7 +426,7 @@ public class BalloonsImageFragment extends InteractionFragment {
                             Actions.alpha(1, .3f)
                     ));
                 }
-            }, missAudio.duration / 1000f);
+            }, currentAudio.duration / 1000f);
 
         } catch (Throwable e) {
             Log.e(tag, e);
@@ -439,13 +434,13 @@ public class BalloonsImageFragment extends InteractionFragment {
     }
 
     private void playWin() {
-
-
         try {
-            winAudio = new StoryAudio();
-            winAudio.audio = "sfx_inter_balloons_win";
+            stopAudio();
 
-            interaction.gameScreen.audioService.prepareAndPlay(winAudio);
+            currentAudio = new StoryAudio();
+            currentAudio.audio = "sfx_inter_balloons_win";
+
+            interaction.gameScreen.audioService.prepareAndPlay(currentAudio);
 
         } catch (Throwable e) {
             Log.e(tag, e);
@@ -456,10 +451,12 @@ public class BalloonsImageFragment extends InteractionFragment {
 
     private void playBalloon21() {
         try {
-            balloon21Audio = new StoryAudio();
-            balloon21Audio.audio = "sfx_inter_last";
+            stopAudio();
 
-            interaction.gameScreen.audioService.prepareAndPlay(balloon21Audio);
+            currentAudio = new StoryAudio();
+            currentAudio.audio = "sfx_inter_last";
+
+            interaction.gameScreen.audioService.prepareAndPlay(currentAudio);
         } catch (Throwable e) {
             Log.e(tag, e);
 
@@ -469,14 +466,17 @@ public class BalloonsImageFragment extends InteractionFragment {
 
     private void playHit() {
         try {
-            StoryAudio storyAudio = new StoryAudio();
-            storyAudio.audio = MathUtils.random(new String[]{
+
+            stopAudio();
+
+            currentAudio = new StoryAudio();
+            currentAudio.audio = MathUtils.random(new String[]{
                     "sfx_inter_balloons_one_1",
                     "sfx_inter_balloons_one_2",
                     "sfx_inter_balloons_one_3"
             });
 
-            interaction.gameScreen.audioService.prepareAndPlay(storyAudio);
+            interaction.gameScreen.audioService.prepareAndPlay(currentAudio);
         } catch (Throwable e) {
             Log.e(tag, e);
 
@@ -486,14 +486,16 @@ public class BalloonsImageFragment extends InteractionFragment {
 
     private void playMiss() {
         try {
-            missAudio = new StoryAudio();
-            missAudio.audio = MathUtils.random(new String[]{
-                    "sfx_inter_balloons_loose_1",
-                    "sfx_inter_balloons_loose_2",
-                    "sfx_inter_balloons_loose_3"
+            stopAudio();
+
+            currentAudio = new StoryAudio();
+            currentAudio.audio = MathUtils.random(new String[]{
+                    "sfx_inter_loose_1",
+                    "sfx_inter_loose_2",
+                    "sfx_inter_loose_3"
             });
 
-            interaction.gameScreen.audioService.prepareAndPlay(missAudio);
+            interaction.gameScreen.audioService.prepareAndPlay(currentAudio);
         } catch (Throwable e) {
             Log.e(tag, e);
 
@@ -503,10 +505,12 @@ public class BalloonsImageFragment extends InteractionFragment {
 
     private void playLastMiss() {
         try {
-            missAudio = new StoryAudio();
-            missAudio.audio = "sfx_inter_last_loose";
+            stopAudio();
 
-            interaction.gameScreen.audioService.prepareAndPlay(missAudio);
+            currentAudio = new StoryAudio();
+            currentAudio.audio = "sfx_inter_last_loose";
+
+            interaction.gameScreen.audioService.prepareAndPlay(currentAudio);
         } catch (Throwable e) {
             Log.e(tag, e);
 
@@ -532,20 +536,16 @@ public class BalloonsImageFragment extends InteractionFragment {
 
         progressLabel.setText(progress + "/" + max);
 
-        if (winAudio != null) {
-            interaction.gameScreen.audioService.updateVolume(winAudio);
-        }
-
-        if (missAudio != null) {
-            interaction.gameScreen.audioService.updateVolume(missAudio);
+        if (currentAudio != null) {
+            interaction.gameScreen.audioService.updateVolume(currentAudio);
         }
 
     }
 
-    private void stopBalloon21() {
-        if (balloon21Audio != null) {
-            interaction.gameScreen.audioService.stop(balloon21Audio);
-            balloon21Audio = null;
+    private void stopAudio() {
+        if (currentAudio != null) {
+            interaction.gameScreen.audioService.stop(currentAudio);
+            currentAudio = null;
         }
     }
 
@@ -559,17 +559,8 @@ public class BalloonsImageFragment extends InteractionFragment {
 
             stopSpawn();
 
-            if (winAudio != null) {
-                interaction.gameScreen.audioService.stop(winAudio);
-                winAudio = null;
-            }
+            stopAudio();
 
-            stopBalloon21();
-
-            if (missAudio != null) {
-                interaction.gameScreen.audioService.stop(missAudio);
-                missAudio = null;
-            }
         } catch (Throwable e) {
             Log.e(tag, e);
         }

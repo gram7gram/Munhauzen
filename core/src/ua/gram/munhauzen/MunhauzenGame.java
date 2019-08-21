@@ -63,6 +63,8 @@ public class MunhauzenGame extends Game {
     public void create() {
         Log.i(tag, "create");
 
+        Gdx.input.setCatchBackKey(true);
+
         ExternalFiles.updateNomedia();
 
         preferences = Gdx.app.getPreferences(params.versionCode + "-prefs");
@@ -94,6 +96,8 @@ public class MunhauzenGame extends Game {
         try {
             super.dispose();
 
+            Log.e(tag, "dispose");
+
             if (batch != null)
                 batch.dispose();
 
@@ -106,8 +110,6 @@ public class MunhauzenGame extends Game {
 
         } catch (Throwable e) {
             Log.e(tag, e);
-
-            onCriticalError(e);
         }
     }
 

@@ -38,6 +38,8 @@ public abstract class Painting extends Group {
 
         this.screen = screen;
 
+        final PaintingImage img = screen.imageFragment.paintingImage;
+
         background = new Image();
         lock = new Image();
         unlock = new Image();
@@ -61,9 +63,9 @@ public abstract class Painting extends Group {
                 delta = (int) (delta - x);
 
                 if (delta > 100) {
-                    nextPainting();
+                    screen.nextPainting();
                 } else if (delta < -100) {
-                    prevPainting();
+                    screen.prevPainting();
                 }
             }
 
@@ -102,43 +104,34 @@ public abstract class Painting extends Group {
         addActor(background);
         addActor(frame);
 
-        boolean canDisplayDescription = screen.paintingImage.isOpened;
-        boolean canDisplayPainting = screen.paintingImage.isOpened;
-
-        if (canDisplayPainting) {
-            setBackground(
-                    screen.assetManager.get(screen.paintingImage.imageResource, Texture.class)
-            );
-        } else {
-            setBackground(
-                    screen.assetManager.get("gallery/aquestion.png", Texture.class)
-            );
-        }
+        setBackground(
+                screen.imageFragment.getPaintingTexture()
+        );
 
         setFrameBackground(
                 frame.createTexture()
         );
 
-        if (canDisplayDescription) {
+        if (img.isOpened) {
             addActor(descriptionBackground);
             addActor(lblTable);
 
-            String text = screen.paintingImage.image.getDescription(screen.game.params.locale);
+            String text = img.image.getDescription(screen.game.params.locale);
             descriptionLabel.setText(text);
 
             setDescriptionBackground(
-                    screen.assetManager.get("gallery/gv_paper_3.png", Texture.class)
+                    screen.assetManager.get("ui/gv_paper_3.png", Texture.class)
             );
         }
 
-        if (!screen.paintingImage.isOpened) {
+        if (!img.isOpened) {
             addActor(lock);
 
             setLockBackground(
                     screen.assetManager.get("gallery/b_closed_1.png", Texture.class)
             );
 
-        } else if (!screen.paintingImage.isViewed) {
+        } else if (!img.isViewed) {
 
             addActor(unlock);
 
@@ -150,37 +143,6 @@ public abstract class Painting extends Group {
     }
 
     public abstract Frame createFrame();
-
-    private void nextPainting() {
-
-        final PaintingImage next = screen.paintingImage.next;
-        if (next == null) return;
-
-        Log.i(tag, "nextPainting " + next.image.name);
-
-        screen.imageFragment.fadeOut(new Runnable() {
-            @Override
-            public void run() {
-                screen.game.setScreen(new PaintingScreen(screen.game, next));
-                //screen.dispose();
-            }
-        });
-    }
-
-    private void prevPainting() {
-        final PaintingImage prev = screen.paintingImage.prev;
-        if (prev == null) return;
-
-        Log.i(tag, "prevPainting " + prev.image.name);
-
-        screen.imageFragment.fadeOut(new Runnable() {
-            @Override
-            public void run() {
-                screen.game.setScreen(new PaintingScreen(screen.game, prev));
-                //screen.dispose();
-            }
-        });
-    }
 
     @Override
     public void act(float delta) {

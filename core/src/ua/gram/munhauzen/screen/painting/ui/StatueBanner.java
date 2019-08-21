@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.Align;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.screen.PaintingScreen;
+import ua.gram.munhauzen.screen.gallery.entity.PaintingImage;
 
 public class StatueBanner extends Group {
 
@@ -29,9 +30,11 @@ public class StatueBanner extends Group {
         this.screen = screen;
         this.statue = statue;
 
+        PaintingImage img = screen.imageFragment.paintingImage;
+
         back = new Image();
 
-        String text = screen.paintingImage.inventory.getStatueDescription(screen.game.params.locale);
+        String text = img.inventory.getStatueDescription(screen.game.params.locale);
 
         Label lbl = new Label(text, new Label.LabelStyle(
                 screen.game.fontProvider.getFont(FontProvider.h5),
@@ -45,7 +48,7 @@ public class StatueBanner extends Group {
         lblTable.add(lbl).top().grow();
 
         setBackground(
-                screen.assetManager.get("ui/banner_fond_3.png", Texture.class)
+                screen.imageFragment.assetManager.get("ui/banner_fond_3.png", Texture.class)
         );
 
         addActor(back);

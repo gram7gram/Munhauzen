@@ -114,7 +114,7 @@ public class Balloon extends FitImage {
         updateTrajectoryCache();
     }
 
-    public void startFast(Runnable task) {
+    public void startFast() {
 
         reset();
 
@@ -123,7 +123,6 @@ public class Balloon extends FitImage {
         SequenceAction sequenceAction = new SequenceAction();
 
         sequenceAction.addAction(Actions.delay(r.between(3, 10)));
-        sequenceAction.addAction(Actions.run(task));
         sequenceAction.addAction(Actions.alpha(1));
         sequenceAction.addAction(Actions.visible(true));
 
