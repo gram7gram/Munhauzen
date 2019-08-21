@@ -42,11 +42,11 @@ public class BonusNotice extends Group {
         lblTable.add(lbl).top().grow();
 
         setBackground(
-                screen.imageFragment.assetManager.get("gallery/gv2_bonus_back.png", Texture.class)
+                screen.paintingFragment.assetManager.get("gallery/gv2_bonus_back.png", Texture.class)
         );
 
         setStickBackground(
-                screen.imageFragment.assetManager.get("gallery/gv2_bonus_stick.png", Texture.class)
+                screen.paintingFragment.assetManager.get("gallery/gv2_bonus_stick.png", Texture.class)
         );
 
         addActor(stick);

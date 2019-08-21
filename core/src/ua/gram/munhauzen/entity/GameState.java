@@ -2,6 +2,8 @@ package ua.gram.munhauzen.entity;
 
 import com.badlogic.gdx.utils.Array;
 
+import java.util.ArrayList;
+
 import ua.gram.munhauzen.history.History;
 import ua.gram.munhauzen.utils.Log;
 
@@ -19,24 +21,24 @@ public class GameState {
     public short NG;
     public boolean isContinueEnabled;
     public History history;
-    public Array<Scenario> scenarioRegistry;
-    public Array<Image> imageRegistry;
-    public Array<Audio> audioRegistry;
-    public Array<AudioFail> audioFailRegistry;
-    public Array<Inventory> inventoryRegistry;
-    public Array<Chapter> chapterRegistry;
+    public ArrayList<Scenario> scenarioRegistry;
+    public ArrayList<Image> imageRegistry;
+    public ArrayList<Audio> audioRegistry;
+    public ArrayList<AudioFail> audioFailRegistry;
+    public ArrayList<Inventory> inventoryRegistry;
+    public ArrayList<Chapter> chapterRegistry;
     public MenuState menuState;
     public GalleryState galleryState;
 
     public GameState() {
-        scenarioRegistry = new Array<>();
-        imageRegistry = new Array<>();
-        audioRegistry = new Array<>();
-        audioFailRegistry = new Array<>();
-        inventoryRegistry = new Array<>();
-        chapterRegistry = new Array<>();
-        menuState = new MenuState();
-        galleryState = new GalleryState();
+//        scenarioRegistry = new ArrayList<>();
+//        imageRegistry = new ArrayList<>();
+//        audioRegistry = new ArrayList<>();
+//        audioFailRegistry = new ArrayList<>();
+//        inventoryRegistry = new ArrayList<>();
+//        chapterRegistry = new ArrayList<>();
+//        menuState = new MenuState();
+//        galleryState = new GalleryState();
     }
 
     public void reset() {

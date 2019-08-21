@@ -17,6 +17,6 @@ public class SimpleFrame extends Frame {
 
     @Override
     public Texture createTexture() {
-        return screen.imageFragment.getSimpleFrameTexture();
+        return screen.paintingFragment.getSimpleFrameTexture();
     }
 }

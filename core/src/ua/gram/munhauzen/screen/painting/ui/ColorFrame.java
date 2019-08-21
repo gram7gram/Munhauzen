@@ -17,6 +17,6 @@ public class ColorFrame extends Frame {
 
     @Override
     public Texture createTexture() {
-        return screen.imageFragment.getColorFrameTexture();
+        return screen.paintingFragment.getColorFrameTexture();
     }
 }

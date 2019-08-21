@@ -7,6 +7,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -25,11 +26,11 @@ public class MunhauzenGame extends Game {
     public static int WORLD_WIDTH;
     public static int WORLD_HEIGHT;
     public static boolean PAUSED = false;
-    public static final boolean DEBUG = true;
-    public static final boolean IS_EXPANSION_HIDDEN = true;
+    public static final boolean DEBUG = false;
+    public static final boolean IS_EXPANSION_HIDDEN = false;
     public static final boolean DEBUG_RENDER_INFO = true;
     public static final int PROGRESS_BAR_FADE_OUT_DELAY = 5;
-    public static final boolean OPEN_GALLERY = true;
+    public static final boolean OPEN_GALLERY = false;
     public static String developmentScenario;
 
     private final String tag = getClass().getSimpleName();
@@ -93,20 +94,37 @@ public class MunhauzenGame extends Game {
 
     @Override
     public void dispose() {
+        super.dispose();
+
         try {
-            super.dispose();
 
             Log.e(tag, "dispose");
 
-            if (batch != null)
+            Timer.instance().clear();
+
+            if (batch != null) {
                 batch.dispose();
+                batch = null;
+            }
 
-            if (fontProvider != null)
+            if (fontProvider != null) {
                 fontProvider.dispose();
+                fontProvider = null;
+            }
 
+            if (databaseManager != null) {
+                databaseManager.persist(gameState);
+                databaseManager = null;
+            }
+
+            view = null;
+            camera = null;
+            preferences = null;
+            buttonBuilder = null;
             achievementService = null;
-            databaseManager = null;
             inventoryService = null;
+
+            gameState = null;
 
         } catch (Throwable e) {
             Log.e(tag, e);

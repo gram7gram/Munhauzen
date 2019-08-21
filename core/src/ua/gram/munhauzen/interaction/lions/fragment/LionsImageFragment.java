@@ -253,7 +253,7 @@ public class LionsImageFragment extends InteractionFragment {
 
             Inventory item = InventoryRepository.find(interaction.gameScreen.game.gameState, "ST_LION");
 
-            interaction.gameScreen.game.inventoryService.addInventory(item);
+            interaction.gameScreen.game.achievementService.onInventoryAdded(item);
 
             interaction.gameScreen.interactionService.complete();
 

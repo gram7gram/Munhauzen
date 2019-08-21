@@ -325,7 +325,6 @@ public class ExpansionDownloadManager implements Disposable {
     }
 
     public void cancel() {
-        fragment.expansionButton.setDisabled(false);
         fragment.expansionInfoLbl.setText("");
         localExpansionInfo = null;
     }

@@ -30,7 +30,7 @@ public class StatueBanner extends Group {
         this.screen = screen;
         this.statue = statue;
 
-        PaintingImage img = screen.imageFragment.paintingImage;
+        PaintingImage img = screen.paintingFragment.paintingImage;
 
         back = new Image();
 
@@ -48,7 +48,7 @@ public class StatueBanner extends Group {
         lblTable.add(lbl).top().grow();
 
         setBackground(
-                screen.imageFragment.assetManager.get("ui/banner_fond_3.png", Texture.class)
+                screen.paintingFragment.assetManager.get("ui/banner_fond_3.png", Texture.class)
         );
 
         addActor(back);

@@ -105,7 +105,7 @@ public class HireDialog extends Fragment {
 
                         Inventory item = InventoryRepository.find(interaction.gameScreen.game.gameState, servantName);
 
-                        interaction.gameScreen.game.inventoryService.addInventory(item);
+                        interaction.gameScreen.game.achievementService.onInventoryAdded(item);
 
                         interaction.hireFragment.updateServantCount();
 

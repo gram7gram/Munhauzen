@@ -261,13 +261,13 @@ public class CannonsScenarioFragment extends Fragment {
 
             switch (decision.scenario) {
                 case "aworm_a":
-                    interaction.gameScreen.game.inventoryService.addInventory(burnWorm);
+                    interaction.gameScreen.game.achievementService.onInventoryAdded(burnWorm);
                     break;
                 case "aworm_d":
-                    interaction.gameScreen.game.inventoryService.addInventory(floodWorm);
+                    interaction.gameScreen.game.achievementService.onInventoryAdded(floodWorm);
                     break;
                 case "aworm_c":
-                    interaction.gameScreen.game.inventoryService.addInventory(eatWorm);
+                    interaction.gameScreen.game.achievementService.onInventoryAdded(eatWorm);
                     break;
             }
 

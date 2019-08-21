@@ -8,7 +8,7 @@ import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.screen.gallery.entity.PaintingImage;
 import ua.gram.munhauzen.screen.painting.fragment.ControlsFragment;
 import ua.gram.munhauzen.screen.painting.fragment.FullscreenFragment;
-import ua.gram.munhauzen.screen.painting.fragment.ImageFragment;
+import ua.gram.munhauzen.screen.painting.fragment.PaintingFragment;
 import ua.gram.munhauzen.screen.painting.ui.PaintingLayers;
 import ua.gram.munhauzen.utils.Log;
 
@@ -18,7 +18,7 @@ import ua.gram.munhauzen.utils.Log;
 public class PaintingScreen extends AbstractScreen {
 
     public PaintingLayers layers;
-    public ImageFragment imageFragment;
+    public PaintingFragment paintingFragment;
     public ControlsFragment controlsFragment;
     public FullscreenFragment fullscreenFragment;
 
@@ -62,24 +62,26 @@ public class PaintingScreen extends AbstractScreen {
     public void onResourcesLoaded() {
         super.onResourcesLoaded();
 
-        imageFragment = new ImageFragment(this);
-        imageFragment.create(paintingImage);
+        paintingFragment = new PaintingFragment(this);
+        paintingFragment.create(paintingImage);
 
-        layers.setContentLayer(imageFragment);
+        layers.setContentLayer(paintingFragment);
 
-        imageFragment.fadeIn();
+        paintingFragment.fadeIn();
 
         controlsFragment = new ControlsFragment(this);
         controlsFragment.create();
 
         layers.setControlsLayer(controlsFragment);
+
+        game.gameState.galleryState.visitedImages.add(paintingImage.image.name);
     }
 
     @Override
     public void renderAfterLoaded(float delta) {
 
-        if (imageFragment != null) {
-            imageFragment.update();
+        if (paintingFragment != null) {
+            paintingFragment.update();
         }
 
         if (controlsFragment != null) {
@@ -89,86 +91,104 @@ public class PaintingScreen extends AbstractScreen {
 
     public void nextPainting() {
 
-        final PaintingImage next = imageFragment.paintingImage.next;
+        final PaintingImage next = paintingFragment.paintingImage.next;
         if (next == null) return;
 
-        Log.i(tag, "nextPainting " + next.image.name);
+        try {
+            Log.i(tag, "nextPainting " + next.image.name);
 
-        imageFragment.fadeOutLeft(new Runnable() {
-            @Override
-            public void run() {
+            paintingFragment.fadeOutLeft(new Runnable() {
+                @Override
+                public void run() {
 
-                try {
+                    try {
 
-                    imageFragment.destroy();
-                    imageFragment = null;
+                        paintingFragment.destroy();
+                        paintingFragment = null;
 
-                } catch (Throwable e) {
-                    Log.e(tag, e);
+                    } catch (Throwable e) {
+                        Log.e(tag, e);
+                    }
                 }
-            }
-        });
+            });
 
-        Timer.instance().scheduleTask(new Timer.Task() {
-            @Override
-            public void run() {
-                try {
+            Timer.instance().scheduleTask(new Timer.Task() {
+                @Override
+                public void run() {
+                    try {
 
-                    imageFragment = new ImageFragment(PaintingScreen.this);
-                    imageFragment.create(next);
+                        paintingFragment = new PaintingFragment(PaintingScreen.this);
+                        paintingFragment.create(next);
 
-                    layers.setContentLayer(imageFragment);
+                        layers.setContentLayer(paintingFragment);
 
-                    imageFragment.fadeInLeft();
+                        paintingFragment.fadeInLeft();
 
-                } catch (Throwable e) {
-                    Log.e(tag, e);
+                        game.gameState.galleryState.visitedImages.add(next.image.name);
+
+                    } catch (Throwable e) {
+                        Log.e(tag, e);
+
+                        onCriticalError(e);
+                    }
                 }
-            }
-        }, .21f);
+            }, .22f);
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            onCriticalError(e);
+        }
     }
 
     public void prevPainting() {
-        final PaintingImage prev = imageFragment.paintingImage.prev;
+        final PaintingImage prev = paintingFragment.paintingImage.prev;
         if (prev == null) return;
+        try {
+            Log.i(tag, "prevPainting " + prev.image.name);
 
-        Log.i(tag, "prevPainting " + prev.image.name);
+            paintingFragment.fadeOutRight(new Runnable() {
+                @Override
+                public void run() {
 
-        final ImageFragment prevFragment = new ImageFragment(this);
-        prevFragment.create(prev);
+                    try {
 
-        imageFragment.fadeOutRight(new Runnable() {
-            @Override
-            public void run() {
+                        paintingFragment.destroy();
+                        paintingFragment = null;
 
-                try {
-
-                    imageFragment.destroy();
-                    imageFragment = null;
-
-                } catch (Throwable e) {
-                    Log.e(tag, e);
+                    } catch (Throwable e) {
+                        Log.e(tag, e);
+                    }
                 }
-            }
-        });
+            });
 
-        Timer.instance().scheduleTask(new Timer.Task() {
-            @Override
-            public void run() {
-                try {
+            Timer.instance().scheduleTask(new Timer.Task() {
+                @Override
+                public void run() {
+                    try {
 
-                    imageFragment = new ImageFragment(PaintingScreen.this);
-                    imageFragment.create(prev);
+                        paintingFragment = new PaintingFragment(PaintingScreen.this);
+                        paintingFragment.create(prev);
 
-                    layers.setContentLayer(imageFragment);
+                        layers.setContentLayer(paintingFragment);
 
-                    imageFragment.fadeInRight();
+                        paintingFragment.fadeInRight();
 
-                } catch (Throwable e) {
-                    Log.e(tag, e);
+                        game.gameState.galleryState.visitedImages.add(prev.image.name);
+
+                    } catch (Throwable e) {
+                        Log.e(tag, e);
+
+                        onCriticalError(e);
+                    }
                 }
-            }
-        }, .21f);
+            }, .22f);
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            onCriticalError(e);
+        }
     }
 
     @Override
@@ -180,9 +200,9 @@ public class PaintingScreen extends AbstractScreen {
             layers = null;
         }
 
-        if (imageFragment != null) {
-            imageFragment.destroy();
-            imageFragment = null;
+        if (paintingFragment != null) {
+            paintingFragment.destroy();
+            paintingFragment = null;
         }
 
         if (controlsFragment != null) {

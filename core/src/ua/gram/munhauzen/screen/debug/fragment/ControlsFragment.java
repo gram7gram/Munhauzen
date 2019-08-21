@@ -24,12 +24,17 @@ import java.util.HashSet;
 
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.entity.GalleryState;
+import ua.gram.munhauzen.entity.Image;
 import ua.gram.munhauzen.entity.Inventory;
+import ua.gram.munhauzen.entity.MenuState;
 import ua.gram.munhauzen.entity.Scenario;
 import ua.gram.munhauzen.expansion.ExportResponse;
 import ua.gram.munhauzen.expansion.ExtractGameConfigTask;
-import ua.gram.munhauzen.screen.GalleryScreen;
+import ua.gram.munhauzen.history.History;
+import ua.gram.munhauzen.screen.DebugScreen;
 import ua.gram.munhauzen.screen.GameScreen;
+import ua.gram.munhauzen.screen.MenuScreen;
 import ua.gram.munhauzen.service.ExpansionDownloadManager;
 import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.ui.FragmentRoot;
@@ -44,10 +49,9 @@ public class ControlsFragment extends Fragment {
 
     private final String tag = getClass().getSimpleName();
     private final MunhauzenGame game;
+    private final DebugScreen screen;
     public FragmentRoot root;
     ScrollPane scroll;
-    TextButton downloadButton;
-    public TextButton expansionButton;
     TextButton startButton;
     public Label progressLbl, expansionLbl, expansionInfoLbl;
     Label upButton;
@@ -56,8 +60,9 @@ public class ControlsFragment extends Fragment {
     ExpansionDownloadManager downloader;
     String currentSource = "scenario_1";
 
-    public ControlsFragment(MunhauzenGame game) {
-        this.game = game;
+    public ControlsFragment(DebugScreen screen) {
+        this.screen = screen;
+        this.game = screen.game;
     }
 
     public void create() {
@@ -74,13 +79,13 @@ public class ControlsFragment extends Fragment {
             }
         });
 
-        startButton = game.buttonBuilder.primary("Start", new ClickListener() {
+        startButton = game.buttonBuilder.danger("Start", new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
                 try {
-                    game.setScreen(new GameScreen(game));
+                    screen.navigateTo(new GameScreen(game));
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -88,13 +93,13 @@ public class ControlsFragment extends Fragment {
             }
         });
 
-        PrimaryButton menuButton = game.buttonBuilder.primary("Gallery", new ClickListener() {
+        PrimaryButton menuButton = game.buttonBuilder.primary("Menu", new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
                 try {
-                    game.setScreen(new GalleryScreen(game));
+                    screen.navigateTo(new MenuScreen(game));
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -102,7 +107,53 @@ public class ControlsFragment extends Fragment {
             }
         });
 
-        final Label removeCacheLbl = new Label("[Очистить кеш]", new Label.LabelStyle(
+        final Label openGalleryLbl = new Label("[+] Открыть всю галерею", new Label.LabelStyle(
+                game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
+                Color.BLUE
+        ));
+        openGalleryLbl.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                openGalleryLbl.setVisible(false);
+
+                try {
+                    for (Image image : game.gameState.imageRegistry) {
+                        if (!image.isHiddenFromGallery) {
+                            game.achievementService.onImageViewed(image);
+                        }
+                    }
+
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
+            }
+        });
+
+        final Label removeHistoryLbl = new Label("[x] Очистить историю", new Label.LabelStyle(
+                game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
+                Color.RED
+        ));
+        removeHistoryLbl.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                removeHistoryLbl.setVisible(false);
+
+                try {
+                    game.gameState.history = new History();
+                    game.gameState.menuState = new MenuState();
+                    game.gameState.galleryState = new GalleryState();
+
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
+            }
+        });
+
+        final Label removeCacheLbl = new Label("[x] Очистить кеш файла расш.", new Label.LabelStyle(
                 game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
                 Color.RED
         ));
@@ -134,7 +185,11 @@ public class ControlsFragment extends Fragment {
                 Color.BLUE
         ));
 
-        downloadButton = game.buttonBuilder.primary("[Скачать json]", new ClickListener() {
+        final Label jsonLbl = new Label("[+] Скачать json", new Label.LabelStyle(
+                game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
+                Color.BLUE
+        ));
+        jsonLbl.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
@@ -152,12 +207,14 @@ public class ControlsFragment extends Fragment {
             }
         });
 
-        expansionButton = game.buttonBuilder.primary("[Скачать файл расш.]", new ClickListener() {
+        final Label expLbl = new Label("[+] Скачать файл расш.", new Label.LabelStyle(
+                game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
+                Color.BLUE
+        ));
+        expLbl.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-
-                expansionButton.setDisabled(true);
 
                 try {
                     downloader = new ExpansionDownloadManager(game, ControlsFragment.this);
@@ -180,24 +237,23 @@ public class ControlsFragment extends Fragment {
         container.add(startButton)
                 .width(MunhauzenGame.WORLD_WIDTH * .5f)
                 .height(MunhauzenGame.WORLD_HEIGHT / 15f)
-                .expandX().row();
+                .expandX().colspan(2).row();
         container.add(menuButton)
                 .width(MunhauzenGame.WORLD_WIDTH * .5f)
                 .height(MunhauzenGame.WORLD_HEIGHT / 15f)
-                .padBottom(80).expandX().row();
-        container.add(downloadButton)
-                .width(MunhauzenGame.WORLD_WIDTH * .5f)
-                .height(MunhauzenGame.WORLD_HEIGHT / 15f)
-                .expandX().row();
-        container.add(expansionButton)
-                .width(MunhauzenGame.WORLD_WIDTH * .5f)
-                .height(MunhauzenGame.WORLD_HEIGHT / 15f)
-                .expandX().row();
-        container.add(removeCacheLbl).pad(10).expandX().row();
+                .colspan(2)
+                .padBottom(50).expandX().row();
 
-        container.add(expansionLbl).expandX().row();
-        container.add(expansionInfoLbl).expandX().row();
-        container.add(progressLbl).expandX().row();
+        container.add(openGalleryLbl).pad(10).left().expandX();
+        container.add(removeHistoryLbl).pad(10).left().expandX().row();
+        container.add(jsonLbl).pad(10).left().expandX();
+        container.add(expLbl).pad(10).left().expandX().row();
+
+        container.add(removeCacheLbl).pad(10).left().expandX().row();
+
+        container.add(expansionLbl).expandX().colspan(2).row();
+        container.add(expansionInfoLbl).expandX().colspan(2).row();
+        container.add(progressLbl).expandX().colspan(2).row();
 
         inventoryContainer = new Table();
         inventoryContainer.padBottom(80);
@@ -270,11 +326,7 @@ public class ControlsFragment extends Fragment {
                         game.inventoryService.remove(inventory);
                     } else {
 
-                        if (inventory.isGlobal()) {
-                            game.inventoryService.addGlobalInventory(inventory);
-                        } else {
-                            game.inventoryService.addSaveInventory(inventory);
-                        }
+                        game.achievementService.onInventoryAdded(inventory);
                     }
 
                     createInventoryTable();

@@ -26,7 +26,7 @@ public class FullscreenFragment extends Fragment {
     public void create() {
         Log.i(tag, "create");
 
-        fullscreenImage = new FullscreenImage(screen.imageFragment);
+        fullscreenImage = new FullscreenImage(screen.paintingFragment);
 
         root = new FragmentRoot();
         root.addContainer(fullscreenImage);

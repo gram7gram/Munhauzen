@@ -1,12 +1,12 @@
 package ua.gram.munhauzen.screen.menu.ui;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
@@ -48,7 +48,7 @@ public abstract class MenuButton extends Stack {
 
         Image back = new FitImage(backSprite);
 
-        float scale = 1f * buttonSize / backSprite.getMinWidth();
+        final float scale = 1f * buttonSize / backSprite.getMinWidth();
         float height = scale * backSprite.getMinHeight();
 
         BitmapFont font = screen.game.fontProvider.getFont(FontProvider.h3);
@@ -80,9 +80,11 @@ public abstract class MenuButton extends Stack {
             public void clicked(final InputEvent event, final float x, final float y) {
                 super.clicked(event, x, y);
 
-                setTouchable(Touchable.disabled);
+                Gdx.input.setInputProcessor(null);
 
                 animation.start();
+
+                screen.isButtonClicked = true;
 
                 Timer.instance().scheduleTask(new Timer.Task() {
                     @Override

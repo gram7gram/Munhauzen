@@ -33,6 +33,7 @@ public class MenuScreen extends AbstractScreen {
     public ProBanner proBanner;
     public ExitDialog exitDialog;
     public AudioService audioService;
+    public boolean isButtonClicked;
 
     public MenuScreen(MunhauzenGame game) {
         super(game);
@@ -109,6 +110,7 @@ public class MenuScreen extends AbstractScreen {
                     try {
 
                         if (layers.bannerLayer != null) return;
+                        if (isButtonClicked) return;
 
                         greetingBanner = new GreetingBanner(MenuScreen.this);
                         greetingBanner.create();
@@ -131,6 +133,7 @@ public class MenuScreen extends AbstractScreen {
                     try {
 
                         if (layers.bannerLayer != null) return;
+                        if (isButtonClicked) return;
 
                         shareBanner = new ShareBanner(MenuScreen.this);
                         shareBanner.create();
@@ -152,6 +155,7 @@ public class MenuScreen extends AbstractScreen {
                     try {
 
                         if (layers.bannerLayer != null) return;
+                        if (isButtonClicked) return;
 
                         if (game.params.isPro) {
                             proBanner = new ProBanner(MenuScreen.this);

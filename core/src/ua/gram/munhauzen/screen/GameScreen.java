@@ -491,7 +491,7 @@ public class GameScreen implements Screen {
 
         getActiveSave().lastImage = image;
 
-        game.achievementService.onImageViewed(image.name);
+        game.achievementService.onImageViewed(image);
     }
 
     public Image getLastBackground() {

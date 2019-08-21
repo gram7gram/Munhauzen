@@ -399,11 +399,7 @@ public class PuzzleDecisionManager {
                         if (!hasBomb)
                             hasBomb = item.equals("BOMB");
 
-                        if (inventory.isGlobal()) {
-                            inventoryService.addGlobalInventory(inventory);
-                        } else {
-                            inventoryService.addSaveInventory(inventory);
-                        }
+                        interaction.gameScreen.game.achievementService.onInventoryAdded(inventory);
                     }
 
                 } catch (Throwable e) {

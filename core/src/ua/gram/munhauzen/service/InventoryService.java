@@ -24,30 +24,22 @@ public class InventoryService {
 
         if (isInInventory(inventory)) return;
 
-        Log.i(tag, "addGlobalInventory " + inventory.name);
-
         if (!inventory.isGlobal()) {
             throw new GdxRuntimeException("Inventory " + inventory.name + " is not global");
         }
 
         gameState.history.globalInventory.add(inventory.name);
-
-        checkRelatedInventory();
     }
 
     public void addSaveInventory(Inventory inventory) {
 
         if (isInInventory(inventory)) return;
 
-        Log.i(tag, "addSaveInventory " + inventory.name);
-
         if (inventory.isGlobal()) {
             throw new GdxRuntimeException("Inventory " + inventory.name + " is global");
         }
 
         gameState.history.activeSave.inventory.add(inventory.name);
-
-        checkRelatedInventory();
     }
 
     public void addInventory(Inventory item) {
@@ -87,39 +79,6 @@ public class InventoryService {
         values.add("DEFAULT");
 
         return values;
-    }
-
-    public void checkRelatedInventory() {
-
-        HashSet<String> allInventory = getAllInventory();
-
-        for (Inventory item : gameState.inventoryRegistry) {
-            if (item.relatedInventory != null) {
-                if (item.relatedInventory.size() > 0) {
-                    if (!isInInventory(item)) {
-
-                        boolean hasAll = true;
-
-                        for (String related : item.relatedInventory) {
-                            if (!allInventory.contains(related)) {
-                                hasAll = false;
-                                break;
-                            }
-                        }
-
-                        if (hasAll) {
-                            if (item.isGlobal()) {
-                                addGlobalInventory(item);
-                            } else {
-                                addSaveInventory(item);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-
     }
 
 }

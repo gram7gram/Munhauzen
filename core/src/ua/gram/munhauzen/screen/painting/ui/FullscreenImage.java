@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 
 import ua.gram.munhauzen.MunhauzenGame;
-import ua.gram.munhauzen.screen.painting.fragment.ImageFragment;
+import ua.gram.munhauzen.screen.painting.fragment.PaintingFragment;
 import ua.gram.munhauzen.utils.Log;
 
 public class FullscreenImage extends Container<Image> {
@@ -21,13 +21,13 @@ public class FullscreenImage extends Container<Image> {
     public float backgroundWidth, backgroundHeight, backgroundScale, zoom;
     public boolean isWide;
 
-    public FullscreenImage(final ImageFragment imageFragment) {
+    public FullscreenImage(final PaintingFragment paintingFragment) {
         super();
 
         background = new Image();
 
         setBackground(
-                imageFragment.getPaintingTexture()
+                paintingFragment.getPaintingTexture()
         );
 
         align(Align.center);
@@ -60,7 +60,7 @@ public class FullscreenImage extends Container<Image> {
             public void tap(InputEvent event, float x, float y, int count, int button) {
                 super.tap(event, x, y, count, button);
 
-                imageFragment.screen.fullscreenFragment.fadeOut();
+                paintingFragment.screen.fullscreenFragment.fadeOut();
             }
 
             @Override

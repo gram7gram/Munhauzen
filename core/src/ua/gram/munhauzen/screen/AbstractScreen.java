@@ -24,6 +24,7 @@ public abstract class AbstractScreen implements Screen {
     public ExpansionAssetManager assetManager;
     protected Texture background;
     private boolean isLoaded, isDisposed;
+    Timer.Task persistTask;
 
     public AbstractScreen(MunhauzenGame game) {
         this.game = game;
@@ -44,6 +45,23 @@ public abstract class AbstractScreen implements Screen {
 
         GameState.unpause(tag);
 
+        Gdx.input.setInputProcessor(ui);
+
+        persistTask = new Timer.Task() {
+            @Override
+            public void run() {
+                try {
+
+                    if (game.databaseManager != null && game.gameState != null) {
+                        game.databaseManager.persist(game.gameState);
+                    }
+
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                    cancel();
+                }
+            }
+        };
     }
 
     protected void onResourcesLoaded() {
@@ -51,6 +69,10 @@ public abstract class AbstractScreen implements Screen {
         Log.i(tag, "onResourcesLoaded");
 
         isLoaded = true;
+
+        if (!persistTask.isScheduled()) {
+            Timer.instance().scheduleTask(persistTask, 5, 5);
+        }
     }
 
     @Override
@@ -146,6 +168,11 @@ public abstract class AbstractScreen implements Screen {
             assetManager = null;
         }
 
+        if (persistTask != null) {
+            persistTask.cancel();
+            persistTask = null;
+        }
+
         ui.dispose();
 
         background = null;
@@ -160,7 +187,17 @@ public abstract class AbstractScreen implements Screen {
 
         Log.i(tag, "navigateTo " + getClass().getSimpleName() + " => " + screen.getClass().getSimpleName());
 
-        game.setScreen(screen);
-        dispose();
+        try {
+            Gdx.input.setInputProcessor(null);
+
+            game.databaseManager.persist(game.gameState);
+
+            game.setScreen(screen);
+            dispose();
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            game.onCriticalError(e);
+        }
     }
 }

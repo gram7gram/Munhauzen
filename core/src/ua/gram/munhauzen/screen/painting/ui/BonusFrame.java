@@ -17,6 +17,6 @@ public class BonusFrame extends Frame {
 
     @Override
     public Texture createTexture() {
-        return screen.imageFragment.getBonusFrameTexture();
+        return screen.paintingFragment.getBonusFrameTexture();
     }
 }

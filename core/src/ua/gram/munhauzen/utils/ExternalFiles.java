@@ -81,6 +81,14 @@ public class ExternalFiles {
         return getExternal("history.json");
     }
 
+    public static FileHandle getMenuStateFile() {
+        return getExternal("menu-state.json");
+    }
+
+    public static FileHandle getGalleryStateFile() {
+        return getExternal("gallery-state.json");
+    }
+
     public static FileHandle getSaveFile(String id) {
         return getExternal("save-" + id + ".json");
     }

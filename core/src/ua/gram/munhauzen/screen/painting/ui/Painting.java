@@ -38,7 +38,7 @@ public abstract class Painting extends Group {
 
         this.screen = screen;
 
-        final PaintingImage img = screen.imageFragment.paintingImage;
+        final PaintingImage img = screen.paintingFragment.paintingImage;
 
         background = new Image();
         lock = new Image();
@@ -105,7 +105,7 @@ public abstract class Painting extends Group {
         addActor(frame);
 
         setBackground(
-                screen.imageFragment.getPaintingTexture()
+                screen.paintingFragment.getPaintingTexture()
         );
 
         setFrameBackground(

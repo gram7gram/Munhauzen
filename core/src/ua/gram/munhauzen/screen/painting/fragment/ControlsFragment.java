@@ -84,9 +84,9 @@ public class ControlsFragment extends Fragment {
     }
 
     public void update() {
-        if (screen.imageFragment == null) return;
+        if (screen.paintingFragment == null) return;
 
-        PaintingImage img = screen.imageFragment.paintingImage;
+        PaintingImage img = screen.paintingFragment.paintingImage;
         if (img == null) return;
 
         leftArrow.setVisible(img.prev != null);

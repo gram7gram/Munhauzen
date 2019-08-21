@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import ua.gram.munhauzen.entity.Inventory;
 import ua.gram.munhauzen.screen.PaintingScreen;
@@ -25,7 +24,7 @@ import ua.gram.munhauzen.utils.Log;
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class ImageFragment extends Fragment {
+public class PaintingFragment extends Fragment {
 
     private final String tag = getClass().getSimpleName();
     public final PaintingScreen screen;
@@ -36,7 +35,7 @@ public class ImageFragment extends Fragment {
     public PaintingImage paintingImage;
     public ExpansionAssetManager assetManager;
 
-    public ImageFragment(PaintingScreen screen) {
+    public PaintingFragment(PaintingScreen screen) {
         this.screen = screen;
     }
 
@@ -75,13 +74,13 @@ public class ImageFragment extends Fragment {
     }
 
     private void loadFrame() {
-        if (paintingImage.image.isStatue()) {
-
-            assetManager.load("gallery/gv2_frame_3.png", Texture.class);
-
-        } else if (paintingImage.image.isBonus()) {
+        if (paintingImage.image.isBonus()) {
 
             assetManager.load("gallery/gv2_frame_4.png", Texture.class);
+
+        } else if (paintingImage.image.isStatue()) {
+
+            assetManager.load("gallery/gv2_frame_3.png", Texture.class);
 
         } else if (paintingImage.image.isColor()) {
 
@@ -137,30 +136,26 @@ public class ImageFragment extends Fragment {
 
         assetManager.finishLoading();
 
-        if (paintingImage.image.type == null) {
-            painting = new SimplePainting(screen);
+        if (paintingImage.image.isBonus()) {
+
+            painting = new BonusPainting(screen);
+
+            bonusNotice = new BonusNotice(screen);
+            bonusNotice.setTouchable(Touchable.disabled);
+
+        } else if (paintingImage.image.isStatue()) {
+
+            painting = new StatuePainting(screen);
+
+            statue = new Statue(screen);
+            statue.setTouchable(Touchable.childrenOnly);
+
+        } else if (paintingImage.image.isColor()) {
+
+            painting = new ColorPainting(screen);
+
         } else {
-            switch (paintingImage.image.type) {
-                case "bonus":
-                    painting = new BonusPainting(screen);
-
-                    bonusNotice = new BonusNotice(screen);
-                    bonusNotice.setTouchable(Touchable.disabled);
-
-                    break;
-                case "statue":
-                    painting = new StatuePainting(screen);
-
-                    statue = new Statue(screen);
-                    statue.setTouchable(Touchable.childrenOnly);
-
-                    break;
-                case "color":
-                    painting = new ColorPainting(screen);
-                    break;
-                default:
-                    throw new GdxRuntimeException("Unknown image type " + paintingImage.image.type);
-            }
+            painting = new SimplePainting(screen);
         }
 
         root = new FragmentRoot();
@@ -184,10 +179,6 @@ public class ImageFragment extends Fragment {
     }
 
     public void update() {
-
-        if (assetManager == null) return;
-
-        assetManager.update();
 
     }
 

@@ -1,5 +1,7 @@
 package ua.gram.munhauzen.service;
 
+import java.util.ArrayList;
+
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.Image;
 import ua.gram.munhauzen.entity.Inventory;
@@ -15,17 +17,74 @@ public class AchievementService {
         this.game = game;
     }
 
+    public void onInventoryAdded(Inventory inventory) {
+
+        try {
+            if (game.inventoryService.isInInventory(inventory)) return;
+
+            Log.i(tag, "onInventoryAdded " + inventory.name);
+
+            game.inventoryService.addInventory(inventory);
+
+            for (Image img : game.gameState.imageRegistry) {
+                if (img.isStatue()) {
+                    if (inventory.name.equals(img.relatedStatue)) {
+
+                        Log.e(tag, "onInventoryAdded adds statue " + img.name);
+                        onImageViewed(img);
+                    }
+                }
+            }
+
+            checkRelatedInventory();
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            game.onCriticalError(e);
+        }
+    }
+
+    private void checkRelatedInventory() {
+
+        ArrayList<Inventory> newItems = new ArrayList<>();
+
+        for (Inventory item : game.gameState.inventoryRegistry) {
+
+            if (game.inventoryService.isInInventory(item)) continue;
+
+            if (item.relatedInventory != null && item.relatedInventory.size() > 0) {
+                boolean hasAll = true;
+
+                for (String name : item.relatedInventory) {
+                    Inventory match = InventoryRepository.find(game.gameState, name);
+                    if (!game.inventoryService.isInInventory(match)) {
+                        hasAll = false;
+                        break;
+                    }
+                }
+
+                if (hasAll) {
+                    newItems.add(item);
+                }
+            }
+        }
+
+        for (Inventory newItem : newItems) {
+            Log.e(tag, "checkRelatedInventory adds inventory " + newItem.name);
+
+            onInventoryAdded(newItem);
+        }
+
+    }
+
     public void onScenarioVisited(String name) {
 
         try {
             Inventory inventory = InventoryRepository.findByScenario(game.gameState, name);
             if (inventory != null) {
                 if (!game.inventoryService.isInInventory(inventory)) {
-                    if (inventory.isGlobal()) {
-                        game.inventoryService.addGlobalInventory(inventory);
-                    } else {
-                        game.inventoryService.addSaveInventory(inventory);
-                    }
+                    onInventoryAdded(inventory);
                 }
             }
 
@@ -33,47 +92,26 @@ public class AchievementService {
 
                 if (img.isBonus()) {
                     if (name.equals(img.relatedScenario)) {
-                        openBonusImage(img);
-                    }
-                }
 
-                if (img.isStatue()) {
-                    Inventory match = InventoryRepository.find(game.gameState, img.relatedStatue);
-                    if (match != null && game.inventoryService.isInInventory(match)) {
-                        openStatueImage(img);
+                        Log.e(tag, "onScenarioVisited adds bonus " + img.name);
+                        onImageViewed(img);
                     }
                 }
             }
         } catch (Throwable e) {
             Log.e(tag, e);
+
+            game.onCriticalError(e);
         }
     }
 
-    private void openBonusImage(Image bonus) {
+    public void onImageViewed(Image img) {
 
-        if (game.gameState.history.viewedImages.contains(bonus.name)) return;
+        if (game.gameState.history.viewedImages.contains(img.name)) return;
 
-        Log.i(tag, "openBonusImage " + bonus.name);
+        Log.i(tag, "onImageViewed " + img.name);
 
-        game.gameState.history.viewedImages.add(bonus.name);
-    }
-
-    private void openStatueImage(Image statue) {
-
-        if (game.gameState.history.viewedImages.contains(statue.name)) return;
-
-        Log.i(tag, "openStatueImage " + statue.name);
-
-        game.gameState.history.viewedImages.add(statue.name);
-    }
-
-    public void onImageViewed(String name) {
-
-        for (Image img : game.gameState.imageRegistry) {
-            if (img.name.equals(name)) {
-                game.gameState.history.viewedImages.add(name);
-            }
-        }
+        game.gameState.history.viewedImages.add(img.name);
     }
 
 }

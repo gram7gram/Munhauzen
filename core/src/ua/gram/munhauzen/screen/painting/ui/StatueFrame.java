@@ -17,6 +17,6 @@ public class StatueFrame extends Frame {
 
     @Override
     public Texture createTexture() {
-        return screen.imageFragment.getStatueFrameTexture();
+        return screen.paintingFragment.getStatueFrameTexture();
     }
 }

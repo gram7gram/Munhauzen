@@ -24,7 +24,7 @@ public class Statue extends Group {
 
         this.screen = screen;
 
-        PaintingImage img = screen.imageFragment.paintingImage;
+        PaintingImage img = screen.paintingFragment.paintingImage;
 
         statueBanner = new StatueBanner(screen, this);
         item = new Image();
@@ -33,7 +33,7 @@ public class Statue extends Group {
         addActor(statue);
 
         setStatueBackground(
-                screen.imageFragment.assetManager.get("gallery/gv2_statue.png", Texture.class)
+                screen.paintingFragment.assetManager.get("gallery/gv2_statue.png", Texture.class)
         );
 
         if (img.canDisplayStatueItem()) {
@@ -42,7 +42,7 @@ public class Statue extends Group {
             addActor(item);
 
             setItemBackground(
-                    screen.imageFragment.assetManager.get(img.statueResource, Texture.class)
+                    screen.paintingFragment.assetManager.get(img.statueResource, Texture.class)
             );
 
             item.addListener(new ClickListener() {
