@@ -106,7 +106,7 @@ public class DatabaseManager {
 
     public void persist(GameState gameState) {
 
-        Log.i(tag, "persist");
+        //Log.i(tag, "persist");
 
         try {
             persistHistory(gameState.history);

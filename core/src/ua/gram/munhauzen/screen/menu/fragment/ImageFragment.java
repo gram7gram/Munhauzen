@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.entity.Inventory;
+import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.repository.InventoryRepository;
 import ua.gram.munhauzen.screen.MenuScreen;
 import ua.gram.munhauzen.screen.menu.ui.BackgroundImage;
@@ -26,6 +27,7 @@ public class ImageFragment extends Fragment {
     public FragmentRoot root;
     public Group decorations;
     public BackgroundImage backgroundImage;
+    StoryAudio puppetAudio;
 
     public ImageFragment(MenuScreen screen) {
         this.screen = screen;
@@ -74,6 +76,7 @@ public class ImageFragment extends Fragment {
                 new Painting(backgroundImage, "menu/an_painting_sheet_5x4.png"),
                 new Rifle(backgroundImage, "menu/an_rifle_sheet_4x2.png"),
                 new Sabre(backgroundImage, "menu/an_sabre_sheet_2x2.png"),
+                new Ring(backgroundImage, "menu/an_ring_sheet_1x5.png"),
                 new Scheme(backgroundImage, "menu/an_scheme_sheet_4x2.png"),
                 new Worm(backgroundImage, "menu/an_worm_sheet_5x4.png"),
                 new Badge(backgroundImage, "menu/an_badge_sheet_1x5.png"),
@@ -142,6 +145,10 @@ public class ImageFragment extends Fragment {
 
     public void update() {
 
+        if (puppetAudio != null) {
+            screen.audioService.updateVolume(puppetAudio);
+        }
+
     }
 
     public boolean hasItem(String name) {
@@ -161,6 +168,11 @@ public class ImageFragment extends Fragment {
         super.dispose();
 
         Timer.instance().clear();
+
+        if (puppetAudio != null) {
+            screen.audioService.stop(puppetAudio);
+            puppetAudio = null;
+        }
     }
 
     class MunhauzenAndDaughter extends DecorationImage {
@@ -606,7 +618,7 @@ public class ImageFragment extends Fragment {
 
             screen.assetManager.finishLoading();
 
-            animate(screen.assetManager.get(resource, Texture.class), 2, 5, 10, .16f);
+            animate(screen.assetManager.get(resource, Texture.class), 2, 5, 10, .08f);
         }
 
         @Override
@@ -802,7 +814,7 @@ public class ImageFragment extends Fragment {
 
             screen.assetManager.finishLoading();
 
-            animate(screen.assetManager.get(resource, Texture.class), 2, 2, 4, .13f);
+            animate(screen.assetManager.get(resource, Texture.class), 2, 2, 4, .23f);
         }
 
         @Override
@@ -858,7 +870,7 @@ public class ImageFragment extends Fragment {
 
         @Override
         public float getInterval() {
-            return 11;
+            return 21;
         }
 
         @Override
@@ -882,6 +894,16 @@ public class ImageFragment extends Fragment {
             screen.assetManager.finishLoading();
 
             animate(screen.assetManager.get(resource, Texture.class), 2, 4, 8);
+        }
+
+        @Override
+        public void start() {
+            super.start();
+
+            puppetAudio = new StoryAudio();
+            puppetAudio.audio = "s15_menu";
+
+            screen.audioService.prepareAndPlay(puppetAudio);
         }
 
         @Override
@@ -1021,6 +1043,45 @@ public class ImageFragment extends Fragment {
         @Override
         public float getDelay() {
             return 29;
+        }
+    }
+
+    class Ring extends DecorationAnimation {
+
+        public Ring(BackgroundImage backgroundImage, String resource) {
+            super(backgroundImage, resource);
+        }
+
+        @Override
+        public void init() {
+
+            screen.assetManager.load(resource, Texture.class);
+
+            screen.assetManager.finishLoading();
+
+            animate(screen.assetManager.get(resource, Texture.class), 1, 5, 5, .13f);
+        }
+
+        @Override
+        public boolean canBeDisplayed() {
+            return hasItem("RING");
+        }
+
+        @Override
+        public float[] getPercentBounds() {
+            return new float[]{
+                    8.50f, 5.73f, 83.83f, 56.55f
+            };
+        }
+
+        @Override
+        public float getInterval() {
+            return 7;
+        }
+
+        @Override
+        public float getDelay() {
+            return 7;
         }
     }
 }

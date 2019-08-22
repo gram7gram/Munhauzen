@@ -6,6 +6,7 @@ import java.util.HashSet;
 
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.Inventory;
+import ua.gram.munhauzen.history.History;
 import ua.gram.munhauzen.utils.Log;
 
 /**
@@ -73,8 +74,18 @@ public class InventoryService {
     public HashSet<String> getAllInventory() {
         HashSet<String> values = new HashSet<>();
 
-        values.addAll(gameState.history.activeSave.inventory);
-        values.addAll(gameState.history.globalInventory);
+        if (gameState != null && gameState.history != null) {
+
+            History history = gameState.history;
+
+            if (history.activeSave != null && history.activeSave.inventory != null) {
+                values.addAll(history.activeSave.inventory);
+            }
+
+            if (history.globalInventory != null) {
+                values.addAll(history.globalInventory);
+            }
+        }
 
         values.add("DEFAULT");
 
