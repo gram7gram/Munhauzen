@@ -14,14 +14,12 @@ public class MathUtils {
     }
 
     public static <T> T random(T[] items) {
-        if (items.length == 0) return null;
         Random random = new Random();
         int randomIndex = random.between(0, items.length - 1);
         return items[randomIndex];
     }
 
     public static <T> T random(List<T> items) {
-        if (items.size() == 0) return null;
         Random random = new Random();
         int randomIndex = random.between(0, items.size() - 1);
         return items.get(randomIndex);

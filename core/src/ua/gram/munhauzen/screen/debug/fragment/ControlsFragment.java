@@ -34,8 +34,8 @@ import ua.gram.munhauzen.expansion.ExtractGameConfigTask;
 import ua.gram.munhauzen.history.History;
 import ua.gram.munhauzen.screen.DebugScreen;
 import ua.gram.munhauzen.screen.GameScreen;
+import ua.gram.munhauzen.screen.LoadingScreen;
 import ua.gram.munhauzen.screen.MenuScreen;
-import ua.gram.munhauzen.service.ExpansionDownloadManager;
 import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.ui.PrimaryButton;
@@ -57,7 +57,6 @@ public class ControlsFragment extends Fragment {
     Label upButton;
     Table inventoryContainer, scenarioContainer;
     VerticalGroup group;
-    ExpansionDownloadManager downloader;
     String currentSource = "scenario_1";
 
     public ControlsFragment(DebugScreen screen) {
@@ -217,14 +216,7 @@ public class ControlsFragment extends Fragment {
                 super.clicked(event, x, y);
 
                 try {
-                    downloader = new ExpansionDownloadManager(game, ControlsFragment.this);
-
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            downloader.start();
-                        }
-                    }).start();
+                    screen.navigateTo(new LoadingScreen(game));
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -452,10 +444,6 @@ public class ControlsFragment extends Fragment {
         startButton.setDisabled(!ExternalFiles.getScenarioFile().exists());
 
         upButton.setVisible(scroll.getScrollY() > 0);
-
-        if (downloader != null) {
-            downloader.updateProgress();
-        }
     }
 
     @Override
@@ -595,15 +583,5 @@ public class ControlsFragment extends Fragment {
             }
         });
 
-    }
-
-    @Override
-    public void dispose() {
-        super.dispose();
-
-        if (downloader != null) {
-            downloader.dispose();
-            downloader = null;
-        }
     }
 }

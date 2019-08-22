@@ -1,6 +1,7 @@
 package ua.gram.munhauzen.entity;
 
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Timer;
 
 import java.util.ArrayList;
 
@@ -61,6 +62,11 @@ public class GameState {
         if (!isPaused) return;
         Log.i(tag, "unpause " + referer);
         isPaused = false;
+    }
+
+    public static void clearTimer() {
+        Log.i(tag, "clearTimer");
+        Timer.instance().clear();
     }
 
     public Array<Image> getGalleryImages() {

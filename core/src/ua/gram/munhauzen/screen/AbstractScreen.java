@@ -3,6 +3,7 @@ package ua.gram.munhauzen.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Timer;
@@ -21,7 +22,7 @@ public abstract class AbstractScreen implements Screen {
     protected final String tag = getClass().getSimpleName();
     public final MunhauzenGame game;
     public MunhauzenStage ui;
-    public ExpansionAssetManager assetManager;
+    public AssetManager assetManager;
     protected Texture background;
     private boolean isLoaded, isDisposed;
     Timer.Task persistTask;
@@ -156,9 +157,9 @@ public abstract class AbstractScreen implements Screen {
     @Override
     public void dispose() {
 
-        Timer.instance().clear();
-
         Log.i(tag, "dispose");
+
+        GameState.clearTimer();
 
         isLoaded = false;
         isDisposed = true;

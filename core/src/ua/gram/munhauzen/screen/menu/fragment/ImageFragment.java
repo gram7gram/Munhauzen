@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Timer;
 
+import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.Inventory;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.repository.InventoryRepository;
@@ -167,7 +168,7 @@ public class ImageFragment extends Fragment {
     public void dispose() {
         super.dispose();
 
-        Timer.instance().clear();
+        GameState.clearTimer();
 
         if (puppetAudio != null) {
             screen.audioService.stop(puppetAudio);

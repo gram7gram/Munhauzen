@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.Inventory;
 import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.entity.StoryAudio;
@@ -124,7 +125,7 @@ public class LionsImageFragment extends InteractionFragment {
                 attackBtn.setDisabled(true);
                 attackBtn.setTouchable(Touchable.disabled);
 
-                Timer.instance().clear();
+                GameState.clearTimer();
 
                 failedEarly();
             }
@@ -147,7 +148,7 @@ public class LionsImageFragment extends InteractionFragment {
 
                 root.setTouchable(Touchable.disabled);
 
-                Timer.instance().clear();
+                GameState.clearTimer();
 
                 Timer.instance().scheduleTask(new Timer.Task() {
                     @Override
@@ -172,7 +173,7 @@ public class LionsImageFragment extends InteractionFragment {
 
                         root.setTouchable(Touchable.disabled);
 
-                        Timer.instance().clear();
+                        GameState.clearTimer();
 
                         failedLate();
                     }

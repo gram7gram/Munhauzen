@@ -3,6 +3,7 @@ package ua.gram.munhauzen.service;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Net;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.net.HttpRequestBuilder;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.GdxRuntimeException;
@@ -16,7 +17,7 @@ import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.expansion.ExtractExpansionPartTask;
 import ua.gram.munhauzen.expansion.response.ExpansionResponse;
 import ua.gram.munhauzen.expansion.response.Part;
-import ua.gram.munhauzen.screen.debug.fragment.ControlsFragment;
+import ua.gram.munhauzen.screen.loading.fragment.ControlsFragment;
 import ua.gram.munhauzen.utils.ExternalFiles;
 import ua.gram.munhauzen.utils.Log;
 import ua.gram.munhauzen.utils.MD5;
@@ -88,7 +89,6 @@ public class ExpansionDownloadManager implements Disposable {
         Gdx.net.sendHttpRequest(httpRequest, new Net.HttpResponseListener() {
             @Override
             public void handleHttpResponse(Net.HttpResponse httpResponse) {
-                Log.i(tag, "fetchExpansionPart success part#" + part.part);
 
                 cleanup();
 
@@ -104,7 +104,12 @@ public class ExpansionDownloadManager implements Disposable {
                         os.write(bytes, 0, count);
                     }
 
+                    os.close();
+                    is.close();
+
                     part.isDownloaded = true;
+
+                    Log.i(tag, "fetchExpansionPart success part#" + part.part);
 
                 } catch (Throwable e) {
 
@@ -127,7 +132,7 @@ public class ExpansionDownloadManager implements Disposable {
                 Gdx.app.postRunnable(new Runnable() {
                     @Override
                     public void run() {
-                        cancel();
+                        onConnectionFailed();
                     }
                 });
             }
@@ -138,7 +143,12 @@ public class ExpansionDownloadManager implements Disposable {
 
             @Override
             public void cancelled() {
-
+                Gdx.app.postRunnable(new Runnable() {
+                    @Override
+                    public void run() {
+                        onConnectionCanceled();
+                    }
+                });
             }
         });
     }
@@ -178,14 +188,14 @@ public class ExpansionDownloadManager implements Disposable {
 
         String md5 = MD5.get(expansionFile);
 
-        Log.i(tag, "downloaded part #" + part.part + " " + md5);
-        Log.i(tag, "original part #" + part.part + " " + part.checksum);
+        Log.i(tag, "downloaded part #" + part.part + " " + md5
+                + "\n" + "original part #" + part.part + " " + part.checksum);
 
         if (!md5.equals(part.checksum)) {
 
             discardPart(part);
 
-            throw new GdxRuntimeException("Expansion corrupted");
+            throw new GdxRuntimeException("Expansion part#" + part.part + " is corrupted");
         }
 
     }
@@ -205,9 +215,8 @@ public class ExpansionDownloadManager implements Disposable {
         Gdx.app.postRunnable(new Runnable() {
             @Override
             public void run() {
-                fragment.expansionLbl.setText("");
-                fragment.expansionInfoLbl.setText("");
-                fragment.progressLbl.setText("Получение информации...");
+                fragment.progress.setText("");
+                fragment.progressMessage.setText("Fetching info...");
             }
         });
 
@@ -286,32 +295,44 @@ public class ExpansionDownloadManager implements Disposable {
                 Gdx.app.postRunnable(new Runnable() {
                     @Override
                     public void run() {
-                        fragment.progressLbl.setText("Информация о файле расширения не доступна");
-                        cancel();
+                        onConnectionFailed();
                     }
                 });
             }
 
             @Override
             public void cancelled() {
+
+                Gdx.app.postRunnable(new Runnable() {
+                    @Override
+                    public void run() {
+                        onConnectionCanceled();
+                    }
+                });
+
             }
         });
+    }
+
+    private void onConnectionFailed() {
+        fragment.progressMessage.setText("Unable to fetch resources");
+    }
+
+    private void onConnectionCanceled() {
+        fragment.progressMessage.setText("Download was canceled");
     }
 
     private void onLowMemory(float memory) {
         Log.i(tag, "onLowMemory");
 
-        fragment.progressLbl.setText("Недостаточно памяти для файла расширения (доступно " + memory + "mb)");
-        cancel();
+        fragment.progressMessage.setText("Not enough memory. Please, free some space for the game");
     }
 
     private void onComplete() {
         Log.i(tag, "onComplete");
-        cancel();
 
-        fragment.expansionLbl.setText("");
-        fragment.expansionInfoLbl.setText("");
-        fragment.progressLbl.setText("Файл расширения готов к использованию");
+        fragment.progress.setText("100%");
+        fragment.progressMessage.setText("Resources are loaded!");
 
         if (localExpansionInfo != null) {
             for (Part item : localExpansionInfo.parts.items) {
@@ -322,11 +343,8 @@ public class ExpansionDownloadManager implements Disposable {
         ExternalFiles.updateNomedia();
 
         localExpansionInfo = null;
-    }
 
-    public void cancel() {
-        fragment.expansionInfoLbl.setText("");
-        localExpansionInfo = null;
+        fragment.onDownloadComplete();
     }
 
     private void restoreFromFile() {
@@ -336,7 +354,7 @@ public class ExpansionDownloadManager implements Disposable {
 
         ExpansionResponse result = json.fromJson(ExpansionResponse.class, file.read());
 
-        if (result.version == game.params.versionCode) {
+        if (result != null && result.version == game.params.versionCode) {
             localExpansionInfo = result;
         }
 
@@ -360,56 +378,37 @@ public class ExpansionDownloadManager implements Disposable {
 
         try {
 
-            final float sizeMb = (float) (localExpansionInfo.size / 1024f / 1024f);
+//            final float sizeMb = (float) (localExpansionInfo.size / 1024f / 1024f);
 
             int progress = getProgress();
 
-            fragment.expansionLbl.setText("Файл расширения v" + localExpansionInfo.version
-                    + " " + String.format("%.2f", sizeMb) + "MB [" + progress + "%]");
-
-            String text = "";
             String progressText = "";
+            Color progressColor = Color.BLACK;
             for (Part item : localExpansionInfo.parts.items) {
 
                 if (item.isDownloading) {
-                    progressText = "Скачивание part #" + item.part + "...";
+                    progressText = "Downloading part #" + item.part + "...";
                 }
 
                 if (item.isExtracting) {
-                    progressText = "Распаковка part #" + item.part + "...";
+                    progressText = "Extracting part #" + item.part + "...";
                 }
 
                 if (item.isDownloadFailure) {
-                    progressText = "Скачивание part #" + item.part + " неудачно";
+                    progressText = "Downloading part #" + item.part + " failed";
+                    progressColor = Color.RED;
                 }
 
                 if (item.isExtractFailure) {
-                    progressText = "Распаковка part #" + item.part + " неудачна";
+                    progressText = "Extracting part#" + item.part + " failed";
+                    progressColor = Color.RED;
                 }
-
-                text += "#" + item.part + " [";
-
-                if (item.isDownloaded) {
-                    text += "------";
-                } else if (item.isDownloading) {
-                    text += "-     ";
-                } else {
-                    text += "      ";
-                }
-
-                if (item.isExtracted) {
-                    text += "------";
-                } else if (item.isExtracting) {
-                    text += "-     ";
-                } else {
-                    text += "      ";
-                }
-
-                text += "]\n";
             }
 
-            fragment.expansionInfoLbl.setText(text);
-            fragment.progressLbl.setText(progressText);
+            fragment.progress.setText(progress + "%");
+            fragment.progress.setColor(progressColor);
+            fragment.progressMessage.setText(progressText);
+            fragment.progressMessage.setColor(progressColor);
 
             ExternalFiles.getExpansionInfoFile(game.params)
                     .writeString(json.toJson(localExpansionInfo), false);
@@ -429,6 +428,8 @@ public class ExpansionDownloadManager implements Disposable {
             httpRequest = null;
         }
 
+        serverExpansionInfo = null;
+        localExpansionInfo = null;
     }
 
 }
