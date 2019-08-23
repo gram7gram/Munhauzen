@@ -71,8 +71,6 @@ public class History {
             saves.add(i + "");//dummy ids
         }
 
-        activeSaveId = "1";
-
         completedInteractions = new ArrayList<>(5);
         globalInventory = new HashSet<>();
         completedOptions = new HashSet<>();
@@ -80,8 +78,16 @@ public class History {
         achievements = new ArrayList<>();
         ng = 0;
         achievementPoints = 1;
-        activeSave = new Save(activeSaveId);
+
         player = new Player();
+
+        activeSaveId = "1";
+        activeSave = new Save(activeSaveId);
+    }
+
+    public void setActiveSave(Save save) {
+        activeSave = save;
+        activeSaveId = save.id;
     }
 
 }

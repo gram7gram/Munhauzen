@@ -89,18 +89,40 @@ public class DatabaseManager {
             state.history = loadHistory();
         } catch (Throwable e) {
             Log.e(tag, e);
+
+            ExternalFiles.getHistoryFile().delete();
+
+            state.history = new History();
         }
 
         try {
             state.menuState = loadMenuState();
         } catch (Throwable e) {
             Log.e(tag, e);
+
+            ExternalFiles.getMenuStateFile().delete();
+
+            state.menuState = new MenuState();
         }
 
         try {
             state.galleryState = loadGalleryState();
         } catch (Throwable e) {
             Log.e(tag, e);
+
+            ExternalFiles.getGalleryStateFile().delete();
+
+            state.galleryState = new GalleryState();
+        }
+
+        try {
+            loadActiveSave(state.history);
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            ExternalFiles.getSaveFile(state.history.activeSaveId).delete();
+
+            state.history.setActiveSave(new Save("1"));
         }
     }
 
@@ -166,8 +188,6 @@ public class DatabaseManager {
         } else {
             history = json.fromJson(History.class, file);
         }
-
-        loadActiveSave(history);
 
         return history;
     }

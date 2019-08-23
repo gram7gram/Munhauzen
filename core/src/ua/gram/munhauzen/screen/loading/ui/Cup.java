@@ -6,8 +6,5 @@ public class Cup extends NotRotatingObject {
 
     public Cup(Texture texture) {
         super(texture);
-
-        this.width = 140;
-        this.height = 100;
     }
 }

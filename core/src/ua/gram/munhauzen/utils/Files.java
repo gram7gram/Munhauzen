@@ -4,30 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
 /**
  * @author Gram <gram7gram@gmail.com>
  */
 public class Files {
-
-    public static FileHandle getImagesFile() {
-        return getInternal("game/images.json");
-    }
-
-    public static FileHandle getAudioFile() {
-        return getInternal("game/audio.json");
-    }
-
-    public static FileHandle getAudioFailsFile() {
-        return getInternal("game/audio-fails.json");
-    }
-
-    public static FileHandle getInventoryFile() {
-        return getInternal("game/inventory.json");
-    }
-
-    public static FileHandle getChaptersFile() {
-        return getInternal("game/chapters.json");
-    }
 
     public static FileHandle getHareScenarioFile() {
         return getInternal("game/hare-scenario.json");
@@ -57,10 +41,6 @@ public class Files {
         return getInternal("game/timer2-scenario.json");
     }
 
-    public static FileHandle getScenarioFile() {
-        return getInternal("game/scenario.json");
-    }
-
     private static FileHandle getInternal(String name) {
         FileHandle file = Gdx.files.internal(name);
         if (!file.exists()) {
@@ -71,5 +51,18 @@ public class Files {
 
     public static FileHandle getServantsHireScenarioFile() {
         return getInternal("game/servants-hire-scenario.json");
+    }
+
+    public static void toFile(InputStream is, FileHandle file) throws IOException {
+        OutputStream os = file.write(false);
+
+        byte[] bytes = new byte[1024];
+        int count;
+        while ((count = is.read(bytes, 0, bytes.length)) != -1) {
+            os.write(bytes, 0, count);
+        }
+
+        is.close();
+        os.close();
     }
 }

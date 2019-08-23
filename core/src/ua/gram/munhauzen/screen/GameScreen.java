@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import java.util.ArrayList;
 
@@ -52,7 +52,6 @@ public class GameScreen implements Screen {
     public GameAudioService audioService;
     public ExpansionImageService imageService;
     public InteractionService interactionService;
-    private Timer.Task saveTask;
     private Texture background;
     private boolean isLoaded;
     public StageInputListener stageInputListener;
@@ -62,10 +61,36 @@ public class GameScreen implements Screen {
     }
 
     public Story getStory() {
+
+        if (game.gameState == null) {
+            throw new GdxRuntimeException("Game state was not loaded");
+        }
+
+        if (game.gameState.history == null) {
+            throw new GdxRuntimeException("History was not loaded");
+        }
+
+        if (game.gameState.history.activeSave == null) {
+            throw new GdxRuntimeException("Save was not loaded");
+        }
+
         return game.gameState.history.activeSave.story;
     }
 
     public void setStory(Story story) {
+
+        if (game.gameState == null) {
+            throw new GdxRuntimeException("Game state was not loaded");
+        }
+
+        if (game.gameState.history == null) {
+            throw new GdxRuntimeException("History was not loaded");
+        }
+
+        if (game.gameState.history.activeSave == null) {
+            throw new GdxRuntimeException("Save was not loaded");
+        }
+
         game.gameState.history.activeSave.story = story;
     }
 
@@ -92,6 +117,8 @@ public class GameScreen implements Screen {
         isLoaded = false;
         GameState.unpause(tag);
 
+        game.databaseManager.loadExternal(game.gameState);
+
         assetManager.load("GameScreen/t_putty.png", Texture.class);
         assetManager.load("ui/playbar_pause.png", Texture.class);
         assetManager.load("ui/playbar_play.png", Texture.class);
@@ -113,11 +140,6 @@ public class GameScreen implements Screen {
         assetManager.load("ui/elements_player_fond_3.png", Texture.class);
         assetManager.load("ui/player_progress_bar_progress.9.jpg", Texture.class);
         assetManager.load("ui/player_progress_bar_knob.png", Texture.class);
-
-        Story story = getStory();
-        if (story != null && story.isValid()) {
-            storyManager.startLoadingResources();
-        }
     }
 
     private void onResourcesLoaded() {
@@ -145,26 +167,6 @@ public class GameScreen implements Screen {
         Gdx.input.setInputProcessor(ui);
 
         storyManager.resume();
-
-        saveTask = Timer.schedule(new Timer.Task() {
-            @Override
-            public void run() {
-//                Json json = new Json();
-//                json.setOutputType(JsonWriter.OutputType.json);
-
-//                try {
-//                    String content = json.prettyPrint(game.gameState.history);
-//
-//                    FileHandle history = Files.getHistoryFile();
-//
-//                    history.writeString(content, false, "UTF-8");
-
-//                    Log.i(tag, "History saved to: " + history.path());
-//                } catch (Throwable e) {
-//                    Log.e(tag, e);
-//                }
-            }
-        }, 5, 5);
 
         ui.addListener(stageInputListener);
     }
@@ -354,11 +356,6 @@ public class GameScreen implements Screen {
         if (storyManager != null) {
             storyManager.dispose();
             storyManager = null;
-        }
-
-        if (saveTask != null) {
-            saveTask.cancel();
-            saveTask = null;
         }
 
         isLoaded = false;

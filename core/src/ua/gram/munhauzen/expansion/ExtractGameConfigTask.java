@@ -29,9 +29,10 @@ public class ExtractGameConfigTask {
             throw new GdxRuntimeException("Nothing to extract");
         }
 
-        ZipInputStream zis = new ZipInputStream(archive.read());
-
         try {
+
+            ZipInputStream zis = new ZipInputStream(archive.read());
+
             ArrayList<ZipEntry> entries = determineEntries(zis);
 
             if (entries.size() == 0) {

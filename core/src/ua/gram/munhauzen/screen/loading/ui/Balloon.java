@@ -17,8 +17,9 @@ public class Balloon extends Image {
 
         super(texture);
 
-        this.width = 255;
-        this.height = 200;
+        width = MunhauzenGame.WORLD_WIDTH * .25f;
+        float scale = getDrawable().getMinWidth() / width;
+        height = getDrawable().getMinHeight() * scale;
     }
 
     public void start() {

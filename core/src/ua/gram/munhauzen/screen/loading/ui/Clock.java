@@ -6,8 +6,5 @@ public class Clock extends RotatingObject {
 
     public Clock(Texture texture) {
         super(texture);
-
-        this.width = 200;
-        this.height = 234;
     }
 }

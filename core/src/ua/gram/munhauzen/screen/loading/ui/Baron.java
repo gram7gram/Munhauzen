@@ -6,8 +6,5 @@ public class Baron extends NotRotatingObject {
 
     public Baron(Texture texture) {
         super(texture);
-
-        this.width = 200;
-        this.height = 169;
     }
 }

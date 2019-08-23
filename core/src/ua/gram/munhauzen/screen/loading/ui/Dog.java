@@ -6,8 +6,5 @@ public class Dog extends NotRotatingObject {
 
     public Dog(Texture texture) {
         super(texture);
-
-        this.width = 362;
-        this.height = 200;
     }
 }

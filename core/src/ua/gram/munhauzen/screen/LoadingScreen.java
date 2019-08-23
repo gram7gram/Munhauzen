@@ -6,6 +6,7 @@ import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.screen.loading.fragment.ControlsFragment;
 import ua.gram.munhauzen.screen.loading.fragment.ImageFragment;
 import ua.gram.munhauzen.screen.loading.ui.LoadingLayers;
+import ua.gram.munhauzen.service.ConfigDownloadManager;
 import ua.gram.munhauzen.service.ExpansionDownloadManager;
 import ua.gram.munhauzen.utils.InternalAssetManager;
 
@@ -17,7 +18,8 @@ public class LoadingScreen extends AbstractScreen {
     public LoadingLayers layers;
     public ImageFragment imageFragment;
     public ControlsFragment controlsFragment;
-    public ExpansionDownloadManager downloader;
+    public ExpansionDownloadManager expansionDownloader;
+    public ConfigDownloadManager configDownloader;
 
     public LoadingScreen(MunhauzenGame game) {
         super(game);
@@ -37,6 +39,7 @@ public class LoadingScreen extends AbstractScreen {
         assetManager.load("loading/lv_balloon.png", Texture.class);
         assetManager.load("loading/lv_hat.png", Texture.class);
         assetManager.load("loading/lv_hat2.png", Texture.class);
+        assetManager.load("loading/lv_hat3.png", Texture.class);
         assetManager.load("loading/an_painting.png", Texture.class);
         assetManager.load("loading/lv_hair.png", Texture.class);
         assetManager.load("loading/lv_axe.png", Texture.class);
@@ -48,6 +51,9 @@ public class LoadingScreen extends AbstractScreen {
         assetManager.load("loading/lv_dog.png", Texture.class);
         assetManager.load("loading/lv_shoes.png", Texture.class);
         assetManager.load("loading/lv_statue.png", Texture.class);
+        assetManager.load("loading/lv_moon.png", Texture.class);
+        assetManager.load("loading/lv_sheep.png", Texture.class);
+        assetManager.load("loading/lv_shovel.png", Texture.class);
 
         layers = new LoadingLayers();
 
@@ -87,8 +93,8 @@ public class LoadingScreen extends AbstractScreen {
             controlsFragment.update();
         }
 
-        if (downloader != null) {
-            downloader.updateProgress();
+        if (expansionDownloader != null) {
+            expansionDownloader.updateProgress();
         }
     }
 
@@ -96,9 +102,14 @@ public class LoadingScreen extends AbstractScreen {
     public void dispose() {
         super.dispose();
 
-        if (downloader != null) {
-            downloader.dispose();
-            downloader = null;
+        if (configDownloader != null) {
+            configDownloader.dispose();
+            configDownloader = null;
+        }
+
+        if (expansionDownloader != null) {
+            expansionDownloader.dispose();
+            expansionDownloader = null;
         }
 
         if (layers != null) {

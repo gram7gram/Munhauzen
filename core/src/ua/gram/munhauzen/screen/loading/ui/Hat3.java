@@ -3,7 +3,6 @@ package ua.gram.munhauzen.screen.loading.ui;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Align;
 
 import ua.gram.munhauzen.MunhauzenGame;
@@ -11,11 +10,11 @@ import ua.gram.munhauzen.MunhauzenGame;
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class Hat2 extends Image implements Hat {
+public class Hat3 extends Hat1 implements Hat {
 
     final float width, height;
 
-    public Hat2(Texture texture) {
+    public Hat3(Texture texture) {
 
         super(texture);
 
@@ -35,7 +34,7 @@ public class Hat2 extends Image implements Hat {
 
     public void start() {
 
-        float startX = MunhauzenGame.WORLD_WIDTH - width - 50;
+        float startX = MunhauzenGame.WORLD_WIDTH - width - 120;
         setOrigin(Align.center);
 
         clearActions();

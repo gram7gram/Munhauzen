@@ -2,9 +2,9 @@ package ua.gram.munhauzen.screen.loading.ui;
 
 import com.badlogic.gdx.graphics.Texture;
 
-public class Axe extends RotatingObject {
+public class Sheep extends NotRotatingObject {
 
-    public Axe(Texture texture) {
+    public Sheep(Texture texture) {
         super(texture);
     }
 }

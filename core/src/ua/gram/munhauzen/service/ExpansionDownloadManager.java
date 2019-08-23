@@ -10,15 +10,13 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 
-import java.io.InputStream;
-import java.io.OutputStream;
-
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.expansion.ExtractExpansionPartTask;
 import ua.gram.munhauzen.expansion.response.ExpansionResponse;
 import ua.gram.munhauzen.expansion.response.Part;
 import ua.gram.munhauzen.screen.loading.fragment.ControlsFragment;
 import ua.gram.munhauzen.utils.ExternalFiles;
+import ua.gram.munhauzen.utils.Files;
 import ua.gram.munhauzen.utils.Log;
 import ua.gram.munhauzen.utils.MD5;
 
@@ -94,18 +92,7 @@ public class ExpansionDownloadManager implements Disposable {
 
                 try {
 
-                    InputStream is = httpResponse.getResultAsStream();
-
-                    OutputStream os = output.write(false);
-
-                    byte[] bytes = new byte[1024];
-                    int count;
-                    while ((count = is.read(bytes, 0, bytes.length)) != -1) {
-                        os.write(bytes, 0, count);
-                    }
-
-                    os.close();
-                    is.close();
+                    Files.toFile(httpResponse.getResultAsStream(), output);
 
                     part.isDownloaded = true;
 
@@ -344,7 +331,7 @@ public class ExpansionDownloadManager implements Disposable {
 
         localExpansionInfo = null;
 
-        fragment.onDownloadComplete();
+        fragment.onExpansionDownloadComplete();
     }
 
     private void restoreFromFile() {

@@ -17,8 +17,6 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -40,6 +38,7 @@ import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.ui.PrimaryButton;
 import ua.gram.munhauzen.utils.ExternalFiles;
+import ua.gram.munhauzen.utils.Files;
 import ua.gram.munhauzen.utils.Log;
 
 /**
@@ -278,7 +277,7 @@ public class ControlsFragment extends Fragment {
         root.addContainer(container3);
     }
 
-    private void createInventoryTable() {
+    public void createInventoryTable() {
 
         inventoryContainer.clearChildren();
 
@@ -330,7 +329,7 @@ public class ControlsFragment extends Fragment {
         }
     }
 
-    private void createScenarioTable() {
+    public void createScenarioTable() {
 
         scenarioContainer.clearChildren();
 
@@ -487,15 +486,7 @@ public class ControlsFragment extends Fragment {
                         FileHandle output = ExternalFiles.getGameArchiveFile();
 
                         try {
-                            InputStream is = httpResponse.getResultAsStream();
-
-                            OutputStream os = output.write(false);
-
-                            byte[] bytes = new byte[1024];
-                            int count;
-                            while ((count = is.read(bytes, 0, bytes.length)) != -1) {
-                                os.write(bytes, 0, count);
-                            }
+                            Files.toFile(httpResponse.getResultAsStream(), output);
 
                             Log.i(tag, "downloaded");
 

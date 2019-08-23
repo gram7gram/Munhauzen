@@ -6,8 +6,5 @@ public class Statue extends RotatingObject {
 
     public Statue(Texture texture) {
         super(texture);
-
-        this.width = 200;
-        this.height = 312;
     }
 }

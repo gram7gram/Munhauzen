@@ -6,8 +6,5 @@ public class Bomb extends RotatingObject {
 
     public Bomb(Texture texture) {
         super(texture);
-
-        this.width = 129;
-        this.height = 99;
     }
 }

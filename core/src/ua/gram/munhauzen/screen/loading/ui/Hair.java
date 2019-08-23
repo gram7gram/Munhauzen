@@ -6,8 +6,5 @@ public class Hair extends RotatingObject {
 
     public Hair(Texture texture) {
         super(texture);
-
-        this.width = 133;
-        this.height = 111;
     }
 }

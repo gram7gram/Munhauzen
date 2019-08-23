@@ -4,11 +4,13 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Timer;
@@ -17,9 +19,11 @@ import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.screen.LoadingScreen;
 import ua.gram.munhauzen.screen.MenuScreen;
+import ua.gram.munhauzen.service.ConfigDownloadManager;
 import ua.gram.munhauzen.service.ExpansionDownloadManager;
 import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.ui.FragmentRoot;
+import ua.gram.munhauzen.ui.PrimaryButton;
 import ua.gram.munhauzen.utils.Log;
 
 public class ControlsFragment extends Fragment {
@@ -33,6 +37,7 @@ public class ControlsFragment extends Fragment {
     public Label progressMessage;
     String[] footerTranslations;
     int currentFooterTranslation = 0;
+    public PrimaryButton retryBtn;
 
     public ControlsFragment(LoadingScreen screen) {
         this.screen = screen;
@@ -48,8 +53,22 @@ public class ControlsFragment extends Fragment {
                 "Да. Друзья, это так!",
         };
 
-        Label title = new Label("Please wait until resources are downloaded...", new Label.LabelStyle(
-                screen.game.fontProvider.getFont(FontProvider.h1),
+        retryBtn = screen.game.buttonBuilder.primary("Retry", new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                retryBtn.setVisible(false);
+                progress.setText("");
+                progressMessage.setText("");
+
+                startConfigDownload();
+            }
+        });
+        retryBtn.setVisible(false);
+
+        Label title = new Label("Please, wait until resources are downloaded...", new Label.LabelStyle(
+                screen.game.fontProvider.getFont(FontProvider.h3),
                 Color.BLACK
         ));
         title.setWrap(true);
@@ -70,7 +89,7 @@ public class ControlsFragment extends Fragment {
         progress.setAlignment(Align.center);
 
         progressMessage = new Label("", new Label.LabelStyle(
-                screen.game.fontProvider.getFont(FontProvider.p),
+                screen.game.fontProvider.getFont(FontProvider.h5),
                 Color.BLACK
         ));
         progressMessage.setWrap(true);
@@ -85,6 +104,10 @@ public class ControlsFragment extends Fragment {
         Table progressTable = new Table();
         progressTable.add(progress).width(MunhauzenGame.WORLD_WIDTH / 2f).padBottom(5).row();
         progressTable.add(progressMessage).width(MunhauzenGame.WORLD_WIDTH / 2f).padBottom(5).row();
+        progressTable.add(retryBtn)
+                .width(MunhauzenGame.WORLD_WIDTH * .3f)
+                .height(MunhauzenGame.WORLD_HEIGHT * .075f)
+                .padBottom(5).row();
 
         Table titleTable = new Table();
         titleTable.add(title).width(MunhauzenGame.WORLD_WIDTH * .75f);
@@ -129,21 +152,45 @@ public class ControlsFragment extends Fragment {
         Timer.instance().scheduleTask(new Timer.Task() {
             @Override
             public void run() {
-                if (isMounted())
+                if (isMounted()) {
                     updateFooterText();
+                } else {
+                    cancel();
+                }
             }
         }, .2f, 20);
 
-        startDownload();
+        startConfigDownload();
     }
 
-    private void startDownload() {
-        screen.downloader = new ExpansionDownloadManager(screen.game, this);
+    private void startConfigDownload() {
+
+        if (screen.configDownloader != null) {
+            screen.configDownloader.dispose();
+        }
+
+        screen.configDownloader = new ConfigDownloadManager(screen.game, this);
 
         new Thread(new Runnable() {
             @Override
             public void run() {
-                screen.downloader.start();
+                screen.configDownloader.start();
+            }
+        }).start();
+    }
+
+    private void startExpansionDownload() {
+
+        if (screen.expansionDownloader != null) {
+            screen.expansionDownloader.dispose();
+        }
+
+        screen.expansionDownloader = new ExpansionDownloadManager(screen.game, this);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                screen.expansionDownloader.start();
             }
         }).start();
     }
@@ -182,7 +229,7 @@ public class ControlsFragment extends Fragment {
 
         ++currentFooterTranslation;
 
-        if (currentFooterTranslation >= footerTranslations.length - 1) {
+        if (currentFooterTranslation == footerTranslations.length) {
             currentFooterTranslation = 0;
         }
 
@@ -192,7 +239,16 @@ public class ControlsFragment extends Fragment {
     public void update() {
     }
 
-    public void onDownloadComplete() {
+    public void onConfigDownloadComplete() {
+
+        Log.i(tag, "onConfigDownloadComplete");
+
+        startExpansionDownload();
+    }
+
+    public void onExpansionDownloadComplete() {
+
+        Log.i(tag, "onExpansionDownloadComplete");
 
         root.setTouchable(Touchable.disabled);
 

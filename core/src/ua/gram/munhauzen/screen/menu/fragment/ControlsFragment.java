@@ -19,7 +19,6 @@ import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.screen.MenuScreen;
-import ua.gram.munhauzen.screen.menu.ui.ChronoButton;
 import ua.gram.munhauzen.screen.menu.ui.ContinueButton;
 import ua.gram.munhauzen.screen.menu.ui.DemoSideButton;
 import ua.gram.munhauzen.screen.menu.ui.FoolsButton;
@@ -43,7 +42,7 @@ public class ControlsFragment extends Fragment {
     private final String tag = getClass().getSimpleName();
     private final MenuScreen screen;
     public FragmentRoot root;
-    public MenuButton startButton, continueButton, savesButton, galleryButton, foolsButton, chronoButton;
+    public MenuButton startButton, continueButton, savesButton, galleryButton, foolsButton;
     Table btnTable, sideTable, logoTable;
     Container<Table> sideContainer, exitContainer, titleContainer;
     Timer.Task fadeTask;
@@ -63,7 +62,6 @@ public class ControlsFragment extends Fragment {
         savesButton = new SavesButton(screen);
         galleryButton = new GalleryButton(screen);
         foolsButton = new FoolsButton(screen);
-        chronoButton = new ChronoButton(screen);
 
         logo = new FitImage();
 
@@ -73,7 +71,6 @@ public class ControlsFragment extends Fragment {
         btnTable.add(savesButton).row();
         btnTable.add(galleryButton).row();
         btnTable.add(foolsButton).row();
-        btnTable.add(chronoButton).row();
 
         ImageButton exitBtn = getExitBtn();
 
