@@ -19,6 +19,7 @@ import ua.gram.munhauzen.history.Save;
 import ua.gram.munhauzen.repository.ScenarioRepository;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.screen.game.fragment.ScenarioFragment;
+import ua.gram.munhauzen.screen.game.fragment.VictoryFragment;
 import ua.gram.munhauzen.utils.Log;
 
 public class StoryManager {
@@ -236,15 +237,25 @@ public class StoryManager {
             }
         }
 
-        String interaction = story.currentScenario.scenario.interaction;
-        if (interaction != null) {
-            gameScreen.interactionService.create(interaction);
-        }
+        if (story.isVictory()) {
 
-        if (story.currentInteraction != null && story.currentInteraction.isLocked) {
-            startInteraction(story);
+            startVictory(story);
+
+        } else if (story.isDefeat()) {
+
+            startDefeat(story);
+
         } else {
-            startScenarioDecisions(story);
+            String interaction = story.currentScenario.scenario.interaction;
+            if (interaction != null) {
+                gameScreen.interactionService.create(interaction);
+            }
+
+            if (story.currentInteraction != null && story.currentInteraction.isLocked) {
+                startInteraction(story);
+            } else {
+                startScenarioDecisions(story);
+            }
         }
     }
 
@@ -260,6 +271,62 @@ public class StoryManager {
             public void run() {
                 try {
                     story.currentInteraction.interaction.start();
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+
+                    gameScreen.onCriticalError(e);
+                }
+            }
+        }, .4f);
+    }
+
+    private void startDefeat(Story story) {
+
+        gameScreen.hideProgressBar();
+        gameScreen.hideAndDestroyScenarioFragment();
+
+        gameScreen.controlsFragment.fadeOut();
+
+        gameScreen.audioService.dispose(story);
+
+        Timer.instance().scheduleTask(new Timer.Task() {
+            @Override
+            public void run() {
+                try {
+//                    gameScreen.victoryFragment = new VictoryFragment(gameScreen);
+//                    gameScreen.victoryFragment.create();
+//
+//                    gameScreen.gameLayers.setInteractionLayer(gameScreen.victoryFragment);
+
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+
+                    gameScreen.onCriticalError(e);
+                }
+            }
+        }, .4f);
+    }
+
+    private void startVictory(Story story) {
+
+        gameScreen.hideProgressBar();
+        gameScreen.hideAndDestroyScenarioFragment();
+
+        gameScreen.controlsFragment.fadeOut();
+
+        gameScreen.audioService.dispose(story);
+
+        Timer.instance().scheduleTask(new Timer.Task() {
+            @Override
+            public void run() {
+                try {
+                    gameScreen.victoryFragment = new VictoryFragment(gameScreen);
+                    gameScreen.victoryFragment.create();
+
+                    gameScreen.gameLayers.setInteractionLayer(gameScreen.victoryFragment);
+
+                    gameScreen.victoryFragment.fadeIn();
+
                 } catch (Throwable e) {
                     Log.e(tag, e);
 

@@ -17,6 +17,26 @@ public class Story {
         scenarios = new Array<>();
     }
 
+    public boolean isVictory() {
+        for (StoryScenario storyScenario : scenarios) {
+            if (storyScenario.scenario.isVictory()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean isDefeat() {
+        for (StoryScenario storyScenario : scenarios) {
+            if (storyScenario.scenario.isDefeat()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public boolean isInteraction() {
         return scenarios.size == 1 && first().scenario.interaction != null;
     }

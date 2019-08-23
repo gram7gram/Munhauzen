@@ -21,9 +21,6 @@ import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.utils.Log;
 
-/**
- * @author Gram <gram7gram@gmail.com>
- */
 public class ControlsFragment extends Fragment {
 
     private final String tag = getClass().getSimpleName();
@@ -383,6 +380,20 @@ public class ControlsFragment extends Fragment {
                 );
             }
         });
+    }
+
+    public void fadeOut() {
+
+        root.setTouchable(Touchable.disabled);
+        root.setVisible(true);
+
+        root.clearActions();
+        root.addAction(
+                Actions.sequence(
+                        Actions.alpha(0, .2f),
+                        Actions.visible(false)
+                )
+        );
     }
 
     @Override

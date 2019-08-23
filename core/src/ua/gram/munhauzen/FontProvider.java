@@ -15,8 +15,10 @@ import ua.gram.munhauzen.utils.Log;
 public class FontProvider implements Disposable {
 
     final String tag = getClass().getSimpleName();
-    public static final String CalligraphModern = "CalligraphModern.ttf", DroidSansMono = "DroidSansMono.ttf";
-    public static final int h1 = 64, h2 = 60, h3 = 50, h4 = 40, h5 = 32, p = 24, small = 16;
+    public static final String CalligraphModern = "CalligraphModern.ttf",
+            FleischmannGotich = "FleischmannGotich.ttf",
+            DroidSansMono = "DroidSansMono.ttf";
+    public static final int hd = 164, h1 = 64, h2 = 60, h3 = 50, h4 = 40, h5 = 32, p = 24, small = 16;
 
     private HashMap<String, HashMap<Integer, BitmapFont>> map;
 
@@ -38,6 +40,37 @@ public class FontProvider implements Disposable {
         int[] sizes = new int[]{small, p, h1, h2, h3, h4, h5};
 
         map = new HashMap<>(fonts.length);
+
+        for (String font : fonts) {
+            FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(font));
+
+            HashMap<Integer, BitmapFont> variants = new HashMap<>(sizes.length);
+
+            for (int size : sizes) {
+                FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+                parameter.characters = "\u0000\"'1234567890-=+?!@#$%&*(){}[].,:;/_><"
+                        + "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
+                        + "АаБбВвГгДдЕеЭэЖжЗзИиЙйЫыКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчЩщШшЮюЯяЬьЪъ"
+                        + "АаБбВвГгДдЕеЄЄЖжЗзИиЙйІіЇїКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчЩщШшЮюЯяЬь";
+                parameter.size = size;
+
+                BitmapFont bitmapFont = generator.generateFont(parameter);
+
+                variants.put(size, bitmapFont);
+            }
+
+            generator.dispose();
+
+            map.put(font, variants);
+        }
+    }
+
+    public void loadHd() {
+
+        Log.i(tag, "loadHd");
+
+        String[] fonts = new String[]{FleischmannGotich};
+        int[] sizes = new int[]{hd};
 
         for (String font : fonts) {
             FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(font));

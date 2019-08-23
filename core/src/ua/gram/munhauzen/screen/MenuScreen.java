@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.entity.MenuState;
 import ua.gram.munhauzen.screen.menu.fragment.ControlsFragment;
 import ua.gram.munhauzen.screen.menu.fragment.DemoBanner;
 import ua.gram.munhauzen.screen.menu.fragment.ExitDialog;
@@ -92,92 +93,52 @@ public class MenuScreen extends AbstractScreen {
 
         Gdx.input.setInputProcessor(ui);
 
-        int openCount = game.gameState.menuState.openCount;
+        MenuState menuState = game.gameState.menuState;
 
-        boolean isGreetingViewed = game.gameState.menuState.isGreetingViewed;
-        boolean isShareViewed = game.gameState.menuState.isShareViewed;
+        int openCount = menuState.openCount;
 
-        boolean isBannerActive = layers.bannerLayer != null;
-        boolean canOpenGreeting = !isBannerActive && !isGreetingViewed;
-        boolean canOpenShare = !isBannerActive && !isShareViewed && openCount % 5 == 0;
-        boolean canOpenVersion = !isBannerActive && openCount % 7 == 0;
+        if (menuState.forceShowThankYouBanner) {
+            menuState.forceShowThankYouBanner = false;
 
-        if (canOpenGreeting) {
             Timer.instance().scheduleTask(new Timer.Task() {
                 @Override
                 public void run() {
-
-                    try {
-
-                        if (layers.bannerLayer != null) return;
-                        if (isButtonClicked) return;
-
-                        greetingBanner = new GreetingBanner(MenuScreen.this);
-                        greetingBanner.create();
-
-                        layers.setBannerLayer(greetingBanner);
-
-                        greetingBanner.fadeIn();
-
-                        game.gameState.menuState.isGreetingViewed = true;
-                    } catch (Throwable e) {
-                        Log.e(tag, e);
-                    }
+                    openVersionBanner();
                 }
-            }, 2);
-        } else if (canOpenShare) {
-            Timer.instance().scheduleTask(new Timer.Task() {
-                @Override
-                public void run() {
+            }, 1);
 
-                    try {
+        } else {
 
-                        if (layers.bannerLayer != null) return;
-                        if (isButtonClicked) return;
+            boolean isGreetingViewed = menuState.isGreetingViewed;
+            boolean isShareViewed = menuState.isShareViewed;
 
-                        shareBanner = new ShareBanner(MenuScreen.this);
-                        shareBanner.create();
+            boolean isBannerActive = layers.bannerLayer != null;
+            boolean canOpenGreeting = !isBannerActive && !isGreetingViewed;
+            boolean canOpenShare = !isBannerActive && !isShareViewed && openCount % 5 == 0;
+            boolean canOpenVersion = !isBannerActive && openCount % 7 == 0;
 
-                        layers.setBannerLayer(shareBanner);
-
-                        shareBanner.fadeIn();
-
-                    } catch (Throwable e) {
-                        Log.e(tag, e);
+            if (canOpenGreeting) {
+                Timer.instance().scheduleTask(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        openGreetingBanner();
                     }
-                }
-            }, 2);
-        } else if (canOpenVersion) {
-            Timer.instance().scheduleTask(new Timer.Task() {
-                @Override
-                public void run() {
-
-                    try {
-
-                        if (layers.bannerLayer != null) return;
-                        if (isButtonClicked) return;
-
-                        if (game.params.isPro) {
-                            proBanner = new ProBanner(MenuScreen.this);
-                            proBanner.create();
-
-                            layers.setBannerLayer(proBanner);
-
-                            proBanner.fadeIn();
-                        } else {
-                            demoBanner = new DemoBanner(MenuScreen.this);
-                            demoBanner.create();
-
-                            layers.setBannerLayer(demoBanner);
-
-                            demoBanner.fadeIn();
-                        }
-
-                    } catch (Throwable e) {
-                        Log.e(tag, e);
+                }, 2);
+            } else if (canOpenShare) {
+                Timer.instance().scheduleTask(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        openShareBanner();
                     }
-                }
-            }, 2);
+                }, 2);
+            } else if (canOpenVersion) {
+                Timer.instance().scheduleTask(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        openVersionBanner();
+                    }
+                }, 2);
+            }
         }
 
         ++openCount;
@@ -186,8 +147,73 @@ public class MenuScreen extends AbstractScreen {
             openCount = 0;
         }
 
-        game.gameState.menuState.openCount = openCount;
+        menuState.openCount = openCount;
 
+    }
+
+    private void openGreetingBanner() {
+        try {
+
+            if (layers.bannerLayer != null) return;
+            if (isButtonClicked) return;
+
+            greetingBanner = new GreetingBanner(MenuScreen.this);
+            greetingBanner.create();
+
+            layers.setBannerLayer(greetingBanner);
+
+            greetingBanner.fadeIn();
+
+            game.gameState.menuState.isGreetingViewed = true;
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+    }
+
+    private void openShareBanner() {
+
+        try {
+
+            if (layers.bannerLayer != null) return;
+            if (isButtonClicked) return;
+
+            shareBanner = new ShareBanner(MenuScreen.this);
+            shareBanner.create();
+
+            layers.setBannerLayer(shareBanner);
+
+            shareBanner.fadeIn();
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+    }
+
+    private void openVersionBanner() {
+        try {
+
+            if (layers.bannerLayer != null) return;
+            if (isButtonClicked) return;
+
+            if (game.params.isPro) {
+                proBanner = new ProBanner(MenuScreen.this);
+                proBanner.create();
+
+                layers.setBannerLayer(proBanner);
+
+                proBanner.fadeIn();
+            } else {
+                demoBanner = new DemoBanner(MenuScreen.this);
+                demoBanner.create();
+
+                layers.setBannerLayer(demoBanner);
+
+                demoBanner.fadeIn();
+            }
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
     }
 
     @Override

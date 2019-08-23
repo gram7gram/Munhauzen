@@ -126,27 +126,42 @@ public class DatabaseManager {
         }
     }
 
-    public void persist(GameState gameState) {
+    public void persist(final GameState gameState) {
 
         //Log.i(tag, "persist");
 
-        try {
-            persistHistory(gameState.history);
-        } catch (Throwable e) {
-            Log.e(tag, e);
-        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    persistHistory(gameState.history);
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
+            }
+        }).start();
 
-        try {
-            persistMenuState(gameState.menuState);
-        } catch (Throwable e) {
-            Log.e(tag, e);
-        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    persistMenuState(gameState.menuState);
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
+            }
+        }).start();
 
-        try {
-            persistGalleryState(gameState.galleryState);
-        } catch (Throwable e) {
-            Log.e(tag, e);
-        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    persistGalleryState(gameState.galleryState);
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
+            }
+        }).start();
     }
 
     public void persistGalleryState(GalleryState state) {

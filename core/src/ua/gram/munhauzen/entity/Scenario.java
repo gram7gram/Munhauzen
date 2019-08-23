@@ -31,7 +31,11 @@ public class Scenario {
         return audio.get(audio.size - 1);
     }
 
-    public boolean isFinal() {
-        return DEATH.equals(name) || VICTORY.equals(name);
+    public boolean isVictory() {
+        return VICTORY.equals(name);
+    }
+
+    public boolean isDefeat() {
+        return DEATH.equals(name);
     }
 }

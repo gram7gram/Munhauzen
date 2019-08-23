@@ -4,4 +4,5 @@ public class MenuState {
     public int openCount;
     public boolean isGreetingViewed;
     public boolean isShareViewed;
+    public boolean forceShowThankYouBanner;
 }
