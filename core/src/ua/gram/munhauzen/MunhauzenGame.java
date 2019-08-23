@@ -25,7 +25,7 @@ public class MunhauzenGame extends Game {
     public static int WORLD_WIDTH;
     public static int WORLD_HEIGHT;
     public static boolean PAUSED = false;
-    public static final boolean DEBUG = false;
+    public static final boolean DEBUG = true;
     public static final boolean IS_EXPANSION_HIDDEN = true;
     public static final boolean DEBUG_RENDER_INFO = true;
     public static final int PROGRESS_BAR_FADE_OUT_DELAY = 5;
@@ -88,7 +88,6 @@ public class MunhauzenGame extends Game {
         achievementService = new AchievementService(this);
 
         setScreen(new DebugScreen(this));
-//        setScreen(new MenuScreen(this));
     }
 
     @Override

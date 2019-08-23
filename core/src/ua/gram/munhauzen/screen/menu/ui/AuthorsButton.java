@@ -5,29 +5,29 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import ua.gram.munhauzen.animation.AnimatedImage;
+import ua.gram.munhauzen.screen.AuthorsScreen;
 import ua.gram.munhauzen.screen.MenuScreen;
-import ua.gram.munhauzen.screen.SavesScreen;
-import ua.gram.munhauzen.screen.menu.animation.LionAnimation;
+import ua.gram.munhauzen.screen.menu.animation.HelmAnimation;
 
-public class SavesButton extends MenuButton {
+public class AuthorsButton extends MenuButton {
 
-    public SavesButton(final MenuScreen screen) {
+    public AuthorsButton(final MenuScreen screen) {
         super(screen);
 
-        create("Saves", new ClickListener() {
+        create("Authors", new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                screen.navigateTo(new SavesScreen(screen.game));
+                screen.navigateTo(new AuthorsScreen(screen.game));
             }
         });
     }
 
     @Override
     AnimatedImage createAnimationIcon() {
-        return new LionAnimation(
-                screen.assetManager.get("menu/icon_lion_sheet_1x8.png", Texture.class)
+        return new HelmAnimation(
+                screen.assetManager.get("menu/icon_helm_sheet_1x5.png", Texture.class)
         );
     }
 }

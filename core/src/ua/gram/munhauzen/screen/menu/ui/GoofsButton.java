@@ -19,8 +19,7 @@ public class GoofsButton extends MenuButton {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                screen.game.setScreen(new DebugScreen(screen.game));
-                screen.dispose();
+                screen.navigateTo(new DebugScreen(screen.game));
             }
         });
     }

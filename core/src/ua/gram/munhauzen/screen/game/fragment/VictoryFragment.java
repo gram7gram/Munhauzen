@@ -30,7 +30,7 @@ public class VictoryFragment extends Fragment {
     private final GameScreen screen;
     public FragmentRoot root;
 
-    final String IMAGE = "images/p62_fin_0.jpg";
+    final String IMAGE = "images/p62_fin.jpg";
 
     BackgroundImage backgroundImage;
     Image curtain;
