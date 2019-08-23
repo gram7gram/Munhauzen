@@ -20,7 +20,6 @@ public class GameState {
     public static boolean isFinaleReached = false;
 
     public short NG;
-    public boolean isContinueEnabled;
     public History history;
     public ArrayList<Scenario> scenarioRegistry;
     public ArrayList<Image> imageRegistry;

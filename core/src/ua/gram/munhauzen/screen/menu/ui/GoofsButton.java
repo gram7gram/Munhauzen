@@ -9,12 +9,12 @@ import ua.gram.munhauzen.screen.DebugScreen;
 import ua.gram.munhauzen.screen.MenuScreen;
 import ua.gram.munhauzen.screen.menu.animation.RoseAnimation;
 
-public class FoolsButton extends MenuButton {
+public class GoofsButton extends MenuButton {
 
-    public FoolsButton(final MenuScreen screen) {
+    public GoofsButton(final MenuScreen screen) {
         super(screen);
 
-        create("Fools", new ClickListener() {
+        create("Goofs", new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);

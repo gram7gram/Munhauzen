@@ -166,8 +166,11 @@ public class VictoryFragment extends Fragment {
                                 try {
 
                                     screen.game.gameState.menuState.forceShowThankYouBanner = true;
+                                    screen.game.gameState.menuState.isContinueEnabled = false;
+                                    screen.getActiveSave().reset();
 
                                     screen.navigateTo(new MenuScreen(screen.game));
+
                                 } catch (Throwable e) {
                                     Log.e(tag, e);
                                 }

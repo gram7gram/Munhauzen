@@ -15,7 +15,6 @@ import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.entity.StoryImage;
 import ua.gram.munhauzen.entity.StoryScenario;
-import ua.gram.munhauzen.history.Save;
 import ua.gram.munhauzen.repository.ScenarioRepository;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.screen.game.fragment.ScenarioFragment;
@@ -223,9 +222,11 @@ public class StoryManager {
         final Story story = gameScreen.getStory();
         if (story == null) return;
 
+        Log.i(tag, "onCompleted " + story.id);
+
         startLoadingImages();
 
-        Log.i(tag, "onCompleted " + story.id);
+        gameScreen.game.gameState.menuState.isContinueEnabled = true;
 
         for (StoryScenario storyScenario : story.scenarios) {
             gameScreen.game.achievementService.onScenarioVisited(storyScenario.scenario.name);
@@ -282,29 +283,6 @@ public class StoryManager {
 
     private void startDefeat(Story story) {
 
-        gameScreen.hideProgressBar();
-        gameScreen.hideAndDestroyScenarioFragment();
-
-        gameScreen.controlsFragment.fadeOut();
-
-        gameScreen.audioService.dispose(story);
-
-        Timer.instance().scheduleTask(new Timer.Task() {
-            @Override
-            public void run() {
-                try {
-//                    gameScreen.victoryFragment = new VictoryFragment(gameScreen);
-//                    gameScreen.victoryFragment.create();
-//
-//                    gameScreen.gameLayers.setInteractionLayer(gameScreen.victoryFragment);
-
-                } catch (Throwable e) {
-                    Log.e(tag, e);
-
-                    gameScreen.onCriticalError(e);
-                }
-            }
-        }, .4f);
     }
 
     private void startVictory(Story story) {
@@ -391,13 +369,7 @@ public class StoryManager {
         Story story = gameScreen.getStory();
         if (story == null) return;
 
-        Save save = gameScreen.getActiveSave();
-
         Log.i(tag, "reset " + story.id);
-
-        if (!save.storyStack.contains(story)) {
-            save.storyStack.push(story);
-        }
 
         for (StoryScenario storyScenario : story.scenarios) {
             storyScenario.reset();

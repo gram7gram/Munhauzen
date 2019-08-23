@@ -5,4 +5,5 @@ public class MenuState {
     public boolean isGreetingViewed;
     public boolean isShareViewed;
     public boolean forceShowThankYouBanner;
+    public boolean isContinueEnabled;
 }

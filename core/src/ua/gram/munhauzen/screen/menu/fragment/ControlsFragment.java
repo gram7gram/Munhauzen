@@ -21,8 +21,8 @@ import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.screen.MenuScreen;
 import ua.gram.munhauzen.screen.menu.ui.ContinueButton;
 import ua.gram.munhauzen.screen.menu.ui.DemoSideButton;
-import ua.gram.munhauzen.screen.menu.ui.FoolsButton;
 import ua.gram.munhauzen.screen.menu.ui.GalleryButton;
+import ua.gram.munhauzen.screen.menu.ui.GoofsButton;
 import ua.gram.munhauzen.screen.menu.ui.MenuButton;
 import ua.gram.munhauzen.screen.menu.ui.ProSideButton;
 import ua.gram.munhauzen.screen.menu.ui.RateSideButton;
@@ -42,7 +42,7 @@ public class ControlsFragment extends Fragment {
     private final String tag = getClass().getSimpleName();
     private final MenuScreen screen;
     public FragmentRoot root;
-    public MenuButton startButton, continueButton, savesButton, galleryButton, foolsButton;
+    public MenuButton startButton, continueButton, savesButton, galleryButton, goofsButton;
     Table btnTable, sideTable, logoTable;
     Container<Table> sideContainer, exitContainer, titleContainer;
     Timer.Task fadeTask;
@@ -61,16 +61,20 @@ public class ControlsFragment extends Fragment {
         continueButton = new ContinueButton(screen);
         savesButton = new SavesButton(screen);
         galleryButton = new GalleryButton(screen);
-        foolsButton = new FoolsButton(screen);
+        goofsButton = new GoofsButton(screen);
 
         logo = new FitImage();
 
         btnTable = new Table();
-        btnTable.add(continueButton).row();
+
+        if (screen.game.gameState.menuState.isContinueEnabled) {
+            btnTable.add(continueButton).row();
+        }
+
         btnTable.add(startButton).row();
         btnTable.add(savesButton).row();
         btnTable.add(galleryButton).row();
-        btnTable.add(foolsButton).row();
+        btnTable.add(goofsButton).row();
 
         ImageButton exitBtn = getExitBtn();
 
