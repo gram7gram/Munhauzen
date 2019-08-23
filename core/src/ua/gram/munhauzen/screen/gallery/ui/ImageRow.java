@@ -88,11 +88,11 @@ public class ImageRow extends Stack {
                 }
             }
         });
+
+        init();
     }
 
-    @Override
-    public void layout() {
-        super.layout();
+    public void init() {
 
         Cell iconCell = content.getCells().get(0);
         iconCell.clearActor();

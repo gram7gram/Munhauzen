@@ -234,8 +234,7 @@ public class ControlsFragment extends Fragment {
 
                 menuGroup.clearActions();
 
-                gameScreen.game.setScreen(new DebugScreen(gameScreen.game));
-                gameScreen.dispose();
+                gameScreen.navigateTo(new DebugScreen(gameScreen.game));
             }
         });
     }

@@ -66,7 +66,7 @@ public class GalleryScreen extends AbstractScreen {
 
         layers.setContentLayer(galleryFragment);
 
-        //galleryFragment.fadeIn();
+        galleryFragment.fadeIn();
     }
 
     private void createPaintings() {

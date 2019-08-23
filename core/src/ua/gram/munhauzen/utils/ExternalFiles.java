@@ -53,14 +53,6 @@ public class ExternalFiles {
         return getExternal("expansion");
     }
 
-    public static FileHandle getExpansionImagesDir() {
-        return getExternal("expansion/images");
-    }
-
-    public static FileHandle getExpansionAudioDir() {
-        return getExternal("expansion/audio");
-    }
-
     public static FileHandle getExpansionAudio(Audio audio) {
         return Gdx.files.external(getExpansionDir().path() + "/" + audio.file);
     }

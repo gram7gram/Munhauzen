@@ -45,8 +45,7 @@ public class ControlsFragment extends Fragment {
                 super.clicked(event, x, y);
 
                 try {
-                    screen.game.setScreen(new GalleryScreen(screen.game));
-                    screen.dispose();
+                    screen.navigateTo(new GalleryScreen(screen.game));
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }

@@ -90,6 +90,7 @@ public class GalleryFragment extends Fragment {
 
         root = new FragmentRoot();
         root.addContainer(scroll);
+        root.setVisible(false);
 
         setTopBackground(screen.assetManager.get("ui/gv_paper_1.png", Texture.class));
         setBottomBackground(screen.assetManager.get("ui/gv_paper_3.png", Texture.class));

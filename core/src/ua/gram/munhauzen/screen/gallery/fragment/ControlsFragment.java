@@ -35,11 +35,9 @@ public class ControlsFragment extends Fragment {
 
         ImageButton menuBtn = getMenuBtn();
 
-        float iconSize = MunhauzenGame.WORLD_WIDTH * .18f;
-        float iconSize2 = iconSize * 1.5f;
-
         Table menuTable = new Table();
-        menuTable.add(menuBtn).expandX().left().width(iconSize2).height(iconSize2 / 2f).row();
+        menuTable.add(menuBtn).width(MunhauzenGame.WORLD_WIDTH * .2f)
+                .height(MunhauzenGame.WORLD_WIDTH * .12f);
 
         menuContainer = new Container<>(menuTable);
         menuContainer.align(Align.bottomLeft);
@@ -72,8 +70,7 @@ public class ControlsFragment extends Fragment {
                 super.clicked(event, x, y);
 
                 try {
-                    screen.game.setScreen(new MenuScreen(screen.game));
-                    screen.dispose();
+                    screen.navigateTo(new MenuScreen(screen.game));
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }

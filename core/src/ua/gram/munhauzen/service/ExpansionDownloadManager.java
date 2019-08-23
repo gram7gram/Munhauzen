@@ -3,7 +3,6 @@ package ua.gram.munhauzen.service;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Net;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.net.HttpRequestBuilder;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.GdxRuntimeException;
@@ -329,6 +328,11 @@ public class ExpansionDownloadManager implements Disposable {
 
         ExternalFiles.updateNomedia();
 
+        localExpansionInfo.isCompleted = true;
+
+        ExternalFiles.getExpansionInfoFile(game.params)
+                .writeString(json.toJson(localExpansionInfo), false);
+
         localExpansionInfo = null;
 
         fragment.onExpansionDownloadComplete();
@@ -365,12 +369,9 @@ public class ExpansionDownloadManager implements Disposable {
 
         try {
 
-//            final float sizeMb = (float) (localExpansionInfo.size / 1024f / 1024f);
-
             int progress = getProgress();
 
             String progressText = "";
-            Color progressColor = Color.BLACK;
             for (Part item : localExpansionInfo.parts.items) {
 
                 if (item.isDownloading) {
@@ -383,19 +384,15 @@ public class ExpansionDownloadManager implements Disposable {
 
                 if (item.isDownloadFailure) {
                     progressText = "Downloading part #" + item.part + " failed";
-                    progressColor = Color.RED;
                 }
 
                 if (item.isExtractFailure) {
                     progressText = "Extracting part#" + item.part + " failed";
-                    progressColor = Color.RED;
                 }
             }
 
             fragment.progress.setText(progress + "%");
-            fragment.progress.setColor(progressColor);
             fragment.progressMessage.setText(progressText);
-            fragment.progressMessage.setColor(progressColor);
 
             ExternalFiles.getExpansionInfoFile(game.params)
                     .writeString(json.toJson(localExpansionInfo), false);
