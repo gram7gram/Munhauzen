@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
-import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -58,10 +57,6 @@ public class ImageRow extends Stack {
         content = new Table();
 
         float lblWidth = width - iconSize - number.getWidth();
-
-        Container<Label> clippedLabel = new Container<>(title);
-        //clippedLabel.setClip(true);
-        clippedLabel.align(Align.topLeft);
 
         content.add().width(iconSize).padTop(15).padRight(5).align(Align.topLeft);
         content.add(number).align(Align.topLeft).padRight(5);

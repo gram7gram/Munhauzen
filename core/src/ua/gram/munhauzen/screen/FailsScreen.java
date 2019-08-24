@@ -11,13 +11,15 @@ import ua.gram.munhauzen.screen.fails.entity.GalleryFail;
 import ua.gram.munhauzen.screen.fails.fragment.ControlsFragment;
 import ua.gram.munhauzen.screen.fails.fragment.FailsFragment;
 import ua.gram.munhauzen.screen.fails.ui.FailsLayers;
+import ua.gram.munhauzen.service.AudioFailService;
 
 public class FailsScreen extends AbstractScreen {
 
     public FailsLayers layers;
     public FailsFragment failsFragment;
     public ControlsFragment controlsFragment;
-    public ArrayList<GalleryFail> fails;
+    public ArrayList<GalleryFail> failsM, failsD;
+    public AudioFailService audioService;
 
     public FailsScreen(MunhauzenGame game) {
         super(game);
@@ -27,19 +29,25 @@ public class FailsScreen extends AbstractScreen {
     public void show() {
         super.show();
 
-        fails = new ArrayList<>();
+        audioService = new AudioFailService(game);
+
+        failsM = new ArrayList<>();
+        failsD = new ArrayList<>();
 
         background = game.assetManager.get("p1.jpg", Texture.class);
 
+        assetManager.load("ui/playbar_play.png", Texture.class);
         assetManager.load("menu/b_menu.png", Texture.class);
+        assetManager.load("ui/b_sound_on.png", Texture.class);
+        assetManager.load("ui/b_sound_off.png", Texture.class);
         assetManager.load("ui/gv_paper_1.png", Texture.class);
         assetManager.load("ui/gv_paper_2.png", Texture.class);
         assetManager.load("ui/gv_paper_3.png", Texture.class);
-        assetManager.load("gallery/gv_painting.png", Texture.class);
         assetManager.load("gallery/b_closed_0.png", Texture.class);
         assetManager.load("gallery/b_opened_0.png", Texture.class);
 
-        assetManager.load("ui/banner_fond_3.png", Texture.class);
+        assetManager.load("fails/fv_switch_d.png", Texture.class);
+        assetManager.load("fails/fv_switch_m.png", Texture.class);
 
         layers = new FailsLayers();
 
@@ -50,12 +58,14 @@ public class FailsScreen extends AbstractScreen {
     public void onResourcesLoaded() {
         super.onResourcesLoaded();
 
-        createPaintings();
+        createFails();
 
         controlsFragment = new ControlsFragment(this);
         controlsFragment.create();
 
         layers.setControlsLayer(controlsFragment);
+
+        controlsFragment.fadeIn();
 
         failsFragment = new FailsFragment(this);
         failsFragment.create();
@@ -65,7 +75,7 @@ public class FailsScreen extends AbstractScreen {
         failsFragment.fadeIn();
     }
 
-    private void createPaintings() {
+    private void createFails() {
 
         for (AudioFail audioFail : game.gameState.audioFailRegistry) {
 
@@ -75,10 +85,14 @@ public class FailsScreen extends AbstractScreen {
             GalleryFail fail = new GalleryFail();
             fail.storyAudio = storyAudio;
 
-            fails.add(fail);
+            fail.isOpened = game.gameState.history.openedFails.contains(audioFail.name);
+            fail.isListened = game.gameState.failsState.listenedAudio.contains(audioFail.name);
 
-            fail.isOpened = game.gameState.history.viewedImages.contains(audioFail.name);
-            fail.isViewed = game.gameState.galleryState.visitedImages.contains(audioFail.name);
+            if (audioFail.isFailDaughter) {
+                failsD.add(fail);
+            } else {
+                failsM.add(fail);
+            }
         }
     }
 
@@ -99,16 +113,31 @@ public class FailsScreen extends AbstractScreen {
         if (controlsFragment != null) {
             controlsFragment.update();
         }
+
+        if (audioService != null) {
+            audioService.update();
+        }
+    }
+
+    public void stopAll() {
+        for (GalleryFail fail : failsD) {
+            audioService.stop(fail.storyAudio);
+            fail.isPlaying = false;
+        }
+        for (GalleryFail fail : failsM) {
+            audioService.stop(fail.storyAudio);
+            fail.isPlaying = false;
+        }
     }
 
     @Override
     public void dispose() {
         super.dispose();
 
-        if (fails != null) {
-            fails.clear();
-            fails = null;
-        }
+        stopAll();
+
+        failsM.clear();
+        failsD.clear();
 
         if (layers != null) {
             layers.dispose();
@@ -123,6 +152,11 @@ public class FailsScreen extends AbstractScreen {
         if (controlsFragment != null) {
             controlsFragment.destroy();
             controlsFragment = null;
+        }
+
+        if (audioService != null) {
+            audioService.dispose();
+            audioService = null;
         }
     }
 }

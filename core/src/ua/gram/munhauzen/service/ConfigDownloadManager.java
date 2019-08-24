@@ -181,12 +181,18 @@ public class ConfigDownloadManager {
     }
 
     private void onConnectionFailed() {
+
+        response = null;
+
         fragment.progress.setText("");
         fragment.progressMessage.setText("Download has failed");
         fragment.retryBtn.setVisible(true);
     }
 
     private void onConnectionCanceled() {
+
+        response = null;
+
         fragment.progress.setText("");
         fragment.progressMessage.setText("Download was canceled");
         fragment.retryBtn.setVisible(true);

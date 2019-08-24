@@ -228,7 +228,7 @@ public class GameScreen implements Screen {
 
                     if (story.isValid()) {
 
-                        game.achievementService.onScenarioVisited(story.currentScenario.scenario.name);
+                        game.achievementService.onScenarioVisited(story.currentScenario.scenario);
 
                         if (story.isCompleted) {
 
@@ -491,8 +491,12 @@ public class GameScreen implements Screen {
 
     public void setLastBackground(String file) {
 
+        String[] path = file.split("/");
+
+        String name = path[path.length - 1].split(".")[0];
+
         Image image = new Image();
-        image.name = file;
+        image.name = name;
         image.file = file;
 
         setLastBackground(image);

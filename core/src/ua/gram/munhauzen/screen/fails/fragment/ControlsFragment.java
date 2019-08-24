@@ -96,11 +96,6 @@ public class ControlsFragment extends Fragment {
 
         ImageButton btn = new ImageButton(style);
 
-        float iconSize = MunhauzenGame.WORLD_WIDTH * .18f;
-        float iconSize2 = iconSize * .75f;
-
-        btn.setSize(iconSize, iconSize2);
-
         btn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -127,11 +122,6 @@ public class ControlsFragment extends Fragment {
         style.disabled = new SpriteDrawable(new Sprite(txtOff));
 
         ImageButton btn = new ImageButton(style);
-
-        float iconSize = MunhauzenGame.WORLD_WIDTH * .1f;
-        float iconSize2 = iconSize * .75f;
-
-        btn.setSize(iconSize, iconSize2);
 
         btn.addListener(new ClickListener() {
             @Override

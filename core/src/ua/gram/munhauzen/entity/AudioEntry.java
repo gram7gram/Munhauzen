@@ -7,6 +7,7 @@ import ua.gram.munhauzen.history.Entry;
  */
 public class AudioEntry extends Entry {
 
+    public String audio;
     public boolean isViewed;
     public boolean isPlaying;
     public boolean isPaused;

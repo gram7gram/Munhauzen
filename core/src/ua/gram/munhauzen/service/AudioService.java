@@ -102,18 +102,6 @@ public class AudioService implements Disposable {
 
         item.player.setVolume(GameState.isMute ? 0 : 1);
 
-//        item.player.setOnCompletionListener(new Music.OnCompletionListener() {
-//            @Override
-//            public void onCompletion(Music music) {
-//                Log.i(tag, "onCompletion " + resource);
-//                try {
-//                    stop(item);
-//                } catch (Throwable e) {
-//                    Log.e(tag, e);
-//                }
-//            }
-//        });
-
         item.player.play();
 
         activeAudio.put(item.name, item);

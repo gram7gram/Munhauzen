@@ -4,19 +4,26 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 
+import java.util.ArrayList;
+
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.entity.FailsState;
 import ua.gram.munhauzen.screen.FailsScreen;
 import ua.gram.munhauzen.screen.fails.entity.GalleryFail;
+import ua.gram.munhauzen.screen.fails.ui.AudioRow;
 import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.ui.VerticalScrollPane;
@@ -32,6 +39,7 @@ public class FailsFragment extends Fragment {
     public FragmentRoot root;
     Image top, bottom;
     Table back;
+    ImageButton failSourceBtn;
 
     public FailsFragment(FailsScreen screen) {
         this.screen = screen;
@@ -157,15 +165,19 @@ public class FailsFragment extends Fragment {
 
         Table rows = new Table();
         rows.align(Align.top);
-        rows.pad(10, 100, 10, 130);
+        rows.pad(10, 100, 10, 100);
+
+        FailsState state = screen.game.gameState.failsState;
+
+        ArrayList<GalleryFail> fails = state.isDaughter ? screen.failsD : screen.failsM;
         int num = 0;
 
         float width = MunhauzenGame.WORLD_WIDTH - 20 - rows.getPadLeft() - rows.getPadRight();
 
-        for (GalleryFail galleryFail : screen.fails) {
-//            rows.add(new ImageRow(screen, image, ++num, width))
-//                    .padBottom(5)
-//                    .row();
+        for (GalleryFail fail : fails) {
+            rows.add(new AudioRow(screen, fail, ++num, width))
+                    .padBottom(5)
+                    .row();
         }
 
         return rows;
@@ -173,17 +185,23 @@ public class FailsFragment extends Fragment {
 
     private Actor createHeader() {
 
-        Image icon = new Image(screen.assetManager.get("gallery/gv_painting.png", Texture.class));
+        failSourceBtn = getFailSourceBtn();
 
-        Label title = new Label("Gallery", new Label.LabelStyle(
+        Texture txt = screen.assetManager.get("fails/fv_switch_m.png", Texture.class);
+
+        Label title = new Label("Goofs", new Label.LabelStyle(
                 screen.game.fontProvider.getFont(FontProvider.h1),
                 Color.BLACK
         ));
 
+        float width = MunhauzenGame.WORLD_WIDTH * .25f;
+        float scale = 1f * width / txt.getWidth();
+        float height = 1f * txt.getHeight() * scale;
+
         Table content = new Table();
         content.add(title).padBottom(5).expandX().row();
-        content.add(icon)
-                .size(MunhauzenGame.WORLD_WIDTH * .25f)
+        content.add(failSourceBtn)
+                .size(width, height)
                 .expandX().row();
 
         Container<Table> container = new Container<>(content);
@@ -191,5 +209,48 @@ public class FailsFragment extends Fragment {
         container.align(Align.bottom);
 
         return container;
+    }
+
+    private ImageButton getFailSourceBtn() {
+
+        final FailsState state = screen.game.gameState.failsState;
+
+        Texture txt = state.isMunhauzen
+                ? screen.assetManager.get("fails/fv_switch_m.png", Texture.class)
+                : screen.assetManager.get("fails/fv_switch_d.png", Texture.class);
+
+        ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
+        style.up = new SpriteDrawable(new Sprite(txt));
+        style.down = new SpriteDrawable(new Sprite(txt));
+        style.disabled = new SpriteDrawable(new Sprite(txt));
+
+        ImageButton btn = new ImageButton(style);
+
+        btn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                try {
+                    state.isMunhauzen = !state.isMunhauzen;
+                    state.isDaughter = !state.isDaughter;
+
+                    screen.stopAll();
+
+                    screen.failsFragment.destroy();
+
+                    screen.failsFragment = new FailsFragment(screen);
+                    screen.failsFragment.create();
+
+                    screen.layers.setContentLayer(screen.failsFragment);
+
+                    screen.failsFragment.root.setVisible(true);
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
+            }
+        });
+
+        return btn;
     }
 }

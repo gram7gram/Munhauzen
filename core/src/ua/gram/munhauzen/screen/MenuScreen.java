@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.entity.AudioFail;
 import ua.gram.munhauzen.entity.MenuState;
 import ua.gram.munhauzen.screen.menu.fragment.ControlsFragment;
 import ua.gram.munhauzen.screen.menu.fragment.DemoBanner;
@@ -74,6 +75,12 @@ public class MenuScreen extends AbstractScreen {
     @Override
     protected void onResourcesLoaded() {
         super.onResourcesLoaded();
+
+        for (AudioFail fail : game.gameState.audioFailRegistry) {
+            if (fail.isFailOpenedOnStart) {
+                game.gameState.history.openedFails.add(fail.name);
+            }
+        }
 
         layers = new MenuLayers();
 

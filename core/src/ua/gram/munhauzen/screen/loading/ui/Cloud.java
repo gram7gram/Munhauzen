@@ -14,12 +14,23 @@ public class Cloud extends Image {
 
     final float width, height, x, y;
 
-    public Cloud(Texture texture, int width, int height, float x, float y) {
+    public Cloud(Texture texture, float x, float y) {
 
         super(texture);
 
-        this.width = width;
-        this.height = height;
+        float originalW = getDrawable().getMinWidth();
+        float originalH = getDrawable().getMinHeight();
+
+        if (originalW < originalH) {
+            width = MunhauzenGame.WORLD_WIDTH * .2f;
+            float scale = 1f * width / originalW;
+            height = 1f * originalH * scale;
+        } else {
+            height = MunhauzenGame.WORLD_HEIGHT * .08f;
+            float scale = 1f * height / originalH;
+            width = 1f * originalW * scale;
+        }
+
         this.x = x;
         this.y = y;
     }

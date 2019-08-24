@@ -18,6 +18,7 @@ const audioParts = [
     "/Part_2",
     "/Part_3",
     "/Sfx",
+    "/Fails_Eng",
 ]
 
 const picturesDir = [
@@ -30,6 +31,7 @@ const otherAssets = [
     '/GameScreen',
     '/ui',
     '/saves',
+    '/fails',
 ]
 
 const interactions = [

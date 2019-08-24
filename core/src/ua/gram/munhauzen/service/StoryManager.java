@@ -229,7 +229,7 @@ public class StoryManager {
         gameScreen.game.gameState.menuState.isContinueEnabled = true;
 
         for (StoryScenario storyScenario : story.scenarios) {
-            gameScreen.game.achievementService.onScenarioVisited(storyScenario.scenario.name);
+            gameScreen.game.achievementService.onScenarioVisited(storyScenario.scenario);
         }
 
         for (StoryAudio audio : story.currentScenario.scenario.audio) {

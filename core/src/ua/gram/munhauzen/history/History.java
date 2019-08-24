@@ -10,9 +10,19 @@ public class History {
     public static final int SAVE_LIMIT = 4;
 
     /**
-     * Unique viewed images on all iterations
+     * Viewed images on all iterations
      */
     public HashSet<String> viewedImages;
+
+    /**
+     * Listened audio on all iterations
+     */
+    public HashSet<String> listenedAudio;
+
+    /**
+     * Opened audio-fails on all iterations
+     */
+    public HashSet<String> openedFails;
     /**
      * Unique items the player found on all interactions
      */
@@ -42,6 +52,8 @@ public class History {
 
         globalInventory = new HashSet<>();
         viewedImages = new HashSet<>();
+        listenedAudio = new HashSet<>();
+        openedFails = new HashSet<>();
 
         activeSaveId = "1";
         activeSave = new Save(activeSaveId);

@@ -22,14 +22,12 @@ import java.util.HashSet;
 
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
-import ua.gram.munhauzen.entity.GalleryState;
+import ua.gram.munhauzen.entity.AudioFail;
 import ua.gram.munhauzen.entity.Image;
 import ua.gram.munhauzen.entity.Inventory;
-import ua.gram.munhauzen.entity.MenuState;
 import ua.gram.munhauzen.entity.Scenario;
 import ua.gram.munhauzen.expansion.ExportResponse;
 import ua.gram.munhauzen.expansion.ExtractGameConfigTask;
-import ua.gram.munhauzen.history.History;
 import ua.gram.munhauzen.screen.DebugScreen;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.screen.LoadingScreen;
@@ -129,6 +127,27 @@ public class ControlsFragment extends Fragment {
             }
         });
 
+        final Label openFailsLbl = new Label("[+] Открыть все фейлы", new Label.LabelStyle(
+                game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
+                Color.BLUE
+        ));
+        openFailsLbl.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                openFailsLbl.setVisible(false);
+
+                try {
+                    for (AudioFail a : game.gameState.audioFailRegistry) {
+                        game.achievementService.onFailOpened(a);
+                    }
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
+            }
+        });
+
         final Label removeHistoryLbl = new Label("[x] Очистить историю", new Label.LabelStyle(
                 game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
                 Color.RED
@@ -141,9 +160,7 @@ public class ControlsFragment extends Fragment {
                 removeHistoryLbl.setVisible(false);
 
                 try {
-                    game.gameState.history = new History();
-                    game.gameState.menuState = new MenuState();
-                    game.gameState.galleryState = new GalleryState();
+                    game.gameState.reset();
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -236,11 +253,13 @@ public class ControlsFragment extends Fragment {
                 .padBottom(50).expandX().row();
 
         container.add(openGalleryLbl).pad(10).left().expandX();
-        container.add(removeHistoryLbl).pad(10).left().expandX().row();
+        container.add(openFailsLbl).pad(10).left().expandX().row();
+
         container.add(jsonLbl).pad(10).left().expandX();
         container.add(expLbl).pad(10).left().expandX().row();
 
-        container.add(removeCacheLbl).pad(10).left().expandX().row();
+        container.add(removeCacheLbl).pad(10).left().expandX();
+        container.add(removeHistoryLbl).pad(10).left().expandX().row();
 
         container.add(expansionLbl).expandX().colspan(2).row();
         container.add(expansionInfoLbl).expandX().colspan(2).row();

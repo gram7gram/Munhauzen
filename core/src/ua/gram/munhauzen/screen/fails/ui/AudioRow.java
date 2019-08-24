@@ -4,8 +4,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
-import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -16,22 +16,23 @@ import com.badlogic.gdx.utils.Align;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.entity.AudioFail;
 import ua.gram.munhauzen.repository.AudioFailRepository;
-import ua.gram.munhauzen.screen.GalleryScreen;
+import ua.gram.munhauzen.screen.FailsScreen;
 import ua.gram.munhauzen.screen.fails.entity.GalleryFail;
 import ua.gram.munhauzen.ui.FitImage;
+import ua.gram.munhauzen.utils.Log;
 
 public class AudioRow extends Stack {
 
     final String tag = getClass().getSimpleName();
-    final GalleryScreen screen;
+    final FailsScreen screen;
     final GalleryFail fail;
     final int index;
     Label title, number;
-    FitImage lock, unlock;
+    FitImage lock, unlock, play;
     Table content;
     float iconSize = 30;
 
-    public AudioRow(final GalleryScreen screen, final GalleryFail fail, int index, float width) {
+    public AudioRow(final FailsScreen screen, final GalleryFail fail, int index, float width) {
 
         this.index = index;
         this.screen = screen;
@@ -50,6 +51,7 @@ public class AudioRow extends Stack {
         title.setWrap(true);
         title.setAlignment(Align.left);
 
+        play = new FitImage();
         unlock = new FitImage();
 
         lock = new FitImage();
@@ -58,10 +60,6 @@ public class AudioRow extends Stack {
         content = new Table();
 
         float lblWidth = width - iconSize - number.getWidth();
-
-        Container<Label> clippedLabel = new Container<>(title);
-        //clippedLabel.setClip(true);
-        clippedLabel.align(Align.topLeft);
 
         content.add().width(iconSize).padTop(15).padRight(5).align(Align.topLeft);
         content.add(number).align(Align.topLeft).padRight(5);
@@ -77,11 +75,43 @@ public class AudioRow extends Stack {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
+                try {
 
+                    screen.stopAll();
+
+                    screen.audioService.prepareAndPlay(fail.storyAudio);
+
+                    fail.isPlaying = true;
+                    fail.isListened = true;
+
+                    screen.game.gameState.failsState.listenedAudio.add(fail.storyAudio.name);
+
+                    lock.remove();
+                    unlock.remove();
+
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
             }
         });
 
         init();
+    }
+
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+
+        play.setSize(iconSize, iconSize);
+
+        if (fail.isPlaying) {
+            play.setVisible(true);
+            content.getCells().get(0).setActor(play);
+            content.getCells().get(0).padTop(0);
+        } else {
+            play.setVisible(false);
+            play.remove();
+        }
     }
 
     public void init() {
@@ -91,17 +121,21 @@ public class AudioRow extends Stack {
 
         AudioFail audioFail = AudioFailRepository.find(screen.game.gameState, fail.storyAudio.name);
 
-        String text = "";//audioFail.getDescription(screen.game.params.locale);
+        String text = audioFail.getDescription(screen.game.params.locale);
+
+        setTouchable(Touchable.enabled);
 
         if (!fail.isOpened) {
             text = text.replaceAll("[^.\\s]", "#");
+
+            setTouchable(Touchable.disabled);
 
             iconCell.setActor(lock);
 
             setLockBackground(
                     screen.assetManager.get("gallery/b_closed_0.png", Texture.class)
             );
-        } else if (!fail.isViewed) {
+        } else if (!fail.isListened) {
 
             iconCell.setActor(unlock);
 
@@ -109,6 +143,10 @@ public class AudioRow extends Stack {
                     screen.assetManager.get("gallery/b_opened_0.png", Texture.class)
             );
         }
+
+        setPlayBackground(
+                screen.assetManager.get("ui/playbar_play.png", Texture.class)
+        );
 
         title.setText(text);
     }
@@ -137,5 +175,9 @@ public class AudioRow extends Stack {
         content.getCell(unlock)
                 .width(width)
                 .height(height);
+    }
+
+    public void setPlayBackground(Texture texture) {
+        play.setDrawable(new SpriteDrawable(new Sprite(texture)));
     }
 }

@@ -33,8 +33,7 @@ public class ControlsFragment extends Fragment {
     public FragmentRoot root;
     Image decorTop, decorBottom;
     Label footer;
-    public Label progress;
-    public Label progressMessage;
+    public Label progress, progressMessage, expansionInfo;
     String[] footerTranslations;
     int currentFooterTranslation = 0;
     public PrimaryButton retryBtn;
@@ -95,6 +94,13 @@ public class ControlsFragment extends Fragment {
         progressMessage.setWrap(true);
         progressMessage.setAlignment(Align.center);
 
+        expansionInfo = new Label("", new Label.LabelStyle(
+                screen.game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
+                Color.BLACK
+        ));
+        expansionInfo.setWrap(true);
+        expansionInfo.setAlignment(Align.center);
+
         decorTop = new Image();
         decorBottom = new Image();
 
@@ -102,6 +108,7 @@ public class ControlsFragment extends Fragment {
         footerTable.add(footer).width(MunhauzenGame.WORLD_WIDTH * .75f);
 
         Table progressTable = new Table();
+        progressTable.add(expansionInfo).width(MunhauzenGame.WORLD_WIDTH / 2f).padBottom(5).row();
         progressTable.add(progress).width(MunhauzenGame.WORLD_WIDTH / 2f).padBottom(5).row();
         progressTable.add(progressMessage).width(MunhauzenGame.WORLD_WIDTH / 2f).padBottom(5).row();
         progressTable.add(retryBtn)

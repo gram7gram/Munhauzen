@@ -136,9 +136,9 @@ public class ImageFragment extends InteractionFragment {
                 screen.assetManager.get("loading/lv_moon.png", Texture.class)
         );
 
-        Cloud cloud1 = new Cloud(cloud1Texture, 200, 100, -100, MunhauzenGame.WORLD_HEIGHT * .9f);
-        Cloud cloud2 = new Cloud(cloud2Texture, 200, 100, -200, MunhauzenGame.WORLD_HEIGHT * .8f);
-        Cloud cloud3 = new Cloud(cloud3Texture, 200, 100, -180, MunhauzenGame.WORLD_HEIGHT * .75f);
+        Cloud cloud1 = new Cloud(cloud1Texture, -100, MunhauzenGame.WORLD_HEIGHT * .9f);
+        Cloud cloud2 = new Cloud(cloud2Texture, -200, MunhauzenGame.WORLD_HEIGHT * .8f);
+        Cloud cloud3 = new Cloud(cloud3Texture, -180, MunhauzenGame.WORLD_HEIGHT * .75f);
 
         items = new Group();
         items.addActor(cloud1);

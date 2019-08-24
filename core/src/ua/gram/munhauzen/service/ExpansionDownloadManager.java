@@ -24,7 +24,7 @@ public class ExpansionDownloadManager implements Disposable {
     final String tag = getClass().getSimpleName();
     final MunhauzenGame game;
     final ControlsFragment fragment;
-    ExpansionResponse localExpansionInfo, serverExpansionInfo;
+    ExpansionResponse expansionInfo, serverExpansionInfo;
     Net.HttpRequest httpRequest;
 
     final Json json;
@@ -47,7 +47,7 @@ public class ExpansionDownloadManager implements Disposable {
 
     private void processAvailablePart() {
         Part nextPart = null;
-        for (Part item : localExpansionInfo.parts.items) {
+        for (Part item : expansionInfo.parts.items) {
             if (item.isDownloaded && !item.isExtracted) {
                 nextPart = item;
                 break;
@@ -224,10 +224,10 @@ public class ExpansionDownloadManager implements Disposable {
                     Log.e(tag, response);
 
                     serverExpansionInfo = json.fromJson(ExpansionResponse.class, response);
-                    if (localExpansionInfo != null) {
+                    if (expansionInfo != null) {
 
                         for (Part serverPart : serverExpansionInfo.parts.items) {
-                            for (Part localPart : localExpansionInfo.parts.items) {
+                            for (Part localPart : expansionInfo.parts.items) {
                                 if (localPart.part == serverPart.part && localPart.checksum.equals(serverPart.checksum)) {
 
                                     serverPart.isDownloaded = localPart.isDownloaded;
@@ -264,7 +264,7 @@ public class ExpansionDownloadManager implements Disposable {
                         }
                     }
 
-                    localExpansionInfo = serverExpansionInfo;
+                    expansionInfo = serverExpansionInfo;
 
                     processAvailablePart();
 
@@ -301,11 +301,21 @@ public class ExpansionDownloadManager implements Disposable {
     }
 
     private void onConnectionFailed() {
+
+        expansionInfo = null;
+
+        fragment.progress.setText("");
         fragment.progressMessage.setText("Unable to fetch resources");
+        fragment.retryBtn.setVisible(true);
     }
 
     private void onConnectionCanceled() {
+
+        expansionInfo = null;
+
+        fragment.progress.setText("");
         fragment.progressMessage.setText("Download was canceled");
+        fragment.retryBtn.setVisible(true);
     }
 
     private void onLowMemory(float memory) {
@@ -320,20 +330,20 @@ public class ExpansionDownloadManager implements Disposable {
         fragment.progress.setText("100%");
         fragment.progressMessage.setText("Resources are loaded!");
 
-        if (localExpansionInfo != null) {
-            for (Part item : localExpansionInfo.parts.items) {
+        if (expansionInfo != null) {
+            for (Part item : expansionInfo.parts.items) {
                 ExternalFiles.getExpansionPartFile(item).delete();
             }
         }
 
         ExternalFiles.updateNomedia();
 
-        localExpansionInfo.isCompleted = true;
+        expansionInfo.isCompleted = true;
 
         ExternalFiles.getExpansionInfoFile(game.params)
-                .writeString(json.toJson(localExpansionInfo), false);
+                .writeString(json.toJson(expansionInfo), false);
 
-        localExpansionInfo = null;
+        expansionInfo = null;
 
         fragment.onExpansionDownloadComplete();
     }
@@ -346,40 +356,40 @@ public class ExpansionDownloadManager implements Disposable {
         ExpansionResponse result = json.fromJson(ExpansionResponse.class, file.read());
 
         if (result != null && result.version == game.params.versionCode) {
-            localExpansionInfo = result;
+            expansionInfo = result;
         }
 
     }
 
     private int getProgress() {
-        if (localExpansionInfo == null) return 0;
+        if (expansionInfo == null) return 0;
 
         float downloadedCount = 0, extractedCount = 0;
 
-        for (Part item : localExpansionInfo.parts.items) {
+        for (Part item : expansionInfo.parts.items) {
             if (item.isDownloaded) ++downloadedCount;
             if (item.isExtracted) ++extractedCount;
         }
 
-        return (int) ((downloadedCount / localExpansionInfo.parts.count + extractedCount / localExpansionInfo.parts.count) / 2 * 100);
+        return (int) ((downloadedCount / expansionInfo.parts.count + extractedCount / expansionInfo.parts.count) / 2 * 100);
     }
 
     public void updateProgress() {
-        if (localExpansionInfo == null) return;
+        if (expansionInfo == null) return;
 
         try {
 
             int progress = getProgress();
 
             String progressText = "";
-            for (Part item : localExpansionInfo.parts.items) {
+            for (Part item : expansionInfo.parts.items) {
 
                 if (item.isDownloading) {
-                    progressText = "Downloading part #" + item.part + "...";
+                    progressText = "Downloading part " + item.part + "/" + expansionInfo.parts.count + "...";
                 }
 
                 if (item.isExtracting) {
-                    progressText = "Extracting part #" + item.part + "...";
+                    progressText = "Extracting part " + item.part + "/" + expansionInfo.parts.count + "...";
                 }
 
                 if (item.isDownloadFailure) {
@@ -387,18 +397,24 @@ public class ExpansionDownloadManager implements Disposable {
                 }
 
                 if (item.isExtractFailure) {
-                    progressText = "Extracting part#" + item.part + " failed";
+                    progressText = "Extracting part #" + item.part + " failed";
                 }
             }
 
-            fragment.progress.setText(progress + "%");
+            fragment.progress.setText(Math.max(1, progress) + "%");
             fragment.progressMessage.setText(progressText);
 
+            float sizeMb = (float) (expansionInfo.size / 1024f / 1024f);
+
+            fragment.expansionInfo.setText("v" + expansionInfo.version + " " + String.format("%.2f", sizeMb) + "MB");
+
             ExternalFiles.getExpansionInfoFile(game.params)
-                    .writeString(json.toJson(localExpansionInfo), false);
+                    .writeString(json.toJson(expansionInfo), false);
 
             if (progress == 100) {
                 onComplete();
+            } else {
+                expansionInfo.isCompleted = false;
             }
         } catch (Throwable e) {
             Log.e(tag, e);
@@ -413,7 +429,7 @@ public class ExpansionDownloadManager implements Disposable {
         }
 
         serverExpansionInfo = null;
-        localExpansionInfo = null;
+        expansionInfo = null;
     }
 
 }

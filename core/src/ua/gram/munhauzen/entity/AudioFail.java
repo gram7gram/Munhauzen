@@ -15,4 +15,13 @@ public class AudioFail extends Entity {
     public boolean isFailDaughter;
     public boolean isFailMunhauzen;
 
+    public String getDescription(String locale) {
+
+        if (locale.equals(this.locale)) {
+            return description;
+        }
+
+        return name;
+    }
+
 }

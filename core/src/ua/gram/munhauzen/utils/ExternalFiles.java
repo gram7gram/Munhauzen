@@ -6,6 +6,7 @@ import com.badlogic.gdx.files.FileHandle;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.PlatformParams;
 import ua.gram.munhauzen.entity.Audio;
+import ua.gram.munhauzen.entity.AudioFail;
 import ua.gram.munhauzen.entity.Image;
 import ua.gram.munhauzen.expansion.response.Part;
 
@@ -19,29 +20,38 @@ public class ExternalFiles {
     }
 
     public static void updateNomedia() {
-        getExternal("expansion/images/.nomedia").write(false);
-        getExternal("expansion/audio/.nomedia").write(false);
-        getExternal("expansion/balloons/.nomedia").write(false);
-        getExternal("expansion/cannons/.nomedia").write(false);
-        getExternal("expansion/chapter/.nomedia").write(false);
-        getExternal("expansion/continue/.nomedia").write(false);
-        getExternal("expansion/date/.nomedia").write(false);
-        getExternal("expansion/GameScreen/.nomedia").write(false);
-        getExternal("expansion/generals/.nomedia").write(false);
-        getExternal("expansion/hare/.nomedia").write(false);
-        getExternal("expansion/horn/.nomedia").write(false);
-        getExternal("expansion/lions/.nomedia").write(false);
-        getExternal("expansion/menu/.nomedia").write(false);
-        getExternal("expansion/picture/.nomedia").write(false);
-        getExternal("expansion/puzzle/.nomedia").write(false);
-        getExternal("expansion/saves/.nomedia").write(false);
-        getExternal("expansion/servants/.nomedia").write(false);
-        getExternal("expansion/slap/.nomedia").write(false);
-        getExternal("expansion/swamp/.nomedia").write(false);
-        getExternal("expansion/timer/.nomedia").write(false);
-        getExternal("expansion/timer2/.nomedia").write(false);
-        getExternal("expansion/ui/.nomedia").write(false);
-        getExternal("expansion/wau/.nomedia").write(false);
+        String[] dirs = {
+                "expansion/gallery",
+                "expansion/menu",
+                "expansion/GameScreen",
+                "expansion/ui",
+                "expansion/saves",
+                "expansion/fails",
+
+                "expansion/images",
+                "expansion/audio",
+
+                "expansion/balloons",
+                "expansion/cannons",
+                "expansion/chapter",
+                "expansion/continue",
+                "expansion/date",
+                "expansion/generals",
+                "expansion/hare",
+                "expansion/horn",
+                "expansion/lions",
+                "expansion/picture",
+                "expansion/puzzle",
+                "expansion/servants",
+                "expansion/slap",
+                "expansion/swamp",
+                "expansion/timer",
+                "expansion/timer2",
+                "expansion/wau",
+        };
+        for (String dir : dirs) {
+            getExternal(dir + "/.nomedia").write(false);
+        }
         getExternal("expansion/.nomedia").write(false);
     }
 
@@ -54,6 +64,10 @@ public class ExternalFiles {
     }
 
     public static FileHandle getExpansionAudio(Audio audio) {
+        return Gdx.files.external(getExpansionDir().path() + "/" + audio.file);
+    }
+
+    public static FileHandle getExpansionAudio(AudioFail audio) {
         return Gdx.files.external(getExpansionDir().path() + "/" + audio.file);
     }
 

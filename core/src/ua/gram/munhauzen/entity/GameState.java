@@ -35,6 +35,12 @@ public class GameState {
         try {
             isPaused = false;
             isFinaleReached = false;
+
+            history = new History();
+            menuState = new MenuState();
+            galleryState = new GalleryState();
+            failsState = new FailsState();
+
         } catch (Throwable e) {
             Log.e(tag, e);
         }
