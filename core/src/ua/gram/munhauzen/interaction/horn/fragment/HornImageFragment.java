@@ -161,7 +161,7 @@ public class HornImageFragment extends InteractionFragment {
     private void playIntro() {
         try {
             introAudio = new StoryAudio();
-            introAudio.audio = "sfx_inter_horn";
+            introAudio.name = "sfx_inter_horn";
 
             interaction.gameScreen.audioService.prepareAndPlay(introAudio);
 

@@ -230,7 +230,7 @@ public class SaveDialog extends Fragment {
         try {
 
             yesAudio = new StoryAudio();
-            yesAudio.audio = "sfx_save_yes";
+            yesAudio.name = "sfx_save_yes";
 
             screen.audioService.prepareAndPlay(yesAudio);
 
@@ -245,7 +245,7 @@ public class SaveDialog extends Fragment {
         try {
 
             noAudio = new StoryAudio();
-            noAudio.audio = "sfx_save_no";
+            noAudio.name = "sfx_save_no";
 
             screen.audioService.prepareAndPlay(noAudio);
 

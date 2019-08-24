@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.Align;
 
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.screen.MenuScreen;
 import ua.gram.munhauzen.screen.game.ui.BackgroundImage;
@@ -35,6 +36,7 @@ public class VictoryFragment extends Fragment {
     BackgroundImage backgroundImage;
     Image curtain;
     Label title;
+    StoryAudio intro;
 
     public VictoryFragment(GameScreen gameScreen) {
         this.screen = gameScreen;
@@ -82,6 +84,20 @@ public class VictoryFragment extends Fragment {
         backgroundImage.setBackgroundDrawable(new SpriteDrawable(new Sprite(
                 screen.assetManager.get(IMAGE, Texture.class)
         )));
+
+        playIntro();
+    }
+
+    private void playIntro() {
+        try {
+            intro = new StoryAudio();
+            intro.name = "sthe_end";
+
+            screen.audioService.prepareAndPlay(intro);
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
     }
 
     public void fadeIn() {
@@ -187,5 +203,19 @@ public class VictoryFragment extends Fragment {
 
     public void update() {
         curtain.setBounds(0, 0, MunhauzenGame.WORLD_WIDTH, MunhauzenGame.WORLD_HEIGHT);
+
+        if (intro != null) {
+            screen.audioService.updateVolume(intro);
+        }
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+
+        if (intro != null) {
+            screen.audioService.stop(intro);
+            intro = null;
+        }
     }
 }

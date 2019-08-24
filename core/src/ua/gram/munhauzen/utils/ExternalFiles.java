@@ -81,6 +81,10 @@ public class ExternalFiles {
         return getExternal("gallery-state.json");
     }
 
+    public static FileHandle getFailsStateFile() {
+        return getExternal("fails-state.json");
+    }
+
     public static FileHandle getSaveFile(String id) {
         return getExternal("save-" + id + ".json");
     }
@@ -90,11 +94,11 @@ public class ExternalFiles {
     }
 
     public static FileHandle getAudioFile() {
-        return getExternal("game/audio.json");
+        return getExternal("game/name.json");
     }
 
     public static FileHandle getAudioFailsFile() {
-        return getExternal("game/audio-fails.json");
+        return getExternal("game/name-fails.json");
     }
 
     public static FileHandle getInventoryFile() {

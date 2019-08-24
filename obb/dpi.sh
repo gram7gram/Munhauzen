@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SRC_DIR="/Users/master/Projects/MunhauzenDocs/Elements/PICTURES_FINAL/drawable"
-OBB_PATH=/Users/master/Projects/Munhauzen/obb
+OBB_PATH=/Users/master/Projects/Munhauzen/obb/en/images
 
 cd $SRC_DIR
 
@@ -25,9 +25,9 @@ for file in *.jpg; do
 
         echo "=> $file"
 
-        mkdir -p $OBB_PATH/en/images
+        mkdir -p $OBB_PATH
 
-        convert $file -resize 800 -quality 80 $OBB_PATH/en/images/$file
+        convert $file -resize 800 -quality 80 $OBB_PATH/$file
         EXIT_CODE=$?
         if [[ $EXIT_CODE != 0 ]]; then
             exit $EXIT_CODE

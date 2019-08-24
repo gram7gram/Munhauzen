@@ -51,7 +51,7 @@ public class StoryManager {
             log += storyScenario.startsAt + "-" + storyScenario.finishesAt + " " + storyScenario.scenario.name + "\r\n";
 
             for (StoryAudio item : storyScenario.scenario.audio) {
-                log += " - audio " + item.audio + " " + item.startsAt + "-" + item.finishesAt + "\r\n";
+                log += " - audio " + item.name + " " + item.startsAt + "-" + item.finishesAt + "\r\n";
             }
 
             for (StoryImage item : storyScenario.scenario.images) {
@@ -242,10 +242,6 @@ public class StoryManager {
 
             startVictory(story);
 
-        } else if (story.isDefeat()) {
-
-            startDefeat(story);
-
         } else {
             String interaction = story.currentScenario.scenario.interaction;
             if (interaction != null) {
@@ -279,10 +275,6 @@ public class StoryManager {
                 }
             }
         }, .4f);
-    }
-
-    private void startDefeat(Story story) {
-
     }
 
     private void startVictory(Story story) {

@@ -229,7 +229,7 @@ public class SwampImageFragment extends InteractionFragment {
             }
 
             bounceAudio = new StoryAudio();
-            bounceAudio.audio = "sfx_inter_swamp_2";
+            bounceAudio.name = "sfx_inter_swamp_2";
 
             interaction.gameScreen.audioService.prepareAndPlay(bounceAudio);
 
@@ -244,7 +244,7 @@ public class SwampImageFragment extends InteractionFragment {
     private void playWin() {
         try {
             winAudio = new StoryAudio();
-            winAudio.audio = "s24_a";
+            winAudio.name = "s24_a";
 
             interaction.gameScreen.audioService.prepareAndPlay(winAudio);
 
@@ -269,7 +269,7 @@ public class SwampImageFragment extends InteractionFragment {
             }
 
             pullAudio = new StoryAudio();
-            pullAudio.audio = "sfx_inter_swamp_1";
+            pullAudio.name = "sfx_inter_swamp_1";
 
             interaction.gameScreen.audioService.prepareAndPlay(pullAudio);
 

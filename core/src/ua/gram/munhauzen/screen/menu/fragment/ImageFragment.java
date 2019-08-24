@@ -902,7 +902,7 @@ public class ImageFragment extends Fragment {
             super.start();
 
             puppetAudio = new StoryAudio();
-            puppetAudio.audio = "s15_menu";
+            puppetAudio.name = "s15_menu";
 
             screen.audioService.prepareAndPlay(puppetAudio);
         }

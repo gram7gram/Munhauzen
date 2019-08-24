@@ -19,7 +19,6 @@ public class GameState {
     public static boolean isMute = false;
     public static boolean isFinaleReached = false;
 
-    public short NG;
     public History history;
     public ArrayList<Scenario> scenarioRegistry;
     public ArrayList<Image> imageRegistry;
@@ -29,17 +28,7 @@ public class GameState {
     public ArrayList<Chapter> chapterRegistry;
     public MenuState menuState;
     public GalleryState galleryState;
-
-    public GameState() {
-//        scenarioRegistry = new ArrayList<>();
-//        imageRegistry = new ArrayList<>();
-//        audioRegistry = new ArrayList<>();
-//        audioFailRegistry = new ArrayList<>();
-//        inventoryRegistry = new ArrayList<>();
-//        chapterRegistry = new ArrayList<>();
-//        menuState = new MenuState();
-//        galleryState = new GalleryState();
-    }
+    public FailsState failsState;
 
     public void reset() {
         Log.i(tag, "reset");

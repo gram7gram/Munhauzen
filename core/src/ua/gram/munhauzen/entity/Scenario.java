@@ -7,7 +7,6 @@ import com.badlogic.gdx.utils.Array;
  */
 public class Scenario {
 
-    public static final String DEATH = "DEATH";
     public static final String VICTORY = "VICTORY";
     public static final String FADE_IN = "FADE";
 
@@ -35,7 +34,4 @@ public class Scenario {
         return VICTORY.equals(name);
     }
 
-    public boolean isDefeat() {
-        return DEATH.equals(name);
-    }
 }

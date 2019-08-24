@@ -73,7 +73,7 @@ public class GameAudioService implements Disposable {
             return;
         }
 
-        Audio audio = AudioRepository.find(gameScreen.game.gameState, item.audio);
+        Audio audio = AudioRepository.find(gameScreen.game.gameState, item.name);
         if (item.duration == 0) {
             item.duration = audio.duration;
         }
@@ -109,9 +109,9 @@ public class GameAudioService implements Disposable {
 
     public void prepareAndPlay(StoryAudio item) {
 
-        Log.i(tag, "play " + item.audio);
+        Log.i(tag, "play " + item.name);
 
-        Audio audio = AudioRepository.find(gameScreen.game.gameState, item.audio);
+        Audio audio = AudioRepository.find(gameScreen.game.gameState, item.name);
         if (item.duration == 0) {
             item.duration = audio.duration;
         }
@@ -134,7 +134,7 @@ public class GameAudioService implements Disposable {
         item.player.play();
 
         synchronized (activeAudio) {
-            activeAudio.put(item.audio, item);
+            activeAudio.put(item.name, item);
         }
     }
 
@@ -150,13 +150,13 @@ public class GameAudioService implements Disposable {
             item.player.setPosition(delay);
             item.player.setVolume(GameState.isMute ? 0 : 1);
 
-            Log.i(tag, "playAudio " + item.audio + " duration=" + (item.duration / 1000) + "s");
+            Log.i(tag, "playAudio " + item.name + " duration=" + (item.duration / 1000) + "s");
 
             item.isActive = true;
             item.player.play();
 
             synchronized (activeAudio) {
-                activeAudio.put(item.audio, item);
+                activeAudio.put(item.name, item);
             }
 
         } catch (Throwable e) {
@@ -169,14 +169,14 @@ public class GameAudioService implements Disposable {
 
             if (storyAudio.player != null) {
 
-                Log.i(tag, "stop " + storyAudio.audio);
+                Log.i(tag, "stop " + storyAudio.name);
 
                 storyAudio.player.stop();
             }
 
             String resource = storyAudio.resource;
             if (resource == null) {
-                Audio audio = AudioRepository.find(gameScreen.game.gameState, storyAudio.audio);
+                Audio audio = AudioRepository.find(gameScreen.game.gameState, storyAudio.name);
 
                 FileHandle file = ExternalFiles.getExpansionAudio(audio);
                 if (!file.exists()) {
@@ -197,7 +197,7 @@ public class GameAudioService implements Disposable {
             storyAudio.player = null;
 
             synchronized (activeAudio) {
-                activeAudio.remove(storyAudio.audio);
+                activeAudio.remove(storyAudio.name);
             }
 
         } catch (Throwable e) {
@@ -815,7 +815,7 @@ public class GameAudioService implements Disposable {
                     for (HireStoryScenario option : story.scenarios) {
                         for (StoryAudio audio : option.scenario.audio) {
                             if (audio.player != null) {
-                                Log.e(tag, "updateMusicState paused " + audio.audio);
+                                Log.e(tag, "updateMusicState paused " + audio.name);
                                 audio.isActive = false;
                                 audio.player.pause();
                             }
@@ -831,7 +831,7 @@ public class GameAudioService implements Disposable {
                                 }
 
                                 if (audio.isActive && !audio.isLocked) {
-                                    Log.e(tag, "updateMusicState not locked " + audio.audio);
+                                    Log.e(tag, "updateMusicState not locked " + audio.name);
                                     audio.isActive = false;
                                     audio.player.pause();
                                 }
@@ -1213,7 +1213,7 @@ public class GameAudioService implements Disposable {
                     assetManager.unload(item.resource);
                     item.resource = null;
                 } else {
-                    Log.e(tag, item.audio + " dispose ignored");
+                    Log.e(tag, item.name + " dispose ignored");
                 }
             }
         }

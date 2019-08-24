@@ -29,7 +29,7 @@ public class HireStoryScenario extends StoryMedia<HireStoryScenario> {
         for (int i = 0; i < size; i++) {
             StoryAudio current = scenario.audio.get(i);
 
-            Audio audio = AudioRepository.find(gameState, current.audio);
+            Audio audio = AudioRepository.find(gameState, current.name);
             current.duration = audio.duration;
 
             current.isLocked = false;

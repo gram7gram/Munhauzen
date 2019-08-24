@@ -139,7 +139,7 @@ public class ServantsInteraction extends AbstractInteraction {
         try {
 
             fireAudio = new StoryAudio();
-            fireAudio.audio = MathUtils.random(new String[]{
+            fireAudio.name = MathUtils.random(new String[]{
                     "sfx_inter_servants_inventory_1",
                     "sfx_inter_servants_inventory_2",
                     "sfx_inter_servants_inventory_3",

@@ -295,7 +295,7 @@ public class DateImageFragment extends InteractionFragment {
     private void playFailed() {
         try {
             failedAudio = new StoryAudio();
-            failedAudio.audio = "smoon_incorrect";
+            failedAudio.name = "smoon_incorrect";
 
             interaction.gameScreen.audioService.prepareAndPlay(failedAudio);
 

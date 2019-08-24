@@ -415,7 +415,7 @@ public class ServantsFireImageFragment extends InteractionFragment {
             stopDismiss();
 
             dismissAudio = new StoryAudio();
-            dismissAudio.audio = MathUtils.random(new String[]{
+            dismissAudio.name = MathUtils.random(new String[]{
                     "sfx_inter_servants_dismiss_1",
                     "sfx_inter_servants_dismiss_2",
                     "sfx_inter_servants_dismiss_3",
@@ -444,7 +444,7 @@ public class ServantsFireImageFragment extends InteractionFragment {
             stopBack();
 
             backAudio = new StoryAudio();
-            backAudio.audio = MathUtils.random(new String[]{
+            backAudio.name = MathUtils.random(new String[]{
                     "sfx_inter_servants_back_1",
                     "sfx_inter_servants_back_2",
                     "sfx_inter_servants_back_3",
@@ -473,7 +473,7 @@ public class ServantsFireImageFragment extends InteractionFragment {
             stopDiscard();
 
             discardAudio = new StoryAudio();
-            discardAudio.audio = MathUtils.random(new String[]{
+            discardAudio.name = MathUtils.random(new String[]{
                     "sfx_inter_servants_restart_1",
                     "sfx_inter_servants_restart_2"
             });

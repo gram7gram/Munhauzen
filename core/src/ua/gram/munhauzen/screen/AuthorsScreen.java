@@ -82,7 +82,7 @@ public class AuthorsScreen extends AbstractScreen {
     private void playIntro() {
         try {
             intro = new StoryAudio();
-            intro.audio = "sfx_authors";
+            intro.name = "sfx_authors";
 
             audioService.prepareAndPlay(intro);
         } catch (Throwable e) {

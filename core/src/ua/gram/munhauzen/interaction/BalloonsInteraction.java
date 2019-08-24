@@ -64,7 +64,7 @@ public class BalloonsInteraction extends AbstractInteraction {
     private void playIntro() {
         try {
             introAudio = new StoryAudio();
-            introAudio.audio = MathUtils.random(new String[]{
+            introAudio.name = MathUtils.random(new String[]{
                     "sfx_inter_start_1",
                     "sfx_inter_start_2",
                     "sfx_inter_start_3",

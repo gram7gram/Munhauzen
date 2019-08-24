@@ -139,7 +139,7 @@ public class DateInteraction extends AbstractInteraction {
     private void playWin() {
         try {
             winAudio = new StoryAudio();
-            winAudio.audio = "sfx_inter_date";
+            winAudio.name = "sfx_inter_date";
 
             gameScreen.audioService.prepareAndPlay(winAudio);
 

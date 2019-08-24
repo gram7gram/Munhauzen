@@ -295,7 +295,7 @@ public class GameScreen implements Screen {
                             + "" + (scenarioOption.isLocked ? " lock" : "")
                     );
                     for (StoryAudio audio : scenarioOption.scenario.audio) {
-                        strings.add("--audio:" + audio.audio
+                        strings.add("--audio:" + audio.name
                                 + "" + (audio.isLocked ? " locked" : "")
                                 + "" + (audio.isActive ? " active" : "")
                         );

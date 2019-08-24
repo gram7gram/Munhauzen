@@ -258,7 +258,7 @@ public class ProBanner extends Fragment {
             stopIntro();
 
             introAudio = new StoryAudio();
-            introAudio.audio = "sfx_menu_full_0";
+            introAudio.name = "sfx_menu_full_0";
 
             screen.audioService.prepareAndPlay(introAudio);
         } catch (Throwable e) {
@@ -280,7 +280,7 @@ public class ProBanner extends Fragment {
             stopClick();
 
             clickAudio = new StoryAudio();
-            clickAudio.audio = "sfx_menu_full_1";
+            clickAudio.name = "sfx_menu_full_1";
 
             screen.audioService.prepareAndPlay(clickAudio);
         } catch (Throwable e) {

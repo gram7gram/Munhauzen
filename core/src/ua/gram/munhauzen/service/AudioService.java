@@ -44,7 +44,7 @@ public class AudioService implements Disposable {
             return;
         }
 
-        Audio audio = AudioRepository.find(game.gameState, item.audio);
+        Audio audio = AudioRepository.find(game.gameState, item.name);
         if (item.duration == 0) {
             item.duration = audio.duration;
         }
@@ -80,9 +80,9 @@ public class AudioService implements Disposable {
 
     public void prepareAndPlay(final StoryAudio item) {
 
-        Log.i(tag, "play " + item.audio);
+        Log.i(tag, "play " + item.name);
 
-        Audio audio = AudioRepository.find(game.gameState, item.audio);
+        Audio audio = AudioRepository.find(game.gameState, item.name);
         if (item.duration == 0) {
             item.duration = audio.duration;
         }
@@ -116,7 +116,7 @@ public class AudioService implements Disposable {
 
         item.player.play();
 
-        activeAudio.put(item.audio, item);
+        activeAudio.put(item.name, item);
     }
 
     public void onPrepared(StoryAudio item) {
@@ -127,7 +127,7 @@ public class AudioService implements Disposable {
 
             long diff = DateUtils.getDateDiff(item.prepareCompletedAt, item.prepareStartedAt, TimeUnit.MILLISECONDS);
 
-            Log.i(tag, "onPrepared " + item.audio + " in " + diff + "ms");
+            Log.i(tag, "onPrepared " + item.name + " in " + diff + "ms");
 
             item.prepareCompletedAt = null;
             item.prepareStartedAt = null;
@@ -150,12 +150,12 @@ public class AudioService implements Disposable {
             item.player.setPosition(delay);
             item.player.setVolume(GameState.isMute ? 0 : 1);
 
-            Log.i(tag, "playAudio " + item.audio + " duration=" + (item.duration / 1000) + "s");
+            Log.i(tag, "playAudio " + item.name + " duration=" + (item.duration / 1000) + "s");
 
             item.isActive = true;
             item.player.play();
 
-            activeAudio.put(item.audio, item);
+            activeAudio.put(item.name, item);
 
         } catch (Throwable e) {
             Log.e(tag, e);
@@ -165,14 +165,14 @@ public class AudioService implements Disposable {
     public void stop(StoryAudio storyAudio) {
         try {
 
-            Log.i(tag, "stop " + storyAudio.audio);
+            Log.i(tag, "stop " + storyAudio.name);
 
             if (storyAudio.player != null)
                 storyAudio.player.stop();
 
             String resource = storyAudio.resource;
             if (resource == null) {
-                Audio audio = AudioRepository.find(game.gameState, storyAudio.audio);
+                Audio audio = AudioRepository.find(game.gameState, storyAudio.name);
 
                 FileHandle file = ExternalFiles.getExpansionAudio(audio);
                 if (!file.exists()) {
@@ -192,7 +192,7 @@ public class AudioService implements Disposable {
             storyAudio.isLocked = false;
             storyAudio.player = null;
 
-            activeAudio.remove(storyAudio.audio);
+            activeAudio.remove(storyAudio.name);
 
         } catch (Throwable e) {
             Log.e(tag, e);

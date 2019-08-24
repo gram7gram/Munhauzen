@@ -12,6 +12,7 @@ import ua.gram.munhauzen.entity.AudioFail;
 import ua.gram.munhauzen.entity.Chapter;
 import ua.gram.munhauzen.entity.ChapterTranslation;
 import ua.gram.munhauzen.entity.Decision;
+import ua.gram.munhauzen.entity.FailsState;
 import ua.gram.munhauzen.entity.GalleryState;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.Image;
@@ -116,6 +117,16 @@ public class DatabaseManager {
         }
 
         try {
+            state.failsState = loadFailsState();
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            ExternalFiles.getFailsStateFile().delete();
+
+            state.failsState = new FailsState();
+        }
+
+        try {
             loadActiveSave(state.history);
         } catch (Throwable e) {
             Log.e(tag, e);
@@ -162,6 +173,17 @@ public class DatabaseManager {
                 }
             }
         }).start();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    persistFailsState(gameState.failsState);
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
+            }
+        }).start();
     }
 
     public void persistGalleryState(GalleryState state) {
@@ -180,6 +202,13 @@ public class DatabaseManager {
         FileHandle file = ExternalFiles.getMenuStateFile();
 
         json.toJson(state, file);
+    }
+
+    public void persistFailsState(FailsState state) {
+        Json json = new Json(JsonWriter.OutputType.json);
+        json.setIgnoreUnknownFields(true);
+
+        json.toJson(state, ExternalFiles.getFailsStateFile());
     }
 
     public void persistHistory(History history) {
@@ -218,6 +247,22 @@ public class DatabaseManager {
             state = new MenuState();
         } else {
             state = json.fromJson(MenuState.class, file);
+        }
+
+        return state;
+    }
+
+    private FailsState loadFailsState() {
+        Json json = new Json(JsonWriter.OutputType.json);
+        json.setIgnoreUnknownFields(true);
+
+        FileHandle file = ExternalFiles.getFailsStateFile();
+
+        FailsState state;
+        if (!file.exists()) {
+            state = new FailsState();
+        } else {
+            state = json.fromJson(FailsState.class, file);
         }
 
         return state;
@@ -275,7 +320,7 @@ public class DatabaseManager {
         json.setIgnoreUnknownFields(true);
         json.setElementType(Scenario.class, "decisions", Decision.class);
         json.setElementType(Scenario.class, "images", StoryImage.class);
-        json.setElementType(Scenario.class, "audio", StoryAudio.class);
+        json.setElementType(Scenario.class, "name", StoryAudio.class);
         json.setElementType(Scenario.class, "translations", ScenarioTranslation.class);
 
         return json.fromJson(Array.class, TimerScenario.class, Files.getTimerScenarioFile());
@@ -287,7 +332,7 @@ public class DatabaseManager {
         json.setIgnoreUnknownFields(true);
         json.setElementType(Scenario.class, "decisions", Decision.class);
         json.setElementType(Scenario.class, "images", StoryImage.class);
-        json.setElementType(Scenario.class, "audio", StoryAudio.class);
+        json.setElementType(Scenario.class, "name", StoryAudio.class);
         json.setElementType(Scenario.class, "translations", ScenarioTranslation.class);
 
         return json.fromJson(Array.class, Timer2Scenario.class, Files.getTimer2ScenarioFile());
@@ -299,7 +344,7 @@ public class DatabaseManager {
         json.setIgnoreUnknownFields(true);
         json.setElementType(Scenario.class, "decisions", Decision.class);
         json.setElementType(Scenario.class, "images", GeneralsStoryImage.class);
-        json.setElementType(Scenario.class, "audio", StoryAudio.class);
+        json.setElementType(Scenario.class, "name", StoryAudio.class);
         json.setElementType(Scenario.class, "translations", ScenarioTranslation.class);
 
         return json.fromJson(Array.class, GeneralsScenario.class, Files.getGeneralsScenarioFile());
@@ -311,7 +356,7 @@ public class DatabaseManager {
         json.setIgnoreUnknownFields(true);
         json.setElementType(Scenario.class, "decisions", Decision.class);
         json.setElementType(Scenario.class, "images", WauStoryImage.class);
-        json.setElementType(Scenario.class, "audio", StoryAudio.class);
+        json.setElementType(Scenario.class, "name", StoryAudio.class);
         json.setElementType(Scenario.class, "translations", ScenarioTranslation.class);
 
         return json.fromJson(Array.class, WauScenario.class, Files.getWauwauScenarioFile());
@@ -323,7 +368,7 @@ public class DatabaseManager {
         json.setIgnoreUnknownFields(true);
         json.setElementType(Scenario.class, "decisions", Decision.class);
         json.setElementType(Scenario.class, "images", CannonsStoryImage.class);
-        json.setElementType(Scenario.class, "audio", StoryAudio.class);
+        json.setElementType(Scenario.class, "name", StoryAudio.class);
         json.setElementType(Scenario.class, "translations", ScenarioTranslation.class);
 
         return json.fromJson(Array.class, CannonsScenario.class, Files.getCannonsScenarioFile());
@@ -335,7 +380,7 @@ public class DatabaseManager {
         json.setIgnoreUnknownFields(true);
         json.setElementType(Scenario.class, "decisions", Decision.class);
         json.setElementType(Scenario.class, "images", StoryImage.class);
-        json.setElementType(Scenario.class, "audio", StoryAudio.class);
+        json.setElementType(Scenario.class, "name", StoryAudio.class);
         json.setElementType(Scenario.class, "translations", ScenarioTranslation.class);
 
         return json.fromJson(Array.class, HareScenario.class, Files.getHareScenarioFile());
@@ -347,7 +392,7 @@ public class DatabaseManager {
         json.setIgnoreUnknownFields(true);
         json.setElementType(Scenario.class, "decisions", Decision.class);
         json.setElementType(Scenario.class, "images", StoryImage.class);
-        json.setElementType(Scenario.class, "audio", StoryAudio.class);
+        json.setElementType(Scenario.class, "name", StoryAudio.class);
         json.setElementType(Scenario.class, "translations", ScenarioTranslation.class);
 
         return json.fromJson(Array.class, PictureScenario.class, Files.getPictureScenarioFile());
@@ -358,7 +403,7 @@ public class DatabaseManager {
         Json json = new Json(JsonWriter.OutputType.json);
         json.setIgnoreUnknownFields(true);
         json.setElementType(Scenario.class, "images", HireStoryImage.class);
-        json.setElementType(Scenario.class, "audio", StoryAudio.class);
+        json.setElementType(Scenario.class, "name", StoryAudio.class);
 
         return json.fromJson(Array.class, HireScenario.class, Files.getServantsHireScenarioFile());
     }
@@ -369,7 +414,7 @@ public class DatabaseManager {
         json.setIgnoreUnknownFields(true);
         json.setElementType(Scenario.class, "decisions", Decision.class);
         json.setElementType(Scenario.class, "images", StoryImage.class);
-        json.setElementType(Scenario.class, "audio", StoryAudio.class);
+        json.setElementType(Scenario.class, "name", StoryAudio.class);
         json.setElementType(Scenario.class, "translations", ScenarioTranslation.class);
 
         return json.fromJson(ArrayList.class, Scenario.class, ExternalFiles.getScenarioFile());

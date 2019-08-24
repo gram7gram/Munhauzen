@@ -297,7 +297,7 @@ public class PuzzleDecisionManager {
             }
 
             destroyAudio = new StoryAudio();
-            destroyAudio.audio = soundName;
+            destroyAudio.name = soundName;
 
             interaction.gameScreen.audioService.prepareAndPlay(destroyAudio);
 
@@ -467,7 +467,7 @@ public class PuzzleDecisionManager {
 
         try {
             rodAudio = new StoryAudio();
-            rodAudio.audio = "s15_1_d";
+            rodAudio.name = "s15_1_d";
 
             interaction.gameScreen.audioService.prepareAndPlay(rodAudio);
 
@@ -554,7 +554,7 @@ public class PuzzleDecisionManager {
             }
 
             clockAudio = new StoryAudio();
-            clockAudio.audio = soundName;
+            clockAudio.name = soundName;
 
             interaction.gameScreen.audioService.prepareAndPlay(clockAudio);
 
@@ -575,7 +575,7 @@ public class PuzzleDecisionManager {
             Log.i(tag, "onCrowCombination");
 
             crowAudio = new StoryAudio();
-            crowAudio.audio = "s15_1_b";
+            crowAudio.name = "s15_1_b";
 
             interaction.gameScreen.audioService.prepareAndPlay(crowAudio);
 
@@ -607,7 +607,7 @@ public class PuzzleDecisionManager {
             }
 
             bombAudio = new StoryAudio();
-            bombAudio.audio = soundName;
+            bombAudio.name = soundName;
 
             interaction.gameScreen.audioService.prepareAndPlay(bombAudio);
 

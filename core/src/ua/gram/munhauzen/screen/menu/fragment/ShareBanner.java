@@ -167,7 +167,7 @@ public class ShareBanner extends Fragment {
             stopIntro();
 
             introAudio = new StoryAudio();
-            introAudio.audio = "sfx_menu_share_0";
+            introAudio.name = "sfx_menu_share_0";
 
             screen.audioService.prepareAndPlay(introAudio);
         } catch (Throwable e) {
@@ -180,7 +180,7 @@ public class ShareBanner extends Fragment {
             stopClick();
 
             clickAudio = new StoryAudio();
-            clickAudio.audio = "sfx_menu_share_1";
+            clickAudio.name = "sfx_menu_share_1";
 
             screen.audioService.prepareAndPlay(clickAudio);
         } catch (Throwable e) {
