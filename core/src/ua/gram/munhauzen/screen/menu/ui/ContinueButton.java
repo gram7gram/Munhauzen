@@ -19,7 +19,7 @@ public class ContinueButton extends MenuButton {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                screen.navigateTo(new DebugScreen(screen.game));
+                screen.scaleAndNavigateTo(new DebugScreen(screen.game));
             }
         });
     }

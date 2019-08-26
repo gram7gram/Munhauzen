@@ -1,11 +1,13 @@
 package ua.gram.munhauzen.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.AudioFail;
+import ua.gram.munhauzen.entity.Image;
 import ua.gram.munhauzen.entity.MenuState;
 import ua.gram.munhauzen.screen.menu.fragment.ControlsFragment;
 import ua.gram.munhauzen.screen.menu.fragment.DemoBanner;
@@ -37,7 +39,7 @@ public class MenuScreen extends AbstractScreen {
     public ExitDialog exitDialog;
     public ThankYouBanner thankYouBanner;
     public AudioService audioService;
-    public boolean isButtonClicked;
+    public boolean isButtonClicked, isZoomStarted;
 
     public MenuScreen(MunhauzenGame game) {
         super(game);
@@ -81,6 +83,26 @@ public class MenuScreen extends AbstractScreen {
         for (AudioFail fail : game.gameState.audioFailRegistry) {
             if (fail.isFailOpenedOnStart) {
                 game.gameState.history.openedFails.add(fail.name);
+            }
+        }
+
+        for (Image image : game.gameState.getGalleryImages()) {
+
+            boolean isOpened = game.gameState.history.viewedImages.contains(image.name);
+            boolean isViewed = game.gameState.galleryState.visitedImages.contains(image.name);
+            if (isOpened && !isViewed) {
+                game.gameState.galleryState.hasUpdates = true;
+                break;
+            }
+        }
+
+        for (AudioFail fail : game.gameState.audioFailRegistry) {
+
+            boolean isOpened = game.gameState.history.openedFails.contains(fail.name);
+            boolean isViewed = game.gameState.failsState.listenedAudio.contains(fail.name);
+            if (isOpened && !isViewed) {
+                game.gameState.failsState.hasUpdates = true;
+                break;
             }
         }
 
@@ -279,6 +301,10 @@ public class MenuScreen extends AbstractScreen {
         if (exitDialog != null) {
             exitDialog.update();
         }
+
+        if (isZoomStarted) {
+            game.camera.zoom -= .4f * delta;
+        }
     }
 
     @Override
@@ -318,5 +344,36 @@ public class MenuScreen extends AbstractScreen {
             rateBanner.destroy();
             rateBanner = null;
         }
+    }
+
+    public void scaleAndNavigateTo(final Screen screen) {
+
+        controlsFragment.fadeOutFancy();
+
+        isZoomStarted = true;
+
+        Timer.instance().scheduleTask(new Timer.Task() {
+            @Override
+            public void run() {
+                imageFragment.fadeOut();
+            }
+        }, 1.5f);
+
+        Timer.instance().scheduleTask(new Timer.Task() {
+            @Override
+            public void run() {
+                isZoomStarted = false;
+
+                game.camera.zoom = 1;
+                game.camera.update();
+            }
+        }, 2);
+
+        Timer.instance().scheduleTask(new Timer.Task() {
+            @Override
+            public void run() {
+                navigateTo(screen);
+            }
+        }, 2.1f);
     }
 }

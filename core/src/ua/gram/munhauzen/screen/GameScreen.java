@@ -102,6 +102,8 @@ public class GameScreen implements Screen {
 
         Log.i(tag, "show");
 
+        game.camera.zoom = 1;
+
         isLoaded = false;
 
         background = game.assetManager.get("p0.jpg", Texture.class);

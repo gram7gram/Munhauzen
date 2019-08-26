@@ -14,12 +14,14 @@ public class GalleryButton extends MenuButton {
     public GalleryButton(final MenuScreen screen) {
         super(screen);
 
+        hasLock = screen.game.gameState.galleryState.hasUpdates;
+
         create("Gallery", new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                screen.navigateTo(new GalleryScreen(screen.game));
+                screen.scaleAndNavigateTo(new GalleryScreen(screen.game));
             }
         });
     }

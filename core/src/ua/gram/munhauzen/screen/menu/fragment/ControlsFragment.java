@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.MunhauzenGame;
@@ -240,6 +241,69 @@ public class ControlsFragment extends Fragment {
                         isFadeIn = false;
                         isFadeOut = false;
                         isVisible = true;
+                    }
+                })
+        ));
+
+    }
+
+    public void fadeOutFancy() {
+
+        if (isFadeOut) return;
+
+        isFadeIn = false;
+        isFadeOut = true;
+
+        titleContainer.addAction(Actions.sequence(
+                Actions.parallel(
+                        Actions.moveBy(0, -20, .2f),
+                        Actions.alpha(0, .2f)
+                ),
+                Actions.visible(false)
+        ));
+
+        float delay = 0;
+
+        Array<Cell> cells = btnTable.getCells();
+        cells.reverse();
+
+        for (Cell cell : cells) {
+
+            cell.getActor().addAction(Actions.sequence(
+                    Actions.delay(delay),
+                    Actions.parallel(
+                            Actions.visible(true),
+                            Actions.moveBy(0, 20, .2f),
+                            Actions.alpha(0, .2f)
+                    )
+            ));
+
+            delay += .1f;
+        }
+
+        sideContainer.addAction(Actions.sequence(
+                Actions.parallel(
+                        Actions.moveBy(-20, 0, .2f),
+                        Actions.alpha(0, .2f)
+                )
+        ));
+
+        exitContainer.addAction(Actions.sequence(
+                Actions.parallel(
+                        Actions.moveBy(0, -20, .2f),
+                        Actions.alpha(0, .2f)
+                )
+        ));
+
+        root.addAction(Actions.sequence(
+                Actions.delay(delay),
+                Actions.visible(false),
+                Actions.run(new Runnable() {
+                    @Override
+                    public void run() {
+                        isFadeIn = false;
+                        isFadeOut = false;
+                        isVisible = false;
                     }
                 })
         ));

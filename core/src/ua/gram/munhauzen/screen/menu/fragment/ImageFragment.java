@@ -164,6 +164,14 @@ public class ImageFragment extends Fragment {
         return false;
     }
 
+    public void fadeOut() {
+
+        root.addAction(Actions.sequence(
+                Actions.alpha(0, .5f),
+                Actions.visible(false)
+        ));
+    }
+
     @Override
     public void dispose() {
         super.dispose();

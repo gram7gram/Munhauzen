@@ -14,12 +14,14 @@ public class GoofsButton extends MenuButton {
     public GoofsButton(final MenuScreen screen) {
         super(screen);
 
+        hasLock = screen.game.gameState.failsState.hasUpdates;
+
         create("Goofs", new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                screen.navigateTo(new FailsScreen(screen.game));
+                screen.scaleAndNavigateTo(new FailsScreen(screen.game));
             }
         });
     }

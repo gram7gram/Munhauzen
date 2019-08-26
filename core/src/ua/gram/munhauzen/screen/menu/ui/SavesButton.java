@@ -19,7 +19,7 @@ public class SavesButton extends MenuButton {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                screen.navigateTo(new SavesScreen(screen.game));
+                screen.scaleAndNavigateTo(new SavesScreen(screen.game));
             }
         });
     }

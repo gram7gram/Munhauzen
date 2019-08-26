@@ -7,6 +7,8 @@ import java.util.HashSet;
 public class GalleryState implements JsonEntry {
 
     @JsonProperty
+    public boolean hasUpdates;
+    @JsonProperty
     public HashSet<String> visitedImages;
 
     public GalleryState() {

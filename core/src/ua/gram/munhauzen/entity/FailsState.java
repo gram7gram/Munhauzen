@@ -10,6 +10,8 @@ public class FailsState implements JsonEntry {
     public HashSet<String> listenedAudio;
     @JsonProperty
     public boolean isMunhauzen;
+    @JsonProperty
+    public boolean hasUpdates;
 
     public FailsState() {
         listenedAudio = new HashSet<>();

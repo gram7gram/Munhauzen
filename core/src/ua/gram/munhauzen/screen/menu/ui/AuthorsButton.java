@@ -19,7 +19,7 @@ public class AuthorsButton extends MenuButton {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                screen.navigateTo(new AuthorsScreen(screen.game));
+                screen.scaleAndNavigateTo(new AuthorsScreen(screen.game));
             }
         });
     }
