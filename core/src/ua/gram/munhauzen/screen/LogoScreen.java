@@ -35,7 +35,7 @@ public class LogoScreen implements Screen {
     public void show() {
         ui = new MunhauzenStage(game);
 
-//        canRedirectToLoading = true;
+        canRedirectToLoading = true;
 
         restoreFromFile();
 

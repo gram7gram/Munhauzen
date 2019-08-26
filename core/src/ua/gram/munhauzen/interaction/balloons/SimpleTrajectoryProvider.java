@@ -83,7 +83,7 @@ public class SimpleTrajectoryProvider {
     public static Vector2[] obtain() {
 
         ++count;
-        if (count > trajectories.length) count = 0;
+        if (count == trajectories.length) count = 0;
 
         Vector2[] match = trajectories[count];
 

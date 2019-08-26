@@ -150,7 +150,9 @@ public class MunhauzenGame extends Game {
         gameState = new GameState();
 
         try {
-            databaseManager.loadExternal(gameState);
+            if (ExternalFiles.getExpansionInfoFile(params).exists()) {
+                databaseManager.loadExternal(gameState);
+            }
         } catch (Throwable e) {
             Log.e(tag, e);
         }

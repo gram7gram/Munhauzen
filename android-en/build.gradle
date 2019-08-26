@@ -31,7 +31,7 @@ android {
         versionName APP_VERSION_NAME
 
         manifestPlaceholders = [
-            appName : "Munhauzen",
+            appName : "Munchauzen",
             appNameSuffix : "",
         ]
     }
@@ -82,7 +82,7 @@ android {
 //            dimension "i18n"
 //            resConfig "en"
 //
-//            manifestPlaceholders.appName = "Munhauzen"
+//            manifestPlaceholders.appName = "Munchauzen"
 //        }
 //    }
 

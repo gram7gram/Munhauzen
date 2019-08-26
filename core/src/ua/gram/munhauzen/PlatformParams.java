@@ -25,6 +25,6 @@ public class PlatformParams {
     }
 
     public String getGameExportUrl() {
-        return gameHost + "/api/v1/export";
+        return "http://munhauzen-api.fingertips.cf/api/v1/export";
     }
 }

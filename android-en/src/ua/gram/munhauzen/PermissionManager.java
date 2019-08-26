@@ -20,16 +20,6 @@ public class PermissionManager {
             Manifest.permission.WAKE_LOCK,
             Manifest.permission.INTERNET,
             Manifest.permission.ACCESS_NETWORK_STATE,
-            Manifest.permission.GET_ACCOUNTS,
-    };
-
-    public static final String[] MUST_HAVE_PERMISSIONS = new String[]{
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.WAKE_LOCK,
-            Manifest.permission.INTERNET,
-            Manifest.permission.ACCESS_NETWORK_STATE,
-            Manifest.permission.GET_ACCOUNTS,
     };
 
     public static final int PERMISSION_REQUEST = 99;
@@ -60,24 +50,5 @@ public class PermissionManager {
             e.printStackTrace();
         }
     }
-
-    public static boolean isAllGranted(Activity context) {
-        return isAllGranted(context, PermissionManager.PERMISSIONS);
-    }
-
-    public static boolean isAllGranted(Activity context, String[] permissions) {
-        for (String permission : permissions) {
-            if (!PermissionManager.isGranted(context, permission)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public static boolean isGranted(Activity context, String permission) {
-        int state = ContextCompat.checkSelfPermission(context, permission);
-        return state == PackageManager.PERMISSION_GRANTED;
-    }
-
 
 }

@@ -50,6 +50,7 @@ public class ControlsFragment extends Fragment {
                 "Да, дорогие друзья! Это действительно так! И кто мне не верит пусть сам отправляется туда! На Луну!",
                 "Тому джентельмену. Кто сомневается в моей правдивости, я поставлю вазон коньяка и заставлю ему его выпить до дна!",
                 "Да. Друзья, это так!",
+                "Resources are download once and will be available offline"
         };
 
         retryBtn = screen.game.buttonBuilder.primary("Retry", new ClickListener() {

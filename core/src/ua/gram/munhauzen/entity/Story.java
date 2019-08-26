@@ -36,7 +36,7 @@ public class Story implements JsonEntry {
             }
         }
 
-        return true;
+        return false;
     }
 
     @JsonIgnore

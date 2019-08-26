@@ -164,7 +164,7 @@ public class DatabaseManager {
 
             ExternalFiles.getSaveFile(state.history.activeSaveId).delete();
 
-            state.setActiveSave(new Save("1"));
+            state.setActiveSave(new Save());
         }
     }
 

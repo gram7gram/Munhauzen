@@ -325,6 +325,9 @@ public class ExpansionDownloadManager implements Disposable {
     }
 
     private void onComplete() {
+
+        if (expansionInfo == null) return;
+
         Log.i(tag, "onComplete");
 
         fragment.progress.setText("100%");
