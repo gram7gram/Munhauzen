@@ -32,6 +32,7 @@ import ua.gram.munhauzen.service.ExpansionImageService;
 import ua.gram.munhauzen.service.GameAudioService;
 import ua.gram.munhauzen.service.InteractionService;
 import ua.gram.munhauzen.service.StoryManager;
+import ua.gram.munhauzen.utils.DateUtils;
 import ua.gram.munhauzen.utils.ExpansionAssetManager;
 import ua.gram.munhauzen.utils.Log;
 
@@ -510,7 +511,11 @@ public class GameScreen implements Screen {
     }
 
     public Save getActiveSave() {
-        return game.gameState.activeSave;
+        Save save = game.gameState.activeSave;
+
+        save.updatedAt = DateUtils.now();
+
+        return save;
     }
 
     public void navigateTo(Screen screen) {

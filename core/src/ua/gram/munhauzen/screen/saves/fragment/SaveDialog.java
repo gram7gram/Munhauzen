@@ -28,6 +28,7 @@ import ua.gram.munhauzen.screen.SavesScreen;
 import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.ui.PrimaryButton;
+import ua.gram.munhauzen.utils.DateUtils;
 import ua.gram.munhauzen.utils.Log;
 
 /**
@@ -255,6 +256,7 @@ public class SaveDialog extends Fragment {
 
             Save copy = json.fromJson(Save.class, json.toJson(game.gameState.activeSave));
             copy.id = save.id;
+            copy.updatedAt = DateUtils.now();
 
             game.databaseManager.persistSave(copy);
 
@@ -342,7 +344,7 @@ public class SaveDialog extends Fragment {
             screen.audioService.updateVolume(noAudio);
         }
 
-        delBtn.setDisabled(save.chapter == null);
+        delBtn.setDisabled(save.chapter == null || save.id.equals(game.gameState.history.activeSaveId));
         startBtn.setDisabled(save.chapter == null);
         saveBtn.setDisabled(game.gameState.activeSave.chapter == null);
     }

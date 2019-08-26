@@ -64,10 +64,10 @@ public class Statue extends Group {
     public void act(float delta) {
         super.act(delta);
 
-        statue.setPosition(10, 0);
+        statue.setPosition(MunhauzenGame.WORLD_WIDTH * .05f, 0);
 
         item.setPosition(
-                statue.getX() + statueWidth * .1f,
+                statue.getX(),
                 statue.getY() + statueHeight * .95f
         );
 
@@ -92,7 +92,7 @@ public class Statue extends Group {
 
         item.setDrawable(drawable);
 
-        float width = statueWidth * .9f;
+        float width = statueWidth;
         float scale = 1f * width / drawable.getMinWidth();
         float height = 1f * drawable.getMinHeight() * scale;
 

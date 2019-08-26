@@ -12,7 +12,7 @@ public class BonusFrame extends Frame {
 
     @Override
     public float getFramePaddingPercent() {
-        return .08f;
+        return .055f;
     }
 
     @Override

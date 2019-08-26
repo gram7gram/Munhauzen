@@ -42,7 +42,6 @@ import ua.gram.munhauzen.interaction.timer.TimerScenario;
 import ua.gram.munhauzen.interaction.timer2.Timer2Scenario;
 import ua.gram.munhauzen.interaction.wauwau.WauScenario;
 import ua.gram.munhauzen.interaction.wauwau.WauStoryImage;
-import ua.gram.munhauzen.utils.DateUtils;
 import ua.gram.munhauzen.utils.ExternalFiles;
 import ua.gram.munhauzen.utils.Files;
 import ua.gram.munhauzen.utils.Log;
@@ -256,8 +255,6 @@ public class DatabaseManager {
 
     public void persistSave(Save save) throws IOException {
         FileHandle file = ExternalFiles.getSaveFile(save.id);
-
-        save.updatedAt = DateUtils.now();
 
         if (save.story != null) {
             StoryScenario storyScenario = save.story.last();

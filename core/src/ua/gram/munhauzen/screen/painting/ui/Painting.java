@@ -224,15 +224,9 @@ public abstract class Painting extends Group {
 
         isWide = drawable.getMinWidth() > drawable.getMinHeight();
 
-//        if (!isWide) {
         backgroundWidth = MunhauzenGame.WORLD_WIDTH / 2f;
         backgroundScale = 1f * backgroundWidth / drawable.getMinWidth();
         backgroundHeight = 1f * drawable.getMinHeight() * backgroundScale;
-//        } else {
-//            backgroundHeight = MunhauzenGame.WORLD_WIDTH / 2f;
-//            backgroundScale = 1f * backgroundHeight / drawable.getMinHeight();
-//            backgroundWidth = 1f * drawable.getMinWidth() * backgroundScale;
-//        }
 
         background.setSize(backgroundWidth, backgroundHeight);
     }
