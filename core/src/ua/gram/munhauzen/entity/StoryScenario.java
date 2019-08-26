@@ -1,17 +1,24 @@
 package ua.gram.munhauzen.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class StoryScenario extends StoryMedia<StoryScenario> {
 
+    @JsonProperty
     public int duration;
+    @JsonProperty
     public Scenario scenario;
+    @JsonIgnore
     public StoryImage currentImage;
+    @JsonIgnore
     public StoryAudio currentAudio;
 
     public void init() {
         currentImage = null;
         currentAudio = null;
 
-        int size = scenario.images.size;
+        int size = scenario.images.size();
         int imageDuration = 0;
 
         for (int i = 0; i < size; i++) {
@@ -42,7 +49,7 @@ public class StoryScenario extends StoryMedia<StoryScenario> {
             imageDuration += current.duration;
         }
 
-        size = scenario.audio.size;
+        size = scenario.audio.size();
         int audioDuration = 0;
 
         for (int i = 0; i < size; i++) {
@@ -84,7 +91,7 @@ public class StoryScenario extends StoryMedia<StoryScenario> {
         currentAudio = null;
 
         if (scenario.images != null) {
-            if (scenario.images.size > 0) {
+            if (scenario.images.size() > 0) {
                 if ((int) progress == max) {
                     currentImage = scenario.lastImage();
                 } else {
@@ -110,7 +117,7 @@ public class StoryScenario extends StoryMedia<StoryScenario> {
         }
 
         if (scenario.audio != null) {
-            if (scenario.audio.size > 0) {
+            if (scenario.audio.size() > 0) {
                 if ((int) progress == max) {
                     currentAudio = scenario.lastAudio();
                 } else {

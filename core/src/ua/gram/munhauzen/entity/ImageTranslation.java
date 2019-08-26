@@ -1,7 +1,10 @@
 package ua.gram.munhauzen.entity;
 
-public class ImageTranslation {
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public class ImageTranslation implements JsonEntry {
+    @JsonProperty
     public String locale;
+    @JsonProperty
     public String description;
-    public String statueTitle;
 }

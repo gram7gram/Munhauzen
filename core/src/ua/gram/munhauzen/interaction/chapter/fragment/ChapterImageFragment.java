@@ -135,7 +135,7 @@ public class ChapterImageFragment extends Fragment {
         int duration = 3000;
         if (chapter.chapterAudio != null) {
             chapterAudio = new StoryAudio();
-            chapterAudio.name = chapter.chapterAudio;
+            chapterAudio.audio = chapter.chapterAudio;
 
             interaction.gameScreen.audioService.prepareAndPlay(chapterAudio);
 

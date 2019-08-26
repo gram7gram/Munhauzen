@@ -1,9 +1,16 @@
 package ua.gram.munhauzen.entity;
 
-public class MenuState {
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public class MenuState implements JsonEntry {
+    @JsonProperty
     public int openCount;
+    @JsonProperty
     public boolean isGreetingViewed;
+    @JsonProperty
     public boolean isShareViewed;
-    public boolean forceShowThankYouBanner;
+    @JsonProperty
+    public boolean showThankYouBanner;
+    @JsonProperty
     public boolean isContinueEnabled;
 }

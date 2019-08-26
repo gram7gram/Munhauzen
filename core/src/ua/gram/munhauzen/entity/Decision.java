@@ -1,10 +1,16 @@
 package ua.gram.munhauzen.entity;
 
-import com.badlogic.gdx.utils.Array;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Decision {
+import java.util.ArrayList;
+
+public class Decision implements JsonEntry {
+    @JsonProperty
     public int order;
+    @JsonProperty
     public String scenario;
-    public Array<String> inventoryRequired;
-    public Array<String> inventoryAbsent;
+    @JsonProperty
+    public ArrayList<String> inventoryRequired;
+    @JsonProperty
+    public ArrayList<String> inventoryAbsent;
 }

@@ -1,6 +1,6 @@
 package ua.gram.munhauzen.interaction.picture;
 
-import com.badlogic.gdx.utils.Array;
+import java.util.ArrayList;
 
 public class PictureStory {
 
@@ -8,18 +8,18 @@ public class PictureStory {
     public int totalDuration;
     public boolean isCompleted;
     public float progress;
-    public final Array<PictureStoryScenario> scenarios;
+    public final ArrayList<PictureStoryScenario> scenarios;
     public PictureStoryScenario currentScenario;
 
     public PictureStory() {
-        scenarios = new Array<>();
+        scenarios = new ArrayList<>();
     }
 
     public boolean isValid() {
 
-        if (id == null || scenarios.size == 0) return false;
+        if (id == null || scenarios.size() == 0) return false;
 
-        //StoryScenario last = scenarios.get(scenarios.size - 1);
+        //StoryScenario last = scenarios.get(scenarios.size() - 1);
 
         return progress >= 0 && totalDuration >= 0
                 && progress <= totalDuration
@@ -30,7 +30,7 @@ public class PictureStory {
 
         reset();
 
-        int size = scenarios.size;
+        int size = scenarios.size();
         progress = 0;
         totalDuration = 0;
 
@@ -66,15 +66,15 @@ public class PictureStory {
     }
 
     public PictureStoryScenario first() {
-        if (scenarios.size == 0) return null;
+        if (scenarios.size() == 0) return null;
 
         return scenarios.get(0);
     }
 
     public PictureStoryScenario last() {
-        if (scenarios.size == 0) return null;
+        if (scenarios.size() == 0) return null;
 
-        return scenarios.get(scenarios.size - 1);
+        return scenarios.get(scenarios.size() - 1);
     }
 
     public void update(float progress, int duration) {

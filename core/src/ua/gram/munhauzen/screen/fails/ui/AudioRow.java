@@ -84,7 +84,7 @@ public class AudioRow extends Stack {
                     fail.isPlaying = true;
                     fail.isListened = true;
 
-                    screen.game.gameState.failsState.listenedAudio.add(fail.storyAudio.name);
+                    screen.game.gameState.failsState.listenedAudio.add(fail.storyAudio.audio);
 
                     lock.remove();
                     unlock.remove();
@@ -119,7 +119,7 @@ public class AudioRow extends Stack {
         Cell iconCell = content.getCells().get(0);
         iconCell.clearActor();
 
-        AudioFail audioFail = AudioFailRepository.find(screen.game.gameState, fail.storyAudio.name);
+        AudioFail audioFail = AudioFailRepository.find(screen.game.gameState, fail.storyAudio.audio);
 
         String text = audioFail.getDescription(screen.game.params.locale);
 

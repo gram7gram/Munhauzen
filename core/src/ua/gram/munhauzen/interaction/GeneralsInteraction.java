@@ -2,7 +2,8 @@ package ua.gram.munhauzen.interaction;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.utils.Array;
+
+import java.util.ArrayList;
 
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.interaction.generals.GeneralsImageService;
@@ -20,7 +21,7 @@ import ua.gram.munhauzen.utils.Log;
  */
 public class GeneralsInteraction extends AbstractInteraction {
 
-    public Array<GeneralsScenario> scenarioRegistry;
+    public ArrayList<GeneralsScenario> scenarioRegistry;
     public GeneralsStoryManager storyManager;
     public GeneralsProgressBarFragment progressBarFragment;
     public GeneralsScenarioFragment scenarioFragment;

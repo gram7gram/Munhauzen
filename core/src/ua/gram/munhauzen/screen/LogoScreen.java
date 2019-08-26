@@ -2,7 +2,6 @@ package ua.gram.munhauzen.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -11,15 +10,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.JsonWriter;
 
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.MunhauzenStage;
 import ua.gram.munhauzen.expansion.response.ExpansionResponse;
-import ua.gram.munhauzen.utils.ExternalFiles;
-import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
@@ -39,6 +34,8 @@ public class LogoScreen implements Screen {
     @Override
     public void show() {
         ui = new MunhauzenStage(game);
+
+//        canRedirectToLoading = true;
 
         restoreFromFile();
 
@@ -64,6 +61,7 @@ public class LogoScreen implements Screen {
                 Actions.sequence(
                         Actions.moveBy(0, 100),
                         Actions.alpha(0),
+                        Actions.delay(.3f),
                         Actions.visible(true),
                         Actions.parallel(
                                 Actions.moveBy(0, -100, .4f),
@@ -83,23 +81,11 @@ public class LogoScreen implements Screen {
     }
 
     private void restoreFromFile() {
-        try {
-            FileHandle file = ExternalFiles.getExpansionInfoFile(game.params);
-            if (file.exists()) {
+        ExpansionResponse result = game.databaseManager.loadExpansionInfo();
 
-                Json json = new Json(JsonWriter.OutputType.json);
-                json.setIgnoreUnknownFields(true);
-
-                ExpansionResponse result = json.fromJson(ExpansionResponse.class, file.read());
-
-                if (result != null && result.version == game.params.versionCode) {
-                    canRedirectToLoading = !result.isCompleted;
-                }
-            }
-        } catch (Throwable e) {
-            Log.e(tag, e);
+        if (result != null) {
+            canRedirectToLoading = !result.isCompleted;
         }
-
     }
 
     private void onComplete() {

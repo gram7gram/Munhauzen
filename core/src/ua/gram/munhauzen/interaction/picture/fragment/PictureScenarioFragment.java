@@ -1,19 +1,14 @@
 package ua.gram.munhauzen.interaction.picture.fragment;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.PolygonRegion;
 import com.badlogic.gdx.graphics.g2d.PolygonSprite;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Array;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import ua.gram.munhauzen.interaction.PictureInteraction;
@@ -32,7 +27,7 @@ public class PictureScenarioFragment extends Fragment {
     public Stack root;
     HashMap<String, Area> areas;
 
-    public Array<PolygonSprite> sprites = new Array<>();
+    public ArrayList<PolygonSprite> sprites = new ArrayList<>();
     public PolygonSpriteBatch polyBatch;
     Actor actor;
 
@@ -198,46 +193,6 @@ public class PictureScenarioFragment extends Fragment {
                     backgroundImage.backgroundWidth,
                     backgroundImage.backgroundHeight
             );
-        }
-
-        //drawPolygons();
-    }
-
-    private void drawPolygons() {
-
-        if (isMounted() && sprites.size == 0) {
-
-            Color[] colors = {Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW, Color.PURPLE, Color.CYAN};
-
-            int i = 0;
-            for (String scenario : areas.keySet()) {
-                Area polygon = areas.get(scenario);
-
-                Color color = colors[i];
-
-                ++i;
-
-                Pixmap pix = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
-                pix.setColor(color.r, color.g, color.b, color.a / 3);
-                pix.fill();
-
-                PolygonRegion polyReg = new PolygonRegion(new TextureRegion(new Texture(pix)),
-                        convertToPixels(polygon.getVertices()),
-                        polygon.triangles);
-
-                sprites.add(new PolygonSprite(polyReg));
-            }
-        }
-
-    }
-
-    public void draw() {
-        if (isMounted() && sprites.size > 0) {
-            polyBatch.begin();
-            for (PolygonSprite sprite : sprites) {
-                sprite.draw(polyBatch);
-            }
-            polyBatch.end();
         }
     }
 

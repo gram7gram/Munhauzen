@@ -169,7 +169,7 @@ public class FailsFragment extends Fragment {
 
         FailsState state = screen.game.gameState.failsState;
 
-        ArrayList<GalleryFail> fails = state.isDaughter ? screen.failsD : screen.failsM;
+        ArrayList<GalleryFail> fails = state.isMunhauzen ? screen.failsM : screen.failsD;
         int num = 0;
 
         float width = MunhauzenGame.WORLD_WIDTH - 20 - rows.getPadLeft() - rows.getPadRight();
@@ -233,7 +233,6 @@ public class FailsFragment extends Fragment {
 
                 try {
                     state.isMunhauzen = !state.isMunhauzen;
-                    state.isDaughter = !state.isDaughter;
 
                     screen.stopAll();
 

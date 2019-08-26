@@ -30,9 +30,9 @@ public class AudioFailService implements Disposable {
 
     public void prepareAndPlay(final StoryAudio item) {
 
-        Log.i(tag, "play " + item.name);
+        Log.i(tag, "play " + item.audio);
 
-        AudioFail audio = AudioFailRepository.find(game.gameState, item.name);
+        AudioFail audio = AudioFailRepository.find(game.gameState, item.audio);
         if (item.duration == 0) {
             item.duration = audio.duration;
         }
@@ -55,20 +55,20 @@ public class AudioFailService implements Disposable {
 
         item.player.play();
 
-        activeAudio.put(item.name, item);
+        activeAudio.put(item.audio, item);
     }
 
     public void stop(StoryAudio storyAudio) {
         try {
 
-            Log.i(tag, "stop " + storyAudio.name);
+            Log.i(tag, "stop " + storyAudio.audio);
 
             if (storyAudio.player != null)
                 storyAudio.player.stop();
 
             String resource = storyAudio.resource;
             if (resource == null) {
-                AudioFail audio = AudioFailRepository.find(game.gameState, storyAudio.name);
+                AudioFail audio = AudioFailRepository.find(game.gameState, storyAudio.audio);
 
                 FileHandle file = ExternalFiles.getExpansionAudio(audio);
                 if (!file.exists()) {
@@ -89,7 +89,7 @@ public class AudioFailService implements Disposable {
             storyAudio.isLocked = false;
             storyAudio.player = null;
 
-            activeAudio.remove(storyAudio.name);
+            activeAudio.remove(storyAudio.audio);
 
         } catch (Throwable e) {
             Log.e(tag, e);

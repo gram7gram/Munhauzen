@@ -66,7 +66,7 @@ public class WauStoryManager {
 
     private void findNext(WauScenario from, WauStory story) {
 
-        Log.i(tag, "findNext " + from.name + " #" + story.scenarios.size);
+        Log.i(tag, "findNext " + from.name + " #" + story.scenarios.size());
 
         if ("awau_2_check".equals(from.name)) {
             String decision;

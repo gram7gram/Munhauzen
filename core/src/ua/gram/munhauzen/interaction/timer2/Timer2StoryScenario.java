@@ -23,7 +23,7 @@ public class Timer2StoryScenario extends StoryMedia<Timer2StoryScenario> {
         currentImage = null;
         currentAudio = null;
 
-        int size = scenario.images.size;
+        int size = scenario.images.size();
         int imageDuration = 0;
 
         for (int i = 0; i < size; i++) {
@@ -55,13 +55,13 @@ public class Timer2StoryScenario extends StoryMedia<Timer2StoryScenario> {
 
         }
 
-        size = scenario.audio.size;
+        size = scenario.audio.size();
         int audioDuration = 0;
 
         for (int i = 0; i < size; i++) {
             StoryAudio current = scenario.audio.get(i);
 
-            Audio audio = AudioRepository.find(gameState, current.name);
+            Audio audio = AudioRepository.find(gameState, current.audio);
             current.duration = audio.duration;
 
             current.isLocked = false;
@@ -98,7 +98,7 @@ public class Timer2StoryScenario extends StoryMedia<Timer2StoryScenario> {
         currentAudio = null;
 
         if (scenario.images != null) {
-            if (scenario.images.size > 0) {
+            if (scenario.images.size() > 0) {
                 if ((int) progress == max) {
                     currentImage = scenario.lastImage();
                 } else {
@@ -124,7 +124,7 @@ public class Timer2StoryScenario extends StoryMedia<Timer2StoryScenario> {
         }
 
         if (scenario.audio != null) {
-            if (scenario.audio.size > 0) {
+            if (scenario.audio.size() > 0) {
                 if ((int) progress == max) {
                     currentAudio = scenario.lastAudio();
                 } else {

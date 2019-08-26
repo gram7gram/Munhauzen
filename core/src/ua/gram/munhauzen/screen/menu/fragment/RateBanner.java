@@ -69,15 +69,19 @@ public class RateBanner extends Fragment {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                screen.game.params.appStore.openRateUrl();
+                try {
+                    screen.game.params.appStore.openRateUrl();
 
-                fadeOut(new Runnable() {
-                    @Override
-                    public void run() {
-                        destroy();
-                        screen.rateBanner = null;
-                    }
-                });
+                    fadeOut(new Runnable() {
+                        @Override
+                        public void run() {
+                            destroy();
+                            screen.rateBanner = null;
+                        }
+                    });
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
             }
         });
 

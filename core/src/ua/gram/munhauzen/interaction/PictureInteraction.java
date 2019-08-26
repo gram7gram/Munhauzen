@@ -2,7 +2,8 @@ package ua.gram.munhauzen.interaction;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.utils.Array;
+
+import java.util.ArrayList;
 
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.interaction.picture.PictureImageService;
@@ -24,7 +25,7 @@ public class PictureInteraction extends AbstractInteraction {
     public PictureScenarioFragment scenarioFragment;
     public PictureProgressBarFragment progressBarFragment;
     public PictureStoryManager storyManager;
-    public Array<PictureScenario> scenarioRegistry;
+    public ArrayList<PictureScenario> scenarioRegistry;
     public PictureImageService imageService;
 
     public PictureInteraction(GameScreen gameScreen) {
@@ -141,14 +142,5 @@ public class PictureInteraction extends AbstractInteraction {
             storyManager = null;
         }
 
-    }
-
-    @Override
-    public void drawOnTop() {
-        super.drawOnTop();
-
-        if (scenarioFragment != null) {
-            scenarioFragment.draw();
-        }
     }
 }

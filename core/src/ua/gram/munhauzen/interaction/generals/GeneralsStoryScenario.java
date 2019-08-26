@@ -22,7 +22,7 @@ public class GeneralsStoryScenario extends StoryMedia<GeneralsStoryScenario> {
         currentImage = null;
         currentAudio = null;
 
-        int size = scenario.images.size;
+        int size = scenario.images.size();
         int imageDuration = 0;
 
         for (int i = 0; i < size; i++) {
@@ -54,13 +54,13 @@ public class GeneralsStoryScenario extends StoryMedia<GeneralsStoryScenario> {
 
         }
 
-        size = scenario.audio.size;
+        size = scenario.audio.size();
         int audioDuration = 0;
 
         for (int i = 0; i < size; i++) {
             StoryAudio current = scenario.audio.get(i);
 
-            Audio audio = AudioRepository.find(gameState, current.name);
+            Audio audio = AudioRepository.find(gameState, current.audio);
             current.duration = audio.duration;
 
             current.isLocked = false;

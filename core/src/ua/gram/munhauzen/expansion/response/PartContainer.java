@@ -1,8 +1,8 @@
 package ua.gram.munhauzen.expansion.response;
 
-import com.badlogic.gdx.utils.Array;
+import java.util.ArrayList;
 
 public class PartContainer {
     public int count;
-    public Array<Part> items;
+    public ArrayList<Part> items;
 }

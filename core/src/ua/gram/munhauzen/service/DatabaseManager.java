@@ -1,12 +1,14 @@
 package ua.gram.munhauzen.service;
 
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
+import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.Audio;
 import ua.gram.munhauzen.entity.AudioFail;
 import ua.gram.munhauzen.entity.Chapter;
@@ -15,17 +17,19 @@ import ua.gram.munhauzen.entity.Decision;
 import ua.gram.munhauzen.entity.FailsState;
 import ua.gram.munhauzen.entity.GalleryState;
 import ua.gram.munhauzen.entity.GameState;
+import ua.gram.munhauzen.entity.History;
 import ua.gram.munhauzen.entity.Image;
 import ua.gram.munhauzen.entity.ImageTranslation;
 import ua.gram.munhauzen.entity.Inventory;
 import ua.gram.munhauzen.entity.MenuState;
+import ua.gram.munhauzen.entity.Save;
 import ua.gram.munhauzen.entity.Scenario;
 import ua.gram.munhauzen.entity.ScenarioTranslation;
 import ua.gram.munhauzen.entity.StatueTranslation;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.entity.StoryImage;
-import ua.gram.munhauzen.history.History;
-import ua.gram.munhauzen.history.Save;
+import ua.gram.munhauzen.entity.StoryScenario;
+import ua.gram.munhauzen.expansion.response.ExpansionResponse;
 import ua.gram.munhauzen.interaction.cannons.CannonsScenario;
 import ua.gram.munhauzen.interaction.cannons.CannonsStoryImage;
 import ua.gram.munhauzen.interaction.generals.GeneralsScenario;
@@ -38,6 +42,7 @@ import ua.gram.munhauzen.interaction.timer.TimerScenario;
 import ua.gram.munhauzen.interaction.timer2.Timer2Scenario;
 import ua.gram.munhauzen.interaction.wauwau.WauScenario;
 import ua.gram.munhauzen.interaction.wauwau.WauStoryImage;
+import ua.gram.munhauzen.utils.DateUtils;
 import ua.gram.munhauzen.utils.ExternalFiles;
 import ua.gram.munhauzen.utils.Files;
 import ua.gram.munhauzen.utils.Log;
@@ -45,6 +50,33 @@ import ua.gram.munhauzen.utils.Log;
 public class DatabaseManager {
 
     private final String tag = getClass().getSimpleName();
+    final MunhauzenGame game;
+    final ObjectMapper om;
+
+    public DatabaseManager(MunhauzenGame game) {
+        this.game = game;
+        om = new ObjectMapper();
+    }
+
+    public ExpansionResponse loadExpansionInfo() {
+
+        FileHandle file = ExternalFiles.getExpansionInfoFile(game.params);
+        if (!file.exists()) return null;
+
+        try {
+            ExpansionResponse result = om.readValue(file.file(), ExpansionResponse.class);
+
+            if (result != null && result.version == game.params.versionCode) {
+                return result;
+            }
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+
+        file.delete();
+
+        return null;
+    }
 
     public void loadExternal(GameState state) {
 
@@ -127,13 +159,13 @@ public class DatabaseManager {
         }
 
         try {
-            loadActiveSave(state.history);
+            loadActiveSave(state);
         } catch (Throwable e) {
             Log.e(tag, e);
 
             ExternalFiles.getSaveFile(state.history.activeSaveId).delete();
 
-            state.history.setActiveSave(new Save("1"));
+            state.setActiveSave(new Save("1"));
         }
     }
 
@@ -146,6 +178,17 @@ public class DatabaseManager {
             public void run() {
                 try {
                     persistHistory(gameState.history);
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
+            }
+        }).start();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    persistSave(gameState.activeSave);
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -186,59 +229,60 @@ public class DatabaseManager {
         }).start();
     }
 
-    public void persistGalleryState(GalleryState state) {
-        Json json = new Json(JsonWriter.OutputType.json);
-        json.setIgnoreUnknownFields(true);
+    public void persistGalleryState(GalleryState state) throws IOException {
 
         FileHandle file = ExternalFiles.getGalleryStateFile();
 
-        json.toJson(state, file);
+        om.writeValue(file.file(), state);
     }
 
-    public void persistMenuState(MenuState state) {
-        Json json = new Json(JsonWriter.OutputType.json);
-        json.setIgnoreUnknownFields(true);
-
+    public void persistMenuState(MenuState state) throws IOException {
         FileHandle file = ExternalFiles.getMenuStateFile();
 
-        json.toJson(state, file);
+        om.writeValue(file.file(), state);
     }
 
-    public void persistFailsState(FailsState state) {
-        Json json = new Json(JsonWriter.OutputType.json);
-        json.setIgnoreUnknownFields(true);
+    public void persistFailsState(FailsState state) throws IOException {
+        FileHandle file = ExternalFiles.getFailsStateFile();
 
-        json.toJson(state, ExternalFiles.getFailsStateFile());
+        om.writeValue(file.file(), state);
     }
 
-    public void persistHistory(History history) {
-        Json json = new Json(JsonWriter.OutputType.json);
-        json.setIgnoreUnknownFields(true);
-
+    public void persistHistory(History history) throws IOException {
         FileHandle file = ExternalFiles.getHistoryFile();
 
-        json.toJson(history, file);
+        om.writeValue(file.file(), history);
     }
 
-    private History loadHistory() {
-        Json json = new Json(JsonWriter.OutputType.json);
-        json.setIgnoreUnknownFields(true);
+    public void persistSave(Save save) throws IOException {
+        FileHandle file = ExternalFiles.getSaveFile(save.id);
 
+        save.updatedAt = DateUtils.now();
+
+        if (save.story != null) {
+            StoryScenario storyScenario = save.story.last();
+            if (storyScenario != null) {
+                save.chapter = storyScenario.scenario.chapter;
+            }
+        }
+
+        om.writeValue(file.file(), save);
+    }
+
+    private History loadHistory() throws IOException {
         FileHandle file = ExternalFiles.getHistoryFile();
 
         History history;
         if (!file.exists()) {
             history = new History();
         } else {
-            history = json.fromJson(History.class, file);
+            history = om.readValue(file.file(), History.class);
         }
 
         return history;
     }
 
-    private MenuState loadMenuState() {
-        Json json = new Json(JsonWriter.OutputType.json);
-        json.setIgnoreUnknownFields(true);
+    private MenuState loadMenuState() throws IOException {
 
         FileHandle file = ExternalFiles.getMenuStateFile();
 
@@ -246,15 +290,13 @@ public class DatabaseManager {
         if (!file.exists()) {
             state = new MenuState();
         } else {
-            state = json.fromJson(MenuState.class, file);
+            state = om.readValue(file.file(), MenuState.class);
         }
 
         return state;
     }
 
-    private FailsState loadFailsState() {
-        Json json = new Json(JsonWriter.OutputType.json);
-        json.setIgnoreUnknownFields(true);
+    private FailsState loadFailsState() throws IOException {
 
         FileHandle file = ExternalFiles.getFailsStateFile();
 
@@ -262,15 +304,13 @@ public class DatabaseManager {
         if (!file.exists()) {
             state = new FailsState();
         } else {
-            state = json.fromJson(FailsState.class, file);
+            state = om.readValue(file.file(), FailsState.class);
         }
 
         return state;
     }
 
-    private GalleryState loadGalleryState() {
-        Json json = new Json(JsonWriter.OutputType.json);
-        json.setIgnoreUnknownFields(true);
+    private GalleryState loadGalleryState() throws IOException {
 
         FileHandle file = ExternalFiles.getGalleryStateFile();
 
@@ -278,44 +318,33 @@ public class DatabaseManager {
         if (!file.exists()) {
             state = new GalleryState();
         } else {
-            state = json.fromJson(GalleryState.class, file);
+            state = om.readValue(file.file(), GalleryState.class);
         }
 
         return state;
     }
 
-    private void loadActiveSave(History history) {
-        Save save = loadSave(history.activeSaveId);
+    private void loadActiveSave(GameState state) throws IOException {
+        Save save = loadSave(state.history.activeSaveId);
 
-        history.activeSave = save;
-        history.activeSaveId = save.id;
+        state.setActiveSave(save);
     }
 
-    public Save loadSave(String id) {
-        Json json = new Json(JsonWriter.OutputType.json);
-        json.setIgnoreUnknownFields(true);
-
+    public Save loadSave(String id) throws IOException {
         Save save;
 
         FileHandle saveFile = ExternalFiles.getSaveFile(id);
         if (saveFile.exists()) {
-            save = json.fromJson(Save.class, saveFile);
+            save = om.readValue(saveFile.file(), Save.class);
         } else {
-            save = new Save();
+            save = new Save(id);
         }
 
         return save;
     }
 
-    public void persistSave(Save save, FileHandle saveFile) {
-        Json json = new Json(JsonWriter.OutputType.json);
-        json.setIgnoreUnknownFields(true);
-
-        json.toJson(save, saveFile);
-    }
-
     @SuppressWarnings("unchecked")
-    public Array<TimerScenario> loadTimerScenario() {
+    public ArrayList<TimerScenario> loadTimerScenario() {
         Json json = new Json(JsonWriter.OutputType.json);
         json.setIgnoreUnknownFields(true);
         json.setElementType(Scenario.class, "decisions", Decision.class);
@@ -323,11 +352,11 @@ public class DatabaseManager {
         json.setElementType(Scenario.class, "name", StoryAudio.class);
         json.setElementType(Scenario.class, "translations", ScenarioTranslation.class);
 
-        return json.fromJson(Array.class, TimerScenario.class, Files.getTimerScenarioFile());
+        return json.fromJson(ArrayList.class, TimerScenario.class, Files.getTimerScenarioFile());
     }
 
     @SuppressWarnings("unchecked")
-    public Array<Timer2Scenario> loadTimer2Scenario() {
+    public ArrayList<Timer2Scenario> loadTimer2Scenario() {
         Json json = new Json(JsonWriter.OutputType.json);
         json.setIgnoreUnknownFields(true);
         json.setElementType(Scenario.class, "decisions", Decision.class);
@@ -335,11 +364,11 @@ public class DatabaseManager {
         json.setElementType(Scenario.class, "name", StoryAudio.class);
         json.setElementType(Scenario.class, "translations", ScenarioTranslation.class);
 
-        return json.fromJson(Array.class, Timer2Scenario.class, Files.getTimer2ScenarioFile());
+        return json.fromJson(ArrayList.class, Timer2Scenario.class, Files.getTimer2ScenarioFile());
     }
 
     @SuppressWarnings("unchecked")
-    public Array<GeneralsScenario> loadGeneralsScenario() {
+    public ArrayList<GeneralsScenario> loadGeneralsScenario() {
         Json json = new Json(JsonWriter.OutputType.json);
         json.setIgnoreUnknownFields(true);
         json.setElementType(Scenario.class, "decisions", Decision.class);
@@ -347,11 +376,11 @@ public class DatabaseManager {
         json.setElementType(Scenario.class, "name", StoryAudio.class);
         json.setElementType(Scenario.class, "translations", ScenarioTranslation.class);
 
-        return json.fromJson(Array.class, GeneralsScenario.class, Files.getGeneralsScenarioFile());
+        return json.fromJson(ArrayList.class, GeneralsScenario.class, Files.getGeneralsScenarioFile());
     }
 
     @SuppressWarnings("unchecked")
-    public Array<WauScenario> loadWauwauScenario() {
+    public ArrayList<WauScenario> loadWauwauScenario() {
         Json json = new Json(JsonWriter.OutputType.json);
         json.setIgnoreUnknownFields(true);
         json.setElementType(Scenario.class, "decisions", Decision.class);
@@ -359,11 +388,11 @@ public class DatabaseManager {
         json.setElementType(Scenario.class, "name", StoryAudio.class);
         json.setElementType(Scenario.class, "translations", ScenarioTranslation.class);
 
-        return json.fromJson(Array.class, WauScenario.class, Files.getWauwauScenarioFile());
+        return json.fromJson(ArrayList.class, WauScenario.class, Files.getWauwauScenarioFile());
     }
 
     @SuppressWarnings("unchecked")
-    public Array<CannonsScenario> loadCannonsScenario() {
+    public ArrayList<CannonsScenario> loadCannonsScenario() {
         Json json = new Json(JsonWriter.OutputType.json);
         json.setIgnoreUnknownFields(true);
         json.setElementType(Scenario.class, "decisions", Decision.class);
@@ -371,11 +400,11 @@ public class DatabaseManager {
         json.setElementType(Scenario.class, "name", StoryAudio.class);
         json.setElementType(Scenario.class, "translations", ScenarioTranslation.class);
 
-        return json.fromJson(Array.class, CannonsScenario.class, Files.getCannonsScenarioFile());
+        return json.fromJson(ArrayList.class, CannonsScenario.class, Files.getCannonsScenarioFile());
     }
 
     @SuppressWarnings("unchecked")
-    public Array<HareScenario> loadHareScenario() {
+    public ArrayList<HareScenario> loadHareScenario() {
         Json json = new Json(JsonWriter.OutputType.json);
         json.setIgnoreUnknownFields(true);
         json.setElementType(Scenario.class, "decisions", Decision.class);
@@ -383,11 +412,11 @@ public class DatabaseManager {
         json.setElementType(Scenario.class, "name", StoryAudio.class);
         json.setElementType(Scenario.class, "translations", ScenarioTranslation.class);
 
-        return json.fromJson(Array.class, HareScenario.class, Files.getHareScenarioFile());
+        return json.fromJson(ArrayList.class, HareScenario.class, Files.getHareScenarioFile());
     }
 
     @SuppressWarnings("unchecked")
-    public Array<PictureScenario> loadPictureScenario() {
+    public ArrayList<PictureScenario> loadPictureScenario() {
         Json json = new Json(JsonWriter.OutputType.json);
         json.setIgnoreUnknownFields(true);
         json.setElementType(Scenario.class, "decisions", Decision.class);
@@ -395,17 +424,17 @@ public class DatabaseManager {
         json.setElementType(Scenario.class, "name", StoryAudio.class);
         json.setElementType(Scenario.class, "translations", ScenarioTranslation.class);
 
-        return json.fromJson(Array.class, PictureScenario.class, Files.getPictureScenarioFile());
+        return json.fromJson(ArrayList.class, PictureScenario.class, Files.getPictureScenarioFile());
     }
 
     @SuppressWarnings("unchecked")
-    public Array<HireScenario> loadServantsHireScenario() {
+    public ArrayList<HireScenario> loadServantsHireScenario() {
         Json json = new Json(JsonWriter.OutputType.json);
         json.setIgnoreUnknownFields(true);
         json.setElementType(Scenario.class, "images", HireStoryImage.class);
         json.setElementType(Scenario.class, "name", StoryAudio.class);
 
-        return json.fromJson(Array.class, HireScenario.class, Files.getServantsHireScenarioFile());
+        return json.fromJson(ArrayList.class, HireScenario.class, Files.getServantsHireScenarioFile());
     }
 
     @SuppressWarnings("unchecked")

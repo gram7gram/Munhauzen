@@ -187,7 +187,7 @@ public class LionsImageFragment extends InteractionFragment {
         try {
 
             freezeAudio = new StoryAudio();
-            freezeAudio.name = "slions_attack_freeze";
+            freezeAudio.audio = "slions_attack_freeze";
 
             interaction.gameScreen.audioService.prepareAndPlay(freezeAudio);
 
@@ -203,7 +203,7 @@ public class LionsImageFragment extends InteractionFragment {
         try {
 
             steadyAudio = new StoryAudio();
-            steadyAudio.name = "sfx_inter_lions_steady";
+            steadyAudio.audio = "sfx_inter_lions_steady";
 
             interaction.gameScreen.audioService.prepareAndPlay(steadyAudio);
 
@@ -221,7 +221,7 @@ public class LionsImageFragment extends InteractionFragment {
         try {
 
             attackAudio = new StoryAudio();
-            attackAudio.name = "slions_attack_lion";
+            attackAudio.audio = "slions_attack_lion";
 
             interaction.gameScreen.audioService.prepareAndPlay(attackAudio);
 

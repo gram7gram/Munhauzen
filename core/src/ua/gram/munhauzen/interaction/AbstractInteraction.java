@@ -29,10 +29,6 @@ public abstract class AbstractInteraction implements Disposable {
 
     }
 
-    public void drawOnTop() {
-
-    }
-
     public void update() {
         if (assetManager != null) {
             assetManager.update();

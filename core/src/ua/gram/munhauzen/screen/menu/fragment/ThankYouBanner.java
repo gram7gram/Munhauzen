@@ -14,7 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
@@ -26,7 +25,7 @@ import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.ui.PrimaryButton;
 import ua.gram.munhauzen.utils.Log;
 
-public class DemoBanner extends Fragment {
+public class ThankYouBanner extends Fragment {
 
     final MenuScreen screen;
     FragmentRoot root;
@@ -35,19 +34,21 @@ public class DemoBanner extends Fragment {
     public boolean isFadeOut;
     StoryAudio introAudio, clickAudio;
 
-    public DemoBanner(MenuScreen screen) {
+    public ThankYouBanner(MenuScreen screen) {
         this.screen = screen;
     }
 
     public void create() {
 
         screen.assetManager.load("ui/banner_fond_1.png", Texture.class);
-        screen.assetManager.load("menu/b_demo_version_2.png", Texture.class);
+        screen.assetManager.load("menu/b_full_version_2.png", Texture.class);
 
         screen.assetManager.finishLoading();
 
         String[] sentences = {
-                "Please, purchase the full version of the audio-book!",
+                "Thank you for purchasing the full version!",
+                "You are breathtaking!",
+                "Please, rate out application or leave a positive review",
         };
 
         content = new Table();
@@ -67,7 +68,7 @@ public class DemoBanner extends Fragment {
                     .padBottom(10).growX().row();
         }
 
-        PrimaryButton btn = screen.game.buttonBuilder.primary("Purchase", new ClickListener() {
+        PrimaryButton btn = screen.game.buttonBuilder.primary("Feedback", new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
@@ -75,25 +76,23 @@ public class DemoBanner extends Fragment {
 
                     root.setTouchable(Touchable.disabled);
 
-                    stopIntro();
+                    try {
+                        screen.game.params.appStore.openRateUrl();
 
-                    playClick();
-
-                    if (clickAudio == null) {
-                        onPurchaseClicked();
-                    } else {
-                        Timer.instance().scheduleTask(new Timer.Task() {
+                        fadeOut(new Runnable() {
                             @Override
                             public void run() {
-                                onPurchaseClicked();
+                                destroy();
+                                screen.rateBanner = null;
                             }
-                        }, clickAudio.duration / 1000f);
+                        });
+                    } catch (Throwable e) {
+                        Log.e(tag, e);
                     }
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
-
             }
         });
 
@@ -103,7 +102,7 @@ public class DemoBanner extends Fragment {
                 .expandX().row();
 
         FitImage img = new FitImage(
-                screen.assetManager.get("menu/b_demo_version_2.png", Texture.class)
+                screen.assetManager.get("menu/b_full_version_2.png", Texture.class)
         );
 
         Table columns = new Table();
@@ -150,20 +149,14 @@ public class DemoBanner extends Fragment {
         root.setVisible(false);
     }
 
-    private void onPurchaseClicked() {
-        try {
-            screen.game.params.appStore.openProUrl();
-
-            fadeOut(new Runnable() {
-                @Override
-                public void run() {
-                    destroy();
-                    screen.rateBanner = null;
-                }
-            });
-        } catch (Throwable e) {
-            Log.e(tag, e);
-        }
+    private void onOkClicked() {
+        fadeOut(new Runnable() {
+            @Override
+            public void run() {
+                destroy();
+                screen.rateBanner = null;
+            }
+        });
     }
 
     public void update() {
@@ -264,13 +257,13 @@ public class DemoBanner extends Fragment {
             stopIntro();
 
             introAudio = new StoryAudio();
-            introAudio.audio = "sfx_menu_demo_0";
+            introAudio.audio = "sfx_menu_full_0";
 
             screen.audioService.prepareAndPlay(introAudio);
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            //screen.onCriticalError(e);
+//            screen.onCriticalError(e);
         }
     }
 
@@ -286,7 +279,7 @@ public class DemoBanner extends Fragment {
             stopClick();
 
             clickAudio = new StoryAudio();
-            clickAudio.audio = "sfx_menu_demo_1";
+            clickAudio.audio = "sfx_menu_full_1";
 
             screen.audioService.prepareAndPlay(clickAudio);
         } catch (Throwable e) {

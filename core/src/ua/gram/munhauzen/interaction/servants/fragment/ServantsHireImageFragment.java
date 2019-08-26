@@ -420,7 +420,7 @@ public class ServantsHireImageFragment extends InteractionFragment {
         try {
 
             egyptAudio = new StoryAudio();
-            egyptAudio.name = MathUtils.random(new String[]{
+            egyptAudio.audio = MathUtils.random(new String[]{
                     "sfx_inter_servants_start_1",
                     "sfx_inter_servants_start_2",
                     "sfx_inter_servants_start_3",

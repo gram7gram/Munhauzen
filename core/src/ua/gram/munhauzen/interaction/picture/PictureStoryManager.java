@@ -62,7 +62,7 @@ public class PictureStoryManager {
 
     private void findNext(PictureScenario from, PictureStory pictureStory) {
 
-        Log.i(tag, "findNext " + from.name + " #" + pictureStory.scenarios.size);
+        Log.i(tag, "findNext " + from.name + " #" + pictureStory.scenarios.size());
 
         PictureStoryScenario storyScenario = new PictureStoryScenario(gameScreen.game.gameState);
         storyScenario.scenario = from;

@@ -109,7 +109,7 @@ public class AchievementService {
             }
 
             for (StoryAudio storyAudio : scenario.audio) {
-                onAudioListened(storyAudio.name);
+                onAudioListened(storyAudio.audio);
             }
 
         } catch (Throwable e) {

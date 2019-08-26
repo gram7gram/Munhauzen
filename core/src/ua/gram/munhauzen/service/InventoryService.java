@@ -5,8 +5,8 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 import java.util.HashSet;
 
 import ua.gram.munhauzen.entity.GameState;
+import ua.gram.munhauzen.entity.History;
 import ua.gram.munhauzen.entity.Inventory;
-import ua.gram.munhauzen.history.History;
 import ua.gram.munhauzen.utils.Log;
 
 /**
@@ -40,7 +40,7 @@ public class InventoryService {
             throw new GdxRuntimeException("Inventory " + inventory.name + " is global");
         }
 
-        gameState.history.activeSave.inventory.add(inventory.name);
+        gameState.activeSave.inventory.add(inventory.name);
     }
 
     public void addInventory(Inventory item) {
@@ -56,7 +56,7 @@ public class InventoryService {
             return gameState.history.globalInventory.contains(item.name);
         }
 
-        return gameState.history.activeSave.inventory.contains(item.name);
+        return gameState.activeSave.inventory.contains(item.name);
     }
 
     public void remove(Inventory item) {
@@ -68,18 +68,18 @@ public class InventoryService {
             return;
         }
 
-        gameState.history.activeSave.inventory.remove(item.name);
+        gameState.activeSave.inventory.remove(item.name);
     }
 
     public HashSet<String> getAllInventory() {
         HashSet<String> values = new HashSet<>();
 
-        if (gameState != null && gameState.history != null) {
+        if (gameState != null && gameState.history != null && gameState.activeSave != null) {
 
             History history = gameState.history;
 
-            if (history.activeSave != null && history.activeSave.inventory != null) {
-                values.addAll(history.activeSave.inventory);
+            if (gameState.activeSave.inventory != null) {
+                values.addAll(gameState.activeSave.inventory);
             }
 
             if (history.globalInventory != null) {

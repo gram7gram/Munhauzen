@@ -1,14 +1,22 @@
 package ua.gram.munhauzen.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import ua.gram.munhauzen.interaction.AbstractInteraction;
 
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class StoryInteraction {
+public class StoryInteraction implements JsonEntry {
 
+    @JsonProperty
     public String name;
-    public AbstractInteraction interaction;
+    @JsonProperty
     public boolean isLocked;
+    @JsonProperty
     public boolean isCompleted;
+
+    @JsonIgnore
+    public AbstractInteraction interaction;
 }

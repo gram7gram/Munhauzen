@@ -15,7 +15,7 @@ import com.badlogic.gdx.utils.Align;
 
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
-import ua.gram.munhauzen.history.Save;
+import ua.gram.munhauzen.entity.Save;
 import ua.gram.munhauzen.screen.SavesScreen;
 import ua.gram.munhauzen.screen.saves.ui.SaveRow;
 import ua.gram.munhauzen.ui.Fragment;
@@ -191,11 +191,5 @@ public class SavesFragment extends Fragment {
         container.align(Align.bottom);
 
         return container;
-    }
-
-    @Override
-    public void dispose() {
-        super.dispose();
-
     }
 }

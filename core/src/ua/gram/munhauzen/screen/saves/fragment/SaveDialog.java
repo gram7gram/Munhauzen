@@ -14,19 +14,20 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.entity.GameState;
+import ua.gram.munhauzen.entity.Save;
 import ua.gram.munhauzen.entity.StoryAudio;
-import ua.gram.munhauzen.history.History;
-import ua.gram.munhauzen.history.Save;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.screen.SavesScreen;
 import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.ui.PrimaryButton;
-import ua.gram.munhauzen.utils.ExternalFiles;
 import ua.gram.munhauzen.utils.Log;
 
 /**
@@ -39,7 +40,7 @@ public class SaveDialog extends Fragment {
     public final SavesScreen screen;
     public final Save save;
     public FragmentRoot root;
-    PrimaryButton startBtn, saveBtn;
+    PrimaryButton startBtn, saveBtn, delBtn;
     StoryAudio yesAudio, noAudio;
 
     public SaveDialog(SavesScreen screen, Save save) {
@@ -69,7 +70,7 @@ public class SaveDialog extends Fragment {
 
                     stopAllAudio();
 
-                    playYes();
+//                    playYes();
 
                     if (yesAudio == null) {
                         onSaveClicked();
@@ -90,7 +91,29 @@ public class SaveDialog extends Fragment {
             }
         });
 
-        startBtn = game.buttonBuilder.danger("Start", new ClickListener() {
+        delBtn = game.buttonBuilder.primary("Remove", new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                Log.i(tag, "remove clicked");
+
+                try {
+                    root.setTouchable(Touchable.disabled);
+
+                    stopAllAudio();
+
+                    onRemoveClicked();
+
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+
+                    screen.onCriticalError(e);
+                }
+            }
+        });
+
+        startBtn = game.buttonBuilder.primary("Start", new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
@@ -102,7 +125,7 @@ public class SaveDialog extends Fragment {
 
                     stopAllAudio();
 
-                    playNo();
+//                    playNo();
 
                     if (noAudio == null) {
                         onStartClicked();
@@ -141,6 +164,10 @@ public class SaveDialog extends Fragment {
                 .height(MunhauzenGame.WORLD_HEIGHT / 15f);
 
         content.add(startBtn).right()
+                .width(MunhauzenGame.WORLD_WIDTH * .25f)
+                .height(MunhauzenGame.WORLD_HEIGHT / 15f).row();
+
+        content.add(delBtn).center().colspan(2).padTop(30)
                 .width(MunhauzenGame.WORLD_WIDTH * .25f)
                 .height(MunhauzenGame.WORLD_HEIGHT / 15f);
 
@@ -185,13 +212,35 @@ public class SaveDialog extends Fragment {
 
     private void onStartClicked() {
         try {
-            History history = game.gameState.history;
+            GameState state = game.gameState;
 
-            history.activeSaveId = save.id;
-            history.activeSave = save;
+            state.setActiveSave(save);
 
-            game.setScreen(new GameScreen(game));
-            screen.dispose();
+            screen.navigateTo(new GameScreen(game));
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            screen.onCriticalError(e);
+        }
+    }
+
+    private void onRemoveClicked() {
+        try {
+            Save copy = new Save(save.id);
+
+            game.databaseManager.persistSave(copy);
+
+            fadeOut(new Runnable() {
+                @Override
+                public void run() {
+                    destroy();
+
+                    screen.recreateSaves();
+
+                    screen.saveDialog = null;
+                }
+            });
 
         } catch (Throwable e) {
             Log.e(tag, e);
@@ -202,18 +251,19 @@ public class SaveDialog extends Fragment {
 
     private void onSaveClicked() {
         try {
-            History history = game.gameState.history;
+            Json json = new Json(JsonWriter.OutputType.json);
 
-            game.databaseManager.persistSave(history.activeSave, ExternalFiles.getSaveFile(save.id));
+            Save copy = json.fromJson(Save.class, json.toJson(game.gameState.activeSave));
+            copy.id = save.id;
 
-            screen.updateSaves();
-
-            screen.savesFragment.root.invalidate();
+            game.databaseManager.persistSave(copy);
 
             fadeOut(new Runnable() {
                 @Override
                 public void run() {
                     destroy();
+
+                    screen.recreateSaves();
 
                     screen.saveDialog = null;
                 }
@@ -230,14 +280,14 @@ public class SaveDialog extends Fragment {
         try {
 
             yesAudio = new StoryAudio();
-            yesAudio.name = "sfx_save_yes";
+            yesAudio.audio = "sfx_save_yes";
 
             screen.audioService.prepareAndPlay(yesAudio);
 
         } catch (Throwable e) {
             Log.e(tag, e);
 
-//            screen.onCriticalError(e);
+            screen.onCriticalError(e);
         }
     }
 
@@ -245,14 +295,14 @@ public class SaveDialog extends Fragment {
         try {
 
             noAudio = new StoryAudio();
-            noAudio.name = "sfx_save_no";
+            noAudio.audio = "sfx_save_no";
 
             screen.audioService.prepareAndPlay(noAudio);
 
         } catch (Throwable e) {
             Log.e(tag, e);
 
-//            screen.onCriticalError(e);
+            screen.onCriticalError(e);
         }
     }
 
@@ -292,10 +342,9 @@ public class SaveDialog extends Fragment {
             screen.audioService.updateVolume(noAudio);
         }
 
-        History history = game.gameState.history;
-
+        delBtn.setDisabled(save.chapter == null);
         startBtn.setDisabled(save.chapter == null);
-        saveBtn.setDisabled(history.activeSave.chapter == null);
+        saveBtn.setDisabled(game.gameState.activeSave.chapter == null);
     }
 
     public void stopAllAudio() {

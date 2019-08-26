@@ -297,38 +297,38 @@ public class FireDialog extends Fragment {
 
             switch (servant) {
                 case "CARPETENER":
-                    fireAudio.name = "s41_8_bye";
+                    fireAudio.audio = "s41_8_bye";
                     break;
                 case "BLOWER":
-                    fireAudio.name = "s41_6_bye";
+                    fireAudio.audio = "s41_6_bye";
                     break;
                 case "SHOOTER":
-                    fireAudio.name = "s41_4_bye";
+                    fireAudio.audio = "s41_4_bye";
                     break;
                 case "LISTENER":
-                    fireAudio.name = "s41_3_bye";
+                    fireAudio.audio = "s41_3_bye";
                     break;
                 case "VASILIY":
-                    fireAudio.name = "s41_11_bye";
+                    fireAudio.audio = "s41_11_bye";
                     break;
                 case "RUNNER":
-                    fireAudio.name = "s41_2_bye";
+                    fireAudio.audio = "s41_2_bye";
                     break;
                 case "JUMPER":
-                    fireAudio.name = "s41_7_bye";
+                    fireAudio.audio = "s41_7_bye";
                     break;
                 case "JOKER":
-                    fireAudio.name = "s41_9_bye";
+                    fireAudio.audio = "s41_9_bye";
                     break;
                 case "USURER":
-                    fireAudio.name = "s41_10_bye";
+                    fireAudio.audio = "s41_10_bye";
                     break;
                 case "GIGANT":
-                    fireAudio.name = "s41_5_bye";
+                    fireAudio.audio = "s41_5_bye";
                     break;
             }
 
-            Log.i(tag, "playFired " + servant + " " + fireAudio.name);
+            Log.i(tag, "playFired " + servant + " " + fireAudio.audio);
 
             gameScreen.audioService.prepareAndPlay(fireAudio);
 

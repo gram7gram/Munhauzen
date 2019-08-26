@@ -2,7 +2,8 @@ package ua.gram.munhauzen.interaction;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.utils.Array;
+
+import java.util.ArrayList;
 
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.interaction.hare.HareScenario;
@@ -18,7 +19,7 @@ import ua.gram.munhauzen.screen.GameScreen;
  */
 public class HareInteraction extends AbstractInteraction {
 
-    public Array<HareScenario> scenarioRegistry;
+    public ArrayList<HareScenario> scenarioRegistry;
     public HareStoryManager storyManager;
     public HareProgressBarFragment progressBarFragment;
     public HareImageFragment imageFragment;

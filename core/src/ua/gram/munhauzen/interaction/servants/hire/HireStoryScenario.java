@@ -23,13 +23,13 @@ public class HireStoryScenario extends StoryMedia<HireStoryScenario> {
         currentImage = null;
         currentAudio = null;
 
-        int size = scenario.audio.size;
+        int size = scenario.audio.size();
         int audioDuration = 0;
 
         for (int i = 0; i < size; i++) {
             StoryAudio current = scenario.audio.get(i);
 
-            Audio audio = AudioRepository.find(gameState, current.name);
+            Audio audio = AudioRepository.find(gameState, current.audio);
             current.duration = audio.duration;
 
             current.isLocked = false;
@@ -58,7 +58,7 @@ public class HireStoryScenario extends StoryMedia<HireStoryScenario> {
 
         }
 
-        size = scenario.images.size;
+        size = scenario.images.size();
         int imageDuration = 0;
 
         for (int i = 0; i < size; i++) {
@@ -100,7 +100,7 @@ public class HireStoryScenario extends StoryMedia<HireStoryScenario> {
         currentAudio = null;
 
         if (scenario.images != null) {
-            if (scenario.images.size > 0) {
+            if (scenario.images.size() > 0) {
                 if ((int) progress == max) {
                     currentImage = scenario.lastImage();
                 } else {
@@ -126,7 +126,7 @@ public class HireStoryScenario extends StoryMedia<HireStoryScenario> {
         }
 
         if (scenario.audio != null) {
-            if (scenario.audio.size > 0) {
+            if (scenario.audio.size() > 0) {
                 if ((int) progress == max) {
                     currentAudio = scenario.lastAudio();
                 } else {

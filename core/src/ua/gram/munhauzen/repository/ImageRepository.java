@@ -12,7 +12,7 @@ public class ImageRepository {
     public static Image find(GameState gameState, String id) {
 
         if (LAST.equals(id)) {
-            return gameState.history.activeSave.lastImage;
+            return gameState.activeSave.lastImage;
         }
 
         for (Image o : gameState.imageRegistry) {

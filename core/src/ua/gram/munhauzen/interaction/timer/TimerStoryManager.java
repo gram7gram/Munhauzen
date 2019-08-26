@@ -67,7 +67,7 @@ public class TimerStoryManager {
 
     private void findNext(TimerScenario from, TimerStory timerStory) {
 
-        Log.i(tag, "findNext " + from.name + " #" + timerStory.scenarios.size);
+        Log.i(tag, "findNext " + from.name + " #" + timerStory.scenarios.size());
 
         Set<String> inventory = gameScreen.game.inventoryService.getAllInventory();
 
@@ -293,7 +293,7 @@ public class TimerStoryManager {
     private boolean isDecisionAvailable(Decision decision, Set<String> inventory) {
         boolean hasRequired = true;
         if (decision.inventoryRequired != null) {
-            if (decision.inventoryRequired.size > 0) {
+            if (decision.inventoryRequired.size() > 0) {
                 for (String item : decision.inventoryRequired) {
                     if (!inventory.contains(item)) {
                         hasRequired = false;
@@ -305,7 +305,7 @@ public class TimerStoryManager {
 
         boolean hasAbsent = false;
         if (decision.inventoryAbsent != null) {
-            if (decision.inventoryAbsent.size > 0) {
+            if (decision.inventoryAbsent.size() > 0) {
                 for (String item : decision.inventoryAbsent) {
                     if (inventory.contains(item)) {
                         hasAbsent = true;

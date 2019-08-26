@@ -2,7 +2,8 @@ package ua.gram.munhauzen.interaction;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.utils.Array;
+
+import java.util.ArrayList;
 
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.interaction.timer2.Timer2ImageService;
@@ -13,14 +14,13 @@ import ua.gram.munhauzen.interaction.timer2.fragment.Timer2ImageFragment;
 import ua.gram.munhauzen.interaction.timer2.fragment.Timer2ProgressBarFragment;
 import ua.gram.munhauzen.interaction.timer2.fragment.Timer2ScenarioFragment;
 import ua.gram.munhauzen.screen.GameScreen;
-import ua.gram.munhauzen.service.DatabaseManager;
 
 /**
  * @author Gram <gram7gram@gmail.com>
  */
 public class Timer2Interaction extends AbstractInteraction {
 
-    public Array<Timer2Scenario> scenarioRegistry;
+    public ArrayList<Timer2Scenario> scenarioRegistry;
     public Timer2StoryManager storyManager;
     public Timer2ProgressBarFragment progressBarFragment;
     public Timer2ImageFragment imageFragment;
@@ -46,7 +46,7 @@ public class Timer2Interaction extends AbstractInteraction {
 
         imageService = new Timer2ImageService(gameScreen, this);
 
-        scenarioRegistry = new DatabaseManager().loadTimer2Scenario();
+        scenarioRegistry = gameScreen.game.databaseManager.loadTimer2Scenario();
         storyManager = new Timer2StoryManager(gameScreen, this);
 
         assetManager.load("timer/an_bam_sheet_1x7.png", Texture.class);

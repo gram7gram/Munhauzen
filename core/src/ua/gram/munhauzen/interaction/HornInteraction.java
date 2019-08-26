@@ -49,7 +49,7 @@ public class HornInteraction extends AbstractInteraction {
         try {
 
             introAudio = new StoryAudio();
-            introAudio.name = "sfx_inter_horn";
+            introAudio.audio = "sfx_inter_horn";
 
             gameScreen.audioService.prepareAndPlay(introAudio);
             introAudio.player.setLooping(true);

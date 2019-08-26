@@ -80,7 +80,7 @@ public class FailsScreen extends AbstractScreen {
         for (AudioFail audioFail : game.gameState.audioFailRegistry) {
 
             StoryAudio storyAudio = new StoryAudio();
-            storyAudio.name = audioFail.name;
+            storyAudio.audio = audioFail.name;
 
             GalleryFail fail = new GalleryFail();
             fail.storyAudio = storyAudio;

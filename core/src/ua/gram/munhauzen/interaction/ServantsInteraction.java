@@ -2,7 +2,8 @@ package ua.gram.munhauzen.interaction;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.utils.Array;
+
+import java.util.ArrayList;
 
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.ServantsState;
@@ -27,7 +28,7 @@ public class ServantsInteraction extends AbstractInteraction {
     public ServantsFireImageFragment fireFragment;
     public ServantsProgressBarFragment progressBarFragment;
     StoryAudio fireAudio;
-    public Array<HireScenario> hireScenarioRegistry;
+    public ArrayList<HireScenario> hireScenarioRegistry;
     public HireStoryManager storyManager;
     public HireImageService imageService;
 
@@ -139,7 +140,7 @@ public class ServantsInteraction extends AbstractInteraction {
         try {
 
             fireAudio = new StoryAudio();
-            fireAudio.name = MathUtils.random(new String[]{
+            fireAudio.audio = MathUtils.random(new String[]{
                     "sfx_inter_servants_inventory_1",
                     "sfx_inter_servants_inventory_2",
                     "sfx_inter_servants_inventory_3",

@@ -5,12 +5,18 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
@@ -35,8 +41,9 @@ public class VictoryFragment extends Fragment {
 
     BackgroundImage backgroundImage;
     Image curtain;
-    Label title;
+    Label title1, title2;
     StoryAudio intro;
+    Container<Table> menuContainer;
 
     public VictoryFragment(GameScreen gameScreen) {
         this.screen = gameScreen;
@@ -47,18 +54,34 @@ public class VictoryFragment extends Fragment {
         Log.i(tag, "create");
 
         screen.assetManager.load(IMAGE, Texture.class);
+        screen.assetManager.load("menu/b_menu.png", Texture.class);
 
         screen.assetManager.finishLoading();
 
         screen.game.fontProvider.loadHd();
 
-        title = new Label("The end", new Label.LabelStyle(
+        title1 = new Label("The ", new Label.LabelStyle(
                 screen.game.fontProvider.getFont(FontProvider.FleischmannGotich, FontProvider.hd),
-                Color.BLACK
+                Color.WHITE
         ));
-        title.setWrap(false);
-        title.setAlignment(Align.center);
-        title.setVisible(false);
+        title1.setWrap(false);
+        title1.setAlignment(Align.center);
+        title1.setVisible(false);
+
+        title2 = new Label("End", new Label.LabelStyle(
+                screen.game.fontProvider.getFont(FontProvider.FleischmannGotich, FontProvider.hd),
+                Color.WHITE
+        ));
+        title2.setWrap(false);
+        title2.setAlignment(Align.center);
+        title2.setVisible(false);
+
+        Label menuLbl = new Label("menu", new Label.LabelStyle(
+                screen.game.fontProvider.getFont(FontProvider.h4),
+                Color.WHITE
+        ));
+        menuLbl.setWrap(false);
+        menuLbl.setAlignment(Align.center);
 
         Pixmap px = new Pixmap(1, 1, Pixmap.Format.RGB888);
         px.setColor(Color.BLACK);
@@ -69,14 +92,34 @@ public class VictoryFragment extends Fragment {
 
         backgroundImage = new BackgroundImage(screen);
 
-        Container<Label> titleContainer = new Container<>(title);
+        HorizontalGroup titleGroup = new HorizontalGroup();
+        titleGroup.addActor(title1);
+        titleGroup.addActor(title2);
+
+        Container<HorizontalGroup> titleContainer = new Container<>(titleGroup);
         titleContainer.pad(10);
         titleContainer.align(Align.center);
 
+        ImageButton menuBtn = getMenuBtn();
+
+        Table menuTable = new Table();
+        menuTable.add(menuLbl).center().expandX().row();
+        menuTable.add(menuBtn).center()
+                .width(MunhauzenGame.WORLD_WIDTH * .2f)
+                .height(MunhauzenGame.WORLD_WIDTH * .12f)
+                .row();
+
+        menuContainer = new Container<>(menuTable);
+        menuContainer.pad(10);
+        menuContainer.padBottom(MunhauzenGame.WORLD_HEIGHT * .1f);
+        menuContainer.align(Align.bottom);
+        menuContainer.setVisible(false);
+
         root = new FragmentRoot();
         root.addContainer(backgroundImage);
-        root.addContainer(titleContainer);
         root.addContainer(new Container<>(curtain));
+        root.addContainer(titleContainer);
+        root.addContainer(menuContainer);
 
         root.setName(tag);
         root.setVisible(false);
@@ -91,7 +134,7 @@ public class VictoryFragment extends Fragment {
     private void playIntro() {
         try {
             intro = new StoryAudio();
-            intro.name = "sthe_end";
+            intro.audio = "sthe_end";
 
             screen.audioService.prepareAndPlay(intro);
 
@@ -109,34 +152,63 @@ public class VictoryFragment extends Fragment {
                 Actions.sequence(
                         Actions.alpha(0),
                         Actions.alpha(1, .2f),
-                        Actions.delay(.5f),
-                        Actions.run(new Runnable() {
-                            @Override
-                            public void run() {
-                                fadeInTitle();
-                            }
-                        }),
-                        Actions.delay(3),
                         Actions.run(new Runnable() {
                             @Override
                             public void run() {
                                 scaleBackground();
                             }
                         })
-
                 )
         );
+
+        Timer.instance().scheduleTask(new Timer.Task() {
+            @Override
+            public void run() {
+                fadeInCurtain();
+            }
+        }, 10);
+
+        Timer.instance().scheduleTask(new Timer.Task() {
+            @Override
+            public void run() {
+                fadeInTitle();
+            }
+        }, 11);
+
+        Timer.instance().scheduleTask(new Timer.Task() {
+            @Override
+            public void run() {
+                fadeInMenu();
+            }
+        }, 13.5f);
     }
 
     public void fadeInTitle() {
 
-        title.setVisible(true);
+        title1.setVisible(true);
+        title2.setVisible(false);
 
-        title.clearActions();
-        title.addAction(
+        title1.clearActions();
+        title2.clearActions();
+
+        title1.addAction(
                 Actions.sequence(
                         Actions.alpha(0),
-                        Actions.alpha(1, 1f)
+                        Actions.alpha(1, .5f),
+                        Actions.delay(.2f),
+                        Actions.run(new Runnable() {
+                            @Override
+                            public void run() {
+                                title2.setVisible(true);
+
+                                title2.addAction(
+                                        Actions.sequence(
+                                                Actions.alpha(0),
+                                                Actions.alpha(1, .5f)
+                                        )
+                                );
+                            }
+                        })
                 )
         );
     }
@@ -152,16 +224,7 @@ public class VictoryFragment extends Fragment {
         backgroundImage.clearActions();
         backgroundImage.addAction(
                 Actions.sequence(
-                        Actions.scaleBy(1.6f, 1.6f, 2.4f),
-                        Actions.parallel(
-                                Actions.scaleBy(.4f, .4f, .6f),
-                                Actions.run(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        fadeInCurtain();
-                                    }
-                                })
-                        )
+                        Actions.scaleBy(.55f, .55f, 4.5f)
                 )
         );
     }
@@ -174,26 +237,36 @@ public class VictoryFragment extends Fragment {
         curtain.addAction(
                 Actions.sequence(
                         Actions.alpha(0),
-                        Actions.alpha(1, .6f),
-                        Actions.delay(2),
-                        Actions.run(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-
-                                    screen.game.gameState.menuState.forceShowThankYouBanner = true;
-                                    screen.game.gameState.menuState.isContinueEnabled = false;
-                                    screen.getActiveSave().reset();
-
-                                    screen.navigateTo(new MenuScreen(screen.game));
-
-                                } catch (Throwable e) {
-                                    Log.e(tag, e);
-                                }
-                            }
-                        })
+                        Actions.alpha(1, .3f)
                 )
         );
+    }
+
+    public void fadeInMenu() {
+
+        menuContainer.setVisible(true);
+
+        menuContainer.clearActions();
+        menuContainer.addAction(
+                Actions.sequence(
+                        Actions.alpha(0),
+                        Actions.alpha(1, .3f)
+                )
+        );
+    }
+
+    private void onComplete() {
+        try {
+
+            screen.game.gameState.menuState.showThankYouBanner = true;
+            screen.game.gameState.menuState.isContinueEnabled = false;
+            screen.getActiveSave().reset();
+
+            screen.navigateTo(new MenuScreen(screen.game));
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
     }
 
     @Override
@@ -217,5 +290,33 @@ public class VictoryFragment extends Fragment {
             screen.audioService.stop(intro);
             intro = null;
         }
+    }
+
+    private ImageButton getMenuBtn() {
+        Texture txt = screen.assetManager.get("menu/b_menu.png", Texture.class);
+
+        ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
+        style.up = new SpriteDrawable(new Sprite(txt));
+        style.down = new SpriteDrawable(new Sprite(txt));
+        style.disabled = new SpriteDrawable(new Sprite(txt));
+
+        ImageButton btn = new ImageButton(style);
+
+        btn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                try {
+                    onComplete();
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+
+                    screen.onCriticalError(e);
+                }
+            }
+        });
+
+        return btn;
     }
 }

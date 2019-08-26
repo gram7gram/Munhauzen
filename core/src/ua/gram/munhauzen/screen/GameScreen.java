@@ -16,11 +16,11 @@ import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.MunhauzenStage;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.Image;
+import ua.gram.munhauzen.entity.Save;
 import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.entity.StoryImage;
 import ua.gram.munhauzen.entity.StoryScenario;
-import ua.gram.munhauzen.history.Save;
 import ua.gram.munhauzen.screen.game.fragment.ControlsFragment;
 import ua.gram.munhauzen.screen.game.fragment.ImageFragment;
 import ua.gram.munhauzen.screen.game.fragment.ProgressBarFragment;
@@ -72,11 +72,11 @@ public class GameScreen implements Screen {
             throw new GdxRuntimeException("History was not loaded");
         }
 
-        if (game.gameState.history.activeSave == null) {
+        if (game.gameState.activeSave == null) {
             throw new GdxRuntimeException("Save was not loaded");
         }
 
-        return game.gameState.history.activeSave.story;
+        return game.gameState.activeSave.story;
     }
 
     public void setStory(Story story) {
@@ -89,11 +89,11 @@ public class GameScreen implements Screen {
             throw new GdxRuntimeException("History was not loaded");
         }
 
-        if (game.gameState.history.activeSave == null) {
+        if (game.gameState.activeSave == null) {
             throw new GdxRuntimeException("Save was not loaded");
         }
 
-        game.gameState.history.activeSave.story = story;
+        game.gameState.activeSave.story = story;
     }
 
     @Override
@@ -260,10 +260,6 @@ public class GameScreen implements Screen {
             ui.draw();
         }
 
-        if (story != null && story.currentInteraction != null) {
-            story.currentInteraction.interaction.drawOnTop();
-        }
-
         if (MunhauzenGame.DEBUG_RENDER_INFO)
             drawDebugInfo();
 
@@ -295,7 +291,7 @@ public class GameScreen implements Screen {
                             + "" + (scenarioOption.isLocked ? " lock" : "")
                     );
                     for (StoryAudio audio : scenarioOption.scenario.audio) {
-                        strings.add("--audio:" + audio.name
+                        strings.add("--audio:" + audio.audio
                                 + "" + (audio.isLocked ? " locked" : "")
                                 + "" + (audio.isActive ? " active" : "")
                         );
@@ -514,7 +510,7 @@ public class GameScreen implements Screen {
     }
 
     public Save getActiveSave() {
-        return game.gameState.history.activeSave;
+        return game.gameState.activeSave;
     }
 
     public void navigateTo(Screen screen) {

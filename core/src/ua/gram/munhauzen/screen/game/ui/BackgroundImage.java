@@ -270,18 +270,17 @@ public class BackgroundImage extends Group {
             float xBefore = background.getX();
             int newX = (int) (xBefore + deltaX);
 
-            int leftBound = (int) (-backgroundWidth + MunhauzenGame.WORLD_WIDTH);
-            int rightBound = 0;
+            int xBound = (int) (-backgroundWidth + MunhauzenGame.WORLD_WIDTH);
 
-            if (leftBound <= newX && newX <= rightBound) {
-                background.setX(newX);
+            if (xBound <= newX && newX <= 0) {
+                background.setX(xBefore + deltaX);
             }
 
-            rightArrow.setDisabled(newX <= leftBound + 25);
-            leftArrow.setDisabled(newX >= rightBound - 25);
+            rightArrow.setDisabled(newX <= xBound + 25);
+            leftArrow.setDisabled(newX >= -25);
 
-            rightArrow.setVisible(!(newX <= leftBound));
-            leftArrow.setVisible(!(newX >= rightBound));
+            rightArrow.setVisible(newX > xBound);
+            leftArrow.setVisible(newX < 0);
 
             return background.getX() - xBefore;
 

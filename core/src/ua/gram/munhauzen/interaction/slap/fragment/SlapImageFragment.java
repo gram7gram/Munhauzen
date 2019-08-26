@@ -205,7 +205,7 @@ public class SlapImageFragment extends InteractionFragment {
     private void playWin() {
         try {
             winAudio = new StoryAudio();
-            winAudio.name = "sfx_inter_slap_2";
+            winAudio.audio = "sfx_inter_slap_2";
 
             interaction.gameScreen.audioService.prepareAndPlay(winAudio);
 
@@ -219,7 +219,7 @@ public class SlapImageFragment extends InteractionFragment {
     private void playIntro() {
         try {
             introAudio = new StoryAudio();
-            introAudio.name = "sfx_inter_slap_1";
+            introAudio.audio = "sfx_inter_slap_1";
 
             interaction.gameScreen.audioService.prepareAndPlay(introAudio);
 

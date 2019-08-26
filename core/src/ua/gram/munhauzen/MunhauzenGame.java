@@ -26,7 +26,7 @@ public class MunhauzenGame extends Game {
     public static int WORLD_HEIGHT;
     public static boolean PAUSED = false;
     public static final boolean DEBUG = true;
-    public static final boolean IS_EXPANSION_HIDDEN = true;
+    public static final boolean IS_EXPANSION_HIDDEN = false;
     public static final boolean DEBUG_RENDER_INFO = true;
     public static final int PROGRESS_BAR_FADE_OUT_DELAY = 5;
 
@@ -72,7 +72,7 @@ public class MunhauzenGame extends Game {
         WORLD_WIDTH = Gdx.graphics.getWidth();
         WORLD_HEIGHT = Gdx.graphics.getHeight();
 
-        databaseManager = new DatabaseManager();
+        databaseManager = new DatabaseManager(this);
 
         loadGameState();
         loadGlobalAssets();

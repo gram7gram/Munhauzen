@@ -45,13 +45,13 @@ public class StoryManager {
 
         story.init();
 
-        String log = "create " + story.id + " x" + story.scenarios.size + "\r\n";
+        String log = "create " + story.id + " x" + story.scenarios.size() + "\r\n";
 
         for (StoryScenario storyScenario : story.scenarios) {
             log += storyScenario.startsAt + "-" + storyScenario.finishesAt + " " + storyScenario.scenario.name + "\r\n";
 
             for (StoryAudio item : storyScenario.scenario.audio) {
-                log += " - audio " + item.name + " " + item.startsAt + "-" + item.finishesAt + "\r\n";
+                log += " - audio " + item.audio + " " + item.startsAt + "-" + item.finishesAt + "\r\n";
             }
 
             for (StoryImage item : storyScenario.scenario.images) {
@@ -86,7 +86,7 @@ public class StoryManager {
 
     private void findNext(Scenario from, Story story) {
 
-        Log.i(tag, "findNext " + from.name + " #" + story.scenarios.size);
+        Log.i(tag, "findNext " + from.name + " #" + story.scenarios.size());
 
         StoryScenario storyScenario = new StoryScenario();
         storyScenario.scenario = from;
@@ -359,7 +359,7 @@ public class StoryManager {
     public void reset() {
 
         Story story = gameScreen.getStory();
-        if (story == null) return;
+        if (story == null || story.id == null) return;
 
         Log.i(tag, "reset " + story.id);
 
@@ -388,7 +388,7 @@ public class StoryManager {
     private boolean isDecisionAvailable(Decision decision, Set<String> inventory) {
         boolean hasRequired = true;
         if (decision.inventoryRequired != null) {
-            if (decision.inventoryRequired.size > 0) {
+            if (decision.inventoryRequired.size() > 0) {
                 for (String item : decision.inventoryRequired) {
                     if (!inventory.contains(item)) {
                         hasRequired = false;
@@ -400,7 +400,7 @@ public class StoryManager {
 
         boolean hasAbsent = false;
         if (decision.inventoryAbsent != null) {
-            if (decision.inventoryAbsent.size > 0) {
+            if (decision.inventoryAbsent.size() > 0) {
                 for (String item : decision.inventoryAbsent) {
                     if (inventory.contains(item)) {
                         hasAbsent = true;

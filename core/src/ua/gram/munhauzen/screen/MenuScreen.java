@@ -15,6 +15,7 @@ import ua.gram.munhauzen.screen.menu.fragment.ImageFragment;
 import ua.gram.munhauzen.screen.menu.fragment.ProBanner;
 import ua.gram.munhauzen.screen.menu.fragment.RateBanner;
 import ua.gram.munhauzen.screen.menu.fragment.ShareBanner;
+import ua.gram.munhauzen.screen.menu.fragment.ThankYouBanner;
 import ua.gram.munhauzen.screen.menu.listenter.MenuStageListener;
 import ua.gram.munhauzen.screen.menu.ui.MenuLayers;
 import ua.gram.munhauzen.service.AudioService;
@@ -34,6 +35,7 @@ public class MenuScreen extends AbstractScreen {
     public DemoBanner demoBanner;
     public ProBanner proBanner;
     public ExitDialog exitDialog;
+    public ThankYouBanner thankYouBanner;
     public AudioService audioService;
     public boolean isButtonClicked;
 
@@ -100,17 +102,21 @@ public class MenuScreen extends AbstractScreen {
 
         Gdx.input.setInputProcessor(ui);
 
+        openBannerIfNeeded();
+    }
+
+    private void openBannerIfNeeded() {
         MenuState menuState = game.gameState.menuState;
 
         int openCount = menuState.openCount;
 
-        if (menuState.forceShowThankYouBanner) {
-            menuState.forceShowThankYouBanner = false;
+        if (menuState.showThankYouBanner) {
+            menuState.showThankYouBanner = false;
 
             Timer.instance().scheduleTask(new Timer.Task() {
                 @Override
                 public void run() {
-                    openVersionBanner();
+                    openThankYouBanner();
                 }
             }, 1);
 
@@ -155,7 +161,20 @@ public class MenuScreen extends AbstractScreen {
         }
 
         menuState.openCount = openCount;
+    }
 
+    private void openThankYouBanner() {
+        try {
+
+            thankYouBanner = new ThankYouBanner(MenuScreen.this);
+            thankYouBanner.create();
+
+            layers.setBannerLayer(thankYouBanner);
+
+            thankYouBanner.fadeIn();
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
     }
 
     private void openGreetingBanner() {

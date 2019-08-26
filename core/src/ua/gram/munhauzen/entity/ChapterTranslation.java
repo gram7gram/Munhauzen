@@ -1,6 +1,10 @@
 package ua.gram.munhauzen.entity;
 
-public class ChapterTranslation {
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public class ChapterTranslation implements JsonEntry {
+    @JsonProperty
     public String locale;
+    @JsonProperty
     public String description;
 }

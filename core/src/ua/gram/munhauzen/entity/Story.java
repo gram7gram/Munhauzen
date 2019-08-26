@@ -1,22 +1,34 @@
 package ua.gram.munhauzen.entity;
 
-import com.badlogic.gdx.utils.Array;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Story {
+import java.util.ArrayList;
 
+public class Story implements JsonEntry {
+
+    @JsonProperty
     public String id;
+    @JsonProperty
     public int totalDuration;
+    @JsonProperty
     public boolean isCompleted;
+    @JsonProperty
     public float progress;
-    public final Array<StoryScenario> scenarios;
+    @JsonProperty
+    public final ArrayList<StoryScenario> scenarios;
+    @JsonIgnore
     public StoryScenario currentScenario;
+    @JsonProperty
     public StoryInteraction currentInteraction;
+    @JsonIgnore
     private boolean isInit;
 
     public Story() {
-        scenarios = new Array<>();
+        scenarios = new ArrayList<>();
     }
 
+    @JsonIgnore
     public boolean isVictory() {
         for (StoryScenario storyScenario : scenarios) {
             if (storyScenario.scenario.isVictory()) {
@@ -24,22 +36,25 @@ public class Story {
             }
         }
 
-        return false;
+        return true;
     }
 
+    @JsonIgnore
     public boolean isInteraction() {
-        return scenarios.size == 1 && first().scenario.interaction != null;
+        return scenarios.size() == 1 && first().scenario.interaction != null;
     }
 
+    @JsonIgnore
     public boolean isInteractionLocked() {
         if (currentInteraction == null) return false;
 
         return currentInteraction.isLocked;
     }
 
+    @JsonIgnore
     public boolean isValid() {
 
-        if (id == null || scenarios.size == 0) return false;
+        if (id == null || scenarios.size() == 0) return false;
 
         return isInit
                 && progress >= 0 && totalDuration >= 0
@@ -51,7 +66,7 @@ public class Story {
 
         reset();
 
-        int size = scenarios.size;
+        int size = scenarios.size();
         progress = 0;
         totalDuration = 0;
 
@@ -88,16 +103,18 @@ public class Story {
         update();
     }
 
+    @JsonIgnore
     public StoryScenario first() {
-        if (scenarios.size == 0) return null;
+        if (scenarios.size() == 0) return null;
 
         return scenarios.get(0);
     }
 
+    @JsonIgnore
     public StoryScenario last() {
-        if (scenarios.size == 0) return null;
+        if (scenarios.size() == 0) return null;
 
-        return scenarios.get(scenarios.size - 1);
+        return scenarios.get(scenarios.size() - 1);
     }
 
     public void update(float progress, int duration) {

@@ -14,7 +14,7 @@ import com.badlogic.gdx.utils.Align;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.Chapter;
-import ua.gram.munhauzen.history.Save;
+import ua.gram.munhauzen.entity.Save;
 import ua.gram.munhauzen.repository.ChapterRepository;
 import ua.gram.munhauzen.screen.SavesScreen;
 import ua.gram.munhauzen.screen.saves.fragment.SaveDialog;
@@ -25,7 +25,7 @@ public class SaveRow extends Table {
 
     final String tag = getClass().getSimpleName();
     final SavesScreen screen;
-    final Save save;
+    public final Save save;
     Label title, time, date;
     Image icon;
     float blockWidth;
@@ -42,20 +42,20 @@ public class SaveRow extends Table {
         icon = new Image();
 
         title = new Label("", new Label.LabelStyle(
-                screen.game.fontProvider.getFont(FontProvider.h2),
+                screen.game.fontProvider.getFont(FontProvider.h3),
                 Color.BLACK
         ));
         title.setWrap(true);
         title.setAlignment(Align.left);
 
         time = new Label("", new Label.LabelStyle(
-                screen.game.fontProvider.getFont(FontProvider.h4),
+                screen.game.fontProvider.getFont(FontProvider.h5),
                 Color.BLACK
         ));
         time.setAlignment(Align.left);
 
         date = new Label("", new Label.LabelStyle(
-                screen.game.fontProvider.getFont(FontProvider.h4),
+                screen.game.fontProvider.getFont(FontProvider.h5),
                 Color.BLACK
         ));
         date.setAlignment(Align.left);
@@ -95,13 +95,16 @@ public class SaveRow extends Table {
 
     public void init() {
 
+        //boolean isActive = save.id.equals(screen.game.gameState.history.activeSaveId);
+
+        String text = save.id + ". ";
+
         if (save.chapter != null) {
 
             Chapter chapter = ChapterRepository.find(screen.game.gameState, save.chapter);
 
-            String text = chapter.getDescription(screen.game.params.locale);
+            text += " " + chapter.getDescription(screen.game.params.locale);
 
-            title.setText(text);
             time.setText(DateUtils.format(save.updatedAt, "HH:mm"));
             date.setText(DateUtils.format(save.updatedAt, "dd.MM.yyyy"));
 
@@ -110,7 +113,8 @@ public class SaveRow extends Table {
             )));
 
         } else {
-            title.setText("Empty save");
+            text += "Empty save";
+
             date.setText("");
             time.setText("");
             icon.setDrawable(new SpriteDrawable(new Sprite(
@@ -118,6 +122,8 @@ public class SaveRow extends Table {
             )));
 
         }
+
+        title.setText(text);
 
     }
 }

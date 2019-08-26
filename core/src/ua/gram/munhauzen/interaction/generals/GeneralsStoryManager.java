@@ -66,7 +66,7 @@ public class GeneralsStoryManager {
 
     private void findNext(GeneralsScenario from, GeneralsStory story) {
 
-        Log.i(tag, "findNext " + from.name + " #" + story.scenarios.size);
+        Log.i(tag, "findNext " + from.name + " #" + story.scenarios.size());
 
         Set<String> inventory = gameScreen.game.inventoryService.getAllInventory();
 
@@ -284,7 +284,7 @@ public class GeneralsStoryManager {
     private boolean isDecisionAvailable(Decision decision, Set<String> inventory) {
         boolean hasRequired = true;
         if (decision.inventoryRequired != null) {
-            if (decision.inventoryRequired.size > 0) {
+            if (decision.inventoryRequired.size() > 0) {
                 for (String item : decision.inventoryRequired) {
                     if (!inventory.contains(item)) {
                         hasRequired = false;
@@ -296,7 +296,7 @@ public class GeneralsStoryManager {
 
         boolean hasAbsent = false;
         if (decision.inventoryAbsent != null) {
-            if (decision.inventoryAbsent.size > 0) {
+            if (decision.inventoryAbsent.size() > 0) {
                 for (String item : decision.inventoryAbsent) {
                     if (inventory.contains(item)) {
                         hasAbsent = true;

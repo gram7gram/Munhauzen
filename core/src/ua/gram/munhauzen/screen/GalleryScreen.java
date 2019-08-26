@@ -2,7 +2,8 @@ package ua.gram.munhauzen.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.utils.Array;
+
+import java.util.ArrayList;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.Image;
@@ -19,7 +20,7 @@ public class GalleryScreen extends AbstractScreen {
     public GalleryLayers layers;
     public GalleryFragment galleryFragment;
     public ControlsFragment controlsFragment;
-    public Array<PaintingImage> paintings;
+    public ArrayList<PaintingImage> paintings;
 
     public GalleryScreen(MunhauzenGame game) {
         super(game);
@@ -29,7 +30,7 @@ public class GalleryScreen extends AbstractScreen {
     public void show() {
         super.show();
 
-        paintings = new Array<>();
+        paintings = new ArrayList<>();
 
         background = game.assetManager.get("p1.jpg", Texture.class);
 
@@ -70,7 +71,7 @@ public class GalleryScreen extends AbstractScreen {
     }
 
     private void createPaintings() {
-        Array<Image> galleryImages = game.gameState.getGalleryImages();
+        ArrayList<Image> galleryImages = game.gameState.getGalleryImages();
 
         for (Image image : galleryImages) {
 
@@ -83,7 +84,7 @@ public class GalleryScreen extends AbstractScreen {
             painting.isViewed = game.gameState.galleryState.visitedImages.contains(image.name);
         }
 
-        int size = paintings.size;
+        int size = paintings.size();
         for (int i = 0; i < size; i++) {
             PaintingImage current = paintings.get(i);
 

@@ -198,7 +198,7 @@ public class HireDialog extends Fragment {
         try {
 
             muchAudio = new StoryAudio();
-            muchAudio.name = MathUtils.random(new String[]{
+            muchAudio.audio = MathUtils.random(new String[]{
                     "s41_too_much_1",
                     "s41_too_much_2",
                     "s41_too_much_3",
@@ -220,38 +220,38 @@ public class HireDialog extends Fragment {
 
             switch (servantName) {
                 case "CARPETENER":
-                    cancelAudio.name = "s41_8_b";
+                    cancelAudio.audio = "s41_8_b";
                     break;
                 case "BLOWER":
-                    cancelAudio.name = "s41_6_b";
+                    cancelAudio.audio = "s41_6_b";
                     break;
                 case "SHOOTER":
-                    cancelAudio.name = "s41_4_b";
+                    cancelAudio.audio = "s41_4_b";
                     break;
                 case "LISTENER":
-                    cancelAudio.name = "s41_3_b";
+                    cancelAudio.audio = "s41_3_b";
                     break;
                 case "VASILIY":
-                    cancelAudio.name = "s41_11_b";
+                    cancelAudio.audio = "s41_11_b";
                     break;
                 case "RUNNER":
-                    cancelAudio.name = "s41_2_b";
+                    cancelAudio.audio = "s41_2_b";
                     break;
                 case "JUMPER":
-                    cancelAudio.name = "s41_7_b";
+                    cancelAudio.audio = "s41_7_b";
                     break;
                 case "JOKER":
-                    cancelAudio.name = "s41_9_b";
+                    cancelAudio.audio = "s41_9_b";
                     break;
                 case "USURER":
-                    cancelAudio.name = "s41_10_b";
+                    cancelAudio.audio = "s41_10_b";
                     break;
                 case "GIGANT":
-                    cancelAudio.name = "s41_5_b";
+                    cancelAudio.audio = "s41_5_b";
                     break;
             }
 
-            Log.i(tag, "playCancel " + servantName + " " + cancelAudio.name);
+            Log.i(tag, "playCancel " + servantName + " " + cancelAudio.audio);
 
             gameScreen.audioService.prepareAndPlay(cancelAudio);
 
@@ -268,38 +268,38 @@ public class HireDialog extends Fragment {
 
             switch (servantName) {
                 case "CARPETENER":
-                    confirmAudio.name = "s41_8_a";
+                    confirmAudio.audio = "s41_8_a";
                     break;
                 case "BLOWER":
-                    confirmAudio.name = "s41_6_a";
+                    confirmAudio.audio = "s41_6_a";
                     break;
                 case "SHOOTER":
-                    confirmAudio.name = "s41_4_a";
+                    confirmAudio.audio = "s41_4_a";
                     break;
                 case "LISTENER":
-                    confirmAudio.name = "s41_3_a";
+                    confirmAudio.audio = "s41_3_a";
                     break;
                 case "VASILIY":
-                    confirmAudio.name = "s41_11_a";
+                    confirmAudio.audio = "s41_11_a";
                     break;
                 case "RUNNER":
-                    confirmAudio.name = "s41_2_a";
+                    confirmAudio.audio = "s41_2_a";
                     break;
                 case "JUMPER":
-                    confirmAudio.name = "s41_7_a";
+                    confirmAudio.audio = "s41_7_a";
                     break;
                 case "JOKER":
-                    confirmAudio.name = "s41_9_a";
+                    confirmAudio.audio = "s41_9_a";
                     break;
                 case "USURER":
-                    confirmAudio.name = "s41_10_a";
+                    confirmAudio.audio = "s41_10_a";
                     break;
                 case "GIGANT":
-                    confirmAudio.name = "s41_5_a";
+                    confirmAudio.audio = "s41_5_a";
                     break;
             }
 
-            Log.i(tag, "playConfirm " + servantName + " " + confirmAudio.name);
+            Log.i(tag, "playConfirm " + servantName + " " + confirmAudio.audio);
 
             gameScreen.audioService.prepareAndPlay(confirmAudio);
 

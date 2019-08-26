@@ -73,7 +73,7 @@ public class GameAudioService implements Disposable {
             return;
         }
 
-        Audio audio = AudioRepository.find(gameScreen.game.gameState, item.name);
+        Audio audio = AudioRepository.find(gameScreen.game.gameState, item.audio);
         if (item.duration == 0) {
             item.duration = audio.duration;
         }
@@ -109,9 +109,9 @@ public class GameAudioService implements Disposable {
 
     public void prepareAndPlay(StoryAudio item) {
 
-        Log.i(tag, "play " + item.name);
+        Log.i(tag, "play " + item.audio);
 
-        Audio audio = AudioRepository.find(gameScreen.game.gameState, item.name);
+        Audio audio = AudioRepository.find(gameScreen.game.gameState, item.audio);
         if (item.duration == 0) {
             item.duration = audio.duration;
         }
@@ -134,7 +134,14 @@ public class GameAudioService implements Disposable {
         item.player.play();
 
         synchronized (activeAudio) {
-            activeAudio.put(item.name, item);
+            activeAudio.put(item.audio, item);
+        }
+
+        try {
+
+            gameScreen.game.achievementService.onAudioListened(audio);
+
+        } catch (GdxRuntimeException ignore) {
         }
     }
 
@@ -150,17 +157,26 @@ public class GameAudioService implements Disposable {
             item.player.setPosition(delay);
             item.player.setVolume(GameState.isMute ? 0 : 1);
 
-            Log.i(tag, "playAudio " + item.name + " duration=" + (item.duration / 1000) + "s");
+            Log.i(tag, "playAudio " + item.audio + " duration=" + (item.duration / 1000) + "s");
 
             item.isActive = true;
             item.player.play();
 
             synchronized (activeAudio) {
-                activeAudio.put(item.name, item);
+                activeAudio.put(item.audio, item);
             }
 
         } catch (Throwable e) {
             Log.e(tag, e);
+        }
+
+        try {
+
+            Audio audio = AudioRepository.find(gameScreen.game.gameState, item.audio);
+
+            gameScreen.game.achievementService.onAudioListened(audio);
+
+        } catch (GdxRuntimeException ignore) {
         }
     }
 
@@ -169,14 +185,14 @@ public class GameAudioService implements Disposable {
 
             if (storyAudio.player != null) {
 
-                Log.i(tag, "stop " + storyAudio.name);
+                Log.i(tag, "stop " + storyAudio.audio);
 
                 storyAudio.player.stop();
             }
 
             String resource = storyAudio.resource;
             if (resource == null) {
-                Audio audio = AudioRepository.find(gameScreen.game.gameState, storyAudio.name);
+                Audio audio = AudioRepository.find(gameScreen.game.gameState, storyAudio.audio);
 
                 FileHandle file = ExternalFiles.getExpansionAudio(audio);
                 if (!file.exists()) {
@@ -197,7 +213,7 @@ public class GameAudioService implements Disposable {
             storyAudio.player = null;
 
             synchronized (activeAudio) {
-                activeAudio.remove(storyAudio.name);
+                activeAudio.remove(storyAudio.audio);
             }
 
         } catch (Throwable e) {
@@ -815,7 +831,7 @@ public class GameAudioService implements Disposable {
                     for (HireStoryScenario option : story.scenarios) {
                         for (StoryAudio audio : option.scenario.audio) {
                             if (audio.player != null) {
-                                Log.e(tag, "updateMusicState paused " + audio.name);
+                                Log.e(tag, "updateMusicState paused " + audio.audio);
                                 audio.isActive = false;
                                 audio.player.pause();
                             }
@@ -831,7 +847,7 @@ public class GameAudioService implements Disposable {
                                 }
 
                                 if (audio.isActive && !audio.isLocked) {
-                                    Log.e(tag, "updateMusicState not locked " + audio.name);
+                                    Log.e(tag, "updateMusicState not locked " + audio.audio);
                                     audio.isActive = false;
                                     audio.player.pause();
                                 }
@@ -1213,7 +1229,7 @@ public class GameAudioService implements Disposable {
                     assetManager.unload(item.resource);
                     item.resource = null;
                 } else {
-                    Log.e(tag, item.name + " dispose ignored");
+                    Log.e(tag, item.audio + " dispose ignored");
                 }
             }
         }

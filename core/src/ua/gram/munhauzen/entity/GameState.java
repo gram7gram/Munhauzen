@@ -1,49 +1,57 @@
 package ua.gram.munhauzen.entity;
 
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
 
-import ua.gram.munhauzen.history.History;
 import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class GameState {
+public class GameState implements JsonEntry {
 
     private static final String tag = GameState.class.getSimpleName();
 
+    public static final int SAVE_LIMIT = 4;
     public static boolean isPaused = false;
     public static boolean isMute = false;
-    public static boolean isFinaleReached = false;
 
+    @JsonProperty
     public History history;
+    @JsonProperty
+    public Save activeSave;
+
+    @JsonIgnore
     public ArrayList<Scenario> scenarioRegistry;
+    @JsonIgnore
     public ArrayList<Image> imageRegistry;
+    @JsonIgnore
     public ArrayList<Audio> audioRegistry;
+    @JsonIgnore
     public ArrayList<AudioFail> audioFailRegistry;
+    @JsonIgnore
     public ArrayList<Inventory> inventoryRegistry;
+    @JsonIgnore
     public ArrayList<Chapter> chapterRegistry;
+
+    @JsonProperty
     public MenuState menuState;
+    @JsonProperty
     public GalleryState galleryState;
+    @JsonProperty
     public FailsState failsState;
 
-    public void reset() {
-        Log.i(tag, "reset");
-        try {
-            isPaused = false;
-            isFinaleReached = false;
+    public GameState() {
+        history = new History();
+        setActiveSave(new Save());
+    }
 
-            history = new History();
-            menuState = new MenuState();
-            galleryState = new GalleryState();
-            failsState = new FailsState();
-
-        } catch (Throwable e) {
-            Log.e(tag, e);
-        }
+    public void setActiveSave(Save save) {
+        activeSave = save;
+        history.activeSaveId = save.id;
     }
 
     public static void pause(String referer) {
@@ -63,8 +71,9 @@ public class GameState {
         Timer.instance().clear();
     }
 
-    public Array<Image> getGalleryImages() {
-        Array<Image> items = new Array<>();
+    @JsonIgnore
+    public ArrayList<Image> getGalleryImages() {
+        ArrayList<Image> items = new ArrayList<>();
 
         for (Image image : imageRegistry) {
             if (image.isHiddenFromGallery) continue;

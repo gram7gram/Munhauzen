@@ -1,8 +1,8 @@
 package ua.gram.munhauzen;
 
 import ua.gram.munhauzen.entity.GameState;
-import ua.gram.munhauzen.history.History;
-import ua.gram.munhauzen.history.Save;
+import ua.gram.munhauzen.entity.History;
+import ua.gram.munhauzen.entity.Save;
 
 /**
  * @author Gram <gram7gram@gmail.com>

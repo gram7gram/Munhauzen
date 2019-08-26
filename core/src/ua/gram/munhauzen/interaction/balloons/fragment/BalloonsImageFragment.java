@@ -438,7 +438,7 @@ public class BalloonsImageFragment extends InteractionFragment {
             stopAudio();
 
             currentAudio = new StoryAudio();
-            currentAudio.name = "sfx_inter_balloons_win";
+            currentAudio.audio = "sfx_inter_balloons_win";
 
             interaction.gameScreen.audioService.prepareAndPlay(currentAudio);
 
@@ -454,7 +454,7 @@ public class BalloonsImageFragment extends InteractionFragment {
             stopAudio();
 
             currentAudio = new StoryAudio();
-            currentAudio.name = "sfx_inter_last";
+            currentAudio.audio = "sfx_inter_last";
 
             interaction.gameScreen.audioService.prepareAndPlay(currentAudio);
         } catch (Throwable e) {
@@ -470,7 +470,7 @@ public class BalloonsImageFragment extends InteractionFragment {
             stopAudio();
 
             currentAudio = new StoryAudio();
-            currentAudio.name = MathUtils.random(new String[]{
+            currentAudio.audio = MathUtils.random(new String[]{
                     "sfx_inter_balloons_one_1",
                     "sfx_inter_balloons_one_2",
                     "sfx_inter_balloons_one_3"
@@ -489,7 +489,7 @@ public class BalloonsImageFragment extends InteractionFragment {
             stopAudio();
 
             currentAudio = new StoryAudio();
-            currentAudio.name = MathUtils.random(new String[]{
+            currentAudio.audio = MathUtils.random(new String[]{
                     "sfx_inter_loose_1",
                     "sfx_inter_loose_2",
                     "sfx_inter_loose_3"
@@ -508,7 +508,7 @@ public class BalloonsImageFragment extends InteractionFragment {
             stopAudio();
 
             currentAudio = new StoryAudio();
-            currentAudio.name = "sfx_inter_last_loose";
+            currentAudio.audio = "sfx_inter_last_loose";
 
             interaction.gameScreen.audioService.prepareAndPlay(currentAudio);
         } catch (Throwable e) {

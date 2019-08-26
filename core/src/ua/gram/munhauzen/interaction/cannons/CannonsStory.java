@@ -1,6 +1,6 @@
 package ua.gram.munhauzen.interaction.cannons;
 
-import com.badlogic.gdx.utils.Array;
+import java.util.ArrayList;
 
 public class CannonsStory {
 
@@ -8,18 +8,18 @@ public class CannonsStory {
     public int totalDuration;
     public boolean isCompleted;
     public float progress;
-    public final Array<CannonsStoryScenario> scenarios;
+    public final ArrayList<CannonsStoryScenario> scenarios;
     public CannonsStoryScenario currentScenario;
 
     public CannonsStory() {
-        scenarios = new Array<>();
+        scenarios = new ArrayList<>();
     }
 
     public boolean isValid() {
 
-        if (id == null || scenarios.size == 0) return false;
+        if (id == null || scenarios.size() == 0) return false;
 
-        //StoryScenario last = scenarios.get(scenarios.size - 1);
+        //StoryScenario last = scenarios.get(scenarios.size() - 1);
 
         return progress >= 0 && totalDuration >= 0
                 && progress <= totalDuration
@@ -30,7 +30,7 @@ public class CannonsStory {
 
         reset();
 
-        int size = scenarios.size;
+        int size = scenarios.size();
         progress = 0;
         totalDuration = 0;
 
@@ -66,15 +66,15 @@ public class CannonsStory {
     }
 
     public CannonsStoryScenario first() {
-        if (scenarios.size == 0) return null;
+        if (scenarios.size() == 0) return null;
 
         return scenarios.get(0);
     }
 
     public CannonsStoryScenario last() {
-        if (scenarios.size == 0) return null;
+        if (scenarios.size() == 0) return null;
 
-        return scenarios.get(scenarios.size - 1);
+        return scenarios.get(scenarios.size() - 1);
     }
 
     public void update(float progress, int duration) {

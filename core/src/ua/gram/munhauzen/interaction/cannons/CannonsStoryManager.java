@@ -104,7 +104,7 @@ public class CannonsStoryManager {
 
     private void findNext(CannonsScenario from, CannonsStory story, int wormCount) {
 
-        Log.i(tag, "findNext " + from.name + " #" + story.scenarios.size);
+        Log.i(tag, "findNext " + from.name + " #" + story.scenarios.size());
 
         if ("aworm_check_a".equals(from.name)) {
             String decision;

@@ -20,13 +20,13 @@ public class HareStoryScenario extends StoryMedia<HareStoryScenario> {
     public void init() {
         currentAudio = null;
 
-        int size = scenario.audio.size;
+        int size = scenario.audio.size();
         int audioDuration = 0;
 
         for (int i = 0; i < size; i++) {
             StoryAudio current = scenario.audio.get(i);
 
-            Audio audio = AudioRepository.find(gameState, current.name);
+            Audio audio = AudioRepository.find(gameState, current.audio);
             current.duration = audio.duration;
 
             current.isLocked = false;

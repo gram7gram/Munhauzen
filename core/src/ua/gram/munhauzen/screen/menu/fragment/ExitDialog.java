@@ -199,7 +199,7 @@ public class ExitDialog extends Fragment {
         try {
 
             yesAudio = new StoryAudio();
-            yesAudio.name = "sfx_exit_yes";
+            yesAudio.audio = "sfx_exit_yes";
 
             screen.audioService.prepareAndPlay(yesAudio);
 
@@ -214,7 +214,7 @@ public class ExitDialog extends Fragment {
         try {
 
             noAudio = new StoryAudio();
-            noAudio.name = "sfx_exit_no";
+            noAudio.audio = "sfx_exit_no";
 
             screen.audioService.prepareAndPlay(noAudio);
 

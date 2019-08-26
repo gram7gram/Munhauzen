@@ -23,8 +23,13 @@ import java.util.HashSet;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.AudioFail;
+import ua.gram.munhauzen.entity.FailsState;
+import ua.gram.munhauzen.entity.GalleryState;
+import ua.gram.munhauzen.entity.History;
 import ua.gram.munhauzen.entity.Image;
 import ua.gram.munhauzen.entity.Inventory;
+import ua.gram.munhauzen.entity.MenuState;
+import ua.gram.munhauzen.entity.Save;
 import ua.gram.munhauzen.entity.Scenario;
 import ua.gram.munhauzen.expansion.ExportResponse;
 import ua.gram.munhauzen.expansion.ExtractGameConfigTask;
@@ -160,7 +165,21 @@ public class ControlsFragment extends Fragment {
                 removeHistoryLbl.setVisible(false);
 
                 try {
-                    game.gameState.reset();
+                    game.gameState.menuState = new MenuState();
+                    game.gameState.galleryState = new GalleryState();
+                    game.gameState.failsState = new FailsState();
+
+                    for (String save : game.gameState.history.saves) {
+                        ExternalFiles.getSaveFile(save).delete();
+                    }
+
+                    ExternalFiles.getHistoryFile().delete();
+                    ExternalFiles.getMenuStateFile().delete();
+                    ExternalFiles.getGalleryStateFile().delete();
+                    ExternalFiles.getFailsStateFile().delete();
+
+                    game.gameState.history = new History();
+                    game.gameState.setActiveSave(new Save());
 
                 } catch (Throwable e) {
                     Log.e(tag, e);

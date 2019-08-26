@@ -1,19 +1,19 @@
 package ua.gram.munhauzen.screen;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 
 import java.util.ArrayList;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.Chapter;
-import ua.gram.munhauzen.history.Save;
+import ua.gram.munhauzen.entity.Save;
 import ua.gram.munhauzen.repository.ChapterRepository;
 import ua.gram.munhauzen.screen.saves.fragment.ControlsFragment;
 import ua.gram.munhauzen.screen.saves.fragment.SaveDialog;
 import ua.gram.munhauzen.screen.saves.fragment.SavesFragment;
 import ua.gram.munhauzen.screen.saves.ui.SavesLayers;
 import ua.gram.munhauzen.service.AudioService;
+import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
@@ -56,15 +56,19 @@ public class SavesScreen extends AbstractScreen {
 
         for (String saveId : game.gameState.history.saves) {
 
-            Save save = game.databaseManager.loadSave(saveId);
+            try {
+                Save save = game.databaseManager.loadSave(saveId);
 
-            saves.add(save);
+                saves.add(save);
 
-            if (save.chapter != null) {
+                if (save.chapter != null) {
 
-                Chapter chapter = ChapterRepository.find(game.gameState, save.chapter);
+                    Chapter chapter = ChapterRepository.find(game.gameState, save.chapter);
 
-                assetManager.load(chapter.icon, Texture.class);
+                    assetManager.load(chapter.icon, Texture.class);
+                }
+            } catch (Throwable e) {
+                Log.e(tag, e);
             }
 
         }
@@ -98,9 +102,22 @@ public class SavesScreen extends AbstractScreen {
         layers.setContentLayer(savesFragment);
 
         savesFragment.fadeIn();
+    }
 
-        Gdx.input.setInputProcessor(ui);
+    public void recreateSaves() {
 
+        savesFragment.destroy();
+
+        updateSaves();
+
+        assetManager.finishLoading();
+
+        savesFragment = new SavesFragment(this);
+        savesFragment.create();
+
+        layers.setContentLayer(savesFragment);
+
+        savesFragment.root.setVisible(true);
     }
 
     @Override
@@ -120,16 +137,6 @@ public class SavesScreen extends AbstractScreen {
 
         saves.clear();
 
-        if (audioService != null) {
-            audioService.dispose();
-            audioService = null;
-        }
-
-        if (layers != null) {
-            layers.dispose();
-            layers = null;
-        }
-
         if (saveDialog != null) {
             saveDialog.destroy();
             saveDialog = null;
@@ -143,6 +150,16 @@ public class SavesScreen extends AbstractScreen {
         if (controlsFragment != null) {
             controlsFragment.destroy();
             controlsFragment = null;
+        }
+
+        if (audioService != null) {
+            audioService.dispose();
+            audioService = null;
+        }
+
+        if (layers != null) {
+            layers.dispose();
+            layers = null;
         }
     }
 }

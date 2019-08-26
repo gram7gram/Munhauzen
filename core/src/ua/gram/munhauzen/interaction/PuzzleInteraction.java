@@ -62,7 +62,7 @@ public class PuzzleInteraction extends AbstractInteraction {
         try {
 
             introAudio = new StoryAudio();
-            introAudio.name = "sfx_inter_puzzle_1";
+            introAudio.audio = "sfx_inter_puzzle_1";
 
             gameScreen.audioService.prepareAndPlay(introAudio);
 

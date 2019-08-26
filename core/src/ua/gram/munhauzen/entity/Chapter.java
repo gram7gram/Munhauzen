@@ -1,5 +1,8 @@
 package ua.gram.munhauzen.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.ArrayList;
 
 /**
@@ -7,11 +10,16 @@ import java.util.ArrayList;
  */
 public class Chapter extends Entity {
 
+    @JsonProperty
     public int number;
+    @JsonProperty
     public String icon;
+    @JsonProperty
     public String chapterAudio;
+    @JsonProperty
     public ArrayList<ChapterTranslation> translations;
 
+    @JsonIgnore
     public String getDescription(String locale) {
         String text;
         ChapterTranslation translation = null;
