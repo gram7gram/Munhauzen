@@ -79,10 +79,6 @@ public class GalleryScreen extends AbstractScreen {
 
             paintings.add(painting);
 
-            if (MunhauzenGame.OPEN_GALLERY) {
-                game.gameState.history.viewedImages.add(image.name);
-            }
-
             painting.isOpened = game.gameState.history.viewedImages.contains(image.name);
             painting.isViewed = game.gameState.galleryState.visitedImages.contains(image.name);
         }

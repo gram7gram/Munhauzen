@@ -170,14 +170,14 @@ public abstract class Painting extends Group {
                 frameHeight
         );
 
-        frame.setPosition(
-                (MunhauzenGame.WORLD_WIDTH - frameWidth) / 2f,
-                MunhauzenGame.WORLD_HEIGHT * .3f
-        );
-
         background.setPosition(
                 (MunhauzenGame.WORLD_WIDTH - backgroundWidth) / 2f,
-                frame.getY() + pad
+                isWide ? MunhauzenGame.WORLD_HEIGHT * .4f : MunhauzenGame.WORLD_HEIGHT * .3f
+        );
+
+        frame.setPosition(
+                background.getX() - pad,
+                background.getY() - pad
         );
 
         descriptionBackground.setPosition(
@@ -224,9 +224,15 @@ public abstract class Painting extends Group {
 
         isWide = drawable.getMinWidth() > drawable.getMinHeight();
 
+//        if (!isWide) {
         backgroundWidth = MunhauzenGame.WORLD_WIDTH / 2f;
         backgroundScale = 1f * backgroundWidth / drawable.getMinWidth();
         backgroundHeight = 1f * drawable.getMinHeight() * backgroundScale;
+//        } else {
+//            backgroundHeight = MunhauzenGame.WORLD_WIDTH / 2f;
+//            backgroundScale = 1f * backgroundHeight / drawable.getMinHeight();
+//            backgroundWidth = 1f * drawable.getMinWidth() * backgroundScale;
+//        }
 
         background.setSize(backgroundWidth, backgroundHeight);
     }

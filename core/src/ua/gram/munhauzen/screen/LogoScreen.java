@@ -69,7 +69,7 @@ public class LogoScreen implements Screen {
                                 Actions.moveBy(0, -100, .4f),
                                 Actions.alpha(1, .4f)
                         ),
-                        Actions.delay(.6f),
+                        Actions.delay(1),
                         Actions.run(new Runnable() {
                             @Override
                             public void run() {

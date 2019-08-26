@@ -64,9 +64,7 @@ public class SavesScreen extends AbstractScreen {
 
                 Chapter chapter = ChapterRepository.find(game.gameState, save.chapter);
 
-                if (chapter.icon != null) {
-                    assetManager.load(chapter.icon, Texture.class);
-                }
+                assetManager.load(chapter.icon, Texture.class);
             }
 
         }

@@ -14,7 +14,6 @@ import com.badlogic.gdx.utils.Align;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.Chapter;
-import ua.gram.munhauzen.entity.ChapterTranslation;
 import ua.gram.munhauzen.history.Save;
 import ua.gram.munhauzen.repository.ChapterRepository;
 import ua.gram.munhauzen.screen.SavesScreen;
@@ -29,7 +28,6 @@ public class SaveRow extends Table {
     final Save save;
     Label title, time, date;
     Image icon;
-    final SpriteDrawable fallbackIcon;
     float blockWidth;
 
     public SaveRow(final Save save, final SavesScreen screen) {
@@ -48,28 +46,24 @@ public class SaveRow extends Table {
                 Color.BLACK
         ));
         title.setWrap(true);
-        title.setAlignment(Align.center);
+        title.setAlignment(Align.left);
 
         time = new Label("", new Label.LabelStyle(
                 screen.game.fontProvider.getFont(FontProvider.h4),
                 Color.BLACK
         ));
-        time.setAlignment(Align.center);
+        time.setAlignment(Align.left);
 
         date = new Label("", new Label.LabelStyle(
                 screen.game.fontProvider.getFont(FontProvider.h4),
                 Color.BLACK
         ));
-        date.setAlignment(Align.center);
+        date.setAlignment(Align.left);
 
         Table lblContent = new Table();
         lblContent.add(title).width(rightColumnWidth).padBottom(5).row();
         lblContent.add(time).width(rightColumnWidth).row();
         lblContent.add(date).width(rightColumnWidth).row();
-
-        fallbackIcon = new SpriteDrawable(new Sprite(
-                screen.assetManager.get("saves/sv_baron.png", Texture.class)
-        ));
 
         addListener(new ClickListener() {
             @Override
@@ -93,52 +87,35 @@ public class SaveRow extends Table {
             }
         });
 
-        add(icon).size(leftColumnWidth);
+        add(icon).pad(5).size(leftColumnWidth - 10);
         add(lblContent).width(rightColumnWidth).row();
+
+        init();
     }
 
-    @Override
-    public void layout() {
-        super.layout();
+    public void init() {
 
         if (save.chapter != null) {
 
             Chapter chapter = ChapterRepository.find(screen.game.gameState, save.chapter);
 
-            String text;
-            ChapterTranslation translation = null;
-            if (chapter.translations != null) {
-                for (ChapterTranslation trans : chapter.translations) {
-                    if (trans.locale.equals(screen.game.params.locale)) {
-                        translation = trans;
-                        break;
-                    }
-                }
-            }
-
-            if (translation == null) {
-                text = save.id;
-            } else {
-                text = translation.description;
-            }
+            String text = chapter.getDescription(screen.game.params.locale);
 
             title.setText(text);
             time.setText(DateUtils.format(save.updatedAt, "HH:mm"));
             date.setText(DateUtils.format(save.updatedAt, "dd.MM.yyyy"));
 
-            if (chapter.icon != null) {
-                icon.setDrawable(new SpriteDrawable(new Sprite(
-                        screen.assetManager.get(chapter.icon, Texture.class)
-                )));
-            } else {
-                icon.setDrawable(fallbackIcon);
-            }
+            icon.setDrawable(new SpriteDrawable(new Sprite(
+                    screen.assetManager.get(chapter.icon, Texture.class)
+            )));
 
         } else {
             title.setText("Empty save");
             date.setText("");
             time.setText("");
-            icon.setDrawable(fallbackIcon);
+            icon.setDrawable(new SpriteDrawable(new Sprite(
+                    screen.assetManager.get("saves/sv_baron.png", Texture.class)
+            )));
 
         }
 
