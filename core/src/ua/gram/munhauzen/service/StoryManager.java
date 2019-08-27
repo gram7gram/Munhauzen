@@ -1,5 +1,6 @@
 package ua.gram.munhauzen.service;
 
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.Timer;
 
@@ -258,7 +259,7 @@ public class StoryManager {
 
     private void startInteraction(final Story story) {
 
-        gameScreen.hideProgressBar();
+        gameScreen.progressBarFragment.root.setTouchable(Touchable.disabled);
         gameScreen.hideAndDestroyScenarioFragment();
 
         gameScreen.audioService.dispose(story);

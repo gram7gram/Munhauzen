@@ -492,7 +492,13 @@ public class GameScreen implements Screen {
 
         String[] path = file.split("/");
 
-        String name = path[path.length - 1].split(".")[0];
+        String name = file;
+        if (path.length > 1) {
+            String[] filename = path[path.length - 1].split("\\.");
+            if (filename.length > 1) {
+                name = filename[0];
+            }
+        }
 
         Image image = new Image();
         image.name = name;

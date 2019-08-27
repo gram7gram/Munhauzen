@@ -21,6 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.MunhauzenGame;
@@ -177,10 +178,6 @@ public class ProgressBarFragment extends Fragment {
                 try {
                     gameScreen.audioService.pause();
 
-                    destroyContinueInteraction();
-
-                    gameScreen.hideAndDestroyScenarioFragment();
-
                     Story story = gameScreen.getStory();
                     if (story.currentScenario == null) return;
 
@@ -197,7 +194,7 @@ public class ProgressBarFragment extends Fragment {
 
                     GameState.pause(tag);
 
-                    postProgressChanged(story.isCompleted);
+                    postProgressChanged();
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -225,8 +222,6 @@ public class ProgressBarFragment extends Fragment {
                 try {
                     gameScreen.audioService.pause();
 
-                    gameScreen.hideAndDestroyScenarioFragment();
-
                     Story story = gameScreen.getStory();
                     if (story.currentScenario == null) return;
 
@@ -238,7 +233,7 @@ public class ProgressBarFragment extends Fragment {
                         story.progress = story.currentScenario.finishesAt;
                     }
 
-                    postProgressChanged(story.isCompleted);
+                    postProgressChanged();
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -267,13 +262,9 @@ public class ProgressBarFragment extends Fragment {
                 try {
                     Log.i(tag, "rewindBackButton enter");
 
-                    destroyContinueInteraction();
-
                     gameScreen.audioService.pause();
 
                     GameState.pause(tag);
-
-                    gameScreen.hideAndDestroyScenarioFragment();
 
                     progressTask = Timer.schedule(new Timer.Task() {
                         @Override
@@ -284,7 +275,7 @@ public class ProgressBarFragment extends Fragment {
 
                                 story.progress -= story.totalDuration * 0.025f;
 
-                                postProgressChanged(story.isCompleted);
+                                postProgressChanged();
 
                             } catch (Throwable e) {
                                 Log.e(tag, e);
@@ -328,8 +319,6 @@ public class ProgressBarFragment extends Fragment {
 
                     gameScreen.audioService.pause();
 
-                    gameScreen.hideAndDestroyScenarioFragment();
-
                     GameState.pause(tag);
 
                     progressTask = Timer.schedule(new Timer.Task() {
@@ -341,7 +330,7 @@ public class ProgressBarFragment extends Fragment {
 
                                 story.progress += story.totalDuration * 0.025f;
 
-                                postProgressChanged(story.isCompleted);
+                                postProgressChanged();
 
                             } catch (Throwable e) {
                                 Log.e(tag, e);
@@ -381,13 +370,7 @@ public class ProgressBarFragment extends Fragment {
                     Story story = gameScreen.getStory();
                     story.progress = story.totalDuration * percent;
 
-                    postProgressChanged(story.isCompleted);
-
-                    destroyContinueInteraction();
-
-                    if (!story.isCompleted) {
-                        gameScreen.hideAndDestroyScenarioFragment();
-                    }
+                    postProgressChanged();
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -788,26 +771,34 @@ public class ProgressBarFragment extends Fragment {
         return new ImageButton(style);
     }
 
-    private void postProgressChanged(boolean isCompletedBefore) {
+    private void postProgressChanged() {
         try {
             Story story = gameScreen.getStory();
 
+            boolean isCompletedBefore = story.isCompleted;
+
             story.update(story.progress, story.totalDuration);
 
-            //gameScreen.interactionService.update();
+            destroyContinueInteraction();
 
-            if (story.isValid()) {
+            if (!story.isCompleted) {
+                gameScreen.hideAndDestroyScenarioFragment();
+            }
 
-                if (!isCompletedBefore && story.isCompleted) {
+            if (!isCompletedBefore && story.isCompleted) {
 
-                    if (canCompleteStory(story)) {
-                        gameScreen.storyManager.onCompleted();
-                    } else {
-                        Log.e(tag, "complete story ignored");
-                    }
+                if (canCompleteStory(story)) {
 
+                    gameScreen.storyManager.onCompleted();
+                } else {
+                    Log.e(tag, "complete story ignored");
                 }
             }
+        } catch (GdxRuntimeException e) {
+            Log.e(tag, e);
+
+            gameScreen.onCriticalError(e);
+
         } catch (Throwable e) {
             Log.e(tag, e);
         }

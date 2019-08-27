@@ -59,6 +59,9 @@ public class ContinueInteraction extends AbstractInteraction {
             return;
         }
 
+        gameScreen.showProgressBar();
+        gameScreen.progressBarFragment.cancelFadeOut();
+
         try {
 
             if (imageFragment != null) {
@@ -97,6 +100,11 @@ public class ContinueInteraction extends AbstractInteraction {
                                 @Override
                                 public void run() {
                                     try {
+
+                                        Story story = gameScreen.getStory();
+                                        if (story == null) return;
+
+                                        story.update(story.totalDuration, story.totalDuration);
 
                                         GameState.unpause(tag);
 

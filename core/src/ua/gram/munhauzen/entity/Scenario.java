@@ -10,7 +10,7 @@ import java.util.ArrayList;
  */
 public class Scenario implements JsonEntry {
 
-    public static final String VICTORY = "VICTORY";
+    public static final String VICTORY = "aVictory";
     public static final String FADE_IN = "FADE";
 
     @JsonProperty
@@ -35,6 +35,13 @@ public class Scenario implements JsonEntry {
     public String action;
     @JsonProperty
     public String source;
+
+    public Scenario() {
+        audio = new ArrayList<>();
+        images = new ArrayList<>();
+        decisions = new ArrayList<>();
+        translations = new ArrayList<>();
+    }
 
     @JsonIgnore
     public StoryImage lastImage() {

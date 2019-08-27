@@ -98,8 +98,11 @@ public class AchievementService {
                 if (img.isBonus()) {
                     if (scenario.name.equals(img.relatedScenario)) {
 
-                        Log.e(tag, "onScenarioVisited adds bonus " + img.name);
-                        onImageViewed(img);
+                        if (!game.gameState.history.viewedImages.contains(img.name)) {
+
+                            Log.e(tag, "onScenarioVisited adds bonus " + img.name);
+                            onImageViewed(img);
+                        }
                     }
                 }
             }
