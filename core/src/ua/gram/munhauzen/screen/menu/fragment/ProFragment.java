@@ -9,126 +9,51 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Timer;
 
-import ua.gram.munhauzen.FontProvider;
-import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.screen.MenuScreen;
-import ua.gram.munhauzen.ui.FitImage;
+import ua.gram.munhauzen.screen.menu.ui.ProBanner;
 import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.ui.FragmentRoot;
-import ua.gram.munhauzen.ui.PrimaryButton;
 import ua.gram.munhauzen.utils.Log;
 
-public class DemoBanner extends Fragment {
+public class ProFragment extends Fragment {
 
-    final MenuScreen screen;
+    public final MenuScreen screen;
     FragmentRoot root;
-    Table content;
     public boolean isFadeIn;
     public boolean isFadeOut;
     StoryAudio introAudio, clickAudio;
 
-    public DemoBanner(MenuScreen screen) {
+    public ProFragment(MenuScreen screen) {
         this.screen = screen;
     }
 
     public void create() {
 
         screen.assetManager.load("ui/banner_fond_1.png", Texture.class);
-        screen.assetManager.load("menu/b_demo_version_2.png", Texture.class);
+        screen.assetManager.load("menu/b_full_version_2.png", Texture.class);
 
         screen.assetManager.finishLoading();
 
-        String[] sentences = {
-                "Please, purchase the full version of the audio-book!",
-        };
-
-        content = new Table();
-
-        Label.LabelStyle style = new Label.LabelStyle(
-                screen.game.fontProvider.getFont(FontProvider.h4),
-                Color.BLACK
-        );
-
-        for (String sentence : sentences) {
-            Label label = new Label(sentence, style);
-            label.setAlignment(Align.center);
-            label.setWrap(true);
-
-            content.add(label)
-                    .width(MunhauzenGame.WORLD_WIDTH * .4f)
-                    .padBottom(10).growX().row();
-        }
-
-        PrimaryButton btn = screen.game.buttonBuilder.primary("Purchase", new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-                try {
-
-                    root.setTouchable(Touchable.disabled);
-
-                    stopIntro();
-
-                    playClick();
-
-                    if (clickAudio == null) {
-                        onPurchaseClicked();
-                    } else {
-                        Timer.instance().scheduleTask(new Timer.Task() {
-                            @Override
-                            public void run() {
-                                onPurchaseClicked();
-                            }
-                        }, clickAudio.duration / 1000f);
-                    }
-
-                } catch (Throwable e) {
-                    Log.e(tag, e);
-                }
-
-            }
-        });
-
-        content.add(btn)
-                .width(MunhauzenGame.WORLD_WIDTH / 3f)
-                .height(MunhauzenGame.WORLD_HEIGHT / 12f)
-                .expandX().row();
-
-        FitImage img = new FitImage(
-                screen.assetManager.get("menu/b_demo_version_2.png", Texture.class)
-        );
-
-        Table columns = new Table();
-        columns.pad(50, 100, 50, 100);
-        columns.add(content).center().expandX();
-        columns.add(img).width(MunhauzenGame.WORLD_WIDTH * .3f).center().expandX();
-
-        columns.setBackground(new SpriteDrawable(new Sprite(
-                screen.assetManager.get("ui/banner_fond_1.png", Texture.class)
-        )));
-
-        Container<Table> container = new Container<>(columns);
-        container.pad(MunhauzenGame.WORLD_WIDTH * .05f);
-        container.setTouchable(Touchable.enabled);
-
-        root = new FragmentRoot();
-        root.addContainer(container);
+        ProBanner banner = new ProBanner(this);
 
         Pixmap px = new Pixmap(1, 1, Pixmap.Format.RGBA4444);
         px.setColor(Color.BLACK.r, Color.BLACK.g, Color.BLACK.b, .3f);
         px.fill();
 
-        container.setBackground(new SpriteDrawable(new Sprite(new Texture(px))));
+        Container c = new Container();
+        c.setTouchable(Touchable.enabled);
+        c.setBackground(new SpriteDrawable(new Sprite(new Texture(px))));
 
-        container.addListener(new ClickListener() {
+        root = new FragmentRoot();
+        root.addContainer(c);
+        root.addContainer(banner);
+
+        c.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
@@ -141,7 +66,7 @@ public class DemoBanner extends Fragment {
                     @Override
                     public void run() {
                         destroy();
-                        screen.proBanner = null;
+                        screen.proFragment = null;
                     }
                 });
             }
@@ -150,17 +75,40 @@ public class DemoBanner extends Fragment {
         root.setVisible(false);
     }
 
-    private void onPurchaseClicked() {
+    public void onOkClicked() {
         try {
-            screen.game.params.appStore.openProUrl();
 
-            fadeOut(new Runnable() {
-                @Override
-                public void run() {
-                    destroy();
-                    screen.rateBanner = null;
-                }
-            });
+            root.setTouchable(Touchable.disabled);
+
+            stopIntro();
+
+            playClick();
+
+            if (clickAudio == null) {
+                fadeOut(new Runnable() {
+                    @Override
+                    public void run() {
+                        destroy();
+
+                        screen.proFragment = null;
+                    }
+                });
+            } else {
+                Timer.instance().scheduleTask(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        fadeOut(new Runnable() {
+                            @Override
+                            public void run() {
+                                destroy();
+
+                                screen.proFragment = null;
+                            }
+                        });
+                    }
+                }, clickAudio.duration / 1000f);
+            }
+
         } catch (Throwable e) {
             Log.e(tag, e);
         }
@@ -264,13 +212,13 @@ public class DemoBanner extends Fragment {
             stopIntro();
 
             introAudio = new StoryAudio();
-            introAudio.audio = "sfx_menu_demo_0";
+            introAudio.audio = "sfx_menu_full_0";
 
             screen.audioService.prepareAndPlay(introAudio);
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            //screen.onCriticalError(e);
+//            screen.onCriticalError(e);
         }
     }
 
@@ -286,7 +234,7 @@ public class DemoBanner extends Fragment {
             stopClick();
 
             clickAudio = new StoryAudio();
-            clickAudio.audio = "sfx_menu_demo_1";
+            clickAudio.audio = "sfx_menu_full_1";
 
             screen.audioService.prepareAndPlay(clickAudio);
         } catch (Throwable e) {

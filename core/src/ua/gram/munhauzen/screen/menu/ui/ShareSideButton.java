@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import ua.gram.munhauzen.animation.AnimatedImage;
 import ua.gram.munhauzen.screen.MenuScreen;
-import ua.gram.munhauzen.screen.menu.fragment.ShareBanner;
+import ua.gram.munhauzen.screen.menu.fragment.ShareFragment;
 import ua.gram.munhauzen.utils.Log;
 
 public class ShareSideButton extends AnimatedImage {
@@ -25,12 +25,12 @@ public class ShareSideButton extends AnimatedImage {
 
                 try {
 
-                    screen.shareBanner = new ShareBanner(screen);
-                    screen.shareBanner.create();
+                    screen.shareFragment = new ShareFragment(screen);
+                    screen.shareFragment.create();
 
-                    screen.layers.setBannerLayer(screen.shareBanner);
+                    screen.layers.setBannerLayer(screen.shareFragment);
 
-                    screen.shareBanner.fadeIn();
+                    screen.shareFragment.fadeIn();
 
                 } catch (Throwable e) {
                     Log.e(tag, e);

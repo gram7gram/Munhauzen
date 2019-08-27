@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import ua.gram.munhauzen.animation.AnimatedImage;
 import ua.gram.munhauzen.screen.MenuScreen;
-import ua.gram.munhauzen.screen.menu.fragment.ProBanner;
+import ua.gram.munhauzen.screen.menu.fragment.ProFragment;
 import ua.gram.munhauzen.utils.Log;
 
 public class ProSideButton extends AnimatedImage {
@@ -25,12 +25,12 @@ public class ProSideButton extends AnimatedImage {
 
                 try {
 
-                    screen.proBanner = new ProBanner(screen);
-                    screen.proBanner.create();
+                    screen.proFragment = new ProFragment(screen);
+                    screen.proFragment.create();
 
-                    screen.layers.setBannerLayer(screen.proBanner);
+                    screen.layers.setBannerLayer(screen.proFragment);
 
-                    screen.proBanner.fadeIn();
+                    screen.proFragment.fadeIn();
 
                 } catch (Throwable e) {
                     Log.e(tag, e);

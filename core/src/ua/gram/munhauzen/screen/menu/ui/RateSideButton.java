@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import ua.gram.munhauzen.animation.AnimatedImage;
 import ua.gram.munhauzen.screen.MenuScreen;
-import ua.gram.munhauzen.screen.menu.fragment.RateBanner;
+import ua.gram.munhauzen.screen.menu.fragment.RateFragment;
 import ua.gram.munhauzen.utils.Log;
 
 public class RateSideButton extends AnimatedImage {
@@ -25,12 +25,12 @@ public class RateSideButton extends AnimatedImage {
 
                 try {
 
-                    screen.rateBanner = new RateBanner(screen);
-                    screen.rateBanner.create();
+                    screen.rateFragment = new RateFragment(screen);
+                    screen.rateFragment.create();
 
-                    screen.layers.setBannerLayer(screen.rateBanner);
+                    screen.layers.setBannerLayer(screen.rateFragment);
 
-                    screen.rateBanner.fadeIn();
+                    screen.rateFragment.fadeIn();
 
                 } catch (Throwable e) {
                     Log.e(tag, e);

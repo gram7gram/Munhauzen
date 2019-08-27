@@ -1,5 +1,6 @@
 package ua.gram.munhauzen.screen.menu.fragment;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -9,114 +10,55 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
-import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Timer;
 
-import ua.gram.munhauzen.FontProvider;
-import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.screen.MenuScreen;
-import ua.gram.munhauzen.ui.FitImage;
+import ua.gram.munhauzen.screen.menu.ui.ShareBanner;
 import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.ui.FragmentRoot;
-import ua.gram.munhauzen.ui.PrimaryButton;
 import ua.gram.munhauzen.utils.Log;
 
-public class RateBanner extends Fragment {
+public class ShareFragment extends Fragment {
 
-    final MenuScreen screen;
+    public final MenuScreen screen;
     FragmentRoot root;
-    Table content;
     public boolean isFadeIn;
     public boolean isFadeOut;
-    PrimaryButton btn;
+    StoryAudio introAudio, clickAudio;
 
-    public RateBanner(MenuScreen screen) {
+    public ShareFragment(MenuScreen screen) {
         this.screen = screen;
     }
 
     public void create() {
 
         screen.assetManager.load("ui/banner_fond_1.png", Texture.class);
-        screen.assetManager.load("menu/b_rate_2.png", Texture.class);
+        screen.assetManager.load("menu/b_share_2.png", Texture.class);
+        screen.assetManager.load("menu/vk_icon.jpg", Texture.class);
+        screen.assetManager.load("menu/twitter_icon.jpg", Texture.class);
+        screen.assetManager.load("menu/instagram_icon.jpg", Texture.class);
+        screen.assetManager.load("menu/fb_icon.jpg", Texture.class);
 
         screen.assetManager.finishLoading();
 
-        String[] sentences = {
-                "Please, rate out application or leave a positive review",
-        };
-
-        content = new Table();
-
-        Label.LabelStyle style = new Label.LabelStyle(
-                screen.game.fontProvider.getFont(FontProvider.h4),
-                Color.BLACK
-        );
-
-        for (String sentence : sentences) {
-            Label label = new Label(sentence, style);
-            label.setAlignment(Align.center);
-            label.setWrap(true);
-
-            content.add(label)
-                    .padBottom(10).growX().row();
-        }
-
-        btn = screen.game.buttonBuilder.primary("Rate", new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-
-                try {
-                    screen.game.params.appStore.openRateUrl();
-
-                    fadeOut(new Runnable() {
-                        @Override
-                        public void run() {
-                            destroy();
-                            screen.rateBanner = null;
-                        }
-                    });
-                } catch (Throwable e) {
-                    Log.e(tag, e);
-                }
-            }
-        });
-
-        content.add(btn)
-                .fillX()
-                .height(MunhauzenGame.WORLD_HEIGHT / 12f)
-                .row();
-
-        FitImage img = new FitImage(
-                screen.assetManager.get("menu/b_rate_2.png", Texture.class)
-        );
-
-        Table columns = new Table();
-        columns.pad(10, 80, 10, 80);
-        columns.add(content).width(MunhauzenGame.WORLD_WIDTH * .4f).center();
-        columns.add(img).width(MunhauzenGame.WORLD_WIDTH * .3f).center();
-
-        columns.setBackground(new SpriteDrawable(new Sprite(
-                screen.assetManager.get("ui/banner_fond_1.png", Texture.class)
-        )));
-
-        Container<Table> container = new Container<>(columns);
-        container.pad(MunhauzenGame.WORLD_WIDTH * .05f);
-        container.setTouchable(Touchable.enabled);
-
-        root = new FragmentRoot();
-        root.addContainer(container);
+        ShareBanner banner = new ShareBanner(this);
 
         Pixmap px = new Pixmap(1, 1, Pixmap.Format.RGBA4444);
         px.setColor(Color.BLACK.r, Color.BLACK.g, Color.BLACK.b, .3f);
         px.fill();
 
-        container.setBackground(new SpriteDrawable(new Sprite(new Texture(px))));
+        Container c = new Container();
+        c.setTouchable(Touchable.enabled);
+        c.setBackground(new SpriteDrawable(new Sprite(new Texture(px))));
 
-        container.addListener(new ClickListener() {
+        root = new FragmentRoot();
+        root.addContainer(c);
+        root.addContainer(banner);
+
+        c.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
@@ -129,7 +71,7 @@ public class RateBanner extends Fragment {
                     @Override
                     public void run() {
                         destroy();
-                        screen.rateBanner = null;
+                        screen.shareFragment = null;
                     }
                 });
             }
@@ -139,7 +81,12 @@ public class RateBanner extends Fragment {
     }
 
     public void update() {
-        btn.setDisabled(screen.game.params.appStore == null);
+        if (introAudio != null) {
+            screen.audioService.updateVolume(introAudio);
+        }
+        if (clickAudio != null) {
+            screen.audioService.updateVolume(clickAudio);
+        }
     }
 
     public void fadeIn() {
@@ -166,6 +113,48 @@ public class RateBanner extends Fragment {
                     }
                 })
         ));
+
+        playIntro();
+    }
+
+    public void playIntro() {
+        try {
+            stopIntro();
+
+            introAudio = new StoryAudio();
+            introAudio.audio = "sfx_menu_share_0";
+
+            screen.audioService.prepareAndPlay(introAudio);
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+    }
+
+    public void playClick() {
+        try {
+            stopClick();
+
+            clickAudio = new StoryAudio();
+            clickAudio.audio = "sfx_menu_share_1";
+
+            screen.audioService.prepareAndPlay(clickAudio);
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+    }
+
+    public void stopIntro() {
+        if (introAudio != null) {
+            screen.audioService.stop(introAudio);
+            introAudio = null;
+        }
+    }
+
+    public void stopClick() {
+        if (clickAudio != null) {
+            screen.audioService.stop(clickAudio);
+            clickAudio = null;
+        }
     }
 
     public boolean canFadeOut() {
@@ -222,5 +211,46 @@ public class RateBanner extends Fragment {
     @Override
     public Actor getRoot() {
         return root;
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+
+        stopIntro();
+
+        stopClick();
+    }
+
+    public void onBtnCLicked(final String url) {
+
+        screen.game.gameState.menuState.isShareViewed = true;
+
+        root.setTouchable(Touchable.disabled);
+
+        stopIntro();
+
+        playClick();
+
+        Timer.instance().scheduleTask(new Timer.Task() {
+            @Override
+            public void run() {
+                try {
+
+                    fadeOut(new Runnable() {
+                        @Override
+                        public void run() {
+                            destroy();
+                        }
+                    });
+
+                    Gdx.net.openURI(url);
+
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
+            }
+        }, clickAudio.duration / 1000f);
+
     }
 }

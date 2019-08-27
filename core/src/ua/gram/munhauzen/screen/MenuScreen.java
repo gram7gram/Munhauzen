@@ -1,6 +1,5 @@
 package ua.gram.munhauzen.screen;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Timer;
@@ -10,14 +9,14 @@ import ua.gram.munhauzen.entity.AudioFail;
 import ua.gram.munhauzen.entity.Image;
 import ua.gram.munhauzen.entity.MenuState;
 import ua.gram.munhauzen.screen.menu.fragment.ControlsFragment;
-import ua.gram.munhauzen.screen.menu.fragment.DemoBanner;
+import ua.gram.munhauzen.screen.menu.fragment.DemoFragment;
 import ua.gram.munhauzen.screen.menu.fragment.ExitDialog;
-import ua.gram.munhauzen.screen.menu.fragment.GreetingBanner;
+import ua.gram.munhauzen.screen.menu.fragment.GreetingFragment;
 import ua.gram.munhauzen.screen.menu.fragment.ImageFragment;
-import ua.gram.munhauzen.screen.menu.fragment.ProBanner;
-import ua.gram.munhauzen.screen.menu.fragment.RateBanner;
-import ua.gram.munhauzen.screen.menu.fragment.ShareBanner;
-import ua.gram.munhauzen.screen.menu.fragment.ThankYouBanner;
+import ua.gram.munhauzen.screen.menu.fragment.ProFragment;
+import ua.gram.munhauzen.screen.menu.fragment.RateFragment;
+import ua.gram.munhauzen.screen.menu.fragment.ShareFragment;
+import ua.gram.munhauzen.screen.menu.fragment.ThankYouFragment;
 import ua.gram.munhauzen.screen.menu.listenter.MenuStageListener;
 import ua.gram.munhauzen.screen.menu.ui.MenuLayers;
 import ua.gram.munhauzen.service.AudioService;
@@ -31,13 +30,13 @@ public class MenuScreen extends AbstractScreen {
     public MenuLayers layers;
     public ImageFragment imageFragment;
     public ControlsFragment controlsFragment;
-    public ShareBanner shareBanner;
-    public GreetingBanner greetingBanner;
-    public RateBanner rateBanner;
-    public DemoBanner demoBanner;
-    public ProBanner proBanner;
+    public ShareFragment shareFragment;
+    public GreetingFragment greetingFragment;
+    public RateFragment rateFragment;
+    public DemoFragment demoFragment;
+    public ProFragment proFragment;
     public ExitDialog exitDialog;
-    public ThankYouBanner thankYouBanner;
+    public ThankYouFragment thankYouFragment;
     public AudioService audioService;
     public boolean isButtonClicked, isZoomStarted;
 
@@ -122,8 +121,6 @@ public class MenuScreen extends AbstractScreen {
 
         ui.addListener(new MenuStageListener(this));
 
-        Gdx.input.setInputProcessor(ui);
-
         openBannerIfNeeded();
     }
 
@@ -188,12 +185,12 @@ public class MenuScreen extends AbstractScreen {
     private void openThankYouBanner() {
         try {
 
-            thankYouBanner = new ThankYouBanner(MenuScreen.this);
-            thankYouBanner.create();
+            thankYouFragment = new ThankYouFragment(MenuScreen.this);
+            thankYouFragment.create();
 
-            layers.setBannerLayer(thankYouBanner);
+            layers.setBannerLayer(thankYouFragment);
 
-            thankYouBanner.fadeIn();
+            thankYouFragment.fadeIn();
         } catch (Throwable e) {
             Log.e(tag, e);
         }
@@ -205,12 +202,12 @@ public class MenuScreen extends AbstractScreen {
             if (layers.bannerLayer != null) return;
             if (isButtonClicked) return;
 
-            greetingBanner = new GreetingBanner(MenuScreen.this);
-            greetingBanner.create();
+            greetingFragment = new GreetingFragment(MenuScreen.this);
+            greetingFragment.create();
 
-            layers.setBannerLayer(greetingBanner);
+            layers.setBannerLayer(greetingFragment);
 
-            greetingBanner.fadeIn();
+            greetingFragment.fadeIn();
 
             game.gameState.menuState.isGreetingViewed = true;
         } catch (Throwable e) {
@@ -225,12 +222,12 @@ public class MenuScreen extends AbstractScreen {
             if (layers.bannerLayer != null) return;
             if (isButtonClicked) return;
 
-            shareBanner = new ShareBanner(MenuScreen.this);
-            shareBanner.create();
+            shareFragment = new ShareFragment(MenuScreen.this);
+            shareFragment.create();
 
-            layers.setBannerLayer(shareBanner);
+            layers.setBannerLayer(shareFragment);
 
-            shareBanner.fadeIn();
+            shareFragment.fadeIn();
 
         } catch (Throwable e) {
             Log.e(tag, e);
@@ -244,19 +241,19 @@ public class MenuScreen extends AbstractScreen {
             if (isButtonClicked) return;
 
             if (game.params.isPro) {
-                proBanner = new ProBanner(MenuScreen.this);
-                proBanner.create();
+                proFragment = new ProFragment(MenuScreen.this);
+                proFragment.create();
 
-                layers.setBannerLayer(proBanner);
+                layers.setBannerLayer(proFragment);
 
-                proBanner.fadeIn();
+                proFragment.fadeIn();
             } else {
-                demoBanner = new DemoBanner(MenuScreen.this);
-                demoBanner.create();
+                demoFragment = new DemoFragment(MenuScreen.this);
+                demoFragment.create();
 
-                layers.setBannerLayer(demoBanner);
+                layers.setBannerLayer(demoFragment);
 
-                demoBanner.fadeIn();
+                demoFragment.fadeIn();
             }
 
         } catch (Throwable e) {
@@ -286,16 +283,16 @@ public class MenuScreen extends AbstractScreen {
     @Override
     public void renderAfterLoaded(float delta) {
 
-        if (greetingBanner != null) {
-            greetingBanner.update();
+        if (greetingFragment != null) {
+            greetingFragment.update();
         }
 
-        if (shareBanner != null) {
-            shareBanner.update();
+        if (shareFragment != null) {
+            shareFragment.update();
         }
 
-        if (rateBanner != null) {
-            rateBanner.update();
+        if (rateFragment != null) {
+            rateFragment.update();
         }
 
         if (exitDialog != null) {
@@ -320,29 +317,29 @@ public class MenuScreen extends AbstractScreen {
             exitDialog = null;
         }
 
-        if (greetingBanner != null) {
-            greetingBanner.destroy();
-            greetingBanner = null;
+        if (greetingFragment != null) {
+            greetingFragment.destroy();
+            greetingFragment = null;
         }
 
-        if (proBanner != null) {
-            proBanner.destroy();
-            proBanner = null;
+        if (proFragment != null) {
+            proFragment.destroy();
+            proFragment = null;
         }
 
-        if (demoBanner != null) {
-            demoBanner.destroy();
-            demoBanner = null;
+        if (demoFragment != null) {
+            demoFragment.destroy();
+            demoFragment = null;
         }
 
-        if (shareBanner != null) {
-            shareBanner.destroy();
-            shareBanner = null;
+        if (shareFragment != null) {
+            shareFragment.destroy();
+            shareFragment = null;
         }
 
-        if (rateBanner != null) {
-            rateBanner.destroy();
-            rateBanner = null;
+        if (rateFragment != null) {
+            rateFragment.destroy();
+            rateFragment = null;
         }
     }
 
