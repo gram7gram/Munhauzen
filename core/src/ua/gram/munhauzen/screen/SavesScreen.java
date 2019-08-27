@@ -45,6 +45,7 @@ public class SavesScreen extends AbstractScreen {
         assetManager.load("ui/gv_paper_2.png", Texture.class);
         assetManager.load("ui/gv_paper_3.png", Texture.class);
         assetManager.load("saves/sv_baron.png", Texture.class);
+        assetManager.load("saves/icon_question.png", Texture.class);
 
         assetManager.load("ui/banner_fond_3.png", Texture.class);
 

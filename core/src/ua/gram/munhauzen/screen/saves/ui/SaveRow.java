@@ -118,7 +118,7 @@ public class SaveRow extends Table {
             date.setText("");
             time.setText("");
             icon.setDrawable(new SpriteDrawable(new Sprite(
-                    screen.assetManager.get("saves/sv_baron.png", Texture.class)
+                    screen.assetManager.get("saves/icon_question.png", Texture.class)
             )));
 
         }
