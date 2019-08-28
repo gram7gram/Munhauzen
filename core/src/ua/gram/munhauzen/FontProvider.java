@@ -18,7 +18,7 @@ public class FontProvider implements Disposable {
     public static final String CalligraphModern = "CalligraphModern.ttf",
             FleischmannGotich = "FleischmannGotich.ttf",
             DroidSansMono = "DroidSansMono.ttf";
-    public static final int hd = 164, h1 = 64, h2 = 60, h3 = 50, h4 = 40, h5 = 32, p = 24, small = 16;
+    public static final int hd = 164, h1 = 80, h2 = 60, h3 = 50, h4 = 40, h5 = 32, p = 24, small = 16;
 
     private HashMap<String, HashMap<Integer, BitmapFont>> map;
 

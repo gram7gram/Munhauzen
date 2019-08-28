@@ -298,7 +298,7 @@ public class AuthorsFragment extends Fragment {
 
     private Actor createHeader() {
 
-        Label title = new Label("Authors", new Label.LabelStyle(
+        Label title = new Label("Creators", new Label.LabelStyle(
                 screen.game.fontProvider.getFont(FontProvider.h1),
                 Color.BLACK
         ));

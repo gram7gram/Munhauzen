@@ -17,7 +17,7 @@ import ua.gram.munhauzen.entity.Chapter;
 import ua.gram.munhauzen.entity.Save;
 import ua.gram.munhauzen.repository.ChapterRepository;
 import ua.gram.munhauzen.screen.SavesScreen;
-import ua.gram.munhauzen.screen.saves.fragment.SaveDialog;
+import ua.gram.munhauzen.screen.saves.fragment.OptionsFragment;
 import ua.gram.munhauzen.utils.DateUtils;
 import ua.gram.munhauzen.utils.Log;
 
@@ -26,15 +26,15 @@ public class SaveRow extends Table {
     final String tag = getClass().getSimpleName();
     final SavesScreen screen;
     public final Save save;
-    Label title, time, date;
+    Label title, date;
     Image icon;
     float blockWidth;
 
     public SaveRow(final Save save, final SavesScreen screen) {
 
-        blockWidth = MunhauzenGame.WORLD_WIDTH * .8f;
-        float leftColumnWidth = blockWidth * .25f;
-        float rightColumnWidth = blockWidth * .7f;
+        blockWidth = MunhauzenGame.WORLD_WIDTH * .7f;
+        float leftColumnWidth = blockWidth * .4f;
+        float rightColumnWidth = blockWidth * .6f;
 
         this.screen = screen;
         this.save = save;
@@ -48,12 +48,6 @@ public class SaveRow extends Table {
         title.setWrap(true);
         title.setAlignment(Align.left);
 
-        time = new Label("", new Label.LabelStyle(
-                screen.game.fontProvider.getFont(FontProvider.h5),
-                Color.BLACK
-        ));
-        time.setAlignment(Align.left);
-
         date = new Label("", new Label.LabelStyle(
                 screen.game.fontProvider.getFont(FontProvider.h5),
                 Color.BLACK
@@ -62,8 +56,7 @@ public class SaveRow extends Table {
 
         Table lblContent = new Table();
         lblContent.add(title).width(rightColumnWidth).padBottom(5).row();
-        lblContent.add(time).width(rightColumnWidth).row();
-        lblContent.add(date).width(rightColumnWidth).row();
+        lblContent.add(date).width(rightColumnWidth).left().row();
 
         addListener(new ClickListener() {
             @Override
@@ -72,12 +65,12 @@ public class SaveRow extends Table {
 
                 try {
 
-                    screen.saveDialog = new SaveDialog(screen, save);
-                    screen.saveDialog.create();
+                    screen.optionsFragment = new OptionsFragment(screen, save);
+                    screen.optionsFragment.create();
 
-                    screen.layers.setBannerLayer(screen.saveDialog);
+                    screen.layers.setBannerLayer(screen.optionsFragment);
 
-                    screen.saveDialog.fadeIn();
+                    screen.optionsFragment.fadeIn();
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -87,15 +80,13 @@ public class SaveRow extends Table {
             }
         });
 
-        add(icon).pad(5).size(leftColumnWidth - 10);
+        add(icon).padRight(5).size(leftColumnWidth - 5);
         add(lblContent).width(rightColumnWidth).row();
 
         init();
     }
 
     public void init() {
-
-        //boolean isActive = save.id.equals(screen.game.gameState.history.activeSaveId);
 
         String text = save.id + ". ";
 
@@ -105,8 +96,7 @@ public class SaveRow extends Table {
 
             text += " " + chapter.getDescription(screen.game.params.locale);
 
-            time.setText(DateUtils.format(save.updatedAt, "HH:mm"));
-            date.setText(DateUtils.format(save.updatedAt, "dd.MM.yyyy"));
+            date.setText(DateUtils.format(save.updatedAt, "HH:mm dd.MM.yyyy"));
 
             icon.setDrawable(new SpriteDrawable(new Sprite(
                     screen.assetManager.get(chapter.icon, Texture.class)
@@ -116,7 +106,6 @@ public class SaveRow extends Table {
             text += "Empty save";
 
             date.setText("");
-            time.setText("");
             icon.setDrawable(new SpriteDrawable(new Sprite(
                     screen.assetManager.get("saves/icon_question.png", Texture.class)
             )));

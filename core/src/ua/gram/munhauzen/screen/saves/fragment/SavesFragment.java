@@ -160,9 +160,9 @@ public class SavesFragment extends Fragment {
 
         Table rows = new Table();
         rows.align(Align.top);
-        rows.pad(10, 100, 10, 100);
+        rows.pad(10, 80, 10, 120);
 
-        for (Save save : screen.saves) {
+        for (Save save : screen.saves.values()) {
             rows.add(new SaveRow(save, screen))
                     .padBottom(20)
                     .row();

@@ -162,7 +162,7 @@ public class DatabaseManager {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            ExternalFiles.getSaveFile(state.history.activeSaveId).delete();
+            ExternalFiles.getActiveSaveFile().delete();
 
             state.setActiveSave(new Save());
         }
@@ -322,7 +322,14 @@ public class DatabaseManager {
     }
 
     private void loadActiveSave(GameState state) throws IOException {
-        Save save = loadSave(state.history.activeSaveId);
+        Save save;
+
+        FileHandle saveFile = ExternalFiles.getActiveSaveFile();
+        if (saveFile.exists()) {
+            save = om.readValue(saveFile.file(), Save.class);
+        } else {
+            save = new Save();
+        }
 
         state.setActiveSave(save);
     }

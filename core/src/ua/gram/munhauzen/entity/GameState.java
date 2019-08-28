@@ -15,7 +15,6 @@ public class GameState implements JsonEntry {
 
     private static final String tag = GameState.class.getSimpleName();
 
-    public static final int SAVE_LIMIT = 4;
     public static boolean isPaused = false;
     public static boolean isMute = false;
 
@@ -51,7 +50,6 @@ public class GameState implements JsonEntry {
 
     public void setActiveSave(Save save) {
         activeSave = save;
-        history.activeSaveId = save.id;
     }
 
     public static void pause(String referer) {

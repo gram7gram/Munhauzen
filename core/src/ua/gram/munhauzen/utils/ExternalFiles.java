@@ -103,6 +103,10 @@ public class ExternalFiles {
         return getExternal("save-" + id + ".json");
     }
 
+    public static FileHandle getActiveSaveFile() {
+        return getExternal("save-0.json");
+    }
+
     public static FileHandle getImagesFile() {
         return getExternal("game/images.json");
     }

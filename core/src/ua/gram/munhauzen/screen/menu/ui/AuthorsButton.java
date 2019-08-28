@@ -14,7 +14,7 @@ public class AuthorsButton extends MenuButton {
     public AuthorsButton(final MenuScreen screen) {
         super(screen);
 
-        create("Authors", new ClickListener() {
+        create("Creators", new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);

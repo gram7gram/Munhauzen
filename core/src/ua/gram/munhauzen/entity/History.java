@@ -9,12 +9,6 @@ import java.util.HashSet;
  */
 public class History implements JsonEntry {
 
-    @JsonProperty
-    public String activeSaveId;
-
-    @JsonProperty
-    public HashSet<String> saves;
-
     /**
      * Viewed images on all iterations
      */
@@ -40,12 +34,6 @@ public class History implements JsonEntry {
     public HashSet<String> globalInventory;
 
     public History() {
-
-        saves = new HashSet<>(GameState.SAVE_LIMIT);
-        for (int i = 1; i <= GameState.SAVE_LIMIT; i++) {
-            saves.add(i + "");//dummy ids
-        }
-
         globalInventory = new HashSet<>();
         viewedImages = new HashSet<>();
         listenedAudio = new HashSet<>();

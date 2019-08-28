@@ -169,7 +169,7 @@ public class ControlsFragment extends Fragment {
                     game.gameState.galleryState = new GalleryState();
                     game.gameState.failsState = new FailsState();
 
-                    for (String save : game.gameState.history.saves) {
+                    for (String save : new String[]{"1", "2", "3", "4"}) {
                         ExternalFiles.getSaveFile(save).delete();
                     }
 

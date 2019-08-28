@@ -2,14 +2,14 @@ package ua.gram.munhauzen.screen;
 
 import com.badlogic.gdx.graphics.Texture;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.Chapter;
 import ua.gram.munhauzen.entity.Save;
 import ua.gram.munhauzen.repository.ChapterRepository;
 import ua.gram.munhauzen.screen.saves.fragment.ControlsFragment;
-import ua.gram.munhauzen.screen.saves.fragment.SaveDialog;
+import ua.gram.munhauzen.screen.saves.fragment.OptionsFragment;
 import ua.gram.munhauzen.screen.saves.fragment.SavesFragment;
 import ua.gram.munhauzen.screen.saves.ui.SavesLayers;
 import ua.gram.munhauzen.service.AudioService;
@@ -22,9 +22,9 @@ public class SavesScreen extends AbstractScreen {
 
     public AudioService audioService;
     public SavesLayers layers;
-    public SaveDialog saveDialog;
+    public OptionsFragment optionsFragment;
     public SavesFragment savesFragment;
-    public ArrayList<Save> saves;
+    public HashMap<String, Save> saves;
     public ControlsFragment controlsFragment;
 
     public SavesScreen(MunhauzenGame game) {
@@ -37,7 +37,7 @@ public class SavesScreen extends AbstractScreen {
 
         background = game.assetManager.get("p1.jpg", Texture.class);
 
-        saves = new ArrayList<>();
+        saves = new HashMap<>();
         audioService = new AudioService(game);
 
         assetManager.load("menu/b_menu.png", Texture.class);
@@ -55,12 +55,12 @@ public class SavesScreen extends AbstractScreen {
     public void updateSaves() {
         saves.clear();
 
-        for (String saveId : game.gameState.history.saves) {
+        for (String saveId : new String[]{"1", "2", "3", "4"}) {
 
             try {
                 Save save = game.databaseManager.loadSave(saveId);
 
-                saves.add(save);
+                saves.put(saveId, save);
 
                 if (save.chapter != null) {
 
@@ -124,8 +124,8 @@ public class SavesScreen extends AbstractScreen {
     @Override
     public void renderAfterLoaded(float delta) {
 
-        if (saveDialog != null) {
-            saveDialog.update();
+        if (optionsFragment != null) {
+            optionsFragment.update();
         }
         if (savesFragment != null) {
             savesFragment.update();
@@ -138,9 +138,9 @@ public class SavesScreen extends AbstractScreen {
 
         saves.clear();
 
-        if (saveDialog != null) {
-            saveDialog.destroy();
-            saveDialog = null;
+        if (optionsFragment != null) {
+            optionsFragment.destroy();
+            optionsFragment = null;
         }
 
         if (savesFragment != null) {

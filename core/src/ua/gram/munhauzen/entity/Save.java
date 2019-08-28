@@ -52,7 +52,7 @@ public class Save implements JsonEntry {
     public ServantsState servantsInteractionState;
 
     public Save() {
-        this("1");
+        this("0");
     }
 
     public Save(String id) {
