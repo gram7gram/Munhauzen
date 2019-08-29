@@ -7,4 +7,14 @@ public class Cup extends NotRotatingObject {
     public Cup(Texture texture) {
         super(texture);
     }
+
+    @Override
+    protected float preferredWidth() {
+        return super.preferredWidth() * .5f;
+    }
+
+    @Override
+    protected float preferredHeight() {
+        return super.preferredHeight() * .5f;
+    }
 }

@@ -12,7 +12,7 @@ public class ColorFrame extends Frame {
 
     @Override
     public float getFramePaddingPercent() {
-        return .19f;
+        return .15f;
     }
 
     @Override

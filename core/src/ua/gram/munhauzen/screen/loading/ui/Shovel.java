@@ -7,4 +7,14 @@ public class Shovel extends NotRotatingObject {
     public Shovel(Texture texture) {
         super(texture);
     }
+
+    @Override
+    protected float preferredWidth() {
+        return super.preferredWidth() * .5f;
+    }
+
+    @Override
+    protected float preferredHeight() {
+        return super.preferredHeight() * .5f;
+    }
 }

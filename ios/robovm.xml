@@ -5,6 +5,7 @@
   <arch>thumbv7</arch>
   <target>ios</target>
   <iosInfoPList>Info.plist.xml</iosInfoPList>
+
   <resources>
     <resource>
       <directory>../core/internal-assets</directory>
@@ -13,13 +14,16 @@
       </includes>
       <skipPngCrush>true</skipPngCrush>
     </resource>
+
     <resource>
-      <directory>res</directory>
+      <directory>LaunchImage.launchimage</directory>
     </resource>
+
     <resource>
-      <directory>data</directory>
+      <directory>AppIcon.appiconset</directory>
     </resource>
   </resources>
+
   <forceLinkClasses>
     <pattern>com.badlogic.gdx.scenes.scene2d.ui.*</pattern>
     <pattern>com.badlogic.gdx.graphics.g3d.particles.**</pattern>

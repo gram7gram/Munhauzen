@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import java.util.ArrayList;
 
 import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.entity.GalleryState;
 import ua.gram.munhauzen.entity.Image;
 import ua.gram.munhauzen.screen.gallery.entity.PaintingImage;
 import ua.gram.munhauzen.screen.gallery.fragment.ControlsFragment;
@@ -110,7 +111,15 @@ public class GalleryScreen extends AbstractScreen {
     public void onBackPressed() {
         super.onBackPressed();
 
+        beforeGalleryLeave();
+
         navigateTo(new MenuScreen(game));
+    }
+
+    public void beforeGalleryLeave() {
+        GalleryState state = game.gameState.galleryState;
+
+        state.scrollY = 0;
     }
 
     @Override

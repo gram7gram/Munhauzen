@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
@@ -31,7 +30,7 @@ import ua.gram.munhauzen.utils.Log;
 public class ChapterImageFragment extends Fragment {
 
     private final ChapterInteraction interaction;
-    public ScrollPane root;
+    public VerticalScrollPane root;
     Timer.Task task;
     StoryAudio chapterAudio;
 

@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.Align;
 
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.entity.GalleryState;
 import ua.gram.munhauzen.screen.GalleryScreen;
 import ua.gram.munhauzen.screen.gallery.entity.PaintingImage;
 import ua.gram.munhauzen.screen.gallery.ui.ImageRow;
@@ -33,6 +34,7 @@ public class GalleryFragment extends Fragment {
     public FragmentRoot root;
     Image top, bottom;
     Table back;
+    VerticalScrollPane scroll;
 
     public GalleryFragment(GalleryScreen screen) {
         this.screen = screen;
@@ -86,7 +88,7 @@ public class GalleryFragment extends Fragment {
         stack.add(back);
         stack.add(content);
 
-        VerticalScrollPane scroll = new VerticalScrollPane(stack);
+        scroll = new VerticalScrollPane(stack);
 
         root = new FragmentRoot();
         root.addContainer(scroll);
@@ -94,6 +96,12 @@ public class GalleryFragment extends Fragment {
 
         setTopBackground(screen.assetManager.get("ui/gv_paper_1.png", Texture.class));
         setBottomBackground(screen.assetManager.get("ui/gv_paper_3.png", Texture.class));
+    }
+
+    public void update() {
+        GalleryState state = screen.game.gameState.galleryState;
+
+        state.scrollY = scroll.getScrollY();
     }
 
     public void setTopBackground(Texture texture) {
@@ -123,6 +131,12 @@ public class GalleryFragment extends Fragment {
     }
 
     public void fadeIn() {
+
+        GalleryState state = screen.game.gameState.galleryState;
+
+        scroll.amountY = state.scrollY;
+        scroll.updateVisualScroll();
+
         root.clearActions();
 
         root.setVisible(true);
@@ -148,10 +162,6 @@ public class GalleryFragment extends Fragment {
                 Actions.visible(false),
                 Actions.run(task)
         ));
-    }
-
-    public void update() {
-
     }
 
     private Table createBody() {

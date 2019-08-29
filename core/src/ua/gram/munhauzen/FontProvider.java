@@ -48,7 +48,7 @@ public class FontProvider implements Disposable {
 
             for (int size : sizes) {
                 FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-                parameter.characters = "\u0000\"'1234567890-=+?!@#$%&*(){}[].,:;/_><"
+                parameter.characters = "\u0000\"'1234567890-=+?!@#$%&*(){}[].,:;/_><…"
                         + "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
                         + "АаБбВвГгДдЕеЭэЖжЗзИиЙйЫыКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчЩщШшЮюЯяЬьЪъ"
                         + "АаБбВвГгДдЕеЄЄЖжЗзИиЙйІіЇїКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчЩщШшЮюЯяЬь";

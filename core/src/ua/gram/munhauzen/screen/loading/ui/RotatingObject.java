@@ -32,14 +32,22 @@ public abstract class RotatingObject extends Image {
         float originalH = getDrawable().getMinHeight();
 
         if (originalW < originalH) {
-            width = MunhauzenGame.WORLD_WIDTH * .25f;
+            width = preferredWidth();
             float scale = 1f * width / originalW;
             height = 1f * originalH * scale;
         } else {
-            height = MunhauzenGame.WORLD_HEIGHT * .1f;
+            height = preferredHeight();
             float scale = 1f * height / originalH;
             width = 1f * originalW * scale;
         }
+    }
+
+    protected float preferredWidth() {
+        return MunhauzenGame.WORLD_WIDTH * .25f;
+    }
+
+    protected float preferredHeight() {
+        return MunhauzenGame.WORLD_HEIGHT * .1f;
     }
 
     public void start() {

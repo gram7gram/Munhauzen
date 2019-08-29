@@ -224,7 +224,11 @@ public class ExpansionDownloadManager implements Disposable {
                     Log.e(tag, response);
 
                     serverExpansionInfo = json.fromJson(ExpansionResponse.class, response);
-                    if (expansionInfo != null) {
+                    if (serverExpansionInfo == null) {
+                        throw new GdxRuntimeException("Bad response");
+                    }
+
+                    if (expansionInfo != null && expansionInfo.version == serverExpansionInfo.version) {
 
                         for (Part serverPart : serverExpansionInfo.parts.items) {
                             for (Part localPart : expansionInfo.parts.items) {
@@ -265,6 +269,8 @@ public class ExpansionDownloadManager implements Disposable {
                     }
 
                     expansionInfo = serverExpansionInfo;
+
+                    expansionInfo.isDownloadStarted = true;
 
                     processAvailablePart();
 
@@ -379,6 +385,7 @@ public class ExpansionDownloadManager implements Disposable {
 
     public void updateProgress() {
         if (expansionInfo == null) return;
+        if (!expansionInfo.isDownloadStarted) return;
 
         try {
 

@@ -170,6 +170,26 @@ public class StoryManager {
         }
     }
 
+    public void displayCurrentImage() {
+        Story story = gameScreen.getStory();
+        if (story == null) return;
+
+        try {
+            StoryScenario option = story.currentScenario;
+            if (option == null) return;
+
+            final StoryImage optionImage = option.currentImage;
+            if (optionImage != null) {
+                gameScreen.imageService.prepareAndDisplay(optionImage);
+            }
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            gameScreen.onCriticalError(e);
+        }
+    }
+
     public void startLoadingAudio() {
         Story story = gameScreen.getStory();
         if (story == null) return;
@@ -225,7 +245,7 @@ public class StoryManager {
 
         Log.i(tag, "onCompleted " + story.id);
 
-        startLoadingImages();
+        displayCurrentImage();
 
         gameScreen.game.gameState.menuState.isContinueEnabled = true;
 

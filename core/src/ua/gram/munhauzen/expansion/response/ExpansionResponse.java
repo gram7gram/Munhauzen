@@ -6,5 +6,6 @@ public class ExpansionResponse {
     public String locale, device, dpi;
     public double size;
     public PartContainer parts;
-    public boolean isCompleted = true;
+    public boolean isCompleted;
+    public boolean isDownloadStarted;
 }

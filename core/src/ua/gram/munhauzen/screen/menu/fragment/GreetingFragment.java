@@ -32,7 +32,7 @@ public class GreetingFragment extends Fragment {
     public void create() {
 
         screen.assetManager.load("ui/banner_fond_1.png", Texture.class);
-        screen.assetManager.load("ui/b_full_version_2.png", Texture.class);
+        screen.assetManager.load("menu/b_full_version_2.png", Texture.class);
 
         screen.assetManager.finishLoading();
 

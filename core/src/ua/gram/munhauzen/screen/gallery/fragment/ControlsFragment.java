@@ -70,6 +70,8 @@ public class ControlsFragment extends Fragment {
                 super.clicked(event, x, y);
 
                 try {
+                    screen.beforeGalleryLeave();
+
                     screen.navigateTo(new MenuScreen(screen.game));
                 } catch (Throwable e) {
                     Log.e(tag, e);

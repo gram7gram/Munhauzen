@@ -136,7 +136,7 @@ public abstract class Painting extends Group {
             addActor(unlock);
 
             setUnlockBackground(
-                    screen.assetManager.get("gallery/b_opened_1.png", Texture.class)
+                    screen.assetManager.get("gallery/b_opened_3.png", Texture.class)
             );
 
         }
@@ -191,13 +191,13 @@ public abstract class Painting extends Group {
         );
 
         lock.setPosition(
-                background.getX() + backgroundWidth,
-                background.getY() - lockHeight
+                background.getX() + backgroundWidth - lockWidth * .5f,
+                background.getY() - lockHeight * .5f
         );
 
         unlock.setPosition(
-                background.getX() + backgroundWidth,
-                background.getY() - lockHeight
+                background.getX() + backgroundWidth - lockWidth * .5f,
+                background.getY() - lockHeight * .5f
         );
     }
 
@@ -224,7 +224,7 @@ public abstract class Painting extends Group {
 
         isWide = drawable.getMinWidth() > drawable.getMinHeight();
 
-        backgroundWidth = MunhauzenGame.WORLD_WIDTH / 2f;
+        backgroundWidth = MunhauzenGame.WORLD_WIDTH * .625f;
         backgroundScale = 1f * backgroundWidth / drawable.getMinWidth();
         backgroundHeight = 1f * drawable.getMinHeight() * backgroundScale;
 

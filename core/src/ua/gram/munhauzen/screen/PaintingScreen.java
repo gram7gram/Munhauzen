@@ -38,7 +38,7 @@ public class PaintingScreen extends AbstractScreen {
 
         assetManager.load("ui/gv_paper_3.png", Texture.class);
         assetManager.load("gallery/b_closed_1.png", Texture.class);
-        assetManager.load("gallery/b_opened_1.png", Texture.class);
+        assetManager.load("gallery/b_opened_3.png", Texture.class);
         assetManager.load("ui/playbar_skip_forward.png", Texture.class);
         assetManager.load("ui/playbar_skip_forward_off.png", Texture.class);
         assetManager.load("ui/playbar_skip_backward.png", Texture.class);

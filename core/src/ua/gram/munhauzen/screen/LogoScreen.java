@@ -21,7 +21,6 @@ import ua.gram.munhauzen.expansion.response.ExpansionResponse;
  */
 public class LogoScreen implements Screen {
 
-    private final String tag = getClass().getSimpleName();
     private final MunhauzenGame game;
     private Texture background;
     private MunhauzenStage ui;

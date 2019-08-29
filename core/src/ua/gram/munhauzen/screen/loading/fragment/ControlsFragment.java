@@ -37,6 +37,7 @@ public class ControlsFragment extends Fragment {
     String[] footerTranslations;
     int currentFooterTranslation = 0;
     public PrimaryButton retryBtn;
+    Container<Table> startContainer, progressContainer;
 
     public ControlsFragment(LoadingScreen screen) {
         this.screen = screen;
@@ -47,10 +48,25 @@ public class ControlsFragment extends Fragment {
         Log.i(tag, "create");
 
         footerTranslations = new String[]{
-                "Да, дорогие друзья! Это действительно так! И кто мне не верит пусть сам отправляется туда! На Луну!",
-                "Тому джентельмену. Кто сомневается в моей правдивости, я поставлю вазон коньяка и заставлю ему его выпить до дна!",
-                "Да. Друзья, это так!",
-                "Resources are download once and will be available offline"
+                "So listen to my story and tell me whether the world has ever seen a person more truthful than Baron Munchausen.",
+                "… You can see that there used to be two rows of eleven buttons each on my waistcoat, and that now only three are left…",
+                "…nothing is more detestable than a traveller who does not adhere strictly to the truth in his stories…",
+                "I left the Assembly without another word, .., unable to endure any longer the company of men who could not distinguish between lying brag and the simple truth.",
+                "Let us raise our cups, dear gentlemen, friends and comrades, for this married couple, for our health and together for the comforts of society and for the unconditional veracity of each narrator ...",
+                "…I have plenty of equally striking proofs at the service of any who are insolent enough to doubt the truth of any of my statements.",
+                "…some travellers are apt to advance more than is perhaps strictly true ; if any of the company entertain a doubt of my veracity…",
+                "That’s right, I lifted both myself and my horse up into the air, and if you think it's easy, try doing it yourself.",
+                "…people can doubt the truth of the stories about my real heroic deeds, which is highly insulting for a noble gentleman, who values his honor…",
+                "…and if there be any one who doubts the truth of what I say, he is an infidel, and I will fight him at any time and place, and with any weapon he pleases…",
+                "ALL that I have related before is truth and truth, and if there  be any one so hardy as to deny  it, I am ready to fight him with  any weapon he pleases!",
+                "…my dear friends and companions, have confidence in what I say, and pay  honour to the tales of Munchausen.",
+                "A traveller  has a right to relate and embellish his adventures  as he pleases, and it is very impolite to refuse  that deference and applause they deserve.",
+                "If any gentleman will say he doubts the truth of this story, I will find him a gallon of lemon juice and make him drink it at one draught.",
+                "All my adventures are truth and verity, and who dare to doubt their authenticity, let him tell me it face to face.",
+                "…you see for yourselves that this strange tale must be true, however improbable it sounds, or else how could it possibly have happened?",
+                "I also would doubt it, if I hadn't seen the green iron worms and their destructive activity with my own eyes.",
+                "…if the shadow of a doubt can remain on any person’s mind, I say, let him take a voyage to Moon himself, and then he will know I am a traveller of veracity…",
+                "This is because I love traveling and I am always looking for adventures, and you sit at home and see nothing, except the four walls of your room.",
         };
 
         retryBtn = screen.game.buttonBuilder.primary("Retry", new ClickListener() {
@@ -120,6 +136,31 @@ public class ControlsFragment extends Fragment {
         Table titleTable = new Table();
         titleTable.add(title).width(MunhauzenGame.WORLD_WIDTH * .75f);
 
+        Label startMessage = new Label("The game will now start downloading the resources. Please, have some patience, keep the battery fed and WiFi on", new Label.LabelStyle(
+                screen.game.fontProvider.getFont(FontProvider.h4),
+                Color.BLACK
+        ));
+        startMessage.setWrap(true);
+        startMessage.setAlignment(Align.center);
+
+        PrimaryButton startBtn = screen.game.buttonBuilder.primary("Start", new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                startContainer.setVisible(false);
+                progressContainer.setVisible(true);
+
+                startConfigDownload();
+            }
+        });
+
+        Table startTable = new Table();
+        startTable.add(startMessage).width(MunhauzenGame.WORLD_WIDTH * .75f).padBottom(5).row();
+        startTable.add(startBtn)
+                .width(MunhauzenGame.WORLD_WIDTH * .3f)
+                .height(MunhauzenGame.WORLD_HEIGHT * .075f);
+
         Container<Image> topContainer = new Container<>(decorTop);
         topContainer.pad(5);
         topContainer.align(Align.top);
@@ -136,9 +177,15 @@ public class ControlsFragment extends Fragment {
         titleContainer.padTop(30);
         titleContainer.align(Align.top);
 
-        Container<Table> progressContainer = new Container<>(progressTable);
+        progressContainer = new Container<>(progressTable);
         progressContainer.pad(10);
         progressContainer.align(Align.center);
+        progressContainer.setVisible(false);
+
+        startContainer = new Container<>(startTable);
+        startContainer.pad(10);
+        startContainer.align(Align.center);
+        startContainer.setVisible(true);
 
         root = new FragmentRoot();
         root.addContainer(topContainer);
@@ -146,6 +193,7 @@ public class ControlsFragment extends Fragment {
         root.addContainer(titleContainer);
         root.addContainer(footerContainer);
         root.addContainer(progressContainer);
+        root.addContainer(startContainer);
 
         root.setName(tag);
 
@@ -167,8 +215,6 @@ public class ControlsFragment extends Fragment {
                 }
             }
         }, .2f, 20);
-
-        startConfigDownload();
     }
 
     private void startConfigDownload() {

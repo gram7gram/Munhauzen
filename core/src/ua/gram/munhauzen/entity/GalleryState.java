@@ -10,6 +10,8 @@ public class GalleryState implements JsonEntry {
     public boolean hasUpdates;
     @JsonProperty
     public HashSet<String> visitedImages;
+    @JsonProperty
+    public float scrollY;
 
     public GalleryState() {
         visitedImages = new HashSet<>();

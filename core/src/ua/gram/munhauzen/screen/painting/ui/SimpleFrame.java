@@ -12,7 +12,7 @@ public class SimpleFrame extends Frame {
 
     @Override
     public float getFramePaddingPercent() {
-        return .13f;
+        return .05f;
     }
 
     @Override
