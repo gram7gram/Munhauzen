@@ -221,7 +221,7 @@ public class Timer2ScenarioFragment extends Fragment {
 
             for (Timer2Scenario timerScenario : interaction.scenarioRegistry) {
                 if (timerScenario.name.equals(decision.scenario)) {
-                    if (timerScenario.isExit) {
+                    if (timerScenario.isWin) {
                         interaction.imageFragment.bombFragment.cancelTimer();
                         break;
                     }

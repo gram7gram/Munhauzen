@@ -23,7 +23,7 @@ public class GalleryButton extends MenuButton {
 
                 screen.game.sfxService.onMenuGalleryClicked();
 
-                screen.scaleAndNavigateTo(new GalleryScreen(screen.game));
+                screen.navigateTo(new GalleryScreen(screen.game));
             }
         });
     }

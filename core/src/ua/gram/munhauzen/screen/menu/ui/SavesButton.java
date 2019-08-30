@@ -21,7 +21,7 @@ public class SavesButton extends MenuButton {
 
                 screen.game.sfxService.onMenuSaveClicked();
 
-                screen.scaleAndNavigateTo(new SavesScreen(screen.game));
+                screen.navigateTo(new SavesScreen(screen.game));
             }
         });
     }

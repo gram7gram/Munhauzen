@@ -6,13 +6,13 @@
     "audio": [
       {
         "audio": "sprisoners",
-        "duration": 12000
+        "duration": 21382
       }
     ],
     "images": [
       {
         "image": "timer2/pprisoners.jpg",
-        "duration": 12000
+        "duration": 21382
       }
     ],
     "decisions": [
@@ -60,6 +60,7 @@
   },
   {
     "isExit": true,
+    "isWin": true,
     "name": "aprisoners_c",
     "audio": [
       {
@@ -172,13 +173,13 @@
     "audio": [
       {
         "audio": "sprisoners_exploded",
-        "duration": 34000
+        "duration": 33829
       }
     ],
     "images": [
       {
         "image": "timer2/pprisoners_exploded.jpg",
-        "duration": 34000
+        "duration": 33829
       }
     ],
     "decisions": [

@@ -22,6 +22,10 @@ public class SfxService {
         prepareAndPlay("sfx_menu_buy");
     }
 
+    public void onTimerBombExploded() {
+        prepareAndPlay("sfx_inter_timer_bam");
+    }
+
     public void onAnyDisabledBtnClicked() {
         prepareAndPlay("sfx_button_off");
     }

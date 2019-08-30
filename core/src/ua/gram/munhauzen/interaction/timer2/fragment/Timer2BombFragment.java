@@ -103,6 +103,8 @@ public class Timer2BombFragment extends Fragment {
 
             boom.start();
 
+            gameScreen.game.sfxService.onTimerBombExploded();
+
             if (interaction.scenarioFragment != null) {
                 interaction.scenarioFragment.fadeOut(new Runnable() {
                     @Override

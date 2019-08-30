@@ -23,7 +23,7 @@ public class GoofsButton extends MenuButton {
 
                 screen.game.sfxService.onMenuGoofsClicked();
 
-                screen.scaleAndNavigateTo(new FailsScreen(screen.game));
+                screen.navigateTo(new FailsScreen(screen.game));
             }
         });
     }

@@ -67,8 +67,9 @@
     ]
   },
   {
-    "isExit": true,
+    "isWin": true,
     "name": "a32_a",
+    "action": "GOTO",
     "audio": [
       {
         "audio": "s32_a",
@@ -85,7 +86,11 @@
         "duration": 51000
       }
     ],
-    "decisions": [],
+    "decisions": [
+      {
+        "scenario": "a33"
+      }
+    ],
     "translations": [
       {
         "locale": "en",
@@ -226,5 +231,165 @@
       }
     ],
     "translations": []
+  },
+  {
+    "name": "a33",
+    "action": "CLICK",
+    "audio": [],
+    "images": [
+      {
+        "image": "timer/p32_a.jpg",
+        "duration": 600
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "a33_a",
+        "order": 1
+      },
+      {
+        "scenario": "a33_b",
+        "order": 2
+      },
+      {
+        "scenario": "a33_c",
+        "order": 3
+      },
+      {
+        "scenario": "a33_d",
+        "order": 4
+      }
+    ],
+    "translations": []
+  },
+  {
+    "name": "a33_proxy",
+    "action": "CLICK",
+    "audio": [],
+    "images": [],
+    "decisions": [
+      {
+        "scenario": "a33_a",
+        "order": 1
+      },
+      {
+        "scenario": "a33_b",
+        "order": 2
+      },
+      {
+        "scenario": "a33_c",
+        "order": 3
+      },
+      {
+        "scenario": "a33_d",
+        "order": 4
+      }
+    ],
+    "translations": []
+  },
+  {
+    "name": "a33_a",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "s33_a",
+        "duration": 21682
+      }
+    ],
+    "images": [
+      {
+        "image": "timer/p32_a.jpg",
+        "duration": 21682
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "a33_proxy"
+      }
+    ],
+    "translations": [
+      {
+        "locale": "en",
+        "text": "Finished him"
+      }
+    ]
+  },
+  {
+    "name": "a33_d",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "s33_d",
+        "duration": 51958
+      }
+    ],
+    "images": [
+      {
+        "image": "timer/p32_a.jpg",
+        "duration": 51958
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "a33_proxy"
+      }
+    ],
+    "translations": [
+      {
+        "locale": "en",
+        "text": "Took control with a whip"
+      }
+    ]
+  },
+  {
+    "name": "a33_c",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "s33_c",
+        "duration": 42397
+      }
+    ],
+    "images": [
+      {
+        "image": "timer/p32_a.jpg",
+        "duration": 42397
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "a33_proxy"
+      }
+    ],
+    "translations": [
+      {
+        "locale": "en",
+        "text": "Calmed him down with magical words"
+      }
+    ]
+  },
+  {
+    "isExit": true,
+    "name": "a33_b",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "s33_b",
+        "duration": 29309
+      }
+    ],
+    "images": [
+      {
+        "image": "timer/p32_a.jpg",
+        "duration": 29309
+      }
+    ],
+    "decisions": [],
+    "translations": [
+      {
+        "locale": "en",
+        "text": "Put horse legs into the coat pocket"
+      }
+    ]
   }
 ]

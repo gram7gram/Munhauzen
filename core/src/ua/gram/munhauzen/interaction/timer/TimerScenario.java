@@ -19,6 +19,7 @@ public class TimerScenario {
     public ArrayList<ScenarioTranslation> translations;
     public boolean isBegin;
     public boolean isExit;
+    public boolean isWin;
     public String action;
 
     public StoryImage firstImage() {

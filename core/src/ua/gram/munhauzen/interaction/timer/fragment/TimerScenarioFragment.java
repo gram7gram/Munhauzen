@@ -221,15 +221,12 @@ public class TimerScenarioFragment extends Fragment {
 
             for (TimerScenario timerScenario : interaction.scenarioRegistry) {
                 if (timerScenario.name.equals(decision.scenario)) {
-                    if (timerScenario.isExit) {
+                    if (timerScenario.isWin) {
                         interaction.imageFragment.bombFragment.cancelTimer();
                         break;
                     }
                 }
             }
-
-//            Sound sfx =  interaction.assetManager.get("sfx/sfx_decision.mp3", Sound.class);
-//            sfx.play();
 
             GameState.unpause(tag);
 
