@@ -42,8 +42,8 @@ public class LogoScreen implements Screen {
 
         Image logo = new Image(new Texture("logo_500.png"));
 
-        Label title = new Label("FingerTips and Co\nPresents", new Label.LabelStyle(
-                game.fontProvider.getFont(FontProvider.h2),
+        Label title = new Label("creative studio\n\"Fingertips and Company\"\npresents", new Label.LabelStyle(
+                game.fontProvider.getFont(FontProvider.BuxtonSketch, FontProvider.h2),
                 Color.BLACK
         ));
         title.setWrap(true);
@@ -58,15 +58,12 @@ public class LogoScreen implements Screen {
         root.setVisible(false);
         root.addAction(
                 Actions.sequence(
-                        Actions.moveBy(0, 100),
                         Actions.alpha(0),
                         Actions.delay(.3f),
                         Actions.visible(true),
-                        Actions.parallel(
-                                Actions.moveBy(0, -100, .4f),
-                                Actions.alpha(1, .4f)
-                        ),
-                        Actions.delay(1),
+                        Actions.alpha(1, .4f),
+                        Actions.delay(2.5f),
+                        Actions.alpha(0, .4f),
                         Actions.run(new Runnable() {
                             @Override
                             public void run() {

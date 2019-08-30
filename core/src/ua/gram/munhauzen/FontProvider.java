@@ -15,10 +15,22 @@ import ua.gram.munhauzen.utils.Log;
 public class FontProvider implements Disposable {
 
     final String tag = getClass().getSimpleName();
-    public static final String CalligraphModern = "CalligraphModern.ttf",
+
+    public static final String
+            CalligraphModern = "CalligraphModern.ttf",
+            BuxtonSketch = "BuxtonSketch.ttf",
             FleischmannGotich = "FleischmannGotich.ttf",
             DroidSansMono = "DroidSansMono.ttf";
-    public static final int hd = 164, h1 = 80, h2 = 60, h3 = 50, h4 = 40, h5 = 32, p = 24, small = 16;
+
+    public static final int
+            hd = 164,
+            h1 = 80,
+            h2 = 60,
+            h3 = 50,
+            h4 = 40,
+            h5 = 32,
+            p = 24,
+            small = 16;
 
     private HashMap<String, HashMap<Integer, BitmapFont>> map;
 
@@ -36,7 +48,7 @@ public class FontProvider implements Disposable {
 
         Log.i(tag, "load");
 
-        String[] fonts = new String[]{CalligraphModern, DroidSansMono};
+        String[] fonts = new String[]{CalligraphModern, DroidSansMono, BuxtonSketch};
         int[] sizes = new int[]{small, p, h1, h2, h3, h4, h5};
 
         map = new HashMap<>(fonts.length);
