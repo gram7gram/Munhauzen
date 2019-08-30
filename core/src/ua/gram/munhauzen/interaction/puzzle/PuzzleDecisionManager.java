@@ -30,7 +30,7 @@ public class PuzzleDecisionManager {
     public final PuzzleInteraction interaction;
     public final HashSet<String> items;
     public ActivePuzzleItem activeStick, activeSpoon, activeShoes, activePeas, activeKey, activeHair, activeClocks, activeArrows, activePowder, activeRope;
-    StoryAudio bombAudio, crowAudio, clockAudio, rodAudio, destroyAudio;
+    StoryAudio currentAudio;
     Timer.Task bombTask, crowTask, clockTask, rodTask1, rodTask2, destroyTask;
 
     public PuzzleDecisionManager(PuzzleInteraction interaction) {
@@ -296,17 +296,17 @@ public class PuzzleDecisionManager {
                 });
             }
 
-            destroyAudio = new StoryAudio();
-            destroyAudio.audio = soundName;
+            currentAudio = new StoryAudio();
+            currentAudio.audio = soundName;
 
-            interaction.gameScreen.audioService.prepareAndPlay(destroyAudio);
+            interaction.gameScreen.audioService.prepareAndPlay(currentAudio);
 
             destroyTask = Timer.instance().scheduleTask(new Timer.Task() {
                 @Override
                 public void run() {
                     reset();
                 }
-            }, destroyAudio.duration / 1000f);
+            }, currentAudio.duration / 1000f);
 
             Timer.instance().scheduleTask(new Timer.Task() {
                 @Override
@@ -466,10 +466,10 @@ public class PuzzleDecisionManager {
         animateCombination();
 
         try {
-            rodAudio = new StoryAudio();
-            rodAudio.audio = "s15_1_d";
+            currentAudio = new StoryAudio();
+            currentAudio.audio = "s15_1_d";
 
-            interaction.gameScreen.audioService.prepareAndPlay(rodAudio);
+            interaction.gameScreen.audioService.prepareAndPlay(currentAudio);
 
             interaction.assetManager.load("puzzle/pbear_fin.jpg", Texture.class);
 
@@ -525,7 +525,7 @@ public class PuzzleDecisionManager {
                         interaction.gameScreen.onCriticalError(e);
                     }
                 }
-            }, rodAudio.duration / 1000f);
+            }, currentAudio.duration / 1000f);
 
             interaction.assetManager.finishLoading();
         } catch (Throwable e) {
@@ -553,12 +553,12 @@ public class PuzzleDecisionManager {
                 soundName = "s15_1_a";
             }
 
-            clockAudio = new StoryAudio();
-            clockAudio.audio = soundName;
+            currentAudio = new StoryAudio();
+            currentAudio.audio = soundName;
 
-            interaction.gameScreen.audioService.prepareAndPlay(clockAudio);
+            interaction.gameScreen.audioService.prepareAndPlay(currentAudio);
 
-            clockTask = Timer.instance().scheduleTask(onComplete, clockAudio.duration / 1000f);
+            clockTask = Timer.instance().scheduleTask(onComplete, currentAudio.duration / 1000f);
 
         } catch (Throwable e) {
             Log.e(tag, e);
@@ -574,12 +574,12 @@ public class PuzzleDecisionManager {
         try {
             Log.i(tag, "onCrowCombination");
 
-            crowAudio = new StoryAudio();
-            crowAudio.audio = "s15_1_b";
+            currentAudio = new StoryAudio();
+            currentAudio.audio = "s15_1_b";
 
-            interaction.gameScreen.audioService.prepareAndPlay(crowAudio);
+            interaction.gameScreen.audioService.prepareAndPlay(currentAudio);
 
-            crowTask = Timer.instance().scheduleTask(onComplete, crowAudio.duration / 1000f);
+            crowTask = Timer.instance().scheduleTask(onComplete, currentAudio.duration / 1000f);
 
         } catch (Throwable e) {
             Log.e(tag, e);
@@ -606,12 +606,12 @@ public class PuzzleDecisionManager {
                 soundName = "s15_1_с";
             }
 
-            bombAudio = new StoryAudio();
-            bombAudio.audio = soundName;
+            currentAudio = new StoryAudio();
+            currentAudio.audio = soundName;
 
-            interaction.gameScreen.audioService.prepareAndPlay(bombAudio);
+            interaction.gameScreen.audioService.prepareAndPlay(currentAudio);
 
-            bombTask = Timer.instance().scheduleTask(onComplete, bombAudio.duration / 1000f);
+            bombTask = Timer.instance().scheduleTask(onComplete, currentAudio.duration / 1000f);
 
         } catch (Throwable e) {
             Log.e(tag, e);
@@ -671,20 +671,8 @@ public class PuzzleDecisionManager {
 
     public void update() {
 
-        if (bombAudio != null) {
-            interaction.gameScreen.audioService.updateVolume(bombAudio);
-        }
-
-        if (crowAudio != null) {
-            interaction.gameScreen.audioService.updateVolume(crowAudio);
-        }
-
-        if (rodAudio != null) {
-            interaction.gameScreen.audioService.updateVolume(rodAudio);
-        }
-
-        if (destroyAudio != null) {
-            interaction.gameScreen.audioService.updateVolume(destroyAudio);
+        if (currentAudio != null) {
+            interaction.gameScreen.audioService.updateVolume(currentAudio);
         }
     }
 
@@ -720,24 +708,9 @@ public class PuzzleDecisionManager {
             rodTask2 = null;
         }
 
-        if (destroyAudio != null) {
-            interaction.gameScreen.audioService.stop(destroyAudio);
-            destroyAudio = null;
-        }
-
-        if (bombAudio != null) {
-            interaction.gameScreen.audioService.stop(bombAudio);
-            rodAudio = null;
-        }
-
-        if (crowAudio != null) {
-            interaction.gameScreen.audioService.stop(crowAudio);
-            rodAudio = null;
-        }
-
-        if (rodAudio != null) {
-            interaction.gameScreen.audioService.stop(rodAudio);
-            rodAudio = null;
+        if (currentAudio != null) {
+            interaction.gameScreen.audioService.stop(currentAudio);
+            currentAudio = null;
         }
     }
 

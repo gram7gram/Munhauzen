@@ -102,6 +102,8 @@ public class ControlsFragment extends Fragment {
                 super.clicked(event, x, y);
 
                 try {
+                    screen.game.sfxService.onBackToMenuClicked();
+
                     screen.navigateTo(new MenuScreen(screen.game));
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -129,6 +131,12 @@ public class ControlsFragment extends Fragment {
                 super.clicked(event, x, y);
 
                 GameState.isMute = !GameState.isMute;
+
+                if (GameState.isMute) {
+                    screen.game.sfxService.onSoundDisabled();
+                } else {
+                    screen.game.sfxService.onSoundEnabled();
+                }
             }
         });
 

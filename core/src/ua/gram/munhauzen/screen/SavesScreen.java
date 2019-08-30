@@ -79,6 +79,8 @@ public class SavesScreen extends AbstractScreen {
     public void onBackPressed() {
         super.onBackPressed();
 
+        game.sfxService.onBackToMenuClicked();
+
         navigateTo(new MenuScreen(game));
     }
 

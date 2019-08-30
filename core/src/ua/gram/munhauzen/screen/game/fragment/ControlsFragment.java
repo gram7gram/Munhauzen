@@ -15,8 +15,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.GameState;
-import ua.gram.munhauzen.screen.DebugScreen;
 import ua.gram.munhauzen.screen.GameScreen;
+import ua.gram.munhauzen.screen.MenuScreen;
 import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.utils.Log;
@@ -234,7 +234,7 @@ public class ControlsFragment extends Fragment {
 
                 menuGroup.clearActions();
 
-                gameScreen.navigateTo(new DebugScreen(gameScreen.game));
+                onMenuClicked();
             }
         });
     }
@@ -353,11 +353,7 @@ public class ControlsFragment extends Fragment {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                soundGroup.clearActions();
-
-                GameState.isMute = !GameState.isMute;
-
-                Log.i(tag, "Sound is " + (!GameState.isMute ? "ON" : "OFF"));
+                onSoundClicked();
 
                 soundButton.setDrawable(getSoundButtonBackground());
 
@@ -400,11 +396,22 @@ public class ControlsFragment extends Fragment {
         return root;
     }
 
-    @Override
-    public void dispose() {
-        super.dispose();
+    private void onMenuClicked() {
+        gameScreen.game.sfxService.onBackToMenuClicked();
 
-        menuGroup.remove();
-        soundGroup.remove();
+        gameScreen.navigateTo(new MenuScreen(gameScreen.game));
+    }
+
+    private void onSoundClicked() {
+
+        GameState.isMute = !GameState.isMute;
+
+        Log.i(tag, "Sound is " + (!GameState.isMute ? "ON" : "OFF"));
+
+        if (GameState.isMute) {
+            gameScreen.game.sfxService.onSoundDisabled();
+        } else {
+            gameScreen.game.sfxService.onSoundEnabled();
+        }
     }
 }

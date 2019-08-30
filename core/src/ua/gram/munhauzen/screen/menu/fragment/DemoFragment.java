@@ -11,9 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
-import com.badlogic.gdx.utils.Timer;
 
-import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.screen.MenuScreen;
 import ua.gram.munhauzen.screen.menu.ui.DemoBanner;
 import ua.gram.munhauzen.ui.Fragment;
@@ -26,7 +24,6 @@ public class DemoFragment extends Fragment {
     FragmentRoot root;
     public boolean isFadeIn;
     public boolean isFadeOut;
-    StoryAudio introAudio, clickAudio;
 
     public DemoFragment(MenuScreen screen) {
         this.screen = screen;
@@ -76,12 +73,7 @@ public class DemoFragment extends Fragment {
     }
 
     public void update() {
-        if (introAudio != null) {
-            screen.audioService.updateVolume(introAudio);
-        }
-        if (clickAudio != null) {
-            screen.audioService.updateVolume(clickAudio);
-        }
+
     }
 
     public void fadeIn() {
@@ -109,7 +101,7 @@ public class DemoFragment extends Fragment {
                 })
         ));
 
-        playIntro();
+        screen.game.sfxService.onDemoBannerShown();
     }
 
     public boolean canFadeOut() {
@@ -168,88 +160,20 @@ public class DemoFragment extends Fragment {
         return root;
     }
 
-    public void playIntro() {
-        try {
-            stopIntro();
-
-            introAudio = new StoryAudio();
-            introAudio.audio = "sfx_menu_demo_0";
-
-            screen.audioService.prepareAndPlay(introAudio);
-        } catch (Throwable e) {
-            Log.e(tag, e);
-
-            //screen.onCriticalError(e);
-        }
-    }
-
-    public void stopIntro() {
-        if (introAudio != null) {
-            screen.audioService.stop(introAudio);
-            introAudio = null;
-        }
-    }
-
-    public void playClick() {
-        try {
-            stopClick();
-
-            clickAudio = new StoryAudio();
-            clickAudio.audio = "sfx_menu_demo_1";
-
-            screen.audioService.prepareAndPlay(clickAudio);
-        } catch (Throwable e) {
-            Log.e(tag, e);
-
-//            screen.onCriticalError(e);
-        }
-    }
-
-    public void stopClick() {
-        if (clickAudio != null) {
-            screen.audioService.stop(clickAudio);
-            clickAudio = null;
-        }
-    }
-
-    @Override
-    public void dispose() {
-        super.dispose();
-
-        stopIntro();
-
-        stopClick();
-    }
-
     public void onOkClicked() {
         try {
 
             root.setTouchable(Touchable.disabled);
 
-            stopIntro();
+            screen.game.params.appStore.openProUrl();
 
-            playClick();
-
-            if (clickAudio == null) {
-
-                screen.game.params.appStore.openProUrl();
-
-                destroy();
-                screen.demoFragment = null;
-
-            } else {
-                Timer.instance().scheduleTask(new Timer.Task() {
-                    @Override
-                    public void run() {
-
-                        screen.game.params.appStore.openProUrl();
-
-                        destroy();
-                        screen.demoFragment = null;
-
-                    }
-                }, clickAudio.duration / 1000f);
-            }
+            fadeOut(new Runnable() {
+                @Override
+                public void run() {
+                    destroy();
+                    screen.demoFragment = null;
+                }
+            });
 
         } catch (Throwable e) {
             Log.e(tag, e);

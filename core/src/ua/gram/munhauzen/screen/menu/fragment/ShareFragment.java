@@ -12,9 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
-import com.badlogic.gdx.utils.Timer;
 
-import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.screen.MenuScreen;
 import ua.gram.munhauzen.screen.menu.ui.ShareBanner;
 import ua.gram.munhauzen.ui.Fragment;
@@ -27,7 +25,6 @@ public class ShareFragment extends Fragment {
     FragmentRoot root;
     public boolean isFadeIn;
     public boolean isFadeOut;
-    StoryAudio introAudio, clickAudio;
 
     public ShareFragment(MenuScreen screen) {
         this.screen = screen;
@@ -81,12 +78,7 @@ public class ShareFragment extends Fragment {
     }
 
     public void update() {
-        if (introAudio != null) {
-            screen.audioService.updateVolume(introAudio);
-        }
-        if (clickAudio != null) {
-            screen.audioService.updateVolume(clickAudio);
-        }
+
     }
 
     public void fadeIn() {
@@ -114,47 +106,7 @@ public class ShareFragment extends Fragment {
                 })
         ));
 
-        playIntro();
-    }
-
-    public void playIntro() {
-        try {
-            stopIntro();
-
-            introAudio = new StoryAudio();
-            introAudio.audio = "sfx_menu_share_0";
-
-            screen.audioService.prepareAndPlay(introAudio);
-        } catch (Throwable e) {
-            Log.e(tag, e);
-        }
-    }
-
-    public void playClick() {
-        try {
-            stopClick();
-
-            clickAudio = new StoryAudio();
-            clickAudio.audio = "sfx_menu_share_1";
-
-            screen.audioService.prepareAndPlay(clickAudio);
-        } catch (Throwable e) {
-            Log.e(tag, e);
-        }
-    }
-
-    public void stopIntro() {
-        if (introAudio != null) {
-            screen.audioService.stop(introAudio);
-            introAudio = null;
-        }
-    }
-
-    public void stopClick() {
-        if (clickAudio != null) {
-            screen.audioService.stop(clickAudio);
-            clickAudio = null;
-        }
+        screen.game.sfxService.onShareBannerShown();
     }
 
     public boolean canFadeOut() {
@@ -213,44 +165,25 @@ public class ShareFragment extends Fragment {
         return root;
     }
 
-    @Override
-    public void dispose() {
-        super.dispose();
-
-        stopIntro();
-
-        stopClick();
-    }
-
     public void onBtnCLicked(final String url) {
 
         screen.game.gameState.menuState.isShareViewed = true;
 
         root.setTouchable(Touchable.disabled);
 
-        stopIntro();
-
-        playClick();
-
-        Timer.instance().scheduleTask(new Timer.Task() {
+        fadeOut(new Runnable() {
             @Override
             public void run() {
-                try {
-
-                    fadeOut(new Runnable() {
-                        @Override
-                        public void run() {
-                            destroy();
-                        }
-                    });
-
-                    Gdx.net.openURI(url);
-
-                } catch (Throwable e) {
-                    Log.e(tag, e);
-                }
+                destroy();
             }
-        }, clickAudio.duration / 1000f);
+        });
+
+        try {
+            Gdx.net.openURI(url);
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
 
     }
 }

@@ -65,6 +65,8 @@ public class SaveRow extends Table {
 
                 try {
 
+                    screen.game.sfxService.onListItemClicked();
+
                     screen.optionsFragment = new OptionsFragment(screen, save);
                     screen.optionsFragment.create();
 

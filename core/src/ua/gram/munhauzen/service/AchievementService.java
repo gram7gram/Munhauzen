@@ -133,6 +133,28 @@ public class AchievementService {
         Log.i(tag, "onImageViewed " + name);
 
         game.gameState.history.viewedImages.add(name);
+
+        if (!game.gameState.areAllImagesUnlocked) {
+
+            boolean hasAll = true;
+            for (Image a : game.gameState.getGalleryImages()) {
+                if (!game.gameState.history.viewedImages.contains(a.name)) {
+                    hasAll = false;
+                    break;
+                }
+            }
+
+            if (hasAll) {
+
+                game.gameState.areAllImagesUnlocked = true;
+
+                if (game.gameState.areAllGoofsUnlocked) {
+                    game.sfxService.onAllGoofsAndImagesUnlocked();
+                } else {
+                    game.sfxService.onAllImagesUnlocked();
+                }
+            }
+        }
     }
 
     public void onAudioListened(Audio audio) {
@@ -163,20 +185,31 @@ public class AchievementService {
     public void onFailOpened(AudioFail fail) {
         game.gameState.history.openedFails.add(fail.name);
 
-        boolean hasAll = true;
-        for (AudioFail a : game.gameState.audioFailRegistry) {
-            if (!a.isFailOpenedOnComplete) {
-                if (!game.gameState.history.openedFails.contains(a.name)) {
-                    hasAll = false;
-                    break;
+        if (!game.gameState.areAllGoofsUnlocked) {
+
+            boolean hasAll = true;
+            for (AudioFail a : game.gameState.audioFailRegistry) {
+                if (!a.isFailOpenedOnComplete) {
+                    if (!game.gameState.history.openedFails.contains(a.name)) {
+                        hasAll = false;
+                        break;
+                    }
                 }
             }
-        }
 
-        if (hasAll) {
-            for (AudioFail a : game.gameState.audioFailRegistry) {
-                if (a.isFailOpenedOnComplete) {
-                    game.gameState.history.openedFails.add(a.name);
+            if (hasAll) {
+                for (AudioFail a : game.gameState.audioFailRegistry) {
+                    if (a.isFailOpenedOnComplete) {
+                        game.gameState.history.openedFails.add(a.name);
+                    }
+                }
+
+                game.gameState.areAllGoofsUnlocked = true;
+
+                if (game.gameState.areAllImagesUnlocked) {
+                    game.sfxService.onAllGoofsAndImagesUnlocked();
+                } else {
+                    game.sfxService.onAllGoofsUnlocked();
                 }
             }
         }

@@ -24,7 +24,6 @@ import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
-import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.screen.MenuScreen;
 import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.ui.Fragment;
@@ -43,7 +42,6 @@ public class ExitDialog extends Fragment {
     public final MenuScreen screen;
     public FragmentRoot root;
     private final float headerSize, buttonSize;
-    StoryAudio yesAudio, noAudio;
 
     public ExitDialog(MenuScreen screen) {
         this.game = screen.game;
@@ -79,20 +77,14 @@ public class ExitDialog extends Fragment {
                 try {
                     root.setTouchable(Touchable.disabled);
 
-                    stopAllAudio();
+                    int delay = game.sfxService.onExitYesClicked();
 
-                    playYes();
-
-                    if (yesAudio == null) {
-                        onYesClicked();
-                    } else {
-                        Timer.instance().scheduleTask(new Timer.Task() {
-                            @Override
-                            public void run() {
-                                onYesClicked();
-                            }
-                        }, yesAudio.duration / 1000f);
-                    }
+                    Timer.instance().scheduleTask(new Timer.Task() {
+                        @Override
+                        public void run() {
+                            onYesClicked();
+                        }
+                    }, delay / 1000f);
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -110,20 +102,9 @@ public class ExitDialog extends Fragment {
                 try {
                     root.setTouchable(Touchable.disabled);
 
-                    stopAllAudio();
+                    game.sfxService.onExitNoClicked();
 
-                    playNo();
-
-                    if (noAudio == null) {
-                        onNoClicked();
-                    } else {
-                        Timer.instance().scheduleTask(new Timer.Task() {
-                            @Override
-                            public void run() {
-                                onNoClicked();
-                            }
-                        }, noAudio.duration / 1000f);
-                    }
+                    onNoClicked();
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -193,36 +174,6 @@ public class ExitDialog extends Fragment {
 
     private void onYesClicked() {
         Gdx.app.exit();
-    }
-
-    private void playYes() {
-        try {
-
-            yesAudio = new StoryAudio();
-            yesAudio.audio = "sfx_exit_yes";
-
-            screen.audioService.prepareAndPlay(yesAudio);
-
-        } catch (Throwable e) {
-            Log.e(tag, e);
-
-            screen.onCriticalError(e);
-        }
-    }
-
-    private void playNo() {
-        try {
-
-            noAudio = new StoryAudio();
-            noAudio.audio = "sfx_exit_no";
-
-            screen.audioService.prepareAndPlay(noAudio);
-
-        } catch (Throwable e) {
-            Log.e(tag, e);
-
-            screen.onCriticalError(e);
-        }
     }
 
     public void fadeIn() {
@@ -332,30 +283,6 @@ public class ExitDialog extends Fragment {
     }
 
     public void update() {
-        if (yesAudio != null) {
-            screen.audioService.updateVolume(yesAudio);
-        }
-        if (noAudio != null) {
-            screen.audioService.updateVolume(noAudio);
-        }
-    }
-
-    public void stopAllAudio() {
-        if (noAudio != null) {
-            screen.audioService.stop(noAudio);
-            noAudio = null;
-        }
-        if (yesAudio != null) {
-            screen.audioService.stop(yesAudio);
-            yesAudio = null;
-        }
-    }
-
-    @Override
-    public void dispose() {
-        super.dispose();
-
-        stopAllAudio();
 
     }
 }

@@ -42,6 +42,10 @@ public class GameState implements JsonEntry {
     public GalleryState galleryState;
     @JsonProperty
     public FailsState failsState;
+    @JsonProperty
+    public boolean areAllImagesUnlocked;
+    @JsonProperty
+    public boolean areAllGoofsUnlocked;
 
     public GameState() {
         history = new History();

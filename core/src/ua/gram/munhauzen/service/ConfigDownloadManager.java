@@ -35,6 +35,13 @@ public class ConfigDownloadManager {
 
         dispose();
 
+        Gdx.app.postRunnable(new Runnable() {
+            @Override
+            public void run() {
+                onConnectionStarted();
+            }
+        });
+
         httpRequest = requestBuilder.newRequest()
                 .method(Net.HttpMethods.GET)
                 .url(game.params.getGameExportUrl())
@@ -80,6 +87,11 @@ public class ConfigDownloadManager {
             }
         });
 
+    }
+
+    private void onConnectionStarted() {
+        fragment.progress.setText("");
+        fragment.progressMessage.setText("Fetching expansion info...");
     }
 
     private void downloadArchive() {

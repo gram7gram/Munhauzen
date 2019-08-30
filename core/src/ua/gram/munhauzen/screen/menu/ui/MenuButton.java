@@ -6,7 +6,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
@@ -27,14 +30,25 @@ public abstract class MenuButton extends Stack {
     final MenuScreen screen;
     float iconSize, buttonSize;
     AnimatedImage animation;
-    public boolean hasLock;
+    public boolean hasLock, isDisabled;
     Actor lock;
+    Image back;
+    Table backContainer;
+    final SpriteDrawable enabledBack, disabledBack;
 
     public MenuButton(MenuScreen screen) {
         this.screen = screen;
 
         iconSize = MunhauzenGame.WORLD_HEIGHT * .05f;
         buttonSize = MunhauzenGame.WORLD_WIDTH * .45f;
+
+        enabledBack = new SpriteDrawable(new Sprite(
+                screen.assetManager.get("menu/mmv_btn.png", Texture.class)
+        ));
+
+        disabledBack = new SpriteDrawable(new Sprite(
+                screen.assetManager.get("menu/mmv_btn_disabled.png", Texture.class)
+        ));
     }
 
     protected void create(String text, final ClickListener onClick) {
@@ -42,26 +56,17 @@ public abstract class MenuButton extends Stack {
         clear();
         clearChildren();
 
-        SpriteDrawable backSprite = new SpriteDrawable(new Sprite(
-                screen.assetManager.get("menu/mmv_btn.png", Texture.class)
-        ));
-
-        Image back = new FitImage(backSprite);
-
-        final float scale = 1f * buttonSize / backSprite.getMinWidth();
-        float height = scale * backSprite.getMinHeight();
+        back = new FitImage();
 
         BitmapFont font = screen.game.fontProvider.getFont(FontProvider.h3);
 
         Label label = new Label(text, new Label.LabelStyle(font, Color.BLACK));
         label.setAlignment(Align.center);
 
-        Table imgContainer = new Table();
-        imgContainer.add(back)
+        backContainer = new Table();
+        backContainer.add(back)
                 .width(buttonSize)
                 .maxWidth(buttonSize)
-                .height(height)
-                .maxHeight(height)
                 .grow();
 
         Table labelContainer = new Table();
@@ -70,10 +75,20 @@ public abstract class MenuButton extends Stack {
 
         lock = createLock();
 
-        addActor(imgContainer);
+        addActor(backContainer);
         addActor(labelContainer);
         addActor(createHeader());
         addActor(lock);
+
+        addCaptureListener(new EventListener() {
+            @Override
+            public boolean handle(Event event) {
+
+                if (isDisabled) event.cancel();
+
+                return false;
+            }
+        });
 
         addListener(new ClickListener() {
             @Override
@@ -99,6 +114,16 @@ public abstract class MenuButton extends Stack {
     @Override
     public void act(float delta) {
         super.act(delta);
+
+        back.setDrawable(isDisabled ? disabledBack : enabledBack);
+        back.setTouchable(isDisabled ? Touchable.disabled : Touchable.enabled);
+
+        final float scale = 1f * buttonSize / back.getDrawable().getMinWidth();
+        float height = scale * back.getDrawable().getMinHeight();
+
+        backContainer.getCell(back)
+                .minHeight(height)
+                .height(height);
 
         if (lock != null) {
             lock.setVisible(hasLock);

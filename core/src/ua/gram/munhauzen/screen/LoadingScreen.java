@@ -73,6 +73,8 @@ public class LoadingScreen extends AbstractScreen {
         imageFragment.create();
 
         layers.setContentLayer(imageFragment);
+
+        game.sfxService.onLoadingVisited();
     }
 
     @Override

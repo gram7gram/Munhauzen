@@ -19,6 +19,8 @@ public class ContinueButton extends MenuButton {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
+                screen.game.sfxService.onMenuContinueClicked();
+
                 screen.scaleAndNavigateTo(new DebugScreen(screen.game));
             }
         });

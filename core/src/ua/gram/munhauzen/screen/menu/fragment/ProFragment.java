@@ -11,9 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
-import com.badlogic.gdx.utils.Timer;
 
-import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.screen.MenuScreen;
 import ua.gram.munhauzen.screen.menu.ui.ProBanner;
 import ua.gram.munhauzen.ui.Fragment;
@@ -26,7 +24,6 @@ public class ProFragment extends Fragment {
     FragmentRoot root;
     public boolean isFadeIn;
     public boolean isFadeOut;
-    StoryAudio introAudio, clickAudio;
 
     public ProFragment(MenuScreen screen) {
         this.screen = screen;
@@ -80,34 +77,13 @@ public class ProFragment extends Fragment {
 
             root.setTouchable(Touchable.disabled);
 
-            stopIntro();
-
-            playClick();
-
-            if (clickAudio == null) {
-                fadeOut(new Runnable() {
-                    @Override
-                    public void run() {
-                        destroy();
-
-                        screen.proFragment = null;
-                    }
-                });
-            } else {
-                Timer.instance().scheduleTask(new Timer.Task() {
-                    @Override
-                    public void run() {
-                        fadeOut(new Runnable() {
-                            @Override
-                            public void run() {
-                                destroy();
-
-                                screen.proFragment = null;
-                            }
-                        });
-                    }
-                }, clickAudio.duration / 1000f);
-            }
+            fadeOut(new Runnable() {
+                @Override
+                public void run() {
+                    destroy();
+                    screen.proFragment = null;
+                }
+            });
 
         } catch (Throwable e) {
             Log.e(tag, e);
@@ -115,12 +91,7 @@ public class ProFragment extends Fragment {
     }
 
     public void update() {
-        if (introAudio != null) {
-            screen.audioService.updateVolume(introAudio);
-        }
-        if (clickAudio != null) {
-            screen.audioService.updateVolume(clickAudio);
-        }
+
     }
 
     public void fadeIn() {
@@ -148,7 +119,7 @@ public class ProFragment extends Fragment {
                 })
         ));
 
-        playIntro();
+        screen.game.sfxService.onProBannerShown();
     }
 
     public boolean canFadeOut() {
@@ -205,58 +176,5 @@ public class ProFragment extends Fragment {
     @Override
     public Actor getRoot() {
         return root;
-    }
-
-    public void playIntro() {
-        try {
-            stopIntro();
-
-            introAudio = new StoryAudio();
-            introAudio.audio = "sfx_menu_full_0";
-
-            screen.audioService.prepareAndPlay(introAudio);
-        } catch (Throwable e) {
-            Log.e(tag, e);
-
-//            screen.onCriticalError(e);
-        }
-    }
-
-    public void stopIntro() {
-        if (introAudio != null) {
-            screen.audioService.stop(introAudio);
-            introAudio = null;
-        }
-    }
-
-    public void playClick() {
-        try {
-            stopClick();
-
-            clickAudio = new StoryAudio();
-            clickAudio.audio = "sfx_menu_full_1";
-
-            screen.audioService.prepareAndPlay(clickAudio);
-        } catch (Throwable e) {
-            Log.e(tag, e);
-
-//            screen.onCriticalError(e);
-        }
-    }
-
-    public void stopClick() {
-        if (clickAudio != null) {
-            screen.audioService.stop(clickAudio);
-            clickAudio = null;
-        }
-    }
-
-    @Override
-    public void dispose() {
-        super.dispose();
-
-        stopIntro();
-
-        stopClick();
     }
 }

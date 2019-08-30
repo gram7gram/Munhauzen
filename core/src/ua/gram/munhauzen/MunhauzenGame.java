@@ -3,7 +3,6 @@ package ua.gram.munhauzen;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -16,6 +15,8 @@ import ua.gram.munhauzen.screen.LogoScreen;
 import ua.gram.munhauzen.service.AchievementService;
 import ua.gram.munhauzen.service.DatabaseManager;
 import ua.gram.munhauzen.service.InventoryService;
+import ua.gram.munhauzen.service.SfxService;
+import ua.gram.munhauzen.utils.ExpansionAssetManager;
 import ua.gram.munhauzen.utils.ExternalFiles;
 import ua.gram.munhauzen.utils.InternalAssetManager;
 import ua.gram.munhauzen.utils.Log;
@@ -42,10 +43,12 @@ public class MunhauzenGame extends Game {
     public Viewport view;
     public FontProvider fontProvider;
     public ButtonBuilder buttonBuilder;
-    public AssetManager assetManager;
+    public InternalAssetManager assetManager;
+    public ExpansionAssetManager expansionAssetManager;
     public InventoryService inventoryService;
     public Preferences preferences;
     public AchievementService achievementService;
+    public SfxService sfxService;
 
     public MunhauzenGame(PlatformParams params) {
         this.params = params;
@@ -72,6 +75,7 @@ public class MunhauzenGame extends Game {
         WORLD_WIDTH = Gdx.graphics.getWidth();
         WORLD_HEIGHT = Gdx.graphics.getHeight();
 
+        sfxService = new SfxService(this);
         databaseManager = new DatabaseManager(this);
 
         loadGameState();
@@ -115,6 +119,17 @@ public class MunhauzenGame extends Game {
                 databaseManager = null;
             }
 
+            if (expansionAssetManager != null) {
+                expansionAssetManager.dispose();
+                expansionAssetManager = null;
+            }
+
+            if (assetManager != null) {
+                assetManager.dispose();
+                assetManager = null;
+            }
+
+            sfxService = null;
             view = null;
             camera = null;
             preferences = null;
@@ -162,6 +177,7 @@ public class MunhauzenGame extends Game {
         fontProvider = new FontProvider();
         fontProvider.load();
 
+        expansionAssetManager = new ExpansionAssetManager();
         assetManager = new InternalAssetManager();
         assetManager.load("p0.jpg", Texture.class);
         assetManager.load("p1.jpg", Texture.class);

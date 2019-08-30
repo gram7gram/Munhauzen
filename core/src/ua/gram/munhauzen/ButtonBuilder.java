@@ -3,6 +3,7 @@ package ua.gram.munhauzen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
@@ -38,7 +39,22 @@ public class ButtonBuilder {
         style.disabled = background2;
         style.fontColor = Color.BLACK;
 
-        PrimaryButton button = new PrimaryButton(text, style);
+        final PrimaryButton button = new PrimaryButton(text, style);
+
+        button.addCaptureListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                if (game.sfxService == null) return;
+
+                if (button.isDisabled()) {
+                    game.sfxService.onAnyDisabledBtnClicked();
+                } else {
+                    game.sfxService.onAnyBtnClicked();
+                }
+            }
+        });
 
         button.addListener(onClick);
 
@@ -57,7 +73,22 @@ public class ButtonBuilder {
         style.disabled = background2;
         style.fontColor = Color.BLACK;
 
-        PrimaryButton button = new PrimaryButton(text, style);
+        final PrimaryButton button = new PrimaryButton(text, style);
+
+        button.addCaptureListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                if (game.sfxService == null) return;
+
+                if (button.isDisabled()) {
+                    game.sfxService.onAnyDisabledBtnClicked();
+                } else {
+                    game.sfxService.onAnyBtnClicked();
+                }
+            }
+        });
 
         button.addListener(onClick);
 

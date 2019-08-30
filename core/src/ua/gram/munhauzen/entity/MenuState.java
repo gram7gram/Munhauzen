@@ -13,4 +13,6 @@ public class MenuState implements JsonEntry {
     public boolean showThankYouBanner;
     @JsonProperty
     public boolean isContinueEnabled;
+    @JsonProperty
+    public boolean isFirstVisit = true;
 }

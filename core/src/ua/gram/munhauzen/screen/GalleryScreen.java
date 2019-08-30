@@ -113,6 +113,8 @@ public class GalleryScreen extends AbstractScreen {
 
         beforeGalleryLeave();
 
+        game.sfxService.onBackToMenuClicked();
+
         navigateTo(new MenuScreen(game));
     }
 

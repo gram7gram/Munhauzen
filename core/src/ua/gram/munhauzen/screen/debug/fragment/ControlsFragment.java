@@ -100,6 +100,9 @@ public class ControlsFragment extends Fragment {
                 super.clicked(event, x, y);
 
                 try {
+
+                    screen.game.sfxService.onBackToMenuClicked();
+
                     screen.navigateTo(new MenuScreen(game));
 
                 } catch (Throwable e) {

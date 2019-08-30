@@ -100,6 +100,8 @@ public class RateFragment extends Fragment {
                     }
                 })
         ));
+
+        screen.game.sfxService.onRateBannerShown();
     }
 
     public boolean canFadeOut() {

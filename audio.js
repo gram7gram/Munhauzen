@@ -8,9 +8,7 @@ const sources = [
 	'/Users/master/Projects/MunhauzenDocs/Elements/AUDIO_FINAL/Part_2',
 	'/Users/master/Projects/MunhauzenDocs/Elements/AUDIO_FINAL/Part_3',
 	'/Users/master/Projects/MunhauzenDocs/Elements/AUDIO_FINAL/Sfx',
-//	'/Users/master/Projects/MunhauzenDocs/Elements/Fails_normilized/fails_Munchausen',
-//	'/Users/master/Projects/MunhauzenDocs/Elements/Fails_normilized/fails_daughter',
-//	'/Users/master/Projects/MunhauzenDocs/Elements/Fails_normilized/fails_bonus',
+	'/Users/master/Projects/MunhauzenDocs/Elements/AUDIO_FINAL/Fails_Eng',
 ]
 
 for (let i = 0; i < sources.length; i++) {

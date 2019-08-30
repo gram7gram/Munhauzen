@@ -74,6 +74,8 @@ public class ImageRow extends Stack {
 
                 try {
 
+                    screen.game.sfxService.onListItemClicked();
+
                     screen.navigateTo(new PaintingScreen(screen.game, paintingImage));
 
                 } catch (Throwable e) {

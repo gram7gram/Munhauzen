@@ -100,6 +100,8 @@ public class GreetingFragment extends Fragment {
                     }
                 })
         ));
+
+        screen.game.sfxService.onGreetingBannerShown();
     }
 
     public boolean canFadeOut() {

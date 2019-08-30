@@ -19,6 +19,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.entity.MenuState;
 import ua.gram.munhauzen.screen.MenuScreen;
 import ua.gram.munhauzen.screen.menu.ui.AuthorsButton;
 import ua.gram.munhauzen.screen.menu.ui.ContinueButton;
@@ -70,10 +71,7 @@ public class ControlsFragment extends Fragment {
 
         btnTable = new Table();
 
-        if (screen.game.gameState.menuState.isContinueEnabled) {
-            btnTable.add(continueButton).row();
-        }
-
+        btnTable.add(continueButton).row();
         btnTable.add(startButton).row();
         btnTable.add(savesButton).row();
         btnTable.add(galleryButton).row();
@@ -168,6 +166,12 @@ public class ControlsFragment extends Fragment {
                 fadeInFancy();
             }
         }, .4f);
+    }
+
+    public void update() {
+        MenuState state = screen.game.gameState.menuState;
+
+        continueButton.isDisabled = !state.isContinueEnabled;
     }
 
     public void fadeInFancy() {
@@ -450,6 +454,8 @@ public class ControlsFragment extends Fragment {
                 super.clicked(event, x, y);
 
                 try {
+
+                    screen.game.sfxService.onExitClicked();
 
                     screen.exitDialog = new ExitDialog(screen);
                     screen.exitDialog.create();
