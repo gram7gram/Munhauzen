@@ -11,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
@@ -36,6 +35,7 @@ import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.utils.Log;
+import ua.gram.munhauzen.utils.Random;
 
 /**
  * @author Gram <gram7gram@gmail.com>
@@ -60,6 +60,8 @@ public class ControlsFragment extends Fragment {
 
         Log.i(tag, "create");
 
+        MenuState state = screen.game.gameState.menuState;
+
         startButton = new StartButton(screen);
         continueButton = new ContinueButton(screen);
         savesButton = new SavesButton(screen);
@@ -71,7 +73,10 @@ public class ControlsFragment extends Fragment {
 
         btnTable = new Table();
 
-        btnTable.add(continueButton).row();
+        if (state.isContinueEnabled) {
+            btnTable.add(continueButton).row();
+        }
+
         btnTable.add(startButton).row();
         btnTable.add(savesButton).row();
         btnTable.add(galleryButton).row();
@@ -80,17 +85,43 @@ public class ControlsFragment extends Fragment {
 
         ImageButton exitBtn = getExitBtn();
 
-        ShareSideButton shareBtnAnimation = new ShareSideButton(screen);
-        shareBtnAnimation.start();
+        Random r = new Random();
 
-        RateSideButton rateBtnAnimation = new RateSideButton(screen);
-        rateBtnAnimation.start();
+        final ShareSideButton shareBtnAnimation = new ShareSideButton(screen);
 
-        DemoSideButton demoBtnAnimation = new DemoSideButton(screen);
-        demoBtnAnimation.start();
+        Timer.instance().scheduleTask(new Timer.Task() {
+            @Override
+            public void run() {
+                shareBtnAnimation.start();
+            }
+        }, r.between(5, 10), r.between(5, 10));
 
-        ProSideButton proBtnAnimation = new ProSideButton(screen);
-        proBtnAnimation.start();
+        final RateSideButton rateBtnAnimation = new RateSideButton(screen);
+
+        Timer.instance().scheduleTask(new Timer.Task() {
+            @Override
+            public void run() {
+                rateBtnAnimation.start();
+            }
+        }, r.between(5, 10), r.between(5, 10));
+
+        final DemoSideButton demoBtnAnimation = new DemoSideButton(screen);
+
+        Timer.instance().scheduleTask(new Timer.Task() {
+            @Override
+            public void run() {
+                demoBtnAnimation.start();
+            }
+        }, r.between(5, 10), r.between(5, 10));
+
+        final ProSideButton proBtnAnimation = new ProSideButton(screen);
+
+        Timer.instance().scheduleTask(new Timer.Task() {
+            @Override
+            public void run() {
+                proBtnAnimation.start();
+            }
+        }, r.between(5, 10), r.between(5, 10));
 
         float iconSize = MunhauzenGame.WORLD_WIDTH * .18f;
         float iconSize2 = iconSize * 1.5f;
@@ -138,14 +169,15 @@ public class ControlsFragment extends Fragment {
         titleContainer.align(Align.top);
         titleContainer.pad(10);
 
-        VerticalGroup content = new VerticalGroup();
-        content.setTouchable(Touchable.childrenOnly);
-        content.addActor(titleContainer);
-        content.addActor(btnTable);
+        Container<Table> btnContainer = new Container<>(btnTable);
+        btnContainer.setTouchable(Touchable.childrenOnly);
+        btnContainer.align(Align.center);
+        btnContainer.pad(10);
 
         root = new FragmentRoot();
         root.setTouchable(Touchable.childrenOnly);
-        root.addContainer(content);
+        root.addContainer(titleContainer);
+        root.addContainer(btnContainer);
         root.addContainer(sideContainer);
         root.addContainer(exitContainer);
 
@@ -169,9 +201,7 @@ public class ControlsFragment extends Fragment {
     }
 
     public void update() {
-        MenuState state = screen.game.gameState.menuState;
 
-        continueButton.isDisabled = !state.isContinueEnabled;
     }
 
     public void fadeInFancy() {

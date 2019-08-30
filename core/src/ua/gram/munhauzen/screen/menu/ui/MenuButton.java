@@ -27,7 +27,7 @@ public abstract class MenuButton extends Stack {
     final MenuScreen screen;
     float iconSize, buttonSize;
     AnimatedImage animation;
-    public boolean hasLock, isDisabled;
+    public boolean hasLock;
     Actor lock;
     Image back;
     Table backContainer;

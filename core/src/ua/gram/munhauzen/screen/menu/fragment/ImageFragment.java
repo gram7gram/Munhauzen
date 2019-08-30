@@ -77,7 +77,7 @@ public class ImageFragment extends Fragment {
                 new Painting(backgroundImage, "menu/an_painting_sheet_5x4.png"),
                 new Rifle(backgroundImage, "menu/an_rifle_sheet_4x2.png"),
                 new Sabre(backgroundImage, "menu/an_sabre_sheet_2x2.png"),
-                new Ring(backgroundImage, "menu/an_ring_sheet_1x5.png"),
+                new Ring(backgroundImage, "menu/an_ring_sheet_3x3.png"),
                 new Scheme(backgroundImage, "menu/an_scheme_sheet_4x2.png"),
                 new Worm(backgroundImage, "menu/an_worm_sheet_5x4.png"),
                 new Badge(backgroundImage, "menu/an_badge_sheet_1x5.png"),
@@ -1068,7 +1068,7 @@ public class ImageFragment extends Fragment {
 
             screen.assetManager.finishLoading();
 
-            animate(screen.assetManager.get(resource, Texture.class), 1, 5, 5, .13f);
+            animate(screen.assetManager.get(resource, Texture.class), 3, 3, 6, .13f);
         }
 
         @Override

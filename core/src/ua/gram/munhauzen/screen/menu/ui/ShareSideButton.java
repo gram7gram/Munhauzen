@@ -18,6 +18,8 @@ public class ShareSideButton extends AnimatedImage {
                 1, 2, 2, 1f
         );
 
+        loop = false;
+
         addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

@@ -18,6 +18,8 @@ public class DemoSideButton extends AnimatedImage {
                 1, 4, 4, 1f
         );
 
+        loop = false;
+
         addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
