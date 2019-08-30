@@ -72,7 +72,7 @@ public class ImageFragment extends Fragment {
                 new EagleRight(backgroundImage, "menu/an_eagle_2_sheet_3x2.png"),
                 new Fire(backgroundImage, "menu/an_fire_sheet_3x2.png"),
                 new Horns(backgroundImage, "menu/an_horns_sheet_2x5.png"),
-                new Puppet(backgroundImage, "menu/an_puppet_sheet_4x2.png"),
+                new Puppet(backgroundImage, "menu/an_puppet_sheet_3x3.png"),
                 new Horse(backgroundImage, "menu/an_horse_sheet_2x2.png"),
                 new Painting(backgroundImage, "menu/an_painting_sheet_5x4.png"),
                 new Rifle(backgroundImage, "menu/an_rifle_sheet_4x2.png"),
@@ -862,7 +862,7 @@ public class ImageFragment extends Fragment {
 
             screen.assetManager.finishLoading();
 
-            animate(screen.assetManager.get(resource, Texture.class), 2, 4, 7, .01f);
+            animate(screen.assetManager.get(resource, Texture.class), 2, 4, 7, .08f);
         }
 
         @Override
@@ -902,7 +902,7 @@ public class ImageFragment extends Fragment {
 
             screen.assetManager.finishLoading();
 
-            animate(screen.assetManager.get(resource, Texture.class), 2, 4, 8);
+            animate(screen.assetManager.get(resource, Texture.class), 3, 3, 9);
         }
 
         @Override
