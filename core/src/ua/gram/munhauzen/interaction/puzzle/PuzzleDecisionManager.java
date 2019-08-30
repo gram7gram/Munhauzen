@@ -266,11 +266,26 @@ public class PuzzleDecisionManager {
                 }
             }
 
-            if (items.size() == 2) {
+            int size = items.size();
+
+            if (size == 2) {
                 checkCombination(false);
-            } else if (items.size() == 3) {
+            } else if (size == 3) {
                 checkCombination(true);
             }
+
+            switch (size) {
+                case 1:
+                    interaction.gameScreen.game.sfxService.onOnePuzzleItemCombined();
+                    break;
+                case 2:
+                    interaction.gameScreen.game.sfxService.onTwoPuzzleItemsCombined();
+                    break;
+                case 3:
+                    interaction.gameScreen.game.sfxService.onThreePuzzleItemCombined();
+                    break;
+            }
+
         } catch (Throwable e) {
             Log.e(tag, e);
         }

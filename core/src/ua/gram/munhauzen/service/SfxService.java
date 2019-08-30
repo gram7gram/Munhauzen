@@ -180,6 +180,31 @@ public class SfxService {
         }));
     }
 
+    public void onOnePuzzleItemCombined() {
+        prepareAndPlay(MathUtils.random(new String[]{
+                "sfx_inter_puzzle_one_1",
+                "sfx_inter_puzzle_one_2",
+                "sfx_inter_puzzle_one_3"
+        }));
+    }
+
+    public void onTwoPuzzleItemsCombined() {
+        prepareAndPlay(MathUtils.random(new String[]{
+                "sfx_inter_puzzle_two_1",
+                "sfx_inter_puzzle_two_2",
+                "sfx_inter_puzzle_two_3"
+        }));
+    }
+
+    public void onThreePuzzleItemCombined() {
+        prepareAndPlay(MathUtils.random(new String[]{
+                "sfx_inter_puzzle_three_1",
+                "sfx_inter_puzzle_three_2",
+                "sfx_inter_puzzle_three_3"
+        }));
+
+    }
+
     private int prepareAndPlay(String sfx) {
         return prepareAndPlay(sfx, null);
     }
@@ -248,7 +273,7 @@ public class SfxService {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            //game.onCriticalError(e);
+            game.onCriticalError(e);
         }
     }
 }

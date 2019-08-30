@@ -6,10 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Event;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
@@ -34,7 +31,7 @@ public abstract class MenuButton extends Stack {
     Actor lock;
     Image back;
     Table backContainer;
-    final SpriteDrawable enabledBack, disabledBack;
+    final SpriteDrawable enabledBack;
 
     public MenuButton(MenuScreen screen) {
         this.screen = screen;
@@ -44,10 +41,6 @@ public abstract class MenuButton extends Stack {
 
         enabledBack = new SpriteDrawable(new Sprite(
                 screen.assetManager.get("menu/mmv_btn.png", Texture.class)
-        ));
-
-        disabledBack = new SpriteDrawable(new Sprite(
-                screen.assetManager.get("menu/mmv_btn_disabled.png", Texture.class)
         ));
     }
 
@@ -80,16 +73,6 @@ public abstract class MenuButton extends Stack {
         addActor(createHeader());
         addActor(lock);
 
-        addCaptureListener(new EventListener() {
-            @Override
-            public boolean handle(Event event) {
-
-                if (isDisabled) event.cancel();
-
-                return false;
-            }
-        });
-
         addListener(new ClickListener() {
             @Override
             public void clicked(final InputEvent event, final float x, final float y) {
@@ -109,21 +92,25 @@ public abstract class MenuButton extends Stack {
                 }, 1);
             }
         });
+
+        setBackground(enabledBack);
+    }
+
+    private void setBackground(SpriteDrawable drawable) {
+
+        back.setDrawable(drawable);
+
+        final float scale = 1f * buttonSize / drawable.getMinWidth();
+        float height = scale * drawable.getMinHeight();
+
+        backContainer.getCell(back)
+                .height(height)
+                .maxHeight(height);
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
-
-        back.setDrawable(isDisabled ? disabledBack : enabledBack);
-        back.setTouchable(isDisabled ? Touchable.disabled : Touchable.enabled);
-
-        final float scale = 1f * buttonSize / back.getDrawable().getMinWidth();
-        float height = scale * back.getDrawable().getMinHeight();
-
-        backContainer.getCell(back)
-                .minHeight(height)
-                .height(height);
 
         if (lock != null) {
             lock.setVisible(hasLock);

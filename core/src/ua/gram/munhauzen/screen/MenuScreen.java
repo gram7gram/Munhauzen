@@ -56,7 +56,6 @@ public class MenuScreen extends AbstractScreen {
         assetManager.load("menu/icon_rose_sheet_1x6.png", Texture.class);
         assetManager.load("menu/icon_shield_sheet_1x8.png", Texture.class);
         assetManager.load("menu/mmv_btn.png", Texture.class);
-        assetManager.load("menu/mmv_btn_disabled.png", Texture.class);
         assetManager.load("menu/mmv_fond_1.jpg", Texture.class);
         assetManager.load("menu/b_share.png", Texture.class);
         assetManager.load("menu/b_share_disabled.png", Texture.class);
