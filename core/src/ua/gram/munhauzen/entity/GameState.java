@@ -2,53 +2,46 @@ package ua.gram.munhauzen.entity;
 
 import com.badlogic.gdx.utils.Timer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
 
+import ua.gram.munhauzen.expansion.response.ExpansionResponse;
 import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class GameState implements JsonEntry {
+public class GameState {
 
     private static final String tag = GameState.class.getSimpleName();
 
     public static boolean isPaused = false;
     public static boolean isMute = false;
 
-    @JsonProperty
     public History history;
-    @JsonProperty
     public Save activeSave;
 
-    @JsonIgnore
     public ArrayList<Scenario> scenarioRegistry;
-    @JsonIgnore
     public ArrayList<Image> imageRegistry;
-    @JsonIgnore
     public ArrayList<Audio> audioRegistry;
-    @JsonIgnore
     public ArrayList<AudioFail> audioFailRegistry;
-    @JsonIgnore
     public ArrayList<Inventory> inventoryRegistry;
-    @JsonIgnore
     public ArrayList<Chapter> chapterRegistry;
 
-    @JsonProperty
     public MenuState menuState;
-    @JsonProperty
     public GalleryState galleryState;
-    @JsonProperty
     public FailsState failsState;
-    @JsonProperty
-    public boolean areAllImagesUnlocked;
-    @JsonProperty
-    public boolean areAllGoofsUnlocked;
+    public ExpansionResponse expansionInfo;
+    public AchievementState achievementState;
 
     public GameState() {
         history = new History();
+        scenarioRegistry = new ArrayList<>();
+        audioRegistry = new ArrayList<>();
+        imageRegistry = new ArrayList<>();
+        audioFailRegistry = new ArrayList<>();
+        inventoryRegistry = new ArrayList<>();
+        chapterRegistry = new ArrayList<>();
         setActiveSave(new Save());
     }
 

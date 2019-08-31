@@ -48,6 +48,8 @@ public abstract class AbstractScreen implements Screen {
 
         Gdx.input.setInputProcessor(ui);
 
+        game.databaseManager.loadExternal(game.gameState);
+
         persistTask = new Timer.Task() {
             @Override
             public void run() {

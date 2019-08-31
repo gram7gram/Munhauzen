@@ -14,17 +14,17 @@ import com.badlogic.gdx.utils.Align;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.MunhauzenStage;
-import ua.gram.munhauzen.expansion.response.ExpansionResponse;
+import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
  */
 public class LogoScreen implements Screen {
 
+    private final String tag = getClass().getSimpleName();
     private final MunhauzenGame game;
     private Texture background;
     private MunhauzenStage ui;
-    boolean canRedirectToLoading;
 
     public LogoScreen(MunhauzenGame game) {
         this.game = game;
@@ -33,10 +33,6 @@ public class LogoScreen implements Screen {
     @Override
     public void show() {
         ui = new MunhauzenStage(game);
-
-        canRedirectToLoading = true;
-
-        restoreFromFile();
 
         background = game.assetManager.get("p0.jpg", Texture.class);
 
@@ -76,15 +72,16 @@ public class LogoScreen implements Screen {
         ui.addActor(root);
     }
 
-    private void restoreFromFile() {
-        ExpansionResponse result = game.databaseManager.loadExpansionInfo();
-
-        if (result != null) {
-            canRedirectToLoading = !result.isCompleted;
-        }
-    }
-
     private void onComplete() {
+
+        boolean canRedirectToLoading = true;
+
+        if (game.gameState.expansionInfo != null) {
+            Log.i(tag, "Has expansion");
+            canRedirectToLoading = !game.gameState.expansionInfo.isCompleted;
+        } else {
+            Log.e(tag, "No expansion");
+        }
 
         if (canRedirectToLoading) {
             game.setScreen(new LoadingScreen(game));

@@ -356,7 +356,7 @@ public class GameScreen implements Screen {
 
         Story story = getStory();
         if (story != null) {
-            if (story.currentInteraction != null) {
+            if (story.currentInteraction != null && story.currentInteraction.interaction != null) {
                 story.currentInteraction.interaction.dispose();
             }
         }

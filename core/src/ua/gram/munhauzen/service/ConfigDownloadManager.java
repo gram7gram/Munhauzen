@@ -60,6 +60,15 @@ public class ConfigDownloadManager {
                 Log.e(tag, content);
 
                 response = json.fromJson(ExportResponse.class, content);
+                if (response == null) {
+                    Gdx.app.postRunnable(new Runnable() {
+                        @Override
+                        public void run() {
+                            onBadResponse();
+                        }
+                    });
+                    return;
+                }
 
                 downloadArchive();
             }
@@ -89,9 +98,22 @@ public class ConfigDownloadManager {
 
     }
 
-    private void onConnectionStarted() {
+    private void onBadResponse() {
+        Log.e(tag, "onBadResponse");
+
         fragment.progress.setText("");
-        fragment.progressMessage.setText("Fetching expansion info...");
+        fragment.progressMessage.setText("No expansion info found");
+        fragment.retryBtn.setVisible(true);
+
+        fragment.screen.configDownloader.dispose();
+        fragment.screen.configDownloader = null;
+    }
+
+    private void onConnectionStarted() {
+        Log.i(tag, "onConnectionStarted");
+
+        fragment.progress.setText("");
+        fragment.progressMessage.setText("Fetching game info...");
     }
 
     private void downloadArchive() {
@@ -193,21 +215,25 @@ public class ConfigDownloadManager {
     }
 
     private void onConnectionFailed() {
-
-        response = null;
+        Log.e(tag, "onConnectionFailed");
 
         fragment.progress.setText("");
         fragment.progressMessage.setText("Download has failed");
         fragment.retryBtn.setVisible(true);
+
+        fragment.screen.configDownloader.dispose();
+        fragment.screen.configDownloader = null;
     }
 
     private void onConnectionCanceled() {
-
-        response = null;
+        Log.e(tag, "onConnectionCanceled");
 
         fragment.progress.setText("");
         fragment.progressMessage.setText("Download was canceled");
         fragment.retryBtn.setVisible(true);
+
+        fragment.screen.configDownloader.dispose();
+        fragment.screen.configDownloader = null;
     }
 
     public void dispose() {

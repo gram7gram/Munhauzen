@@ -134,7 +134,7 @@ public class AchievementService {
 
         game.gameState.history.viewedImages.add(name);
 
-        if (!game.gameState.areAllImagesUnlocked) {
+        if (!game.gameState.achievementState.areAllImagesUnlocked) {
 
             boolean hasAll = true;
             for (Image a : game.gameState.getGalleryImages()) {
@@ -146,9 +146,9 @@ public class AchievementService {
 
             if (hasAll) {
 
-                game.gameState.areAllImagesUnlocked = true;
+                game.gameState.achievementState.areAllImagesUnlocked = true;
 
-                if (game.gameState.areAllGoofsUnlocked) {
+                if (game.gameState.achievementState.areAllGoofsUnlocked) {
                     game.sfxService.onAllGoofsAndImagesUnlocked();
                 } else {
                     game.sfxService.onAllImagesUnlocked();
@@ -185,7 +185,7 @@ public class AchievementService {
     public void onFailOpened(AudioFail fail) {
         game.gameState.history.openedFails.add(fail.name);
 
-        if (!game.gameState.areAllGoofsUnlocked) {
+        if (!game.gameState.achievementState.areAllGoofsUnlocked) {
 
             boolean hasAll = true;
             for (AudioFail a : game.gameState.audioFailRegistry) {
@@ -204,9 +204,9 @@ public class AchievementService {
                     }
                 }
 
-                game.gameState.areAllGoofsUnlocked = true;
+                game.gameState.achievementState.areAllGoofsUnlocked = true;
 
-                if (game.gameState.areAllImagesUnlocked) {
+                if (game.gameState.achievementState.areAllImagesUnlocked) {
                     game.sfxService.onAllGoofsAndImagesUnlocked();
                 } else {
                     game.sfxService.onAllGoofsUnlocked();

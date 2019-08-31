@@ -29,7 +29,7 @@ import ua.gram.munhauzen.utils.Log;
 public class ControlsFragment extends Fragment {
 
     private final String tag = getClass().getSimpleName();
-    private final LoadingScreen screen;
+    public final LoadingScreen screen;
     public FragmentRoot root;
     Image decorTop, decorBottom;
     Label footer;
@@ -136,7 +136,7 @@ public class ControlsFragment extends Fragment {
         Table titleTable = new Table();
         titleTable.add(title).width(MunhauzenGame.WORLD_WIDTH * .75f);
 
-        Label startMessage = new Label("The game will now start downloading the resources. Please, have some patience, keep the battery fed and WiFi on", new Label.LabelStyle(
+        Label startMessage = new Label("The game will now start downloading the resources. Please, have some patience, keep the battery filled and WiFi on", new Label.LabelStyle(
                 screen.game.fontProvider.getFont(FontProvider.h4),
                 Color.BLACK
         ));
@@ -297,12 +297,20 @@ public class ControlsFragment extends Fragment {
 
         Log.i(tag, "onConfigDownloadComplete");
 
+        screen.configDownloader.dispose();
+        screen.configDownloader = null;
+
+        screen.game.databaseManager.loadExternal(screen.game.gameState);
+
         startExpansionDownload();
     }
 
     public void onExpansionDownloadComplete() {
 
         Log.i(tag, "onExpansionDownloadComplete");
+
+        screen.expansionDownloader.dispose();
+        screen.expansionDownloader = null;
 
         root.setTouchable(Touchable.disabled);
 

@@ -24,7 +24,6 @@ public class ExpansionDownloadManager implements Disposable {
     final String tag = getClass().getSimpleName();
     final MunhauzenGame game;
     final ControlsFragment fragment;
-    ExpansionResponse expansionInfo, serverExpansionInfo;
     Net.HttpRequest httpRequest;
 
     final Json json;
@@ -40,14 +39,12 @@ public class ExpansionDownloadManager implements Disposable {
     public void start() {
         Log.i(tag, "start");
 
-        restoreFromFile();
-
         fetchExpansionInfo();
     }
 
     private void processAvailablePart() {
         Part nextPart = null;
-        for (Part item : expansionInfo.parts.items) {
+        for (Part item : game.gameState.expansionInfo.parts.items) {
             if (item.isDownloaded && !item.isExtracted) {
                 nextPart = item;
                 break;
@@ -202,7 +199,7 @@ public class ExpansionDownloadManager implements Disposable {
             @Override
             public void run() {
                 fragment.progress.setText("");
-                fragment.progressMessage.setText("Fetching info...");
+                fragment.progressMessage.setText("Fetching expansion info...");
             }
         });
 
@@ -223,12 +220,22 @@ public class ExpansionDownloadManager implements Disposable {
 
                     Log.e(tag, response);
 
-                    serverExpansionInfo = json.fromJson(ExpansionResponse.class, response);
+                    ExpansionResponse serverExpansionInfo = game.databaseManager.loadExpansionInfo(response);
                     if (serverExpansionInfo == null) {
-                        throw new GdxRuntimeException("Bad response");
+                        Gdx.app.postRunnable(new Runnable() {
+                            @Override
+                            public void run() {
+                                onBadResponse();
+                            }
+                        });
+                        return;
                     }
 
-                    if (expansionInfo != null && expansionInfo.version == serverExpansionInfo.version) {
+                    ExpansionResponse expansionInfo = game.gameState.expansionInfo;
+
+                    if (expansionInfo != null && expansionInfo.isSameExpansion(serverExpansionInfo)) {
+
+                        Log.i(tag, "Same expansion. Resuming download...");
 
                         for (Part serverPart : serverExpansionInfo.parts.items) {
                             for (Part localPart : expansionInfo.parts.items) {
@@ -250,17 +257,21 @@ public class ExpansionDownloadManager implements Disposable {
                         }
 
                     } else {
-                        ExternalFiles.getExpansionDir().deleteDirectory();
+
+                        Log.e(tag, "New expansion. Removing previous expansion and starting download...");
+
+                        if (MunhauzenGame.CAN_REMOVE_PREVIOUS_EXPANSION)
+                            ExternalFiles.getExpansionDir().deleteDirectory();
 
                         final float sizeMb = (float) (serverExpansionInfo.size / 1024f / 1024f);
 
-                        final float memory = game.params.memoryUsage.megabytesAvailable();
+                        float memory = game.params.memoryUsage.megabytesAvailable();
                         if (memory > 0) {
                             if (sizeMb > memory) {
                                 Gdx.app.postRunnable(new Runnable() {
                                     @Override
                                     public void run() {
-                                        onLowMemory(memory);
+                                        onLowMemory();
                                     }
                                 });
                                 return;
@@ -268,9 +279,9 @@ public class ExpansionDownloadManager implements Disposable {
                         }
                     }
 
-                    expansionInfo = serverExpansionInfo;
+                    game.gameState.expansionInfo = serverExpansionInfo;
 
-                    expansionInfo.isDownloadStarted = true;
+                    game.gameState.expansionInfo.isDownloadStarted = true;
 
                     processAvailablePart();
 
@@ -306,71 +317,91 @@ public class ExpansionDownloadManager implements Disposable {
         });
     }
 
-    private void onConnectionFailed() {
+    private void onBadResponse() {
+        Log.e(tag, "onBadResponse");
 
-        expansionInfo = null;
+        ExpansionResponse expansionInfo = game.gameState.expansionInfo;
+        expansionInfo.isDownloadStarted = false;
 
-        fragment.progress.setText("");
-        fragment.progressMessage.setText("Unable to fetch resources");
+        fragment.progress.setText(expansionInfo.progress + "%");
+        fragment.progressMessage.setText("Expansion was not found");
         fragment.retryBtn.setVisible(true);
+
+        fragment.screen.expansionDownloader.dispose();
+        fragment.screen.expansionDownloader = null;
+
+    }
+
+    private void onConnectionFailed() {
+        Log.e(tag, "onConnectionFailed");
+
+        ExpansionResponse expansionInfo = game.gameState.expansionInfo;
+        expansionInfo.isDownloadStarted = false;
+
+        fragment.progress.setText(expansionInfo.progress + "%");
+        fragment.progressMessage.setText("Unable to fetch expansion");
+        fragment.retryBtn.setVisible(true);
+
+        fragment.screen.expansionDownloader.dispose();
+        fragment.screen.expansionDownloader = null;
     }
 
     private void onConnectionCanceled() {
+        ExpansionResponse expansionInfo = game.gameState.expansionInfo;
+        if (expansionInfo.isCompleted) return;
 
-        expansionInfo = null;
+        Log.e(tag, "onConnectionCanceled");
 
-        fragment.progress.setText("");
+        fragment.progress.setText(expansionInfo.progress + "%");
         fragment.progressMessage.setText("Download was canceled");
         fragment.retryBtn.setVisible(true);
+
+        fragment.screen.expansionDownloader.dispose();
+        fragment.screen.expansionDownloader = null;
     }
 
-    private void onLowMemory(float memory) {
+    private void onLowMemory() {
         Log.i(tag, "onLowMemory");
 
+        ExpansionResponse expansionInfo = game.gameState.expansionInfo;
+        expansionInfo.isDownloadStarted = false;
+
         fragment.progressMessage.setText("Not enough memory. Please, free some space for the game");
+        fragment.retryBtn.setVisible(true);
+
+        fragment.screen.expansionDownloader.dispose();
+        fragment.screen.expansionDownloader = null;
     }
 
     private void onComplete() {
+        ExpansionResponse expansionInfo = game.gameState.expansionInfo;
 
         if (expansionInfo == null) return;
+        if (expansionInfo.isCompleted) return;
 
         Log.i(tag, "onComplete");
+
+        game.gameState.expansionInfo.isCompleted = true;
+
+        game.databaseManager.persist(game.gameState);
 
         fragment.progress.setText("100%");
         fragment.progressMessage.setText("Resources are loaded!");
 
-        if (expansionInfo != null) {
-            for (Part item : expansionInfo.parts.items) {
+        if (game.gameState.expansionInfo != null) {
+            for (Part item : game.gameState.expansionInfo.parts.items) {
                 ExternalFiles.getExpansionPartFile(item).delete();
             }
         }
 
         ExternalFiles.updateNomedia();
 
-        expansionInfo.isCompleted = true;
-
-        ExternalFiles.getExpansionInfoFile(game.params)
-                .writeString(json.toJson(expansionInfo), false);
-
-        expansionInfo = null;
-
         fragment.onExpansionDownloadComplete();
     }
 
-    private void restoreFromFile() {
-
-        FileHandle file = ExternalFiles.getExpansionInfoFile(game.params);
-        if (!file.exists()) return;
-
-        ExpansionResponse result = json.fromJson(ExpansionResponse.class, file.read());
-
-        if (result != null && result.version == game.params.versionCode) {
-            expansionInfo = result;
-        }
-
-    }
-
     private int getProgress() {
+        ExpansionResponse expansionInfo = game.gameState.expansionInfo;
+
         if (expansionInfo == null) return 0;
 
         float downloadedCount = 0, extractedCount = 0;
@@ -384,12 +415,15 @@ public class ExpansionDownloadManager implements Disposable {
     }
 
     public void updateProgress() {
+        ExpansionResponse expansionInfo = game.gameState.expansionInfo;
+
         if (expansionInfo == null) return;
+
         if (!expansionInfo.isDownloadStarted) return;
 
         try {
 
-            int progress = getProgress();
+            expansionInfo.progress = getProgress();
 
             String progressText = "";
             for (Part item : expansionInfo.parts.items) {
@@ -411,17 +445,14 @@ public class ExpansionDownloadManager implements Disposable {
                 }
             }
 
-            fragment.progress.setText(Math.max(1, progress) + "%");
+            fragment.progress.setText(Math.max(1, expansionInfo.progress) + "%");
             fragment.progressMessage.setText(progressText);
 
             float sizeMb = (float) (expansionInfo.size / 1024f / 1024f);
 
             fragment.expansionInfo.setText("v" + expansionInfo.version + " " + String.format("%.2f", sizeMb) + "MB");
 
-            ExternalFiles.getExpansionInfoFile(game.params)
-                    .writeString(json.toJson(expansionInfo), false);
-
-            if (progress == 100) {
+            if (expansionInfo.progress == 100) {
                 onComplete();
             } else {
                 expansionInfo.isCompleted = false;
@@ -437,9 +468,6 @@ public class ExpansionDownloadManager implements Disposable {
             Gdx.net.cancelHttpRequest(httpRequest);
             httpRequest = null;
         }
-
-        serverExpansionInfo = null;
-        expansionInfo = null;
     }
 
 }

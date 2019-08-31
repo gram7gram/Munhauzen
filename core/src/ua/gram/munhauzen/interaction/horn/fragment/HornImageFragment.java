@@ -5,19 +5,19 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Stack;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 
 import ua.gram.munhauzen.MunhauzenGame;
-import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.interaction.HornInteraction;
+import ua.gram.munhauzen.interaction.horn.ui.Note1;
+import ua.gram.munhauzen.interaction.horn.ui.Note2;
 import ua.gram.munhauzen.screen.game.fragment.InteractionFragment;
-import ua.gram.munhauzen.ui.FitImage;
+import ua.gram.munhauzen.screen.game.ui.BackgroundImage;
+import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.ui.PrimaryButton;
 import ua.gram.munhauzen.utils.Log;
 
@@ -27,11 +27,12 @@ import ua.gram.munhauzen.utils.Log;
 public class HornImageFragment extends InteractionFragment {
 
     private final HornInteraction interaction;
-    public Stack root;
-    Image horn, note1, note2;
-    Table hornTable, note1Table, note2Table;
-    StoryAudio introAudio;
-    float note1Height, note1Width, note2Height, note2Width, hornHeight;
+    public FragmentRoot root;
+    BackgroundImage horn;
+    Note2 note2;
+    Note1 note1;
+    Container<Note1> note1Table;
+    Container<Note2> note2Table;
 
     public HornImageFragment(HornInteraction interaction) {
         this.interaction = interaction;
@@ -52,23 +53,21 @@ public class HornImageFragment extends InteractionFragment {
             }
         });
 
-        horn = new FitImage();
+        horn = new BackgroundImage(interaction.gameScreen);
+        horn.setOrigin(Align.center);
+        horn.setTouchable(Touchable.disabled);
 
-        hornTable = new Table();
-        hornTable.setFillParent(true);
-        hornTable.add(horn).bottom().expand();
+        note1 = new Note1();
 
-        note1 = new FitImage();
+        note2 = new Note2();
 
-        note2 = new FitImage();
+        note1Table = new Container<>(note1);
+        note1Table.setClip(true);
+        note1Table.setTouchable(Touchable.disabled);
 
-        note1Table = new Table();
-        note1Table.setFillParent(true);
-        note1Table.add(note1);
-
-        note2Table = new Table();
-        note2Table.setFillParent(true);
-        note2Table.add(note2);
+        note2Table = new Container<>(note2);
+        note2Table.setClip(true);
+        note2Table.setTouchable(Touchable.disabled);
 
         Table btnTable = new Table();
         btnTable.setFillParent(true);
@@ -77,13 +76,12 @@ public class HornImageFragment extends InteractionFragment {
                 .width(MunhauzenGame.WORLD_WIDTH / 3f)
                 .height(MunhauzenGame.WORLD_HEIGHT / 12f);
 
-        root = new Stack();
-        root.setFillParent(true);
+        root = new FragmentRoot();
         root.setTouchable(Touchable.childrenOnly);
-        root.addActor(note2Table);
-        root.addActor(note1Table);
-        root.addActor(hornTable);
-        root.addActor(btnTable);
+        root.addContainer(note2Table);
+        root.addContainer(note1Table);
+        root.addContainer(horn);
+        root.addContainer(btnTable);
 
         setHornBackground(
                 interaction.assetManager.get("horn/int_horn_horn.png", Texture.class),
@@ -98,46 +96,30 @@ public class HornImageFragment extends InteractionFragment {
                 interaction.assetManager.get("horn/int_horn_note_2.png", Texture.class)
         );
 
-
         start();
     }
 
     private void start() {
-        playIntro();
 
-        note1.addAction(Actions.forever(
-                Actions.sequence(
-                        Actions.moveTo(MunhauzenGame.WORLD_WIDTH + note1Width * 1.2f, -note1Height),
-                        Actions.moveTo(-MunhauzenGame.WORLD_WIDTH * .3f, MunhauzenGame.WORLD_HEIGHT, 5)
-                )
-        ));
-
-        note2.addAction(Actions.forever(
-                Actions.sequence(
-                        Actions.moveTo(MunhauzenGame.WORLD_WIDTH + note2Width * .2f, -note2Height),
-                        Actions.delay(1),
-                        Actions.moveTo(-MunhauzenGame.WORLD_WIDTH * .3f - note2Width, MunhauzenGame.WORLD_HEIGHT, 6),
-                        Actions.delay(1)
-                )
-        ));
+        note1.start();
+        note2.start();
     }
 
     public void update() {
-        note1.setOrigin(Align.bottom);
-        note2.setOrigin(Align.bottom);
-        horn.setOrigin(Align.center);
 
-        note1.setRotation(30);
-        note2.setRotation(30);
+        note1Table.setBounds(
+                horn.background.getX(),
+                horn.background.getY(),
+                horn.background.getWidth(),
+                horn.background.getHeight()
+        );
 
-        note1.setPosition(MunhauzenGame.WORLD_WIDTH + note1Width * 1.2f, -note1Height);
-        note2.setPosition(MunhauzenGame.WORLD_WIDTH + note2Width * .2f, -note2Height);
-
-        if (introAudio != null) {
-            if (introAudio.player != null) {
-                interaction.gameScreen.audioService.updateVolume(introAudio);
-            }
-        }
+        note2Table.setBounds(
+                horn.background.getX(),
+                horn.background.getY(),
+                horn.background.getWidth(),
+                horn.background.getHeight()
+        );
     }
 
     private void complete() {
@@ -158,22 +140,6 @@ public class HornImageFragment extends InteractionFragment {
         }
     }
 
-    private void playIntro() {
-        try {
-            introAudio = new StoryAudio();
-            introAudio.audio = "sfx_inter_horn";
-
-            interaction.gameScreen.audioService.prepareAndPlay(introAudio);
-
-            introAudio.player.setLooping(true);
-
-        } catch (Throwable e) {
-            Log.e(tag, e);
-
-            interaction.gameScreen.onCriticalError(e);
-        }
-    }
-
     @Override
     public Actor getRoot() {
         return root;
@@ -181,53 +147,16 @@ public class HornImageFragment extends InteractionFragment {
 
     public void setHornBackground(Texture texture, String file) {
 
-        horn.setDrawable(new SpriteDrawable(new Sprite(texture)));
-
-        float width = MunhauzenGame.WORLD_WIDTH;
-        float scale = 1f * width / horn.getDrawable().getMinWidth();
-        hornHeight = 1f * horn.getDrawable().getMinHeight() * scale;
-
-        hornTable.getCell(horn)
-                .width(width)
-                .height(hornHeight);
+        horn.setBackgroundDrawable(new SpriteDrawable(new Sprite(texture)));
 
         interaction.gameScreen.setLastBackground(file);
     }
 
     public void setNote1Background(Texture texture) {
-
-        note1.setDrawable(new SpriteDrawable(new Sprite(texture)));
-
-        note1Height = MunhauzenGame.WORLD_HEIGHT * .75f;
-        float scale = 1f * note1Height / note1.getDrawable().getMinHeight();
-        note1Width = 1f * note1.getDrawable().getMinWidth() * scale;
-
-        note1Table.getCell(note1)
-                .width(note1Width)
-                .height(note1Height);
+        note1.setBackground(texture);
     }
 
     public void setNote2Background(Texture texture) {
-
-        note2.setDrawable(new SpriteDrawable(new Sprite(texture)));
-
-        note2Height = MunhauzenGame.WORLD_HEIGHT * .75f;
-        float scale = 1f * note2Height / note2.getDrawable().getMinHeight();
-        note2Width = 1f * note2.getDrawable().getMinWidth() * scale;
-
-        note2Table.getCell(note2)
-                .width(note2Width)
-                .height(note2Height);
-    }
-
-    @Override
-    public void dispose() {
-        super.dispose();
-
-        if (introAudio != null) {
-            interaction.gameScreen.audioService.stop(introAudio);
-            introAudio = null;
-        }
-
+        note2.setBackground(texture);
     }
 }

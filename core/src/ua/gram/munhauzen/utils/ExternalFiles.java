@@ -95,6 +95,10 @@ public class ExternalFiles {
         return getExternal("gallery-state.json");
     }
 
+    public static FileHandle getAchievementStateFile() {
+        return getExternal("achievement-state.json");
+    }
+
     public static FileHandle getFailsStateFile() {
         return getExternal("fails-state.json");
     }

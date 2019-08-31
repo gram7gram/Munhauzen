@@ -3,12 +3,14 @@ package ua.gram.munhauzen.service;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.entity.AchievementState;
 import ua.gram.munhauzen.entity.Audio;
 import ua.gram.munhauzen.entity.AudioFail;
 import ua.gram.munhauzen.entity.Chapter;
@@ -55,6 +57,7 @@ public class DatabaseManager {
     public DatabaseManager(MunhauzenGame game) {
         this.game = game;
         om = new ObjectMapper();
+        om.configure(JsonParser.Feature.AUTO_CLOSE_SOURCE, true);
     }
 
     public ExpansionResponse loadExpansionInfo() {
@@ -62,8 +65,13 @@ public class DatabaseManager {
         FileHandle file = ExternalFiles.getExpansionInfoFile(game.params);
         if (!file.exists()) return null;
 
+        return loadExpansionInfo(file.readString());
+    }
+
+    public ExpansionResponse loadExpansionInfo(String raw) {
+
         try {
-            ExpansionResponse result = om.readValue(file.file(), ExpansionResponse.class);
+            ExpansionResponse result = om.readValue(raw, ExpansionResponse.class);
 
             if (result != null && result.version == game.params.versionCode) {
                 return result;
@@ -72,7 +80,7 @@ public class DatabaseManager {
             Log.e(tag, e);
         }
 
-        file.delete();
+        Log.e(tag, "Obsolete expansion info. Removing");
 
         return null;
     }
@@ -80,6 +88,17 @@ public class DatabaseManager {
     public void loadExternal(GameState state) {
 
         Log.i(tag, "loadExternal");
+
+        try {
+            state.expansionInfo = loadExpansionInfo();
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+
+        if (state.expansionInfo == null) {
+            Log.e(tag, "No expansion info. Load canceled");
+            return;
+        }
 
         try {
             state.imageRegistry = loadExternalImages();
@@ -158,6 +177,16 @@ public class DatabaseManager {
         }
 
         try {
+            state.achievementState = loadAchievementState();
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            ExternalFiles.getFailsStateFile().delete();
+
+            state.failsState = new FailsState();
+        }
+
+        try {
             loadActiveSave(state);
         } catch (Throwable e) {
             Log.e(tag, e);
@@ -172,60 +201,105 @@ public class DatabaseManager {
 
         //Log.i(tag, "persist");
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    persistHistory(gameState.history);
-                } catch (Throwable e) {
-                    Log.e(tag, e);
-                }
-            }
-        }).start();
+        if (gameState == null) return;
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    persistSave(gameState.activeSave);
-                } catch (Throwable e) {
-                    Log.e(tag, e);
+        if (gameState.history != null)
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        persistHistory(gameState.history);
+                    } catch (Throwable e) {
+                        Log.e(tag, e);
+                    }
                 }
-            }
-        }).start();
+            }).start();
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    persistMenuState(gameState.menuState);
-                } catch (Throwable e) {
-                    Log.e(tag, e);
+        if (gameState.activeSave != null)
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        persistSave(gameState.activeSave);
+                    } catch (Throwable e) {
+                        Log.e(tag, e);
+                    }
                 }
-            }
-        }).start();
+            }).start();
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    persistGalleryState(gameState.galleryState);
-                } catch (Throwable e) {
-                    Log.e(tag, e);
+        if (gameState.menuState != null)
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        persistMenuState(gameState.menuState);
+                    } catch (Throwable e) {
+                        Log.e(tag, e);
+                    }
                 }
-            }
-        }).start();
+            }).start();
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    persistFailsState(gameState.failsState);
-                } catch (Throwable e) {
-                    Log.e(tag, e);
+        if (gameState.galleryState != null)
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        persistGalleryState(gameState.galleryState);
+                    } catch (Throwable e) {
+                        Log.e(tag, e);
+                    }
                 }
-            }
-        }).start();
+            }).start();
+
+        if (gameState.failsState != null)
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        persistFailsState(gameState.failsState);
+                    } catch (Throwable e) {
+                        Log.e(tag, e);
+                    }
+                }
+            }).start();
+
+        if (gameState.expansionInfo != null)
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        persistExpansionInfo(gameState.expansionInfo);
+                    } catch (Throwable e) {
+                        Log.e(tag, e);
+                    }
+                }
+            }).start();
+
+        if (gameState.achievementState != null)
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        persistAchievementState(gameState.achievementState);
+                    } catch (Throwable e) {
+                        Log.e(tag, e);
+                    }
+                }
+            }).start();
+    }
+
+    public void persistExpansionInfo(ExpansionResponse state) throws IOException {
+
+        FileHandle file = ExternalFiles.getExpansionInfoFile(game.params);
+
+        om.writeValue(file.file(), state);
+    }
+
+    public void persistAchievementState(AchievementState state) throws IOException {
+
+        FileHandle file = ExternalFiles.getAchievementStateFile();
+
+        om.writeValue(file.file(), state);
     }
 
     public void persistGalleryState(GalleryState state) throws IOException {
@@ -269,25 +343,29 @@ public class DatabaseManager {
     private History loadHistory() throws IOException {
         FileHandle file = ExternalFiles.getHistoryFile();
 
-        History history;
-        if (!file.exists()) {
-            history = new History();
-        } else {
-            history = om.readValue(file.file(), History.class);
+        History state = null;
+        if (file.exists()) {
+            state = om.readValue(file.file(), History.class);
         }
 
-        return history;
+        if (state == null) {
+            state = new History();
+        }
+
+        return state;
     }
 
     private MenuState loadMenuState() throws IOException {
 
         FileHandle file = ExternalFiles.getMenuStateFile();
 
-        MenuState state;
-        if (!file.exists()) {
-            state = new MenuState();
-        } else {
+        MenuState state = null;
+        if (file.exists()) {
             state = om.readValue(file.file(), MenuState.class);
+        }
+
+        if (state == null) {
+            state = new MenuState();
         }
 
         return state;
@@ -297,11 +375,29 @@ public class DatabaseManager {
 
         FileHandle file = ExternalFiles.getFailsStateFile();
 
-        FailsState state;
-        if (!file.exists()) {
-            state = new FailsState();
-        } else {
+        FailsState state = null;
+        if (file.exists()) {
             state = om.readValue(file.file(), FailsState.class);
+        }
+
+        if (state == null) {
+            state = new FailsState();
+        }
+
+        return state;
+    }
+
+    private AchievementState loadAchievementState() throws IOException {
+
+        FileHandle file = ExternalFiles.getAchievementStateFile();
+
+        AchievementState state = null;
+        if (file.exists()) {
+            state = om.readValue(file.file(), AchievementState.class);
+        }
+
+        if (state == null) {
+            state = new AchievementState();
         }
 
         return state;
@@ -311,23 +407,27 @@ public class DatabaseManager {
 
         FileHandle file = ExternalFiles.getGalleryStateFile();
 
-        GalleryState state;
-        if (!file.exists()) {
-            state = new GalleryState();
-        } else {
+        GalleryState state = null;
+        if (file.exists()) {
             state = om.readValue(file.file(), GalleryState.class);
+        }
+
+        if (state == null) {
+            state = new GalleryState();
         }
 
         return state;
     }
 
     private void loadActiveSave(GameState state) throws IOException {
-        Save save;
+        Save save = null;
 
-        FileHandle saveFile = ExternalFiles.getActiveSaveFile();
-        if (saveFile.exists()) {
-            save = om.readValue(saveFile.file(), Save.class);
-        } else {
+        FileHandle file = ExternalFiles.getActiveSaveFile();
+        if (file.exists()) {
+            save = om.readValue(file.file(), Save.class);
+        }
+
+        if (save == null) {
             save = new Save();
         }
 
@@ -335,16 +435,19 @@ public class DatabaseManager {
     }
 
     public Save loadSave(String id) throws IOException {
-        Save save;
 
-        FileHandle saveFile = ExternalFiles.getSaveFile(id);
-        if (saveFile.exists()) {
-            save = om.readValue(saveFile.file(), Save.class);
-        } else {
-            save = new Save(id);
+        FileHandle file = ExternalFiles.getSaveFile(id);
+
+        Save state = null;
+        if (file.exists()) {
+            state = om.readValue(file.file(), Save.class);
         }
 
-        return save;
+        if (state == null) {
+            state = new Save();
+        }
+
+        return state;
     }
 
     @SuppressWarnings("unchecked")
