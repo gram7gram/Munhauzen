@@ -128,7 +128,28 @@ public class AudioRow extends Stack {
         setTouchable(Touchable.enabled);
 
         if (!fail.isOpened) {
-            text = text.replaceAll("[^.\\s]", "#");
+
+            String altText = "";
+
+            for (int i = 0; i < text.length(); i++) {
+                String ch = text.charAt(i) + "";
+
+                if (!" ".equals(ch)) {
+                    if (i % 4 == 0) {
+                        ch = "@";
+                    } else if (i % 3 == 0) {
+                        ch = "$";
+                    } else if (i % 2 == 0) {
+                        ch = "!";
+                    } else {
+                        ch = "#";
+                    }
+                }
+
+                altText += ch;
+            }
+
+            text = altText;
 
             setTouchable(Touchable.disabled);
 

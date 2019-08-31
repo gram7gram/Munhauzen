@@ -135,7 +135,7 @@ public class ExitDialog extends Fragment {
         px.setColor(Color.BLACK.r, Color.BLACK.g, Color.BLACK.b, .3f);
         px.fill();
 
-        container.setBackground(new SpriteDrawable(new Sprite(new Texture(px))));
+//        container.setBackground(new SpriteDrawable(new Sprite(new Texture(px))));
 
         container.addListener(new ClickListener() {
             @Override
