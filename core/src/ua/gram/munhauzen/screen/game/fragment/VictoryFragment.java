@@ -24,6 +24,7 @@ import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.screen.MenuScreen;
 import ua.gram.munhauzen.screen.game.ui.BackgroundImage;
+import ua.gram.munhauzen.screen.game.ui.VictoryCircle;
 import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.utils.Log;
@@ -40,10 +41,11 @@ public class VictoryFragment extends Fragment {
     final String IMAGE = "images/p62_fin.jpg";
 
     BackgroundImage backgroundImage;
-    Image curtain;
     Label title1, title2;
     StoryAudio intro;
     Container<Table> menuContainer;
+    VictoryCircle victoryCircle;
+    Image black;
 
     public VictoryFragment(GameScreen gameScreen) {
         this.screen = gameScreen;
@@ -59,6 +61,8 @@ public class VictoryFragment extends Fragment {
         screen.assetManager.finishLoading();
 
         screen.game.fontProvider.loadHd();
+
+        victoryCircle = new VictoryCircle(screen);
 
         title1 = new Label("The ", new Label.LabelStyle(
                 screen.game.fontProvider.getFont(FontProvider.FleischmannGotich, FontProvider.hd),
@@ -87,8 +91,8 @@ public class VictoryFragment extends Fragment {
         px.setColor(Color.BLACK);
         px.fill();
 
-        curtain = new Image(new Texture(px));
-        curtain.setVisible(false);
+        black = new Image(new Texture(px));
+        black.setVisible(false);
 
         backgroundImage = new BackgroundImage(screen);
 
@@ -117,7 +121,8 @@ public class VictoryFragment extends Fragment {
 
         root = new FragmentRoot();
         root.addContainer(backgroundImage);
-        root.addContainer(new Container<>(curtain));
+        root.addContainer(new Container<>(victoryCircle));
+        root.addContainer(new Container<>(black));
         root.addContainer(titleContainer);
         root.addContainer(menuContainer);
 
@@ -166,7 +171,7 @@ public class VictoryFragment extends Fragment {
             public void run() {
                 fadeInCurtain();
             }
-        }, 10);
+        }, 3.45f);
 
         Timer.instance().scheduleTask(new Timer.Task() {
             @Override
@@ -231,15 +236,16 @@ public class VictoryFragment extends Fragment {
 
     public void fadeInCurtain() {
 
-        curtain.setVisible(true);
+        victoryCircle.start();
 
-        curtain.clearActions();
-        curtain.addAction(
-                Actions.sequence(
-                        Actions.alpha(0),
-                        Actions.alpha(1, .3f)
-                )
-        );
+        Timer.instance().scheduleTask(new Timer.Task() {
+            @Override
+            public void run() {
+                victoryCircle.dispose();
+                victoryCircle.setVisible(false);
+                black.setVisible(true);
+            }
+        }, victoryCircle.getTotalDuration());
     }
 
     public void fadeInMenu() {
@@ -275,7 +281,8 @@ public class VictoryFragment extends Fragment {
     }
 
     public void update() {
-        curtain.setBounds(0, 0, MunhauzenGame.WORLD_WIDTH, MunhauzenGame.WORLD_HEIGHT);
+        victoryCircle.setBounds(0, 0, MunhauzenGame.WORLD_WIDTH, MunhauzenGame.WORLD_HEIGHT);
+        black.setBounds(0, 0, MunhauzenGame.WORLD_WIDTH, MunhauzenGame.WORLD_HEIGHT);
 
         if (intro != null) {
             screen.audioService.updateVolume(intro);

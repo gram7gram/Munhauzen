@@ -27,6 +27,7 @@ public class ExternalFiles {
                 "expansion/ui",
                 "expansion/saves",
                 "expansion/fails",
+                "expansion/victory",
 
                 "expansion/images",
                 "expansion/audio",

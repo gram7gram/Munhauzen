@@ -80,7 +80,7 @@ public class DatabaseManager {
             Log.e(tag, e);
         }
 
-        Log.e(tag, "Obsolete expansion info. Removing");
+        Log.e(tag, "Obsolete expansion info. Raw\n" + raw);
 
         return null;
     }

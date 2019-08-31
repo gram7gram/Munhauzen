@@ -58,7 +58,6 @@ public abstract class AnimatedImage extends Image {
             }
         }
 
-
         animation = new Animation<>(speed, frames);
         duration = 0;
         isStarted = false;
@@ -67,6 +66,8 @@ public abstract class AnimatedImage extends Image {
     @Override
     public void act(float delta) {
         super.act(delta);
+
+        if (animation == null) return;
 
         setDrawable(getCurrentDrawable());
 

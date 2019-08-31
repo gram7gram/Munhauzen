@@ -42,7 +42,7 @@ public class HornInteraction extends AbstractInteraction {
 
         imageFragment.fadeInRoot();
 
-//        playIntro();
+        playIntro();
     }
 
     private void playIntro() {

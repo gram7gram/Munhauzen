@@ -32,6 +32,8 @@ public class ExpansionAssetManager extends AssetManager {
 
     @Override
     public synchronized void unload(String fileName) {
+        if (!isLoaded(fileName)) return;
+
         super.unload(getPath(fileName));
     }
 

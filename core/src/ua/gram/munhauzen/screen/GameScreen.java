@@ -2,7 +2,6 @@ package ua.gram.munhauzen.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -45,7 +44,7 @@ public class GameScreen implements Screen {
     public final MunhauzenGame game;
     public MunhauzenStage ui;
     public GameLayers gameLayers;
-    public AssetManager assetManager;
+    public ExpansionAssetManager assetManager;
     public StoryManager storyManager;
     public ScenarioFragment scenarioFragment;
     public ProgressBarFragment progressBarFragment;
@@ -368,26 +367,6 @@ public class GameScreen implements Screen {
 
         isLoaded = false;
 
-        if (assetManager != null) {
-            assetManager.dispose();
-            assetManager = null;
-        }
-
-        if (ui != null) {
-            ui.dispose();
-            ui = null;
-        }
-
-        if (audioService != null) {
-            audioService.dispose();
-            audioService = null;
-        }
-
-        if (imageService != null) {
-            imageService.dispose();
-            imageService = null;
-        }
-
         if (progressBarFragment != null) {
             progressBarFragment.dispose();
             progressBarFragment = null;
@@ -411,6 +390,26 @@ public class GameScreen implements Screen {
         if (gameLayers != null) {
             gameLayers.dispose();
             gameLayers = null;
+        }
+
+        if (assetManager != null) {
+            assetManager.dispose();
+            assetManager = null;
+        }
+
+        if (ui != null) {
+            ui.dispose();
+            ui = null;
+        }
+
+        if (audioService != null) {
+            audioService.dispose();
+            audioService = null;
+        }
+
+        if (imageService != null) {
+            imageService.dispose();
+            imageService = null;
         }
 
         background = null;
