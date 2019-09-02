@@ -50,7 +50,7 @@ public class Note2 extends Image {
 
         setDrawable(new SpriteDrawable(new Sprite(texture)));
 
-        height = MunhauzenGame.WORLD_HEIGHT * .75f;
+        height = MunhauzenGame.WORLD_HEIGHT * .65f;
         float scale = 1f * height / getDrawable().getMinHeight();
         width = 1f * getDrawable().getMinWidth() * scale;
 

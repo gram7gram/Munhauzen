@@ -65,7 +65,7 @@ public class VictoryFragment extends Fragment {
         victoryCircle = new VictoryCircle(screen);
 
         title1 = new Label("The ", new Label.LabelStyle(
-                screen.game.fontProvider.getFont(FontProvider.FleischmannGotich, FontProvider.hd),
+                screen.game.fontProvider.getHdFont(FontProvider.CalligraphModern, FontProvider.hd),
                 Color.WHITE
         ));
         title1.setWrap(false);
@@ -73,7 +73,7 @@ public class VictoryFragment extends Fragment {
         title1.setVisible(false);
 
         title2 = new Label("End", new Label.LabelStyle(
-                screen.game.fontProvider.getFont(FontProvider.FleischmannGotich, FontProvider.hd),
+                screen.game.fontProvider.getHdFont(FontProvider.CalligraphModern, FontProvider.hd),
                 Color.WHITE
         ));
         title2.setWrap(false);

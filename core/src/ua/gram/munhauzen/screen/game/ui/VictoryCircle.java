@@ -15,6 +15,8 @@ public class VictoryCircle extends AnimatedImage {
     String file2 = "victory/an_the_end_sheet_5x6_p2.png";
     String file3 = "victory/an_the_end_sheet_6x6_p3.png";
 
+    final float delay = .08f;
+
     public VictoryCircle(GameScreen screen) {
         super();
         loop = false;
@@ -43,7 +45,7 @@ public class VictoryCircle extends AnimatedImage {
 
         screen.assetManager.finishLoading();
 
-        animate(screen.assetManager.get(file1, Texture.class), 5, 6, 30, .14f);
+        animate(screen.assetManager.get(file1, Texture.class), 5, 6, 30, delay);
 
         isStarted = true;
 
@@ -52,7 +54,7 @@ public class VictoryCircle extends AnimatedImage {
             public void run() {
                 startPart2();
             }
-        }, 30 * .14f);
+        }, 30 * delay);
     }
 
     private void startPart2() {
@@ -66,7 +68,7 @@ public class VictoryCircle extends AnimatedImage {
 
         screen.assetManager.finishLoading();
 
-        animate(screen.assetManager.get(file2, Texture.class), 5, 6, 30, .14f);
+        animate(screen.assetManager.get(file2, Texture.class), 5, 6, 30, delay);
 
         isStarted = true;
 
@@ -75,7 +77,7 @@ public class VictoryCircle extends AnimatedImage {
             public void run() {
                 startPart3();
             }
-        }, 30 * .14f);
+        }, 30 * delay);
     }
 
     private void startPart3() {
@@ -89,12 +91,12 @@ public class VictoryCircle extends AnimatedImage {
 
         screen.assetManager.finishLoading();
 
-        animate(screen.assetManager.get(file3, Texture.class), 6, 6, 36, .14f);
+        animate(screen.assetManager.get(file3, Texture.class), 6, 6, 36, delay);
 
         isStarted = true;
     }
 
     public float getTotalDuration() {
-        return 96 * .14f;
+        return 96 * delay;
     }
 }

@@ -1,6 +1,7 @@
 package ua.gram.munhauzen.interaction;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.interaction.horn.fragment.HornImageFragment;
@@ -14,7 +15,7 @@ public class HornInteraction extends AbstractInteraction {
 
     boolean isLoaded;
     public HornImageFragment imageFragment;
-    StoryAudio introAudio;
+    StoryAudio storyAudio;
 
     public HornInteraction(GameScreen gameScreen) {
         super(gameScreen);
@@ -26,6 +27,7 @@ public class HornInteraction extends AbstractInteraction {
 
         gameScreen.hideProgressBar();
 
+        assetManager.load("continue/btn_enabled.png", Texture.class);
         assetManager.load("horn/int_horn_horn.png", Texture.class);
         assetManager.load("horn/int_horn_note_1.png", Texture.class);
         assetManager.load("horn/int_horn_note_2.png", Texture.class);
@@ -48,17 +50,62 @@ public class HornInteraction extends AbstractInteraction {
     private void playIntro() {
         try {
 
-            introAudio = new StoryAudio();
-            introAudio.audio = "sfx_inter_horn";
+            storyAudio = new StoryAudio();
+            storyAudio.audio = "sfx_inter_horn";
 
-            gameScreen.audioService.prepareAndPlay(introAudio);
-            introAudio.player.setLooping(true);
+            gameScreen.audioService.prepareAndPlay(storyAudio);
+            storyAudio.player.setLooping(true);
 
         } catch (Throwable e) {
             Log.e(tag, e);
 
             gameScreen.onCriticalError(e);
         }
+    }
+
+    private void playEnding() {
+        try {
+
+            if (storyAudio != null) {
+                gameScreen.audioService.stop(storyAudio);
+                storyAudio = null;
+            }
+
+            storyAudio = new StoryAudio();
+            storyAudio.audio = "s32_fin";
+
+            gameScreen.audioService.prepareAndPlay(storyAudio);
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            gameScreen.onCriticalError(e);
+        }
+    }
+
+    public void complete() {
+        Log.i(tag, "complete");
+
+        playEnding();
+
+        Timer.instance().scheduleTask(new Timer.Task() {
+            @Override
+            public void run() {
+                try {
+
+                    gameScreen.interactionService.complete();
+
+                    gameScreen.interactionService.findStoryAfterInteraction();
+
+                    gameScreen.restoreProgressBarIfDestroyed();
+
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+
+                    gameScreen.onCriticalError(e);
+                }
+            }
+        }, storyAudio.duration / 1000f);
     }
 
     @Override
@@ -80,8 +127,8 @@ public class HornInteraction extends AbstractInteraction {
             imageFragment.update();
         }
 
-        if (introAudio != null) {
-            gameScreen.audioService.updateVolume(introAudio);
+        if (storyAudio != null) {
+            gameScreen.audioService.updateVolume(storyAudio);
         }
     }
 
@@ -96,9 +143,9 @@ public class HornInteraction extends AbstractInteraction {
             imageFragment = null;
         }
 
-        if (introAudio != null) {
-            gameScreen.audioService.stop(introAudio);
-            introAudio = null;
+        if (storyAudio != null) {
+            gameScreen.audioService.stop(storyAudio);
+            storyAudio = null;
         }
 
     }

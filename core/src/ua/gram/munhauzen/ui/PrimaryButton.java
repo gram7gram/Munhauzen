@@ -23,11 +23,4 @@ public class PrimaryButton extends TextButton {
             }
         });
     }
-
-    @Override
-    public void setDisabled(boolean isDisabled) {
-        super.setDisabled(isDisabled);
-
-//        setTouchable(isDisabled ? Touchable.disabled : Touchable.enabled);
-    }
 }

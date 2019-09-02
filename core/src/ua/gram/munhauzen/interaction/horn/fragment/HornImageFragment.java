@@ -1,16 +1,21 @@
 package ua.gram.munhauzen.interaction.horn.fragment;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 
+import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.interaction.HornInteraction;
 import ua.gram.munhauzen.interaction.horn.ui.Note1;
@@ -44,12 +49,14 @@ public class HornImageFragment extends InteractionFragment {
 
         interaction.gameScreen.hideImageFragment();
 
-        PrimaryButton button = interaction.gameScreen.game.buttonBuilder.primary("Continue", new ClickListener() {
+        PrimaryButton button = button("Continue", new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                complete();
+                root.setTouchable(Touchable.disabled);
+
+                interaction.complete();
             }
         });
 
@@ -73,7 +80,7 @@ public class HornImageFragment extends InteractionFragment {
         btnTable.setFillParent(true);
         btnTable.padTop(MunhauzenGame.WORLD_HEIGHT / 4f);
         btnTable.add(button).top().expand()
-                .width(MunhauzenGame.WORLD_WIDTH / 3f)
+                .width(MunhauzenGame.WORLD_WIDTH * .4f)
                 .height(MunhauzenGame.WORLD_HEIGHT / 12f);
 
         root = new FragmentRoot();
@@ -122,24 +129,6 @@ public class HornImageFragment extends InteractionFragment {
         );
     }
 
-    private void complete() {
-        Log.i(tag, "complete");
-
-        try {
-
-            interaction.gameScreen.interactionService.complete();
-
-            interaction.gameScreen.interactionService.findStoryAfterInteraction();
-
-            interaction.gameScreen.restoreProgressBarIfDestroyed();
-
-        } catch (Throwable e) {
-            Log.e(tag, e);
-
-            interaction.gameScreen.onCriticalError(e);
-        }
-    }
-
     @Override
     public Actor getRoot() {
         return root;
@@ -158,5 +147,24 @@ public class HornImageFragment extends InteractionFragment {
 
     public void setNote2Background(Texture texture) {
         note2.setBackground(texture);
+    }
+
+    public PrimaryButton button(String text, final ClickListener onClick) {
+        Texture dangerEnabled = interaction.assetManager.get("continue/btn_enabled.png", Texture.class);
+
+        NinePatchDrawable background1 = new NinePatchDrawable(new NinePatch(dangerEnabled, 90, 90, 0, 0));
+
+        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
+        style.font = interaction.gameScreen.game.fontProvider.getFont(FontProvider.h4);
+        style.up = background1;
+        style.down = background1;
+        style.disabled = background1;
+        style.fontColor = Color.BLACK;
+
+        PrimaryButton button = new PrimaryButton(text, style);
+
+        button.addListener(onClick);
+
+        return button;
     }
 }

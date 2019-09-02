@@ -16,6 +16,11 @@ public class FontProvider implements Disposable {
 
     final String tag = getClass().getSimpleName();
 
+    final String alphabet = "\u0000\"'1234567890-=+?!@#$%&*(){}[].,:;/_><…"
+            + "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
+            + "АаБбВвГгДдЕеЭэЖжЗзИиЙйЫыКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчЩщШшЮюЯяЬьЪъ"
+            + "АаБбВвГгДдЕеЄЄЖжЗзИиЙйІіЇїКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчЩщШшЮюЯяЬь";
+
     public static final String
             CalligraphModern = "CalligraphModern.ttf",
             BuxtonSketch = "BuxtonSketch.ttf",
@@ -33,11 +38,18 @@ public class FontProvider implements Disposable {
             small = 16;
 
     private HashMap<String, HashMap<Integer, BitmapFont>> map;
+    private HashMap<String, HashMap<Integer, BitmapFont>> mapHd;
 
     public BitmapFont getFont(String font, Integer size) {
         if (!map.containsKey(font)) return null;
         if (!map.get(font).containsKey(size)) return null;
         return map.get(font).get(size);
+    }
+
+    public BitmapFont getHdFont(String font, Integer size) {
+        if (!mapHd.containsKey(font)) return null;
+        if (!mapHd.get(font).containsKey(size)) return null;
+        return mapHd.get(font).get(size);
     }
 
     public BitmapFont getFont(Integer size) {
@@ -60,10 +72,7 @@ public class FontProvider implements Disposable {
 
             for (int size : sizes) {
                 FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-                parameter.characters = "\u0000\"'1234567890-=+?!@#$%&*(){}[].,:;/_><…"
-                        + "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
-                        + "АаБбВвГгДдЕеЭэЖжЗзИиЙйЫыКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчЩщШшЮюЯяЬьЪъ"
-                        + "АаБбВвГгДдЕеЄЄЖжЗзИиЙйІіЇїКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчЩщШшЮюЯяЬь";
+                parameter.characters = alphabet;
                 parameter.size = size;
 
                 BitmapFont bitmapFont = generator.generateFont(parameter);
@@ -81,8 +90,10 @@ public class FontProvider implements Disposable {
 
         Log.i(tag, "loadHd");
 
-        String[] fonts = new String[]{FleischmannGotich};
+        String[] fonts = new String[]{FleischmannGotich, CalligraphModern};
         int[] sizes = new int[]{hd};
+
+        mapHd = new HashMap<>(fonts.length);
 
         for (String font : fonts) {
             FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(font));
@@ -91,10 +102,7 @@ public class FontProvider implements Disposable {
 
             for (int size : sizes) {
                 FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-                parameter.characters = "\u0000\"'1234567890-=+?!@#$%&*(){}[].,:;/_><"
-                        + "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
-                        + "АаБбВвГгДдЕеЭэЖжЗзИиЙйЫыКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчЩщШшЮюЯяЬьЪъ"
-                        + "АаБбВвГгДдЕеЄЄЖжЗзИиЙйІіЇїКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчЩщШшЮюЯяЬь";
+                parameter.characters = alphabet;
                 parameter.size = size;
 
                 BitmapFont bitmapFont = generator.generateFont(parameter);
@@ -104,7 +112,7 @@ public class FontProvider implements Disposable {
 
             generator.dispose();
 
-            map.put(font, variants);
+            mapHd.put(font, variants);
         }
     }
 
@@ -112,6 +120,15 @@ public class FontProvider implements Disposable {
     public void dispose() {
 
         Log.i(tag, "dispose");
+
+        for (String font : mapHd.keySet()) {
+            HashMap<Integer, BitmapFont> variants = mapHd.get(font);
+            for (Integer size : variants.keySet()) {
+                variants.get(size).dispose();
+            }
+            variants.clear();
+        }
+        mapHd.clear();
 
         for (String font : map.keySet()) {
             HashMap<Integer, BitmapFont> variants = map.get(font);
