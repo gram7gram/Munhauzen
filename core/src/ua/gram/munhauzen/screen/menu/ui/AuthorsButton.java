@@ -13,6 +13,8 @@ public class AuthorsButton extends MenuButton {
     public AuthorsButton(final MenuScreen screen) {
         super(screen);
 
+        iconSize = 50;
+
         create("Creators", new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

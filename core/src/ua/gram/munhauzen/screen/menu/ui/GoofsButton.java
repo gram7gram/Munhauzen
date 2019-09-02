@@ -15,6 +15,8 @@ public class GoofsButton extends MenuButton {
 
         hasLock = screen.game.gameState.failsState.hasUpdates;
 
+        iconSize = 50;
+
         create("Goofs", new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

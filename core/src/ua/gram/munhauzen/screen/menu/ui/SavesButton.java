@@ -13,6 +13,8 @@ public class SavesButton extends MenuButton {
     public SavesButton(final MenuScreen screen) {
         super(screen);
 
+        iconSize = 55;
+
         create("Saves", new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

@@ -39,7 +39,7 @@ public class LogoScreen implements Screen {
         Image logo = new Image(new Texture("logo_500.png"));
 
         Label title = new Label("creative studio\n\"Fingertips and Company\"\npresents", new Label.LabelStyle(
-                game.fontProvider.getFont(FontProvider.BuxtonSketch, FontProvider.h2),
+                game.fontProvider.getFont(FontProvider.h2),
                 Color.BLACK
         ));
         title.setWrap(true);
@@ -49,7 +49,7 @@ public class LogoScreen implements Screen {
         root.setFillParent(true);
         root.pad(10);
         root.add(logo).size(MunhauzenGame.WORLD_WIDTH * .5f).pad(10).row();
-        root.add(title).width(MunhauzenGame.WORLD_WIDTH * .7f).row();
+        root.add(title).width(MunhauzenGame.WORLD_WIDTH * .9f).row();
 
         root.setVisible(false);
         root.addAction(
