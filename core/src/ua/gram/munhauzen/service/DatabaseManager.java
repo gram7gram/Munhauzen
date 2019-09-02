@@ -1,6 +1,5 @@
 package ua.gram.munhauzen.service;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.Json;
@@ -8,10 +7,7 @@ import com.badlogic.gdx.utils.JsonWriter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.List;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.AchievementState;
@@ -69,25 +65,25 @@ public class DatabaseManager {
         if (!file.exists()) return null;
 
         String raw = null;
-        try {
-            List<String> content = java.nio.file.Files.readAllLines(
-                    Paths.get(Gdx.files.getExternalStoragePath() + "/" + file.path()), StandardCharsets.UTF_8);
-
-            Log.i(tag, "" + content);
-
-            StringBuilder sb = new StringBuilder();
-            for (String s : content) {
-                sb.append(s);
-            }
-
-            raw = sb.toString();
-
-        } catch (Throwable e) {
-            Log.e(tag, e);
-        }
+//        try {
+//            List<String> content = java.nio.file.Files.readAllLines(
+//                    Paths.get(Gdx.files.getExternalStoragePath() + "/" + file.path()), StandardCharsets.UTF_8);
+//
+//            Log.i(tag, "" + content);
+//
+//            StringBuilder sb = new StringBuilder();
+//            for (String s : content) {
+//                sb.append(s);
+//            }
+//
+//            raw = sb.toString();
+//
+//        } catch (Throwable e) {
+//            Log.e(tag, e);
+//        }
 
         //MOTHERFUCKA RETURNS "" SOMETIMES!
-//        raw = file.readString("UTF-8");
+        raw = file.readString("UTF-8");
 
         if (raw == null || raw.equals("")) {
             throw new GdxRuntimeException("Expansion info exists but invalid");
@@ -124,11 +120,13 @@ public class DatabaseManager {
 
         Log.i(tag, "loadExternal");
 
-        state.expansionInfo = loadExpansionInfo();
-
         if (state.expansionInfo == null) {
-            Log.e(tag, "No expansion info. Load canceled");
-            return;
+            state.expansionInfo = loadExpansionInfo();
+
+            if (state.expansionInfo == null) {
+                Log.e(tag, "No expansion info. Load canceled");
+                return;
+            }
         }
 
         try {

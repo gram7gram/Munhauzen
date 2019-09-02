@@ -25,7 +25,7 @@ android {
     }
     defaultConfig {
         applicationId "ua.gram.munhauzen"
-        minSdkVersion 26
+        minSdkVersion 19
         targetSdkVersion 28
         versionCode APP_VERSION_CODE as Integer
         versionName APP_VERSION_NAME

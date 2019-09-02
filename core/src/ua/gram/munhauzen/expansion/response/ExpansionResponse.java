@@ -34,6 +34,7 @@ public class ExpansionResponse implements JsonEntry {
                 && locale.equals(expansion.locale)
                 && device.equals(expansion.device)
                 && dpi.equals(expansion.dpi)
-                && parts.count == expansion.parts.count;
+//                && parts.count == expansion.parts.count
+                ;
     }
 }
