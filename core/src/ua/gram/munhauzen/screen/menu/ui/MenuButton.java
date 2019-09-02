@@ -25,7 +25,7 @@ import ua.gram.munhauzen.ui.FitImage;
 public abstract class MenuButton extends Stack {
 
     final MenuScreen screen;
-    float iconSize, buttonSize;
+    float iconSize = 60, buttonSize;
     AnimatedImage animation;
     public boolean hasLock;
     Actor lock;
@@ -36,7 +36,6 @@ public abstract class MenuButton extends Stack {
     public MenuButton(MenuScreen screen) {
         this.screen = screen;
 
-        iconSize = MunhauzenGame.WORLD_HEIGHT * .05f;
         buttonSize = MunhauzenGame.WORLD_WIDTH * .45f;
 
         enabledBack = new SpriteDrawable(new Sprite(

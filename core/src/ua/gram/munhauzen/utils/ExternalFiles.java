@@ -137,21 +137,24 @@ public class ExternalFiles {
     }
 
     public static FileHandle getExternal(String name) {
+        if (MunhauzenGame.IS_EXPANSION_HIDDEN) {
+            return Gdx.files.external(".Munhauzen/ua.gram.munhauzen.any/" + name);
+        } else {
+            return Gdx.files.external("Munhauzen/ua.gram.munhauzen.any/" + name);
+        }
+    }
 
+    public static void moveExpansionIfNeeded() {
         if (MunhauzenGame.IS_EXPANSION_HIDDEN) {
             FileHandle dir = Gdx.files.external("Munhauzen");
             if (dir.isDirectory()) {
                 dir.moveTo(Gdx.files.external(".Munhauzen"));
             }
-
-            return Gdx.files.external(".Munhauzen/ua.gram.munhauzen.any/" + name);
         } else {
             FileHandle dir = Gdx.files.external(".Munhauzen");
             if (dir.isDirectory()) {
                 dir.moveTo(Gdx.files.external("Munhauzen"));
             }
-
-            return Gdx.files.external("Munhauzen/ua.gram.munhauzen.any/" + name);
         }
     }
 }

@@ -5,27 +5,21 @@ import com.badlogic.gdx.math.Vector2;
 public class SimpleTrajectoryProvider {
 
     private static final Vector2[] t1 = new Vector2[]{
-            new Vector2(0, 10),//duplicate
-            new Vector2(0, 10),
+            new Vector2(-5, -5),
             new Vector2(50, 50),
-            new Vector2(100, -10),
-            new Vector2(100, -10),//duplicate
+            new Vector2(100, -5),
     };
 
     private static final Vector2[] t2 = new Vector2[]{
-            new Vector2(0, 0),//duplicate
-            new Vector2(0, 0),
+            new Vector2(-5, -5),
             new Vector2(40, 70),
-            new Vector2(100, -10),
-            new Vector2(100, -10),//duplicate
+            new Vector2(100, -5),
     };
 
     private static final Vector2[] t3 = new Vector2[]{
-            new Vector2(0, 10),//duplicate
-            new Vector2(0, 10),
+            new Vector2(-5, -5),
             new Vector2(60, 50),
-            new Vector2(100, -10),
-            new Vector2(100, -10),//duplicate
+            new Vector2(100, -5),
     };
 
     private static Vector2[][] trajectories = new Vector2[][]{

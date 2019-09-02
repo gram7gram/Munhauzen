@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.screen.MenuScreen;
 import ua.gram.munhauzen.screen.menu.ui.ProBanner;
 import ua.gram.munhauzen.ui.Fragment;
@@ -22,6 +23,7 @@ public class ProFragment extends Fragment {
     FragmentRoot root;
     public boolean isFadeIn;
     public boolean isFadeOut;
+    StoryAudio audio;
 
     public ProFragment(MenuScreen screen) {
         this.screen = screen;
@@ -75,6 +77,8 @@ public class ProFragment extends Fragment {
 
             root.setTouchable(Touchable.disabled);
 
+            screen.game.params.appStore.openRateUrl();
+
             fadeOut(new Runnable() {
                 @Override
                 public void run() {
@@ -117,7 +121,7 @@ public class ProFragment extends Fragment {
                 })
         ));
 
-        screen.game.sfxService.onProBannerShown();
+        audio = screen.game.sfxService.onProBannerShown();
     }
 
     public boolean canFadeOut() {
@@ -174,5 +178,15 @@ public class ProFragment extends Fragment {
     @Override
     public Actor getRoot() {
         return root;
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+
+        if (audio != null) {
+            screen.game.sfxService.dispose(audio);
+            audio = null;
+        }
     }
 }

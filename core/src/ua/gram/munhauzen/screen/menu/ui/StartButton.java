@@ -1,6 +1,5 @@
 package ua.gram.munhauzen.screen.menu.ui;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
@@ -28,8 +27,6 @@ public class StartButton extends MenuButton {
 
     @Override
     AnimatedImage createAnimationIcon() {
-        return new CrownAnimation(
-                screen.assetManager.get("menu/icon_crown_sheet_1x9.png", Texture.class)
-        );
+        return new CrownAnimation(screen);
     }
 }

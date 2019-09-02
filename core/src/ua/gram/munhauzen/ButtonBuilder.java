@@ -61,6 +61,44 @@ public class ButtonBuilder {
         return button;
     }
 
+    public PrimaryButton primaryRose(String text, final ClickListener onClick) {
+
+        NinePatchDrawable background1 = new NinePatchDrawable(new NinePatch(
+                game.assetManager.get("ui/btn_rose_enabled.png", Texture.class),
+                30, 30, 0, 0));
+        NinePatchDrawable background2 = new NinePatchDrawable(new NinePatch(
+                game.assetManager.get("ui/btn_rose_enabled.png", Texture.class),
+                30, 30, 0, 0));
+
+        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
+        style.font = game.fontProvider.getFont(FontProvider.h4);
+        style.up = background1;
+        style.down = background1;
+        style.disabled = background2;
+        style.fontColor = Color.BLACK;
+
+        final PrimaryButton button = new PrimaryButton(text, style);
+
+        button.addCaptureListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                if (game.sfxService == null) return;
+
+                if (button.isDisabled()) {
+                    game.sfxService.onAnyDisabledBtnClicked();
+                } else {
+                    game.sfxService.onAnyBtnClicked();
+                }
+            }
+        });
+
+        button.addListener(onClick);
+
+        return button;
+    }
+
     public PrimaryButton danger(String text, final ClickListener onClick) {
 
         NinePatchDrawable background1 = new NinePatchDrawable(new NinePatch(dangerEnabled, 30, 30, 0, 0));

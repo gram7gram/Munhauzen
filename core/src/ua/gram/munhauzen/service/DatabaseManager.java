@@ -1,13 +1,17 @@
 package ua.gram.munhauzen.service;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.AchievementState;
@@ -57,7 +61,6 @@ public class DatabaseManager {
     public DatabaseManager(MunhauzenGame game) {
         this.game = game;
         om = new ObjectMapper();
-        om.configure(JsonParser.Feature.AUTO_CLOSE_SOURCE, true);
     }
 
     public ExpansionResponse loadExpansionInfo() {
@@ -65,35 +68,63 @@ public class DatabaseManager {
         FileHandle file = ExternalFiles.getExpansionInfoFile(game.params);
         if (!file.exists()) return null;
 
-        return loadExpansionInfo(file.readString());
+        String raw = null;
+        try {
+            List<String> content = java.nio.file.Files.readAllLines(
+                    Paths.get(Gdx.files.getExternalStoragePath() + "/" + file.path()), StandardCharsets.UTF_8);
+
+            Log.i(tag, "" + content);
+
+            StringBuilder sb = new StringBuilder();
+            for (String s : content) {
+                sb.append(s);
+            }
+
+            raw = sb.toString();
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+
+        //MOTHERFUCKA RETURNS "" SOMETIMES!
+//        raw = file.readString("UTF-8");
+
+        if (raw == null || raw.equals("")) {
+            throw new GdxRuntimeException("Expansion info exists but invalid");
+        }
+
+        return loadExpansionInfo(raw);
     }
 
     public ExpansionResponse loadExpansionInfo(String raw) {
 
         try {
-            ExpansionResponse result = om.readValue(raw, ExpansionResponse.class);
 
-            if (result != null && result.version == game.params.versionCode) {
-                return result;
+            if (raw != null && !raw.equals("")) {
+
+                ExpansionResponse result = om.readValue(raw, ExpansionResponse.class);
+
+                if (result != null) {
+                    if (result.version == game.params.versionCode) {
+                        return result;
+                    } else {
+                        Log.e(tag, "Obsolete expansion info v" + result.version);
+                        return null;
+                    }
+                }
             }
         } catch (Throwable e) {
             Log.e(tag, e);
         }
 
-        Log.e(tag, "Obsolete expansion info. Raw\n" + raw);
-
-        return null;
+        throw new GdxRuntimeException("Invalid expansion info. Raw\n" + raw);
     }
 
     public void loadExternal(GameState state) {
 
         Log.i(tag, "loadExternal");
 
-        try {
-            state.expansionInfo = loadExpansionInfo();
-        } catch (Throwable e) {
-            Log.e(tag, e);
-        }
+        state.expansionInfo = loadExpansionInfo();
 
         if (state.expansionInfo == null) {
             Log.e(tag, "No expansion info. Load canceled");
@@ -292,33 +323,38 @@ public class DatabaseManager {
 
         FileHandle file = ExternalFiles.getExpansionInfoFile(game.params);
 
-        om.writeValue(file.file(), state);
+        if (state != null)
+            om.writeValue(file.file(), state);
     }
 
     public void persistAchievementState(AchievementState state) throws IOException {
 
         FileHandle file = ExternalFiles.getAchievementStateFile();
 
-        om.writeValue(file.file(), state);
+        if (state != null)
+            om.writeValue(file.file(), state);
     }
 
     public void persistGalleryState(GalleryState state) throws IOException {
 
         FileHandle file = ExternalFiles.getGalleryStateFile();
 
-        om.writeValue(file.file(), state);
+        if (state != null)
+            om.writeValue(file.file(), state);
     }
 
     public void persistMenuState(MenuState state) throws IOException {
         FileHandle file = ExternalFiles.getMenuStateFile();
 
-        om.writeValue(file.file(), state);
+        if (state != null)
+            om.writeValue(file.file(), state);
     }
 
     public void persistFailsState(FailsState state) throws IOException {
         FileHandle file = ExternalFiles.getFailsStateFile();
 
-        om.writeValue(file.file(), state);
+        if (state != null)
+            om.writeValue(file.file(), state);
     }
 
     public void persistHistory(History history) throws IOException {
@@ -444,7 +480,7 @@ public class DatabaseManager {
         }
 
         if (state == null) {
-            state = new Save();
+            state = new Save(id);
         }
 
         return state;

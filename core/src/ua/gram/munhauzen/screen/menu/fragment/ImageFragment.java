@@ -902,7 +902,7 @@ public class ImageFragment extends Fragment {
 
             screen.assetManager.finishLoading();
 
-            animate(screen.assetManager.get(resource, Texture.class), 3, 3, 9);
+            animate(screen.assetManager.get(resource, Texture.class), 3, 3, 9, .1f);
         }
 
         @Override
@@ -929,12 +929,12 @@ public class ImageFragment extends Fragment {
 
         @Override
         public float getInterval() {
-            return 60;
+            return 5;
         }
 
         @Override
         public float getDelay() {
-            return 60;
+            return 5;
         }
     }
 
@@ -1068,7 +1068,7 @@ public class ImageFragment extends Fragment {
 
             screen.assetManager.finishLoading();
 
-            animate(screen.assetManager.get(resource, Texture.class), 3, 3, 6, .13f);
+            animate(screen.assetManager.get(resource, Texture.class), 2, 3, 6, .13f);
         }
 
         @Override

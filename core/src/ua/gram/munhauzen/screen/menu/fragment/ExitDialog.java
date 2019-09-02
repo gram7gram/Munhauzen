@@ -24,6 +24,7 @@ import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.screen.MenuScreen;
 import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.ui.Fragment;
@@ -77,14 +78,14 @@ public class ExitDialog extends Fragment {
                 try {
                     root.setTouchable(Touchable.disabled);
 
-                    int delay = game.sfxService.onExitYesClicked();
+                    StoryAudio storyAudio = game.sfxService.onExitYesClicked();
 
                     Timer.instance().scheduleTask(new Timer.Task() {
                         @Override
                         public void run() {
                             onYesClicked();
                         }
-                    }, delay / 1000f);
+                    }, storyAudio.duration / 1000f);
 
                 } catch (Throwable e) {
                     Log.e(tag, e);

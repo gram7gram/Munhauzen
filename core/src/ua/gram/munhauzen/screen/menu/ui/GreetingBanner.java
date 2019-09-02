@@ -26,20 +26,19 @@ public class GreetingBanner extends Banner {
 
     @Override
     Texture getBackgroundTexture() {
-        return screen.assetManager.get("ui/banner_fond_1.png", Texture.class);
+        return screen.assetManager.get("ui/banner_fond_0.png", Texture.class);
     }
 
     @Override
     Table createContent() {
 
         String[] sentences = {
-                "Приветствуем, друзья!",
-                "Наша команда вложила силы и душу в даный проэкт! И да, дорогие слушатели, я не побоюсь его назвать шедевром! Да, не побоюсь!",
-                "Надеемся, что наша аудиокнига внесёт в вашу жизнь много прекрасных позитивных эмоцций, и пусть на лице озарится улыбка!",
-                "Слушайте и наслаждайтесь!",
+                "Greetings!",
+                "Our team had put strength and soul into this audiobook! We hope that our it will bring a lot of wonderful and positive emotions to you, and let a smile lit up your face!",
+                "Listen and enjoy!",
         };
 
-        float minWidth = MunhauzenGame.WORLD_WIDTH * .7f;
+        float minWidth = MunhauzenGame.WORLD_WIDTH * .9f;
 
         Table content = new Table();
         content.pad(20, 70, 40, 70);

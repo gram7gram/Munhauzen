@@ -3,6 +3,7 @@ package ua.gram.munhauzen.screen.loading.fragment;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.MunhauzenGame;
@@ -23,16 +24,15 @@ import ua.gram.munhauzen.screen.loading.ui.Hat1;
 import ua.gram.munhauzen.screen.loading.ui.Hat2;
 import ua.gram.munhauzen.screen.loading.ui.Hat3;
 import ua.gram.munhauzen.screen.loading.ui.Moon;
-import ua.gram.munhauzen.screen.loading.ui.NotRotatingObject;
 import ua.gram.munhauzen.screen.loading.ui.Painting;
 import ua.gram.munhauzen.screen.loading.ui.RotatingObject;
 import ua.gram.munhauzen.screen.loading.ui.Sheep;
 import ua.gram.munhauzen.screen.loading.ui.Shoes;
 import ua.gram.munhauzen.screen.loading.ui.Shovel;
+import ua.gram.munhauzen.screen.loading.ui.SlowRotatingObject;
 import ua.gram.munhauzen.screen.loading.ui.Statue;
 import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.utils.Log;
-import ua.gram.munhauzen.utils.MathUtils;
 import ua.gram.munhauzen.utils.Random;
 
 /**
@@ -47,8 +47,7 @@ public class ImageFragment extends InteractionFragment {
     Balloon balloon;
     Random r;
     RotatingObject painting, hair, axe, bomb, clock, shoes, statue, moon;
-    NotRotatingObject baron, cup, dog, shovel, sheep;
-    int nextCount;
+    SlowRotatingObject baron, cup, dog, shovel, sheep;
 
     public ImageFragment(LoadingScreen screen) {
         this.screen = screen;
@@ -168,6 +167,7 @@ public class ImageFragment extends InteractionFragment {
         }
 
         root = new FragmentRoot();
+        root.setTouchable(Touchable.disabled);
         root.addContainer(items);
 
         Timer.instance().scheduleTask(new Timer.Task() {
@@ -175,6 +175,8 @@ public class ImageFragment extends InteractionFragment {
             public void run() {
                 if (isMounted())
                     ducks.start();
+                else
+                    cancel();
             }
         }, 40, 40);
 
@@ -183,16 +185,26 @@ public class ImageFragment extends InteractionFragment {
             public void run() {
                 if (isMounted())
                     balloon.start();
+                else
+                    cancel();
             }
         }, 60, 60);
 
         Timer.instance().scheduleTask(new Timer.Task() {
+
+            final Hat[] items = {
+                    hat1, hat2, hat3
+            };
+            int count = -1;
+
             @Override
             public void run() {
 
-                Hat next = MathUtils.random(new Hat[]{
-                        hat1, hat2, hat3
-                });
+                ++count;
+
+                if (count == items.length) count = 0;
+
+                Hat next = items[count];
 
                 if (isMounted()) {
                     next.start();
@@ -212,20 +224,25 @@ public class ImageFragment extends InteractionFragment {
 
     private void scheduleNext() {
 
-        final RotatingObject[] items = new RotatingObject[]{
-                hair, painting, bomb, clock, statue, baron, moon, sheep,
-                axe, shoes, dog, cup, shovel,
-        };
-
         Timer.instance().scheduleTask(new Timer.Task() {
+
+            final RotatingObject[] items = {
+                    painting, statue,
+                    hair, bomb, clock,
+                    baron, moon, sheep,
+                    axe, shoes, dog, cup, shovel,
+            };
+
+            int count = -1;
+
             @Override
             public void run() {
 
-                ++nextCount;
+                ++count;
 
-                if (nextCount == items.length) nextCount = 0;
+                if (count == items.length) count = 0;
 
-                RotatingObject next = items[nextCount];
+                RotatingObject next = items[count];
                 if (isMounted()) {
                     next.start();
                 } else {
@@ -233,7 +250,7 @@ public class ImageFragment extends InteractionFragment {
                 }
 
             }
-        }, 2, 5);
+        }, 1, 3);
     }
 
     public void update() {

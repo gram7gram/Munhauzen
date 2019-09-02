@@ -1,6 +1,5 @@
 package ua.gram.munhauzen.screen.menu.ui;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
@@ -26,8 +25,6 @@ public class AuthorsButton extends MenuButton {
 
     @Override
     AnimatedImage createAnimationIcon() {
-        return new HelmAnimation(
-                screen.assetManager.get("menu/icon_helm_sheet_1x5.png", Texture.class)
-        );
+        return new HelmAnimation(screen);
     }
 }

@@ -8,4 +8,6 @@ public class AchievementState implements JsonEntry {
     public boolean areAllImagesUnlocked;
     @JsonProperty
     public boolean areAllGoofsUnlocked;
+    @JsonProperty
+    public boolean areAllMenuInventoryUnlocked;
 }

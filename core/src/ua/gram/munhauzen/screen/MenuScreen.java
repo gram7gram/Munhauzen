@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.entity.AchievementState;
 import ua.gram.munhauzen.entity.AudioFail;
 import ua.gram.munhauzen.entity.Image;
 import ua.gram.munhauzen.entity.MenuState;
@@ -55,6 +56,8 @@ public class MenuScreen extends AbstractScreen {
         assetManager.load("menu/icon_lion_sheet_1x8.png", Texture.class);
         assetManager.load("menu/icon_rose_sheet_1x6.png", Texture.class);
         assetManager.load("menu/icon_shield_sheet_1x8.png", Texture.class);
+        assetManager.load("menu/icon_cannons_sheet_1x14.png", Texture.class);
+
         assetManager.load("menu/mmv_btn.png", Texture.class);
         assetManager.load("menu/mmv_fond_1.jpg", Texture.class);
         assetManager.load("menu/b_share.png", Texture.class);
@@ -126,6 +129,7 @@ public class MenuScreen extends AbstractScreen {
 
     private void openBannerIfNeeded() {
         MenuState menuState = game.gameState.menuState;
+        AchievementState achievementState = game.gameState.achievementState;
 
         int openCount = menuState.openCount;
 
@@ -170,12 +174,10 @@ public class MenuScreen extends AbstractScreen {
                         openVersionBanner();
                     }
                 }, 2);
-            } else {
-                if (menuState.isFirstVisit) {
-                    menuState.isFirstVisit = false;
+            } else if (achievementState.areAllGoofsUnlocked && achievementState.areAllImagesUnlocked) {
 
-                    game.sfxService.onFirstVisitToMenu();
-                }
+                game.sfxService.onAllGoofsAndImagesUnlocked();
+
             }
         }
 

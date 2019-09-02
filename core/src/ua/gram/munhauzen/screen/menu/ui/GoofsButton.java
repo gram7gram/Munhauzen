@@ -1,13 +1,12 @@
 package ua.gram.munhauzen.screen.menu.ui;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import ua.gram.munhauzen.animation.AnimatedImage;
 import ua.gram.munhauzen.screen.FailsScreen;
 import ua.gram.munhauzen.screen.MenuScreen;
-import ua.gram.munhauzen.screen.menu.animation.RoseAnimation;
+import ua.gram.munhauzen.screen.menu.animation.LionAnimation;
 
 public class GoofsButton extends MenuButton {
 
@@ -30,8 +29,6 @@ public class GoofsButton extends MenuButton {
 
     @Override
     AnimatedImage createAnimationIcon() {
-        return new RoseAnimation(
-                screen.assetManager.get("menu/icon_rose_sheet_1x6.png", Texture.class)
-        );
+        return new LionAnimation(screen);
     }
 }

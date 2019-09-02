@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.Audio;
+import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.repository.AudioRepository;
 import ua.gram.munhauzen.utils.Log;
 import ua.gram.munhauzen.utils.MathUtils;
@@ -18,8 +19,8 @@ public class SfxService {
         this.game = game;
     }
 
-    public void onDemoBannerShown() {
-        prepareAndPlay("sfx_menu_buy");
+    public StoryAudio onDemoBannerShown() {
+        return prepareAndPlay("sfx_menu_buy");
     }
 
     public void onTimerBombExploded() {
@@ -38,8 +39,8 @@ public class SfxService {
         prepareAndPlay("sfx_button_list");
     }
 
-    public void onGreetingBannerShown() {
-        prepareAndPlay("sfx_menu_hello");
+    public StoryAudio onGreetingBannerShown() {
+        return prepareAndPlay("sfx_menu_intro");
     }
 
     public void onAllImagesUnlocked() {
@@ -54,13 +55,8 @@ public class SfxService {
         prepareAndPlay("sfx_menu_win_all");
     }
 
-    public void onFirstVisitToMenu() {
-        prepareAndPlay("sfx_menu_intro", new Timer.Task() {
-            @Override
-            public void run() {
-                prepareAndPlay("sfx_menu_intro_2");
-            }
-        });
+    public void onAllMenuInventoryUnlocked() {
+        prepareAndPlay("sfx_menu_win_items");
     }
 
     public void onLoadingVisited() {
@@ -89,22 +85,29 @@ public class SfxService {
         }));
     }
 
-    public void onShareBannerShown() {
-        prepareAndPlay(MathUtils.random(new String[]{
+    public StoryAudio onShareBannerShown() {
+        return prepareAndPlay(MathUtils.random(new String[]{
                 "sfx_menu_share_1", "sfx_menu_share_2",
                 "sfx_menu_share_3", "sfx_menu_share_4"
         }));
     }
 
-    public void onRateBannerShown() {
-        prepareAndPlay(MathUtils.random(new String[]{
+    public StoryAudio onRateBannerShown() {
+        return prepareAndPlay(MathUtils.random(new String[]{
                 "sfx_menu_rate_1", "sfx_menu_rate_2",
                 "sfx_menu_rate_3", "sfx_menu_rate_4"
         }));
     }
 
-    public void onProBannerShown() {
-        prepareAndPlay(MathUtils.random(new String[]{
+    public StoryAudio onThankYouBannerShown() {
+        return prepareAndPlay(MathUtils.random(new String[]{
+                "sfx_menu_rate_1", "sfx_menu_rate_2",
+                "sfx_menu_rate_3", "sfx_menu_rate_4"
+        }));
+    }
+
+    public StoryAudio onProBannerShown() {
+        return prepareAndPlay(MathUtils.random(new String[]{
                 "sfx_menu_thanks", "sfx_menu_thanks_1",
                 "sfx_menu_thanks_2", "sfx_menu_thanks_3",
                 "sfx_menu_thanks_4", "sfx_menu_thanks_5",
@@ -136,7 +139,7 @@ public class SfxService {
         }));
     }
 
-    public int onExitYesClicked() {
+    public StoryAudio onExitYesClicked() {
         return prepareAndPlay(MathUtils.random(new String[]{
                 "sfx_menu_exit_1", "sfx_menu_exit_2",
                 "sfx_menu_exit_3", "sfx_menu_exit_4",
@@ -209,14 +212,14 @@ public class SfxService {
 
     }
 
-    private int prepareAndPlay(String sfx) {
+    private StoryAudio prepareAndPlay(String sfx) {
         return prepareAndPlay(sfx, null);
     }
 
-    private int prepareAndPlay(String sfx, final Timer.Task onComplete) {
+    private StoryAudio prepareAndPlay(String sfx, final Timer.Task onComplete) {
 
         try {
-            if (game.expansionAssetManager == null) return 0;
+            if (game.expansionAssetManager == null) return null;
 
             final Audio audio = AudioRepository.find(game.gameState, sfx);
 
@@ -227,20 +230,25 @@ public class SfxService {
             Music sound = game.expansionAssetManager.get(audio.file, Music.class);
             sound.play();
 
+            final StoryAudio storyAudio = new StoryAudio();
+            storyAudio.audio = sfx;
+            storyAudio.resource = audio.file;
+            storyAudio.player = sound;
+            storyAudio.duration = audio.duration;
+
             sound.setOnCompletionListener(new Music.OnCompletionListener() {
                 @Override
                 public void onCompletion(Music music) {
-                    if (game.expansionAssetManager != null) {
-                        game.expansionAssetManager.unload(audio.file);
 
-                        if (onComplete != null) {
-                            Timer.post(onComplete);
-                        }
+                    dispose(storyAudio);
+
+                    if (onComplete != null) {
+                        Timer.post(onComplete);
                     }
                 }
             });
 
-            return audio.duration;
+            return storyAudio;
 
         } catch (Throwable e) {
             Log.e(tag, e);
@@ -248,7 +256,7 @@ public class SfxService {
             //game.onCriticalError(e);
         }
 
-        return 0;
+        return null;
     }
 
     private void prepareAndPlayInternal(String sfx) {
@@ -265,12 +273,15 @@ public class SfxService {
             Music sound = game.assetManager.get(file, Music.class);
             sound.play();
 
+            final StoryAudio storyAudio = new StoryAudio();
+            storyAudio.audio = sfx;
+            storyAudio.resource = file;
+            storyAudio.player = sound;
+
             sound.setOnCompletionListener(new Music.OnCompletionListener() {
                 @Override
                 public void onCompletion(Music music) {
-                    if (game.assetManager != null) {
-                        game.assetManager.unload(file);
-                    }
+                    dispose(storyAudio);
                 }
             });
 
@@ -279,5 +290,46 @@ public class SfxService {
 
             game.onCriticalError(e);
         }
+    }
+
+    public void dispose(StoryAudio storyAudio) {
+
+        if (storyAudio.player != null) {
+            storyAudio.player.stop();
+            storyAudio.player = null;
+        }
+
+        if (game.expansionAssetManager != null) {
+            game.expansionAssetManager.unload(storyAudio.resource);
+        }
+    }
+
+    public void onLoadOptionClicked() {
+        prepareAndPlay("sfx_menu_download_question");
+    }
+
+    public void onLoadOptionYesClicked() {
+        prepareAndPlay("sfx_menu_download_yes");
+
+    }
+
+    public void onLoadOptionNoClicked() {
+        prepareAndPlay("sfx_menu_download_no");
+
+    }
+
+    public void onSaveOptionClicked() {
+        prepareAndPlay("sfx_menu_save_question");
+
+    }
+
+    public void onSaveOptionYesClicked() {
+        prepareAndPlay("sfx_menu_save_yes");
+
+    }
+
+    public void onSaveOptionNoClicked() {
+        prepareAndPlay("sfx_menu_save_no");
+
     }
 }

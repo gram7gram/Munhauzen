@@ -27,7 +27,7 @@ public class MunhauzenGame extends Game {
     public static int WORLD_HEIGHT;
     public static boolean PAUSED = false;
     public static final boolean DEBUG = false;
-    public static final boolean IS_EXPANSION_HIDDEN = true;
+    public static final boolean IS_EXPANSION_HIDDEN = false;
     public static final boolean DEBUG_RENDER_INFO = true;
     public static final boolean CAN_REMOVE_PREVIOUS_EXPANSION = true;
     public static final int PROGRESS_BAR_FADE_OUT_DELAY = 5;
@@ -68,6 +68,8 @@ public class MunhauzenGame extends Game {
         Log.i(tag, "create");
 
         Gdx.input.setCatchBackKey(true);
+
+        ExternalFiles.moveExpansionIfNeeded();
 
         ExternalFiles.updateNomedia();
 
@@ -169,6 +171,8 @@ public class MunhauzenGame extends Game {
             databaseManager.loadExternal(gameState);
         } catch (Throwable e) {
             Log.e(tag, e);
+
+            onCriticalError(e);
         }
     }
 
@@ -184,6 +188,8 @@ public class MunhauzenGame extends Game {
         assetManager.load("ui/b_primary_sm_disabled.png", Texture.class);
         assetManager.load("ui/b_danger_sm_enabled.png", Texture.class);
         assetManager.load("ui/b_danger_sm_disabled.png", Texture.class);
+        assetManager.load("ui/btn_rose_enabled.png", Texture.class);
+        assetManager.load("ui/btn_rose_disabled.png", Texture.class);
     }
 
     private void createCamera() {

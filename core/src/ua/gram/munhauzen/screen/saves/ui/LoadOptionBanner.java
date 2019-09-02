@@ -10,7 +10,6 @@ import com.badlogic.gdx.utils.Align;
 
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
-import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.screen.saves.fragment.OptionsFragment;
 import ua.gram.munhauzen.ui.PrimaryButton;
 import ua.gram.munhauzen.utils.Log;
@@ -18,26 +17,15 @@ import ua.gram.munhauzen.utils.Log;
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class OptionsBanner extends Banner {
+public class LoadOptionBanner extends Banner {
 
     private final String tag = getClass().getSimpleName();
     public final OptionsFragment fragment;
-    PrimaryButton startBtn, saveBtn;
 
-    public OptionsBanner(OptionsFragment fragment) {
+    public LoadOptionBanner(OptionsFragment fragment) {
         super(fragment.screen);
 
         this.fragment = fragment;
-    }
-
-    @Override
-    public void act(float delta) {
-        super.act(delta);
-
-        GameState state = screen.game.gameState;
-
-        startBtn.setDisabled(fragment.save.chapter == null);
-        saveBtn.setDisabled(state.activeSave.chapter == null);
     }
 
     @Override
@@ -57,18 +45,18 @@ public class OptionsBanner extends Banner {
 
         float cellMinWidth = minWidth - content.getPadLeft() - content.getPadRight();
 
-        saveBtn = screen.game.buttonBuilder.primary("Save", new ClickListener() {
+        PrimaryButton saveBtn = screen.game.buttonBuilder.primary("Yes", new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                Log.i(tag, "save clicked");
+                Log.i(tag, "yes clicked");
 
                 try {
 
-                    screen.game.sfxService.onSaveOptionClicked();
+                    screen.game.sfxService.onLoadOptionYesClicked();
 
-                    fragment.showSaveOption();
+                    fragment.onStartClicked();
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -78,18 +66,18 @@ public class OptionsBanner extends Banner {
             }
         });
 
-        startBtn = screen.game.buttonBuilder.primary("Start", new ClickListener() {
+        PrimaryButton startBtn = screen.game.buttonBuilder.primary("No", new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                Log.i(tag, "start clicked");
+                Log.i(tag, "no clicked");
 
                 try {
 
-                    screen.game.sfxService.onLoadOptionClicked();
+                    screen.game.sfxService.onLoadOptionNoClicked();
 
-                    fragment.showLoadOption();
+                    fragment.restoreOptions();
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -99,7 +87,7 @@ public class OptionsBanner extends Banner {
             }
         });
 
-        Label title = new Label("What do you wish?", new Label.LabelStyle(
+        Label title = new Label("The story will start from selected save.\nProceed?", new Label.LabelStyle(
                 screen.game.fontProvider.getFont(FontProvider.h2),
                 Color.BLACK
         ));

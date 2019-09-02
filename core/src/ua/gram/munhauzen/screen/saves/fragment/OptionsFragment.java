@@ -16,11 +16,12 @@ import ua.gram.munhauzen.entity.Save;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.screen.SavesScreen;
+import ua.gram.munhauzen.screen.saves.ui.LoadOptionBanner;
 import ua.gram.munhauzen.screen.saves.ui.OptionsBanner;
+import ua.gram.munhauzen.screen.saves.ui.SaveOptionBanner;
 import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.utils.DateUtils;
-import ua.gram.munhauzen.utils.ExternalFiles;
 import ua.gram.munhauzen.utils.Log;
 
 /**
@@ -32,6 +33,9 @@ public class OptionsFragment extends Fragment {
     public final SavesScreen screen;
     public final Save save;
     public FragmentRoot root;
+    OptionsBanner banner;
+    SaveOptionBanner saveOptionBanner;
+    LoadOptionBanner loadOptionBanner;
     StoryAudio yesAudio, noAudio;
 
     public OptionsFragment(SavesScreen screen, Save save) {
@@ -48,7 +52,9 @@ public class OptionsFragment extends Fragment {
 
         Log.i(tag, "create");
 
-        OptionsBanner banner = new OptionsBanner(this);
+        banner = new OptionsBanner(this);
+        saveOptionBanner = new SaveOptionBanner(this);
+        loadOptionBanner = new LoadOptionBanner(this);
 
         Pixmap px = new Pixmap(1, 1, Pixmap.Format.RGBA4444);
         px.setColor(Color.BLACK.r, Color.BLACK.g, Color.BLACK.b, .3f);
@@ -61,6 +67,10 @@ public class OptionsFragment extends Fragment {
         root = new FragmentRoot();
         root.addContainer(c);
         root.addContainer(banner);
+        root.addContainer(saveOptionBanner);
+        root.addContainer(loadOptionBanner);
+
+        restoreOptions();
 
         c.addListener(new ClickListener() {
             @Override
@@ -82,6 +92,24 @@ public class OptionsFragment extends Fragment {
         });
     }
 
+    public void restoreOptions() {
+        banner.setVisible(true);
+        saveOptionBanner.setVisible(false);
+        loadOptionBanner.setVisible(false);
+    }
+
+    public void showSaveOption() {
+        banner.setVisible(false);
+        saveOptionBanner.setVisible(true);
+        loadOptionBanner.setVisible(false);
+    }
+
+    public void showLoadOption() {
+        banner.setVisible(false);
+        saveOptionBanner.setVisible(false);
+        loadOptionBanner.setVisible(true);
+    }
+
     public void onStartClicked() {
         try {
             GameState state = screen.game.gameState;
@@ -89,28 +117,6 @@ public class OptionsFragment extends Fragment {
             state.setActiveSave(save);
 
             screen.navigateTo(new GameScreen(screen.game));
-
-        } catch (Throwable e) {
-            Log.e(tag, e);
-
-            screen.onCriticalError(e);
-        }
-    }
-
-    public void onRemoveClicked() {
-        try {
-            ExternalFiles.getSaveFile(save.id).delete();
-
-            fadeOut(new Runnable() {
-                @Override
-                public void run() {
-                    destroy();
-
-                    screen.recreateSaves();
-
-                    screen.optionsFragment = null;
-                }
-            });
 
         } catch (Throwable e) {
             Log.e(tag, e);

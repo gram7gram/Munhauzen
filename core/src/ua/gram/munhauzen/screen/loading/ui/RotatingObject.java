@@ -54,40 +54,16 @@ public abstract class RotatingObject extends Image {
 
         layout();
 
-        dataSet = SimpleTrajectoryProvider.obtain();
-
-        int direction = MathUtils.random(new Integer[]{
-                -1, 1
-        });
-
-        for (int i = 0; i < dataSet.length; i++) {
-            Vector2 vector2 = dataSet[i];
-
-            if (direction > 0) {
-                if (i == 0) {
-                    vector2.x = -width;
-                } else {
-                    vector2.x *= MunhauzenGame.WORLD_WIDTH / 100f;
-                }
-            } else {
-                if (i == 0) {
-                    vector2.x = MunhauzenGame.WORLD_WIDTH;
-                } else {
-                    vector2.x = (100 - vector2.x) * MunhauzenGame.WORLD_WIDTH / 100f;
-                }
-            }
-
-            vector2.y *= MunhauzenGame.WORLD_HEIGHT / 100f;
-        }
-
-        trajectory = new CatmullRomSpline<>(dataSet, false);
+        createDataset();
 
         int rotation = MathUtils.random(new Integer[]{
                 -25, 25
         });
 
         MoveByTrajectoryAction trajectoryAction = new MoveByTrajectoryAction(trajectory);
-        trajectoryAction.setDuration(3f);
+        trajectoryAction.setDuration(MathUtils.random(new Float[]{
+                5f, 4.8f, 4.5f
+        }));
 
         clearActions();
         addAction(
@@ -102,11 +78,59 @@ public abstract class RotatingObject extends Image {
                                 ),
                                 Actions.sequence(
                                         trajectoryAction,
-                                        Actions.visible(false)
+                                        Actions.visible(false),
+                                        Actions.run(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                trajectory = null;
+                                                dataSet = null;
+                                                pointCache = null;
+                                            }
+                                        })
                                 )
                         )
                 )
         );
+    }
+
+    protected void createDataset() {
+        Vector2[] points = SimpleTrajectoryProvider.obtain();
+
+        int direction = MathUtils.random(new Integer[]{
+                -1, 1
+        });
+
+        dataSet = new Vector2[points.length + 2];
+
+        //Show item outside the screen
+        if (direction > 0) {
+            dataSet[0] = new Vector2(-width, -height);
+        } else {
+            dataSet[0] = new Vector2(MunhauzenGame.WORLD_WIDTH + width, -height);
+        }
+        int i;
+        for (i = 0; i < points.length; i++) {
+            Vector2 vector2 = points[i];
+
+            if (direction > 0) {
+                vector2.x *= MunhauzenGame.WORLD_WIDTH / 100f;
+            } else {
+                vector2.x = (100 - vector2.x) * MunhauzenGame.WORLD_WIDTH / 100f;
+            }
+
+            vector2.y *= MunhauzenGame.WORLD_HEIGHT / 100f;
+
+            dataSet[i + 1] = vector2;
+        }
+
+        //End item outside the screen
+        if (direction > 0) {
+            dataSet[i + 1] = new Vector2(MunhauzenGame.WORLD_WIDTH + width, -height);
+        } else {
+            dataSet[i + 1] = new Vector2(-width, -height);
+        }
+
+        trajectory = new CatmullRomSpline<>(dataSet, true);
 
         updateTrajectoryCache();
     }

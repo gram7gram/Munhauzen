@@ -1,7 +1,5 @@
 package ua.gram.munhauzen.screen.menu.fragment;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -10,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.screen.MenuScreen;
 import ua.gram.munhauzen.screen.menu.ui.GreetingBanner;
 import ua.gram.munhauzen.ui.Fragment;
@@ -22,6 +21,7 @@ public class GreetingFragment extends Fragment {
     FragmentRoot root;
     public boolean isFadeIn;
     public boolean isFadeOut;
+    StoryAudio audio;
 
     public GreetingFragment(MenuScreen screen) {
         this.screen = screen;
@@ -29,20 +29,15 @@ public class GreetingFragment extends Fragment {
 
     public void create() {
 
-        screen.assetManager.load("ui/banner_fond_1.png", Texture.class);
+        screen.assetManager.load("ui/banner_fond_0.png", Texture.class);
         screen.assetManager.load("menu/b_full_version_2.png", Texture.class);
 
         screen.assetManager.finishLoading();
 
         GreetingBanner banner = new GreetingBanner(this);
 
-        Pixmap px = new Pixmap(1, 1, Pixmap.Format.RGBA4444);
-        px.setColor(Color.BLACK.r, Color.BLACK.g, Color.BLACK.b, .3f);
-        px.fill();
-
         Container c = new Container();
         c.setTouchable(Touchable.enabled);
-//        c.setBackground(new SpriteDrawable(new Sprite(new Texture(px))));
 
         root = new FragmentRoot();
         root.addContainer(c);
@@ -53,17 +48,7 @@ public class GreetingFragment extends Fragment {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                if (event.isHandled()) return;
-
-                Log.i(tag, "root clicked");
-
-                fadeOut(new Runnable() {
-                    @Override
-                    public void run() {
-                        destroy();
-                        screen.greetingFragment = null;
-                    }
-                });
+                //ignore
             }
         });
 
@@ -99,7 +84,7 @@ public class GreetingFragment extends Fragment {
                 })
         ));
 
-        screen.game.sfxService.onGreetingBannerShown();
+        audio = screen.game.sfxService.onGreetingBannerShown();
     }
 
     public boolean canFadeOut() {
@@ -156,5 +141,15 @@ public class GreetingFragment extends Fragment {
     @Override
     public Actor getRoot() {
         return root;
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+
+        if (audio != null) {
+            screen.game.sfxService.dispose(audio);
+            audio = null;
+        }
     }
 }

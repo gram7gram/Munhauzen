@@ -1,18 +1,19 @@
 package ua.gram.munhauzen.screen.menu.ui;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import ua.gram.munhauzen.animation.AnimatedImage;
 import ua.gram.munhauzen.screen.DebugScreen;
 import ua.gram.munhauzen.screen.MenuScreen;
-import ua.gram.munhauzen.screen.menu.animation.CrownAnimation;
+import ua.gram.munhauzen.screen.menu.animation.CannonsAnimation;
 
 public class ContinueButton extends MenuButton {
 
     public ContinueButton(final MenuScreen screen) {
         super(screen);
+
+        iconSize = 90;
 
         create("Continue", new ClickListener() {
             @Override
@@ -28,8 +29,6 @@ public class ContinueButton extends MenuButton {
 
     @Override
     AnimatedImage createAnimationIcon() {
-        return new CrownAnimation(
-                screen.assetManager.get("menu/icon_crown_sheet_1x9.png", Texture.class)
-        );
+        return new CannonsAnimation(screen);
     }
 }

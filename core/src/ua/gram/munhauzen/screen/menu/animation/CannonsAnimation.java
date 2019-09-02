@@ -5,15 +5,15 @@ import com.badlogic.gdx.graphics.Texture;
 import ua.gram.munhauzen.animation.AnimatedImage;
 import ua.gram.munhauzen.screen.MenuScreen;
 
-public class LionAnimation extends AnimatedImage {
+public class CannonsAnimation extends AnimatedImage {
 
-    public LionAnimation(MenuScreen screen) {
+    public CannonsAnimation(MenuScreen screen) {
         super();
 
         loop = false;
 
-        animate(screen.assetManager.get("menu/icon_lion_sheet_1x8.png", Texture.class),
-                8, 1, 8);
+        animate(screen.assetManager.get("menu/icon_cannons_sheet_1x14.png", Texture.class),
+                14, 1, 14);
     }
 }
 

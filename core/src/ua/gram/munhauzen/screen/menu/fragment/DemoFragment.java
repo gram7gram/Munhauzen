@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.screen.MenuScreen;
 import ua.gram.munhauzen.screen.menu.ui.DemoBanner;
 import ua.gram.munhauzen.ui.Fragment;
@@ -22,6 +23,7 @@ public class DemoFragment extends Fragment {
     FragmentRoot root;
     public boolean isFadeIn;
     public boolean isFadeOut;
+    StoryAudio audio;
 
     public DemoFragment(MenuScreen screen) {
         this.screen = screen;
@@ -99,7 +101,7 @@ public class DemoFragment extends Fragment {
                 })
         ));
 
-        screen.game.sfxService.onDemoBannerShown();
+        audio = screen.game.sfxService.onDemoBannerShown();
     }
 
     public boolean canFadeOut() {
@@ -175,6 +177,16 @@ public class DemoFragment extends Fragment {
 
         } catch (Throwable e) {
             Log.e(tag, e);
+        }
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+
+        if (audio != null) {
+            screen.game.sfxService.dispose(audio);
+            audio = null;
         }
     }
 }

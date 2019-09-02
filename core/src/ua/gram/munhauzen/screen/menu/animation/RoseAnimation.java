@@ -3,13 +3,17 @@ package ua.gram.munhauzen.screen.menu.animation;
 import com.badlogic.gdx.graphics.Texture;
 
 import ua.gram.munhauzen.animation.AnimatedImage;
+import ua.gram.munhauzen.screen.MenuScreen;
 
 public class RoseAnimation extends AnimatedImage {
 
-    public RoseAnimation(Texture texture) {
-        super(texture);
+    public RoseAnimation(MenuScreen screen) {
+        super();
 
-        animate(texture, 6, 1, 6, 0.08f);
+        loop = false;
+
+        animate(screen.assetManager.get("menu/icon_rose_sheet_1x6.png", Texture.class),
+                6, 1, 6);
     }
 }
 

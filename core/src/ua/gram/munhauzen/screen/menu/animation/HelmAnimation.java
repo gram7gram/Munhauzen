@@ -3,13 +3,17 @@ package ua.gram.munhauzen.screen.menu.animation;
 import com.badlogic.gdx.graphics.Texture;
 
 import ua.gram.munhauzen.animation.AnimatedImage;
+import ua.gram.munhauzen.screen.MenuScreen;
 
 public class HelmAnimation extends AnimatedImage {
 
-    public HelmAnimation(Texture texture) {
-        super(texture);
+    public HelmAnimation(MenuScreen screen) {
+        super();
 
-        animate(texture, 5, 1, 5, 0.08f);
+        loop = false;
+
+        animate(screen.assetManager.get("menu/icon_helm_sheet_1x5.png", Texture.class),
+                5, 1, 5);
     }
 }
 

@@ -397,8 +397,6 @@ public class ControlsFragment extends Fragment {
     }
 
     private void onMenuClicked() {
-        gameScreen.game.sfxService.onBackToMenuClicked();
-
         gameScreen.navigateTo(new MenuScreen(gameScreen.game));
     }
 
@@ -407,11 +405,5 @@ public class ControlsFragment extends Fragment {
         GameState.isMute = !GameState.isMute;
 
         Log.i(tag, "Sound is " + (!GameState.isMute ? "ON" : "OFF"));
-
-        if (GameState.isMute) {
-            gameScreen.game.sfxService.onSoundDisabled();
-        } else {
-            gameScreen.game.sfxService.onSoundEnabled();
-        }
     }
 }

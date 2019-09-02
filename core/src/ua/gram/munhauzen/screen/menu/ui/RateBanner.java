@@ -30,7 +30,7 @@ public class RateBanner extends Banner {
     Table createContent() {
 
         String[] sentences = {
-                "Please, rate out application or leave a positive review",
+                "Please, rate out application and leave a positive review",
         };
 
         float minWidth = MunhauzenGame.WORLD_WIDTH * .7f;

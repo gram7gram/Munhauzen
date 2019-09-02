@@ -43,10 +43,35 @@ public class AchievementService {
 
             checkRelatedInventory();
 
+            checkMenuInventory();
+
         } catch (Throwable e) {
             Log.e(tag, e);
 
             game.onCriticalError(e);
+        }
+    }
+
+    private void checkMenuInventory() {
+
+        if (game.gameState.achievementState.areAllMenuInventoryUnlocked) return;
+
+        boolean hasAll = true;
+
+        for (Inventory item : game.gameState.inventoryRegistry) {
+            if (item.isMenu) {
+                if (!game.inventoryService.isInInventory(item)) {
+                    hasAll = false;
+                    break;
+                }
+            }
+        }
+
+        if (hasAll) {
+
+            game.gameState.achievementState.areAllMenuInventoryUnlocked = true;
+
+            game.sfxService.onAllMenuInventoryUnlocked();
         }
     }
 
