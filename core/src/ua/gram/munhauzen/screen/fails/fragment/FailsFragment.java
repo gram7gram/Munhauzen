@@ -232,9 +232,18 @@ public class FailsFragment extends Fragment {
                 super.clicked(event, x, y);
 
                 try {
-                    state.isMunhauzen = !state.isMunhauzen;
 
                     screen.stopAll();
+
+                    screen.game.sfxService.onAnyBtnClicked();
+
+                    state.isMunhauzen = !state.isMunhauzen;
+
+                    if (state.isMunhauzen) {
+                        screen.game.sfxService.onGoofsSwitchClickedForMunhauzen();
+                    } else {
+                        screen.game.sfxService.onGoofsSwitchClickedForDaughter();
+                    }
 
                     screen.failsFragment.destroy();
 

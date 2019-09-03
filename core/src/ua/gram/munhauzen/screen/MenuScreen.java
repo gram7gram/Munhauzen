@@ -72,10 +72,10 @@ public class MenuScreen extends AbstractScreen {
         assetManager.load("menu/b_lock.png", Texture.class);
         assetManager.load("menu/b_full_version.png", Texture.class);
 
-        assetManager.load("menu/share_sheet_1x2.png", Texture.class);
-        assetManager.load("menu/rate_sheet_1x2.png", Texture.class);
-        assetManager.load("menu/full_version_sheet_1x2.png", Texture.class);
-        assetManager.load("menu/demo_version_sheet_1x4.png", Texture.class);
+        assetManager.load("menu/b_share_an_sheet.png", Texture.class);
+        assetManager.load("menu/b_rate_an_sheet.png", Texture.class);
+        assetManager.load("menu/b_full_version_an_sheet.png", Texture.class);
+        assetManager.load("menu/b_demo_version_an_sheet.png", Texture.class);
     }
 
     @Override

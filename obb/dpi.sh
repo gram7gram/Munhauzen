@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SRC_DIR="/Users/master/Projects/MunhauzenDocs/Elements/PICTURES_FINAL/drawable"
-OBB_PATH=/Users/master/Projects/Munhauzen/obb/en/images
+OBB_PATH=/Users/master/Projects/Munhauzen/obb
 
 cd $SRC_DIR
 
@@ -17,7 +17,7 @@ for file in *.jpg; do
 		mv "$SRC_DIR/$file" "$SRC_DIR/$newFile"
 
 	fi
-done;
+done
 
 echo "=> Converting sources..."
 for file in *.jpg; do
@@ -25,13 +25,12 @@ for file in *.jpg; do
 
         echo "=> $file"
 
-        mkdir -p $OBB_PATH
-
-        convert $file -resize 800 -quality 80 $OBB_PATH/$file
-        EXIT_CODE=$?
-        if [[ $EXIT_CODE != 0 ]]; then
-            exit $EXIT_CODE
-        fi
+        convert $file -resize 2048 -quality 80 $OBB_PATH/xxxhdpi/images/$file
+        convert $file -resize 1536 -quality 80 $OBB_PATH/xxhdpi/images/$file
+        convert $file -resize 1080 -quality 80 $OBB_PATH/xhdpi/images/$file
+        convert $file -resize 750 -quality 80 $OBB_PATH/hdpi/images/$file
+        convert $file -resize 640 -quality 80 $OBB_PATH/mdpi/images/$file
+        convert $file -resize 480 -quality 80 $OBB_PATH/ldpi/images/$file
 
     fi
 done

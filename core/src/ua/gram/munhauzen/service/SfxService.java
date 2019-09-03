@@ -19,6 +19,27 @@ public class SfxService {
         this.game = game;
     }
 
+    public void onGoofsSwitchClickedForMunhauzen() {
+        prepareAndPlay(MathUtils.random(new String[]{
+                "sfx_menu_goofs_BM_1",
+                "sfx_menu_goofs_BM_2"
+        }));
+    }
+
+    public void onGoofsSwitchClickedForDaughter() {
+        prepareAndPlay(MathUtils.random(new String[]{
+                "sfx_menu_goofs_BD_1",
+                "sfx_menu_goofs_BD_2",
+                "sfx_menu_goofs_BD_3",
+                "sfx_menu_goofs_BD_4",
+                "sfx_menu_goofs_BD_5"
+        }));
+    }
+
+    public void onLogoScreenOpened() {
+        prepareAndPlayInternal("sfx_logo");
+    }
+
     public StoryAudio onDemoBannerShown() {
         return prepareAndPlay("sfx_menu_buy");
     }

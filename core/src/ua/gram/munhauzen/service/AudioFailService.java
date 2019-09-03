@@ -61,7 +61,7 @@ public class AudioFailService implements Disposable {
     public void stop(StoryAudio storyAudio) {
         try {
 
-            Log.i(tag, "stop " + storyAudio.audio);
+//            Log.i(tag, "stop " + storyAudio.audio);
 
             if (storyAudio.player != null)
                 storyAudio.player.stop();

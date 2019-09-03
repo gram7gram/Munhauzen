@@ -1,13 +1,14 @@
 package ua.gram.munhauzen.screen.fails.ui;
 
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.ui.Cell;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
@@ -18,19 +19,18 @@ import ua.gram.munhauzen.entity.AudioFail;
 import ua.gram.munhauzen.repository.AudioFailRepository;
 import ua.gram.munhauzen.screen.FailsScreen;
 import ua.gram.munhauzen.screen.fails.entity.GalleryFail;
-import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.utils.Log;
 
-public class AudioRow extends Stack {
+public class AudioRow extends Table {
 
     final String tag = getClass().getSimpleName();
     final FailsScreen screen;
     final GalleryFail fail;
     final int index;
     Label title, number;
-    FitImage lock, unlock, play;
-    Table content;
-    float iconSize = 30;
+    Image lock, unlock, play;
+    float iconSize = 35;
+    Container<Image> iconContainer;
 
     public AudioRow(final FailsScreen screen, final GalleryFail fail, int index, float width) {
 
@@ -47,28 +47,32 @@ public class AudioRow extends Stack {
         number.setWrap(false);
         number.setAlignment(Align.left);
 
+        number.layout();
+
         title = new Label("", style);
         title.setWrap(true);
         title.setAlignment(Align.left);
 
-        play = new FitImage();
-        unlock = new FitImage();
+        play = new Image();
+        unlock = new Image();
 
-        lock = new FitImage();
+        lock = new Image();
         lock.setRotation(-15);
 
-        content = new Table();
+        float lblWidth = width - iconSize - number.getWidth() - 50;
 
-        float lblWidth = width - iconSize - number.getWidth();
+        iconContainer = new Container<>();
+        iconContainer.align(Align.topLeft);
 
-        content.add().width(iconSize).padTop(15).padRight(5).align(Align.topLeft);
-        content.add(number).align(Align.topLeft).padRight(5);
-        content.add(title)
+        add(iconContainer)
+                .minWidth(iconSize).width(iconSize).maxWidth(iconSize)
+                .padRight(5)
+                .align(Align.topLeft);
+        add(number)
+                .align(Align.topLeft).padRight(5);
+        add(title)
                 .width(lblWidth)
-                .grow()
                 .align(Align.topLeft).row();
-
-        addActor(content);
 
         addListener(new ClickListener() {
             @Override
@@ -85,6 +89,14 @@ public class AudioRow extends Stack {
 
                     fail.isPlaying = true;
                     fail.isListened = true;
+
+                    if (fail.storyAudio.player != null)
+                        fail.storyAudio.player.setOnCompletionListener(new Music.OnCompletionListener() {
+                            @Override
+                            public void onCompletion(Music music) {
+                                fail.isPlaying = false;
+                            }
+                        });
 
                     screen.game.gameState.failsState.listenedAudio.add(fail.storyAudio.audio);
 
@@ -104,12 +116,21 @@ public class AudioRow extends Stack {
     public void act(float delta) {
         super.act(delta);
 
-        play.setSize(iconSize, iconSize);
+//        lock.setSize(iconSize, lockHeight);
+//        unlock.setSize(iconSize, unlockHeight);
+//        play.setSize(iconSize, playHeight);
 
         if (fail.isPlaying) {
-            play.setVisible(true);
-            content.getCells().get(0).setActor(play);
-            content.getCells().get(0).padTop(0);
+
+            if (!play.isVisible()) {
+                play.setVisible(true);
+
+                iconContainer.setActor(play);
+
+                setPlayBackground(
+                        screen.assetManager.get("ui/playbar_play.png", Texture.class)
+                );
+            }
         } else {
             play.setVisible(false);
             play.remove();
@@ -117,9 +138,6 @@ public class AudioRow extends Stack {
     }
 
     public void init() {
-
-        Cell iconCell = content.getCells().get(0);
-        iconCell.clearActor();
 
         AudioFail audioFail = AudioFailRepository.find(screen.game.gameState, fail.storyAudio.audio);
 
@@ -153,23 +171,19 @@ public class AudioRow extends Stack {
 
             setTouchable(Touchable.disabled);
 
-            iconCell.setActor(lock);
+            iconContainer.setActor(lock);
 
             setLockBackground(
                     screen.assetManager.get("gallery/b_closed_0.png", Texture.class)
             );
         } else if (!fail.isListened) {
 
-            iconCell.setActor(unlock);
+            iconContainer.setActor(unlock);
 
             setUnlockBackground(
                     screen.assetManager.get("gallery/b_opened_0.png", Texture.class)
             );
         }
-
-        setPlayBackground(
-                screen.assetManager.get("ui/playbar_play.png", Texture.class)
-        );
 
         title.setText(text);
     }
@@ -182,7 +196,8 @@ public class AudioRow extends Stack {
         float scale = 1f * width / lock.getDrawable().getMinWidth();
         float height = 1f * lock.getDrawable().getMinHeight() * scale;
 
-        content.getCell(lock)
+        getCell(iconContainer)
+                .padTop(0)
                 .width(width)
                 .height(height);
     }
@@ -195,12 +210,22 @@ public class AudioRow extends Stack {
         float scale = 1f * width / unlock.getDrawable().getMinWidth();
         float height = 1f * unlock.getDrawable().getMinHeight() * scale;
 
-        content.getCell(unlock)
+        getCell(iconContainer)
+                .padTop(0)
                 .width(width)
                 .height(height);
     }
 
     public void setPlayBackground(Texture texture) {
         play.setDrawable(new SpriteDrawable(new Sprite(texture)));
+
+        float width = iconSize;
+        float scale = 1f * width / play.getDrawable().getMinWidth();
+        float height = 1f * play.getDrawable().getMinHeight() * scale;
+
+        getCell(iconContainer)
+                .padTop(15)
+                .width(width)
+                .height(height);
     }
 }

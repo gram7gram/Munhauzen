@@ -14,8 +14,8 @@ public class DemoSideButton extends AnimatedImage {
     public DemoSideButton(final MenuScreen screen) {
 
         animate(
-                screen.assetManager.get("menu/demo_version_sheet_1x4.png", Texture.class),
-                1, 4, 4, 1f
+                screen.assetManager.get("menu/b_demo_version_an_sheet.png", Texture.class),
+                1, 5, 5, 1f
         );
 
         loop = false;

@@ -5,7 +5,7 @@ const obbDir = "/Users/master/Projects/Munhauzen/obb"
 const audioDir = "/Users/master/Projects/MunhauzenDocs/Elements/AUDIO_FINAL"
 const internalAssetsDir = obbDir + "/assets"
 
-const PARTS = 10;
+const PARTS = 1;
 const VERSION = 1;
 const LOCALE = 'en';
 const DEVICE = 'phone';
@@ -14,45 +14,45 @@ const DPI = 'hdpi';
 const VERSION_NAME = VERSION + "-" + LOCALE + "-" + DEVICE + "-" + DPI
 
 const audioParts = [
-    "/Part_1",
-    "/Part_2",
-    "/Part_3",
-    "/Sfx",
-    "/Fails_Eng",
+//    "/Part_1",
+//    "/Part_2",
+//    "/Part_3",
+//    "/Sfx",
+//    "/Fails_Eng",
 ]
 
 const picturesDir = [
-    obbDir + "/" + LOCALE + "/images"
+//    obbDir + "/" + LOCALE + "/images"
 ]
 
 const otherAssets = [
-    '/gallery',
+//    '/gallery',
     '/menu',
-    '/GameScreen',
-    '/ui',
-    '/saves',
+//    '/GameScreen',
+//    '/ui',
+//    '/saves',
     '/fails',
-    '/victory',
+//    '/victory',
 ]
 
 const interactions = [
-    "/timer",
-    "/timer2",
-    "/hare",
-    "/generals",
-    "/cannons",
-    "/wau",
-    "/picture",
-    "/servants",
-    "/lions",
-    "/date",
-    "/horn",
-    "/swamp",
-    "/slap",
-    "/puzzle",
-    "/continue",
-    "/chapter",
-    "/balloons",
+//    "/timer",
+//    "/timer2",
+//    "/hare",
+//    "/generals",
+//    "/cannons",
+//    "/wau",
+//    "/picture",
+//    "/servants",
+//    "/lions",
+//    "/date",
+//    "/horn",
+//    "/swamp",
+//    "/slap",
+//    "/puzzle",
+//    "/continue",
+//    "/chapter",
+//    "/balloons",
 ]
 
 console.log(`=> Splitting expansion ${VERSION_NAME} in ${PARTS} parts`)

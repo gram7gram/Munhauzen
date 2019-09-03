@@ -70,6 +70,8 @@ public class LogoScreen implements Screen {
         );
 
         ui.addActor(root);
+
+        game.sfxService.onLogoScreenOpened();
     }
 
     private void onComplete() {
