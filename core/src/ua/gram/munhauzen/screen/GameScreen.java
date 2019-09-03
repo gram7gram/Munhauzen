@@ -103,9 +103,11 @@ public class GameScreen implements Screen {
 
         game.camera.zoom = 1;
 
+        GameState.isEndingReached = false;
+
         isLoaded = false;
 
-        background = game.assetManager.get("p0.jpg", Texture.class);
+        background = game.internalAssetManager.get("p0.jpg", Texture.class);
 
         assetManager = new ExpansionAssetManager();
         progressBarFragment = new ProgressBarFragment(this);

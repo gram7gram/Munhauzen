@@ -33,7 +33,7 @@ public class GalleryScreen extends AbstractScreen {
 
         paintings = new ArrayList<>();
 
-        background = game.assetManager.get("p1.jpg", Texture.class);
+        background = game.internalAssetManager.get("p1.jpg", Texture.class);
 
         assetManager.load("menu/b_menu.png", Texture.class);
         assetManager.load("ui/gv_paper_1.png", Texture.class);

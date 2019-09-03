@@ -113,6 +113,8 @@ public class ControlsFragment extends Fragment {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
+                screen.game.sfxService.onGalleryArrowClick();
+
                 screen.nextPainting();
             }
         });
@@ -135,6 +137,8 @@ public class ControlsFragment extends Fragment {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
+
+                screen.game.sfxService.onGalleryArrowClick();
 
                 screen.prevPainting();
             }

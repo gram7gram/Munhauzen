@@ -15,7 +15,7 @@ public class RateSideButton extends AnimatedImage {
 
         animate(
                 screen.assetManager.get("menu/b_rate_an_sheet.png", Texture.class),
-                1, 3, 3, 1f
+                1, 3, 3, .15f
         );
 
         loop = false;

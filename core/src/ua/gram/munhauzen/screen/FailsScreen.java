@@ -34,7 +34,7 @@ public class FailsScreen extends AbstractScreen {
         failsM = new ArrayList<>();
         failsD = new ArrayList<>();
 
-        background = game.assetManager.get("p1.jpg", Texture.class);
+        background = game.internalAssetManager.get("p1.jpg", Texture.class);
 
         assetManager.load("ui/playbar_play.png", Texture.class);
         assetManager.load("menu/b_menu.png", Texture.class);

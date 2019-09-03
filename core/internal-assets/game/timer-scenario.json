@@ -372,16 +372,11 @@
     "isExit": true,
     "name": "a33_b",
     "action": "GOTO",
-    "audio": [
-      {
-        "audio": "s33_b",
-        "duration": 29309
-      }
-    ],
+    "audio": [],
     "images": [
       {
         "image": "timer/p32_a.jpg",
-        "duration": 29309
+        "duration": 600
       }
     ],
     "decisions": [],

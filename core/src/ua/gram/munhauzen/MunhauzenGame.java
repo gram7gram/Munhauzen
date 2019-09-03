@@ -44,7 +44,7 @@ public class MunhauzenGame extends Game {
     public Viewport view;
     public FontProvider fontProvider;
     public ButtonBuilder buttonBuilder;
-    public InternalAssetManager assetManager;
+    public InternalAssetManager internalAssetManager;
     public ExpansionAssetManager expansionAssetManager;
     public InventoryService inventoryService;
     public Preferences preferences;
@@ -88,7 +88,7 @@ public class MunhauzenGame extends Game {
         createBatch();
         createViewport();
 
-        assetManager.finishLoading();
+        internalAssetManager.finishLoading();
 
         inventoryService = new InventoryService(gameState);
         buttonBuilder = new ButtonBuilder(this);
@@ -127,9 +127,9 @@ public class MunhauzenGame extends Game {
                 expansionAssetManager = null;
             }
 
-            if (assetManager != null) {
-                assetManager.dispose();
-                assetManager = null;
+            if (internalAssetManager != null) {
+                internalAssetManager.dispose();
+                internalAssetManager = null;
             }
 
             sfxService = null;
@@ -181,15 +181,15 @@ public class MunhauzenGame extends Game {
         fontProvider.load();
 
         expansionAssetManager = new ExpansionAssetManager();
-        assetManager = new InternalAssetManager();
-        assetManager.load("p0.jpg", Texture.class);
-        assetManager.load("p1.jpg", Texture.class);
-        assetManager.load("ui/b_primary_sm_enabled.png", Texture.class);
-        assetManager.load("ui/b_primary_sm_disabled.png", Texture.class);
-        assetManager.load("ui/b_danger_sm_enabled.png", Texture.class);
-        assetManager.load("ui/b_danger_sm_disabled.png", Texture.class);
-        assetManager.load("ui/btn_rose_enabled.png", Texture.class);
-        assetManager.load("ui/btn_rose_disabled.png", Texture.class);
+        internalAssetManager = new InternalAssetManager();
+        internalAssetManager.load("p0.jpg", Texture.class);
+        internalAssetManager.load("p1.jpg", Texture.class);
+        internalAssetManager.load("ui/b_primary_sm_enabled.png", Texture.class);
+        internalAssetManager.load("ui/b_primary_sm_disabled.png", Texture.class);
+        internalAssetManager.load("ui/b_danger_sm_enabled.png", Texture.class);
+        internalAssetManager.load("ui/b_danger_sm_disabled.png", Texture.class);
+        internalAssetManager.load("ui/btn_rose_enabled.png", Texture.class);
+        internalAssetManager.load("ui/btn_rose_disabled.png", Texture.class);
     }
 
     private void createCamera() {

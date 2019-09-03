@@ -1,6 +1,7 @@
 package ua.gram.munhauzen.screen.painting.fragment;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 import ua.gram.munhauzen.screen.PaintingScreen;
@@ -29,6 +30,7 @@ public class FullscreenFragment extends Fragment {
         fullscreenImage = new FullscreenImage(screen.paintingFragment);
 
         root = new FragmentRoot();
+        root.setTouchable(Touchable.childrenOnly);
         root.addContainer(fullscreenImage);
 
         root.setName(tag);

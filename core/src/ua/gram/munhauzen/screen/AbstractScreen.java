@@ -40,7 +40,7 @@ public abstract class AbstractScreen implements Screen {
 
         assetManager = new ExpansionAssetManager();
 
-        background = game.assetManager.get("p0.jpg", Texture.class);
+        background = game.internalAssetManager.get("p0.jpg", Texture.class);
 
         ui = new MunhauzenStage(game);
 

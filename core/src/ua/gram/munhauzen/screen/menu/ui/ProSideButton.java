@@ -15,7 +15,7 @@ public class ProSideButton extends AnimatedImage {
 
         animate(
                 screen.assetManager.get("menu/b_full_version_an_sheet.png", Texture.class),
-                1, 2, 2, 1f
+                1, 2, 2, .1f
         );
 
         loop = false;

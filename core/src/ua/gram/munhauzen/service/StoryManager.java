@@ -300,6 +300,8 @@ public class StoryManager {
 
     private void startVictory(Story story) {
 
+        GameState.isEndingReached = true;
+
         gameScreen.hideProgressBar();
         gameScreen.hideAndDestroyScenarioFragment();
 

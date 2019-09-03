@@ -36,6 +36,10 @@ public class SfxService {
         }));
     }
 
+    public void onGalleryArrowClick() {
+        prepareAndPlay("sfx_button_arrow");
+    }
+
     public void onLogoScreenOpened() {
         prepareAndPlayInternal("sfx_logo");
     }
@@ -244,30 +248,46 @@ public class SfxService {
 
             final Audio audio = AudioRepository.find(game.gameState, sfx);
 
-            game.expansionAssetManager.load(audio.file, Music.class);
-
-            game.expansionAssetManager.finishLoading();
-
-            Music sound = game.expansionAssetManager.get(audio.file, Music.class);
-            sound.play();
-
             final StoryAudio storyAudio = new StoryAudio();
             storyAudio.audio = sfx;
-            storyAudio.resource = audio.file;
-            storyAudio.player = sound;
             storyAudio.duration = audio.duration;
+            storyAudio.resource = audio.file;
 
-            sound.setOnCompletionListener(new Music.OnCompletionListener() {
+            new Thread(new Runnable() {
+
                 @Override
-                public void onCompletion(Music music) {
+                public void run() {
 
-                    dispose(storyAudio);
+                    try {
+                        game.expansionAssetManager.load(audio.file, Music.class);
 
-                    if (onComplete != null) {
-                        Timer.post(onComplete);
+                        game.expansionAssetManager.finishLoading();
+
+                        Music sound = game.expansionAssetManager.get(audio.file, Music.class);
+                        sound.play();
+
+                        storyAudio.player = sound;
+
+                        sound.setOnCompletionListener(new Music.OnCompletionListener() {
+                            @Override
+                            public void onCompletion(Music music) {
+
+                                dispose(storyAudio);
+
+                                if (onComplete != null) {
+                                    Timer.post(onComplete);
+                                }
+                            }
+                        });
+
+                    } catch (Throwable e) {
+                        Log.e(tag, e);
+
+                        //game.onCriticalError(e);
                     }
+
                 }
-            });
+            }).start();
 
             return storyAudio;
 
@@ -283,15 +303,15 @@ public class SfxService {
     private void prepareAndPlayInternal(String sfx) {
 
         try {
-            if (game.assetManager == null) return;
+            if (game.internalAssetManager == null) return;
 
             final String file = "audio/" + sfx + ".mp3";
 
-            game.assetManager.load(file, Music.class);
+            game.internalAssetManager.load(file, Music.class);
 
-            game.assetManager.finishLoading();
+            game.internalAssetManager.finishLoading();
 
-            Music sound = game.assetManager.get(file, Music.class);
+            Music sound = game.internalAssetManager.get(file, Music.class);
             sound.play();
 
             final StoryAudio storyAudio = new StoryAudio();
@@ -302,7 +322,7 @@ public class SfxService {
             sound.setOnCompletionListener(new Music.OnCompletionListener() {
                 @Override
                 public void onCompletion(Music music) {
-                    dispose(storyAudio);
+                    disposeInternal(storyAudio);
                 }
             });
 
@@ -325,32 +345,39 @@ public class SfxService {
         }
     }
 
+    public void disposeInternal(StoryAudio storyAudio) {
+
+        if (storyAudio.player != null) {
+            storyAudio.player.stop();
+            storyAudio.player = null;
+        }
+
+        if (game.internalAssetManager != null) {
+            game.internalAssetManager.unload(storyAudio.resource);
+        }
+    }
+
     public void onLoadOptionClicked() {
         prepareAndPlay("sfx_menu_download_question");
     }
 
     public void onLoadOptionYesClicked() {
         prepareAndPlay("sfx_menu_download_yes");
-
     }
 
     public void onLoadOptionNoClicked() {
         prepareAndPlay("sfx_menu_download_no");
-
     }
 
     public void onSaveOptionClicked() {
         prepareAndPlay("sfx_menu_save_question");
-
     }
 
     public void onSaveOptionYesClicked() {
         prepareAndPlay("sfx_menu_save_yes");
-
     }
 
     public void onSaveOptionNoClicked() {
         prepareAndPlay("sfx_menu_save_no");
-
     }
 }

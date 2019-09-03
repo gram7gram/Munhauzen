@@ -106,7 +106,6 @@ public class ScenarioFragment extends Fragment {
 
         gameScreen.showProgressBar();
 
-//        gameScreen.assetManager.load("sfx/sfx_decision.mp3", Sound.class);
         gameScreen.assetManager.load("GameScreen/an_cannons_main.png", Texture.class);
         gameScreen.assetManager.load("GameScreen/b_star_game.png", Texture.class);
         gameScreen.assetManager.load("GameScreen/b_tulip_1.png", Texture.class);

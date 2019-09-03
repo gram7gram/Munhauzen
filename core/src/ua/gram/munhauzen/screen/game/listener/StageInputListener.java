@@ -3,6 +3,7 @@ package ua.gram.munhauzen.screen.game.listener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.StoryInteraction;
 import ua.gram.munhauzen.interaction.CannonsInteraction;
 import ua.gram.munhauzen.interaction.ContinueInteraction;
@@ -45,6 +46,8 @@ public class StageInputListener extends ClickListener {
         super.clicked(event, x, y);
 
         if (event.isHandled()) return;
+
+        if (GameState.isEndingReached) return;
 
         try {
             Log.i(tag, "ui clicked");

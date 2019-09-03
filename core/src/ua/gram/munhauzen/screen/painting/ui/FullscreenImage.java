@@ -17,8 +17,9 @@ public class FullscreenImage extends Container<Image> {
 
     final String tag = getClass().getSimpleName();
     public final Image background;
+    SpriteDrawable drawable;
 
-    public float backgroundWidth, backgroundHeight, backgroundScale, zoom;
+    public float backgroundWidth, backgroundHeight, backgroundScale, zoom, currentX, currentY;
     public boolean isWide;
 
     public FullscreenImage(final PaintingFragment paintingFragment) {
@@ -45,8 +46,8 @@ public class FullscreenImage extends Container<Image> {
                     zoom -= .1f;
                 }
 
-                if (zoom < 1.3) {
-                    zoom = 1.3f;
+                if (zoom < 1) {
+                    zoom = 1f;
                 }
 
                 if (zoom > 2.5) {
@@ -77,11 +78,11 @@ public class FullscreenImage extends Container<Image> {
                     int yBound = (int) (-backgroundHeight + MunhauzenGame.WORLD_HEIGHT);
 
                     if (xBound <= newX && newX <= 0) {
-                        background.setX(xBefore + deltaX);
+                        currentX = (xBefore + deltaX);
                     }
 
                     if (yBound <= newY && newY <= 0) {
-                        background.setY(yBefore + deltaY);
+                        currentY = (yBefore + deltaY);
                     }
 
                 } catch (Throwable e) {
@@ -94,7 +95,7 @@ public class FullscreenImage extends Container<Image> {
 
     public void setBackground(Texture texture) {
 
-        SpriteDrawable drawable = new SpriteDrawable(new Sprite(texture));
+        drawable = new SpriteDrawable(new Sprite(texture));
 
         background.clear();
 
@@ -102,7 +103,14 @@ public class FullscreenImage extends Container<Image> {
 
         isWide = drawable.getMinWidth() > drawable.getMinHeight();
 
-        zoom = 1.3f;
+        zoom = 1f;
+
+        layout();
+
+        if (backgroundHeight < MunhauzenGame.WORLD_HEIGHT * zoom) {
+            currentX = (MunhauzenGame.WORLD_WIDTH - backgroundWidth) / 2f;
+        }
+
     }
 
     @Override
@@ -110,12 +118,17 @@ public class FullscreenImage extends Container<Image> {
         super.layout();
 
         backgroundHeight = MunhauzenGame.WORLD_HEIGHT * zoom;
-        backgroundScale = 1f * backgroundHeight / background.getDrawable().getMinHeight();
-        backgroundWidth = 1f * background.getDrawable().getMinWidth() * backgroundScale;
+        backgroundScale = 1f * backgroundHeight / drawable.getMinHeight();
+        backgroundWidth = 1f * drawable.getMinWidth() * backgroundScale;
 
         background.setSize(backgroundWidth, backgroundHeight);
+    }
 
-        background.setPosition(0, 0);
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+
+        background.setPosition(currentX, currentY);
 
     }
 

@@ -21,10 +21,10 @@ public class ButtonBuilder {
 
     public ButtonBuilder(MunhauzenGame game) {
         this.game = game;
-        primaryEnabled = game.assetManager.get("ui/b_primary_sm_enabled.png", Texture.class);
-        primaryDisabled = game.assetManager.get("ui/b_primary_sm_disabled.png", Texture.class);
-        dangerEnabled = game.assetManager.get("ui/b_danger_sm_enabled.png", Texture.class);
-        dangerDisabled = game.assetManager.get("ui/b_danger_sm_disabled.png", Texture.class);
+        primaryEnabled = game.internalAssetManager.get("ui/b_primary_sm_enabled.png", Texture.class);
+        primaryDisabled = game.internalAssetManager.get("ui/b_primary_sm_disabled.png", Texture.class);
+        dangerEnabled = game.internalAssetManager.get("ui/b_danger_sm_enabled.png", Texture.class);
+        dangerDisabled = game.internalAssetManager.get("ui/b_danger_sm_disabled.png", Texture.class);
     }
 
     public PrimaryButton primary(String text, final ClickListener onClick) {
@@ -64,10 +64,10 @@ public class ButtonBuilder {
     public PrimaryButton primaryRose(String text, final ClickListener onClick) {
 
         NinePatchDrawable background1 = new NinePatchDrawable(new NinePatch(
-                game.assetManager.get("ui/btn_rose_enabled.png", Texture.class),
+                game.internalAssetManager.get("ui/btn_rose_enabled.png", Texture.class),
                 30, 30, 0, 0));
         NinePatchDrawable background2 = new NinePatchDrawable(new NinePatch(
-                game.assetManager.get("ui/btn_rose_enabled.png", Texture.class),
+                game.internalAssetManager.get("ui/btn_rose_enabled.png", Texture.class),
                 30, 30, 0, 0));
 
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();

@@ -34,7 +34,7 @@ public class PaintingScreen extends AbstractScreen {
     public void show() {
         super.show();
 
-        background = game.assetManager.get("p1.jpg", Texture.class);
+        background = game.internalAssetManager.get("p1.jpg", Texture.class);
 
         assetManager.load("ui/gv_paper_3.png", Texture.class);
         assetManager.load("gallery/b_closed_1.png", Texture.class);

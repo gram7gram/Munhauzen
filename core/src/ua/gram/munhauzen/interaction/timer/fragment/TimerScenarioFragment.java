@@ -84,8 +84,10 @@ public class TimerScenarioFragment extends Fragment {
     }
 
     public void update() {
-        interaction.gameScreen.hideProgressBar();
-        interaction.hideProgressBar();
+        if (interaction.imageFragment.bombFragment != null) {
+            interaction.gameScreen.hideProgressBar();
+            interaction.hideProgressBar();
+        }
     }
 
     public void create(ArrayList<Decision> decisions) {
@@ -94,7 +96,6 @@ public class TimerScenarioFragment extends Fragment {
 
         interaction.hideProgressBar();
 
-//         interaction.assetManager.load("sfx/sfx_decision.mp3", Sound.class);
         interaction.assetManager.load("GameScreen/an_cannons_main.png", Texture.class);
         interaction.assetManager.load("GameScreen/b_star_game.png", Texture.class);
         interaction.assetManager.load("GameScreen/b_tulip_1.png", Texture.class);

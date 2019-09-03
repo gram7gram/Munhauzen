@@ -17,6 +17,7 @@ public class GameState {
 
     public static boolean isPaused = false;
     public static boolean isMute = false;
+    public static boolean isEndingReached = false;
 
     public History history;
     public Save activeSave;
