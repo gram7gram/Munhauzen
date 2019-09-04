@@ -1,7 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const musicData = require('mp3-duration');
-const wavInfo = require('wav-file-info');
+const musicData = require('music-metadata');
 
 const sources = [
 	'/Users/master/Projects/MunhauzenDocs/Elements/AUDIO_FINAL/Part_1',
@@ -33,25 +32,9 @@ for (let i = 0; i < sources.length; i++) {
 			fs.writeFileSync(`./audio-${suffix}.csv`, rows.join("\r\n"))
 		}
 
-		if (file.indexOf('.wav') !== -1) {
-
-			wavInfo.infoByFilename(dir + '/' + file, (e, metadata) => {
-
-                if (e) throw e
-
-                const duration = Number((metadata.duration * 1000).toFixed(4))
-
-                onComplete(file, duration)
-            });
-
-		} else {
-
-			musicData(dir + '/' + file, (e, duration) => {
-
-                if (e) throw e
-
-                onComplete(file, Number((duration * 1000).toFixed(4)))
-			})
-		}
+		musicData.parseFile(path.join(dir, file)).then(metadata => {
+			const duration = Number((metadata.common.duration * 1000).toFixed(4))
+			onComplete(file, duration)
+		});
 	}
 }
