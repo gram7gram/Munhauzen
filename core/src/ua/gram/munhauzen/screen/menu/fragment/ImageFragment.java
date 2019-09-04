@@ -902,7 +902,7 @@ public class ImageFragment extends Fragment {
 
             screen.assetManager.finishLoading();
 
-            animate(screen.assetManager.get(resource, Texture.class), 3, 3, 9, .1f);
+            animate(screen.assetManager.get(resource, Texture.class), 3, 3, 9, 2f);
         }
 
         @Override

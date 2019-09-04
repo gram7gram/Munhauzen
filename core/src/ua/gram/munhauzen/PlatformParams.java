@@ -9,7 +9,7 @@ public class PlatformParams {
     public MemoryUsage memoryUsage;
     public String gameHost = "http://munhauzen-api.fingertips.cf";
     //public String gameHost = "http://78.27.147.177:20000";
-    //public String gameHost = "http://192.168.100.247:20000";
+    //public String gameHost = "http://192.168.100.219:20000";
     public String device = "phone";
     public String dpi = "hdpi";
     public String locale;

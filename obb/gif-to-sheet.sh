@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
-OBB_PATH="/Users/master/Projects/Munhauzen/obb/xxxhdpi"
+OBB_PATH="/Users/master/Projects/Munhauzen/obb/raw"
 
 IN="$1"
 OUT="$OBB_PATH/$2"
 
-montage $IN -tile x1 -geometry '1x1+0+0<' \
-    -alpha On -background "rgba(0, 0, 0, 0.0)" \
-    -quality 80 $OUT
+montage $IN \
+    -tile x2 -geometry +0+0 -alpha On -background "rgba(0, 0, 0, 0.0)" -quality 80 \
+    $OUT

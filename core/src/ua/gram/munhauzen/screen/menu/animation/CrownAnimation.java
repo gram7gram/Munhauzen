@@ -12,8 +12,8 @@ public class CrownAnimation extends AnimatedImage {
 
         loop = false;
 
-        animate(screen.assetManager.get("menu/icon_crown_sheet_1x9.png", Texture.class),
-                9, 1, 9, 0.08f);
+        animate(screen.assetManager.get("menu/icon_an_crown_sheet.png", Texture.class),
+                2, 5, 9, 0.08f);
     }
 }
 

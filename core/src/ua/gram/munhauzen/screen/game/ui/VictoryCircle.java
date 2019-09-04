@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.animation.AnimatedImage;
 import ua.gram.munhauzen.screen.GameScreen;
+import ua.gram.munhauzen.screen.game.fragment.VictoryFragment;
 import ua.gram.munhauzen.utils.Log;
 
 public class VictoryCircle extends AnimatedImage {
@@ -17,11 +18,12 @@ public class VictoryCircle extends AnimatedImage {
 
     final float delay = .08f;
 
-    public VictoryCircle(GameScreen screen) {
+    public VictoryCircle(VictoryFragment fragment) {
         super();
-        loop = false;
 
-        this.screen = screen;
+        this.screen = fragment.screen;
+
+        loop = false;
     }
 
     @Override

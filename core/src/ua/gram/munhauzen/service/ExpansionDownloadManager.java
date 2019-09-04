@@ -174,11 +174,13 @@ public class ExpansionDownloadManager implements Disposable {
         Log.i(tag, "downloaded part #" + part.part + " " + md5
                 + "\n" + "original part #" + part.part + " " + part.checksum);
 
-        if (!md5.equals(part.checksum)) {
+        if (!MunhauzenGame.CAN_SKIP_EXPANSION_VALIDATION) {
+            if (!md5.equals(part.checksum)) {
 
-            discardPart(part);
+                discardPart(part);
 
-            throw new GdxRuntimeException("Expansion part#" + part.part + " is corrupted");
+                throw new GdxRuntimeException("Expansion part#" + part.part + " is corrupted");
+            }
         }
 
     }
@@ -336,9 +338,10 @@ public class ExpansionDownloadManager implements Disposable {
         Log.e(tag, "onConnectionFailed");
 
         ExpansionResponse expansionInfo = game.gameState.expansionInfo;
-        expansionInfo.isDownloadStarted = false;
+        if (expansionInfo != null)
+            expansionInfo.isDownloadStarted = false;
 
-        fragment.progress.setText(expansionInfo.progress + "%");
+        fragment.progress.setText("");
         fragment.progressMessage.setText("Unable to fetch expansion");
         fragment.retryBtn.setVisible(true);
 
@@ -348,11 +351,11 @@ public class ExpansionDownloadManager implements Disposable {
 
     private void onConnectionCanceled() {
         ExpansionResponse expansionInfo = game.gameState.expansionInfo;
-        if (expansionInfo.isCompleted) return;
+        if (expansionInfo == null || expansionInfo.isCompleted) return;
 
         Log.e(tag, "onConnectionCanceled");
 
-        fragment.progress.setText(expansionInfo.progress + "%");
+        fragment.progress.setText("");
         fragment.progressMessage.setText("Download was canceled");
         fragment.retryBtn.setVisible(true);
 
@@ -364,7 +367,8 @@ public class ExpansionDownloadManager implements Disposable {
         Log.i(tag, "onLowMemory");
 
         ExpansionResponse expansionInfo = game.gameState.expansionInfo;
-        expansionInfo.isDownloadStarted = false;
+        if (expansionInfo != null)
+            expansionInfo.isDownloadStarted = false;
 
         fragment.progressMessage.setText("Not enough memory. Please, free some space for the game");
         fragment.retryBtn.setVisible(true);
@@ -381,17 +385,15 @@ public class ExpansionDownloadManager implements Disposable {
 
         Log.i(tag, "onComplete");
 
-        game.gameState.expansionInfo.isCompleted = true;
+        expansionInfo.isCompleted = true;
 
         game.databaseManager.persist(game.gameState);
 
         fragment.progress.setText("100%");
         fragment.progressMessage.setText("Resources are loaded!");
 
-        if (game.gameState.expansionInfo != null) {
-            for (Part item : game.gameState.expansionInfo.parts.items) {
-                ExternalFiles.getExpansionPartFile(item).delete();
-            }
+        for (Part item : expansionInfo.parts.items) {
+            ExternalFiles.getExpansionPartFile(item).delete();
         }
 
         ExternalFiles.updateNomedia();

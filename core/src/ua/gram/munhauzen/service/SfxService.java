@@ -49,7 +49,7 @@ public class SfxService {
     }
 
     public void onTimerBombExploded() {
-        prepareAndPlay("sfx_inter_timer_bam");
+        prepareAndPlay("sfx_inter_bam");
     }
 
     public void onAnyDisabledBtnClicked() {

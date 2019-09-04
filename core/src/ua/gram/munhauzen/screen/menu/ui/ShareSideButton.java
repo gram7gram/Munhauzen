@@ -15,7 +15,7 @@ public class ShareSideButton extends AnimatedImage {
 
         animate(
                 screen.assetManager.get("menu/b_share_an_sheet.png", Texture.class),
-                1, 3, 3, .11f
+                1, 3, 3, 1.1f
         );
 
         loop = false;

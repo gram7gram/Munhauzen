@@ -51,12 +51,12 @@ public class MenuScreen extends AbstractScreen {
 
         audioService = new AudioService(game);
 
-        assetManager.load("menu/icon_crown_sheet_1x9.png", Texture.class);
-        assetManager.load("menu/icon_helm_sheet_1x5.png", Texture.class);
-        assetManager.load("menu/icon_lion_sheet_1x8.png", Texture.class);
-        assetManager.load("menu/icon_rose_sheet_1x6.png", Texture.class);
-        assetManager.load("menu/icon_shield_sheet_1x8.png", Texture.class);
-        assetManager.load("menu/icon_cannons_sheet_1x14.png", Texture.class);
+        assetManager.load("menu/icon_an_crown_sheet.png", Texture.class);
+        assetManager.load("menu/icon_an_helmet_sheet.png", Texture.class);
+        assetManager.load("menu/icon_an_lion_sheet.png", Texture.class);
+        assetManager.load("menu/icon_an_rose_sheet.png", Texture.class);
+        assetManager.load("menu/icon_an_shield_sheet.png", Texture.class);
+        assetManager.load("menu/icon_an_cannons_sheet.png", Texture.class);
 
         assetManager.load("menu/mmv_btn.png", Texture.class);
         assetManager.load("menu/mmv_fond_1.jpg", Texture.class);

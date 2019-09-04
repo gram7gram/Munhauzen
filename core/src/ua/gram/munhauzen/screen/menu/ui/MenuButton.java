@@ -19,6 +19,7 @@ import com.badlogic.gdx.utils.Timer;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.animation.AnimatedImage;
+import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.screen.MenuScreen;
 import ua.gram.munhauzen.ui.FitImage;
 
@@ -82,6 +83,8 @@ public abstract class MenuButton extends Stack {
                 animation.start();
 
                 screen.isButtonClicked = true;
+
+                GameState.clearTimer();
 
                 Timer.instance().scheduleTask(new Timer.Task() {
                     @Override

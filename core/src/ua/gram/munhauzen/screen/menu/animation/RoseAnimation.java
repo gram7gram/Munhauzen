@@ -12,8 +12,8 @@ public class RoseAnimation extends AnimatedImage {
 
         loop = false;
 
-        animate(screen.assetManager.get("menu/icon_rose_sheet_1x6.png", Texture.class),
-                6, 1, 6);
+        animate(screen.assetManager.get("menu/icon_an_rose_sheet.png", Texture.class),
+                2, 3, 6);
     }
 }
 

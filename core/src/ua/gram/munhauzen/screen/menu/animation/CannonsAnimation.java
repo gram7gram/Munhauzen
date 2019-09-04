@@ -12,8 +12,8 @@ public class CannonsAnimation extends AnimatedImage {
 
         loop = false;
 
-        animate(screen.assetManager.get("menu/icon_cannons_sheet_1x14.png", Texture.class),
-                14, 1, 14);
+        animate(screen.assetManager.get("menu/icon_an_cannons_sheet.png", Texture.class),
+                2, 7, 14);
     }
 }
 

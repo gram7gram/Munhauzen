@@ -12,8 +12,8 @@ public class HelmAnimation extends AnimatedImage {
 
         loop = false;
 
-        animate(screen.assetManager.get("menu/icon_helm_sheet_1x5.png", Texture.class),
-                5, 1, 5);
+        animate(screen.assetManager.get("menu/icon_an_helmet_sheet.png", Texture.class),
+                2, 3, 5);
     }
 }
 

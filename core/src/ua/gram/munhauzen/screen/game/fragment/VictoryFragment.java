@@ -24,7 +24,7 @@ import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.screen.MenuScreen;
 import ua.gram.munhauzen.screen.game.ui.BackgroundImage;
-import ua.gram.munhauzen.screen.game.ui.VictoryCircle;
+import ua.gram.munhauzen.screen.game.ui.VictoryGroup;
 import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.utils.Log;
@@ -35,16 +35,16 @@ import ua.gram.munhauzen.utils.Log;
 public class VictoryFragment extends Fragment {
 
     private final String tag = getClass().getSimpleName();
-    private final GameScreen screen;
+    public final GameScreen screen;
     public FragmentRoot root;
 
     final String IMAGE = "images/p62_fin.jpg";
 
-    BackgroundImage backgroundImage;
+    public BackgroundImage backgroundImage;
     Label title1, title2;
     StoryAudio intro;
     Container<Table> menuContainer;
-    VictoryCircle victoryCircle;
+    VictoryGroup victoryGroup;
     Image black;
 
     public VictoryFragment(GameScreen gameScreen) {
@@ -61,8 +61,6 @@ public class VictoryFragment extends Fragment {
         screen.assetManager.finishLoading();
 
         screen.game.fontProvider.loadHd();
-
-        victoryCircle = new VictoryCircle(screen);
 
         title1 = new Label("The ", new Label.LabelStyle(
                 screen.game.fontProvider.getHdFont(FontProvider.CalligraphModern, FontProvider.hd),
@@ -96,6 +94,9 @@ public class VictoryFragment extends Fragment {
 
         backgroundImage = new BackgroundImage(screen);
 
+        victoryGroup = new VictoryGroup(this);
+        victoryGroup.setVisible(false);
+
         HorizontalGroup titleGroup = new HorizontalGroup();
         titleGroup.addActor(title1);
         titleGroup.addActor(title2);
@@ -121,7 +122,7 @@ public class VictoryFragment extends Fragment {
 
         root = new FragmentRoot();
         root.addContainer(backgroundImage);
-        root.addContainer(new Container<>(victoryCircle));
+        root.addContainer(victoryGroup);
         root.addContainer(new Container<>(black));
         root.addContainer(titleContainer);
         root.addContainer(menuContainer);
@@ -236,16 +237,20 @@ public class VictoryFragment extends Fragment {
 
     public void fadeInCurtain() {
 
-        victoryCircle.start();
+        victoryGroup.setVisible(true);
+
+        victoryGroup.victoryCircle.start();
 
         Timer.instance().scheduleTask(new Timer.Task() {
             @Override
             public void run() {
-                victoryCircle.dispose();
-                victoryCircle.setVisible(false);
+                victoryGroup.victoryCircle.dispose();
+                victoryGroup.remove();
+
                 black.setVisible(true);
+
             }
-        }, victoryCircle.getTotalDuration());
+        }, victoryGroup.victoryCircle.getTotalDuration());
     }
 
     public void fadeInMenu() {
@@ -281,7 +286,7 @@ public class VictoryFragment extends Fragment {
     }
 
     public void update() {
-        victoryCircle.setBounds(0, 0, MunhauzenGame.WORLD_WIDTH, MunhauzenGame.WORLD_HEIGHT);
+
         black.setBounds(0, 0, MunhauzenGame.WORLD_WIDTH, MunhauzenGame.WORLD_HEIGHT);
 
         if (intro != null) {

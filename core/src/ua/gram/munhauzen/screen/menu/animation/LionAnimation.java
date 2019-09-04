@@ -12,8 +12,8 @@ public class LionAnimation extends AnimatedImage {
 
         loop = false;
 
-        animate(screen.assetManager.get("menu/icon_lion_sheet_1x8.png", Texture.class),
-                8, 1, 8);
+        animate(screen.assetManager.get("menu/icon_an_lion_sheet.png", Texture.class),
+                2, 4, 8);
     }
 }
 

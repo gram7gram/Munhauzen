@@ -97,6 +97,8 @@ public class PaintingScreen extends AbstractScreen {
         try {
             Log.i(tag, "nextPainting " + next.image.name);
 
+            game.sfxService.onGalleryArrowClick();
+
             paintingFragment.fadeOutLeft(new Runnable() {
                 @Override
                 public void run() {
@@ -144,8 +146,11 @@ public class PaintingScreen extends AbstractScreen {
     public void prevPainting() {
         final PaintingImage prev = paintingFragment.paintingImage.prev;
         if (prev == null) return;
+
         try {
             Log.i(tag, "prevPainting " + prev.image.name);
+
+            game.sfxService.onGalleryArrowClick();
 
             paintingFragment.fadeOutRight(new Runnable() {
                 @Override

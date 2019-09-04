@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.Align;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.screen.menu.fragment.GreetingFragment;
+import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.utils.Log;
 
 public class GreetingBanner extends Banner {
@@ -63,7 +64,17 @@ public class GreetingBanner extends Banner {
                     .row();
         }
 
+        FitImage img = new FitImage(
+                screen.assetManager.get("menu/b_full_version_2.png", Texture.class)
+        );
+
         Table columns = new Table();
+
+        columns.add(img)
+                .height(MunhauzenGame.WORLD_HEIGHT * .2f)
+                .minWidth(cellMinWidth)
+                .center()
+                .row();
 
         columns.add(rows)
                 .minWidth(cellMinWidth)
@@ -71,8 +82,8 @@ public class GreetingBanner extends Banner {
 
         Table buttons = new Table();
         buttons.add(getActionBtn())
-                .width(MunhauzenGame.WORLD_WIDTH * .5f)
-                .height(MunhauzenGame.WORLD_HEIGHT * .08f);
+                .width(200)
+                .height(100);
 
         content.add(columns).row();
         content.add(buttons).row();
@@ -82,7 +93,7 @@ public class GreetingBanner extends Banner {
 
     private Actor getActionBtn() {
 
-        return screen.game.buttonBuilder.primary("Hip, hip, hoorey!", new ClickListener() {
+        return screen.game.buttonBuilder.primary("Start", new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
