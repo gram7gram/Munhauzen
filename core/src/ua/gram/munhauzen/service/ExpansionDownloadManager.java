@@ -154,13 +154,9 @@ public class ExpansionDownloadManager implements Disposable {
             processAvailablePart();
 
         } catch (Throwable e) {
-
             Log.e(tag, e);
 
-            discardPart(part);
-
-            part.isExtracted = false;
-            part.isExtractFailure = true;
+            onExtractionFailed(part);
         }
     }
 
@@ -343,6 +339,20 @@ public class ExpansionDownloadManager implements Disposable {
 
         fragment.progress.setText("");
         fragment.progressMessage.setText("Unable to fetch expansion");
+        fragment.retryBtn.setVisible(true);
+
+        fragment.screen.expansionDownloader.dispose();
+        fragment.screen.expansionDownloader = null;
+    }
+
+    private void onExtractionFailed(Part part) {
+        Log.e(tag, "onExtractionFailed");
+
+        discardPart(part);
+
+        part.isExtracted = false;
+        part.isExtractFailure = true;
+
         fragment.retryBtn.setVisible(true);
 
         fragment.screen.expansionDownloader.dispose();

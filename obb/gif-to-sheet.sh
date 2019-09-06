@@ -6,5 +6,5 @@ IN="$1"
 OUT="$OBB_PATH/$2"
 
 montage $IN \
-    -tile x2 -geometry +0+0 -alpha On -background "rgba(0, 0, 0, 0.0)" -quality 80 \
+    -tile 10x -geometry +0+0 -alpha On -background "rgba(0, 0, 0, 0.0)" -quality 80 \
     $OUT

@@ -5,12 +5,12 @@ import com.badlogic.gdx.graphics.Texture;
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class CannonLetterAnimation extends AnimatedImage {
+public class LetterAAnimation extends AnimatedImage {
 
-    public CannonLetterAnimation(Texture texture) {
+    public LetterAAnimation(Texture texture) {
         super(texture, false);
 
-        animate(texture, 5, 5, 25, 0.07f);
+        animate(texture, 3, 10, 24);
     }
 
 }

@@ -1,21 +1,15 @@
 package ua.gram.munhauzen.screen.game.fragment;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Timer;
@@ -23,25 +17,18 @@ import com.badlogic.gdx.utils.Timer;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
-import ua.gram.munhauzen.animation.CannonAnimation;
-import ua.gram.munhauzen.animation.CannonLetterAnimation;
 import ua.gram.munhauzen.entity.Decision;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.Scenario;
-import ua.gram.munhauzen.entity.ScenarioTranslation;
 import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.repository.ScenarioRepository;
 import ua.gram.munhauzen.screen.GameScreen;
+import ua.gram.munhauzen.screen.game.ui.PrimaryDecision;
 import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.ui.Fragment;
-import ua.gram.munhauzen.ui.WrapLabel;
 import ua.gram.munhauzen.utils.Log;
 
-/**
- * @author Gram <gram7gram@gmail.com>
- */
 public class ScenarioFragment extends Fragment {
 
     private final String tag = getClass().getSimpleName();
@@ -50,15 +37,11 @@ public class ScenarioFragment extends Fragment {
 
     public final GameScreen gameScreen;
     private FitImage imgLeft, imgRight, imgTop;
-    private Table decorLeft;
-    private Table decorRight;
-    private Table decorTop;
+    private Table decorLeft, decorRight, decorTop;
     public Table blocks;
-    private Stack root;
+    public Stack root;
     private final ArrayList<Actor> buttonList;
-    private final HashMap<Integer, String> map = new HashMap<>(7);
-    private final HashMap<Integer, String> animatedMap = new HashMap<>(7);
-    private final float headerSize, buttonSize;
+    public final HashMap<Integer, String> animatedMap = new HashMap<>(7);
     public boolean isFadeIn;
     public boolean isFadeOut;
 
@@ -68,24 +51,13 @@ public class ScenarioFragment extends Fragment {
         this.gameScreen = gameScreen;
         buttonList = new ArrayList<>(4);
 
-        headerSize = MunhauzenGame.WORLD_HEIGHT / 20f;
-        buttonSize = MunhauzenGame.WORLD_WIDTH * 3 / 4f;
-
-        animatedMap.put(0, "GameScreen/an_letter_sheet_A.png");
-        animatedMap.put(1, "GameScreen/an_letter_sheet_B.png");
-        animatedMap.put(2, "GameScreen/an_letter_sheet_C.png");
-        animatedMap.put(3, "GameScreen/an_letter_sheet_D.png");
-        animatedMap.put(4, "GameScreen/an_letter_sheet_E.png");
-        animatedMap.put(5, "GameScreen/an_letter_sheet_F.png");
-        animatedMap.put(6, "GameScreen/an_letter_sheet_G.png");
-
-        map.put(0, "GameScreen/an_letter_A_main.png");
-        map.put(1, "GameScreen/an_letter_B_main.png");
-        map.put(2, "GameScreen/an_letter_C_main.png");
-        map.put(3, "GameScreen/an_letter_D_main.png");
-        map.put(4, "GameScreen/an_letter_E_main.png");
-        map.put(5, "GameScreen/an_letter_F_main.png");
-        map.put(6, "GameScreen/an_letter_G_main.png");
+        animatedMap.put(0, "GameScreen/an_letter_A_sheet.png");
+        animatedMap.put(1, "GameScreen/an_letter_B_sheet.png");
+        animatedMap.put(2, "GameScreen/an_letter_C_sheet.png");
+        animatedMap.put(3, "GameScreen/an_letter_D_sheet.png");
+        animatedMap.put(4, "GameScreen/an_letter_E_sheet.png");
+        animatedMap.put(5, "GameScreen/an_letter_F_sheet.png");
+        animatedMap.put(6, "GameScreen/an_letter_G_sheet.png");
     }
 
     @Override
@@ -106,12 +78,19 @@ public class ScenarioFragment extends Fragment {
 
         gameScreen.showProgressBar();
 
-        gameScreen.assetManager.load("GameScreen/an_cannons_main.png", Texture.class);
+        gameScreen.assetManager.load("GameScreen/an_cannons_sheet.png", Texture.class);
+        gameScreen.assetManager.load("GameScreen/an_cannons_left_sheet.png", Texture.class);
         gameScreen.assetManager.load("GameScreen/b_star_game.png", Texture.class);
         gameScreen.assetManager.load("GameScreen/b_tulip_1.png", Texture.class);
         gameScreen.assetManager.load("GameScreen/b_decision_add_line.png", Texture.class);
         gameScreen.assetManager.load("GameScreen/b_decision_first_line.png", Texture.class);
         gameScreen.assetManager.load("GameScreen/b_decision_last_line.png", Texture.class);
+
+        for (int i = 0; i < decisions.size(); i++) {
+            String letterResource = animatedMap.get(i);
+
+            gameScreen.assetManager.load(letterResource, Texture.class);
+        }
 
         gameScreen.assetManager.finishLoading();
 
@@ -129,33 +108,22 @@ public class ScenarioFragment extends Fragment {
 
             Scenario scenario = ScenarioRepository.find(game.gameState, decision.scenario);
 
-            ScenarioTranslation translation = null;
-
-            for (ScenarioTranslation item : scenario.translations) {
-                if (game.params.locale.equals(item.locale)) {
-                    translation = item;
-                    break;
-                }
-            }
-
-            String text;
-            if (translation == null) {
-                Log.e(tag, "Missing translation for decision " + decision.scenario);
-                text = decision.scenario;
-            } else {
-                text = translation.text;
-            }
+            String text = scenario.getText(game.params.locale);
 
             final int currentIndex = i;
 
-            Actor button = primaryDecision(text, i, buttonSize, new ClickListener() {
+            PrimaryDecision button = new PrimaryDecision(gameScreen.game, gameScreen.assetManager);
+            button.setText(text);
+            button.setIndex(currentIndex);
+            button.setAnimatedMap(animatedMap);
+            button.setOnClick(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     super.clicked(event, x, y);
-                    try {
-//                        Sound sfx = gameScreen.assetManager.get("sfx/sfx_decision.mp3", Sound.class);
-//                        sfx.play();
 
+                    root.setTouchable(Touchable.disabled);
+
+                    try {
                         makeDecision(currentIndex, decision);
                     } catch (Throwable e) {
                         Log.e(tag, e);
@@ -163,10 +131,12 @@ public class ScenarioFragment extends Fragment {
                 }
             });
 
+            button.init();
+
             buttonList.add(button);
 
             buttons.add(button)
-                    .width(buttonSize)
+                    .width(button.buttonSize)
                     .maxWidth(1000)
                     .pad(10).row();
 
@@ -421,175 +391,5 @@ public class ScenarioFragment extends Fragment {
                 )
 
         );
-    }
-
-    private Actor primaryDecision(String text, final int index, float buttonBounds, final ClickListener onClick) {
-
-        Texture bottom = gameScreen.assetManager.get("GameScreen/b_decision_last_line.png", Texture.class);
-        Texture middle = gameScreen.assetManager.get("GameScreen/b_decision_add_line.png", Texture.class);
-        Texture top = gameScreen.assetManager.get("GameScreen/b_decision_first_line.png", Texture.class);
-
-        final NinePatchDrawable middleBackground = new NinePatchDrawable(new NinePatch(
-                middle, 0, 0, 5, 5
-        ));
-
-        Image backMiddle = new Image(middleBackground);
-        Image backBottom = new Image(bottom);
-        Image backTop = new Image(top);
-
-        BitmapFont font = game.fontProvider.getFont(FontProvider.h2);
-
-        Label label = new WrapLabel(text,
-                new Label.LabelStyle(font, Color.BLACK),
-                buttonBounds);
-        label.setAlignment(Align.center);
-
-        Table labelContainer = new Table();
-        labelContainer.add(label).center().fillX().expand()
-                .padTop(5).padBottom(5)
-                .padLeft(headerSize / 5f).padRight(headerSize / 5f);
-
-        Stack stackMiddle = new Stack();
-        stackMiddle.addActor(backMiddle);
-        stackMiddle.addActor(labelContainer);
-
-        final Table table = new Table();
-
-        table.add(backTop)
-                .expandX().height(headerSize).row();
-        table.add(stackMiddle).row();
-        table.add(backBottom)
-                .expandX().height(50).row();
-
-        final Stack header = createDefaultHeader(index);
-
-        final Stack stack = new Stack();
-        stack.addActorAt(0, table);
-        stack.addActorAt(1, header);
-
-        stack.addListener(new ClickListener() {
-            @Override
-            public void clicked(final InputEvent event, final float x, final float y) {
-                super.clicked(event, x, y);
-
-                root.setTouchable(Touchable.disabled);
-
-                try {
-                    Stack animated = createAnimatedHeader(index);
-
-                    stack.removeActor(header);
-                    stack.addActorAt(1, animated);
-
-                    onClick.clicked(event, x, y);
-                } catch (Throwable e) {
-                    Log.e(tag, e);
-                }
-            }
-        });
-
-        stack.setName("primaryDecision-" + index);
-
-        return stack;
-    }
-
-    private Stack createDefaultHeader(int index) {
-
-        if (!map.containsKey(index)) {
-            throw new NullPointerException("Missing letter for decision at " + index);
-        }
-
-        String letterResource = map.get(index);
-
-        gameScreen.assetManager.load(letterResource, Texture.class);
-
-        gameScreen.assetManager.finishLoading();
-
-        Texture cannon = gameScreen.assetManager.get("GameScreen/an_cannons_main.png", Texture.class);
-        Texture letter = gameScreen.assetManager.get(letterResource, Texture.class);
-
-        SpriteDrawable cannonDrawable = new SpriteDrawable(new Sprite(cannon));
-        SpriteDrawable cannonDrawableRight = new SpriteDrawable(new Sprite(cannon));
-        cannonDrawableRight.getSprite().setFlip(true, false);
-
-        FitImage left = new FitImage(cannonDrawable);
-        FitImage right = new FitImage(cannonDrawableRight);
-        FitImage center = new FitImage(letter);
-
-        Table layer1 = new Table();
-        layer1.add(left).expand()
-                .align(Align.topLeft)
-                .padLeft(buttonSize / 2 - headerSize * 3)
-                .height(headerSize).width(headerSize * 2);
-
-        Table layer2 = new Table();
-        layer2.add(center).expand()
-                .align(Align.top)
-                .size(headerSize);
-
-        Table layer3 = new Table();
-        layer3.add(right).expand()
-                .align(Align.topRight)
-                .padRight(buttonSize / 2 - headerSize * 3)
-                .height(headerSize).width(headerSize * 2);
-
-        Stack root = new Stack();
-        root.setFillParent(true);
-        root.add(layer1);
-        root.add(layer2);
-        root.add(layer3);
-
-        return root;
-    }
-
-    private Stack createAnimatedHeader(int index) {
-
-        if (!animatedMap.containsKey(index)) {
-            throw new NullPointerException("Missing letter for decision at " + index);
-        }
-
-        String letterResource = animatedMap.get(index);
-
-        gameScreen.assetManager.load(letterResource, Texture.class);
-        gameScreen.assetManager.load("GameScreen/an_cannons_sheet.png", Texture.class);
-        gameScreen.assetManager.load("GameScreen/an_cannons_left_sheet.png", Texture.class);
-
-        gameScreen.assetManager.finishLoading();
-
-        Texture letter = gameScreen.assetManager.get(letterResource, Texture.class);
-        Texture sheet = gameScreen.assetManager.get("GameScreen/an_cannons_sheet.png", Texture.class);
-        Texture sheetLeft = gameScreen.assetManager.get("GameScreen/an_cannons_left_sheet.png", Texture.class);
-
-        CannonLetterAnimation center = new CannonLetterAnimation(letter);
-        CannonAnimation left = new CannonAnimation(sheet);
-        CannonAnimation right = new CannonAnimation(sheetLeft);
-
-        left.start();
-        right.start();
-        center.start();
-
-        Table layer1 = new Table();
-        layer1.add(left).expand()
-                .align(Align.topLeft)
-                .padLeft(buttonSize / 2 - headerSize * 3)
-                .height(headerSize).width(headerSize * 2);
-
-        Table layer2 = new Table();
-        layer2.add(center).expand()
-                .align(Align.top).padLeft(30)
-                .size(headerSize * 2f);
-
-        Table layer3 = new Table();
-        layer3.add(right).expand()
-                .align(Align.topRight)
-                .padRight(buttonSize / 2 - headerSize * 3)
-                .height(headerSize).width(headerSize * 2);
-
-        Stack root = new Stack();
-        root.setFillParent(true);
-        root.add(layer1);
-        root.add(layer2);
-        root.add(layer3);
-
-        return root;
     }
 }

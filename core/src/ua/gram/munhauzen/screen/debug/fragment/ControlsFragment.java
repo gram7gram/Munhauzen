@@ -199,6 +199,8 @@ public class ControlsFragment extends Fragment {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
+                game.gameState.expansionInfo = null;
+
                 ExternalFiles.getExpansionInfoFile(game.params).delete();
                 removeCacheLbl.setVisible(false);
             }

@@ -929,12 +929,12 @@ public class ImageFragment extends Fragment {
 
         @Override
         public float getInterval() {
-            return 5;
+            return 60;
         }
 
         @Override
         public float getDelay() {
-            return 5;
+            return 60;
         }
     }
 

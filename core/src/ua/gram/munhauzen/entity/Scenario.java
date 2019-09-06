@@ -58,4 +58,30 @@ public class Scenario implements JsonEntry {
         return VICTORY.equals(name);
     }
 
+    @JsonIgnore
+    public String getText(String locale) {
+
+        String text = name;
+        ScenarioTranslation translation = null;
+
+        if (translations != null) {
+            for (ScenarioTranslation item : translations) {
+                if (locale.equals(item.locale)) {
+                    translation = item;
+                    break;
+                }
+            }
+
+            if (translation == null) {
+                translation = translations.get(0);
+            }
+        }
+
+        if (translation != null) {
+            text = translation.text;
+        }
+
+        return text;
+    }
+
 }

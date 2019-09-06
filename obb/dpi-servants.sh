@@ -3,6 +3,13 @@
 SRC_DIR="/Users/master/Projects/MunhauzenDocs/Elements/interaction SERVANTS"
 OBB_PATH="/Users/master/Projects/Munhauzen/obb"
 
+#mkdir -p $OBB_PATH/xxxhdpi/servants
+#mkdir -p $OBB_PATH/xxhdpi/servants
+#mkdir -p $OBB_PATH/xhdpi/servants
+mkdir -p $OBB_PATH/hdpi/servants
+#mkdir -p $OBB_PATH/mdpi/servants
+#mkdir -p $OBB_PATH/ldpi/servants
+
 cd "$SRC_DIR/servants_1"
 
 echo "=> Converting sources..."
@@ -11,12 +18,12 @@ for file in *.jpg; do
 
         echo "=> $file"
 
-        convert $file -resize 2048 -quality 80 $OBB_PATH/xxxhdpi/servants/$file
-        convert $file -resize 1536 -quality 80 $OBB_PATH/xxhdpi/servants/$file
-        convert $file -resize 1080 -quality 80 $OBB_PATH/xhdpi/servants/$file
+#        convert $file -resize 2048 -quality 80 $OBB_PATH/xxxhdpi/servants/$file
+#        convert $file -resize 1536 -quality 80 $OBB_PATH/xxhdpi/servants/$file
+#        convert $file -resize 1080 -quality 80 $OBB_PATH/xhdpi/servants/$file
         convert $file -resize 750 -quality 80 $OBB_PATH/hdpi/servants/$file
-        convert $file -resize 640 -quality 80 $OBB_PATH/mdpi/servants/$file
-        convert $file -resize 480 -quality 80 $OBB_PATH/ldpi/servants/$file
+#        convert $file -resize 640 -quality 80 $OBB_PATH/mdpi/servants/$file
+#        convert $file -resize 480 -quality 80 $OBB_PATH/ldpi/servants/$file
 
     fi
 done
@@ -28,12 +35,12 @@ for file in *.jpg; do
 
         echo "=> $file"
 
-        convert $file -resize 2048 -quality 80 $OBB_PATH/xxxhdpi/servants/$file
-        convert $file -resize 1536 -quality 80 $OBB_PATH/xxhdpi/servants/$file
-        convert $file -resize 1080 -quality 80 $OBB_PATH/xhdpi/servants/$file
+#        convert $file -resize 2048 -quality 80 $OBB_PATH/xxxhdpi/servants/$file
+#        convert $file -resize 1536 -quality 80 $OBB_PATH/xxhdpi/servants/$file
+#        convert $file -resize 1080 -quality 80 $OBB_PATH/xhdpi/servants/$file
         convert $file -resize 750 -quality 80 $OBB_PATH/hdpi/servants/$file
-        convert $file -resize 640 -quality 80 $OBB_PATH/mdpi/servants/$file
-        convert $file -resize 480 -quality 80 $OBB_PATH/ldpi/servants/$file
+#        convert $file -resize 640 -quality 80 $OBB_PATH/mdpi/servants/$file
+#        convert $file -resize 480 -quality 80 $OBB_PATH/ldpi/servants/$file
 
     fi
 done
