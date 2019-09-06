@@ -296,15 +296,14 @@ public class CannonsStoryManager {
 
         if (story.currentScenario.scenario.isExit) {
 
-            if (interaction.progressBarFragment.canFadeOut()) {
-                interaction.progressBarFragment.fadeOut(new Runnable() {
-                    @Override
-                    public void run() {
-                        complete();
-                    }
-                });
-            } else {
-                complete();
+            if (interaction.progressBarFragment != null) {
+                interaction.progressBarFragment.destroy();
+                interaction.progressBarFragment = null;
+            }
+
+            if (interaction.scenarioFragment != null) {
+                interaction.scenarioFragment.destroy();
+                interaction.scenarioFragment = null;
             }
 
             return;

@@ -29,6 +29,7 @@ public class Timer2Interaction extends AbstractInteraction {
     boolean isLoaded;
     public final String burnScenario;
     public final float burnDurationInSeconds;
+    public boolean isBombCanceled;
 
     public Timer2Interaction(GameScreen gameScreen, String burnScenario, float burnDuration) {
         super(gameScreen);
@@ -41,6 +42,8 @@ public class Timer2Interaction extends AbstractInteraction {
     @Override
     public void start() {
         super.start();
+
+        isBombCanceled = false;
 
         gameScreen.hideProgressBar();
 

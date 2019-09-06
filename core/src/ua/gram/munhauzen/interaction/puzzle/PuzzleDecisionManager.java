@@ -281,9 +281,6 @@ public class PuzzleDecisionManager {
                 case 2:
                     interaction.gameScreen.game.sfxService.onTwoPuzzleItemsCombined();
                     break;
-                case 3:
-                    interaction.gameScreen.game.sfxService.onThreePuzzleItemCombined();
-                    break;
             }
 
         } catch (Throwable e) {

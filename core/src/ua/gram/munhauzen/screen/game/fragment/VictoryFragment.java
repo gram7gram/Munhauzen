@@ -224,7 +224,7 @@ public class VictoryFragment extends Fragment {
         backgroundImage.setVisible(true);
         backgroundImage.setOrigin(
                 backgroundImage.backgroundWidth * .5f,
-                backgroundImage.backgroundHeight * .85f
+                backgroundImage.backgroundHeight * .91f
         );
 
         backgroundImage.clearActions();

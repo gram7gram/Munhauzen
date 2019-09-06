@@ -27,7 +27,7 @@ public class ThankYouBanner extends Banner {
 
     @Override
     Texture getBackgroundTexture() {
-        return screen.assetManager.get("ui/banner_fond_1.png", Texture.class);
+        return screen.assetManager.get("ui/banner_fond_0.png", Texture.class);
     }
 
     @Override
@@ -36,7 +36,7 @@ public class ThankYouBanner extends Banner {
         String[] sentences = {
                 "Thank you for purchasing the full version!",
                 "You are breathtaking!",
-                "Please, rate out application or leave a positive review",
+                "Please, rate out application and leave a positive review",
         };
 
         float minWidth = MunhauzenGame.WORLD_WIDTH * .7f;

@@ -51,12 +51,15 @@ public class HareScenarioFragment extends Fragment {
         this.gameScreen = gameScreen;
         this.interaction = interaction;
 
-        buttonList = new ArrayList<>(4);
+        buttonList = new ArrayList<>();
 
-        animatedMap.put(0, "GameScreen/an_letter_sheet_A.png");
-        animatedMap.put(1, "GameScreen/an_letter_sheet_B.png");
-        animatedMap.put(2, "GameScreen/an_letter_sheet_C.png");
-        animatedMap.put(3, "GameScreen/an_letter_sheet_D.png");
+        animatedMap.put(0, "GameScreen/an_letter_A_sheet.png");
+        animatedMap.put(1, "GameScreen/an_letter_B_sheet.png");
+        animatedMap.put(2, "GameScreen/an_letter_C_sheet.png");
+        animatedMap.put(3, "GameScreen/an_letter_D_sheet.png");
+        animatedMap.put(4, "GameScreen/an_letter_E_sheet.png");
+        animatedMap.put(5, "GameScreen/an_letter_F_sheet.png");
+        animatedMap.put(6, "GameScreen/an_letter_G_sheet.png");
     }
 
     @Override
@@ -76,6 +79,8 @@ public class HareScenarioFragment extends Fragment {
 
         interaction.showProgressBar();
 
+        interaction.assetManager.load("GameScreen/an_cannons_sheet.png", Texture.class);
+        interaction.assetManager.load("GameScreen/an_cannons_left_sheet.png", Texture.class);
         interaction.assetManager.load("GameScreen/b_star_game.png", Texture.class);
         interaction.assetManager.load("GameScreen/b_tulip_1.png", Texture.class);
         interaction.assetManager.load("GameScreen/b_decision_add_line.png", Texture.class);
@@ -85,7 +90,7 @@ public class HareScenarioFragment extends Fragment {
         for (int i = 0; i < decisions.size(); i++) {
             String letterResource = animatedMap.get(i);
 
-            gameScreen.assetManager.load(letterResource, Texture.class);
+            interaction.assetManager.load(letterResource, Texture.class);
         }
 
         interaction.assetManager.finishLoading();

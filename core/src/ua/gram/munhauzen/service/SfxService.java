@@ -228,15 +228,6 @@ public class SfxService {
         }));
     }
 
-    public void onThreePuzzleItemCombined() {
-        prepareAndPlay(MathUtils.random(new String[]{
-                "sfx_inter_puzzle_three_1",
-                "sfx_inter_puzzle_three_2",
-                "sfx_inter_puzzle_three_3"
-        }));
-
-    }
-
     private StoryAudio prepareAndPlay(String sfx) {
         return prepareAndPlay(sfx, null);
     }

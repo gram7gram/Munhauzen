@@ -93,8 +93,6 @@ public class ServantsInteraction extends AbstractInteraction {
 
         gameScreen.gameLayers.setInteractionProgressBarLayer(progressBarFragment);
 
-        progressBarFragment.fadeIn();
-
         hireFragment = new ServantsHireImageFragment(this, state);
         hireFragment.create();
 

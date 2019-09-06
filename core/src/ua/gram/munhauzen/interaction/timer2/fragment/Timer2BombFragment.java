@@ -65,9 +65,19 @@ public class Timer2BombFragment extends Fragment {
     public void cancelTimer() {
         stopTimer();
 
+        interaction.isBombCanceled = true;
+
         root.addAction(Actions.sequence(
                 Actions.alpha(0, .3f),
-                Actions.visible(false)
+                Actions.visible(false),
+                Actions.run(new Runnable() {
+                    @Override
+                    public void run() {
+                        destroy();
+
+                        interaction.imageFragment.bombFragment = null;
+                    }
+                })
         ));
     }
 

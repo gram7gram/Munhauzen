@@ -81,7 +81,6 @@ public class StageInputListener extends ClickListener {
                             if (!barFragment.getRoot().isVisible()) {
                                 if (!barFragment.isFadeIn) {
                                     barFragment.fadeIn();
-                                    barFragment.scheduleFadeOut();
                                 }
                             } else {
                                 if (!barFragment.isFadeOut) {
@@ -116,7 +115,6 @@ public class StageInputListener extends ClickListener {
                             if (!barFragment.getRoot().isVisible()) {
                                 if (!barFragment.isFadeIn) {
                                     barFragment.fadeIn();
-                                    barFragment.scheduleFadeOut();
                                 }
                             } else {
                                 if (!barFragment.isFadeOut) {
@@ -151,7 +149,6 @@ public class StageInputListener extends ClickListener {
                             if (!barFragment.getRoot().isVisible()) {
                                 if (!barFragment.isFadeIn) {
                                     barFragment.fadeIn();
-                                    barFragment.scheduleFadeOut();
                                 }
                             } else {
                                 if (!barFragment.isFadeOut) {
@@ -186,7 +183,6 @@ public class StageInputListener extends ClickListener {
                             if (!barFragment.getRoot().isVisible()) {
                                 if (!barFragment.isFadeIn) {
                                     barFragment.fadeIn();
-                                    barFragment.scheduleFadeOut();
                                 }
                             } else {
                                 if (!barFragment.isFadeOut) {
@@ -205,7 +201,6 @@ public class StageInputListener extends ClickListener {
                             if (!barFragment.getRoot().isVisible()) {
                                 if (!barFragment.isFadeIn) {
                                     barFragment.fadeIn();
-                                    barFragment.scheduleFadeOut();
                                 }
                             } else {
                                 if (!barFragment.isFadeOut) {

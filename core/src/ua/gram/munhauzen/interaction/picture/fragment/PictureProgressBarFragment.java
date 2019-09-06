@@ -5,8 +5,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Event;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -391,13 +389,13 @@ public class PictureProgressBarFragment extends Fragment {
         stack.addActor(decorRightContainer);
         stack.addActor(barTable);
 
-        stack.addListener(new EventListener() {
+        stack.addListener(new ActorGestureListener() {
+
             @Override
-            public boolean handle(Event event) {
+            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                super.touchDown(event, x, y, pointer, button);
 
                 scheduleFadeOut();
-
-                return false;
             }
         });
 
@@ -405,6 +403,8 @@ public class PictureProgressBarFragment extends Fragment {
         root.add(stack).align(Align.bottom).fillX().expand().row();
 
         root.setName(tag);
+
+        scheduleFadeOut();
     }
 
     public float getHeight() {

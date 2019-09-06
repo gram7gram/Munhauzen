@@ -81,8 +81,6 @@ public class AudioRow extends Table {
 
                 try {
 
-                    screen.game.sfxService.onListItemClicked();
-
                     screen.stopAll();
 
                     screen.audioService.prepareAndPlay(fail.storyAudio);

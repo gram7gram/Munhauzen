@@ -49,7 +49,7 @@ public class ScenarioFragment extends Fragment {
         this.storyId = storyId;
         this.game = gameScreen.game;
         this.gameScreen = gameScreen;
-        buttonList = new ArrayList<>(4);
+        buttonList = new ArrayList<>();
 
         animatedMap.put(0, "GameScreen/an_letter_A_sheet.png");
         animatedMap.put(1, "GameScreen/an_letter_B_sheet.png");
