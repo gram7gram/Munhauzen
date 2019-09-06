@@ -51,6 +51,9 @@ public class MenuScreen extends AbstractScreen {
 
         audioService = new AudioService(game);
 
+        assetManager.load("ui/b_sound_on.png", Texture.class);
+        assetManager.load("ui/b_sound_off.png", Texture.class);
+
         assetManager.load("menu/icon_an_crown_sheet.png", Texture.class);
         assetManager.load("menu/icon_an_helmet_sheet.png", Texture.class);
         assetManager.load("menu/icon_an_lion_sheet.png", Texture.class);

@@ -34,6 +34,7 @@ import ua.gram.munhauzen.screen.menu.ui.StartButton;
 import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.ui.FragmentRoot;
+import ua.gram.munhauzen.ui.SoundBtn;
 import ua.gram.munhauzen.utils.Log;
 import ua.gram.munhauzen.utils.Random;
 
@@ -82,6 +83,8 @@ public class ControlsFragment extends Fragment {
         btnTable.add(galleryButton).row();
         btnTable.add(goofsButton).row();
         btnTable.add(authorsButton).row();
+
+        SoundBtn soundBtn = new SoundBtn(screen);
 
         ImageButton exitBtn = getExitBtn();
 
@@ -143,6 +146,11 @@ public class ControlsFragment extends Fragment {
                 .row();
 
         sideTable.add(proBtnAnimation)
+                .size(iconSize)
+                .pad(10)
+                .row();
+
+        sideTable.add(soundBtn)
                 .size(iconSize)
                 .pad(10)
                 .row();

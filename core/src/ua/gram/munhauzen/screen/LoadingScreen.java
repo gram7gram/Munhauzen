@@ -31,6 +31,8 @@ public class LoadingScreen extends AbstractScreen {
 
         assetManager = new InternalAssetManager();
 
+        assetManager.load("loading/t_putty.png", Texture.class);
+        assetManager.load("loading/p_loading.jpg", Texture.class);
         assetManager.load("loading/lv_decor_1.png", Texture.class);
         assetManager.load("loading/ducks_sheet_1x6.png", Texture.class);
         assetManager.load("loading/lv_cloud_1.png", Texture.class);

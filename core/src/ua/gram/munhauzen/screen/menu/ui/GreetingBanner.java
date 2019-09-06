@@ -93,7 +93,7 @@ public class GreetingBanner extends Banner {
 
     private Actor getActionBtn() {
 
-        return screen.game.buttonBuilder.primary("Start", new ClickListener() {
+        return screen.game.buttonBuilder.danger("Start", new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);

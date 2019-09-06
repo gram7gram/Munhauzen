@@ -13,6 +13,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 
+import java.util.ArrayList;
+
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.Save;
@@ -162,7 +164,13 @@ public class SavesFragment extends Fragment {
         rows.align(Align.top);
         rows.pad(10, 80, 10, 120);
 
-        for (Save save : screen.saves.values()) {
+        ArrayList<Save> list = new ArrayList<>();
+        list.add(screen.saves.get("1"));
+        list.add(screen.saves.get("2"));
+        list.add(screen.saves.get("3"));
+        list.add(screen.saves.get("4"));
+
+        for (Save save : list) {
             rows.add(new SaveRow(save, screen))
                     .padBottom(20)
                     .row();

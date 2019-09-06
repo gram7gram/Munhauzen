@@ -22,7 +22,7 @@ public class FontProvider implements Disposable {
             + "АаБбВвГгДдЕеЄЄЖжЗзИиЙйІіЇїКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчЩщШшЮюЯяЬь";
 
     public static final String
-            CalligraphModern = "CalligraphModern.ttf",
+            CalligraphModern2 = "CalligraphModern2.ttf",
             BuxtonSketch = "BuxtonSketch.ttf",
             FleischmannGotich = "FleischmannGotich.ttf",
             DroidSansMono = "DroidSansMono.ttf";
@@ -53,14 +53,14 @@ public class FontProvider implements Disposable {
     }
 
     public BitmapFont getFont(Integer size) {
-        return getFont(CalligraphModern, size);
+        return getFont(CalligraphModern2, size);
     }
 
     public void load() {
 
         Log.i(tag, "load");
 
-        String[] fonts = new String[]{CalligraphModern, DroidSansMono, BuxtonSketch};
+        String[] fonts = new String[]{CalligraphModern2, DroidSansMono, BuxtonSketch};
         int[] sizes = new int[]{small, p, h1, h2, h3, h4, h5};
 
         map = new HashMap<>(fonts.length);
@@ -90,7 +90,7 @@ public class FontProvider implements Disposable {
 
         Log.i(tag, "loadHd");
 
-        String[] fonts = new String[]{FleischmannGotich, CalligraphModern};
+        String[] fonts = new String[]{FleischmannGotich, CalligraphModern2};
         int[] sizes = new int[]{hd};
 
         mapHd = new HashMap<>(fonts.length);

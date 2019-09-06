@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.Audio;
+import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.repository.AudioRepository;
 import ua.gram.munhauzen.utils.Log;
@@ -236,6 +237,7 @@ public class SfxService {
 
         try {
             if (game.expansionAssetManager == null) return null;
+            if (GameState.isMute) return null;
 
             final Audio audio = AudioRepository.find(game.gameState, sfx);
 
@@ -295,6 +297,7 @@ public class SfxService {
 
         try {
             if (game.internalAssetManager == null) return;
+            if (GameState.isMute) return;
 
             final String file = "audio/" + sfx + ".mp3";
 

@@ -10,6 +10,7 @@ import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.screen.LoadingScreen;
 import ua.gram.munhauzen.screen.game.fragment.InteractionFragment;
 import ua.gram.munhauzen.screen.loading.ui.Axe;
+import ua.gram.munhauzen.screen.loading.ui.BackgroundImage;
 import ua.gram.munhauzen.screen.loading.ui.Balloon;
 import ua.gram.munhauzen.screen.loading.ui.Baron;
 import ua.gram.munhauzen.screen.loading.ui.Bomb;
@@ -48,6 +49,7 @@ public class ImageFragment extends InteractionFragment {
     Random r;
     RotatingObject painting, hair, axe, bomb, clock, shoes, statue, moon;
     SlowRotatingObject baron, cup, dog, shovel, sheep;
+    BackgroundImage backgroundImage;
 
     public ImageFragment(LoadingScreen screen) {
         this.screen = screen;
@@ -58,6 +60,8 @@ public class ImageFragment extends InteractionFragment {
         Log.i(tag, "create");
 
         r = new Random();
+
+        backgroundImage = new BackgroundImage(screen);
 
         Texture cloud1Texture = screen.assetManager.get("loading/lv_cloud_1.png", Texture.class);
         Texture cloud2Texture = screen.assetManager.get("loading/lv_cloud_2.png", Texture.class);
@@ -168,6 +172,7 @@ public class ImageFragment extends InteractionFragment {
 
         root = new FragmentRoot();
         root.setTouchable(Touchable.disabled);
+        root.addContainer(backgroundImage);
         root.addContainer(items);
 
         Timer.instance().scheduleTask(new Timer.Task() {

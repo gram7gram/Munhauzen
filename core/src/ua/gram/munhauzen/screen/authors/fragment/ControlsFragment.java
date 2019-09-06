@@ -13,11 +13,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 
 import ua.gram.munhauzen.MunhauzenGame;
-import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.screen.AuthorsScreen;
 import ua.gram.munhauzen.screen.MenuScreen;
 import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.ui.FragmentRoot;
+import ua.gram.munhauzen.ui.SoundBtn;
 import ua.gram.munhauzen.utils.Log;
 
 public class ControlsFragment extends Fragment {
@@ -25,7 +25,6 @@ public class ControlsFragment extends Fragment {
     private final String tag = getClass().getSimpleName();
     private final AuthorsScreen screen;
     public FragmentRoot root;
-    ImageButton soundBtn;
 
     public ControlsFragment(AuthorsScreen screen) {
         this.screen = screen;
@@ -35,7 +34,7 @@ public class ControlsFragment extends Fragment {
 
         Log.i(tag, "create");
 
-        soundBtn = getSoundBtn();
+        SoundBtn soundBtn = new SoundBtn(screen);
 
         ImageButton menuBtn = getMenuBtn();
 
@@ -83,7 +82,7 @@ public class ControlsFragment extends Fragment {
     }
 
     public void update() {
-        soundBtn.setDisabled(GameState.isMute);
+
     }
 
     private ImageButton getMenuBtn() {
@@ -113,34 +112,6 @@ public class ControlsFragment extends Fragment {
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
-            }
-        });
-
-        return btn;
-    }
-
-    private ImageButton getSoundBtn() {
-        Texture txt = screen.assetManager.get("ui/b_sound_on.png", Texture.class);
-        Texture txtOff = screen.assetManager.get("ui/b_sound_off.png", Texture.class);
-
-        ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
-        style.up = new SpriteDrawable(new Sprite(txt));
-        style.down = new SpriteDrawable(new Sprite(txt));
-        style.disabled = new SpriteDrawable(new Sprite(txtOff));
-
-        ImageButton btn = new ImageButton(style);
-
-        float iconSize = MunhauzenGame.WORLD_WIDTH * .1f;
-        float iconSize2 = iconSize * .75f;
-
-        btn.setSize(iconSize, iconSize2);
-
-        btn.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-
-                GameState.isMute = !GameState.isMute;
             }
         });
 
