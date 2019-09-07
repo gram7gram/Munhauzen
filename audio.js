@@ -32,8 +32,8 @@ for (let i = 0; i < sources.length; i++) {
 			fs.writeFileSync(`./audio-${suffix}.csv`, rows.join("\r\n"))
 		}
 
-		musicData.parseFile(path.join(dir, file)).then(metadata => {
-			const duration = Number((metadata.common.duration * 1000).toFixed(4))
+		musicData.parseFile(path.join(dir, file), {duration: true}).then(metadata => {
+			const duration = Number((metadata.format.duration * 1000).toFixed(4))
 			onComplete(file, duration)
 		});
 	}
