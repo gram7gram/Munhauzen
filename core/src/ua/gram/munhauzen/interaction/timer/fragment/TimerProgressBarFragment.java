@@ -143,6 +143,8 @@ public class TimerProgressBarFragment extends Fragment {
 
                     startCurrentMusicIfPaused();
 
+                    gameScreen.game.sfxService.onProgressPlay();
+
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -160,6 +162,8 @@ public class TimerProgressBarFragment extends Fragment {
                     gameScreen.audioService.pause();
 
                     GameState.pause(tag);
+
+                    gameScreen.game.sfxService.onProgressPause();
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -212,6 +216,9 @@ public class TimerProgressBarFragment extends Fragment {
                             }
                         }
                     }, 0, 0.05f);
+
+                    gameScreen.game.sfxService.onProgressScrollStart();
+
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -230,6 +237,8 @@ public class TimerProgressBarFragment extends Fragment {
                     progressTask = null;
 
                     startCurrentMusicIfPaused();
+
+                    gameScreen.game.sfxService.onProgressScrollEnd();
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -268,6 +277,9 @@ public class TimerProgressBarFragment extends Fragment {
                             }
                         }
                     }, 0, 0.05f);
+
+                    gameScreen.game.sfxService.onProgressScrollStart();
+
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -286,6 +298,8 @@ public class TimerProgressBarFragment extends Fragment {
                     progressTask = null;
 
                     startCurrentMusicIfPaused();
+
+                    gameScreen.game.sfxService.onProgressScrollEnd();
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -334,6 +348,8 @@ public class TimerProgressBarFragment extends Fragment {
                 super.touchDown(event, x, y, pointer, button);
 
                 cancelFadeOut();
+
+                gameScreen.game.sfxService.onProgressSkip();
             }
 
             @Override

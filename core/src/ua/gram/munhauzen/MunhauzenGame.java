@@ -69,34 +69,59 @@ public class MunhauzenGame extends Game {
     public void create() {
         Log.i(tag, "create");
 
-        Gdx.input.setCatchBackKey(true);
+        try {
 
-        ExternalFiles.moveExpansionIfNeeded();
+            Gdx.input.setCatchBackKey(true);
 
-        ExternalFiles.updateNomedia();
+            ExternalFiles.moveExpansionIfNeeded();
 
-        preferences = Gdx.app.getPreferences(params.versionCode + "-prefs");
+            ExternalFiles.updateNomedia();
 
-        WORLD_WIDTH = Gdx.graphics.getWidth();
-        WORLD_HEIGHT = Gdx.graphics.getHeight();
+            preferences = Gdx.app.getPreferences(params.versionCode + "-prefs");
 
-        sfxService = new SfxService(this);
-        databaseManager = new DatabaseManager(this);
+            WORLD_WIDTH = Gdx.graphics.getWidth();
+            WORLD_HEIGHT = Gdx.graphics.getHeight();
 
-        loadGameState();
-        loadGlobalAssets();
+            sfxService = new SfxService(this);
+            databaseManager = new DatabaseManager(this);
 
-        createCamera();
-        createBatch();
-        createViewport();
+            loadGameState();
+            loadGlobalAssets();
 
-        internalAssetManager.finishLoading();
+            createCamera();
+            createBatch();
+            createViewport();
 
-        inventoryService = new InventoryService(gameState);
-        buttonBuilder = new ButtonBuilder(this);
-        achievementService = new AchievementService(this);
+            internalAssetManager.finishLoading();
 
-        setScreen(new LogoScreen(this));
+            inventoryService = new InventoryService(gameState);
+            buttonBuilder = new ButtonBuilder(this);
+            achievementService = new AchievementService(this);
+
+            setScreen(new LogoScreen(this));
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            onCriticalError(e);
+        }
+    }
+
+    @Override
+    public void render() {
+
+        try {
+            super.render();
+
+            if (sfxService != null) {
+                sfxService.update();
+            }
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            onCriticalError(e);
+        }
     }
 
     @Override
@@ -134,7 +159,11 @@ public class MunhauzenGame extends Game {
                 internalAssetManager = null;
             }
 
-            sfxService = null;
+            if (sfxService != null) {
+                sfxService.dispose();
+                sfxService = null;
+            }
+
             view = null;
             camera = null;
             preferences = null;
@@ -146,18 +175,6 @@ public class MunhauzenGame extends Game {
 
         } catch (Throwable e) {
             Log.e(tag, e);
-        }
-    }
-
-    @Override
-    public void render() {
-
-        try {
-            super.render();
-        } catch (Throwable e) {
-            Log.e(tag, e);
-
-            onCriticalError(e);
         }
     }
 

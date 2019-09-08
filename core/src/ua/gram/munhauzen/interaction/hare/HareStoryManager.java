@@ -165,6 +165,8 @@ public class HareStoryManager {
                 interaction.scenarioFragment = null;
             }
 
+            complete();
+
             return;
         }
 

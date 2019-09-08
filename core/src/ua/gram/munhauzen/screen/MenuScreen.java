@@ -9,6 +9,7 @@ import ua.gram.munhauzen.entity.AchievementState;
 import ua.gram.munhauzen.entity.AudioFail;
 import ua.gram.munhauzen.entity.Image;
 import ua.gram.munhauzen.entity.MenuState;
+import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.screen.menu.fragment.ControlsFragment;
 import ua.gram.munhauzen.screen.menu.fragment.DemoFragment;
 import ua.gram.munhauzen.screen.menu.fragment.ExitDialog;
@@ -40,6 +41,7 @@ public class MenuScreen extends AbstractScreen {
     public ThankYouFragment thankYouFragment;
     public AudioService audioService;
     public boolean isButtonClicked, isZoomStarted;
+    public StoryAudio currentSfx;
 
     public MenuScreen(MunhauzenGame game) {
         super(game);
@@ -139,12 +141,7 @@ public class MenuScreen extends AbstractScreen {
         if (menuState.showThankYouBanner) {
             menuState.showThankYouBanner = false;
 
-            Timer.instance().scheduleTask(new Timer.Task() {
-                @Override
-                public void run() {
-                    openThankYouBanner();
-                }
-            }, 1);
+            openThankYouBanner();
 
         } else {
 
@@ -177,10 +174,15 @@ public class MenuScreen extends AbstractScreen {
                         openVersionBanner();
                     }
                 }, 2);
-            } else if (achievementState.areAllGoofsUnlocked && achievementState.areAllImagesUnlocked) {
+            } else if (menuState.isFirstMenuAfterGameStart) {
 
-                game.sfxService.onAllGoofsAndImagesUnlocked();
+                menuState.isFirstMenuAfterGameStart = false;
 
+                if (achievementState.areAllGoofsUnlocked && achievementState.areAllImagesUnlocked) {
+
+                    currentSfx = game.sfxService.onAllGoofsAndImagesUnlocked();
+
+                }
             }
         }
 
@@ -323,10 +325,6 @@ public class MenuScreen extends AbstractScreen {
     public void dispose() {
         super.dispose();
 
-        audioService.dispose();
-
-        layers.dispose();
-
         if (exitDialog != null) {
             exitDialog.destroy();
             exitDialog = null;
@@ -356,13 +354,23 @@ public class MenuScreen extends AbstractScreen {
             rateFragment.destroy();
             rateFragment = null;
         }
+
+        if (audioService != null) {
+            audioService.dispose();
+            audioService = null;
+        }
+
+        if (layers != null) {
+            layers.dispose();
+            layers = null;
+        }
     }
 
     public void scaleAndNavigateTo(final Screen screen) {
 
-        controlsFragment.fadeOutFancy();
-
         isZoomStarted = true;
+
+        controlsFragment.fadeOutFancy();
 
         Timer.instance().scheduleTask(new Timer.Task() {
             @Override
@@ -387,5 +395,12 @@ public class MenuScreen extends AbstractScreen {
                 navigateTo(screen);
             }
         }, 2.1f);
+    }
+
+    public void stopCurrentSfx() {
+        if (currentSfx != null) {
+            game.sfxService.dispose(currentSfx);
+            currentSfx = null;
+        }
     }
 }

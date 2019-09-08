@@ -160,6 +160,8 @@ public class HareProgressBarFragment extends Fragment {
 
                     startCurrentMusicIfPaused();
 
+                    gameScreen.game.sfxService.onProgressPlay();
+
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -177,6 +179,8 @@ public class HareProgressBarFragment extends Fragment {
                     gameScreen.audioService.pause();
 
                     GameState.pause(tag);
+
+                    gameScreen.game.sfxService.onProgressPause();
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -229,6 +233,9 @@ public class HareProgressBarFragment extends Fragment {
                             }
                         }
                     }, 0, 0.05f);
+
+                    gameScreen.game.sfxService.onProgressScrollStart();
+
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -247,6 +254,8 @@ public class HareProgressBarFragment extends Fragment {
                     progressTask = null;
 
                     startCurrentMusicIfPaused();
+
+                    gameScreen.game.sfxService.onProgressScrollEnd();
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -285,6 +294,9 @@ public class HareProgressBarFragment extends Fragment {
                             }
                         }
                     }, 0, 0.05f);
+
+                    gameScreen.game.sfxService.onProgressScrollStart();
+
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -303,6 +315,8 @@ public class HareProgressBarFragment extends Fragment {
                     progressTask = null;
 
                     startCurrentMusicIfPaused();
+
+                    gameScreen.game.sfxService.onProgressScrollEnd();
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -349,6 +363,8 @@ public class HareProgressBarFragment extends Fragment {
             @Override
             public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchDown(event, x, y, pointer, button);
+
+                gameScreen.game.sfxService.onProgressSkip();
 
                 cancelFadeOut();
             }

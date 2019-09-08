@@ -3,6 +3,8 @@ package ua.gram.munhauzen.service;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.utils.Timer;
 
+import java.util.HashSet;
+
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.Audio;
 import ua.gram.munhauzen.entity.GameState;
@@ -15,6 +17,7 @@ public class SfxService {
 
     final String tag = getClass().getSimpleName();
     final MunhauzenGame game;
+    private final HashSet<StoryAudio> activeAudio = new HashSet<>();
 
     public SfxService(MunhauzenGame game) {
         this.game = game;
@@ -61,6 +64,38 @@ public class SfxService {
         prepareAndPlay("sfx_button_main");
     }
 
+    public void onBookmarkDown() {
+        prepareAndPlay("sfx_bookmark_down");
+    }
+
+    public void onBookmarkUp() {
+        prepareAndPlay("sfx_bookmark_up");
+    }
+
+    public void onDecisionClicked() {
+        prepareAndPlay("sfx_cannon");
+    }
+
+    public void onProgressScrollEnd() {
+        prepareAndPlay("sfx_audio_scroll_end");
+    }
+
+    public void onProgressScrollStart() {
+        prepareAndPlay("sfx_audio_scroll_start");
+    }
+
+    public void onProgressPause() {
+        prepareAndPlay("sfx_pause");
+    }
+
+    public void onProgressPlay() {
+        prepareAndPlay("sfx_play");
+    }
+
+    public void onProgressSkip() {
+        prepareAndPlay("sfx_button_main");
+    }
+
     public void onListItemClicked() {
         prepareAndPlay("sfx_button_list");
     }
@@ -77,8 +112,8 @@ public class SfxService {
         prepareAndPlay("sfx_menu_win_gallery");
     }
 
-    public void onAllGoofsAndImagesUnlocked() {
-        prepareAndPlay("sfx_menu_win_all");
+    public StoryAudio onAllGoofsAndImagesUnlocked() {
+        return prepareAndPlay("sfx_menu_win_all");
     }
 
     public void onAllMenuInventoryUnlocked() {
@@ -327,12 +362,29 @@ public class SfxService {
         }
     }
 
+    public void update() {
+        for (StoryAudio storyAudio : activeAudio) {
+            if (storyAudio.player != null) {
+                storyAudio.player.setVolume(GameState.isMute ? 0 : 1);
+            }
+        }
+    }
+
+    public void dispose() {
+        for (StoryAudio storyAudio : activeAudio) {
+            dispose(storyAudio);
+        }
+        activeAudio.clear();
+    }
+
     public void dispose(StoryAudio storyAudio) {
 
         if (storyAudio.player != null) {
             storyAudio.player.stop();
             storyAudio.player = null;
         }
+
+        activeAudio.remove(storyAudio);
 
         if (game.expansionAssetManager != null) {
             game.expansionAssetManager.unload(storyAudio.resource);
@@ -345,6 +397,8 @@ public class SfxService {
             storyAudio.player.stop();
             storyAudio.player = null;
         }
+
+        activeAudio.remove(storyAudio);
 
         if (game.internalAssetManager != null) {
             game.internalAssetManager.unload(storyAudio.resource);

@@ -226,6 +226,8 @@ public class WauStoryManager {
                 interaction.scenarioFragment = null;
             }
 
+            complete();
+
             return;
         }
 

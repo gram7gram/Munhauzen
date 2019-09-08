@@ -306,6 +306,8 @@ public class CannonsStoryManager {
                 interaction.scenarioFragment = null;
             }
 
+            complete();
+
             return;
         }
 

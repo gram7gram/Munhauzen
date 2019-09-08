@@ -24,10 +24,8 @@ import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
-import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.screen.MenuScreen;
 import ua.gram.munhauzen.ui.FitImage;
-import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.ui.PrimaryButton;
 import ua.gram.munhauzen.ui.WrapLabel;
@@ -36,17 +34,17 @@ import ua.gram.munhauzen.utils.Log;
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class ExitDialog extends Fragment {
+public class ExitDialog extends MenuFragment {
 
     private final String tag = getClass().getSimpleName();
     private final MunhauzenGame game;
-    public final MenuScreen screen;
     public FragmentRoot root;
     private final float headerSize, buttonSize;
 
     public ExitDialog(MenuScreen screen) {
+        super(screen);
+
         this.game = screen.game;
-        this.screen = screen;
 
         headerSize = MunhauzenGame.WORLD_HEIGHT / 20f;
         buttonSize = MunhauzenGame.WORLD_WIDTH * 3 / 4f;
@@ -58,6 +56,7 @@ public class ExitDialog extends Fragment {
     }
 
     public void create() {
+        super.create();
 
         screen.assetManager.load("GameScreen/b_decision_last_line.png", Texture.class);
         screen.assetManager.load("GameScreen/b_decision_add_line.png", Texture.class);
@@ -78,14 +77,16 @@ public class ExitDialog extends Fragment {
                 try {
                     root.setTouchable(Touchable.disabled);
 
-                    StoryAudio storyAudio = game.sfxService.onExitYesClicked();
+                    screen.stopCurrentSfx();
+
+                    screen.currentSfx = game.sfxService.onExitYesClicked();
 
                     Timer.instance().scheduleTask(new Timer.Task() {
                         @Override
                         public void run() {
                             onYesClicked();
                         }
-                    }, storyAudio.duration / 1000f);
+                    }, screen.currentSfx.duration / 1000f);
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -102,6 +103,8 @@ public class ExitDialog extends Fragment {
 
                 try {
                     root.setTouchable(Touchable.disabled);
+
+                    screen.stopCurrentSfx();
 
                     game.sfxService.onExitNoClicked();
 

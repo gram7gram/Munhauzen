@@ -118,7 +118,7 @@ public class PrimaryDecision extends Stack {
 
                 try {
 
-                    game.sfxService.onAnyBtnClicked();
+                    game.sfxService.onDecisionClicked();
 
                     cannonLeft.start();
                     cannonRight.start();

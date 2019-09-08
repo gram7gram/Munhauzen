@@ -10,26 +10,23 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.screen.MenuScreen;
 import ua.gram.munhauzen.screen.menu.ui.DemoBanner;
-import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.utils.Log;
 
-public class DemoFragment extends Fragment {
+public class DemoFragment extends MenuFragment {
 
-    public final MenuScreen screen;
     FragmentRoot root;
     public boolean isFadeIn;
     public boolean isFadeOut;
-    StoryAudio audio;
 
     public DemoFragment(MenuScreen screen) {
-        this.screen = screen;
+        super(screen);
     }
 
     public void create() {
+        super.create();
 
         screen.assetManager.load("ui/banner_fond_1.png", Texture.class);
         screen.assetManager.load("menu/b_demo_version_2.png", Texture.class);
@@ -44,7 +41,6 @@ public class DemoFragment extends Fragment {
 
         Container c = new Container();
         c.setTouchable(Touchable.enabled);
-//        c.setBackground(new SpriteDrawable(new Sprite(new Texture(px))));
 
         root = new FragmentRoot();
         root.addContainer(c);
@@ -101,7 +97,7 @@ public class DemoFragment extends Fragment {
                 })
         ));
 
-        audio = screen.game.sfxService.onDemoBannerShown();
+        screen.currentSfx = screen.game.sfxService.onDemoBannerShown();
     }
 
     public boolean canFadeOut() {
@@ -177,16 +173,6 @@ public class DemoFragment extends Fragment {
 
         } catch (Throwable e) {
             Log.e(tag, e);
-        }
-    }
-
-    @Override
-    public void dispose() {
-        super.dispose();
-
-        if (audio != null) {
-            screen.game.sfxService.dispose(audio);
-            audio = null;
         }
     }
 }

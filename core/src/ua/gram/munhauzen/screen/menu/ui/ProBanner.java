@@ -41,7 +41,7 @@ public class ProBanner extends Banner {
         float minWidth = MunhauzenGame.WORLD_WIDTH * .7f;
 
         Table content = new Table();
-        content.pad(20, 70, 20, 70);
+        content.pad(20, 70, 40, 70);
 
         float cellMinWidth = minWidth - content.getPadLeft() - content.getPadRight();
 

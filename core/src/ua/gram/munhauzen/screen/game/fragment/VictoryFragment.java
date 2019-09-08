@@ -319,13 +319,9 @@ public class VictoryFragment extends Fragment {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                try {
-                    onComplete();
-                } catch (Throwable e) {
-                    Log.e(tag, e);
+                screen.game.sfxService.onAnyBtnClicked();
 
-                    screen.onCriticalError(e);
-                }
+                onComplete();
             }
         });
 

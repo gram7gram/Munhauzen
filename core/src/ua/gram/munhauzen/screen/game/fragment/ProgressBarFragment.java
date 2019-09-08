@@ -145,6 +145,9 @@ public class ProgressBarFragment extends Fragment {
                     GameState.unpause(tag);
 
                     startCurrentMusicIfPaused();
+
+                    gameScreen.game.sfxService.onProgressPlay();
+
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -162,6 +165,9 @@ public class ProgressBarFragment extends Fragment {
                     gameScreen.audioService.pause();
 
                     GameState.pause(tag);
+
+                    gameScreen.game.sfxService.onProgressPause();
+
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -193,6 +199,9 @@ public class ProgressBarFragment extends Fragment {
                     GameState.pause(tag);
 
                     postProgressChanged();
+
+                    gameScreen.game.sfxService.onProgressSkip();
+
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -232,6 +241,9 @@ public class ProgressBarFragment extends Fragment {
                     }
 
                     postProgressChanged();
+
+                    gameScreen.game.sfxService.onProgressSkip();
+
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -281,6 +293,8 @@ public class ProgressBarFragment extends Fragment {
                         }
                     }, 0, 0.05f);
 
+                    gameScreen.game.sfxService.onProgressScrollStart();
+
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -299,6 +313,9 @@ public class ProgressBarFragment extends Fragment {
                     progressTask = null;
 
                     startCurrentMusicIfPaused();
+
+                    gameScreen.game.sfxService.onProgressScrollEnd();
+
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -335,6 +352,9 @@ public class ProgressBarFragment extends Fragment {
                             }
                         }
                     }, 0, 0.05f);
+
+                    gameScreen.game.sfxService.onProgressScrollStart();
+
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -352,6 +372,9 @@ public class ProgressBarFragment extends Fragment {
                     progressTask = null;
 
                     startCurrentMusicIfPaused();
+
+                    gameScreen.game.sfxService.onProgressScrollEnd();
+
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -380,6 +403,8 @@ public class ProgressBarFragment extends Fragment {
                 super.touchDown(event, x, y, pointer, button);
 
                 cancelFadeOut();
+
+                gameScreen.game.sfxService.onProgressSkip();
             }
 
             @Override

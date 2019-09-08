@@ -8,26 +8,23 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.screen.MenuScreen;
 import ua.gram.munhauzen.screen.menu.ui.GreetingBanner;
-import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.utils.Log;
 
-public class GreetingFragment extends Fragment {
+public class GreetingFragment extends MenuFragment {
 
-    public final MenuScreen screen;
     FragmentRoot root;
     public boolean isFadeIn;
     public boolean isFadeOut;
-    StoryAudio audio;
 
     public GreetingFragment(MenuScreen screen) {
-        this.screen = screen;
+        super(screen);
     }
 
     public void create() {
+        super.create();
 
         screen.assetManager.load("ui/banner_fond_0.png", Texture.class);
         screen.assetManager.load("menu/b_full_version_2.png", Texture.class);
@@ -84,7 +81,7 @@ public class GreetingFragment extends Fragment {
                 })
         ));
 
-        audio = screen.game.sfxService.onGreetingBannerShown();
+        screen.currentSfx = screen.game.sfxService.onGreetingBannerShown();
     }
 
     public boolean canFadeOut() {
@@ -143,13 +140,4 @@ public class GreetingFragment extends Fragment {
         return root;
     }
 
-    @Override
-    public void dispose() {
-        super.dispose();
-
-        if (audio != null) {
-            screen.game.sfxService.dispose(audio);
-            audio = null;
-        }
-    }
 }

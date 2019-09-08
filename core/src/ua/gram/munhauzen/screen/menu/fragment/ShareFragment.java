@@ -11,26 +11,23 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.screen.MenuScreen;
 import ua.gram.munhauzen.screen.menu.ui.ShareBanner;
-import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.utils.Log;
 
-public class ShareFragment extends Fragment {
+public class ShareFragment extends MenuFragment {
 
-    public final MenuScreen screen;
     FragmentRoot root;
     public boolean isFadeIn;
     public boolean isFadeOut;
-    StoryAudio audio;
 
     public ShareFragment(MenuScreen screen) {
-        this.screen = screen;
+        super(screen);
     }
 
     public void create() {
+        super.create();
 
         screen.assetManager.load("ui/banner_fond_1.png", Texture.class);
         screen.assetManager.load("menu/b_share_2.png", Texture.class);
@@ -106,7 +103,7 @@ public class ShareFragment extends Fragment {
                 })
         ));
 
-        audio = screen.game.sfxService.onShareBannerShown();
+        screen.currentSfx = screen.game.sfxService.onShareBannerShown();
     }
 
     public boolean canFadeOut() {
@@ -185,15 +182,5 @@ public class ShareFragment extends Fragment {
             Log.e(tag, e);
         }
 
-    }
-
-    @Override
-    public void dispose() {
-        super.dispose();
-
-        if (audio != null) {
-            screen.game.sfxService.dispose(audio);
-            audio = null;
-        }
     }
 }

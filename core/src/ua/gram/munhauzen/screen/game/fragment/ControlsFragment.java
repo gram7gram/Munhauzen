@@ -140,6 +140,8 @@ public class ControlsFragment extends Fragment {
             private void start() {
                 Log.i(tag, "Slide up menu");
 
+                gameScreen.game.sfxService.onBookmarkUp();
+
                 menuGroup.clearActions();
                 menuGroup.addAction(
                         Actions.sequence(
@@ -178,6 +180,8 @@ public class ControlsFragment extends Fragment {
             private void start() {
 
                 Log.i(tag, "Slide down menu");
+
+                gameScreen.game.sfxService.onBookmarkDown();
 
                 menuButton.setTouchable(Touchable.disabled);
                 menuTailButton.setTouchable(Touchable.disabled);
@@ -263,6 +267,8 @@ public class ControlsFragment extends Fragment {
 
                 Log.i(tag, "Slide up sound");
 
+                gameScreen.game.sfxService.onBookmarkUp();
+
                 soundGroup.clearActions();
                 soundGroup.addAction(
                         Actions.sequence(
@@ -301,6 +307,8 @@ public class ControlsFragment extends Fragment {
             private void start() {
 
                 Log.i(tag, "Slide down sound");
+
+                gameScreen.game.sfxService.onBookmarkDown();
 
                 soundButton.setTouchable(Touchable.disabled);
                 soundTailButton.setTouchable(Touchable.disabled);
@@ -397,6 +405,9 @@ public class ControlsFragment extends Fragment {
     }
 
     private void onMenuClicked() {
+
+        gameScreen.game.sfxService.onBackToMenuClicked();
+
         gameScreen.navigateTo(new MenuScreen(gameScreen.game));
     }
 

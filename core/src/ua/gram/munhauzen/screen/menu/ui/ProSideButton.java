@@ -25,6 +25,8 @@ public class ProSideButton extends AnimatedImage {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
+                screen.game.sfxService.onAnyBtnClicked();
+
                 try {
 
                     screen.proFragment = new ProFragment(screen);

@@ -16,7 +16,6 @@ import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.entity.StoryImage;
 import ua.gram.munhauzen.entity.StoryScenario;
-import ua.gram.munhauzen.interaction.InteractionFactory;
 import ua.gram.munhauzen.repository.ScenarioRepository;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.screen.game.fragment.ScenarioFragment;
@@ -265,7 +264,7 @@ public class StoryManager {
             startVictory(story);
 
         } else {
-            String interaction = InteractionFactory.TIMER + "(a33,100)";//story.currentScenario.scenario.interaction;
+            String interaction = story.currentScenario.scenario.interaction;
             if (interaction != null) {
                 gameScreen.interactionService.create(interaction);
             }

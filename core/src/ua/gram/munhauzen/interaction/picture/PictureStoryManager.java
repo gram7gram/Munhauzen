@@ -196,6 +196,8 @@ public class PictureStoryManager {
                 interaction.scenarioFragment = null;
             }
 
+            complete();
+
             return;
         }
 

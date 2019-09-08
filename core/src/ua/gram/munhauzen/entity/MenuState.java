@@ -14,5 +14,5 @@ public class MenuState implements JsonEntry {
     @JsonProperty
     public boolean isContinueEnabled;
     @JsonProperty
-    public boolean isFirstVisit = true;
+    public boolean isFirstMenuAfterGameStart = true;
 }

@@ -209,6 +209,8 @@ public class GeneralsStoryManager {
                 interaction.scenarioFragment = null;
             }
 
+            complete();
+
             return;
         }
 

@@ -11,7 +11,7 @@
     ],
     "images": [
       {
-        "image": "picture/p35_0.jpg",
+        "image": "images/p35_0.jpg",
         "duration": 18000
       },
       {
@@ -19,7 +19,7 @@
         "duration": 25500
       },
       {
-        "image": "picture/p35_what.jpg",
+        "image": "images/p35_what.jpg",
         "duration": 500
       }
     ],
@@ -56,7 +56,7 @@
         "duration": 500
       },
       {
-        "image": "picture/p35_what.jpg",
+        "image": "images/p35_what.jpg",
         "duration": 500
       }
     ],
@@ -94,7 +94,7 @@
     ],
     "images": [
       {
-        "image": "picture/p35_what_black.jpg",
+        "image": "images/p35_what.jpg",
         "duration": 10000
       }
     ],
@@ -115,7 +115,7 @@
     ],
     "images": [
       {
-        "image": "picture/p35_what_black.jpg",
+        "image": "images/p35_what.jpg",
         "duration": 12000
       }
     ],
@@ -136,7 +136,7 @@
     ],
     "images": [
       {
-        "image": "picture/p35_what_black.jpg",
+        "image": "images/p35_what.jpg",
         "duration": 9000
       }
     ],
@@ -157,7 +157,7 @@
     ],
     "images": [
       {
-        "image": "picture/p35_what_black.jpg",
+        "image": "images/p35_what.jpg",
         "duration": 8000
       }
     ],
@@ -179,11 +179,11 @@
     ],
     "images": [
       {
-        "image": "picture/p35_what.jpg",
+        "image": "images/p35_what.jpg",
         "duration": 47000
       },
       {
-        "image": "picture/p36_e.jpg",
+        "image": "images/p36_e.jpg",
         "duration": 164000
       }
     ],

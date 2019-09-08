@@ -902,17 +902,7 @@ public class ImageFragment extends Fragment {
 
             screen.assetManager.finishLoading();
 
-            animate(screen.assetManager.get(resource, Texture.class), 3, 3, 9, 2f);
-        }
-
-        @Override
-        public void start() {
-            super.start();
-
-            puppetAudio = new StoryAudio();
-            puppetAudio.audio = "s15_menu";
-
-            screen.audioService.prepareAndPlay(puppetAudio);
+            animate(screen.assetManager.get(resource, Texture.class), 3, 3, 9, .15f);
         }
 
         @Override
