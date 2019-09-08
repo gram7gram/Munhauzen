@@ -27,8 +27,8 @@ echo "[+] Sync with remote server..."
 
 ssh root@${SERVER} "mkdir -p /var/www/munhauzen-web/api/public/expansions/${VERSION}"
 
-scp ./${VERSION}/patch.zip \
-    root@${SERVER}:/var/www/munhauzen-web/api/public/expansions/${VERSION}/patch.zip
+scp ./${VERSION}/* \
+    root@${SERVER}:/var/www/munhauzen-web/api/public/expansions/${VERSION}
 
 echo "[+] Deploying json expansion..."
 

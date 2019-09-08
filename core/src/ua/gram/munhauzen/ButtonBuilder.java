@@ -18,6 +18,7 @@ public class ButtonBuilder {
     private final MunhauzenGame game;
     private final Texture primaryDisabled, primaryEnabled;
     private final Texture dangerDisabled, dangerEnabled;
+    final int pad = 50;
 
     public ButtonBuilder(MunhauzenGame game) {
         this.game = game;
@@ -29,8 +30,10 @@ public class ButtonBuilder {
 
     public PrimaryButton primary(String text, final ClickListener onClick) {
 
-        NinePatchDrawable background1 = new NinePatchDrawable(new NinePatch(primaryEnabled, 30, 30, 0, 0));
-        NinePatchDrawable background2 = new NinePatchDrawable(new NinePatch(primaryDisabled, 30, 30, 0, 0));
+        NinePatchDrawable background1 = new NinePatchDrawable(new NinePatch(primaryEnabled,
+                pad, pad, 0, 0));
+        NinePatchDrawable background2 = new NinePatchDrawable(new NinePatch(primaryDisabled,
+                pad, pad, 0, 0));
 
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
         style.font = game.fontProvider.getFont(FontProvider.h4);
@@ -101,8 +104,10 @@ public class ButtonBuilder {
 
     public PrimaryButton danger(String text, final ClickListener onClick) {
 
-        NinePatchDrawable background1 = new NinePatchDrawable(new NinePatch(dangerEnabled, 30, 30, 0, 0));
-        NinePatchDrawable background2 = new NinePatchDrawable(new NinePatch(dangerDisabled, 30, 30, 0, 0));
+        NinePatchDrawable background1 = new NinePatchDrawable(new NinePatch(dangerEnabled,
+                pad, pad, 0, 0));
+        NinePatchDrawable background2 = new NinePatchDrawable(new NinePatch(dangerDisabled,
+                pad, pad, 0, 0));
 
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
         style.font = game.fontProvider.getFont(FontProvider.h4);
