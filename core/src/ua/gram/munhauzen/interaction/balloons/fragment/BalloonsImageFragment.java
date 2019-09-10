@@ -18,6 +18,7 @@ import com.badlogic.gdx.utils.Timer;
 
 import java.util.ArrayList;
 
+import ua.gram.munhauzen.ButtonBuilder;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.StoryAudio;
@@ -168,8 +169,8 @@ public class BalloonsImageFragment extends InteractionFragment {
         restartTable.pad(10);
         restartTable.add(restartTitle).padBottom(20).center().expandX().row();
         restartTable.add(resetButton).center().expandX()
-                .width(MunhauzenGame.WORLD_WIDTH / 3f)
-                .height(MunhauzenGame.WORLD_HEIGHT / 12f)
+                .width(ButtonBuilder.BTN_PRIMARY_WIDTH)
+                .height(ButtonBuilder.BTN_PRIMARY_HEIGHT)
                 .row();
 
         winTable = new Table();
@@ -177,8 +178,8 @@ public class BalloonsImageFragment extends InteractionFragment {
         winTable.pad(10);
         winTable.add(winTitle).padBottom(20).center().expandX().row();
         winTable.add(completeButton).center().expandX()
-                .width(MunhauzenGame.WORLD_WIDTH / 3f)
-                .height(MunhauzenGame.WORLD_HEIGHT / 12f)
+                .width(ButtonBuilder.BTN_PRIMARY_WIDTH)
+                .height(ButtonBuilder.BTN_PRIMARY_HEIGHT)
                 .row();
 
         setBackground(

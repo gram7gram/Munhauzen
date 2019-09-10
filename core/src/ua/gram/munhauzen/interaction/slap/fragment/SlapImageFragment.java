@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Timer;
 
+import ua.gram.munhauzen.ButtonBuilder;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.interaction.SlapInteraction;
@@ -80,9 +81,9 @@ public class SlapImageFragment extends InteractionFragment {
         headerTable.setFillParent(true);
         headerTable.pad(10, 10, 50, 10);
         headerTable.add(btn)
-                .width(MunhauzenGame.WORLD_WIDTH * .3f)
-                .height(MunhauzenGame.WORLD_HEIGHT / 15f)
-                .bottom().expand();
+                .bottom().expand()
+                .width(ButtonBuilder.BTN_PRIMARY_WIDTH)
+                .height(ButtonBuilder.BTN_PRIMARY_HEIGHT);
 
         group = new Group();
         group.addActor(beforeTable);

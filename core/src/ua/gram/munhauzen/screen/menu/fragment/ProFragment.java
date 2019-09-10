@@ -118,6 +118,8 @@ public class ProFragment extends MenuFragment {
                 })
         ));
 
+        screen.stopCurrentSfx();
+
         screen.currentSfx = screen.game.sfxService.onProBannerShown();
     }
 

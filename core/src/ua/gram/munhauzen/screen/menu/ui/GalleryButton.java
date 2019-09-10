@@ -20,9 +20,11 @@ public class GalleryButton extends MenuButton {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
+                screen.stopCurrentSfx();
+
                 screen.game.sfxService.onAnyBtnClicked();
 
-                screen.game.sfxService.onMenuGalleryClicked();
+                screen.currentSfx = screen.game.sfxService.onMenuGalleryClicked();
 
                 screen.navigateTo(new GalleryScreen(screen.game));
             }

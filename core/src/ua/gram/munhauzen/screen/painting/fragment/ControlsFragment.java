@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 
+import ua.gram.munhauzen.ButtonBuilder;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.screen.GalleryScreen;
 import ua.gram.munhauzen.screen.PaintingScreen;
@@ -63,8 +64,8 @@ public class ControlsFragment extends Fragment {
 
         Table menuTable = new Table();
         menuTable.add(menuBtn)
-                .width(MunhauzenGame.WORLD_WIDTH * .25f)
-                .height(MunhauzenGame.WORLD_HEIGHT * .08f)
+                .width(ButtonBuilder.BTN_PRIMARY_SM_WIDTH)
+                .height(ButtonBuilder.BTN_PRIMARY_SM_HEIGHT)
                 .row();
 
         Container menuContainer = new Container<>(menuTable);

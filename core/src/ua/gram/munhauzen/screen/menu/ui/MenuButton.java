@@ -84,6 +84,8 @@ public abstract class MenuButton extends Stack {
 
                 screen.isButtonClicked = true;
 
+                screen.layers.setBannerLayer(null);
+
                 GameState.clearTimer();
 
                 Timer.instance().scheduleTask(new Timer.Task() {

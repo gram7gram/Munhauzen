@@ -10,8 +10,8 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import ua.gram.munhauzen.entity.GameState;
+import ua.gram.munhauzen.screen.DebugScreen;
 import ua.gram.munhauzen.screen.ErrorScreen;
-import ua.gram.munhauzen.screen.LogoScreen;
 import ua.gram.munhauzen.service.AchievementService;
 import ua.gram.munhauzen.service.DatabaseManager;
 import ua.gram.munhauzen.service.InventoryService;
@@ -27,10 +27,10 @@ public class MunhauzenGame extends Game {
     public static int WORLD_HEIGHT;
     public static boolean PAUSED = false;
 
-    public static final boolean DEBUG = false;
+    public static final boolean DEBUG = true;
     public static final boolean IS_EXPANSION_HIDDEN = true;
     public static final boolean DEBUG_RENDER_INFO = true;
-    public static final boolean CAN_REMOVE_PREVIOUS_EXPANSION = true;
+    public static final boolean CAN_REMOVE_PREVIOUS_EXPANSION = false;
     public static final boolean CAN_SKIP_EXPANSION_VALIDATION = true;
     public static final int PROGRESS_BAR_FADE_OUT_DELAY = 5;
 
@@ -98,7 +98,7 @@ public class MunhauzenGame extends Game {
             buttonBuilder = new ButtonBuilder(this);
             achievementService = new AchievementService(this);
 
-            setScreen(new LogoScreen(this));
+            setScreen(new DebugScreen(this));
 
         } catch (Throwable e) {
             Log.e(tag, e);

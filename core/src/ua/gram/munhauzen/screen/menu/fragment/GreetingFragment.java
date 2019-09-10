@@ -81,6 +81,8 @@ public class GreetingFragment extends MenuFragment {
                 })
         ));
 
+        screen.stopCurrentSfx();
+
         screen.currentSfx = screen.game.sfxService.onGreetingBannerShown();
     }
 

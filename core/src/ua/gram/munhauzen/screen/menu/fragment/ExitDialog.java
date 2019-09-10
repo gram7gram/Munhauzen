@@ -2,7 +2,6 @@ package ua.gram.munhauzen.screen.menu.fragment;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
@@ -22,6 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Timer;
 
+import ua.gram.munhauzen.ButtonBuilder;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.screen.MenuScreen;
@@ -120,11 +120,11 @@ public class ExitDialog extends MenuFragment {
 
         Table table = new Table();
         table.add(yesBtn).left().expandX().padRight(5)
-                .width(MunhauzenGame.WORLD_WIDTH / 3f)
-                .height(MunhauzenGame.WORLD_HEIGHT / 10f);
+                .width(ButtonBuilder.BTN_PRIMARY_WIDTH)
+                .height(ButtonBuilder.BTN_PRIMARY_HEIGHT);
         table.add(noBtn).right().expandX().padLeft(5)
-                .width(MunhauzenGame.WORLD_WIDTH / 3f)
-                .height(MunhauzenGame.WORLD_HEIGHT / 10f);
+                .width(ButtonBuilder.BTN_PRIMARY_WIDTH)
+                .height(ButtonBuilder.BTN_PRIMARY_HEIGHT);
 
         Table content = new Table();
         content.add(button).width(buttonSize).maxWidth(1000)
@@ -133,13 +133,8 @@ public class ExitDialog extends MenuFragment {
                 .maxWidth(1000);
 
         Container<Table> container = new Container<>(content);
+        container.setTouchable(Touchable.enabled);
         container.pad(MunhauzenGame.WORLD_WIDTH * .05f);
-
-        Pixmap px = new Pixmap(1, 1, Pixmap.Format.RGBA4444);
-        px.setColor(Color.BLACK.r, Color.BLACK.g, Color.BLACK.b, .3f);
-        px.fill();
-
-//        container.setBackground(new SpriteDrawable(new Sprite(new Texture(px))));
 
         container.addListener(new ClickListener() {
             @Override
@@ -192,6 +187,10 @@ public class ExitDialog extends MenuFragment {
                         Actions.moveBy(0, -20, .3f)
                 )
         ));
+
+        screen.stopCurrentSfx();
+
+        screen.currentSfx = screen.game.sfxService.onExitClicked();
     }
 
     public void fadeOut(Runnable task) {

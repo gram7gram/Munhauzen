@@ -15,9 +15,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
+import ua.gram.munhauzen.ButtonBuilder;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
-import ua.gram.munhauzen.MunhauzenStage;
+import ua.gram.munhauzen.ui.MunhauzenStage;
 import ua.gram.munhauzen.ui.PrimaryButton;
 
 /**
@@ -82,22 +83,25 @@ public class ErrorScreen implements Screen {
             }
         });
 
+        float width = MunhauzenGame.WORLD_WIDTH - 20;
+
         Table tableTop = new Table();
         tableTop.pad(10);
-        tableTop.add(causeLbl).width(MunhauzenGame.WORLD_WIDTH - 20).padBottom(5).row();
-        tableTop.add(title).width(MunhauzenGame.WORLD_WIDTH - 20);
+        tableTop.add(causeLbl).width(width).padBottom(5).row();
+        tableTop.add(title).width(width);
         tableTop.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture(pm1))));
 
         Table tableCenter = new Table();
         tableCenter.pad(10);
-        tableCenter.add(description).width(MunhauzenGame.WORLD_WIDTH - 20);
+        tableCenter.add(description).width(width);
 
         Table tableBottom = new Table();
         tableBottom.pad(10);
-        tableBottom.add(button).center()
-                .width(MunhauzenGame.WORLD_WIDTH / 3f)
-                .height(MunhauzenGame.WORLD_HEIGHT / 15f)
-                .expand().row();
+        tableBottom.add(button)
+                .center().expand()
+                .width(ButtonBuilder.BTN_PRIMARY_WIDTH)
+                .height(ButtonBuilder.BTN_PRIMARY_HEIGHT)
+                .row();
 
 
         Table group = new Table();

@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Timer;
 
+import ua.gram.munhauzen.ButtonBuilder;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.screen.LoadingScreen;
@@ -129,8 +130,8 @@ public class ControlsFragment extends Fragment {
         progressTable.add(progress).width(MunhauzenGame.WORLD_WIDTH / 2f).padBottom(5).row();
         progressTable.add(progressMessage).width(MunhauzenGame.WORLD_WIDTH / 2f).padBottom(10).row();
         progressTable.add(retryBtn)
-                .width(300)
-                .height(100)
+                .width(ButtonBuilder.BTN_PRIMARY_WIDTH)
+                .height(ButtonBuilder.BTN_PRIMARY_HEIGHT)
                 .row();
 
         Table titleTable = new Table();
@@ -160,8 +161,8 @@ public class ControlsFragment extends Fragment {
                 .width(MunhauzenGame.WORLD_WIDTH * .75f)
                 .padBottom(10).row();
         startTable.add(startBtn)
-                .width(300)
-                .height(100);
+                .width(ButtonBuilder.BTN_PRIMARY_WIDTH)
+                .height(ButtonBuilder.BTN_PRIMARY_HEIGHT);
 
         Container<Image> topContainer = new Container<>(decorTop);
         topContainer.pad(5);

@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 
+import ua.gram.munhauzen.ButtonBuilder;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.interaction.ServantsInteraction;
@@ -82,11 +83,11 @@ public class CompleteDialog extends Fragment {
 
         Table table = new Table();
         table.add(yesBtn).left().expandX().padRight(5)
-                .width(MunhauzenGame.WORLD_WIDTH / 3f)
-                .height(MunhauzenGame.WORLD_HEIGHT / 10f);
+                .width(ButtonBuilder.BTN_PRIMARY_WIDTH)
+                .height(ButtonBuilder.BTN_PRIMARY_HEIGHT);
         table.add(noBtn).right().expandX().padLeft(5)
-                .width(MunhauzenGame.WORLD_WIDTH / 3f)
-                .height(MunhauzenGame.WORLD_HEIGHT / 10f);
+                .width(ButtonBuilder.BTN_PRIMARY_WIDTH)
+                .height(ButtonBuilder.BTN_PRIMARY_HEIGHT);
 
         root = new Table();
         root.add(button).width(buttonSize).maxWidth(1000)

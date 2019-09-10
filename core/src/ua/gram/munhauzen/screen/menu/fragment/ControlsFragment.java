@@ -493,7 +493,9 @@ public class ControlsFragment extends Fragment {
 
                 try {
 
-                    screen.game.sfxService.onExitClicked();
+                    screen.stopCurrentSfx();
+
+                    screen.game.sfxService.onAnyBtnClicked();
 
                     screen.exitDialog = new ExitDialog(screen);
                     screen.exitDialog.create();

@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.Timer;
 
 import java.util.ArrayList;
 
+import ua.gram.munhauzen.ButtonBuilder;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.Inventory;
@@ -151,16 +152,14 @@ public class ServantsFireImageFragment extends InteractionFragment {
         uiTable.add().expand().row();
 
         uiTable.add(backBtn)
-                .left()
-                .width(MunhauzenGame.WORLD_WIDTH * .25f)
-                .height(MunhauzenGame.WORLD_HEIGHT / 15f)
-                .expandX();
+                .left().expandX()
+                .width(ButtonBuilder.BTN_PRIMARY_SM_WIDTH)
+                .height(ButtonBuilder.BTN_PRIMARY_SM_HEIGHT);
 
         uiTable.add(clearBtn)
-                .right()
-                .width(MunhauzenGame.WORLD_WIDTH * .25f)
-                .height(MunhauzenGame.WORLD_HEIGHT / 15f)
-                .expandX();
+                .right().expandX()
+                .width(ButtonBuilder.BTN_PRIMARY_SM_WIDTH)
+                .height(ButtonBuilder.BTN_PRIMARY_SM_HEIGHT);
 
         fireContainer = new Table();
 

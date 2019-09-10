@@ -20,9 +20,11 @@ public class SavesButton extends MenuButton {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
+                screen.stopCurrentSfx();
+
                 screen.game.sfxService.onAnyBtnClicked();
 
-                screen.game.sfxService.onMenuSaveClicked();
+                screen.currentSfx = screen.game.sfxService.onMenuSaveClicked();
 
                 screen.navigateTo(new SavesScreen(screen.game));
             }

@@ -12,8 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.Timer;
 
+import ua.gram.munhauzen.ButtonBuilder;
 import ua.gram.munhauzen.FontProvider;
-import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.StoryImage;
 import ua.gram.munhauzen.interaction.ContinueInteraction;
 import ua.gram.munhauzen.repository.ImageRepository;
@@ -53,8 +53,8 @@ public class ContinueImageFragment extends InteractionFragment {
         table.setFillParent(true);
         table.pad(10);
         table.add(button).center()
-                .width(MunhauzenGame.WORLD_WIDTH / 3f)
-                .height(MunhauzenGame.WORLD_HEIGHT / 12f);
+                .width(ButtonBuilder.BTN_PRIMARY_WIDTH)
+                .height(ButtonBuilder.BTN_PRIMARY_HEIGHT);
 
         root = new FragmentRoot();
         root.addContainer(table);

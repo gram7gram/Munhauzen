@@ -15,8 +15,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 
+import ua.gram.munhauzen.ButtonBuilder;
 import ua.gram.munhauzen.FontProvider;
-import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.Inventory;
 import ua.gram.munhauzen.entity.ServantsState;
@@ -109,8 +109,8 @@ public class ServantsHireImageFragment extends InteractionFragment {
 
         Table btnTable = new Table();
         btnTable.add(servantsBtn).padRight(10).left()
-                .width(MunhauzenGame.WORLD_WIDTH * .25f)
-                .height(MunhauzenGame.WORLD_HEIGHT / 15f);
+                .width(ButtonBuilder.BTN_PRIMARY_SM_WIDTH)
+                .height(ButtonBuilder.BTN_PRIMARY_SM_HEIGHT);
         btnTable.add(progressLabel).left().padRight(10);
 
         Table hireTable = new Table();

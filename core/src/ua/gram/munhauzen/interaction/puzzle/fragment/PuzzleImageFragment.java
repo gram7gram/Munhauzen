@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 
+import ua.gram.munhauzen.ButtonBuilder;
 import ua.gram.munhauzen.interaction.PuzzleInteraction;
 import ua.gram.munhauzen.interaction.puzzle.Dropzone;
 import ua.gram.munhauzen.interaction.puzzle.PuzzleItem;
@@ -112,10 +113,10 @@ public class PuzzleImageFragment extends InteractionFragment {
 
         Table resetTable = new Table();
         resetTable.pad(10);
-        resetTable.add(resetButton).align(Align.bottomLeft)
-                .width(250)
-                .height(100)
-                .expand();
+        resetTable.add(resetButton)
+                .align(Align.bottomLeft).expand()
+                .width(ButtonBuilder.BTN_PRIMARY_WIDTH)
+                .height(ButtonBuilder.BTN_PRIMARY_HEIGHT);
 
         Container dropzoneContainer = new Container<>(dropzone);
         dropzoneContainer.setTouchable(Touchable.childrenOnly);

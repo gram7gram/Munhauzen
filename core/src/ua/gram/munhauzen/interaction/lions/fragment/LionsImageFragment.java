@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Timer;
 
-import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.ButtonBuilder;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.Inventory;
 import ua.gram.munhauzen.entity.Story;
@@ -60,8 +60,8 @@ public class LionsImageFragment extends InteractionFragment {
         btnTable.setFillParent(true);
         btnTable.pad(10);
         btnTable.add(attackBtn).bottom().expand()
-                .width(MunhauzenGame.WORLD_WIDTH / 3f)
-                .height(MunhauzenGame.WORLD_HEIGHT / 12f)
+                .width(ButtonBuilder.BTN_PRIMARY_WIDTH)
+                .height(ButtonBuilder.BTN_PRIMARY_HEIGHT)
                 .padBottom(80);
 
         root = new FragmentRoot();

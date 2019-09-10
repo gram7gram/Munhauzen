@@ -61,7 +61,7 @@ public class SfxService {
     }
 
     public void onAnyBtnClicked() {
-        prepareAndPlay("sfx_button_main");
+        prepareAndPlayInternal("sfx_button_main");
     }
 
     public void onBookmarkDown() {
@@ -176,8 +176,8 @@ public class SfxService {
         }));
     }
 
-    public void onMenuContinueClicked() {
-        prepareAndPlay(MathUtils.random(new String[]{
+    public StoryAudio onMenuContinueClicked() {
+        return prepareAndPlay(MathUtils.random(new String[]{
                 "sfx_menu_continue_1",
                 "sfx_menu_continue_2",
                 "sfx_menu_continue_3",
@@ -185,15 +185,15 @@ public class SfxService {
         }));
     }
 
-    public void onMenuStartClicked() {
-        prepareAndPlay(MathUtils.random(new String[]{
+    public StoryAudio onMenuStartClicked() {
+        return prepareAndPlay(MathUtils.random(new String[]{
                 "sfx_menu_new_1", "sfx_menu_new_2",
                 "sfx_menu_new_3", "sfx_menu_new_4"
         }));
     }
 
-    public void onExitClicked() {
-        prepareAndPlay(MathUtils.random(new String[]{
+    public StoryAudio onExitClicked() {
+        return prepareAndPlay(MathUtils.random(new String[]{
                 "sfx_menu_exit_question_1", "sfx_menu_exit_question_2",
                 "sfx_menu_exit_question_3", "sfx_menu_exit_question_4",
                 "sfx_menu_exit_question_5"
@@ -215,22 +215,22 @@ public class SfxService {
         }));
     }
 
-    public void onMenuGalleryClicked() {
-        prepareAndPlay(MathUtils.random(new String[]{
+    public StoryAudio onMenuGalleryClicked() {
+        return prepareAndPlay(MathUtils.random(new String[]{
                 "sfx_menu_gallery_1", "sfx_menu_gallery_1"
         }));
     }
 
-    public void onMenuGoofsClicked() {
-        prepareAndPlay(MathUtils.random(new String[]{
+    public StoryAudio onMenuGoofsClicked() {
+        return prepareAndPlay(MathUtils.random(new String[]{
                 "sfx_menu_goofs_1", "sfx_menu_goofs_2",
                 "sfx_menu_goofs_3", "sfx_menu_goofs_4",
                 "sfx_menu_goofs_5"
         }));
     }
 
-    public void onMenuSaveClicked() {
-        prepareAndPlay(MathUtils.random(new String[]{
+    public StoryAudio onMenuSaveClicked() {
+        return prepareAndPlay(MathUtils.random(new String[]{
                 "sfx_menu_save_1", "sfx_menu_save_2",
                 "sfx_menu_save_3"
         }));

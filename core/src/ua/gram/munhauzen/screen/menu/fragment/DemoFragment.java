@@ -97,6 +97,8 @@ public class DemoFragment extends MenuFragment {
                 })
         ));
 
+        screen.stopCurrentSfx();
+
         screen.currentSfx = screen.game.sfxService.onDemoBannerShown();
     }
 

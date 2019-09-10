@@ -10,15 +10,17 @@ import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 
 import ua.gram.munhauzen.ui.PrimaryButton;
 
-/**
- * @author Gram <gram7gram@gmail.com>
- */
 public class ButtonBuilder {
 
     private final MunhauzenGame game;
     private final Texture primaryDisabled, primaryEnabled;
     private final Texture dangerDisabled, dangerEnabled;
     final int pad = 50;
+
+    public final static int BTN_PRIMARY_WIDTH = 300;
+    public final static int BTN_PRIMARY_SM_WIDTH = 225;
+    public final static int BTN_PRIMARY_HEIGHT = 100;
+    public final static int BTN_PRIMARY_SM_HEIGHT = 75;
 
     public ButtonBuilder(MunhauzenGame game) {
         this.game = game;

@@ -9,8 +9,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.MunhauzenGame;
-import ua.gram.munhauzen.MunhauzenStage;
 import ua.gram.munhauzen.entity.GameState;
+import ua.gram.munhauzen.ui.MunhauzenStage;
 import ua.gram.munhauzen.utils.ExpansionAssetManager;
 import ua.gram.munhauzen.utils.Log;
 
@@ -133,8 +133,8 @@ public abstract class AbstractScreen implements Screen {
         game.batch.disableBlending();
 
         game.batch.draw(background,
-                0, 0, //position
-                MunhauzenGame.WORLD_WIDTH, MunhauzenGame.WORLD_HEIGHT //width
+                0, 0,
+                MunhauzenGame.WORLD_WIDTH, MunhauzenGame.WORLD_HEIGHT
         );
 
         game.batch.enableBlending();

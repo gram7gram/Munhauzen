@@ -18,9 +18,11 @@ public class StartButton extends MenuButton {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
+                screen.stopCurrentSfx();
+
                 screen.game.sfxService.onAnyBtnClicked();
 
-                screen.game.sfxService.onMenuStartClicked();
+                screen.currentSfx = screen.game.sfxService.onMenuStartClicked();
 
                 screen.scaleAndNavigateTo(new DebugScreen(screen.game));
             }

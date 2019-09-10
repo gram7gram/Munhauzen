@@ -20,6 +20,7 @@ import com.badlogic.gdx.utils.JsonWriter;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import ua.gram.munhauzen.ButtonBuilder;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.AudioFail;
@@ -267,12 +268,12 @@ public class ControlsFragment extends Fragment {
         Table container = new Table();
         container.padBottom(80);
         container.add(startButton)
-                .width(MunhauzenGame.WORLD_WIDTH * .5f)
-                .height(MunhauzenGame.WORLD_HEIGHT / 15f)
+                .width(ButtonBuilder.BTN_PRIMARY_WIDTH)
+                .height(ButtonBuilder.BTN_PRIMARY_HEIGHT)
                 .expandX().colspan(2).row();
         container.add(menuButton)
-                .width(MunhauzenGame.WORLD_WIDTH * .5f)
-                .height(MunhauzenGame.WORLD_HEIGHT / 15f)
+                .width(ButtonBuilder.BTN_PRIMARY_WIDTH)
+                .height(ButtonBuilder.BTN_PRIMARY_HEIGHT)
                 .colspan(2)
                 .padBottom(50).expandX().row();
 
@@ -303,8 +304,8 @@ public class ControlsFragment extends Fragment {
         container2.add(inventoryContainer).top().expandX();
         container2.add(scenarioContainer).top().expandX();
 
-        Table container3 = new Table();
-        container3.add(upButton).pad(10).align(Align.bottomRight).expand();
+        Table upContainer = new Table();
+        upContainer.add(upButton).pad(10).align(Align.bottomRight).expand();
 
         group = new VerticalGroup();
         group.pad(10);
@@ -317,7 +318,7 @@ public class ControlsFragment extends Fragment {
 
         root = new FragmentRoot();
         root.addContainer(scroll);
-        root.addContainer(container3);
+        root.addContainer(upContainer);
     }
 
     public void createInventoryTable() {

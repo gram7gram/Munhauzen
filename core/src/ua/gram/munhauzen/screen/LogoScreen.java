@@ -13,7 +13,7 @@ import com.badlogic.gdx.utils.Align;
 
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
-import ua.gram.munhauzen.MunhauzenStage;
+import ua.gram.munhauzen.ui.MunhauzenStage;
 import ua.gram.munhauzen.utils.Log;
 
 /**
@@ -63,7 +63,7 @@ public class LogoScreen implements Screen {
                         Actions.run(new Runnable() {
                             @Override
                             public void run() {
-                                onComplete();
+//                                onComplete();
                             }
                         })
                 )
@@ -108,7 +108,9 @@ public class LogoScreen implements Screen {
 
         game.batch.begin();
         game.batch.disableBlending();
-        game.batch.draw(background, 0, 0, MunhauzenGame.WORLD_WIDTH, MunhauzenGame.WORLD_HEIGHT);
+        game.batch.draw(background,
+                0, 0,
+                MunhauzenGame.WORLD_WIDTH, MunhauzenGame.WORLD_HEIGHT);
         game.batch.enableBlending();
         game.batch.end();
 

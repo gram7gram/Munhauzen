@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 
+import ua.gram.munhauzen.ButtonBuilder;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.screen.menu.fragment.GreetingFragment;
@@ -82,8 +83,8 @@ public class GreetingBanner extends Banner {
 
         Table buttons = new Table();
         buttons.add(getActionBtn())
-                .width(200)
-                .height(100);
+                .width(ButtonBuilder.BTN_PRIMARY_WIDTH)
+                .height(ButtonBuilder.BTN_PRIMARY_HEIGHT);
 
         content.add(columns).row();
         content.add(buttons).row();

@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 
+import ua.gram.munhauzen.ButtonBuilder;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.GameState;
@@ -112,13 +113,13 @@ public class OptionsBanner extends Banner {
 
         content.add(saveBtn).left()
                 .width(cellMinWidth / 2f - 10)
-                .height(MunhauzenGame.WORLD_HEIGHT / 15f)
+                .height(ButtonBuilder.BTN_PRIMARY_HEIGHT)
                 .padLeft(5)
                 .padRight(5);
 
         content.add(startBtn).right()
                 .width(cellMinWidth / 2f - 10)
-                .height(MunhauzenGame.WORLD_HEIGHT / 15f)
+                .height(ButtonBuilder.BTN_PRIMARY_HEIGHT)
                 .padLeft(5)
                 .padRight(5)
                 .row();

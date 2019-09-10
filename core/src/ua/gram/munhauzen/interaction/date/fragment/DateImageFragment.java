@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Timer;
 
+import ua.gram.munhauzen.ButtonBuilder;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.interaction.DateInteraction;
@@ -173,8 +174,8 @@ public class DateImageFragment extends InteractionFragment {
         dateContainer.setFillParent(true);
         dateContainer.add(seasonsTable).center().grow().row();
         dateContainer.add(confirmBtn).top().expand()
-                .width(MunhauzenGame.WORLD_WIDTH / 3f)
-                .height(MunhauzenGame.WORLD_HEIGHT / 12f);
+                .width(ButtonBuilder.BTN_PRIMARY_WIDTH)
+                .height(ButtonBuilder.BTN_PRIMARY_HEIGHT);
 
         dialogContainer = new Table();
 
