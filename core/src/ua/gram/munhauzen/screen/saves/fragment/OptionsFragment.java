@@ -1,7 +1,5 @@
 package ua.gram.munhauzen.screen.saves.fragment;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -56,13 +54,8 @@ public class OptionsFragment extends Fragment {
         saveOptionBanner = new SaveOptionBanner(this);
         loadOptionBanner = new LoadOptionBanner(this);
 
-        Pixmap px = new Pixmap(1, 1, Pixmap.Format.RGBA4444);
-        px.setColor(Color.BLACK.r, Color.BLACK.g, Color.BLACK.b, .3f);
-        px.fill();
-
         Container c = new Container();
         c.setTouchable(Touchable.enabled);
-//        c.setBackground(new SpriteDrawable(new Sprite(new Texture(px))));
 
         root = new FragmentRoot();
         root.addContainer(c);

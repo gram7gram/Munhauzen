@@ -497,12 +497,12 @@ public class ControlsFragment extends Fragment {
 
                     screen.game.sfxService.onAnyBtnClicked();
 
-                    screen.exitDialog = new ExitDialog(screen);
-                    screen.exitDialog.create();
+                    screen.exitFragment = new ExitFragment(screen);
+                    screen.exitFragment.create();
 
-                    screen.layers.setBannerLayer(screen.exitDialog);
+                    screen.layers.setBannerLayer(screen.exitFragment);
 
-                    screen.exitDialog.fadeIn();
+                    screen.exitFragment.fadeIn();
 
                 } catch (Throwable e) {
                     Log.e(tag, e);

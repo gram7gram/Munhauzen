@@ -14,6 +14,7 @@ import ua.gram.munhauzen.utils.Log;
  */
 public class FontProvider implements Disposable {
 
+    final MunhauzenGame game;
     final String tag = getClass().getSimpleName();
 
     final String alphabet = "\u0000\"'1234567890-=+?!@#$%&*(){}[].,:;/_><…"
@@ -39,6 +40,10 @@ public class FontProvider implements Disposable {
 
     private HashMap<String, HashMap<Integer, BitmapFont>> map;
     private HashMap<String, HashMap<Integer, BitmapFont>> mapHd;
+
+    public FontProvider(MunhauzenGame game) {
+        this.game = game;
+    }
 
     public BitmapFont getFont(String font, Integer size) {
         if (!map.containsKey(font)) return null;
@@ -73,7 +78,7 @@ public class FontProvider implements Disposable {
             for (int size : sizes) {
                 FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
                 parameter.characters = alphabet;
-                parameter.size = size;
+                parameter.size = (int) (size * game.params.scaleFactor);
 
                 BitmapFont bitmapFont = generator.generateFont(parameter);
 

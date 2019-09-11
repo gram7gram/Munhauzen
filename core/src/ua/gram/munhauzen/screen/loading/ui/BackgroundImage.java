@@ -32,14 +32,14 @@ public class BackgroundImage extends Group {
         backgroundTable = new Table();
         backgroundTable.setTouchable(Touchable.childrenOnly);
         backgroundTable.setFillParent(true);
-        backgroundTable.add(background).center().expand().fill();
+        backgroundTable.add(background).bottom().expand().fill();
 
         overlayBottom.setVisible(false);
         overlayTop.setVisible(false);
 
         addActor(backgroundTable);
         addActor(overlayTop);
-        addActor(overlayBottom);
+//        addActor(overlayBottom);
 
         setOverlayTexture(
                 screen.assetManager.get("loading/t_putty.png", Texture.class)

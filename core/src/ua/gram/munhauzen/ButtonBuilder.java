@@ -17,10 +17,10 @@ public class ButtonBuilder {
     private final Texture dangerDisabled, dangerEnabled;
     final int pad = 50;
 
-    public final static int BTN_PRIMARY_WIDTH = 300;
-    public final static int BTN_PRIMARY_SM_WIDTH = 225;
-    public final static int BTN_PRIMARY_HEIGHT = 100;
-    public final static int BTN_PRIMARY_SM_HEIGHT = 75;
+    public static int BTN_PRIMARY_WIDTH = 300;
+    public static int BTN_PRIMARY_SM_WIDTH = 225;
+    public static int BTN_PRIMARY_HEIGHT = 100;
+    public static int BTN_PRIMARY_SM_HEIGHT = 75;
 
     public ButtonBuilder(MunhauzenGame game) {
         this.game = game;
@@ -28,6 +28,11 @@ public class ButtonBuilder {
         primaryDisabled = game.internalAssetManager.get("ui/b_primary_sm_disabled.png", Texture.class);
         dangerEnabled = game.internalAssetManager.get("ui/b_danger_sm_enabled.png", Texture.class);
         dangerDisabled = game.internalAssetManager.get("ui/b_danger_sm_disabled.png", Texture.class);
+
+        BTN_PRIMARY_WIDTH *= game.params.scaleFactor;
+        BTN_PRIMARY_SM_WIDTH *= game.params.scaleFactor;
+        BTN_PRIMARY_HEIGHT *= game.params.scaleFactor;
+        BTN_PRIMARY_SM_HEIGHT *= game.params.scaleFactor;
     }
 
     public PrimaryButton primary(String text, final ClickListener onClick) {

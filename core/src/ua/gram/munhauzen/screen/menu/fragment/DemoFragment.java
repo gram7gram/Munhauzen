@@ -1,7 +1,5 @@
 package ua.gram.munhauzen.screen.menu.fragment;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -34,10 +32,6 @@ public class DemoFragment extends MenuFragment {
         screen.assetManager.finishLoading();
 
         DemoBanner banner = new DemoBanner(this);
-
-        Pixmap px = new Pixmap(1, 1, Pixmap.Format.RGBA4444);
-        px.setColor(Color.BLACK.r, Color.BLACK.g, Color.BLACK.b, .3f);
-        px.fill();
 
         Container c = new Container();
         c.setTouchable(Touchable.enabled);

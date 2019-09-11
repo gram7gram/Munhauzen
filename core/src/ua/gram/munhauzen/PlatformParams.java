@@ -15,10 +15,12 @@ public class PlatformParams {
     public String locale;
     public String versionName;
     public int versionCode;
+    public boolean hasNotch;
     public boolean isPro;
     public String applicationId;
     public String applicationProId;
     public String applicationDemoId;
+    public float scaleFactor = 1;
 
     public String getExpansionUrl() {
         return gameHost + "/api/v1/expansions/" + versionCode + "/" + locale + "/" + device + "/" + dpi;

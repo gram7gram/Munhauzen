@@ -45,7 +45,7 @@ public class TimerProgressBarFragment extends Fragment {
     public Table root;
     public Stack stack;
     public Table controlsTable;
-    public ImageButton rewindBackButton, rewindForwardButton, pauseButton, playButton;
+    public ImageButton rewindBackButton, rewindForwardButton, pauseButton, playButton, skipForwardButton, skipBackButton;
     private Timer.Task fadeOutTask;
     public boolean isFadeIn;
     public boolean isFadeOut;
@@ -89,6 +89,8 @@ public class TimerProgressBarFragment extends Fragment {
         playButton = getPlay();
         pauseButton = getPause();
         rewindForwardButton = getRewindForward();
+        skipBackButton = getSkipBack();
+        skipForwardButton = getSkipForward();
 
         Stack playPauseGroup = new Stack();
         playPauseGroup.add(playButton);
@@ -105,9 +107,11 @@ public class TimerProgressBarFragment extends Fragment {
         barStyle.knob.setMinWidth(barStyle.knob.getMinWidth() * knobScale);
 
         controlsTable = new Table();
+        controlsTable.add(skipBackButton).expandX().left().width(controlsSize).height(controlsSize);
         controlsTable.add(rewindBackButton).expandX().right().width(controlsSize).height(controlsSize);
         controlsTable.add(playPauseGroup).expandX().center().width(controlsSize).height(controlsSize);
         controlsTable.add(rewindForwardButton).expandX().left().width(controlsSize).height(controlsSize);
+        controlsTable.add(skipForwardButton).expandX().right().width(controlsSize).height(controlsSize);
 
         Table barTable = new Table();
         barTable.pad(controlsSize, controlsSize * 2, controlsSize, controlsSize * 2);
@@ -171,6 +175,95 @@ public class TimerProgressBarFragment extends Fragment {
             }
         });
 
+        skipBackButton.addListener(new InputListener() {
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                super.enter(event, x, y, pointer, fromActor);
+
+                try {
+                    gameScreen.audioService.pause();
+
+                    TimerStory story = interaction.storyManager.story;
+                    if (story.currentScenario == null) return;
+
+                    TimerStoryScenario skipTo;
+                    if (story.currentScenario.previous != null) {
+                        skipTo = story.currentScenario.previous;
+                    } else {
+                        skipTo = story.currentScenario;
+                    }
+
+                    Log.i(tag, "skipBackButton to " + skipTo.scenario.name + " at " + skipTo.startsAt + " ms");
+
+                    story.progress = skipTo.startsAt;
+
+                    GameState.pause(tag);
+
+                    postProgressChanged();
+
+                    gameScreen.game.sfxService.onProgressSkip();
+
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                super.exit(event, x, y, pointer, toActor);
+
+                try {
+                    GameState.unpause(tag);
+
+                    startCurrentMusicIfPaused();
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
+            }
+        });
+
+        skipForwardButton.addListener(new InputListener() {
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                super.enter(event, x, y, pointer, fromActor);
+
+                try {
+                    gameScreen.audioService.pause();
+
+                    TimerStory story = interaction.storyManager.story;
+                    if (story.currentScenario == null) return;
+
+                    GameState.pause(tag);
+
+                    if (story.currentScenario.next != null) {
+                        story.progress = story.currentScenario.next.startsAt;
+                    } else {
+                        story.progress = story.currentScenario.finishesAt;
+                    }
+
+                    postProgressChanged();
+
+                    gameScreen.game.sfxService.onProgressSkip();
+
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                super.exit(event, x, y, pointer, toActor);
+
+                try {
+                    GameState.unpause(tag);
+
+                    startCurrentMusicIfPaused();
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
+            }
+        });
+
         rewindBackButton.addListener(new InputListener() {
 
             Timer.Task progressTask;
@@ -210,7 +303,7 @@ public class TimerProgressBarFragment extends Fragment {
 
                                 story.progress -= story.totalDuration * 0.025f;
 
-                                postProgressChanged(story.isCompleted);
+                                postProgressChanged();
                             } catch (Throwable e) {
                                 Log.e(tag, e);
                             }
@@ -270,7 +363,7 @@ public class TimerProgressBarFragment extends Fragment {
 
                                 story.progress += story.totalDuration * 0.025f;
 
-                                postProgressChanged(story.isCompleted);
+                                postProgressChanged();
 
                             } catch (Throwable e) {
                                 Log.e(tag, e);
@@ -319,7 +412,7 @@ public class TimerProgressBarFragment extends Fragment {
 
                     story.progress = story.totalDuration * percent;
 
-                    postProgressChanged(story.isCompleted);
+                    postProgressChanged();
 
                     if (!story.isCompleted) {
                         if (interaction.scenarioFragment != null) {
@@ -441,12 +534,16 @@ public class TimerProgressBarFragment extends Fragment {
         pauseButton.setVisible(!GameState.isPaused);
         playButton.setVisible(GameState.isPaused);
 
-        rewindForwardButton.setDisabled(story.isCompleted);
+        skipForwardButton.setDisabled(story.isCompleted);
+        skipForwardButton.setTouchable(skipForwardButton.isDisabled() ? Touchable.disabled : Touchable.enabled);
 
+        skipBackButton.setDisabled(story.progress == 0);
+        skipBackButton.setTouchable(skipBackButton.isDisabled() ? Touchable.disabled : Touchable.enabled);
+
+        rewindForwardButton.setDisabled(story.isCompleted);
         rewindForwardButton.setTouchable(rewindForwardButton.isDisabled() ? Touchable.disabled : Touchable.enabled);
 
         rewindBackButton.setDisabled(story.progress == 0);
-
         rewindBackButton.setTouchable(rewindBackButton.isDisabled() ? Touchable.disabled : Touchable.enabled);
 
         bar.setRange(0, story.totalDuration);
@@ -659,9 +756,35 @@ public class TimerProgressBarFragment extends Fragment {
         return new ImageButton(style);
     }
 
-    private void postProgressChanged(boolean isCompletedBefore) {
+    private ImageButton getSkipBack() {
+        Texture skipBack = gameScreen.assetManager.get("ui/playbar_skip_backward.png", Texture.class);
+        Texture skipBackOff = gameScreen.assetManager.get("ui/playbar_skip_backward_off.png", Texture.class);
+
+        ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
+        style.up = new SpriteDrawable(new Sprite(skipBack));
+        style.down = new SpriteDrawable(new Sprite(skipBack));
+        style.disabled = new SpriteDrawable(new Sprite(skipBackOff));
+
+        return new ImageButton(style);
+    }
+
+    private ImageButton getSkipForward() {
+        Texture skipForward = gameScreen.assetManager.get("ui/playbar_skip_forward.png", Texture.class);
+        Texture skipForwardOff = gameScreen.assetManager.get("ui/playbar_skip_forward_off.png", Texture.class);
+
+        ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
+        style.up = new SpriteDrawable(new Sprite(skipForward));
+        style.down = new SpriteDrawable(new Sprite(skipForward));
+        style.disabled = new SpriteDrawable(new Sprite(skipForwardOff));
+
+        return new ImageButton(style);
+    }
+
+    private void postProgressChanged() {
         try {
             TimerStory story = interaction.storyManager.story;
+
+            boolean isCompletedBefore = story.isCompleted;
 
             story.update(story.progress, story.totalDuration);
 

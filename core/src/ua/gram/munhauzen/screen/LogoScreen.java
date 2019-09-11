@@ -63,7 +63,7 @@ public class LogoScreen implements Screen {
                         Actions.run(new Runnable() {
                             @Override
                             public void run() {
-//                                onComplete();
+                                onComplete();
                             }
                         })
                 )

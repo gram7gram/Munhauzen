@@ -58,8 +58,6 @@ public abstract class MenuButton extends Stack {
 
         backContainer = new Table();
         backContainer.add(back)
-                .width(buttonSize)
-                .maxWidth(buttonSize)
                 .grow();
 
         Table labelContainer = new Table();
@@ -104,12 +102,13 @@ public abstract class MenuButton extends Stack {
 
         back.setDrawable(drawable);
 
-        final float scale = 1f * buttonSize / drawable.getMinWidth();
+        float width = buttonSize;
+        float scale = 1f * width / drawable.getMinWidth();
         float height = scale * drawable.getMinHeight();
 
         backContainer.getCell(back)
-                .height(height)
-                .maxHeight(height);
+                .width(width)
+                .height(height);
     }
 
     @Override
@@ -125,13 +124,14 @@ public abstract class MenuButton extends Stack {
 
         animation = createAnimationIcon();
 
-        float scale = 1f * iconSize / animation.getCurrentDrawable().getMinWidth();
+        float width = screen.game.params.scaleFactor * iconSize;
+        float scale = width / animation.getCurrentDrawable().getMinWidth();
         float height = scale * animation.getCurrentDrawable().getMinHeight();
 
         Table table = new Table();
         table.add(animation).expand()
                 .align(Align.top)
-                .width(iconSize)
+                .width(width)
                 .height(height);
 
         return table;
@@ -143,7 +143,7 @@ public abstract class MenuButton extends Stack {
 
         Image img = new Image(txt);
 
-        float width = iconSize * .9f;
+        float width = screen.game.params.scaleFactor * iconSize * .9f;
         float scale = 1f * width / txt.getWidth();
         float height = scale * txt.getHeight();
 

@@ -12,6 +12,7 @@ import ua.gram.munhauzen.screen.MenuScreen;
 public abstract class Banner extends Group {
 
     final String tag = getClass().getSimpleName();
+    final MunhauzenGame game;
     final MenuScreen screen;
     Image back;
     Table content;
@@ -19,6 +20,7 @@ public abstract class Banner extends Group {
     public Banner(MenuScreen screen) {
 
         this.screen = screen;
+        this.game = screen.game;
 
         content = createContent();
 

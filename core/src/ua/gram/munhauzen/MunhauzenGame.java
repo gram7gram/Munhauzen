@@ -6,16 +6,16 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import ua.gram.munhauzen.entity.GameState;
-import ua.gram.munhauzen.screen.DebugScreen;
 import ua.gram.munhauzen.screen.ErrorScreen;
+import ua.gram.munhauzen.screen.LogoScreen;
 import ua.gram.munhauzen.service.AchievementService;
 import ua.gram.munhauzen.service.DatabaseManager;
 import ua.gram.munhauzen.service.InventoryService;
 import ua.gram.munhauzen.service.SfxService;
+import ua.gram.munhauzen.ui.GameViewport;
 import ua.gram.munhauzen.utils.ExpansionAssetManager;
 import ua.gram.munhauzen.utils.ExternalFiles;
 import ua.gram.munhauzen.utils.InternalAssetManager;
@@ -98,7 +98,7 @@ public class MunhauzenGame extends Game {
             buttonBuilder = new ButtonBuilder(this);
             achievementService = new AchievementService(this);
 
-            setScreen(new DebugScreen(this));
+            setScreen(new LogoScreen(this));
 
         } catch (Throwable e) {
             Log.e(tag, e);
@@ -196,7 +196,7 @@ public class MunhauzenGame extends Game {
     }
 
     private void loadGlobalAssets() {
-        fontProvider = new FontProvider();
+        fontProvider = new FontProvider(this);
         fontProvider.load();
 
         expansionAssetManager = new ExpansionAssetManager();
@@ -231,7 +231,7 @@ public class MunhauzenGame extends Game {
     private void createViewport() {
         if (view != null) return;
 
-        view = new ScreenViewport(camera);
+        view = new GameViewport(this);
         view.apply();
     }
 

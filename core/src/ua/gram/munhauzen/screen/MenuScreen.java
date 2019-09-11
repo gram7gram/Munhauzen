@@ -12,7 +12,7 @@ import ua.gram.munhauzen.entity.MenuState;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.screen.menu.fragment.ControlsFragment;
 import ua.gram.munhauzen.screen.menu.fragment.DemoFragment;
-import ua.gram.munhauzen.screen.menu.fragment.ExitDialog;
+import ua.gram.munhauzen.screen.menu.fragment.ExitFragment;
 import ua.gram.munhauzen.screen.menu.fragment.GreetingFragment;
 import ua.gram.munhauzen.screen.menu.fragment.ImageFragment;
 import ua.gram.munhauzen.screen.menu.fragment.ProFragment;
@@ -37,7 +37,7 @@ public class MenuScreen extends AbstractScreen {
     public RateFragment rateFragment;
     public DemoFragment demoFragment;
     public ProFragment proFragment;
-    public ExitDialog exitDialog;
+    public ExitFragment exitFragment;
     public ThankYouFragment thankYouFragment;
     public AudioService audioService;
     public boolean isButtonClicked, isZoomStarted;
@@ -180,6 +180,7 @@ public class MenuScreen extends AbstractScreen {
 
                 if (achievementState.areAllGoofsUnlocked && achievementState.areAllImagesUnlocked) {
 
+                    stopCurrentSfx();
                     currentSfx = game.sfxService.onAllGoofsAndImagesUnlocked();
 
                 }
@@ -280,12 +281,12 @@ public class MenuScreen extends AbstractScreen {
 
         try {
 
-            exitDialog = new ExitDialog(this);
-            exitDialog.create();
+            exitFragment = new ExitFragment(this);
+            exitFragment.create();
 
-            layers.setBannerLayer(exitDialog);
+            layers.setBannerLayer(exitFragment);
 
-            exitDialog.fadeIn();
+            exitFragment.fadeIn();
 
         } catch (Throwable e) {
             Log.e(tag, e);
@@ -312,8 +313,8 @@ public class MenuScreen extends AbstractScreen {
             controlsFragment.update();
         }
 
-        if (exitDialog != null) {
-            exitDialog.update();
+        if (exitFragment != null) {
+            exitFragment.update();
         }
 
         if (isZoomStarted) {
@@ -325,9 +326,9 @@ public class MenuScreen extends AbstractScreen {
     public void dispose() {
         super.dispose();
 
-        if (exitDialog != null) {
-            exitDialog.destroy();
-            exitDialog = null;
+        if (exitFragment != null) {
+            exitFragment.destroy();
+            exitFragment = null;
         }
 
         if (greetingFragment != null) {
