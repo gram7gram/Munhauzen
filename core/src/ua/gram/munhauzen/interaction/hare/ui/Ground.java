@@ -36,7 +36,13 @@ public class Ground extends Group {
         image.setSize(width, height);
         image.setPosition(-width / 4f, -height * 3 / 5f);
 
-        setOrigin(image.getX() + image.getWidth() / 2f, image.getY() + image.getHeight() / 2f);
+        layout();
+    }
+
+    public void layout() {
+
+        setOrigin(image.getX() + image.getWidth() * .472f,
+                image.getY() + image.getHeight() * .452f);
 
         originPoint.setPosition(
                 getOriginX() - 1,
@@ -48,12 +54,7 @@ public class Ground extends Group {
     public void act(float delta) {
         super.act(delta);
 
-        setOrigin(image.getX() + image.getWidth() / 2f, image.getY() + image.getHeight() / 2f);
-
-        originPoint.setPosition(
-                getOriginX() - 1,
-                getOriginY() - 1
-        );
+        layout();
 
     }
 

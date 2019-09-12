@@ -3,10 +3,6 @@
 SRC_DIR="/Users/master/Projects/Munhauzen/obb/raw"
 OBB_PATH="/Users/master/Projects/Munhauzen/obb"
 
-mkdir -p $OBB_PATH/hdpi
-mkdir -p $OBB_PATH/mdpi
-mkdir -p $OBB_PATH/ldpi
-
 cd "$SRC_DIR"
 
 for dir in *; do

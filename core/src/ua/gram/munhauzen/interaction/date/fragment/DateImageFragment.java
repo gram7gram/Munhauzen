@@ -6,11 +6,13 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.ButtonBuilder;
@@ -20,7 +22,6 @@ import ua.gram.munhauzen.interaction.DateInteraction;
 import ua.gram.munhauzen.interaction.date.CompleteDialog;
 import ua.gram.munhauzen.screen.game.fragment.InteractionFragment;
 import ua.gram.munhauzen.screen.game.ui.BackgroundImage;
-import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.ui.PrimaryButton;
 import ua.gram.munhauzen.utils.Log;
@@ -70,10 +71,10 @@ public class DateImageFragment extends InteractionFragment {
             }
         });
 
-        season1 = new FitImage();
-        season2 = new FitImage();
-        season3 = new FitImage();
-        season4 = new FitImage();
+        season1 = new Image();
+        season2 = new Image();
+        season3 = new Image();
+        season4 = new Image();
 
         season1.addListener(new ClickListener() {
             @Override
@@ -165,24 +166,30 @@ public class DateImageFragment extends InteractionFragment {
         completeDialog = new CompleteDialog(interaction);
 
         seasonsTable = new Table();
-        seasonsTable.add(prevBtn).left();
-        seasonsTable.add(seasonGroup).center().grow();
-        seasonsTable.add(nextBtn).right();
+        seasonsTable.add(prevBtn).left().expandX();
+        seasonsTable.add(seasonGroup).center().expandX();
+        seasonsTable.add(nextBtn).right().expandX();
+
+        float pad = MunhauzenGame.WORLD_HEIGHT * .125f;
 
         dateContainer = new Table();
-        dateContainer.pad(10);
-        dateContainer.setFillParent(true);
-        dateContainer.add(seasonsTable).center().grow().row();
-        dateContainer.add(confirmBtn).top().expand()
+        dateContainer.add(seasonsTable).center().expandX()
+                .padBottom(pad).row();
+        dateContainer.add(confirmBtn).top().expandX()
                 .width(ButtonBuilder.BTN_PRIMARY_WIDTH)
                 .height(ButtonBuilder.BTN_PRIMARY_HEIGHT);
 
         dialogContainer = new Table();
 
+        Container<Table> c1 = new Container<>(dateContainer);
+        c1.align(Align.top);
+        c1.pad(10);
+        c1.padTop(pad);
+
         root = new FragmentRoot();
         root.setTouchable(Touchable.childrenOnly);
         root.addContainer(backgroundImage);
-        root.addContainer(dateContainer);
+        root.addContainer(c1);
         root.addContainer(dialogContainer);
 
         setBackground(
@@ -323,9 +330,9 @@ public class DateImageFragment extends InteractionFragment {
 
         season1.setDrawable(new SpriteDrawable(new Sprite(texture)));
 
-        float width = MunhauzenGame.WORLD_WIDTH / 2f;
-        float scale = 1f * width / season1.getDrawable().getMinHeight();
-        float height = 1f * season1.getDrawable().getMinWidth() * scale;
+        float width = MunhauzenGame.WORLD_WIDTH * .75f;
+        float scale = 1f * width / season1.getDrawable().getMinWidth();
+        float height = 1f * season1.getDrawable().getMinHeight() * scale;
 
         season1Table.getCell(season1)
                 .width(width)
@@ -336,9 +343,9 @@ public class DateImageFragment extends InteractionFragment {
 
         season2.setDrawable(new SpriteDrawable(new Sprite(texture)));
 
-        float width = MunhauzenGame.WORLD_WIDTH / 2f;
-        float scale = 1f * width / season2.getDrawable().getMinHeight();
-        float height = 1f * season2.getDrawable().getMinWidth() * scale;
+        float width = MunhauzenGame.WORLD_WIDTH * .75f;
+        float scale = 1f * width / season2.getDrawable().getMinWidth();
+        float height = 1f * season2.getDrawable().getMinHeight() * scale;
 
         season2Table.getCell(season2)
                 .width(width)
@@ -349,9 +356,9 @@ public class DateImageFragment extends InteractionFragment {
 
         season3.setDrawable(new SpriteDrawable(new Sprite(texture)));
 
-        float width = MunhauzenGame.WORLD_WIDTH / 2f;
-        float scale = 1f * width / season3.getDrawable().getMinHeight();
-        float height = 1f * season3.getDrawable().getMinWidth() * scale;
+        float width = MunhauzenGame.WORLD_WIDTH * .75f;
+        float scale = 1f * width / season3.getDrawable().getMinWidth();
+        float height = 1f * season3.getDrawable().getMinHeight() * scale;
 
         season3Table.getCell(season3)
                 .width(width)
@@ -362,10 +369,9 @@ public class DateImageFragment extends InteractionFragment {
 
         season4.setDrawable(new SpriteDrawable(new Sprite(texture)));
 
-        float width = MunhauzenGame.WORLD_WIDTH / 2f;
-        float scale = 1f * width / season4.getDrawable().getMinHeight();
-        float height = 1f * season4.getDrawable().getMinWidth() * scale;
-
+        float width = MunhauzenGame.WORLD_WIDTH * .75f;
+        float scale = 1f * width / season4.getDrawable().getMinWidth();
+        float height = 1f * season4.getDrawable().getMinHeight() * scale;
 
         season4Table.getCell(season4)
                 .width(width)

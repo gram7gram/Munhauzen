@@ -192,6 +192,90 @@ public class GeneralsProgressBarFragment extends Fragment {
             }
         });
 
+        skipBackButton.addListener(new InputListener() {
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                super.enter(event, x, y, pointer, fromActor);
+
+                try {
+                    gameScreen.audioService.pause();
+
+                    GeneralsStory story = interaction.storyManager.story;
+                    if (story.currentScenario == null) return;
+
+                    if (story.currentScenario.previous != null) {
+                        story.progress = story.currentScenario.previous.startsAt;
+                    } else {
+                        story.progress = story.currentScenario.startsAt;
+                    }
+
+                    GameState.pause(tag);
+
+                    postProgressChanged();
+
+                    gameScreen.game.sfxService.onProgressSkip();
+
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                super.exit(event, x, y, pointer, toActor);
+
+                try {
+                    GameState.unpause(tag);
+
+                    startCurrentMusicIfPaused();
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
+            }
+        });
+
+        skipForwardButton.addListener(new InputListener() {
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                super.enter(event, x, y, pointer, fromActor);
+
+                try {
+                    gameScreen.audioService.pause();
+
+                    GeneralsStory story = interaction.storyManager.story;
+                    if (story.currentScenario == null) return;
+
+                    GameState.pause(tag);
+
+                    if (story.currentScenario.next != null) {
+                        story.progress = story.currentScenario.next.startsAt;
+                    } else {
+                        story.progress = story.currentScenario.finishesAt;
+                    }
+
+                    postProgressChanged();
+
+                    gameScreen.game.sfxService.onProgressSkip();
+
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                super.exit(event, x, y, pointer, toActor);
+
+                try {
+                    GameState.unpause(tag);
+
+                    startCurrentMusicIfPaused();
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
+            }
+        });
+
         rewindBackButton.addListener(new InputListener() {
 
             Timer.Task progressTask;
@@ -231,7 +315,7 @@ public class GeneralsProgressBarFragment extends Fragment {
 
                                 story.progress -= story.totalDuration * 0.025f;
 
-                                postProgressChanged(story.isCompleted);
+                                postProgressChanged();
                             } catch (Throwable e) {
                                 Log.e(tag, e);
                             }
@@ -291,7 +375,7 @@ public class GeneralsProgressBarFragment extends Fragment {
 
                                 story.progress += story.totalDuration * 0.025f;
 
-                                postProgressChanged(story.isCompleted);
+                                postProgressChanged();
                             } catch (Throwable e) {
                                 Log.e(tag, e);
                             }
@@ -339,7 +423,7 @@ public class GeneralsProgressBarFragment extends Fragment {
 
                     story.progress = story.totalDuration * percent;
 
-                    postProgressChanged(story.isCompleted);
+                    postProgressChanged();
 
                     if (!story.isCompleted) {
                         if (interaction.scenarioFragment != null) {
@@ -706,9 +790,11 @@ public class GeneralsProgressBarFragment extends Fragment {
         return new ImageButton(style);
     }
 
-    private void postProgressChanged(boolean isCompletedBefore) {
+    private void postProgressChanged() {
         try {
             GeneralsStory story = interaction.storyManager.story;
+
+            boolean isCompletedBefore = story.isCompleted;
 
             story.update(story.progress, story.totalDuration);
 

@@ -3,10 +3,6 @@
 SRC_DIR="/Users/master/Projects/MunhauzenDocs/Elements/interaction SERVANTS"
 OBB_PATH="/Users/master/Projects/Munhauzen/obb"
 
-mkdir -p $OBB_PATH/hdpi/servants
-mkdir -p $OBB_PATH/mdpi/servants
-mkdir -p $OBB_PATH/ldpi/servants
-
 cd "$SRC_DIR/servants_1"
 
 echo "=> Converting sources..."

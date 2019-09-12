@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -19,7 +20,6 @@ import ua.gram.munhauzen.interaction.puzzle.Dropzone;
 import ua.gram.munhauzen.interaction.puzzle.PuzzleItem;
 import ua.gram.munhauzen.screen.game.fragment.InteractionFragment;
 import ua.gram.munhauzen.screen.game.ui.BackgroundImage;
-import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.ui.PrimaryButton;
 import ua.gram.munhauzen.utils.Log;
@@ -115,8 +115,8 @@ public class PuzzleImageFragment extends InteractionFragment {
         resetTable.pad(10);
         resetTable.add(resetButton)
                 .align(Align.bottomLeft).expand()
-                .width(ButtonBuilder.BTN_PRIMARY_WIDTH)
-                .height(ButtonBuilder.BTN_PRIMARY_HEIGHT);
+                .width(ButtonBuilder.BTN_PRIMARY_SM_WIDTH)
+                .height(ButtonBuilder.BTN_PRIMARY_SM_HEIGHT);
 
         Container dropzoneContainer = new Container<>(dropzone);
         dropzoneContainer.setTouchable(Touchable.childrenOnly);
@@ -298,7 +298,7 @@ public class PuzzleImageFragment extends InteractionFragment {
     }
 
 
-    private class Foot extends FitImage {
+    private class Foot extends Image {
 
         public Foot(Texture texture) {
             super(texture);
@@ -310,9 +310,8 @@ public class PuzzleImageFragment extends InteractionFragment {
 
             setSizeRelativeToBackground(this, getDrawable());
 
-            setPositionRelativeToBackground(this, 630, 750);
+            setPositionRelativeToBackground(this, 635, 730);
         }
-
     }
 
     public void setPositionRelativeToBackground(Actor actor, float x, float y) {
@@ -329,9 +328,12 @@ public class PuzzleImageFragment extends InteractionFragment {
     }
 
     public void setSizeRelativeToBackground(Actor actor, Drawable texture) {
+
+        float scaleFactor = interaction.gameScreen.game.params.scaleFactor;
+
         actor.setSize(
-                texture.getMinWidth() * backgroundImage.backgroundScale * .6f,
-                texture.getMinHeight() * backgroundImage.backgroundScale * .6f
+                texture.getMinWidth() * backgroundImage.backgroundScale * .6f * scaleFactor,
+                texture.getMinHeight() * backgroundImage.backgroundScale * .6f * scaleFactor
         );
     }
 

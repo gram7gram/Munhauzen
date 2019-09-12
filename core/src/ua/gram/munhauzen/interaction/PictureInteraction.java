@@ -44,7 +44,7 @@ public class PictureInteraction extends AbstractInteraction {
 
         imageService = new PictureImageService(gameScreen, this);
 
-        assetManager.load("picture/p35_what.jpg", Texture.class);
+        assetManager.load("images/p35_what.jpg", Texture.class);
     }
 
     public void onResourcesLoaded() {

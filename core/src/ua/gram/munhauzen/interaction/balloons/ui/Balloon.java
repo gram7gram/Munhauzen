@@ -95,23 +95,7 @@ public class Balloon extends FitImage {
         sequenceAction.addAction(ArcToAction.action(start.x, start.y, 0));
         sequenceAction.addAction(ArcToAction.action(end.x, end.y, 2.5f));
 
-        sequenceAction.addAction(Actions.run(new Runnable() {
-            @Override
-            public void run() {
-
-                if (onMiss != null) {
-                    onMiss.run();
-                }
-
-                isLocked = false;
-
-                reset();
-            }
-        }));
-
         addAction(sequenceAction);
-
-        updateTrajectoryCache();
     }
 
     public void startFast() {
@@ -139,19 +123,6 @@ public class Balloon extends FitImage {
         trajectoryAction.setDuration(8f);
 
         sequenceAction.addAction(trajectoryAction);
-        sequenceAction.addAction(Actions.run(new Runnable() {
-            @Override
-            public void run() {
-
-                if (onMiss != null) {
-                    onMiss.run();
-                }
-
-                isLocked = false;
-
-                reset();
-            }
-        }));
 
         addAction(sequenceAction);
 
@@ -178,6 +149,19 @@ public class Balloon extends FitImage {
     public void act(float delta) {
         super.act(delta);
 
+        if (isLocked && getY() > MunhauzenGame.WORLD_HEIGHT) {
 
+            clearActions();
+
+            remove();
+
+            if (onMiss != null) {
+                onMiss.run();
+            }
+
+            isLocked = false;
+
+            reset();
+        }
     }
 }

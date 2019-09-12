@@ -186,16 +186,11 @@ public class TimerProgressBarFragment extends Fragment {
                     TimerStory story = interaction.storyManager.story;
                     if (story.currentScenario == null) return;
 
-                    TimerStoryScenario skipTo;
                     if (story.currentScenario.previous != null) {
-                        skipTo = story.currentScenario.previous;
+                        story.progress = story.currentScenario.previous.startsAt;
                     } else {
-                        skipTo = story.currentScenario;
+                        story.progress = story.currentScenario.startsAt;
                     }
-
-                    Log.i(tag, "skipBackButton to " + skipTo.scenario.name + " at " + skipTo.startsAt + " ms");
-
-                    story.progress = skipTo.startsAt;
 
                     GameState.pause(tag);
 

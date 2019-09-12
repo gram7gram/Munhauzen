@@ -24,10 +24,10 @@ import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.interaction.BalloonsInteraction;
 import ua.gram.munhauzen.interaction.balloons.animation.DucksAnimation;
+import ua.gram.munhauzen.interaction.balloons.ui.BackgroundImage;
 import ua.gram.munhauzen.interaction.balloons.ui.Balloon;
 import ua.gram.munhauzen.interaction.balloons.ui.Cloud;
 import ua.gram.munhauzen.screen.game.fragment.InteractionFragment;
-import ua.gram.munhauzen.screen.game.ui.BackgroundImage;
 import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.ui.PrimaryButton;
 import ua.gram.munhauzen.utils.Log;
@@ -90,21 +90,21 @@ public class BalloonsImageFragment extends InteractionFragment {
                 -cloudSize - 100, MunhauzenGame.WORLD_HEIGHT * .75f);
 
         Label title = new Label("Catch them all!", new Label.LabelStyle(
-                interaction.gameScreen.game.fontProvider.getFont(FontProvider.h1),
+                interaction.gameScreen.game.fontProvider.getFont(FontProvider.h2),
                 Color.BLACK
         ));
         title.setWrap(true);
         title.setAlignment(Align.center);
 
         Label restartTitle = new Label("One was missed! Eh!", new Label.LabelStyle(
-                interaction.gameScreen.game.fontProvider.getFont(FontProvider.h1),
+                interaction.gameScreen.game.fontProvider.getFont(FontProvider.h2),
                 Color.BLACK
         ));
         restartTitle.setWrap(true);
         restartTitle.setAlignment(Align.center);
 
         Label winTitle = new Label("Nice! Full score!", new Label.LabelStyle(
-                interaction.gameScreen.game.fontProvider.getFont(FontProvider.h1),
+                interaction.gameScreen.game.fontProvider.getFont(FontProvider.h2),
                 Color.BLACK
         ));
         winTitle.setWrap(true);
@@ -418,14 +418,17 @@ public class BalloonsImageFragment extends InteractionFragment {
 
             stopSpawn();
 
+            restartTable.setVisible(true);
+            restartTable.addAction(Actions.sequence(
+                    Actions.alpha(0),
+                    Actions.alpha(1, .3f)
+            ));
+            resetButton.setDisabled(true);
+
             Timer.instance().scheduleTask(new Timer.Task() {
                 @Override
                 public void run() {
-                    restartTable.setVisible(true);
-                    restartTable.addAction(Actions.sequence(
-                            Actions.alpha(0),
-                            Actions.alpha(1, .3f)
-                    ));
+                    resetButton.setDisabled(false);
                 }
             }, currentAudio.duration / 1000f);
 

@@ -264,6 +264,9 @@ public class StoryManager {
             startVictory(story);
 
         } else {
+
+            // WAUWAU continue HORN GENERAL HARE BALLOONS CHAPTER
+            // DATE LIONS PICTURE SERVANTS SLAP PUZZLE SWAMP
             String interaction = story.currentScenario.scenario.interaction;
             if (interaction != null) {
                 gameScreen.interactionService.create(interaction);
@@ -283,6 +286,8 @@ public class StoryManager {
         gameScreen.hideAndDestroyScenarioFragment();
 
         gameScreen.audioService.dispose(story);
+
+        GameState.clearTimer();
 
         Timer.instance().scheduleTask(new Timer.Task() {
             @Override
@@ -310,6 +315,8 @@ public class StoryManager {
         gameScreen.audioService.dispose(story);
 
         GameState.pause(tag);
+
+        GameState.clearTimer();
 
         Timer.instance().scheduleTask(new Timer.Task() {
             @Override

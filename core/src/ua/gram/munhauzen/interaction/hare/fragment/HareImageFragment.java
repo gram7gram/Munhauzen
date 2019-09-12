@@ -57,8 +57,8 @@ public class HareImageFragment extends InteractionFragment {
 
         Ground ground = new Ground(groundTexture);
         DucksAnimation ducks = new DucksAnimation(ducksTexture);
-        HareAnimation hare = new HareAnimation(hareTexture);
-        HorseAnimation horse = new HorseAnimation(horseTexture);
+        HareAnimation hare = new HareAnimation(hareTexture, ground);
+        HorseAnimation horse = new HorseAnimation(horseTexture, ground);
 
         float miscX = ground.originPoint.getX() - ground.image.getWidth() / 2f;
         float miscY = ground.originPoint.getY();
@@ -158,11 +158,5 @@ public class HareImageFragment extends InteractionFragment {
     @Override
     public Actor getRoot() {
         return root;
-    }
-
-    @Override
-    public void dispose() {
-        super.dispose();
-
     }
 }

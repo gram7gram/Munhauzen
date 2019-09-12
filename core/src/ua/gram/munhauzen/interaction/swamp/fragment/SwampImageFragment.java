@@ -15,9 +15,10 @@ import com.badlogic.gdx.utils.Timer;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.interaction.SwampInteraction;
+import ua.gram.munhauzen.interaction.swamp.ui.MunhauzenTable;
+import ua.gram.munhauzen.interaction.swamp.ui.Swamp;
 import ua.gram.munhauzen.screen.game.fragment.InteractionFragment;
 import ua.gram.munhauzen.screen.game.ui.BackgroundImage;
-import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.utils.Log;
 import ua.gram.munhauzen.utils.Random;
@@ -29,7 +30,8 @@ public class SwampImageFragment extends InteractionFragment {
 
     private final SwampInteraction interaction;
     public FragmentRoot root;
-    public Image swamp, munhauzen;
+    public Swamp swamp;
+    public Image munhauzen;
     public Table swampTable, munhauzenTable;
     public BackgroundImage backgroundImage;
     Timer.Task task;
@@ -45,18 +47,17 @@ public class SwampImageFragment extends InteractionFragment {
 
         backgroundImage = new BackgroundImage(interaction.gameScreen);
 
-        final Texture munauzenTex = interaction.assetManager.get("swamp/int_swamp_2.png", Texture.class);
+        final Texture munhauzenTex = interaction.assetManager.get("swamp/int_swamp_2.png", Texture.class);
         final Texture swampTex = interaction.assetManager.get("swamp/int_swamp_3.png", Texture.class);
 
-        swamp = new FitImage();
-        munhauzen = new FitImage();
+        swamp = new Swamp(backgroundImage);
+        munhauzen = new Image();
 
         swampTable = new Table();
         swampTable.setFillParent(true);
         swampTable.add(swamp).bottom().expand().fill();
 
-        munhauzenTable = new Table();
-        munhauzenTable.setFillParent(true);
+        munhauzenTable = new MunhauzenTable(backgroundImage);
         munhauzenTable.add(munhauzen).center();
 
         munhauzen.addListener(new ActorGestureListener() {
@@ -133,7 +134,7 @@ public class SwampImageFragment extends InteractionFragment {
 
         setSwampBackground(swampTex);
 
-        setMunhauzenBackground(munauzenTex);
+        setMunhauzenBackground(munhauzenTex);
     }
 
     public void update() {
@@ -324,7 +325,7 @@ public class SwampImageFragment extends InteractionFragment {
         munhauzen.addAction(Actions.sequence(
                 Actions.alpha(0),
                 Actions.delay(.5f),
-                Actions.moveTo(.7f * (MunhauzenGame.WORLD_WIDTH - width) / 2f, -height * .3f),
+                Actions.moveTo(.7f * (MunhauzenGame.WORLD_WIDTH - width) / 2f, backgroundImage.background.getY() - (height * .3f)),
                 Actions.alpha(1, .2f)
         ));
     }

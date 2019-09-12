@@ -178,17 +178,16 @@ public class HireDialog extends Fragment {
 
         Table table = new Table();
         table.add(yesBtn).left().expandX().padRight(5)
-                .width(ButtonBuilder.BTN_PRIMARY_WIDTH)
-                .height(ButtonBuilder.BTN_PRIMARY_HEIGHT);
+                .width(ButtonBuilder.BTN_PRIMARY_SM_WIDTH)
+                .height(ButtonBuilder.BTN_PRIMARY_SM_HEIGHT);
         table.add(noBtn).right().expandX().padLeft(5)
-                .width(ButtonBuilder.BTN_PRIMARY_WIDTH)
-                .height(ButtonBuilder.BTN_PRIMARY_HEIGHT);
+                .width(ButtonBuilder.BTN_PRIMARY_SM_WIDTH)
+                .height(ButtonBuilder.BTN_PRIMARY_SM_HEIGHT);
 
         root = new Table();
-        root.add(button).width(buttonSize).maxWidth(1000)
+        root.add(button).width(buttonSize)
                 .padBottom(10).row();
-        root.add(table).width(buttonSize)
-                .maxWidth(1000);
+        root.add(table).width(buttonSize);
 
         root.setName(tag);
 

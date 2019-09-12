@@ -36,7 +36,8 @@ public class ControlsFragment extends Fragment {
 
         gameScreen.assetManager.load("GameScreen/b_booksound_off.png", Texture.class);
         gameScreen.assetManager.load("GameScreen/b_booksound_on.png", Texture.class);
-        gameScreen.assetManager.load("GameScreen/b_booksound_tail.png", Texture.class);
+        gameScreen.assetManager.load("GameScreen/b_booksound_on_tail.png", Texture.class);
+        gameScreen.assetManager.load("GameScreen/b_booksound_off_tail.png", Texture.class);
         gameScreen.assetManager.load("GameScreen/b_bookmenu.png", Texture.class);
         gameScreen.assetManager.load("GameScreen/b_bookmenu_tail.png", Texture.class);
 
@@ -44,8 +45,7 @@ public class ControlsFragment extends Fragment {
 
         soundButton = new FitImage(getSoundButtonBackground());
 
-        soundTailButton = new FitImage(new SpriteDrawable(new Sprite(
-                gameScreen.assetManager.get("GameScreen/b_booksound_tail.png", Texture.class))));
+        soundTailButton = new FitImage(getSoundTailButtonBackground());
 
         menuButton = new FitImage(new SpriteDrawable(new Sprite(
                 gameScreen.assetManager.get("GameScreen/b_bookmenu.png", Texture.class))));
@@ -114,6 +114,14 @@ public class ControlsFragment extends Fragment {
         Texture texture = GameState.isMute
                 ? gameScreen.assetManager.get("GameScreen/b_booksound_off.png", Texture.class)
                 : gameScreen.assetManager.get("GameScreen/b_booksound_on.png", Texture.class);
+
+        return new SpriteDrawable(new Sprite(texture));
+    }
+
+    private Drawable getSoundTailButtonBackground() {
+        Texture texture = GameState.isMute
+                ? gameScreen.assetManager.get("GameScreen/b_booksound_off_tail.png", Texture.class)
+                : gameScreen.assetManager.get("GameScreen/b_booksound_on_tail.png", Texture.class);
 
         return new SpriteDrawable(new Sprite(texture));
     }
@@ -364,6 +372,7 @@ public class ControlsFragment extends Fragment {
                 onSoundClicked();
 
                 soundButton.setDrawable(getSoundButtonBackground());
+                soundTailButton.setDrawable(getSoundTailButtonBackground());
 
                 soundButton.setTouchable(Touchable.disabled);
                 soundTailButton.setTouchable(Touchable.disabled);

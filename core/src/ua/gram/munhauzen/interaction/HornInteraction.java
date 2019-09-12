@@ -72,7 +72,7 @@ public class HornInteraction extends AbstractInteraction {
             }
 
             storyAudio = new StoryAudio();
-            storyAudio.audio = "s32_fin";
+            storyAudio.audio = "s33_fin";
 
             gameScreen.audioService.prepareAndPlay(storyAudio);
 

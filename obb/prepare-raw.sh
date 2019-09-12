@@ -28,7 +28,7 @@ for file in *.jpg; do
 
         echo "=> $file"
 
-        convert $file -quality 80 -colors 256 $OBB_PATH/raw/images/$file
+        convert $file -resize 1600 -quality 80 -colors 256 $OBB_PATH/raw/images/$file
 
     fi
 done
@@ -55,7 +55,7 @@ for file in *.jpg; do
 
         echo "=> $file"
 
-        convert $file -quality 80 -colors 256 $OBB_PATH/raw/images/$file
+        convert $file -resize x1600 -quality 80 -colors 256 $OBB_PATH/raw/images/$file
 
     fi
 done

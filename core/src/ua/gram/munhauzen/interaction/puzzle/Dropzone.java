@@ -19,13 +19,16 @@ public class Dropzone extends Actor {
 
     public void init() {
 
+        float scaleFactor = interaction.gameScreen.game.params.scaleFactor;
+        float backgroundScale = interaction.imageFragment.backgroundImage.backgroundScale;
+
         float scale = .85f;
-        float width = 200;
-        float height = width * (1 / scale);
+        float width = 200 * scaleFactor;
+        float height = width * (1f / scale);
 
         setSize(
-                width * interaction.imageFragment.backgroundImage.backgroundScale,
-                height * interaction.imageFragment.backgroundImage.backgroundScale
+                width * backgroundScale,
+                height * backgroundScale
         );
 
         interaction.imageFragment.setPositionRelativeToBackground(this, 310, 630);
