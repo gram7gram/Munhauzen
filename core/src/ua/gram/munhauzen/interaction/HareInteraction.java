@@ -54,7 +54,7 @@ public class HareInteraction extends AbstractInteraction {
         assetManager.load("hare/inter_hare_misc_4.png", Texture.class);
         assetManager.load("hare/inter_hare_misc_5.png", Texture.class);
         assetManager.load("hare/inter_hare_misc_6.png", Texture.class);
-        assetManager.load("hare/p18_d.jpg", Texture.class);
+        assetManager.load("images/p18_d.jpg", Texture.class);
     }
 
     public void onResourcesLoaded() {

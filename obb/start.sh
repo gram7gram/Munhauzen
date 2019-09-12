@@ -2,17 +2,11 @@
 
 OBB_PATH="/Users/master/Projects/Munhauzen/obb"
 
-bash dpi.sh
+bash prepare-raw.sh
 
-bash dpi-horizontal.sh
+bash prepare-raw-servants.sh
 
-bash dpi-servants.sh
-
-bash dpi-menu.sh
-
-bash dpi-fails.sh
-
-bash dpi-game.sh
+bash convert-raw.sh
 
 node obb.js
 

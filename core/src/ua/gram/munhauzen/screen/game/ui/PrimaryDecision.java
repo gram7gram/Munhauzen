@@ -49,7 +49,7 @@ public class PrimaryDecision extends Stack {
         this.game = game;
         this.assetManager = assetManager;
 
-        headerSize = MunhauzenGame.WORLD_HEIGHT * .075f;
+        headerSize = Math.min(200, MunhauzenGame.WORLD_HEIGHT * .075f);
         buttonSize = MunhauzenGame.WORLD_WIDTH * .75f;
     }
 
@@ -104,7 +104,7 @@ public class PrimaryDecision extends Stack {
                 .expandX().height(headerSize).row();
         table.add(stackMiddle).row();
         table.add(backBottom)
-                .expandX().height(50).row();
+                .expandX().height(headerSize / 2f).row();
 
         final Stack header = createDefaultHeader(index);
 
@@ -168,7 +168,7 @@ public class PrimaryDecision extends Stack {
 
         float pad = buttonSize * .175f;
 
-        float width1 = 180;
+        float width1 = 180 * game.params.scaleFactor;
         float scale1 = 1f * width1 / center.getCurrentDrawable().getMinWidth();
         float height1 = 1f * center.getCurrentDrawable().getMinHeight() * scale1;
 

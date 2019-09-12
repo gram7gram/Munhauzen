@@ -9,33 +9,55 @@ fi
 
 SERVER=185.227.111.144
 
-VERSION="${VERSION}-en-phone-hdpi"
+function syncLocal() {
 
-echo "[+] Uploading version ${VERSION}..."
+    VERSION=$1
 
-echo "[+] Sync with local server..."
+    echo "[+] Sync with local server ${VERSION}..."
 
-mkdir -p ~/Projects/munhauzen-web/api/public/expansions/$VERSION
+    mkdir -p ~/Projects/munhauzen-web/api/public/expansions/$VERSION
 
-cp ./${VERSION}/* /Users/master/Projects/munhauzen-web/api/public/expansions/$VERSION
+    cp ./${VERSION}/* /Users/master/Projects/munhauzen-web/api/public/expansions/$VERSION
 
-cp ./${VERSION}-expansion.json ~/Projects/munhauzen-web/api/src/server/resources/$VERSION-expansion.json
+    cp ./${VERSION}-expansion.json ~/Projects/munhauzen-web/api/src/server/resources/$VERSION-expansion.json
+}
 
-#exit 0;
+function syncRemote() {
 
-echo "[+] Sync with remote server..."
+    VERSION=$1
 
-ssh root@${SERVER} "mkdir -p /var/www/munhauzen-web/api/public/expansions/${VERSION}"
+    echo "[+] Sync with remote server ${VERSION}..."
 
-scp ./${VERSION}/* \
-    root@${SERVER}:/var/www/munhauzen-web/api/public/expansions/${VERSION}
+    ssh root@${SERVER} "mkdir -p /var/www/munhauzen-web/api/public/expansions/${VERSION}"
 
-echo "[+] Deploying json expansion..."
+    scp ./${VERSION}/* \
+        root@${SERVER}:/var/www/munhauzen-web/api/public/expansions/${VERSION}
+}
 
-cd ~/Projects/munhauzen-web/
+function deploy() {
 
-git add api && git commit -m "#master hotfix" && git push origin master
+    echo "[+] Deploying json expansion..."
 
-bash deploy.sh
+    cd ~/Projects/munhauzen-web/
+
+    git add api && git commit -m "#master hotfix" && git push origin master
+
+    bash deploy.sh
+
+}
+
+#syncLocal "$1-en-ldpi"
+
+#syncLocal "$1-en-mdpi"
+
+syncLocal "$1-en-hdpi"
+
+#syncRemote "$1-en-ldpi"
+
+#syncRemote "$1-en-mdpi"
+
+#syncRemote "$1-en-hdpi"
+
+#deploy
 
 echo "[+] Completed!"

@@ -83,10 +83,15 @@ public abstract class AbstractScreen implements Screen {
         Gdx.input.setInputProcessor(null);
     }
 
+    public void fillBackgroundColor() {
+        Gdx.gl.glClearColor(235 / 255f, 232 / 255f, 112 / 255f, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+    }
+
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+
+        fillBackgroundColor();
 
         if (isDisposed) return;
 

@@ -10,12 +10,10 @@ public class PlatformParams {
     //public String gameHost = "http://munhauzen-api.fingertips.cf";
     public String gameHost = "http://78.27.147.177:20000";
     //public String gameHost = "http://192.168.0.104:20000";
-    public String device = "phone";
-    public String dpi = "hdpi";
-    public String locale;
+    public String dpi = "mdpi";
+    public String locale = "en";
     public String versionName;
     public int versionCode;
-    public boolean hasNotch;
     public boolean isPro;
     public String applicationId;
     public String applicationProId;
@@ -23,7 +21,7 @@ public class PlatformParams {
     public float scaleFactor = 1;
 
     public String getExpansionUrl() {
-        return gameHost + "/api/v1/expansions/" + versionCode + "/" + locale + "/" + device + "/" + dpi;
+        return gameHost + "/api/v1/expansions/" + versionCode + "/" + locale + "/" + dpi;
     }
 
     public String getGameExportUrl() {

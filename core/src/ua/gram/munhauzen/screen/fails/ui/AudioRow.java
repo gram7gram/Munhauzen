@@ -38,6 +38,8 @@ public class AudioRow extends Table {
         this.screen = screen;
         this.fail = fail;
 
+        iconSize *= screen.game.params.scaleFactor;
+
         Label.LabelStyle style = new Label.LabelStyle(
                 screen.game.fontProvider.getFont(FontProvider.h4),
                 Color.BLACK

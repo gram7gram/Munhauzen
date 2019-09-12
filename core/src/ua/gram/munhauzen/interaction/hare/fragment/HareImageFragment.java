@@ -127,8 +127,8 @@ public class HareImageFragment extends InteractionFragment {
 
                     if (!backgroundImage.isVisible()) {
                         setBackground(
-                                interaction.assetManager.get("hare/p18_d.jpg", Texture.class),
-                                "hare/p18_d.jpg"
+                                interaction.assetManager.get("images/p18_d.jpg", Texture.class),
+                                "images/p18_d.jpg"
                         );
                     }
 

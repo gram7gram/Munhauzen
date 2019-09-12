@@ -11,7 +11,7 @@ public class ExpansionResponse implements JsonEntry {
     public int version;
 
     @JsonProperty
-    public String locale, device, dpi;
+    public String locale, dpi;
 
     @JsonProperty
     public double size;
@@ -32,7 +32,6 @@ public class ExpansionResponse implements JsonEntry {
     public boolean isSameExpansion(ExpansionResponse expansion) {
         return version == expansion.version
                 && locale.equals(expansion.locale)
-                && device.equals(expansion.device)
                 && dpi.equals(expansion.dpi)
 //                && parts.count == expansion.parts.count
                 ;

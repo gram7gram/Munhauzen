@@ -11,7 +11,7 @@
     ],
     "images": [
       {
-        "image": "timer2/pprisoners.jpg",
+        "image": "images/pprisoners.jpg",
         "duration": 21382
       }
     ],
@@ -70,11 +70,11 @@
     ],
     "images": [
       {
-        "image": "timer2/pprisoners.jpg",
+        "image": "images/pprisoners.jpg",
         "duration": 5000
       },
       {
-        "image": "timer2/pprisoners_2.jpg",
+        "image": "images/pprisoners_2.jpg",
         "duration": 151000
       }
     ],
@@ -97,7 +97,7 @@
     ],
     "images": [
       {
-        "image": "timer2/pprisoners.jpg",
+        "image": "images/pprisoners.jpg",
         "duration": 31000
       }
     ],
@@ -124,7 +124,7 @@
     ],
     "images": [
       {
-        "image": "timer2/pprisoners.jpg",
+        "image": "images/pprisoners.jpg",
         "duration": 34000
       }
     ],
@@ -151,7 +151,7 @@
     ],
     "images": [
       {
-        "image": "timer2/pprisoners.jpg",
+        "image": "images/pprisoners.jpg",
         "duration": 109000
       }
     ],
@@ -178,7 +178,7 @@
     ],
     "images": [
       {
-        "image": "timer2/pprisoners_exploded.jpg",
+        "image": "images/pprisoners_exploded.jpg",
         "duration": 33829
       }
     ],

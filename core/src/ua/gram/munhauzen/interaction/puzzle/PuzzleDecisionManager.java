@@ -483,7 +483,7 @@ public class PuzzleDecisionManager {
 
             interaction.gameScreen.audioService.prepareAndPlay(currentAudio);
 
-            interaction.assetManager.load("puzzle/pbear_fin.jpg", Texture.class);
+            interaction.assetManager.load("images/pbear_fin.jpg", Texture.class);
 
             rodTask1 = Timer.instance().scheduleTask(new Timer.Task() {
                 @Override
@@ -510,8 +510,8 @@ public class PuzzleDecisionManager {
                         );
 
                         interaction.imageFragment.setBackground(
-                                interaction.assetManager.get("puzzle/pbear_fin.jpg", Texture.class),
-                                "puzzle/pbear_fin.jpg"
+                                interaction.assetManager.get("images/pbear_fin.jpg", Texture.class),
+                                "images/pbear_fin.jpg"
                         );
 
                     } catch (Throwable e) {

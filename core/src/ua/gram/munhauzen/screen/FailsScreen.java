@@ -1,5 +1,7 @@
 package ua.gram.munhauzen.screen;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 
 import java.util.ArrayList;
@@ -103,6 +105,12 @@ public class FailsScreen extends AbstractScreen {
         game.sfxService.onBackToMenuClicked();
 
         navigateTo(new MenuScreen(game));
+    }
+
+    @Override
+    public void fillBackgroundColor() {
+        Gdx.gl.glClearColor(137 / 255f, 60 / 255f, 54 / 255f, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
     }
 
     @Override

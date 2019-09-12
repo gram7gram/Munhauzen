@@ -11,7 +11,7 @@
     ],
     "images": [
       {
-        "image": "timer/p32_0.jpg",
+        "image": "images/p32_0.jpg",
         "duration": 69000
       }
     ],
@@ -78,11 +78,11 @@
     ],
     "images": [
       {
-        "image": "timer/p32_0.jpg",
+        "image": "images/p32_0.jpg",
         "duration": 5000
       },
       {
-        "image": "timer/p32_a.jpg",
+        "image": "images/p32_a.jpg",
         "duration": 51000
       }
     ],
@@ -109,7 +109,7 @@
     ],
     "images": [
       {
-        "image": "timer/p32_0.jpg",
+        "image": "images/p32_0.jpg",
         "duration": 17000
       }
     ],
@@ -136,7 +136,7 @@
     ],
     "images": [
       {
-        "image": "timer/p32_0.jpg",
+        "image": "images/p32_0.jpg",
         "duration": 24000
       }
     ],
@@ -163,7 +163,7 @@
     ],
     "images": [
       {
-        "image": "timer/p32_0.jpg",
+        "image": "images/p32_0.jpg",
         "duration": 141000
       }
     ],
@@ -190,7 +190,7 @@
     ],
     "images": [
       {
-        "image": "timer/p32_0.jpg",
+        "image": "images/p32_0.jpg",
         "duration": 21000
       }
     ],
@@ -217,7 +217,7 @@
     ],
     "images": [
       {
-        "image": "timer/p32_0.jpg",
+        "image": "images/p32_0.jpg",
         "duration": 7500
       },
       {
@@ -238,7 +238,7 @@
     "audio": [],
     "images": [
       {
-        "image": "timer/p32_a.jpg",
+        "image": "images/p32_a.jpg",
         "duration": 600
       }
     ],
@@ -298,7 +298,7 @@
     ],
     "images": [
       {
-        "image": "timer/p32_a.jpg",
+        "image": "images/p32_a.jpg",
         "duration": 21682
       }
     ],
@@ -325,7 +325,7 @@
     ],
     "images": [
       {
-        "image": "timer/p32_a.jpg",
+        "image": "images/p32_a.jpg",
         "duration": 51958
       }
     ],
@@ -352,7 +352,7 @@
     ],
     "images": [
       {
-        "image": "timer/p32_a.jpg",
+        "image": "images/p32_a.jpg",
         "duration": 42397
       }
     ],
@@ -375,7 +375,7 @@
     "audio": [],
     "images": [
       {
-        "image": "timer/p32_a.jpg",
+        "image": "images/p32_a.jpg",
         "duration": 600
       }
     ],

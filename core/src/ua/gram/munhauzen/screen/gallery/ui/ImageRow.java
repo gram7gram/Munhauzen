@@ -28,13 +28,15 @@ public class ImageRow extends Stack {
     Label title, number;
     FitImage lock, unlock;
     Table content;
-    float iconSize = 30;
+    float iconSize = 35;
 
     public ImageRow(final GalleryScreen screen, final PaintingImage paintingImage, int index, float width) {
 
         this.index = index;
         this.screen = screen;
         this.paintingImage = paintingImage;
+
+        iconSize *= screen.game.params.scaleFactor;
 
         Label.LabelStyle style = new Label.LabelStyle(
                 screen.game.fontProvider.getFont(FontProvider.h4),

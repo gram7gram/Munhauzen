@@ -51,6 +51,7 @@ public class ExternalFiles {
                 "expansion/wau",
         };
         for (String dir : dirs) {
+            getExternal(dir).mkdirs();
             getExternal(dir + "/.nomedia").write(false);
         }
         getExternal("expansion/.nomedia").write(false);

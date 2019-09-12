@@ -27,7 +27,7 @@ public class MunhauzenGame extends Game {
     public static int WORLD_HEIGHT;
     public static boolean PAUSED = false;
 
-    public static final boolean DEBUG = true;
+    public static final boolean DEBUG = false;
     public static final boolean IS_EXPANSION_HIDDEN = true;
     public static final boolean DEBUG_RENDER_INFO = true;
     public static final boolean CAN_REMOVE_PREVIOUS_EXPANSION = false;
@@ -65,6 +65,24 @@ public class MunhauzenGame extends Game {
         PAUSED = false;
     }
 
+    public void updateDpi() {
+        if (WORLD_WIDTH >= 1600 || WORLD_HEIGHT >= 2000) {
+            params.dpi = "hdpi";
+
+            if (params.scaleFactor == 1) {
+                params.scaleFactor = 1.5f;
+            }
+        } else if (WORLD_WIDTH >= 800 || WORLD_HEIGHT >= 1500) {
+            params.dpi = "mdpi";
+        } else {
+            params.dpi = "ldpi";
+
+            if (params.scaleFactor > 1) {
+                params.scaleFactor = 1;
+            }
+        }
+    }
+
     @Override
     public void create() {
         Log.i(tag, "create");
@@ -81,6 +99,8 @@ public class MunhauzenGame extends Game {
 
             WORLD_WIDTH = Gdx.graphics.getWidth();
             WORLD_HEIGHT = Gdx.graphics.getHeight();
+
+            updateDpi();
 
             sfxService = new SfxService(this);
             databaseManager = new DatabaseManager(this);

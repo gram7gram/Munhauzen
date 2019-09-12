@@ -71,7 +71,7 @@ public class FailsFragment extends Fragment {
 
         float middleWidth = MunhauzenGame.WORLD_WIDTH * .9f;
         float middleScale = 1f * middleWidth / middleTexture.getWidth();
-        float middleHeight = 1f * middleTexture.getHeight() * middleScale;
+        int middleHeight = (int) (1f * middleTexture.getHeight() * middleScale);
 
         back = new Table();
         back.pad(10, 0, 80, 0);
@@ -109,7 +109,7 @@ public class FailsFragment extends Fragment {
 
         float width = MunhauzenGame.WORLD_WIDTH * .9f;
         float scale = 1f * width / top.getDrawable().getMinWidth();
-        float height = 1f * top.getDrawable().getMinHeight() * scale;
+        int height = (int) (1f * top.getDrawable().getMinHeight() * scale);
 
         back.getCell(top)
                 .width(width)
@@ -122,7 +122,7 @@ public class FailsFragment extends Fragment {
 
         float width = MunhauzenGame.WORLD_WIDTH * .9f;
         float scale = 1f * width / bottom.getDrawable().getMinWidth();
-        float height = 1f * bottom.getDrawable().getMinHeight() * scale;
+        int height = (int) (1f * bottom.getDrawable().getMinHeight() * scale);
 
         back.getCell(bottom)
                 .width(width)

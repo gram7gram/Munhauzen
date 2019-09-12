@@ -355,8 +355,10 @@ public class ExpansionDownloadManager implements Disposable {
 
         fragment.retryBtn.setVisible(true);
 
-        fragment.screen.expansionDownloader.dispose();
-        fragment.screen.expansionDownloader = null;
+        if (fragment.screen.expansionDownloader != null) {
+            fragment.screen.expansionDownloader.dispose();
+            fragment.screen.expansionDownloader = null;
+        }
     }
 
     private void onConnectionCanceled() {
@@ -369,8 +371,10 @@ public class ExpansionDownloadManager implements Disposable {
         fragment.progressMessage.setText("Download was canceled");
         fragment.retryBtn.setVisible(true);
 
-        fragment.screen.expansionDownloader.dispose();
-        fragment.screen.expansionDownloader = null;
+        if (fragment.screen.expansionDownloader != null) {
+            fragment.screen.expansionDownloader.dispose();
+            fragment.screen.expansionDownloader = null;
+        }
     }
 
     private void onLowMemory() {

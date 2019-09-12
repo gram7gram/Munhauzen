@@ -1,5 +1,7 @@
 package ua.gram.munhauzen.screen;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 
 import java.util.HashMap;
@@ -121,6 +123,12 @@ public class SavesScreen extends AbstractScreen {
         layers.setContentLayer(savesFragment);
 
         savesFragment.root.setVisible(true);
+    }
+
+    @Override
+    public void fillBackgroundColor() {
+        Gdx.gl.glClearColor(137 / 255f, 60 / 255f, 54 / 255f, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
     }
 
     @Override

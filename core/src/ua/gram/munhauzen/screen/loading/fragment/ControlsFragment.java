@@ -18,6 +18,7 @@ import com.badlogic.gdx.utils.Timer;
 import ua.gram.munhauzen.ButtonBuilder;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.screen.LoadingScreen;
 import ua.gram.munhauzen.screen.MenuScreen;
 import ua.gram.munhauzen.service.ConfigDownloadManager;
@@ -39,6 +40,7 @@ public class ControlsFragment extends Fragment {
     int currentFooterTranslation = 0;
     public PrimaryButton retryBtn;
     Container<Table> startContainer, progressContainer;
+    Table topTable, bottomTable;
 
     public ControlsFragment(LoadingScreen screen) {
         this.screen = screen;
@@ -137,12 +139,29 @@ public class ControlsFragment extends Fragment {
         Table titleTable = new Table();
         titleTable.add(title).width(MunhauzenGame.WORLD_WIDTH * .75f);
 
-        Label startMessage = new Label("The game will now start downloading the resources. Please, have some patience, keep the battery filled and WiFi on", new Label.LabelStyle(
+        Label startMessage = new Label("The game will now start downloading the resources. Please, have some patience, keep the battery filled and WiFi on.", new Label.LabelStyle(
                 screen.game.fontProvider.getFont(FontProvider.h4),
                 Color.BLACK
         ));
         startMessage.setWrap(true);
         startMessage.setAlignment(Align.center);
+
+        String quality = "Low";
+        switch (screen.game.params.dpi) {
+            case "hdpi":
+                quality = "High";
+                break;
+            case "mdpi":
+                quality = "Medium";
+                break;
+        }
+
+        Label qualityMessage = new Label("Recommended texture quality: " + quality, new Label.LabelStyle(
+                screen.game.fontProvider.getFont(FontProvider.h4),
+                Color.BLACK
+        ));
+        qualityMessage.setWrap(true);
+        qualityMessage.setAlignment(Align.center);
 
         PrimaryButton startBtn = screen.game.buttonBuilder.primaryRose("Download", new ClickListener() {
             @Override
@@ -160,17 +179,18 @@ public class ControlsFragment extends Fragment {
         startTable.add(startMessage)
                 .width(MunhauzenGame.WORLD_WIDTH * .75f)
                 .padBottom(10).row();
+        startTable.add(qualityMessage)
+                .width(MunhauzenGame.WORLD_WIDTH * .75f)
+                .padBottom(10).row();
         startTable.add(startBtn)
                 .width(ButtonBuilder.BTN_PRIMARY_WIDTH)
                 .height(ButtonBuilder.BTN_PRIMARY_HEIGHT);
 
-        Container<Image> topContainer = new Container<>(decorTop);
-        topContainer.pad(5);
-        topContainer.align(Align.top);
+        topTable = new Table();
+        topTable.add(decorTop).expand().top().pad(5);
 
-        Container<Image> bottomContainer = new Container<>(decorBottom);
-        bottomContainer.pad(5);
-        bottomContainer.align(Align.bottom);
+        bottomTable = new Table();
+        bottomTable.add(decorBottom).expand().bottom().pad(5);
 
         Container<Table> footerContainer = new Container<>(footerTable);
         footerContainer.padBottom(30);
@@ -182,17 +202,19 @@ public class ControlsFragment extends Fragment {
 
         progressContainer = new Container<>(progressTable);
         progressContainer.pad(10);
-        progressContainer.align(Align.center);
+        progressContainer.padTop(MunhauzenGame.WORLD_HEIGHT * .25f);
+        progressContainer.align(Align.top);
         progressContainer.setVisible(false);
 
         startContainer = new Container<>(startTable);
         startContainer.pad(10);
-        startContainer.align(Align.center);
+        startContainer.padTop(MunhauzenGame.WORLD_HEIGHT * .25f);
+        startContainer.align(Align.top);
         startContainer.setVisible(true);
 
         root = new FragmentRoot();
-        root.addContainer(topContainer);
-        root.addContainer(bottomContainer);
+        root.addContainer(topTable);
+        root.addContainer(bottomTable);
         root.addContainer(titleContainer);
         root.addContainer(footerContainer);
         root.addContainer(progressContainer);
@@ -263,7 +285,7 @@ public class ControlsFragment extends Fragment {
         float scale = 1f * width / decorTop.getDrawable().getMinWidth();
         float height = 1f * decorTop.getDrawable().getMinHeight() * scale;
 
-        decorTop.setSize(width, height);
+        topTable.getCell(decorTop).size(width, height);
     }
 
     public void setDecorBottomBackground(Texture texture) {
@@ -274,7 +296,7 @@ public class ControlsFragment extends Fragment {
         float scale = 1f * width / decorBottom.getDrawable().getMinWidth();
         float height = 1f * decorBottom.getDrawable().getMinHeight() * scale;
 
-        decorBottom.setSize(width, height);
+        bottomTable.getCell(decorBottom).size(width, height);
     }
 
     @Override
@@ -316,6 +338,8 @@ public class ControlsFragment extends Fragment {
         screen.expansionDownloader = null;
 
         root.setTouchable(Touchable.disabled);
+
+        GameState.clearTimer();
 
         Timer.instance().scheduleTask(new Timer.Task() {
             @Override
