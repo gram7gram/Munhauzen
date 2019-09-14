@@ -60,19 +60,18 @@ public class HareImageFragment extends InteractionFragment {
         HareAnimation hare = new HareAnimation(hareTexture, ground);
         HorseAnimation horse = new HorseAnimation(horseTexture, ground);
 
-        float miscX = ground.originPoint.getX() - ground.image.getWidth() / 2f;
-        float miscY = ground.originPoint.getY();
+        float miscSize = MunhauzenGame.WORLD_WIDTH * .1f;
 
-        Misc misc1 = new Misc(miscTexture1, ground, 100, 100, miscX, miscY);
-        Misc misc2 = new Misc(miscTexture2, ground, 100, 100, miscX, miscY);
-        Misc misc3 = new Misc(miscTexture3, ground, 100, 100, miscX, miscY);
-        Misc misc4 = new Misc(miscTexture4, ground, 100, 100, miscX, miscY);
-        Misc misc5 = new Misc(miscTexture5, ground, 100, 100, miscX, miscY);
-        Misc misc6 = new Misc(miscTexture6, ground, 100, 100, miscX, miscY);
+        Misc misc1 = new Misc(miscTexture1, ground, miscSize, miscSize);
+        Misc misc2 = new Misc(miscTexture2, ground, miscSize, miscSize);
+        Misc misc3 = new Misc(miscTexture3, ground, miscSize, miscSize);
+        Misc misc4 = new Misc(miscTexture4, ground, miscSize, miscSize);
+        Misc misc5 = new Misc(miscTexture5, ground, miscSize, miscSize);
+        Misc misc6 = new Misc(miscTexture6, ground, miscSize, miscSize);
 
-        Cloud cloud1 = new Cloud(cloud1Texture, 200, 100, -100, MunhauzenGame.WORLD_HEIGHT * .9f);
-        Cloud cloud2 = new Cloud(cloud2Texture, 200, 100, -200, MunhauzenGame.WORLD_HEIGHT * .8f);
-        Cloud cloud3 = new Cloud(cloud3Texture, 200, 100, -180, MunhauzenGame.WORLD_HEIGHT * .75f);
+        Cloud cloud1 = new Cloud(cloud1Texture, -100, MunhauzenGame.WORLD_HEIGHT * .9f);
+        Cloud cloud2 = new Cloud(cloud2Texture, -200, MunhauzenGame.WORLD_HEIGHT * .8f);
+        Cloud cloud3 = new Cloud(cloud3Texture, -180, MunhauzenGame.WORLD_HEIGHT * .75f);
 
         misc1.addAction(Actions.rotateBy(30));
         misc2.addAction(Actions.rotateBy(-30));
@@ -85,18 +84,18 @@ public class HareImageFragment extends InteractionFragment {
 
         items = new Group();
         items.addActor(ground);
-        items.addActor(misc1);
-        items.addActor(misc2);
-        items.addActor(misc3);
-        items.addActor(misc4);
-        items.addActor(misc5);
-        items.addActor(misc6);
         items.addActor(hare);
         items.addActor(horse);
         items.addActor(cloud1);
         items.addActor(cloud2);
         items.addActor(cloud3);
         items.addActor(ducks);
+        items.addActor(misc2);
+        items.addActor(misc1);
+        items.addActor(misc3);
+        items.addActor(misc4);
+        items.addActor(misc5);
+        items.addActor(misc6);
 
         hare.start();
         horse.start();

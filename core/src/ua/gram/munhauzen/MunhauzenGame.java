@@ -72,14 +72,8 @@ public class MunhauzenGame extends Game {
             if (params.scaleFactor == 1) {
                 params.scaleFactor = 1.5f;
             }
-        } else if (WORLD_WIDTH >= 800 || WORLD_HEIGHT >= 1500) {
-            params.dpi = "mdpi";
         } else {
-            params.dpi = "ldpi";
-
-            if (params.scaleFactor > 1) {
-                params.scaleFactor = 1;
-            }
+            params.dpi = "mdpi";
         }
     }
 

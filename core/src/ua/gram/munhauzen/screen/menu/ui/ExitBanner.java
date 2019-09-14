@@ -21,6 +21,7 @@ import ua.gram.munhauzen.utils.Log;
 public class ExitBanner extends Banner {
 
     final ExitFragment fragment;
+    PrimaryButton yesBtn, noBtn;
 
     public ExitBanner(ExitFragment fragment) {
         super(fragment.screen);
@@ -71,7 +72,7 @@ public class ExitBanner extends Banner {
                 .minWidth(cellMinWidth)
                 .center().row();
 
-        PrimaryButton yesBtn = game.buttonBuilder.danger("Yes", new ClickListener() {
+        yesBtn = game.buttonBuilder.danger("Yes", new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
@@ -81,8 +82,9 @@ public class ExitBanner extends Banner {
                 try {
                     fragment.root.setTouchable(Touchable.disabled);
 
-                    screen.stopCurrentSfx();
+                    yesBtn.setDisabled(true);
 
+                    screen.stopCurrentSfx();
                     screen.currentSfx = game.sfxService.onExitYesClicked();
 
                     Timer.instance().scheduleTask(new Timer.Task() {
@@ -97,8 +99,8 @@ public class ExitBanner extends Banner {
                 }
             }
         });
-//
-        PrimaryButton noBtn = game.buttonBuilder.danger("No", new ClickListener() {
+
+        noBtn = game.buttonBuilder.danger("No", new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
@@ -108,11 +110,17 @@ public class ExitBanner extends Banner {
                 try {
                     fragment.root.setTouchable(Touchable.disabled);
 
+                    noBtn.setDisabled(true);
+
                     screen.stopCurrentSfx();
+                    screen.currentSfx = game.sfxService.onExitNoClicked();
 
-                    game.sfxService.onExitNoClicked();
-
-                    onNoClicked();
+                    Timer.instance().scheduleTask(new Timer.Task() {
+                        @Override
+                        public void run() {
+                            onNoClicked();
+                        }
+                    }, screen.currentSfx.duration / 1000f);
 
                 } catch (Throwable e) {
                     Log.e(tag, e);

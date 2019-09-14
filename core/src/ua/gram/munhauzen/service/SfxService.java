@@ -45,7 +45,7 @@ public class SfxService {
     }
 
     public void onLogoScreenOpened() {
-        prepareAndPlayInternal("sfx_logo");
+        prepareAndPlayInternal("sfx_logo", true);
     }
 
     public StoryAudio onDemoBannerShown() {
@@ -61,7 +61,7 @@ public class SfxService {
     }
 
     public void onAnyBtnClicked() {
-        prepareAndPlayInternal("sfx_button_main");
+        prepareAndPlayInternal("sfx_button_main", false);
     }
 
     public void onBookmarkDown() {
@@ -93,7 +93,7 @@ public class SfxService {
     }
 
     public void onProgressSkip() {
-        prepareAndPlay("sfx_button_main");
+        onAnyBtnClicked();
     }
 
     public void onListItemClicked() {
@@ -127,7 +127,7 @@ public class SfxService {
                 "sfx_menu_downloading_3",
                 "sfx_menu_downloading_4",
                 "sfx_menu_downloading_5"
-        }));
+        }), true);
     }
 
     public void onSoundEnabled() {
@@ -208,8 +208,8 @@ public class SfxService {
         }));
     }
 
-    public void onExitNoClicked() {
-        prepareAndPlay(MathUtils.random(new String[]{
+    public StoryAudio onExitNoClicked() {
+        return prepareAndPlay(MathUtils.random(new String[]{
                 "sfx_menu_stay_1", "sfx_menu_stay_2",
                 "sfx_menu_stay_3", "sfx_menu_stay_4"
         }));
@@ -328,7 +328,7 @@ public class SfxService {
         return null;
     }
 
-    private void prepareAndPlayInternal(String sfx) {
+    private void prepareAndPlayInternal(String sfx, final boolean canDispose) {
 
         try {
             if (game.internalAssetManager == null) return;
@@ -351,7 +351,13 @@ public class SfxService {
             sound.setOnCompletionListener(new Music.OnCompletionListener() {
                 @Override
                 public void onCompletion(Music music) {
-                    disposeInternal(storyAudio);
+
+                    if (canDispose) {
+                        disposeInternal(storyAudio);
+                    } else {
+                        activeAudio.remove(storyAudio);
+                        storyAudio.player = null;
+                    }
                 }
             });
 

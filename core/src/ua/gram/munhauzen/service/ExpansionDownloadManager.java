@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Net;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.net.HttpRequestBuilder;
+import com.badlogic.gdx.net.HttpStatus;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.Json;
@@ -87,6 +88,9 @@ public class ExpansionDownloadManager implements Disposable {
                 cleanup();
 
                 try {
+                    if (httpResponse.getStatus().getStatusCode() != HttpStatus.SC_OK) {
+                        throw new GdxRuntimeException("Bad request");
+                    }
 
                     Files.toFile(httpResponse.getResultAsStream(), output);
 
@@ -164,6 +168,9 @@ public class ExpansionDownloadManager implements Disposable {
         Log.i(tag, "validateDownloadedPart part#" + part.part);
 
         FileHandle expansionFile = ExternalFiles.getExpansionPartFile(part);
+        if (!expansionFile.exists()) {
+            throw new GdxRuntimeException("Expansion part#" + part.part + " was not downloaded");
+        }
 
         String md5 = MD5.get(expansionFile);
 
@@ -210,13 +217,15 @@ public class ExpansionDownloadManager implements Disposable {
         Gdx.net.sendHttpRequest(httpRequest, new Net.HttpResponseListener() {
             @Override
             public void handleHttpResponse(Net.HttpResponse httpResponse) {
-                Log.i(tag, "fetchExpansionInfo success");
 
                 try {
+                    if (httpResponse.getStatus().getStatusCode() != HttpStatus.SC_OK) {
+                        throw new GdxRuntimeException("Bad request");
+                    }
 
                     String response = httpResponse.getResultAsString();
 
-                    Log.e(tag, response);
+                    Log.e(tag, "fetchExpansionInfo success:\n" + response);
 
                     ExpansionResponse serverExpansionInfo = game.databaseManager.loadExpansionInfo(response);
                     if (serverExpansionInfo == null) {
@@ -235,7 +244,18 @@ public class ExpansionDownloadManager implements Disposable {
 
                         Log.i(tag, "Same expansion. Resuming download...");
 
+                        String log = "Expansion state:";
+
                         for (Part serverPart : serverExpansionInfo.parts.items) {
+
+                            serverPart.isDownloaded = false;
+                            serverPart.isDownloadFailure = false;
+                            serverPart.isDownloading = false;
+
+                            serverPart.isExtracting = false;
+                            serverPart.isExtracted = false;
+                            serverPart.isExtractFailure = false;
+
                             for (Part localPart : expansionInfo.parts.items) {
                                 if (localPart.part == serverPart.part && localPart.checksum.equals(serverPart.checksum)) {
 
@@ -250,9 +270,15 @@ public class ExpansionDownloadManager implements Disposable {
 
                                     break;
                                 }
-
                             }
+
+                            log += "\npart " + serverPart.part
+                                    + " isDownloaded " + (serverPart.isDownloaded ? "+" : "-")
+                                    + " isExtracted " + (serverPart.isExtracted ? "+" : "-");
+
                         }
+
+                        Log.i(tag, log);
 
                     } else {
 

@@ -9,7 +9,6 @@ const VERSION = 1;
 const LOCALE = 'en';
 
 const DPIs = [
-  'ldpi',
   'mdpi',
   'hdpi'
 ]

@@ -171,22 +171,8 @@
     "isExit": true,
     "name": "a36_e",
     "action": "GOTO",
-    "audio": [
-      {
-        "audio": "s36_e",
-        "duration": 210000
-      }
-    ],
-    "images": [
-      {
-        "image": "images/p35_what.jpg",
-        "duration": 47000
-      },
-      {
-        "image": "images/p36_e.jpg",
-        "duration": 164000
-      }
-    ],
+    "audio": [],
+    "images": [],
     "decisions": []
   }
 ]

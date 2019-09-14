@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -38,6 +39,7 @@ public class HornImageFragment extends InteractionFragment {
     Note1 note1;
     Container<Note1> note1Table;
     Container<Note2> note2Table;
+    PrimaryButton button;
 
     public HornImageFragment(HornInteraction interaction) {
         this.interaction = interaction;
@@ -49,14 +51,25 @@ public class HornImageFragment extends InteractionFragment {
 
         interaction.gameScreen.hideImageFragment();
 
-        PrimaryButton button = button("Continue", new ClickListener() {
+        button = button("Continue", new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                root.setTouchable(Touchable.disabled);
+                try {
+                    root.setTouchable(Touchable.disabled);
 
-                interaction.complete();
+                    interaction.gameScreen.game.sfxService.onAnyBtnClicked();
+
+                    button.addAction(Actions.fadeOut(.2f));
+
+                    interaction.complete();
+
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+
+                    interaction.gameScreen.onCriticalError(e);
+                }
             }
         });
 

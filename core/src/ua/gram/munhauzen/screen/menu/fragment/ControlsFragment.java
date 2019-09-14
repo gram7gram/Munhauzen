@@ -495,8 +495,6 @@ public class ControlsFragment extends Fragment {
 
                     screen.stopCurrentSfx();
 
-                    screen.game.sfxService.onAnyBtnClicked();
-
                     screen.exitFragment = new ExitFragment(screen);
                     screen.exitFragment.create();
 

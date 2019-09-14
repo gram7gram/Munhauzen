@@ -103,7 +103,7 @@ public class HareInteraction extends AbstractInteraction {
 
                 if (story.isCompleted) {
 
-                    storyManager.onCompleted();
+//                    storyManager.onCompleted();
 
                 } else {
                     storyManager.startLoadingResources();

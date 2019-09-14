@@ -1,11 +1,10 @@
 package ua.gram.munhauzen.interaction.hare.ui;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
-import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.utils.Random;
 
 /**
@@ -13,52 +12,45 @@ import ua.gram.munhauzen.utils.Random;
  */
 public class Misc extends Group {
 
-    FitImage image;
-    Actor origin;
-    Actor originPoint;
+    Image image;
+    Ground ground;
 
-    public Misc(Texture texture, Actor origin, int width, int height, float x, float y) {
+    public Misc(Texture texture, Ground origin, float width, float height) {
 
-        this.origin = origin;
-
-        image = new FitImage(texture);
-
-        originPoint = new Actor();
-        originPoint.setSize(3, 3);
-        originPoint.setVisible(true);
-
-        addActor(image);
-        addActor(originPoint);
+        this.ground = origin;
+        image = new Image(texture);
 
         image.setSize(width, height);
-        image.setPosition(x - width - 20, y);
 
-        setOrigin(origin.getOriginX(), origin.getOriginY());
+        addActor(image);
 
-        originPoint.setPosition(
-                getOriginX() - 1,
-                getOriginY() - 1
+        layout();
+    }
+
+    public void layout() {
+
+        float offset = .2f;
+        setSize(ground.getWidth() * (1 - offset), ground.getHeight() * (1 - offset));
+
+        setPosition(
+                ground.getX() + ground.getWidth() * offset / 2,
+                ground.getY() + ground.getHeight() * offset / 2
         );
 
+        setOrigin(getWidth() * .5f, getHeight() * .5f);
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
 
-        setOrigin(origin.getOriginX(), origin.getOriginY());
-
-        originPoint.setPosition(
-                getOriginX() - 1,
-                getOriginY() - 1
-        );
-
+        layout();
     }
 
     public void start() {
 
         addAction(
-                Actions.forever(Actions.rotateBy(-90, new Random().between(8, 20)))
+                Actions.forever(Actions.rotateBy(-90, new Random().between(2, 6)))
         );
     }
 }

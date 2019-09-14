@@ -16,7 +16,7 @@ public class HorseAnimation extends AnimatedImage {
     public HorseAnimation(Texture texture, Ground ground) {
         super(texture);
 
-        animate(texture, 1, 5, 5, 0.15f);
+        animate(texture, 1, 5, 5, 0.1f);
 
         this.ground = ground;
     }
@@ -28,11 +28,11 @@ public class HorseAnimation extends AnimatedImage {
         float size = MunhauzenGame.WORLD_WIDTH * .4f;
 
         setSize(size, size);
-        setPosition(
-                MunhauzenGame.WORLD_WIDTH - 50 - getWidth(),
-                ground.originPoint.getY() + ground.image.getHeight() / 3f
-        );
 
+        setPosition(
+                (MunhauzenGame.WORLD_WIDTH - getWidth()) * .85f,
+                ground.getY() + ground.getHeight() * .82f - getWidth() * .2f
+        );
     }
 }
 

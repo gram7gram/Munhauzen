@@ -46,16 +46,10 @@ function deploy() {
 
 }
 
-syncLocal "$1-en-ldpi"
-
 syncLocal "$1-en-mdpi"
-
 syncLocal "$1-en-hdpi"
 
-syncRemote "$1-en-ldpi"
-
 syncRemote "$1-en-mdpi"
-
 syncRemote "$1-en-hdpi"
 
 deploy

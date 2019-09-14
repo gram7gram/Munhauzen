@@ -28,9 +28,10 @@ public class HareAnimation extends AnimatedImage {
         float size = MunhauzenGame.WORLD_WIDTH / 5f;
 
         setSize(size, size);
+
         setPosition(
-                50,
-                ground.originPoint.getY() + ground.image.getHeight() / 3f
+                (MunhauzenGame.WORLD_WIDTH - getWidth()) * .25f,
+                ground.getY() + ground.getHeight() * .82f
         );
     }
 }

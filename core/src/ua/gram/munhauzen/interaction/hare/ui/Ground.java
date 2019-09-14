@@ -1,66 +1,42 @@
 package ua.gram.munhauzen.interaction.hare.ui;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 import ua.gram.munhauzen.MunhauzenGame;
-import ua.gram.munhauzen.ui.FitImage;
 
-/**
- * @author Gram <gram7gram@gmail.com>
- */
-public class Ground extends Group {
+public class Ground extends Image {
 
-    public FitImage image;
-    public Actor originPoint;
-    Texture texture;
+    public float width, height;
 
     public Ground(Texture texture) {
 
-        this.texture = texture;
-        image = new FitImage(texture);
+        super(texture);
 
-        originPoint = new Actor();
-        originPoint.setSize(3, 3);
-        originPoint.setVisible(true);
-
-        addActor(image);
-        addActor(originPoint);
-
-        float width = MunhauzenGame.WORLD_WIDTH * 2f;
+        width = MunhauzenGame.WORLD_WIDTH * 1.75f;
         float scale = 1f * width / texture.getWidth();
-        float height = texture.getHeight() * scale;
-
-        image.setSize(width, height);
-        image.setPosition(-width / 4f, -height * 3 / 5f);
+        height = texture.getHeight() * scale;
 
         layout();
-    }
-
-    public void layout() {
-
-        setOrigin(image.getX() + image.getWidth() * .472f,
-                image.getY() + image.getHeight() * .452f);
-
-        originPoint.setPosition(
-                getOriginX() - 1,
-                getOriginY() - 1
-        );
     }
 
     @Override
-    public void act(float delta) {
-        super.act(delta);
+    public void layout() {
+        super.layout();
 
-        layout();
+        setSize(width, height);
+        setPosition(
+                (MunhauzenGame.WORLD_WIDTH - width) / 2f,
+                -height * .6f
+        );
 
+        setOrigin(getWidth() * .5f, getHeight() * .5f);
     }
 
     public void start() {
         addAction(
-                Actions.forever(Actions.rotateBy(-90, 10))
+                Actions.forever(Actions.rotateBy(-90, 2.5f))
         );
     }
 }
