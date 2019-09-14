@@ -78,11 +78,23 @@ public class LogoScreen implements Screen {
 
         boolean canRedirectToLoading = true;
 
+        game.gameState.menuState.isFirstMenuAfterGameStart = true;
+
         if (game.gameState.expansionInfo != null) {
             Log.i(tag, "Has expansion");
             canRedirectToLoading = !game.gameState.expansionInfo.isCompleted;
         } else {
             Log.e(tag, "No expansion");
+        }
+
+        try {
+
+            if (game.databaseManager != null && game.gameState != null) {
+                game.databaseManager.persist(game.gameState);
+            }
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
         }
 
         if (canRedirectToLoading) {

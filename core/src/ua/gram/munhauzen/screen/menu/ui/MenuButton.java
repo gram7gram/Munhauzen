@@ -78,6 +78,8 @@ public abstract class MenuButton extends Stack {
 
                 Gdx.input.setInputProcessor(null);
 
+                screen.stopCurrentSfx();
+
                 animation.start();
 
                 screen.isButtonClicked = true;

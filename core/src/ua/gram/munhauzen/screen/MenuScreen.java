@@ -129,6 +129,19 @@ public class MenuScreen extends AbstractScreen {
         MenuState menuState = game.gameState.menuState;
         AchievementState achievementState = game.gameState.achievementState;
 
+        if (menuState.isFirstMenuAfterGameStart) {
+
+            menuState.isFirstMenuAfterGameStart = false;
+
+            if (achievementState.areAllGoofsUnlocked && achievementState.areAllImagesUnlocked) {
+
+                stopCurrentSfx();
+                currentSfx = game.sfxService.onAllGoofsAndImagesUnlocked();
+
+                return;
+            }
+        }
+
         int openCount = menuState.openCount;
 
         if (menuState.showThankYouBanner) {
@@ -167,16 +180,6 @@ public class MenuScreen extends AbstractScreen {
                         openVersionBanner();
                     }
                 }, 2);
-            } else if (menuState.isFirstMenuAfterGameStart) {
-
-                menuState.isFirstMenuAfterGameStart = false;
-
-                if (achievementState.areAllGoofsUnlocked && achievementState.areAllImagesUnlocked) {
-
-                    stopCurrentSfx();
-                    currentSfx = game.sfxService.onAllGoofsAndImagesUnlocked();
-
-                }
             }
         }
 
@@ -396,5 +399,7 @@ public class MenuScreen extends AbstractScreen {
             game.sfxService.dispose(currentSfx);
             currentSfx = null;
         }
+
+        game.sfxService.dispose();
     }
 }
