@@ -78,7 +78,19 @@ public class LogoScreen implements Screen {
 
         boolean canRedirectToLoading = true;
 
-        game.gameState.menuState.isFirstMenuAfterGameStart = true;
+        try {
+
+            if (game.gameState.menuState != null) {
+                game.gameState.menuState.isFirstMenuAfterGameStart = true;
+
+                if (game.databaseManager != null) {
+                    game.databaseManager.persist(game.gameState);
+                }
+            }
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
 
         if (game.gameState.expansionInfo != null) {
             Log.i(tag, "Has expansion");
@@ -87,20 +99,10 @@ public class LogoScreen implements Screen {
             Log.e(tag, "No expansion");
         }
 
-        try {
-
-            if (game.databaseManager != null && game.gameState != null) {
-                game.databaseManager.persist(game.gameState);
-            }
-
-        } catch (Throwable e) {
-            Log.e(tag, e);
-        }
-
         if (canRedirectToLoading) {
             game.setScreen(new LoadingScreen(game));
         } else {
-            game.setScreen(new DebugScreen(game));
+            game.setScreen(new MenuScreen(game));
         }
 
         dispose();

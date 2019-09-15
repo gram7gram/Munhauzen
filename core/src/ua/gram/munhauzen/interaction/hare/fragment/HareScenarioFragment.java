@@ -206,8 +206,6 @@ public class HareScenarioFragment extends Fragment {
         root.add(decorTop);
         root.add(decorRight);
 
-        fadeIn();
-
         GameState.pause(tag);
 
         root.setName(tag);

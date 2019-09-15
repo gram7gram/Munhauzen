@@ -9,6 +9,7 @@ import java.util.Comparator;
 import ua.gram.munhauzen.entity.Decision;
 import ua.gram.munhauzen.entity.Inventory;
 import ua.gram.munhauzen.entity.StoryAudio;
+import ua.gram.munhauzen.entity.StoryImage;
 import ua.gram.munhauzen.interaction.CannonsInteraction;
 import ua.gram.munhauzen.interaction.cannons.fragment.CannonsScenarioFragment;
 import ua.gram.munhauzen.repository.InventoryRepository;
@@ -275,6 +276,26 @@ public class CannonsStoryManager {
         }
     }
 
+    public void displayCurrentImage() {
+        if (story == null) return;
+
+        CannonsStoryScenario scenario = story.currentScenario;
+        if (scenario == null) return;
+
+        try {
+
+            StoryImage optionImage = scenario.currentImage;
+            if (optionImage != null) {
+                interaction.imageService.prepareAndDisplay(optionImage);
+            }
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            gameScreen.onCriticalError(e);
+        }
+    }
+
     public void startLoadingResources() {
 
         startLoadingAudio();
@@ -284,7 +305,7 @@ public class CannonsStoryManager {
 
     public void onCompleted() {
 
-        startLoadingImages();
+        displayCurrentImage();
 
         Log.i(tag, "onCompleted " + story.id);
 

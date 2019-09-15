@@ -1,6 +1,7 @@
 package ua.gram.munhauzen.service;
 
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.utils.Timer;
 
 import java.util.HashSet;
@@ -21,6 +22,18 @@ public class SfxService {
 
     public SfxService(MunhauzenGame game) {
         this.game = game;
+    }
+
+    public void load() {
+        game.internalAssetManager.load("audio/sfx_button_main.mp3", Sound.class);
+    }
+
+    public void onAnyBtnClicked() {
+        playImmediately("sfx_button_main");
+    }
+
+    public void onLogoScreenOpened() {
+        prepareAndPlayInternal("sfx_logo");
     }
 
     public void onGoofsSwitchClickedForMunhauzen() {
@@ -44,9 +57,6 @@ public class SfxService {
         prepareAndPlay("sfx_button_arrow");
     }
 
-    public void onLogoScreenOpened() {
-        prepareAndPlayInternal("sfx_logo", true);
-    }
 
     public StoryAudio onDemoBannerShown() {
         return prepareAndPlay("sfx_menu_buy");
@@ -58,10 +68,6 @@ public class SfxService {
 
     public void onAnyDisabledBtnClicked() {
         prepareAndPlay("sfx_button_off");
-    }
-
-    public void onAnyBtnClicked() {
-        prepareAndPlayInternal("sfx_button_main", false);
     }
 
     public void onBookmarkDown() {
@@ -127,7 +133,7 @@ public class SfxService {
                 "sfx_menu_downloading_3",
                 "sfx_menu_downloading_4",
                 "sfx_menu_downloading_5"
-        }), true);
+        }));
     }
 
     public void onSoundEnabled() {
@@ -148,30 +154,39 @@ public class SfxService {
 
     public StoryAudio onShareBannerShown() {
         return prepareAndPlay(MathUtils.random(new String[]{
-                "sfx_menu_share_1", "sfx_menu_share_2",
-                "sfx_menu_share_3", "sfx_menu_share_4"
+                "sfx_menu_share_1",
+                "sfx_menu_share_2",
+                "sfx_menu_share_3",
+                "sfx_menu_share_4"
         }));
     }
 
     public StoryAudio onRateBannerShown() {
         return prepareAndPlay(MathUtils.random(new String[]{
-                "sfx_menu_rate_1", "sfx_menu_rate_2",
-                "sfx_menu_rate_3", "sfx_menu_rate_4"
+                "sfx_menu_rate_1",
+                "sfx_menu_rate_2",
+                "sfx_menu_rate_3",
+                "sfx_menu_rate_4"
         }));
     }
 
     public StoryAudio onThankYouBannerShown() {
         return prepareAndPlay(MathUtils.random(new String[]{
-                "sfx_menu_rate_1", "sfx_menu_rate_2",
-                "sfx_menu_rate_3", "sfx_menu_rate_4"
+                "sfx_menu_rate_1",
+                "sfx_menu_rate_2",
+                "sfx_menu_rate_3",
+                "sfx_menu_rate_4"
         }));
     }
 
     public StoryAudio onProBannerShown() {
         return prepareAndPlay(MathUtils.random(new String[]{
-                "sfx_menu_thanks", "sfx_menu_thanks_1",
-                "sfx_menu_thanks_2", "sfx_menu_thanks_3",
-                "sfx_menu_thanks_4", "sfx_menu_thanks_5",
+                "sfx_menu_thanks",
+                "sfx_menu_thanks_1",
+                "sfx_menu_thanks_2",
+                "sfx_menu_thanks_3",
+                "sfx_menu_thanks_4",
+                "sfx_menu_thanks_5",
                 "sfx_menu_thanks_6"
         }));
     }
@@ -328,7 +343,24 @@ public class SfxService {
         return null;
     }
 
-    private void prepareAndPlayInternal(String sfx, final boolean canDispose) {
+    private void playImmediately(String sfx) {
+        try {
+            if (game.internalAssetManager == null) return;
+            if (GameState.isMute) return;
+
+            final String file = "audio/" + sfx + ".mp3";
+
+            Sound sound = game.internalAssetManager.get(file, Sound.class);
+            sound.play();
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            game.onCriticalError(e);
+        }
+    }
+
+    private void prepareAndPlayInternal(String sfx) {
 
         try {
             if (game.internalAssetManager == null) return;
@@ -341,7 +373,6 @@ public class SfxService {
             game.internalAssetManager.finishLoading();
 
             Music sound = game.internalAssetManager.get(file, Music.class);
-            sound.play();
 
             final StoryAudio storyAudio = new StoryAudio();
             storyAudio.audio = sfx;
@@ -351,15 +382,11 @@ public class SfxService {
             sound.setOnCompletionListener(new Music.OnCompletionListener() {
                 @Override
                 public void onCompletion(Music music) {
-
-                    if (canDispose) {
-                        disposeInternal(storyAudio);
-                    } else {
-                        activeAudio.remove(storyAudio);
-                        storyAudio.player = null;
-                    }
+                    disposeInternal(storyAudio);
                 }
             });
+
+            sound.play();
 
         } catch (Throwable e) {
             Log.e(tag, e);

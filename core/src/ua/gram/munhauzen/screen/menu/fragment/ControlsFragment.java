@@ -19,6 +19,7 @@ import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.MenuState;
+import ua.gram.munhauzen.screen.DebugScreen;
 import ua.gram.munhauzen.screen.MenuScreen;
 import ua.gram.munhauzen.screen.menu.ui.AuthorsButton;
 import ua.gram.munhauzen.screen.menu.ui.ContinueButton;
@@ -31,7 +32,6 @@ import ua.gram.munhauzen.screen.menu.ui.RateSideButton;
 import ua.gram.munhauzen.screen.menu.ui.SavesButton;
 import ua.gram.munhauzen.screen.menu.ui.ShareSideButton;
 import ua.gram.munhauzen.screen.menu.ui.StartButton;
-import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.ui.SoundBtn;
@@ -70,7 +70,19 @@ public class ControlsFragment extends Fragment {
         goofsButton = new GoofsButton(screen);
         authorsButton = new AuthorsButton(screen);
 
-        logo = new FitImage();
+        logo = new Image();
+        if (MunhauzenGame.DEBUG) {
+            logo.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    super.clicked(event, x, y);
+
+                    screen.stopCurrentSfx();
+
+                    screen.navigateTo(new DebugScreen(screen.game));
+                }
+            });
+        }
 
         btnTable = new Table();
 
@@ -108,24 +120,6 @@ public class ControlsFragment extends Fragment {
             }
         }, r.between(5, 10), r.between(5, 10));
 
-        final DemoSideButton demoBtnAnimation = new DemoSideButton(screen);
-
-        Timer.instance().scheduleTask(new Timer.Task() {
-            @Override
-            public void run() {
-                demoBtnAnimation.start();
-            }
-        }, r.between(5, 10), r.between(5, 10));
-
-        final ProSideButton proBtnAnimation = new ProSideButton(screen);
-
-        Timer.instance().scheduleTask(new Timer.Task() {
-            @Override
-            public void run() {
-                proBtnAnimation.start();
-            }
-        }, r.between(5, 10), r.between(5, 10));
-
         float iconSize = MunhauzenGame.WORLD_WIDTH * .18f;
         float iconSize2 = iconSize * 1.5f;
 
@@ -140,15 +134,39 @@ public class ControlsFragment extends Fragment {
                 .pad(10)
                 .row();
 
-        sideTable.add(demoBtnAnimation)
-                .size(iconSize)
-                .pad(10)
-                .row();
+        if (MunhauzenGame.DEBUG || !screen.game.params.isPro) {
 
-        sideTable.add(proBtnAnimation)
-                .size(iconSize)
-                .pad(10)
-                .row();
+            final DemoSideButton demoBtnAnimation = new DemoSideButton(screen);
+
+            Timer.instance().scheduleTask(new Timer.Task() {
+                @Override
+                public void run() {
+                    demoBtnAnimation.start();
+                }
+            }, r.between(5, 10), r.between(5, 10));
+
+            sideTable.add(demoBtnAnimation)
+                    .size(iconSize)
+                    .pad(10)
+                    .row();
+        }
+
+        if (MunhauzenGame.DEBUG || screen.game.params.isPro) {
+
+            final ProSideButton proBtnAnimation = new ProSideButton(screen);
+
+            Timer.instance().scheduleTask(new Timer.Task() {
+                @Override
+                public void run() {
+                    proBtnAnimation.start();
+                }
+            }, r.between(5, 10), r.between(5, 10));
+
+            sideTable.add(proBtnAnimation)
+                    .size(iconSize)
+                    .pad(10)
+                    .row();
+        }
 
         sideTable.add(soundBtn)
                 .size(iconSize)
@@ -159,7 +177,7 @@ public class ControlsFragment extends Fragment {
         exitTable.add(exitBtn).expandX().right().width(iconSize2 / 2f).height(iconSize2).row();
 
         logoTable = new Table();
-        logoTable.setTouchable(Touchable.disabled);
+        logoTable.setTouchable(Touchable.childrenOnly);
         logoTable.add(logo).expandX().center().row();
 
         sideContainer = new Container<>(sideTable);
@@ -175,7 +193,7 @@ public class ControlsFragment extends Fragment {
         titleContainer = new Container<>(logoTable);
         titleContainer.setTouchable(Touchable.childrenOnly);
         titleContainer.align(Align.top);
-        titleContainer.pad(10);
+        titleContainer.pad(30, 10, 10, 10);
 
         Container<Table> btnContainer = new Container<>(btnTable);
         btnContainer.setTouchable(Touchable.childrenOnly);

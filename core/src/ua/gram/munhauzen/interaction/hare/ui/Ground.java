@@ -28,7 +28,7 @@ public class Ground extends Image {
         setSize(width, height);
         setPosition(
                 (MunhauzenGame.WORLD_WIDTH - width) / 2f,
-                -height * .6f
+                -height * .75f
         );
 
         setOrigin(getWidth() * .5f, getHeight() * .5f);

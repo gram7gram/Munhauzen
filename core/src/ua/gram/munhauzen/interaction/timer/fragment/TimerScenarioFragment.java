@@ -40,9 +40,7 @@ public class TimerScenarioFragment extends Fragment {
     private final MunhauzenGame game;
     public final GameScreen gameScreen;
     private FitImage imgLeft, imgRight, imgTop;
-    private Table decorLeft;
-    private Table decorRight;
-    private Table decorTop;
+    private Table decorLeft, decorRight, decorTop;
     public Table blocks;
     public Stack root;
     private final ArrayList<Actor> buttonList;
@@ -206,8 +204,6 @@ public class TimerScenarioFragment extends Fragment {
         root.add(decorLeft);
         root.add(decorTop);
         root.add(decorRight);
-
-        fadeIn();
 
         GameState.pause(tag);
 

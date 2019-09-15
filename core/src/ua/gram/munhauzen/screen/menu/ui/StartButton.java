@@ -4,7 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import ua.gram.munhauzen.animation.AnimatedImage;
-import ua.gram.munhauzen.screen.DebugScreen;
+import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.screen.MenuScreen;
 import ua.gram.munhauzen.screen.menu.animation.CrownAnimation;
 
@@ -24,7 +24,7 @@ public class StartButton extends MenuButton {
 
                 screen.currentSfx = screen.game.sfxService.onMenuStartClicked();
 
-                screen.scaleAndNavigateTo(new DebugScreen(screen.game));
+                screen.scaleAndNavigateTo(new GameScreen(screen.game));
             }
         });
     }

@@ -27,7 +27,8 @@ public class MunhauzenGame extends Game {
     public static int WORLD_HEIGHT;
     public static boolean PAUSED = false;
 
-    public static final boolean DEBUG = false;
+    public static final boolean DEBUG = true;
+    public static final boolean DEBUG_UI = false;
     public static final boolean IS_EXPANSION_HIDDEN = true;
     public static final boolean DEBUG_RENDER_INFO = true;
     public static final boolean CAN_REMOVE_PREVIOUS_EXPANSION = false;
@@ -35,6 +36,7 @@ public class MunhauzenGame extends Game {
     public static final int PROGRESS_BAR_FADE_OUT_DELAY = 5;
 
     public static String developmentScenario;
+    public static String developmentInteraction;
 
     private final String tag = getClass().getSimpleName();
 
@@ -223,6 +225,8 @@ public class MunhauzenGame extends Game {
         internalAssetManager.load("ui/b_danger_sm_disabled.png", Texture.class);
         internalAssetManager.load("ui/btn_rose_enabled.png", Texture.class);
         internalAssetManager.load("ui/btn_rose_disabled.png", Texture.class);
+
+        sfxService.load();
     }
 
     private void createCamera() {

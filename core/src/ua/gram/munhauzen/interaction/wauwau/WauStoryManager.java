@@ -8,6 +8,7 @@ import java.util.Comparator;
 
 import ua.gram.munhauzen.entity.Decision;
 import ua.gram.munhauzen.entity.StoryAudio;
+import ua.gram.munhauzen.entity.StoryImage;
 import ua.gram.munhauzen.interaction.WauInteraction;
 import ua.gram.munhauzen.interaction.wauwau.fragment.WauScenarioFragment;
 import ua.gram.munhauzen.screen.GameScreen;
@@ -193,6 +194,23 @@ public class WauStoryManager {
         }
     }
 
+    public void displayCurrentImage() {
+        if (story == null) return;
+
+        try {
+
+            StoryImage optionImage = story.currentScenario.currentImage;
+            if (optionImage != null) {
+                interaction.imageService.prepareAndDisplay(optionImage);
+            }
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            gameScreen.onCriticalError(e);
+        }
+    }
+
     public void startLoadingResources() {
 
         startLoadingAudio();
@@ -202,7 +220,7 @@ public class WauStoryManager {
 
     public void onCompleted() {
 
-        startLoadingImages();
+        displayCurrentImage();
 
         Log.i(tag, "onCompleted " + story.id);
 

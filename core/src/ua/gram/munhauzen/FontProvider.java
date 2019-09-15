@@ -126,22 +126,26 @@ public class FontProvider implements Disposable {
 
         Log.i(tag, "dispose");
 
-        for (String font : mapHd.keySet()) {
-            HashMap<Integer, BitmapFont> variants = mapHd.get(font);
-            for (Integer size : variants.keySet()) {
-                variants.get(size).dispose();
+        if (mapHd != null) {
+            for (String font : mapHd.keySet()) {
+                HashMap<Integer, BitmapFont> variants = mapHd.get(font);
+                for (Integer size : variants.keySet()) {
+                    variants.get(size).dispose();
+                }
+                variants.clear();
             }
-            variants.clear();
+            mapHd.clear();
         }
-        mapHd.clear();
 
-        for (String font : map.keySet()) {
-            HashMap<Integer, BitmapFont> variants = map.get(font);
-            for (Integer size : variants.keySet()) {
-                variants.get(size).dispose();
+        if (map != null) {
+            for (String font : map.keySet()) {
+                HashMap<Integer, BitmapFont> variants = map.get(font);
+                for (Integer size : variants.keySet()) {
+                    variants.get(size).dispose();
+                }
+                variants.clear();
             }
-            variants.clear();
+            map.clear();
         }
-        map.clear();
     }
 }

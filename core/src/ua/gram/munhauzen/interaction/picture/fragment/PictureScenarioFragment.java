@@ -1,20 +1,28 @@
 package ua.gram.munhauzen.interaction.picture.fragment;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.PolygonSprite;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
+import com.badlogic.gdx.utils.Align;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.interaction.PictureInteraction;
 import ua.gram.munhauzen.interaction.picture.Area;
 import ua.gram.munhauzen.interaction.picture.PictureStory;
 import ua.gram.munhauzen.screen.game.ui.BackgroundImage;
+import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.utils.Log;
 
@@ -30,6 +38,8 @@ public class PictureScenarioFragment extends Fragment {
     public ArrayList<PolygonSprite> sprites = new ArrayList<>();
     public PolygonSpriteBatch polyBatch;
     Actor actor;
+    FitImage imgLeft, imgRight, imgTop;
+    Table decorLeft, decorRight, decorTop;
 
     public PictureScenarioFragment(PictureInteraction interaction) {
         this.interaction = interaction;
@@ -103,25 +113,14 @@ public class PictureScenarioFragment extends Fragment {
 
     }
 
-    private float[] convertToPixels(float[] vertices) {
-        float[] pixels = new float[vertices.length];
-
-        for (int i = 0; i < vertices.length; i += 2) {
-            float x = vertices[i], y = vertices[i + 1];
-
-            pixels[i] = interaction.imageFragment.backgroundImage.background.getX()
-                    + x * interaction.imageFragment.backgroundImage.backgroundWidth / 100;
-
-            pixels[i + 1] = interaction.imageFragment.backgroundImage.background.getY()
-                    + y * interaction.imageFragment.backgroundImage.backgroundHeight / 100;
-        }
-
-        return pixels;
-    }
-
     public void create() {
 
         Log.i(tag, "create");
+
+        interaction.assetManager.load("GameScreen/b_star_game.png", Texture.class);
+        interaction.assetManager.load("GameScreen/b_tulip_1.png", Texture.class);
+
+        interaction.assetManager.finishLoading();
 
         actor = new Actor();
 
@@ -147,12 +146,92 @@ public class PictureScenarioFragment extends Fragment {
             }
         });
 
+        Texture borders = interaction.assetManager.get("GameScreen/b_tulip_1.png", Texture.class);
+        Texture drawableTop = interaction.assetManager.get("GameScreen/b_star_game.png", Texture.class);
+
+        Sprite drawableLeft = new Sprite(borders);
+
+        Sprite drawableRight = new Sprite(borders);
+        drawableRight.setFlip(true, false);
+
+        imgLeft = new FitImage(new SpriteDrawable(drawableLeft));
+        imgRight = new FitImage(new SpriteDrawable(drawableRight));
+        imgTop = new FitImage(drawableTop);
+
+        decorLeft = new Table();
+        decorLeft.setTouchable(Touchable.disabled);
+        decorLeft.add(imgLeft).align(Align.topLeft).expand()
+                .width(MunhauzenGame.WORLD_WIDTH / 3f)
+                .height(MunhauzenGame.WORLD_HEIGHT / 4f);
+
+        decorTop = new Table();
+        decorTop.setTouchable(Touchable.disabled);
+        decorTop.add(imgTop).align(Align.top).expand()
+                .width(MunhauzenGame.WORLD_WIDTH / 5f)
+                .height(MunhauzenGame.WORLD_HEIGHT / 13f);
+
+        decorRight = new Table();
+        decorRight.setTouchable(Touchable.disabled);
+        decorRight.add(imgRight).align(Align.topRight).expand()
+                .width(MunhauzenGame.WORLD_WIDTH / 3f)
+                .height(MunhauzenGame.WORLD_HEIGHT / 4f);
+
         root = new Stack();
         root.setTouchable(Touchable.childrenOnly);
         root.setFillParent(true);
         root.addActor(actor);
+        root.add(decorLeft);
+        root.add(decorTop);
+        root.add(decorRight);
 
         root.setName(tag);
+        root.setVisible(false);
+    }
+
+    public void fadeIn() {
+
+        if (!isMounted()) return;
+
+        root.setVisible(true);
+
+        fadeInDecoration();
+    }
+
+    private void fadeInDecoration() {
+
+        if (!isMounted()) return;
+
+        float duration = .3f;
+
+        decorLeft.addAction(Actions.moveBy(-imgLeft.getWidth(), 0));
+        decorLeft.addAction(Actions.alpha(0));
+        decorLeft.addAction(
+                Actions.parallel(
+                        Actions.moveTo(0, 0, duration),
+                        Actions.alpha(1, duration)
+                )
+
+        );
+
+        decorTop.addAction(Actions.moveBy(0, imgTop.getHeight()));
+        decorTop.addAction(Actions.alpha(0));
+        decorTop.addAction(
+                Actions.parallel(
+                        Actions.moveTo(0, 0, duration),
+                        Actions.alpha(1, duration)
+                )
+
+        );
+
+        decorRight.addAction(Actions.moveBy(imgRight.getWidth(), 0));
+        decorRight.addAction(Actions.alpha(0));
+        decorRight.addAction(
+                Actions.parallel(
+                        Actions.moveTo(0, 0, duration),
+                        Actions.alpha(1, duration)
+                )
+
+        );
     }
 
     private void makeDecision(String scenario) {

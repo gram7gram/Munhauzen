@@ -78,7 +78,7 @@ public class ErrorScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                game.setScreen(new DebugScreen(game));
+                game.setScreen(new MenuScreen(game));
                 dispose();
             }
         });

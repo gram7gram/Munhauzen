@@ -8,6 +8,8 @@ cd "$SRC_DIR"
 for dir in *; do
     if [[ -d "$dir" ]]; then
 
+#        dir="hare"
+
         cd "$SRC_DIR/$dir"
 
         mkdir -p "$OBB_PATH/hdpi/$dir"

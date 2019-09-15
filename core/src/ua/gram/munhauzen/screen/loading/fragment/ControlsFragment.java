@@ -146,14 +146,11 @@ public class ControlsFragment extends Fragment {
         startMessage.setWrap(true);
         startMessage.setAlignment(Align.center);
 
-        String quality = "Low";
-        switch (screen.game.params.dpi) {
-            case "hdpi":
-                quality = "High";
-                break;
-            case "mdpi":
-                quality = "Medium";
-                break;
+        String quality;
+        if ("hdpi".equals(screen.game.params.dpi)) {
+            quality = "High";
+        } else {
+            quality = "Medium";
         }
 
         Label qualityMessage = new Label("Recommended texture quality: " + quality, new Label.LabelStyle(

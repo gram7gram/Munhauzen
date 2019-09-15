@@ -26,6 +26,7 @@ import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.AudioFail;
 import ua.gram.munhauzen.entity.FailsState;
 import ua.gram.munhauzen.entity.GalleryState;
+import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.History;
 import ua.gram.munhauzen.entity.Image;
 import ua.gram.munhauzen.entity.Inventory;
@@ -34,6 +35,7 @@ import ua.gram.munhauzen.entity.Save;
 import ua.gram.munhauzen.entity.Scenario;
 import ua.gram.munhauzen.expansion.ExportResponse;
 import ua.gram.munhauzen.expansion.ExtractGameConfigTask;
+import ua.gram.munhauzen.interaction.InteractionFactory;
 import ua.gram.munhauzen.screen.DebugScreen;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.screen.LoadingScreen;
@@ -58,7 +60,7 @@ public class ControlsFragment extends Fragment {
     TextButton startButton;
     public Label progressLbl, expansionLbl, expansionInfoLbl;
     Label upButton;
-    Table inventoryContainer, scenarioContainer;
+    Table inventoryContainer, scenarioContainer, interactionContainer;
     VerticalGroup group;
     String currentSource = "scenario_1";
 
@@ -210,6 +212,31 @@ public class ControlsFragment extends Fragment {
                 ExternalFiles.getExpansionInfoFile(game.params).exists()
         );
 
+        final Label removeAllLbl = new Label("[x] Удалить ВСЕ", new Label.LabelStyle(
+                game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
+                Color.RED
+        ));
+        removeAllLbl.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                removeAllLbl.setVisible(false);
+
+                GameState.clearTimer();
+
+                if (Gdx.files.external("Munhauzen").exists()) {
+                    Gdx.files.external("Munhauzen").deleteDirectory();
+                }
+
+                if (Gdx.files.external(".Munhauzen").exists()) {
+                    Gdx.files.external(".Munhauzen").deleteDirectory();
+                }
+
+                Gdx.app.exit();
+            }
+        });
+
         progressLbl = new Label("", new Label.LabelStyle(
                 game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
                 Color.BLUE
@@ -286,6 +313,8 @@ public class ControlsFragment extends Fragment {
         container.add(removeCacheLbl).pad(10).left().expandX();
         container.add(removeHistoryLbl).pad(10).left().expandX().row();
 
+        container.add(removeAllLbl).pad(20).left().expandX().colspan(2).row();
+
         container.add(expansionLbl).expandX().colspan(2).row();
         container.add(expansionInfoLbl).expandX().colspan(2).row();
         container.add(progressLbl).expandX().colspan(2).row();
@@ -293,12 +322,17 @@ public class ControlsFragment extends Fragment {
         inventoryContainer = new Table();
         inventoryContainer.padBottom(80);
 
+        interactionContainer = new Table();
+        interactionContainer.padBottom(80);
+
         scenarioContainer = new Table();
         scenarioContainer.padBottom(80);
 
         createInventoryTable();
 
         createScenarioTable();
+
+        createInteractionTable();
 
         Table container2 = new Table();
         container2.add(inventoryContainer).top().expandX();
@@ -310,6 +344,7 @@ public class ControlsFragment extends Fragment {
         group = new VerticalGroup();
         group.pad(10);
         group.addActor(container);
+        group.addActor(interactionContainer);
         group.addActor(container2);
 
         scroll = new ScrollPane(group);
@@ -319,6 +354,70 @@ public class ControlsFragment extends Fragment {
         root = new FragmentRoot();
         root.addContainer(scroll);
         root.addContainer(upContainer);
+    }
+
+    public void createInteractionTable() {
+
+        interactionContainer.clearChildren();
+
+        Label header = new Label("Фишки", new Label.LabelStyle(
+                game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
+                Color.RED
+        ));
+        interactionContainer.add(header).expandX().row();
+
+        String[] interactions = {
+                InteractionFactory.BALLOONS,
+                InteractionFactory.CANNONS,
+                InteractionFactory.CONTINUE,
+                InteractionFactory.DATE,
+                InteractionFactory.GENERAL,
+                InteractionFactory.HARE,
+                InteractionFactory.HORN,
+                InteractionFactory.LIONS,
+                InteractionFactory.PICTURE,
+                InteractionFactory.PUZZLE,
+                InteractionFactory.RANDOM,
+                InteractionFactory.SERVANTS,
+                InteractionFactory.SLAP,
+                InteractionFactory.SWAMP,
+                "TIMER(ACARRIAGE,20)",
+                "TIMER_2(APRISONERS_EXPLODED,20)",
+                InteractionFactory.WAUWAU,
+        };
+
+        for (final String name : interactions) {
+
+            String text;
+
+            if (name.equals(MunhauzenGame.developmentInteraction)) {
+                text = "[+] " + name;
+            } else {
+                text = "[-] " + name;
+            }
+
+            Label label = new Label(text, new Label.LabelStyle(
+                    game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
+                    Color.BLACK
+            ));
+
+            label.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    super.clicked(event, x, y);
+
+                    if (name.equals(MunhauzenGame.developmentInteraction)) {
+                        MunhauzenGame.developmentInteraction = null;
+                    } else {
+                        MunhauzenGame.developmentInteraction = name;
+                    }
+
+                    createInteractionTable();
+                }
+            });
+
+            interactionContainer.add(label).left().expandX().padBottom(5).row();
+        }
     }
 
     public void createInventoryTable() {
@@ -369,7 +468,7 @@ public class ControlsFragment extends Fragment {
                 }
             });
 
-            inventoryContainer.add(label).left().expandX().row();
+            inventoryContainer.add(label).left().expandX().padBottom(5).row();
         }
     }
 
@@ -445,7 +544,7 @@ public class ControlsFragment extends Fragment {
                 }
             });
 
-            scenarioContainer.add(label).colspan(3).left().expandX().row();
+            scenarioContainer.add(label).colspan(3).left().expandX().padBottom(5).row();
         }
 
         part1.addListener(new ClickListener() {

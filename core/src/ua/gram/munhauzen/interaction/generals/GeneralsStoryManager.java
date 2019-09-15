@@ -9,6 +9,7 @@ import java.util.Set;
 
 import ua.gram.munhauzen.entity.Decision;
 import ua.gram.munhauzen.entity.StoryAudio;
+import ua.gram.munhauzen.entity.StoryImage;
 import ua.gram.munhauzen.interaction.GeneralsInteraction;
 import ua.gram.munhauzen.interaction.generals.fragment.GeneralsScenarioFragment;
 import ua.gram.munhauzen.screen.GameScreen;
@@ -176,6 +177,23 @@ public class GeneralsStoryManager {
         }
     }
 
+    public void displayCurrentImage() {
+        if (story == null) return;
+
+        try {
+
+            StoryImage optionImage = story.currentScenario.currentImage;
+            if (optionImage != null) {
+                interaction.imageService.prepareAndDisplay(optionImage);
+            }
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            gameScreen.onCriticalError(e);
+        }
+    }
+
     public void startLoadingResources() {
 
         startLoadingAudio();
@@ -185,7 +203,7 @@ public class GeneralsStoryManager {
 
     public void onCompleted() {
 
-        startLoadingImages();
+        displayCurrentImage();
 
         Log.i(tag, "onCompleted " + story.id);
 

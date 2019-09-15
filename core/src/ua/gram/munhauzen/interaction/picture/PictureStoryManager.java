@@ -90,8 +90,6 @@ public class PictureStoryManager {
 
     public void startLoadingAudio() {
         try {
-            PictureStory story = interaction.storyManager.story;
-
             PictureStoryScenario scenario = story.currentScenario;
             if (scenario == null) return;
 
@@ -128,8 +126,6 @@ public class PictureStoryManager {
 
     public void startLoadingImage() {
         try {
-            PictureStory story = interaction.storyManager.story;
-
             PictureStoryScenario scenario = story.currentScenario;
             if (scenario == null) return;
 
@@ -164,6 +160,23 @@ public class PictureStoryManager {
 
     }
 
+    public void displayCurrentImage() {
+        if (story == null) return;
+
+        try {
+
+            StoryImage optionImage = story.currentScenario.currentImage;
+            if (optionImage != null) {
+                interaction.imageService.prepareAndDisplay(optionImage);
+            }
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            gameScreen.onCriticalError(e);
+        }
+    }
+
     public void startLoadingResources() {
         startLoadingAudio();
 
@@ -172,7 +185,7 @@ public class PictureStoryManager {
 
     public void onCompleted() {
 
-        startLoadingImage();
+        displayCurrentImage();
 
         Log.i(tag, "onCompleted " + story.id);
 
@@ -212,6 +225,8 @@ public class PictureStoryManager {
         gameScreen.gameLayers.setStoryDecisionsLayer(
                 interaction.scenarioFragment
         );
+
+        interaction.scenarioFragment.fadeIn();
 
     }
 

@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Set;
 
+import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.Decision;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.Scenario;
@@ -267,7 +268,17 @@ public class StoryManager {
 
             // WAUWAU continue HORN GENERAL HARE BALLOONS CHAPTER
             // DATE LIONS PICTURE SERVANTS SLAP PUZZLE SWAMP
-            String interaction = story.currentScenario.scenario.interaction;
+            String interaction;
+
+            if (MunhauzenGame.developmentInteraction != null) {
+
+                interaction = MunhauzenGame.developmentInteraction;
+
+                MunhauzenGame.developmentInteraction = null;
+            } else {
+                interaction = story.currentScenario.scenario.interaction;
+            }
+
             if (interaction != null) {
                 gameScreen.interactionService.create(interaction);
             }
