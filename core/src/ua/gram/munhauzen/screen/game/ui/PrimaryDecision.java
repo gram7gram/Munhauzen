@@ -42,15 +42,15 @@ public class PrimaryDecision extends Stack {
     HashMap<Integer, String> animatedMap;
 
     AnimatedImage center, cannonLeft, cannonRight;
-    final float headerSize;
-    public final float buttonSize;
+    final int headerSize;
+    public final int buttonSize;
 
     public PrimaryDecision(final MunhauzenGame game, ExpansionAssetManager assetManager) {
         this.game = game;
         this.assetManager = assetManager;
 
-        headerSize = Math.min(200, MunhauzenGame.WORLD_HEIGHT * .075f);
-        buttonSize = MunhauzenGame.WORLD_WIDTH * .75f;
+        headerSize = (int) Math.min(200, MunhauzenGame.WORLD_HEIGHT * .075f);
+        buttonSize = (int) (MunhauzenGame.WORLD_WIDTH * .75f);
     }
 
     public void setText(String text) {

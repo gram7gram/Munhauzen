@@ -2,7 +2,6 @@ package ua.gram.munhauzen.interaction.hare.animation;
 
 import com.badlogic.gdx.graphics.Texture;
 
-import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.animation.AnimatedImage;
 import ua.gram.munhauzen.interaction.hare.ui.Ground;
 
@@ -16,23 +15,23 @@ public class HareAnimation extends AnimatedImage {
     public HareAnimation(Texture texture, Ground ground) {
         super(texture);
 
-        animate(texture, 1, 4, 4, 0.12f);
-
         this.ground = ground;
+
+        animate(texture, 1, 4, 4, 0.12f);
     }
 
     @Override
     public void layout() {
         super.layout();
 
-        float size = MunhauzenGame.WORLD_WIDTH / 5f;
+        setRotation(13.3f);
 
-        setSize(size, size);
+        float x = ground.getX() + (ground.getWidth() * 31.38f / 100);
+        float y = ground.getY() + (ground.getHeight() * 81.62f / 100);
+        float width = ground.getWidth() * 11.17f / 100;
+        float height = ground.getHeight() * 9.10f / 100;
 
-        setPosition(
-                (MunhauzenGame.WORLD_WIDTH - getWidth()) * .25f,
-                ground.getY() + ground.getHeight() * .82f
-        );
+        setBounds(x, y, width, height);
     }
 }
 

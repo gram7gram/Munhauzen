@@ -6,10 +6,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 import ua.gram.munhauzen.MunhauzenGame;
 
-public class Ground extends Image {
+public class Butterflies extends Image {
 
-    public Ground(Texture texture) {
+    public Butterflies(Texture texture) {
         super(texture);
+    }
+
+    public void start() {
+        addAction(
+                Actions.forever(Actions.rotateBy(-90, 4f))
+        );
     }
 
     @Override
@@ -23,11 +29,5 @@ public class Ground extends Image {
         setBounds(x, y, size, size);
 
         setOrigin(getWidth() * .5f, getHeight() * .5f);
-    }
-
-    public void start() {
-        addAction(
-                Actions.forever(Actions.rotateBy(-90, 2.5f))
-        );
     }
 }

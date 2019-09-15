@@ -105,8 +105,10 @@ public class ConfigDownloadManager {
         fragment.progressMessage.setText("No expansion info found");
         fragment.retryBtn.setVisible(true);
 
-        fragment.screen.configDownloader.dispose();
-        fragment.screen.configDownloader = null;
+        if (fragment.screen.configDownloader != null) {
+            fragment.screen.configDownloader.dispose();
+            fragment.screen.configDownloader = null;
+        }
     }
 
     private void onConnectionStarted() {
@@ -221,8 +223,10 @@ public class ConfigDownloadManager {
         fragment.progressMessage.setText("Download has failed");
         fragment.retryBtn.setVisible(true);
 
-        fragment.screen.configDownloader.dispose();
-        fragment.screen.configDownloader = null;
+        if (fragment.screen.configDownloader != null) {
+            fragment.screen.configDownloader.dispose();
+            fragment.screen.configDownloader = null;
+        }
     }
 
     private void onConnectionCanceled() {
@@ -232,8 +236,10 @@ public class ConfigDownloadManager {
         fragment.progressMessage.setText("Download was canceled");
         fragment.retryBtn.setVisible(true);
 
-        fragment.screen.configDownloader.dispose();
-        fragment.screen.configDownloader = null;
+        if (fragment.screen.configDownloader != null) {
+            fragment.screen.configDownloader.dispose();
+            fragment.screen.configDownloader = null;
+        }
     }
 
     public void dispose() {

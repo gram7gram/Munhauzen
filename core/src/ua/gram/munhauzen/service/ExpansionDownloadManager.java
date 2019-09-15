@@ -88,7 +88,11 @@ public class ExpansionDownloadManager implements Disposable {
                 cleanup();
 
                 try {
-                    if (httpResponse.getStatus().getStatusCode() != HttpStatus.SC_OK) {
+                    int code = httpResponse.getStatus().getStatusCode();
+
+                    Log.e(tag, "fetchExpansionPart: " + code);
+
+                    if (code != HttpStatus.SC_OK) {
                         throw new GdxRuntimeException("Bad request");
                     }
 
@@ -219,13 +223,16 @@ public class ExpansionDownloadManager implements Disposable {
             public void handleHttpResponse(Net.HttpResponse httpResponse) {
 
                 try {
-                    if (httpResponse.getStatus().getStatusCode() != HttpStatus.SC_OK) {
-                        throw new GdxRuntimeException("Bad request");
-                    }
 
                     String response = httpResponse.getResultAsString();
 
-                    Log.e(tag, "fetchExpansionInfo success:\n" + response);
+                    int code = httpResponse.getStatus().getStatusCode();
+
+                    Log.e(tag, "fetchExpansionInfo:\n" + code + ": " + response);
+
+                    if (code != HttpStatus.SC_OK) {
+                        throw new GdxRuntimeException("Bad request");
+                    }
 
                     ExpansionResponse serverExpansionInfo = game.databaseManager.loadExpansionInfo(response);
                     if (serverExpansionInfo == null) {
@@ -374,11 +381,17 @@ public class ExpansionDownloadManager implements Disposable {
     private void onExtractionFailed(Part part) {
         Log.e(tag, "onExtractionFailed");
 
+        ExpansionResponse expansionInfo = game.gameState.expansionInfo;
+        if (expansionInfo != null)
+            expansionInfo.isDownloadStarted = false;
+
         discardPart(part);
 
         part.isExtracted = false;
         part.isExtractFailure = true;
 
+        fragment.progress.setText("");
+        fragment.progressMessage.setText("Unable to extract part " + part.part);
         fragment.retryBtn.setVisible(true);
 
         if (fragment.screen.expansionDownloader != null) {

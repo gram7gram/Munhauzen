@@ -45,15 +45,10 @@ public class HareInteraction extends AbstractInteraction {
         assetManager.load("hare/lv_cloud_2.png", Texture.class);
         assetManager.load("hare/lv_cloud_3.png", Texture.class);
         assetManager.load("hare/ducks_sheet_1x6.png", Texture.class);
-        assetManager.load("hare/hare_sheet_4x1.png", Texture.class);
-        assetManager.load("hare/horse_sheet_5x1.png", Texture.class);
+        assetManager.load("hare/hare_sheet.png", Texture.class);
+        assetManager.load("hare/horse_sheet.png", Texture.class);
         assetManager.load("hare/inter_hare_ground.png", Texture.class);
-        assetManager.load("hare/inter_hare_misc_1.png", Texture.class);
-        assetManager.load("hare/inter_hare_misc_2.png", Texture.class);
-        assetManager.load("hare/inter_hare_misc_3.png", Texture.class);
-        assetManager.load("hare/inter_hare_misc_4.png", Texture.class);
-        assetManager.load("hare/inter_hare_misc_5.png", Texture.class);
-        assetManager.load("hare/inter_hare_misc_6.png", Texture.class);
+        assetManager.load("hare/inter_hare_butterflies.png", Texture.class);
         assetManager.load("images/p18_d.jpg", Texture.class);
     }
 
@@ -103,7 +98,7 @@ public class HareInteraction extends AbstractInteraction {
 
                 if (story.isCompleted) {
 
-//                    storyManager.onCompleted();
+                    storyManager.onCompleted();
 
                 } else {
                     storyManager.startLoadingResources();
