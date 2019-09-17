@@ -21,7 +21,7 @@ import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.Decision;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.Inventory;
-import ua.gram.munhauzen.entity.ScenarioTranslation;
+import ua.gram.munhauzen.entity.Translation;
 import ua.gram.munhauzen.interaction.CannonsInteraction;
 import ua.gram.munhauzen.interaction.cannons.CannonsScenario;
 import ua.gram.munhauzen.interaction.cannons.CannonsStory;
@@ -112,12 +112,12 @@ public class CannonsScenarioFragment extends Fragment {
 
             final Decision decision = decisions.get(i);
 
-            ScenarioTranslation translation = null;
+            Translation translation = null;
 
             for (CannonsScenario scenario : interaction.scenarioRegistry) {
                 if (decision.scenario.equals(scenario.name)) {
 
-                    for (ScenarioTranslation item : scenario.translations) {
+                    for (Translation item : scenario.translations) {
                         if (game.params.locale.equals(item.locale)) {
                             translation = item;
                             break;

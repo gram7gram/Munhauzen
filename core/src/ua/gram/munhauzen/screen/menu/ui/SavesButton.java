@@ -22,8 +22,6 @@ public class SavesButton extends MenuButton {
 
                 screen.stopCurrentSfx();
 
-                screen.game.sfxService.onAnyBtnClicked();
-
                 screen.currentSfx = screen.game.sfxService.onMenuSaveClicked();
 
                 screen.navigateTo(new SavesScreen(screen.game));

@@ -3,9 +3,9 @@ package ua.gram.munhauzen.interaction.timer2;
 import java.util.ArrayList;
 
 import ua.gram.munhauzen.entity.Decision;
-import ua.gram.munhauzen.entity.ScenarioTranslation;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.entity.StoryImage;
+import ua.gram.munhauzen.entity.Translation;
 
 /**
  * @author Gram <gram7gram@gmail.com>
@@ -16,7 +16,7 @@ public class Timer2Scenario {
     public ArrayList<StoryImage> images;
     public ArrayList<StoryAudio> audio;
     public ArrayList<Decision> decisions;
-    public ArrayList<ScenarioTranslation> translations;
+    public ArrayList<Translation> translations;
     public boolean isBegin;
     public boolean isExit;
     public boolean isWin;

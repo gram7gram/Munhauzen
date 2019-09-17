@@ -5,6 +5,7 @@ import com.badlogic.gdx.Net;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.net.HttpRequestBuilder;
+import com.badlogic.gdx.net.HttpStatus;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -14,8 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.JsonWriter;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -33,7 +33,6 @@ import ua.gram.munhauzen.entity.Inventory;
 import ua.gram.munhauzen.entity.MenuState;
 import ua.gram.munhauzen.entity.Save;
 import ua.gram.munhauzen.entity.Scenario;
-import ua.gram.munhauzen.expansion.ExportResponse;
 import ua.gram.munhauzen.expansion.ExtractGameConfigTask;
 import ua.gram.munhauzen.interaction.InteractionFactory;
 import ua.gram.munhauzen.screen.DebugScreen;
@@ -202,10 +201,11 @@ public class ControlsFragment extends Fragment {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
+                removeCacheLbl.setVisible(false);
+
                 game.gameState.expansionInfo = null;
 
                 ExternalFiles.getExpansionInfoFile(game.params).delete();
-                removeCacheLbl.setVisible(false);
             }
         });
         removeCacheLbl.setVisible(
@@ -261,6 +261,8 @@ public class ControlsFragment extends Fragment {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
+                jsonLbl.setVisible(false);
+
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -313,7 +315,7 @@ public class ControlsFragment extends Fragment {
         container.add(removeCacheLbl).pad(10).left().expandX();
         container.add(removeHistoryLbl).pad(10).left().expandX().row();
 
-        container.add(removeAllLbl).pad(20).left().expandX().colspan(2).row();
+        container.add(removeAllLbl).pad(20, 10, 20, 10).left().expandX().colspan(2).row();
 
         container.add(expansionLbl).expandX().colspan(2).row();
         container.add(expansionInfoLbl).expandX().colspan(2).row();
@@ -599,104 +601,69 @@ public class ControlsFragment extends Fragment {
         Net.HttpRequest httpRequest = requestBuilder.newRequest()
                 .method(Net.HttpMethods.GET)
                 .url(game.params.getGameExportUrl())
+                .timeout(10000)
                 .build();
 
         Gdx.net.sendHttpRequest(httpRequest, new Net.HttpResponseListener() {
+
+            private void cleanup() {
+                ExternalFiles.getGameArchiveFile().delete();
+            }
+
             @Override
             public void handleHttpResponse(Net.HttpResponse httpResponse) {
 
-                Json json = new Json(JsonWriter.OutputType.json);
-                json.setIgnoreUnknownFields(true);
+                try {
 
-                ExportResponse response = json.fromJson(ExportResponse.class, httpResponse.getResultAsString());
+                    cleanup();
 
-                Net.HttpRequest fileRequest = requestBuilder.newRequest()
-                        .method(Net.HttpMethods.GET)
-                        .url(response.url)
-                        .build();
+                    int code = httpResponse.getStatus().getStatusCode();
 
-                Gdx.net.sendHttpRequest(fileRequest, new Net.HttpResponseListener() {
+                    Log.e(tag, "getGameExportUrl: " + code);
 
-                    private void cleanup() {
-                        ExternalFiles.getGameArchiveFile().delete();
+                    if (code != HttpStatus.SC_OK) {
+                        throw new GdxRuntimeException("Bad request");
                     }
 
-                    @Override
-                    public void handleHttpResponse(Net.HttpResponse httpResponse) {
+                    FileHandle output = ExternalFiles.getGameArchiveFile();
 
-                        cleanup();
+                    Files.toFile(httpResponse.getResultAsStream(), output);
 
-                        FileHandle output = ExternalFiles.getGameArchiveFile();
+                    Log.i(tag, "downloaded");
 
-                        try {
-                            Files.toFile(httpResponse.getResultAsStream(), output);
+                } catch (Throwable e) {
+                    failed(e);
+                    return;
+                }
 
-                            Log.i(tag, "downloaded");
+                try {
 
-                        } catch (Throwable e) {
+                    new ExtractGameConfigTask().extract();
 
-                            cleanup();
+                    Log.i(tag, "extracted");
 
-                            failed(e);
+                } catch (Throwable e) {
+                    failed(e);
+                    return;
+                }
 
-                            return;
+                try {
+
+                    game.databaseManager.loadExternal(game.gameState);
+
+                    Gdx.app.postRunnable(new Runnable() {
+                        @Override
+                        public void run() {
+                            onComplete();
                         }
+                    });
 
-                        try {
+                } catch (Throwable e) {
+                    failed(e);
+                    return;
+                }
 
-                            Log.i(tag, "extracting");
-
-                            new ExtractGameConfigTask().extract();
-
-                            Log.i(tag, "extracted");
-
-                            game.databaseManager.loadExternal(game.gameState);
-
-                            Gdx.app.postRunnable(new Runnable() {
-                                @Override
-                                public void run() {
-                                    progressLbl.setText("Конфиги готовы к использованию");
-
-                                    createInventoryTable();
-
-                                    createScenarioTable();
-                                }
-                            });
-
-                            output.delete();
-
-                        } catch (Throwable e) {
-                            Log.e(tag, e);
-
-                            Gdx.app.postRunnable(new Runnable() {
-                                @Override
-                                public void run() {
-                                    progressLbl.setText("Невозможно использовать конфиги");
-                                }
-                            });
-
-                            cleanup();
-
-                        }
-                    }
-
-                    @Override
-                    public void failed(Throwable t) {
-                        Log.e(tag, t);
-
-                        Gdx.app.postRunnable(new Runnable() {
-                            @Override
-                            public void run() {
-                                progressLbl.setText("Скачивание неудачно");
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void cancelled() {
-
-                    }
-                });
+                cleanup();
             }
 
             @Override
@@ -707,6 +674,20 @@ public class ControlsFragment extends Fragment {
                     @Override
                     public void run() {
                         progressLbl.setText("Скачивание неудачно");
+                    }
+                });
+            }
+
+            public void onComplete() {
+
+                Gdx.app.postRunnable(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressLbl.setText("Конфиги готовы к использованию");
+
+                        createInventoryTable();
+
+                        createScenarioTable();
                     }
                 });
             }

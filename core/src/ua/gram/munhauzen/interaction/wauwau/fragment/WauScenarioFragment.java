@@ -20,7 +20,7 @@ import java.util.HashMap;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.Decision;
 import ua.gram.munhauzen.entity.GameState;
-import ua.gram.munhauzen.entity.ScenarioTranslation;
+import ua.gram.munhauzen.entity.Translation;
 import ua.gram.munhauzen.interaction.WauInteraction;
 import ua.gram.munhauzen.interaction.wauwau.WauScenario;
 import ua.gram.munhauzen.interaction.wauwau.WauStory;
@@ -111,12 +111,12 @@ public class WauScenarioFragment extends Fragment {
 
             final Decision decision = decisions.get(i);
 
-            ScenarioTranslation translation = null;
+            Translation translation = null;
 
             for (WauScenario scenario : interaction.scenarioRegistry) {
                 if (decision.scenario.equals(scenario.name)) {
 
-                    for (ScenarioTranslation item : scenario.translations) {
+                    for (Translation item : scenario.translations) {
                         if (game.params.locale.equals(item.locale)) {
                             translation = item;
                             break;

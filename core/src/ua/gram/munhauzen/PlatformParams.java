@@ -7,7 +7,7 @@ public class PlatformParams {
 
     public AppStore appStore;
     public MemoryUsage memoryUsage;
-    public String gameHost = "http://munhauzen-api.fingertips.cf";
+    public String gameHost = "http://munchauzen-api.fingertips.cf";
     //public String gameHost = "http://78.27.147.177:20000";
     //public String gameHost = "http://192.168.100.115:20000";
     public String dpi = "mdpi";
@@ -21,10 +21,10 @@ public class PlatformParams {
     public float scaleFactor = 1;
 
     public String getExpansionUrl() {
-        return gameHost + "/api/v1/expansions/" + versionCode + "/" + locale + "/" + dpi;
+        return gameHost + "/api/v1/" + locale + "/expansions/" + versionCode + "/" + dpi;
     }
 
     public String getGameExportUrl() {
-        return "http://munhauzen-api.fingertips.cf/api/v1/export";
+        return gameHost + "/downloads/game-" + locale + "-" + versionCode + ".zip";
     }
 }

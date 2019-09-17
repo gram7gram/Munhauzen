@@ -108,7 +108,7 @@ public class ScenarioFragment extends Fragment {
 
             Scenario scenario = ScenarioRepository.find(game.gameState, decision.scenario);
 
-            String text = scenario.getText(game.params.locale);
+            String text = scenario.text;
 
             final int currentIndex = i;
 

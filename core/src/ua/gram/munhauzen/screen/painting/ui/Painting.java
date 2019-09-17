@@ -116,7 +116,7 @@ public abstract class Painting extends Group {
             addActor(descriptionBackground);
             addActor(lblTable);
 
-            String text = img.image.getDescription(screen.game.params.locale);
+            String text = img.image.description;
             descriptionLabel.setText(text);
 
             setDescriptionBackground(

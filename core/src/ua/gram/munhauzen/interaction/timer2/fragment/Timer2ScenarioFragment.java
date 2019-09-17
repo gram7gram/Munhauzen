@@ -20,7 +20,7 @@ import java.util.HashMap;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.Decision;
 import ua.gram.munhauzen.entity.GameState;
-import ua.gram.munhauzen.entity.ScenarioTranslation;
+import ua.gram.munhauzen.entity.Translation;
 import ua.gram.munhauzen.interaction.Timer2Interaction;
 import ua.gram.munhauzen.interaction.timer2.Timer2Scenario;
 import ua.gram.munhauzen.interaction.timer2.Timer2Story;
@@ -105,12 +105,12 @@ public class Timer2ScenarioFragment extends Fragment {
 
             final Decision decision = decisions.get(i);
 
-            ScenarioTranslation translation = null;
+            Translation translation = null;
 
             for (Timer2Scenario hareScenario : interaction.scenarioRegistry) {
                 if (decision.scenario.equals(hareScenario.name)) {
 
-                    for (ScenarioTranslation item : hareScenario.translations) {
+                    for (Translation item : hareScenario.translations) {
                         if (game.params.locale.equals(item.locale)) {
                             translation = item;
                             break;

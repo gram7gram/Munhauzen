@@ -20,9 +20,9 @@ public class Scenario implements JsonEntry {
     @JsonProperty
     public ArrayList<Decision> decisions;
     @JsonProperty
-    public ArrayList<ScenarioTranslation> translations;
-    @JsonProperty
     public boolean isBegin;
+    @JsonProperty
+    public String text;
     @JsonProperty
     public String name;
     @JsonProperty
@@ -40,7 +40,6 @@ public class Scenario implements JsonEntry {
         audio = new ArrayList<>();
         images = new ArrayList<>();
         decisions = new ArrayList<>();
-        translations = new ArrayList<>();
     }
 
     @JsonIgnore
@@ -57,31 +56,4 @@ public class Scenario implements JsonEntry {
     public boolean isVictory() {
         return VICTORY.equals(name);
     }
-
-    @JsonIgnore
-    public String getText(String locale) {
-
-        String text = name;
-        ScenarioTranslation translation = null;
-
-        if (translations != null) {
-            for (ScenarioTranslation item : translations) {
-                if (locale.equals(item.locale)) {
-                    translation = item;
-                    break;
-                }
-            }
-
-            if (translation == null) {
-                translation = translations.get(0);
-            }
-        }
-
-        if (translation != null) {
-            text = translation.text;
-        }
-
-        return text;
-    }
-
 }

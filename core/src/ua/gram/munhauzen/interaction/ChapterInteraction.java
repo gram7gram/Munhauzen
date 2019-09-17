@@ -38,27 +38,11 @@ public class ChapterInteraction extends AbstractInteraction {
     }
 
     public Texture getIcon() {
-        if (chapter.icon != null) {
-            return assetManager.get(chapter.icon, Texture.class);
-        } else {
-            if (gameScreen.game.params.isPro) {
-                return assetManager.get("chapter/b_full_version_1.png", Texture.class);
-            } else {
-                return assetManager.get("chapter/b_demo_version.png", Texture.class);
-            }
-        }
+        return assetManager.get(chapter.icon, Texture.class);
     }
 
     private void loadIcon() {
-        if (chapter.icon != null) {
-            assetManager.load(chapter.icon, Texture.class);
-        } else {
-            if (gameScreen.game.params.isPro) {
-                assetManager.load("chapter/b_full_version_1.png", Texture.class);
-            } else {
-                assetManager.load("chapter/b_demo_version.png", Texture.class);
-            }
-        }
+        assetManager.load(chapter.icon, Texture.class);
     }
 
     public void onResourcesLoaded() {

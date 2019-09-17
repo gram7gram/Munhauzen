@@ -24,8 +24,6 @@ public class GoofsButton extends MenuButton {
 
                 screen.stopCurrentSfx();
 
-                screen.game.sfxService.onAnyBtnClicked();
-
                 screen.currentSfx = screen.game.sfxService.onMenuGoofsClicked();
 
                 screen.navigateTo(new FailsScreen(screen.game));

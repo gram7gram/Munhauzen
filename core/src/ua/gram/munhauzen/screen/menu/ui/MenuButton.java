@@ -80,6 +80,8 @@ public abstract class MenuButton extends Stack {
 
                 screen.stopCurrentSfx();
 
+                screen.game.sfxService.onAnyBtnClicked();
+
                 animation.start();
 
                 screen.isButtonClicked = true;

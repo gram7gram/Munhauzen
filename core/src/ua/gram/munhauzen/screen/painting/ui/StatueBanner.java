@@ -34,7 +34,7 @@ public class StatueBanner extends Group {
 
         back = new Image();
 
-        String text = img.inventory.getStatueDescription(screen.game.params.locale);
+        String text = img.inventory.description;
 
         Label lbl = new Label(text, new Label.LabelStyle(
                 screen.game.fontProvider.getFont(FontProvider.h5),

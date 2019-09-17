@@ -20,9 +20,9 @@ public class Inventory extends Entity {
     @JsonProperty
     public ArrayList<String> relatedInventory;
     @JsonProperty
-    public ArrayList<StatueTranslation> statueTranslations;
-    @JsonProperty
     public String statueImage;
+    @JsonProperty
+    public String description;
 
     public Inventory() {
         relatedScenario = new ArrayList<>(2);
@@ -32,18 +32,6 @@ public class Inventory extends Entity {
     @JsonIgnore
     public boolean isGlobal() {
         return isMenu || isStatue;
-    }
-
-    @JsonIgnore
-    public String getStatueDescription(String locale) {
-
-        for (StatueTranslation translation : statueTranslations) {
-            if (translation.locale.equals(locale)) {
-                return translation.description.trim();
-            }
-        }
-
-        return name;
     }
 
 }

@@ -96,7 +96,7 @@ public class ImageRow extends Stack {
         Cell iconCell = content.getCells().get(0);
         iconCell.clearActor();
 
-        String text = paintingImage.image.getDescription(screen.game.params.locale);
+        String text = paintingImage.image.description;
 
         if (!paintingImage.isOpened) {
 

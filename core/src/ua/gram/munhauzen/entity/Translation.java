@@ -2,9 +2,9 @@ package ua.gram.munhauzen.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class ImageTranslation implements JsonEntry {
+public class Translation implements JsonEntry {
     @JsonProperty
     public String locale;
     @JsonProperty
-    public String description;
+    public String text;
 }

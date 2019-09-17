@@ -15,7 +15,6 @@ import com.badlogic.gdx.utils.Timer;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.Chapter;
-import ua.gram.munhauzen.entity.ChapterTranslation;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.interaction.ChapterInteraction;
 import ua.gram.munhauzen.ui.FitImage;
@@ -60,15 +59,7 @@ public class ChapterImageFragment extends Fragment {
         ), labelWidth);
         header.setAlignment(Align.center);
 
-        String text = chapter.name;
-        for (ChapterTranslation item : chapter.translations) {
-            if (item.locale.equals(game.params.locale)) {
-                text = item.description;
-                break;
-            }
-        }
-
-        Label description = new WrapLabel(text, new Label.LabelStyle(
+        Label description = new WrapLabel(chapter.description, new Label.LabelStyle(
                 interaction.gameScreen.game.fontProvider.getFont(FontProvider.h1),
                 Color.BLACK
         ), labelWidth);
@@ -76,25 +67,32 @@ public class ChapterImageFragment extends Fragment {
 
         Image frameTop = new FitImage(texFrame);
         Image frameBottom = new FitImage(new SpriteDrawable(frameBottomSprite));
-        Image icon = new FitImage(interaction.getIcon());
+        Image icon = new Image(interaction.getIcon());
 
-        Table table1 = new Table();
-        table1.pad(10);
-        table1.add(frameTop).center().height(80).padBottom(5).expandX().row();
-        table1.add(header).width(labelWidth).expandX().row();
-        table1.add(description).width(labelWidth).expandX().row();
-        table1.add(frameBottom).center().height(80).padTop(5).expandX().row();
+        Table textTable = new Table();
+        textTable.pad(10);
+        textTable.add(frameTop).center().height(80).padBottom(5).expandX().row();
+        textTable.add(header).width(labelWidth).expandX().row();
+        textTable.add(description).width(labelWidth).expandX().row();
+        textTable.add(frameBottom).center().height(80).padTop(5).expandX().row();
 
-        Table table2 = new Table();
-        table2.pad(10);
-        table2.add(icon).center().height(300).row();
+        float iconWidth = MunhauzenGame.WORLD_WIDTH * .4f;
+        float iconScale = 1f * iconWidth / icon.getDrawable().getMinWidth();
+        float iconHeight = icon.getDrawable().getMinHeight() * iconScale;
 
-        Table table3 = new Table();
-        table3.pad(10);
-        table3.add(table1).expand().row();
-        table3.add(table2).row();
+        Table iconTable = new Table();
+        iconTable.pad(10);
+        iconTable.add(icon).center()
+                .width(iconWidth)
+                .height(iconHeight)
+                .row();
 
-        root = new VerticalScrollPane(table3);
+        Table content = new Table();
+        content.pad(10);
+        content.add(textTable).expand().row();
+        content.add(iconTable).row();
+
+        root = new VerticalScrollPane(content);
         root.setFillParent(true);
 
         root.setName(tag);

@@ -24,8 +24,6 @@ public class AudioFail extends Entity {
     public boolean isFailOpenedOnComplete;
     @JsonProperty
     public boolean isFailDaughter;
-    @JsonProperty
-    public boolean isFailMunhauzen;
 
     @JsonIgnore
     public String getDescription(String locale) {

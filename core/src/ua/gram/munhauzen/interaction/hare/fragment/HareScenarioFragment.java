@@ -20,7 +20,7 @@ import java.util.HashMap;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.Decision;
 import ua.gram.munhauzen.entity.GameState;
-import ua.gram.munhauzen.entity.ScenarioTranslation;
+import ua.gram.munhauzen.entity.Translation;
 import ua.gram.munhauzen.interaction.HareInteraction;
 import ua.gram.munhauzen.interaction.hare.HareScenario;
 import ua.gram.munhauzen.interaction.hare.HareStory;
@@ -107,12 +107,12 @@ public class HareScenarioFragment extends Fragment {
 
             final Decision decision = decisions.get(i);
 
-            ScenarioTranslation translation = null;
+            Translation translation = null;
 
             for (HareScenario hareScenario : interaction.scenarioRegistry) {
                 if (decision.scenario.equals(hareScenario.name)) {
 
-                    for (ScenarioTranslation item : hareScenario.translations) {
+                    for (Translation item : hareScenario.translations) {
                         if (game.params.locale.equals(item.locale)) {
                             translation = item;
                             break;

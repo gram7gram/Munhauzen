@@ -4,11 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Net;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.net.HttpRequestBuilder;
-import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.JsonWriter;
+import com.badlogic.gdx.net.HttpStatus;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import ua.gram.munhauzen.MunhauzenGame;
-import ua.gram.munhauzen.expansion.ExportResponse;
 import ua.gram.munhauzen.expansion.ExtractGameConfigTask;
 import ua.gram.munhauzen.screen.loading.fragment.ControlsFragment;
 import ua.gram.munhauzen.utils.ExternalFiles;
@@ -22,7 +21,6 @@ public class ConfigDownloadManager {
     final HttpRequestBuilder requestBuilder;
     final ControlsFragment fragment;
     Net.HttpRequest httpRequest;
-    ExportResponse response;
 
     public ConfigDownloadManager(MunhauzenGame game, ControlsFragment fragment) {
         this.game = game;
@@ -49,83 +47,6 @@ public class ConfigDownloadManager {
                 .build();
 
         Gdx.net.sendHttpRequest(httpRequest, new Net.HttpResponseListener() {
-            @Override
-            public void handleHttpResponse(Net.HttpResponse httpResponse) {
-
-                Json json = new Json(JsonWriter.OutputType.json);
-                json.setIgnoreUnknownFields(true);
-
-                String content = httpResponse.getResultAsString();
-
-                Log.e(tag, content);
-
-                response = json.fromJson(ExportResponse.class, content);
-                if (response == null) {
-                    Gdx.app.postRunnable(new Runnable() {
-                        @Override
-                        public void run() {
-                            onBadResponse();
-                        }
-                    });
-                    return;
-                }
-
-                downloadArchive();
-            }
-
-            @Override
-            public void failed(Throwable t) {
-                Log.e(tag, t);
-
-                Gdx.app.postRunnable(new Runnable() {
-                    @Override
-                    public void run() {
-                        onConnectionFailed();
-                    }
-                });
-            }
-
-            @Override
-            public void cancelled() {
-                Gdx.app.postRunnable(new Runnable() {
-                    @Override
-                    public void run() {
-                        onConnectionCanceled();
-                    }
-                });
-            }
-        });
-
-    }
-
-    private void onBadResponse() {
-        Log.e(tag, "onBadResponse");
-
-        fragment.progress.setText("");
-        fragment.progressMessage.setText("No expansion info found");
-        fragment.retryBtn.setVisible(true);
-
-        if (fragment.screen.configDownloader != null) {
-            fragment.screen.configDownloader.dispose();
-            fragment.screen.configDownloader = null;
-        }
-    }
-
-    private void onConnectionStarted() {
-        Log.i(tag, "onConnectionStarted");
-
-        fragment.progress.setText("");
-        fragment.progressMessage.setText("Fetching game info...");
-    }
-
-    private void downloadArchive() {
-        httpRequest = requestBuilder.newRequest()
-                .method(Net.HttpMethods.GET)
-                .url(response.url)
-                .timeout(10000)
-                .build();
-
-        Gdx.net.sendHttpRequest(httpRequest, new Net.HttpResponseListener() {
 
             private void cleanup() {
                 ExternalFiles.getGameArchiveFile().delete();
@@ -134,28 +55,30 @@ public class ConfigDownloadManager {
             @Override
             public void handleHttpResponse(Net.HttpResponse httpResponse) {
 
-                cleanup();
-
-                FileHandle output = ExternalFiles.getGameArchiveFile();
-
                 try {
+
+                    cleanup();
+
+                    int code = httpResponse.getStatus().getStatusCode();
+
+                    Log.e(tag, "getGameExportUrl: " + code);
+
+                    if (code != HttpStatus.SC_OK) {
+                        throw new GdxRuntimeException("Bad request");
+                    }
+
+                    FileHandle output = ExternalFiles.getGameArchiveFile();
 
                     Files.toFile(httpResponse.getResultAsStream(), output);
 
                     Log.i(tag, "downloaded");
 
                 } catch (Throwable e) {
-
-                    cleanup();
-
                     failed(e);
-
                     return;
                 }
 
                 try {
-
-                    Log.i(tag, "extracting");
 
                     new ExtractGameConfigTask().extract();
 
@@ -163,11 +86,7 @@ public class ConfigDownloadManager {
 
                 } catch (Throwable e) {
                     failed(e);
-
-                    cleanup();
-
                     return;
-
                 }
 
                 try {
@@ -183,6 +102,7 @@ public class ConfigDownloadManager {
 
                 } catch (Throwable e) {
                     failed(e);
+                    return;
                 }
 
                 cleanup();
@@ -191,6 +111,8 @@ public class ConfigDownloadManager {
             @Override
             public void failed(Throwable t) {
                 Log.e(tag, t);
+
+                cleanup();
 
                 Gdx.app.postRunnable(new Runnable() {
                     @Override
@@ -210,6 +132,14 @@ public class ConfigDownloadManager {
                 });
             }
         });
+
+    }
+
+    private void onConnectionStarted() {
+        Log.i(tag, "onConnectionStarted");
+
+        fragment.progress.setText("");
+        fragment.progressMessage.setText("Fetching game info...");
     }
 
     private void onComplete() {
@@ -248,8 +178,6 @@ public class ConfigDownloadManager {
             Gdx.net.cancelHttpRequest(httpRequest);
             httpRequest = null;
         }
-
-        response = null;
 
     }
 }

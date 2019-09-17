@@ -96,7 +96,7 @@ public class SaveRow extends Table {
 
             Chapter chapter = ChapterRepository.find(screen.game.gameState, save.chapter);
 
-            text += " " + chapter.getDescription(screen.game.params.locale);
+            text += " " + chapter.description;
 
             date.setText(DateUtils.format(save.updatedAt, "HH:mm dd.MM.yyyy"));
 

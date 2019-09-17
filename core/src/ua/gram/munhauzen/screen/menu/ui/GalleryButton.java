@@ -22,8 +22,6 @@ public class GalleryButton extends MenuButton {
 
                 screen.stopCurrentSfx();
 
-                screen.game.sfxService.onAnyBtnClicked();
-
                 screen.currentSfx = screen.game.sfxService.onMenuGalleryClicked();
 
                 screen.navigateTo(new GalleryScreen(screen.game));
