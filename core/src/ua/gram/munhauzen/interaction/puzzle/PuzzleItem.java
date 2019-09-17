@@ -3,36 +3,33 @@ package ua.gram.munhauzen.interaction.puzzle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.interaction.PuzzleInteraction;
-import ua.gram.munhauzen.ui.FitImage;
+import ua.gram.munhauzen.screen.game.ui.BackgroundImage;
 import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public abstract class PuzzleItem extends FitImage {
+public abstract class PuzzleItem extends Image {
 
     final String tag = getClass().getSimpleName();
-    PuzzleInteraction interaction;
+    final PuzzleInteraction interaction;
+    final BackgroundImage backgroundImage;
 
+    boolean isDragging;
     Rectangle bounds;
 
-    public PuzzleItem(PuzzleInteraction interaction, Texture texture) {
+    public PuzzleItem(PuzzleInteraction inter, Texture texture) {
         super(texture);
 
-        this.interaction = interaction;
+        this.interaction = inter;
+        this.backgroundImage = inter.imageFragment.backgroundImage;
 
         bounds = new Rectangle();
-    }
-
-    public void init() {
-
-        interaction.imageFragment.setSizeRelativeToBackground(this, getDrawable());
-
-        clear();
 
         final PuzzleItem actor = this;
 
@@ -41,16 +38,22 @@ public abstract class PuzzleItem extends FitImage {
             boolean isInBounds;
 
             @Override
+            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                super.touchDown(event, x, y, pointer, button);
+
+                isDragging = true;
+            }
+
+            @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
 
-                actor.init();
-
                 if (isInBounds) {
-                    addPuzzle();
+                    interaction.imageFragment.dropzone.addPuzzle(tag);
                 }
 
                 isInBounds = false;
+                isDragging = false;
             }
 
             @Override
@@ -86,27 +89,25 @@ public abstract class PuzzleItem extends FitImage {
         });
     }
 
+    public abstract float[] getPercentBounds();
+
     @Override
     public void act(float delta) {
         super.act(delta);
 
-        bounds.set(getX(), getY(), getWidth(), getHeight());
-    }
+        float[] numbers = getPercentBounds();
 
-    private void addPuzzle() {
+        float width = backgroundImage.backgroundWidth * numbers[0] / 100;
+        float height = backgroundImage.backgroundHeight * numbers[1] / 100;
+        float x = backgroundImage.background.getX() + backgroundImage.backgroundWidth * numbers[2] / 100;
+        float y = backgroundImage.background.getY() + (backgroundImage.backgroundHeight * (100 - numbers[3]) / 100) - height;
 
-        String name = getClass().getSimpleName().toLowerCase();
+        setSize(width, height);
 
-        try {
-            if (interaction.decisionManager.items.contains(name)) {
-                interaction.decisionManager.items.remove(name);
-            } else {
-                interaction.decisionManager.items.add(name);
-            }
-
-            interaction.decisionManager.decide();
-        } catch (Throwable e) {
-            Log.e(tag, e);
+        if (!isDragging) {
+            setPosition(x, y);
         }
+
+        bounds.set(getX(), getY(), getWidth(), getHeight());
     }
 }

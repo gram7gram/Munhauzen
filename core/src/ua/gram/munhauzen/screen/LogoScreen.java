@@ -93,10 +93,7 @@ public class LogoScreen implements Screen {
         }
 
         if (game.gameState.expansionInfo != null) {
-            Log.i(tag, "Has expansion");
             canRedirectToLoading = !game.gameState.expansionInfo.isCompleted;
-        } else {
-            Log.e(tag, "No expansion");
         }
 
         if (canRedirectToLoading) {

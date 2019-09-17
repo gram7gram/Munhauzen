@@ -40,7 +40,7 @@ public class PuzzleInteraction extends AbstractInteraction {
         assetManager.load("puzzle/inter_puzzle_arrows_1.png", Texture.class);
         assetManager.load("puzzle/inter_puzzle_powder_1.png", Texture.class);
         assetManager.load("puzzle/inter_puzzle_rope_1.png", Texture.class);
-        assetManager.load("puzzle/inter_puzzle_fond_1.png", Texture.class);
+        assetManager.load("puzzle/inter_puzzle_fond_1.jpg", Texture.class);
         assetManager.load("puzzle/inter_puzzle_fond_2.png", Texture.class);
     }
 

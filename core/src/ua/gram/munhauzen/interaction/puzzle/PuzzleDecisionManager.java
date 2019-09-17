@@ -3,7 +3,7 @@ package ua.gram.munhauzen.interaction.puzzle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Timer;
 
 import java.util.Arrays;
@@ -15,7 +15,6 @@ import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.interaction.PuzzleInteraction;
 import ua.gram.munhauzen.repository.InventoryRepository;
 import ua.gram.munhauzen.service.InventoryService;
-import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.utils.Log;
 import ua.gram.munhauzen.utils.MathUtils;
 import ua.gram.munhauzen.utils.Random;
@@ -170,27 +169,24 @@ public class PuzzleDecisionManager {
                 switch (item) {
                     case "clocks":
 
-                        activeClocks = new ActiveClocks(texture);
+                        activeClocks = new ActivePuzzleItem(texture);
 
-                        activeClocks.init();
                         activeClocks.setZIndex(0);
 
                         interaction.imageFragment.resultGroup.addActor(activeClocks);
                         interaction.imageFragment.clocks.setVisible(false);
                         break;
                     case "spoon":
-                        activeSpoon = new ActiveSpoon(texture);
+                        activeSpoon = new ActivePuzzleItem(texture);
 
-                        activeSpoon.init();
                         activeSpoon.setZIndex(1);
 
                         interaction.imageFragment.resultGroup.addActor(activeSpoon);
                         interaction.imageFragment.spoon.setVisible(false);
                         break;
                     case "shoes":
-                        activeShoes = new ActiveShoes(texture);
+                        activeShoes = new ActivePuzzleItem(texture);
 
-                        activeShoes.init();
                         activeShoes.setZIndex(2);
 
                         interaction.imageFragment.resultGroup.addActor(activeShoes);
@@ -198,9 +194,8 @@ public class PuzzleDecisionManager {
                         break;
                     case "peas":
 
-                        activePeas = new ActivePeas(texture);
+                        activePeas = new ActivePuzzleItem(texture);
 
-                        activePeas.init();
                         activePeas.setZIndex(3);
 
                         interaction.imageFragment.resultGroup.addActor(activePeas);
@@ -208,27 +203,24 @@ public class PuzzleDecisionManager {
                         break;
                     case "key":
 
-                        activeKey = new ActiveKey(texture);
+                        activeKey = new ActivePuzzleItem(texture);
 
-                        activeKey.init();
                         activeKey.setZIndex(4);
 
                         interaction.imageFragment.resultGroup.addActor(activeKey);
                         interaction.imageFragment.key.setVisible(false);
                         break;
                     case "hair":
-                        activeHair = new ActiveHair(texture);
+                        activeHair = new ActivePuzzleItem(texture);
 
-                        activeHair.init();
                         activeHair.setZIndex(5);
 
                         interaction.imageFragment.resultGroup.addActor(activeHair);
                         interaction.imageFragment.hair.setVisible(false);
                         break;
                     case "arrows":
-                        activeArrows = new ActiveArrows(texture);
+                        activeArrows = new ActivePuzzleItem(texture);
 
-                        activeArrows.init();
                         activeArrows.setZIndex(6);
 
                         interaction.imageFragment.resultGroup.addActor(activeArrows);
@@ -236,18 +228,16 @@ public class PuzzleDecisionManager {
                         break;
                     case "rope":
 
-                        activeRope = new ActiveRope(texture);
+                        activeRope = new ActivePuzzleItem(texture);
 
-                        activeRope.init();
                         activeRope.setZIndex(7);
 
                         interaction.imageFragment.resultGroup.addActor(activeRope);
                         interaction.imageFragment.rope.setVisible(false);
                         break;
                     case "stick":
-                        activeStick = new ActiveStick(texture);
+                        activeStick = new ActivePuzzleItem(texture);
 
-                        activeStick.init();
                         activeStick.setZIndex(8);
 
                         interaction.imageFragment.resultGroup.addActor(activeStick);
@@ -255,9 +245,8 @@ public class PuzzleDecisionManager {
                         break;
                     case "powder":
 
-                        activePowder = new ActivePowder(texture);
+                        activePowder = new ActivePuzzleItem(texture);
 
-                        activePowder.init();
                         activePowder.setZIndex(9);
 
                         interaction.imageFragment.resultGroup.addActor(activePowder);
@@ -726,26 +715,21 @@ public class PuzzleDecisionManager {
         }
     }
 
-    public abstract class ActivePuzzleItem extends FitImage {
+    public class ActivePuzzleItem extends Image {
 
         public ActivePuzzleItem(Texture texture) {
             super(texture);
+
+            setTouchable(Touchable.disabled);
         }
 
-        public void init() {
+        @Override
+        public void act(float delta) {
+            super.act(delta);
 
-            float scale = .85f;
-            float width = 200;
-            float height = width * (1 / scale);
+            Dropzone dropzone = interaction.imageFragment.dropzone;
 
-            setSize(
-                    width * interaction.imageFragment.backgroundImage.backgroundScale,
-                    height * interaction.imageFragment.backgroundImage.backgroundScale
-            );
-
-            setOrigin(Align.bottom);
-
-            interaction.imageFragment.setPositionRelativeToBackground(this, 310, 630);
+            setBounds(dropzone.getX(), dropzone.getY(), dropzone.getWidth(), dropzone.getHeight());
         }
 
         public void destroy() {
@@ -766,65 +750,5 @@ public class PuzzleDecisionManager {
             );
         }
 
-    }
-
-    public class ActivePowder extends ActivePuzzleItem {
-        public ActivePowder(Texture texture) {
-            super(texture);
-        }
-    }
-
-    public class ActivePeas extends ActivePuzzleItem {
-        public ActivePeas(Texture texture) {
-            super(texture);
-        }
-    }
-
-    public class ActiveRope extends ActivePuzzleItem {
-        public ActiveRope(Texture texture) {
-            super(texture);
-        }
-    }
-
-    public class ActiveShoes extends ActivePuzzleItem {
-        public ActiveShoes(Texture texture) {
-            super(texture);
-        }
-    }
-
-    public class ActiveStick extends ActivePuzzleItem {
-        public ActiveStick(Texture texture) {
-            super(texture);
-        }
-    }
-
-    public class ActiveHair extends ActivePuzzleItem {
-        public ActiveHair(Texture texture) {
-            super(texture);
-        }
-    }
-
-    public class ActiveKey extends ActivePuzzleItem {
-        public ActiveKey(Texture texture) {
-            super(texture);
-        }
-    }
-
-    public class ActiveArrows extends ActivePuzzleItem {
-        public ActiveArrows(Texture texture) {
-            super(texture);
-        }
-    }
-
-    public class ActiveSpoon extends ActivePuzzleItem {
-        public ActiveSpoon(Texture texture) {
-            super(texture);
-        }
-    }
-
-    public class ActiveClocks extends ActivePuzzleItem {
-        public ActiveClocks(Texture texture) {
-            super(texture);
-        }
     }
 }

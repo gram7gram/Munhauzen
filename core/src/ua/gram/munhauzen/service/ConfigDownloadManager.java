@@ -174,10 +174,7 @@ public class ConfigDownloadManager {
 
     public void dispose() {
 
-        if (httpRequest != null) {
-            Gdx.net.cancelHttpRequest(httpRequest);
-            httpRequest = null;
-        }
+        httpRequest = null;
 
     }
 }

@@ -7,10 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 
@@ -18,6 +16,17 @@ import ua.gram.munhauzen.ButtonBuilder;
 import ua.gram.munhauzen.interaction.PuzzleInteraction;
 import ua.gram.munhauzen.interaction.puzzle.Dropzone;
 import ua.gram.munhauzen.interaction.puzzle.PuzzleItem;
+import ua.gram.munhauzen.interaction.puzzle.ui.Arrows;
+import ua.gram.munhauzen.interaction.puzzle.ui.Clocks;
+import ua.gram.munhauzen.interaction.puzzle.ui.Foot;
+import ua.gram.munhauzen.interaction.puzzle.ui.Hair;
+import ua.gram.munhauzen.interaction.puzzle.ui.Key;
+import ua.gram.munhauzen.interaction.puzzle.ui.Peas;
+import ua.gram.munhauzen.interaction.puzzle.ui.Powder;
+import ua.gram.munhauzen.interaction.puzzle.ui.Rope;
+import ua.gram.munhauzen.interaction.puzzle.ui.Shoes;
+import ua.gram.munhauzen.interaction.puzzle.ui.Spoon;
+import ua.gram.munhauzen.interaction.puzzle.ui.Stick;
 import ua.gram.munhauzen.screen.game.fragment.InteractionFragment;
 import ua.gram.munhauzen.screen.game.ui.BackgroundImage;
 import ua.gram.munhauzen.ui.FragmentRoot;
@@ -36,11 +45,8 @@ public class PuzzleImageFragment extends InteractionFragment {
 
     public BackgroundImage backgroundImage;
 
-    public PuzzleItem stick, spoon, shoes, peas, key, hair, clocks, arrows, powder, rope;
-    public Foot foot;
+    public PuzzleItem foot, stick, spoon, shoes, peas, key, hair, clocks, arrows, powder, rope;
     public PrimaryButton resetButton;
-
-    boolean areActorsInitialized;
 
     public PuzzleImageFragment(PuzzleInteraction interaction) {
         this.interaction = interaction;
@@ -77,22 +83,22 @@ public class PuzzleImageFragment extends InteractionFragment {
             }
         });
 
-        stick = new Stick(tex1);
-        spoon = new Spoon(tex2);
-        shoes = new Shoes(tex3);
-        peas = new Peas(tex4);
-        key = new Key(tex5);
-        hair = new Hair(tex6);
-        clocks = new Clocks(tex7);
-        arrows = new Arrows(tex8);
-        powder = new Powder(tex9);
-        rope = new Rope(tex10);
-        foot = new Foot(tex12);
+        stick = new Stick(interaction, tex1);
+        spoon = new Spoon(interaction, tex2);
+        shoes = new Shoes(interaction, tex3);
+        peas = new Peas(interaction, tex4);
+        key = new Key(interaction, tex5);
+        hair = new Hair(interaction, tex6);
+        clocks = new Clocks(interaction, tex7);
+        arrows = new Arrows(interaction, tex8);
+        powder = new Powder(interaction, tex9);
+        rope = new Rope(interaction, tex10);
+        foot = new Foot(interaction, tex12);
         dropzone = new Dropzone(interaction);
 
         setBackground(
-                interaction.assetManager.get("puzzle/inter_puzzle_fond_1.png", Texture.class),
-                "puzzle/inter_puzzle_fond_1.png"
+                interaction.assetManager.get("puzzle/inter_puzzle_fond_1.jpg", Texture.class),
+                "puzzle/inter_puzzle_fond_1.jpg"
         );
 
         resultGroup = new Group();
@@ -141,200 +147,6 @@ public class PuzzleImageFragment extends InteractionFragment {
 
         resetButton.setDisabled(root.getTouchable() == Touchable.disabled || interaction.decisionManager.items.isEmpty());
 
-        if (!areActorsInitialized) {
-
-            areActorsInitialized = true;
-            stick.init();
-            spoon.init();
-            shoes.init();
-            peas.init();
-            key.init();
-            hair.init();
-            clocks.init();
-            arrows.init();
-            powder.init();
-            foot.init();
-            rope.init();
-            dropzone.init();
-        }
-    }
-
-    @Override
-    public void dispose() {
-        super.dispose();
-
-        areActorsInitialized = false;
-
-    }
-
-    private class Powder extends PuzzleItem {
-        public Powder(Texture texture) {
-            super(interaction, texture);
-        }
-
-        @Override
-        public void init() {
-            super.init();
-
-            setPositionRelativeToBackground(this, 10, 800);
-        }
-    }
-
-    private class Rope extends PuzzleItem {
-        public Rope(Texture texture) {
-            super(interaction, texture);
-        }
-
-        @Override
-        public void init() {
-            super.init();
-
-            setPositionRelativeToBackground(this, 130, 800);
-        }
-    }
-
-    private class Arrows extends PuzzleItem {
-        public Arrows(Texture texture) {
-            super(interaction, texture);
-        }
-
-        @Override
-        public void init() {
-            super.init();
-
-            setPositionRelativeToBackground(this, 250, 600);
-        }
-    }
-
-    private class Spoon extends PuzzleItem {
-        public Spoon(Texture texture) {
-            super(interaction, texture);
-        }
-
-        @Override
-        public void init() {
-            super.init();
-
-            setPositionRelativeToBackground(this, 625, 695);
-        }
-    }
-
-    private class Stick extends PuzzleItem {
-        public Stick(Texture texture) {
-            super(interaction, texture);
-        }
-
-        @Override
-        public void init() {
-            super.init();
-
-            setPositionRelativeToBackground(this, 580, 200);
-        }
-    }
-
-    private class Shoes extends PuzzleItem {
-        public Shoes(Texture texture) {
-            super(interaction, texture);
-        }
-
-        @Override
-        public void init() {
-            super.init();
-
-            setPositionRelativeToBackground(this, 70, 650);
-        }
-    }
-
-    private class Peas extends PuzzleItem {
-        public Peas(Texture texture) {
-            super(interaction, texture);
-        }
-
-        @Override
-        public void init() {
-            super.init();
-
-            setPositionRelativeToBackground(this, 510, 550);
-        }
-    }
-
-    private class Key extends PuzzleItem {
-        public Key(Texture texture) {
-            super(interaction, texture);
-        }
-
-        @Override
-        public void init() {
-            super.init();
-
-            setPositionRelativeToBackground(this, 60, 690);
-        }
-    }
-
-    private class Hair extends PuzzleItem {
-        public Hair(Texture texture) {
-            super(interaction, texture);
-        }
-
-        @Override
-        public void init() {
-            super.init();
-
-            setPositionRelativeToBackground(this, 490, 600);
-        }
-    }
-
-    private class Clocks extends PuzzleItem {
-        public Clocks(Texture texture) {
-            super(interaction, texture);
-        }
-
-        @Override
-        public void init() {
-            super.init();
-
-            setPositionRelativeToBackground(this, 190, 700);
-        }
-    }
-
-
-    private class Foot extends Image {
-
-        public Foot(Texture texture) {
-            super(texture);
-
-            setTouchable(Touchable.disabled);
-        }
-
-        public void init() {
-
-            setSizeRelativeToBackground(this, getDrawable());
-
-            setPositionRelativeToBackground(this, 635, 730);
-        }
-    }
-
-    public void setPositionRelativeToBackground(Actor actor, float x, float y) {
-        actor.setPosition(
-                backgroundImage.background.getX() + backgroundImage.backgroundWidth * (x / 800f),
-                backgroundImage.background.getY() + backgroundImage.backgroundHeight * ((1000 - y) / 1000f)
-        );
-        actor.setBounds(
-                actor.getX(),
-                actor.getY(),
-                Math.max(60, actor.getWidth()),
-                Math.max(60, actor.getHeight())
-        );
-    }
-
-    public void setSizeRelativeToBackground(Actor actor, Drawable texture) {
-
-        float scaleFactor = interaction.gameScreen.game.params.scaleFactor;
-
-        actor.setSize(
-                texture.getMinWidth() * backgroundImage.backgroundScale * .6f * scaleFactor,
-                texture.getMinHeight() * backgroundImage.backgroundScale * .6f * scaleFactor
-        );
     }
 
     public void setBackground(Texture texture, String file) {

@@ -16,6 +16,9 @@ public class Part implements JsonEntry {
     public int part;
 
     @JsonProperty
+    public boolean isCompleted;
+
+    @JsonProperty
     public boolean isDownloading;
 
     @JsonProperty

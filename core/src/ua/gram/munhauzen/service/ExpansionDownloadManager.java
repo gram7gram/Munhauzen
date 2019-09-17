@@ -46,6 +46,9 @@ public class ExpansionDownloadManager implements Disposable {
     private void processAvailablePart() {
         Part nextPart = null;
         for (Part item : game.gameState.expansionInfo.parts.items) {
+
+            if (item.isCompleted) continue;
+
             if (item.isDownloaded && !item.isExtracted) {
                 nextPart = item;
                 break;
@@ -279,7 +282,10 @@ public class ExpansionDownloadManager implements Disposable {
                                 }
                             }
 
+                            serverPart.isCompleted = serverPart.isDownloaded && serverPart.isExtracted;
+
                             log += "\npart " + serverPart.part
+                                    + " isCompleted " + (serverPart.isCompleted ? "+" : "-")
                                     + " isDownloaded " + (serverPart.isDownloaded ? "+" : "-")
                                     + " isExtracted " + (serverPart.isExtracted ? "+" : "-");
 
@@ -480,6 +486,8 @@ public class ExpansionDownloadManager implements Disposable {
 
             expansionInfo.progress = getProgress();
 
+            boolean areAllCompleted = true;
+
             String progressText = "";
             for (Part item : expansionInfo.parts.items) {
 
@@ -498,6 +506,12 @@ public class ExpansionDownloadManager implements Disposable {
                 if (item.isExtractFailure) {
                     progressText = "Extracting part #" + item.part + " failed";
                 }
+
+                item.isCompleted = item.isDownloaded && item.isExtracted;
+                if (!item.isCompleted) {
+                    areAllCompleted = false;
+                }
+
             }
 
             fragment.progress.setText(Math.max(1, expansionInfo.progress) + "%");
@@ -507,10 +521,10 @@ public class ExpansionDownloadManager implements Disposable {
 
             fragment.expansionInfo.setText("v" + expansionInfo.version + " " + String.format("%.2f", sizeMb) + "MB");
 
-            if (expansionInfo.progress == 100) {
+            expansionInfo.isCompleted = areAllCompleted;
+
+            if (expansionInfo.isCompleted) {
                 onComplete();
-            } else {
-                expansionInfo.isCompleted = false;
             }
         } catch (Throwable e) {
             Log.e(tag, e);
@@ -519,10 +533,7 @@ public class ExpansionDownloadManager implements Disposable {
 
     @Override
     public void dispose() {
-        if (httpRequest != null) {
-            Gdx.net.cancelHttpRequest(httpRequest);
-            httpRequest = null;
-        }
+        httpRequest = null;
     }
 
 }
