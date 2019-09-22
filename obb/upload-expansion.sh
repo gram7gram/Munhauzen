@@ -30,6 +30,8 @@ function syncRemote() {
 
     ssh root@${SERVER} "mkdir -p /var/www/munhauzen-web/api/public/expansions/${VERSION}"
 
+    ssh root@${SERVER} "rm /var/www/munhauzen-web/api/public/expansions/${VERSION}/*"
+
     scp ./${VERSION}/* \
         root@${SERVER}:/var/www/munhauzen-web/api/public/expansions/${VERSION}
 }

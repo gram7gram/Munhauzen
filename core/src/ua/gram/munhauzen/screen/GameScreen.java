@@ -103,6 +103,8 @@ public class GameScreen implements Screen {
 
         game.camera.zoom = 1;
 
+        game.backgroundSfxService.dispose();
+
         GameState.isEndingReached = false;
         GameState.isMute = false;
 

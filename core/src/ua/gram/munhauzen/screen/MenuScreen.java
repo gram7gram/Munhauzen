@@ -75,6 +75,8 @@ public class MenuScreen extends AbstractScreen {
         assetManager.load("menu/b_rate_an_sheet.png", Texture.class);
         assetManager.load("menu/b_full_version_an_sheet.png", Texture.class);
         assetManager.load("menu/b_demo_version_an_sheet.png", Texture.class);
+
+        game.backgroundSfxService.start();
     }
 
     @Override
@@ -369,6 +371,8 @@ public class MenuScreen extends AbstractScreen {
         isZoomStarted = true;
 
         controlsFragment.fadeOutFancy();
+
+        game.backgroundSfxService.stop();
 
         Timer.instance().scheduleTask(new Timer.Task() {
             @Override

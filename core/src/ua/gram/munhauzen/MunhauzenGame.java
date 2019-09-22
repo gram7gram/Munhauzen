@@ -12,6 +12,7 @@ import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.screen.ErrorScreen;
 import ua.gram.munhauzen.screen.LogoScreen;
 import ua.gram.munhauzen.service.AchievementService;
+import ua.gram.munhauzen.service.BackgroundSfxService;
 import ua.gram.munhauzen.service.DatabaseManager;
 import ua.gram.munhauzen.service.InventoryService;
 import ua.gram.munhauzen.service.SfxService;
@@ -30,7 +31,7 @@ public class MunhauzenGame extends Game {
     public static final boolean DEBUG = true;
     public static final boolean DEBUG_UI = false;
     public static final boolean IS_EXPANSION_HIDDEN = true;
-    public static final boolean DEBUG_RENDER_INFO = true;
+    public static final boolean DEBUG_RENDER_INFO = false;
     public static final boolean CAN_REMOVE_PREVIOUS_EXPANSION = false;
     public static final boolean CAN_SKIP_EXPANSION_VALIDATION = true;
     public static final int PROGRESS_BAR_FADE_OUT_DELAY = 5;
@@ -54,6 +55,7 @@ public class MunhauzenGame extends Game {
     public Preferences preferences;
     public AchievementService achievementService;
     public SfxService sfxService;
+    public BackgroundSfxService backgroundSfxService;
 
     public MunhauzenGame(PlatformParams params) {
         this.params = params;
@@ -99,6 +101,7 @@ public class MunhauzenGame extends Game {
             updateDpi();
 
             sfxService = new SfxService(this);
+            backgroundSfxService = new BackgroundSfxService(this);
             databaseManager = new DatabaseManager(this);
 
             loadGameState();
@@ -178,6 +181,11 @@ public class MunhauzenGame extends Game {
             if (sfxService != null) {
                 sfxService.dispose();
                 sfxService = null;
+            }
+
+            if (backgroundSfxService != null) {
+                backgroundSfxService.dispose();
+                backgroundSfxService = null;
             }
 
             view = null;
