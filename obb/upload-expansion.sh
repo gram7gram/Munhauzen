@@ -48,11 +48,17 @@ function deploy() {
 
 }
 
-syncLocal "$1-en-mdpi"
-syncLocal "$1-en-hdpi"
+syncLocal "$VERSION-en-mdpi"
+syncLocal "$VERSION-en-hdpi"
 
-syncRemote "$1-en-mdpi"
-syncRemote "$1-en-hdpi"
+syncLocal "$VERSION-ru-mdpi"
+syncLocal "$VERSION-ru-hdpi"
+
+syncRemote "$VERSION-ru-mdpi"
+syncRemote "$VERSION-ru-hdpi"
+
+syncRemote "$VERSION-en-mdpi"
+syncRemote "$VERSION-en-hdpi"
 
 deploy
 

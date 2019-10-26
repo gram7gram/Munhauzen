@@ -5,6 +5,7 @@ const obbDir = "/Users/master/Projects/Munhauzen/obb"
 const audioDir = "/Users/master/Projects/MunhauzenDocs/Elements/AUDIO_FINAL"
 
 const PARTS = 10;
+
 const VERSION = 1;
 const LOCALE = 'en';
 
@@ -154,6 +155,7 @@ DPIs.forEach(DPI => {
             locale: LOCALE,
             dpi: DPI,
             size: totalSize,
+            sizeMB: Number((totalSize / 1024 / 1024).toFixed(2)),
             parts: {
                 count: completed.length,
                 items: completed.map(item => ({
@@ -166,8 +168,6 @@ DPIs.forEach(DPI => {
         console.log(` => Completed ${VERSION_NAME}!`)
 
         fs.writeFileSync(`./${VERSION_NAME}-expansion.json`, JSON.stringify(expansion))
-
-        console.log(JSON.stringify(expansion))
 
         cleanUp();
     }
@@ -186,8 +186,11 @@ DPIs.forEach(DPI => {
 
         archive.on('end', function () {
 
+            const size = archive.pointer()
+
             completed.push({
-                size: archive.pointer(),
+                size,
+                sizeMB: Number((size / 1024 / 1024).toFixed(2)),
                 part,
                 checksum: ""
             });

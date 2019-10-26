@@ -134,24 +134,7 @@ public class ControlsFragment extends Fragment {
                 .pad(10)
                 .row();
 
-        if (MunhauzenGame.DEBUG || !screen.game.params.isPro) {
-
-            final DemoSideButton demoBtnAnimation = new DemoSideButton(screen);
-
-            Timer.instance().scheduleTask(new Timer.Task() {
-                @Override
-                public void run() {
-                    demoBtnAnimation.start();
-                }
-            }, r.between(5, 10), r.between(5, 10));
-
-            sideTable.add(demoBtnAnimation)
-                    .size(iconSize)
-                    .pad(10)
-                    .row();
-        }
-
-        if (MunhauzenGame.DEBUG || screen.game.params.isPro) {
+        if (screen.game.params.isPro) {
 
             final ProSideButton proBtnAnimation = new ProSideButton(screen);
 
@@ -163,6 +146,20 @@ public class ControlsFragment extends Fragment {
             }, r.between(5, 10), r.between(5, 10));
 
             sideTable.add(proBtnAnimation)
+                    .size(iconSize)
+                    .pad(10)
+                    .row();
+        } else {
+            final DemoSideButton demoBtnAnimation = new DemoSideButton(screen);
+
+            Timer.instance().scheduleTask(new Timer.Task() {
+                @Override
+                public void run() {
+                    demoBtnAnimation.start();
+                }
+            }, r.between(5, 10), r.between(5, 10));
+
+            sideTable.add(demoBtnAnimation)
                     .size(iconSize)
                     .pad(10)
                     .row();

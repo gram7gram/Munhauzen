@@ -6,8 +6,14 @@ bash prepare-raw-servants.sh
 
 bash convert-raw.sh
 
-node obb.js
+node obb-en.js
+
+node obb-ru.js
 
 md5 1-en-hdpi/*
 
 md5 1-en-mdpi/*
+
+md5 1-ru-hdpi/*
+
+md5 1-ru-mdpi/*
