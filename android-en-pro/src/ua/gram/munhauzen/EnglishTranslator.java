@@ -36,9 +36,11 @@ public class EnglishTranslator implements Translator {
         );
         map.put("loading.retry_btn", "Retry");
         map.put("loading.download_btn", "Download");
-        map.put("loading.title", "Please, wait until resources are downloaded...");
+        map.put("loading.title", "Downloading resources");
         map.put("loading.message", "The game will now start downloading the resources. Please, do not interrupt the Wi-Fi connection and wait for the download.");
-        map.put("loading.quality", "Recommended texture quality:");
+        map.put("loading.quality_message", "Recommended texture quality");
+        map.put("loading.quality_high", "High");
+        map.put("loading.quality_medium", "Medium");
         map.put("config_download.started", "Fetching game info...");
         map.put("config_download.failed", "Download has failed");
         map.put("config_download.canceled", "Download was canceled");

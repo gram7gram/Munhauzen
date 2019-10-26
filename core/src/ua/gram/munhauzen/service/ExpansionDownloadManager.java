@@ -211,7 +211,7 @@ public class ExpansionDownloadManager implements Disposable {
             @Override
             public void run() {
                 fragment.progress.setText("");
-                fragment.progressMessage.setText("Fetching expansion info...");
+                fragment.progressMessage.setText(game.t("expansion_download.started"));
             }
         });
 
@@ -361,7 +361,7 @@ public class ExpansionDownloadManager implements Disposable {
         expansionInfo.isDownloadStarted = false;
 
         fragment.progress.setText(expansionInfo.progress + "%");
-        fragment.progressMessage.setText("Expansion was not found");
+        fragment.progressMessage.setText(game.t("expansion_download.not_found"));
         fragment.retryBtn.setVisible(true);
 
         fragment.screen.expansionDownloader.dispose();
@@ -377,7 +377,7 @@ public class ExpansionDownloadManager implements Disposable {
             expansionInfo.isDownloadStarted = false;
 
         fragment.progress.setText("");
-        fragment.progressMessage.setText("Unable to fetch expansion");
+        fragment.progressMessage.setText(game.t("expansion_download.failed"));
         fragment.retryBtn.setVisible(true);
 
         fragment.screen.expansionDownloader.dispose();
@@ -397,7 +397,7 @@ public class ExpansionDownloadManager implements Disposable {
         part.isExtractFailure = true;
 
         fragment.progress.setText("");
-        fragment.progressMessage.setText("Unable to extract part " + part.part);
+        fragment.progressMessage.setText(game.t("expansion_download.extract_failed") + part.part);
         fragment.retryBtn.setVisible(true);
 
         if (fragment.screen.expansionDownloader != null) {
@@ -413,7 +413,7 @@ public class ExpansionDownloadManager implements Disposable {
         Log.e(tag, "onConnectionCanceled");
 
         fragment.progress.setText("");
-        fragment.progressMessage.setText("Download was canceled");
+        fragment.progressMessage.setText(game.t("expansion_download.canceled"));
         fragment.retryBtn.setVisible(true);
 
         if (fragment.screen.expansionDownloader != null) {
@@ -429,7 +429,7 @@ public class ExpansionDownloadManager implements Disposable {
         if (expansionInfo != null)
             expansionInfo.isDownloadStarted = false;
 
-        fragment.progressMessage.setText("Not enough memory. Please, free some space for the game");
+        fragment.progressMessage.setText(game.t("expansion_download.low_memory"));
         fragment.retryBtn.setVisible(true);
 
         fragment.screen.expansionDownloader.dispose();
@@ -449,7 +449,7 @@ public class ExpansionDownloadManager implements Disposable {
         game.databaseManager.persist(game.gameState);
 
         fragment.progress.setText("100%");
-        fragment.progressMessage.setText("Resources are loaded!");
+        fragment.progressMessage.setText(game.t("expansion_download.completed"));
 
         for (Part item : expansionInfo.parts.items) {
             ExternalFiles.getExpansionPartFile(item).delete();

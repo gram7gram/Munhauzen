@@ -1,7 +1,9 @@
 package ua.gram.munhauzen.service;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.Timer;
 
 import java.util.HashSet;
@@ -348,7 +350,15 @@ public class SfxService {
             if (game.internalAssetManager == null) return;
             if (GameState.isMute) return;
 
-            final String file = "audio/" + sfx + ".mp3";
+            String file = "audio/" + sfx + ".mp3";
+
+            if (!Gdx.files.internal(file).exists()) {
+                file = "audio/" + sfx + ".aac";
+
+                if (!Gdx.files.internal(file).exists()) {
+                    throw new GdxRuntimeException("Sfx not found in assets: " + sfx);
+                }
+            }
 
             Sound sound = game.internalAssetManager.get(file, Sound.class);
             sound.play();
@@ -366,7 +376,15 @@ public class SfxService {
             if (game.internalAssetManager == null) return;
             if (GameState.isMute) return;
 
-            final String file = "audio/" + sfx + ".mp3";
+            String file = "audio/" + sfx + ".mp3";
+
+            if (!Gdx.files.internal(file).exists()) {
+                file = "audio/" + sfx + ".aac";
+
+                if (!Gdx.files.internal(file).exists()) {
+                    throw new GdxRuntimeException("Sfx not found in assets: " + sfx);
+                }
+            }
 
             game.internalAssetManager.load(file, Music.class);
 

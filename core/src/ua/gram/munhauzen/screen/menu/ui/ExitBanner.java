@@ -68,7 +68,7 @@ public class ExitBanner extends Banner {
                 .minWidth(cellMinWidth)
                 .center().row();
 
-        yesBtn = game.buttonBuilder.danger("Yes", new ClickListener() {
+        yesBtn = game.buttonBuilder.danger(screen.game.t("exit_banner.yes_btn"), new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
@@ -96,7 +96,7 @@ public class ExitBanner extends Banner {
             }
         });
 
-        noBtn = game.buttonBuilder.danger("No", new ClickListener() {
+        noBtn = game.buttonBuilder.danger(screen.game.t("exit_banner.no_btn"), new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);

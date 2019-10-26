@@ -28,6 +28,7 @@ public class AndroidLauncher extends AndroidApplication {
         params.versionName = BuildConfig.VERSION_NAME;
         params.locale = "ru";
         params.isPro = true;
+        params.translator = new RussianTranslator();
         params.memoryUsage = new AndroidMemoryUsage();
         params.appStore = new AndroidAppStore(params, getApplicationContext());
 

@@ -15,7 +15,7 @@ public class GalleryButton extends MenuButton {
 
         hasLock = screen.game.gameState.galleryState.hasUpdates;
 
-        create("Gallery", new ClickListener() {
+        create(screen.game.t("menu.gallery_btn"), new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);

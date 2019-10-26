@@ -12,66 +12,63 @@ const escapeSpecialChars = function(str) {
                .replace(/\\f/g, "\\f");
 };
 
-const ImportService = (function () {
+const scenario = function (sheet, prefix) {
 
-  function Service() {
-  }
+  const json = xlsx.utils.sheet_to_json(sheet);
 
-  Service.prototype.scenario = function (sheet, prefix) {
+  const headers = [
+    "id_option","id_chapter"
+    ,"description_option_eng","description_option_ru"
+    ,"id_audio","id_picture"
+    ,"duration_picture_eng","duration_picture_ru"
+    ,"Interaction","action","id_decisions","decision_order"
+    ,"inventory_required","inventory_abscent","transition_picture"
+  ]
 
-      const json = xlsx.utils.sheet_to_json(sheet);
+  const rows = [headers.join(',')]
 
-      const headers = [
-        "id_option","id_chapter","description_option_eng","id_audio","id_picture","duration_picture","Interaction","action","id_decisions","decision_order","inventory_required","inventory_abscent","transition_picture"
-      ]
+  json.forEach(item => {
 
-      const rows = [headers.join(',')]
+    if (item.id_option && item.id_option.indexOf('_proxy') === -1) {
+      item.id_option += "_proxy"
+    }
 
-      json.forEach(item => {
+    const row = []
 
-        if (item.id_option && item.id_option.indexOf('_proxy') === -1) {
-          item.id_option += "_proxy"
-        }
+    item.id_audio = ''
+    item.id_picture = ''
+    item.duration_picture = ''
 
-        const row = []
+    headers.forEach(name => {
+      row.push(item[name] || '')
+    })
 
-        item.id_audio = ''
-        item.id_picture = ''
-        item.duration_picture = ''
+    rows.push(row.map(item => '"' + escapeSpecialChars(item) + '"').join(','))
+  })
 
-        headers.forEach(name => {
-          row.push(item[name] || '')
-        })
+  fs.writeFile(`./${prefix}-proxy.csv`, rows.join("\r\n"), (e) => {
+    if (e) throw e
+  })
+}
 
-        rows.push(row.map(item => '"' + escapeSpecialChars(item) + '"').join(','))
-      })
-
-      fs.writeFile(`./${prefix}-proxy.csv`, rows.join("\r\n"), () => {
-
-      })
-  }
-
-  Service.prototype.parse = function (file) {
+const parse = function (file) {
 
     const workbook = xlsx.readFile(file)
 
     if (workbook.Sheets['scenario_1']) {
-      this.scenario(workbook.Sheets['scenario_1'], 'scenario_1')
+      scenario(workbook.Sheets['scenario_1'], 'scenario_1')
     }
 
     if (workbook.Sheets['scenario_2']) {
-      this.scenario(workbook.Sheets['scenario_2'], 'scenario_2')
+      scenario(workbook.Sheets['scenario_2'], 'scenario_2')
     }
 
     if (workbook.Sheets['scenario_3']) {
-      this.scenario(workbook.Sheets['scenario_3'], 'scenario_3')
+      scenario(workbook.Sheets['scenario_3'], 'scenario_3')
     }
+}
 
-  }
 
-  return new Service();
-})()
-
-ImportService.parse('/Users/master/Projects/MunhauzenDocs/IOS Task/Scenario Pictures Audio Inventory CHapters Chronicl inter.xlsx')
+parse('/Users/master/Projects/MunhauzenDocs/IOS Task/Scenario Pictures Audio Inventory CHapters Chronicl inte.xlsx')
 
 

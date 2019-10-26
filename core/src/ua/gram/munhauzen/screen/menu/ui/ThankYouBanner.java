@@ -34,12 +34,6 @@ public class ThankYouBanner extends Banner {
     @Override
     Table createContent() {
 
-        String[] sentences = {
-                "Thank you for purchasing the full version!",
-                "You are breathtaking!",
-                "Please, rate out application and leave a positive review",
-        };
-
         float minWidth = MunhauzenGame.WORLD_WIDTH * .7f;
 
         Table content = new Table();
@@ -94,7 +88,7 @@ public class ThankYouBanner extends Banner {
 
     private Actor getActionBtn() {
 
-        return screen.game.buttonBuilder.danger("Feedback", new ClickListener() {
+        return screen.game.buttonBuilder.danger(screen.game.t("thank_you_banner.title"), new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);

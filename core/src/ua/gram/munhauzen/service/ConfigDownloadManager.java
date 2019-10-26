@@ -40,11 +40,15 @@ public class ConfigDownloadManager {
             }
         });
 
+        String url = game.params.getGameExportUrl();
+
         httpRequest = requestBuilder.newRequest()
                 .method(Net.HttpMethods.GET)
-                .url(game.params.getGameExportUrl())
+                .url(url)
                 .timeout(10000)
                 .build();
+
+        Log.e(tag, "GET " + url);
 
         Gdx.net.sendHttpRequest(httpRequest, new Net.HttpResponseListener() {
 
@@ -139,7 +143,7 @@ public class ConfigDownloadManager {
         Log.i(tag, "onConnectionStarted");
 
         fragment.progress.setText("");
-        fragment.progressMessage.setText("Fetching game info...");
+        fragment.progressMessage.setText(game.t("config_download.started"));
     }
 
     private void onComplete() {
@@ -150,7 +154,7 @@ public class ConfigDownloadManager {
         Log.e(tag, "onConnectionFailed");
 
         fragment.progress.setText("");
-        fragment.progressMessage.setText("Download has failed");
+        fragment.progressMessage.setText(game.t("config_download.failed"));
         fragment.retryBtn.setVisible(true);
 
         if (fragment.screen.configDownloader != null) {
@@ -163,7 +167,7 @@ public class ConfigDownloadManager {
         Log.e(tag, "onConnectionCanceled");
 
         fragment.progress.setText("");
-        fragment.progressMessage.setText("Download was canceled");
+        fragment.progressMessage.setText(game.t("config_download.canceled"));
         fragment.retryBtn.setVisible(true);
 
         if (fragment.screen.configDownloader != null) {

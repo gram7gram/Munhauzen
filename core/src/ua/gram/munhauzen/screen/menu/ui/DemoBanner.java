@@ -34,10 +34,6 @@ public class DemoBanner extends Banner {
     @Override
     Table createContent() {
 
-        String[] sentences = {
-                "Please, purchase the full version of the audio-book!",
-        };
-
         float minWidth = MunhauzenGame.WORLD_WIDTH * .7f;
 
         Table content = new Table();
@@ -52,7 +48,7 @@ public class DemoBanner extends Banner {
                 Color.BLACK
         );
 
-        for (String sentence : sentences) {
+        for (String sentence : screen.game.t("demo_banner.title").split("\n")) {
             Label label = new Label(sentence, style);
             label.setAlignment(Align.center);
             label.setWrap(true);
@@ -92,7 +88,7 @@ public class DemoBanner extends Banner {
 
     private Actor getActionBtn() {
 
-        return screen.game.buttonBuilder.danger("Purchase", new ClickListener() {
+        return screen.game.buttonBuilder.danger(screen.game.t("demo_banner.buy_btn"), new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);

@@ -11,29 +11,29 @@ SERVER=185.227.111.144
 
 function syncLocal() {
 
-    VERSION=$1
+    SYNC_VERSION=$1
 
-    echo "[+] Sync with local server ${VERSION}..."
+    echo "[+] Sync with local server ${SYNC_VERSION}..."
 
-    mkdir -p ~/Projects/munhauzen-web/api/public/expansions/$VERSION
+    mkdir -p ~/Projects/munhauzen-web/api/public/expansions/$SYNC_VERSION
 
-    cp ./${VERSION}/* /Users/master/Projects/munhauzen-web/api/public/expansions/$VERSION
+    cp ./${SYNC_VERSION}/* /Users/master/Projects/munhauzen-web/api/public/expansions/$SYNC_VERSION
 
-    cp ./${VERSION}-expansion.json ~/Projects/munhauzen-web/api/src/server/resources/$VERSION-expansion.json
+    cp ./${SYNC_VERSION}-expansion.json ~/Projects/munhauzen-web/api/src/server/resources/$SYNC_VERSION-expansion.json
 }
 
 function syncRemote() {
 
-    VERSION=$1
+    SYNC_VERSION=$1
 
-    echo "[+] Sync with remote server ${VERSION}..."
+    echo "[+] Sync with remote server ${SYNC_VERSION}..."
 
-    ssh root@${SERVER} "mkdir -p /var/www/munhauzen-web/api/public/expansions/${VERSION}"
+    ssh root@${SERVER} "mkdir -p /var/www/munhauzen-web/api/public/expansions/${SYNC_VERSION}"
 
-    ssh root@${SERVER} "rm /var/www/munhauzen-web/api/public/expansions/${VERSION}/*"
+    ssh root@${SERVER} "rm /var/www/munhauzen-web/api/public/expansions/${SYNC_VERSION}/*"
 
-    scp ./${VERSION}/* \
-        root@${SERVER}:/var/www/munhauzen-web/api/public/expansions/${VERSION}
+    scp ./${SYNC_VERSION}/* \
+        root@${SERVER}:/var/www/munhauzen-web/api/public/expansions/${SYNC_VERSION}
 }
 
 function deploy() {
@@ -54,12 +54,12 @@ syncLocal "$VERSION-en-hdpi"
 syncLocal "$VERSION-ru-mdpi"
 syncLocal "$VERSION-ru-hdpi"
 
-syncRemote "$VERSION-ru-mdpi"
-syncRemote "$VERSION-ru-hdpi"
+#syncRemote "$VERSION-ru-mdpi"
+#syncRemote "$VERSION-ru-hdpi"
 
-syncRemote "$VERSION-en-mdpi"
-syncRemote "$VERSION-en-hdpi"
+#syncRemote "$VERSION-en-mdpi"
+#syncRemote "$VERSION-en-hdpi"
 
-deploy
+#deploy
 
 echo "[+] Completed!"

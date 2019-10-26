@@ -1,0 +1,192 @@
+[
+  {
+    "isBegin": true,
+    "name": "aprisoners",
+    "action": "CLICK",
+    "audio": [
+      {
+        "audio": "sprisoners",
+        "duration": 21382
+      }
+    ],
+    "images": [
+      {
+        "image": "images/pprisoners.jpg",
+        "duration": 21382
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "aprisoners_a",
+        "order": 1
+      },
+      {
+        "scenario": "aprisoners_b",
+        "order": 2
+      },
+      {
+        "scenario": "aprisoners_c",
+        "order": 3
+      },
+      {
+        "scenario": "aprisoners_d",
+        "order": 4
+      }
+    ]
+  },
+  {
+    "name": "aprisoners_proxy",
+    "action": "CLICK",
+    "images": [],
+    "audio": [],
+    "decisions": [
+      {
+        "scenario": "aprisoners_a",
+        "order": 1
+      },
+      {
+        "scenario": "aprisoners_b",
+        "order": 2
+      },
+      {
+        "scenario": "aprisoners_c",
+        "order": 3
+      },
+      {
+        "scenario": "aprisoners_d",
+        "order": 4
+      }
+    ]
+  },
+  {
+    "isExit": true,
+    "isWin": true,
+    "name": "aprisoners_c",
+    "audio": [
+      {
+        "audio": "sprisoners_c",
+        "duration": 156000
+      }
+    ],
+    "images": [
+      {
+        "image": "images/pprisoners.jpg",
+        "duration": 5000
+      },
+      {
+        "image": "images/pprisoners_2.jpg",
+        "duration": 151000
+      }
+    ],
+    "decisions": [],
+    "translations": [
+      {
+        "locale": "en",
+        "text": "Took the core and threw it back"
+      }
+    ]
+  },
+  {
+    "name": "aprisoners_a",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "sprisoners_a",
+        "duration": 31000
+      }
+    ],
+    "images": [
+      {
+        "image": "images/pprisoners.jpg",
+        "duration": 31000
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "aprisoners_proxy"
+      }
+    ],
+    "translations": [
+      {
+        "locale": "en",
+        "text": "Ate the cannon ball"
+      }
+    ]
+  },
+  {
+    "name": "aprisoners_b",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "sprisoners_b",
+        "duration": 34000
+      }
+    ],
+    "images": [
+      {
+        "image": "images/pprisoners.jpg",
+        "duration": 34000
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "aprisoners_proxy"
+      }
+    ],
+    "translations": [
+      {
+        "locale": "en",
+        "text": "Closed eyes"
+      }
+    ]
+  },
+  {
+    "name": "aprisoners_d",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "sprisoners_d",
+        "duration": 109000
+      }
+    ],
+    "images": [
+      {
+        "image": "images/pprisoners.jpg",
+        "duration": 109000
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "aprisoners_proxy"
+      }
+    ],
+    "translations": [
+      {
+        "locale": "en",
+        "text": "Closed the cannon ball in the closet"
+      }
+    ]
+  },
+  {
+    "name": "aprisoners_exploded",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "sprisoners_exploded",
+        "duration": 33829
+      }
+    ],
+    "images": [
+      {
+        "image": "images/pprisoners_exploded.jpg",
+        "duration": 33829
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "aprisoners_proxy"
+      }
+    ],
+    "translations": []
+  }
+]

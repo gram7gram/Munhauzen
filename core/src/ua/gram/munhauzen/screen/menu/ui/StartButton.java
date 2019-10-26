@@ -14,7 +14,7 @@ public class StartButton extends MenuButton {
     public StartButton(final MenuScreen screen) {
         super(screen);
 
-        create("New story", new ClickListener() {
+        create(screen.game.t("menu.start_btn"), new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);

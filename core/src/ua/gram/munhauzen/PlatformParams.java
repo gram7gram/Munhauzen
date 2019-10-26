@@ -9,9 +9,8 @@ public class PlatformParams {
     public Translator translator;
     public AppStore appStore;
     public MemoryUsage memoryUsage;
-    public String gameHost = "http://munchausen-api.fingertips.cf";
-    //public String gameHost = "http://78.27.147.177:20000";
-    //public String gameHost = "http://192.168.100.115:20000";
+    //    public String gameHost = "http://munchausen-api.fingertips.cf";
+    public String gameHost = "http://192.168.1.106:20000";
     public String dpi = "mdpi";
     public String locale = "en";
     public String versionName;

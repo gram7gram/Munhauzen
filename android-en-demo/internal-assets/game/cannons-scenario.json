@@ -1,0 +1,508 @@
+[
+  {
+    "isBegin": true,
+    "name": "aworm_interaction_start",
+    "action": "CLICK",
+    "audio": [
+      {
+        "audio": "sworm",
+        "duration": 202000
+      }
+    ],
+    "images": [
+      {
+        "image": "images/pworm_0.jpg",
+        "duration": 126000
+      },
+      {
+        "image": "cannons/inter_cannons_font.jpg",
+        "duration": 76000
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "aworm_a",
+        "order": 1
+      },
+      {
+        "scenario": "aworm_b",
+        "order": 4
+      },
+      {
+        "scenario": "aworm_c",
+        "order": 3
+      },
+      {
+        "scenario": "aworm_d",
+        "order": 2
+      }
+    ],
+    "translations": []
+  },
+  {
+    "name": "aworm_interaction_proxy",
+    "action": "CLICK",
+    "audio": [],
+    "images": [
+      {
+        "image": "cannons/inter_cannons_font.jpg",
+        "withWorms": true,
+        "duration": 500
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "aworm_a",
+        "order": 1
+      },
+      {
+        "scenario": "aworm_b",
+        "order": 4
+      },
+      {
+        "scenario": "aworm_c",
+        "order": 3
+      },
+      {
+        "scenario": "aworm_d",
+        "order": 2
+      }
+    ],
+    "translations": []
+  },
+  {
+    "name": "aworm_a",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "sworm_a",
+        "duration": 0
+      }
+    ],
+    "images": [
+      {
+        "image": "cannons/inter_cannons_font.jpg",
+        "withWorms": true,
+        "duration": 5000
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "aworm_check_a"
+      }
+    ],
+    "translations": [
+      {
+        "locale": "en",
+        "text": "Burnt it"
+      }
+    ]
+  },
+  {
+    "name": "aworm_d",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "sworm_d",
+        "duration": 0
+      }
+    ],
+    "images": [
+      {
+        "image": "cannons/inter_cannons_font.jpg",
+        "withWorms": true,
+        "duration": 5000
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "aworm_check_d"
+      }
+    ],
+    "translations": [
+      {
+        "locale": "en",
+        "text": "Flooded it"
+      }
+    ]
+  },
+  {
+    "name": "aworm_c",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "sworm_c",
+        "duration": 0
+      }
+    ],
+    "images": [
+      {
+        "image": "cannons/inter_cannons_font.jpg",
+        "withWorms": true,
+        "duration": 5000
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "aworm_check_c"
+      }
+    ],
+    "translations": [
+      {
+        "locale": "en",
+        "text": "Sent an iron woodpecker"
+      }
+    ]
+  },
+  {
+    "isExit": true,
+    "name": "aworm_b",
+    "audio": [
+      {
+        "audio": "sworm_b",
+        "duration": 0
+      }
+    ],
+    "images": [
+      {
+        "image": "cannons/inter_cannons_font.jpg",
+        "withWorms": true,
+        "duration": 5000
+      },
+      {
+        "image": "images/pworm_d.jpg",
+        "duration": 3000
+      }
+    ],
+    "decisions": [],
+    "translations": [
+      {
+        "locale": "en",
+        "text": "Made a poison"
+      }
+    ]
+  },
+  {
+    "name": "aworm_check_a",
+    "action": "GOTO",
+    "audio": [],
+    "images": [],
+    "decisions": [],
+    "translations": []
+  },
+  {
+    "name": "aworm_check_b",
+    "action": "GOTO",
+    "audio": [],
+    "images": [],
+    "decisions": [],
+    "translations": []
+  },
+  {
+    "name": "aworm_check_c",
+    "action": "GOTO",
+    "audio": [],
+    "images": [],
+    "decisions": [],
+    "translations": []
+  },
+  {
+    "name": "aworm_check_d",
+    "action": "GOTO",
+    "audio": [],
+    "images": [],
+    "decisions": [],
+    "translations": []
+  },
+  {
+    "name": "aworm_a_170",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "sworm_a_plus37",
+        "duration": 0
+      },
+      {
+        "audio": "sworm_a_170",
+        "duration": 0
+      },
+      {
+        "audio": "sworm_a_cont",
+        "duration": 0
+      },
+      {
+        "audio": "sworm_epidemy",
+        "duration": 0
+      }
+    ],
+    "images": [
+      {
+        "image": "cannons/inter_cannons_font.jpg",
+        "withWorms": true,
+        "duration": 2000
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "aworm_interaction_proxy"
+      }
+    ],
+    "translations": []
+  },
+  {
+    "name": "aworm_a_133",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "sworm_a_plus51",
+        "duration": 0
+      },
+      {
+        "audio": "sworm_a_133",
+        "duration": 0
+      },
+      {
+        "audio": "sworm_a_cont",
+        "duration": 0
+      }
+    ],
+    "images": [
+      {
+        "image": "cannons/inter_cannons_font.jpg",
+        "withWorms": true,
+        "duration": 2000
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "aworm_interaction_proxy"
+      }
+    ],
+    "translations": []
+  },
+  {
+    "name": "aworm_a_82",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "sworm_a_plus11",
+        "duration": 0
+      },
+      {
+        "audio": "sworm_a_82",
+        "duration": 0
+      },
+      {
+        "audio": "sworm_a_cont",
+        "duration": 0
+      }
+    ],
+    "images": [
+      {
+        "image": "cannons/inter_cannons_font.jpg",
+        "withWorms": true,
+        "duration": 2000
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "aworm_interaction_proxy"
+      }
+    ],
+    "translations": []
+  },
+  {
+    "name": "aworm_d_170",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "sworm_d_plus37",
+        "duration": 0
+      },
+      {
+        "audio": "sworm_d_170",
+        "duration": 0
+      },
+      {
+        "audio": "sworm_d_cont",
+        "duration": 0
+      },
+      {
+        "audio": "sworm_epidemy",
+        "duration": 0
+      }
+    ],
+    "images": [
+      {
+        "image": "cannons/inter_cannons_font.jpg",
+        "withWorms": true,
+        "duration": 2000
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "aworm_interaction_proxy"
+      }
+    ],
+    "translations": []
+  },
+  {
+    "name": "aworm_d_133",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "sworm_d_plus51",
+        "duration": 0
+      },
+      {
+        "audio": "sworm_d_133",
+        "duration": 0
+      },
+      {
+        "audio": "sworm_d_cont",
+        "duration": 0
+      }
+    ],
+    "images": [
+      {
+        "image": "cannons/inter_cannons_font.jpg",
+        "withWorms": true,
+        "duration": 2000
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "aworm_interaction_proxy"
+      }
+    ],
+    "translations": []
+  },
+  {
+    "name": "aworm_d_82",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "sworm_d_plus11",
+        "duration": 0
+      },
+      {
+        "audio": "sworm_d_82",
+        "duration": 0
+      },
+      {
+        "audio": "sworm_d_cont",
+        "duration": 0
+      }
+    ],
+    "images": [
+      {
+        "image": "cannons/inter_cannons_font.jpg",
+        "withWorms": true,
+        "duration": 2000
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "aworm_interaction_proxy"
+      }
+    ],
+    "translations": []
+  },
+  {
+    "name": "aworm_c_170",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "sworm_a_plus37",
+        "duration": 0
+      },
+      {
+        "audio": "sworm_a_170",
+        "duration": 0
+      },
+      {
+        "audio": "sworm_a_cont",
+        "duration": 0
+      },
+      {
+        "audio": "sworm_epidemy",
+        "duration": 0
+      }
+    ],
+    "images": [
+      {
+        "image": "cannons/inter_cannons_font.jpg",
+        "withWorms": true,
+        "duration": 2000
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "aworm_interaction_proxy"
+      }
+    ],
+    "translations": []
+  },
+  {
+    "name": "aworm_c_133",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "sworm_a_plus51",
+        "duration": 0
+      },
+      {
+        "audio": "sworm_a_133",
+        "duration": 0
+      },
+      {
+        "audio": "sworm_a_cont",
+        "duration": 0
+      }
+    ],
+    "images": [
+      {
+        "image": "cannons/inter_cannons_font.jpg",
+        "withWorms": true,
+        "duration": 2000
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "aworm_interaction_proxy"
+      }
+    ],
+    "translations": []
+  },
+  {
+    "name": "aworm_c_82",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "sworm_a_plus51",
+        "duration": 0
+      },
+      {
+        "audio": "sworm_a_82",
+        "duration": 0
+      },
+      {
+        "audio": "sworm_a_cont",
+        "duration": 0
+      }
+    ],
+    "images": [
+      {
+        "image": "cannons/inter_cannons_font.jpg",
+        "withWorms": true,
+        "duration": 2000
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "aworm_interaction_proxy"
+      }
+    ],
+    "translations": []
+  }
+]

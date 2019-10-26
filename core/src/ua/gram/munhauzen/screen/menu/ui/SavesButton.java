@@ -15,7 +15,7 @@ public class SavesButton extends MenuButton {
 
         iconSize = 55;
 
-        create("Saves", new ClickListener() {
+        create(screen.game.t("menu.saves_btn"), new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
