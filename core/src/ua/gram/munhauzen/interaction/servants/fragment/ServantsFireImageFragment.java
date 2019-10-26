@@ -75,7 +75,7 @@ public class ServantsFireImageFragment extends InteractionFragment {
 
         fireDialog = new FireDialog(interaction);
 
-        backBtn = interaction.gameScreen.game.buttonBuilder.primary("Back", new ClickListener() {
+        backBtn = interaction.gameScreen.game.buttonBuilder.primary(interaction.t("servants_inter.back_btn"), new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);

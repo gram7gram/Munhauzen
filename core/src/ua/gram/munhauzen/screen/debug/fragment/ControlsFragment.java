@@ -82,7 +82,7 @@ public class ControlsFragment extends Fragment {
             }
         });
 
-        startButton = game.buttonBuilder.danger("Start", new ClickListener() {
+        startButton = game.buttonBuilder.danger("Начать", new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
@@ -96,7 +96,7 @@ public class ControlsFragment extends Fragment {
             }
         });
 
-        PrimaryButton menuButton = game.buttonBuilder.primary("Menu", new ClickListener() {
+        PrimaryButton menuButton = game.buttonBuilder.primary("Меню", new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);

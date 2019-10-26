@@ -70,7 +70,7 @@ public class FireDialog extends Fragment {
 
         Log.i(tag, "create " + hiredServant.getName());
 
-        yesBtn = game.buttonBuilder.danger("Yes", new ClickListener() {
+        yesBtn = game.buttonBuilder.danger(game.t("servants_inter.fire_banner_yes_btn"), new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
@@ -98,7 +98,7 @@ public class FireDialog extends Fragment {
             }
         });
 
-        noBtn = game.buttonBuilder.danger("No", new ClickListener() {
+        noBtn = game.buttonBuilder.danger(game.t("servants_inter.fire_banner_no_btn"), new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
@@ -125,7 +125,7 @@ public class FireDialog extends Fragment {
             }
         });
 
-        Actor button = primaryDecision("Fire selected companion?", buttonSize);
+        Actor button = primaryDecision(game.t("servants_inter.fire_banner_title"), buttonSize);
 
         Table table = new Table();
         table.add(yesBtn).left().expandX().padRight(5)

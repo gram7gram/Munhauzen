@@ -37,10 +37,6 @@ public class ExitBanner extends Banner {
     @Override
     Table createContent() {
 
-        String[] sentences = {
-                "Do you want to exit?",
-        };
-
         float minWidth = MunhauzenGame.WORLD_WIDTH * .7f;
 
         Table content = new Table();
@@ -55,7 +51,7 @@ public class ExitBanner extends Banner {
                 Color.BLACK
         );
 
-        for (String sentence : sentences) {
+        for (String sentence : screen.game.t("exit_banner.title").split("\n")) {
             Label label = new Label(sentence, style);
             label.setAlignment(Align.center);
             label.setWrap(true);

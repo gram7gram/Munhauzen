@@ -30,10 +30,6 @@ public class RateBanner extends Banner {
     @Override
     Table createContent() {
 
-        String[] sentences = {
-                "Please, rate out application and leave a positive review",
-        };
-
         float minWidth = MunhauzenGame.WORLD_WIDTH * .7f;
 
         Table content = new Table();
@@ -48,7 +44,7 @@ public class RateBanner extends Banner {
                 Color.BLACK
         );
 
-        for (String sentence : sentences) {
+        for (String sentence : screen.game.t("rate_banner.title").split("\n")) {
             Label label = new Label(sentence, style);
             label.setAlignment(Align.center);
             label.setWrap(true);

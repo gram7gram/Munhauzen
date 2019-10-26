@@ -50,29 +50,9 @@ public class ControlsFragment extends Fragment {
 
         Log.i(tag, "create");
 
-        footerTranslations = new String[]{
-                "So listen to my story and tell me whether the world has ever seen a person more truthful than Baron Munchausen.",
-                "You can see that there used to be two rows of eleven buttons each on my waistcoat, and that now only three are left.",
-                "Nothing is more detestable than a traveller who does not adhere strictly to the truth in his stories.",
-                "I left the Assembly without another word, unable to endure any longer the company of men who could not distinguish between lying brag and the simple truth.",
-                "Let us raise our cups, dear gentlemen, friends and comrades, for this married couple, for our health and together for the comforts of society and for the unconditional veracity of each narrator!",
-                "I have plenty of equally striking proofs at the service of any who are insolent enough to doubt the truth of any of my statements.",
-                "Some travellers are apt to advance more than is perhaps strictly true; if any of the company entertain a doubt of my veracity",
-                "That’s right, I lifted both myself and my horse up into the air, and if you think it's easy, try doing it yourself.",
-                "People can doubt the truth of the stories about my real heroic deeds, which is highly insulting for a noble gentleman, who values his honor.",
-                "And if there be any one who doubts the truth of what I say, he is an infidel, and I will fight him at any time and place, and with any weapon he pleases.",
-                "All that I have related before is truth and truth, and if there  be any one so hardy as to deny  it, I am ready to fight him with  any weapon he pleases!",
-                "My dear friends and companions, have confidence in what I say, and pay  honour to the tales of Munchausen!",
-                "A traveller  has a right to relate and embellish his adventures  as he pleases, and it is very impolite to refuse  that deference and applause they deserve.",
-                "If any gentleman will say he doubts the truth of this story, I will find him a gallon of lemon juice and make him drink it at one draught.",
-                "All my adventures are truth and verity, and who dare to doubt their authenticity, let him tell me it face to face.",
-                "You see for yourselves that this strange tale must be true, however improbable it sounds, or else how could it possibly have happened?",
-                "I also would doubt it, if I hadn't seen the green iron worms and their destructive activity with my own eyes. ",
-                "If the shadow of a doubt can remain on any person’s mind, I say, let him take a voyage to Moon himself, and then he will know I am a traveller of veracity.",
-                "This is because I love traveling and I am always looking for adventures, and you sit at home and see nothing, except the four walls of your room.",
-        };
+        footerTranslations = screen.game.t("loading.footer").split("\n");
 
-        retryBtn = screen.game.buttonBuilder.primaryRose("Retry", new ClickListener() {
+        retryBtn = screen.game.buttonBuilder.primaryRose(screen.game.t("loading.retry_btn"), new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
@@ -86,7 +66,7 @@ public class ControlsFragment extends Fragment {
         });
         retryBtn.setVisible(false);
 
-        Label title = new Label("Please, wait until resources are downloaded...", new Label.LabelStyle(
+        Label title = new Label(screen.game.t("loading.title"), new Label.LabelStyle(
                 screen.game.fontProvider.getFont(FontProvider.h3),
                 Color.BLACK
         ));
@@ -139,7 +119,7 @@ public class ControlsFragment extends Fragment {
         Table titleTable = new Table();
         titleTable.add(title).width(MunhauzenGame.WORLD_WIDTH * .75f);
 
-        Label startMessage = new Label("The game will now start downloading the resources. Please, have some patience, keep the battery filled and WiFi on.", new Label.LabelStyle(
+        Label startMessage = new Label(screen.game.t("loading.message"), new Label.LabelStyle(
                 screen.game.fontProvider.getFont(FontProvider.h4),
                 Color.BLACK
         ));
@@ -148,19 +128,19 @@ public class ControlsFragment extends Fragment {
 
         String quality;
         if ("hdpi".equals(screen.game.params.dpi)) {
-            quality = "High";
+            quality = screen.game.t("loading.quality_high");
         } else {
-            quality = "Medium";
+            quality = screen.game.t("loading.quality_medium");
         }
 
-        Label qualityMessage = new Label("Recommended texture quality: " + quality, new Label.LabelStyle(
+        Label qualityMessage = new Label(screen.game.t("loading.quality_message") + ": " + quality, new Label.LabelStyle(
                 screen.game.fontProvider.getFont(FontProvider.h4),
                 Color.BLACK
         ));
         qualityMessage.setWrap(true);
         qualityMessage.setAlignment(Align.center);
 
-        PrimaryButton startBtn = screen.game.buttonBuilder.primaryRose("Download", new ClickListener() {
+        PrimaryButton startBtn = screen.game.buttonBuilder.primaryRose(screen.game.t("loading.download_btn"), new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);

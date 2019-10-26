@@ -58,7 +58,7 @@ public class OptionsBanner extends Banner {
 
         float cellMinWidth = minWidth - content.getPadLeft() - content.getPadRight();
 
-        saveBtn = screen.game.buttonBuilder.primary("Save", new ClickListener() {
+        saveBtn = screen.game.buttonBuilder.primary(screen.game.t("save_options_banner.save_btn"), new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
@@ -79,12 +79,12 @@ public class OptionsBanner extends Banner {
             }
         });
 
-        startBtn = screen.game.buttonBuilder.primary("Start", new ClickListener() {
+        startBtn = screen.game.buttonBuilder.primary(screen.game.t("save_options_banner.load_btn"), new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                Log.i(tag, "start clicked");
+                Log.i(tag, "load clicked");
 
                 try {
 
@@ -100,7 +100,7 @@ public class OptionsBanner extends Banner {
             }
         });
 
-        Label title = new Label("What do you wish?", new Label.LabelStyle(
+        Label title = new Label(screen.game.t("save_options_banner.title"), new Label.LabelStyle(
                 screen.game.fontProvider.getFont(FontProvider.h2),
                 Color.BLACK
         ));

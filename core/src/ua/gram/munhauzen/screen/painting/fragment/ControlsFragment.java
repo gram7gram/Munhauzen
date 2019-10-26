@@ -40,7 +40,7 @@ public class ControlsFragment extends Fragment {
         leftArrow = getArrowLeft();
         rightArrow = getArrowRight();
 
-        PrimaryButton menuBtn = screen.game.buttonBuilder.primary("Back", new ClickListener() {
+        PrimaryButton menuBtn = screen.game.buttonBuilder.primary(screen.game.t("painting.back_btn"), new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);

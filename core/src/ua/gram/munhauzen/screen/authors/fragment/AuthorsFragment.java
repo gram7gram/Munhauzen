@@ -219,7 +219,7 @@ public class AuthorsFragment extends Fragment {
         float scale = 1f * width / icon.getDrawable().getMinWidth();
         float height = icon.getDrawable().getMinHeight() * scale;
 
-        Label label = new Label("Share the game with your friends!", new Label.LabelStyle(
+        Label label = new Label(screen.game.t("authors.share_title"), new Label.LabelStyle(
                 screen.game.fontProvider.getFont(FontProvider.h3),
                 Color.BLACK
         ));
@@ -248,7 +248,7 @@ public class AuthorsFragment extends Fragment {
         float scale = 1f * width / icon.getDrawable().getMinWidth();
         float height = icon.getDrawable().getMinHeight() * scale;
 
-        Label label = new Label("Please, rate the app!", new Label.LabelStyle(
+        Label label = new Label(screen.game.t("authors.rate_title"), new Label.LabelStyle(
                 screen.game.fontProvider.getFont(FontProvider.h3),
                 Color.BLACK
         ));
@@ -280,8 +280,8 @@ public class AuthorsFragment extends Fragment {
         float height = icon.getDrawable().getMinHeight() * scale;
 
         String text = screen.game.params.isPro
-                ? "Thank you for the support!"
-                : "Purchase full version";
+                ? screen.game.t("authors.pro_title")
+                : screen.game.t("authors.demo_title");
 
         Label label = new Label(text, new Label.LabelStyle(
                 screen.game.fontProvider.getFont(FontProvider.h3),
@@ -298,7 +298,7 @@ public class AuthorsFragment extends Fragment {
 
     private Actor createHeader() {
 
-        Label title = new Label("Creators", new Label.LabelStyle(
+        Label title = new Label(screen.game.t("authors.title"), new Label.LabelStyle(
                 screen.game.fontProvider.getFont(FontProvider.h1),
                 Color.BLACK
         ));

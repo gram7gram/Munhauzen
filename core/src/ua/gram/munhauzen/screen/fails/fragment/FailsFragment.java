@@ -189,7 +189,7 @@ public class FailsFragment extends Fragment {
 
         Texture txt = screen.assetManager.get("fails/fv_switch_m.png", Texture.class);
 
-        Label title = new Label("Goofs", new Label.LabelStyle(
+        Label title = new Label(screen.game.t("fails.title"), new Label.LabelStyle(
                 screen.game.fontProvider.getFont(FontProvider.h1),
                 Color.BLACK
         ));

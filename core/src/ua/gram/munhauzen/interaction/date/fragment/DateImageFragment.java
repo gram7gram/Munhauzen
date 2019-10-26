@@ -56,7 +56,7 @@ public class DateImageFragment extends InteractionFragment {
 
         interaction.gameScreen.hideImageFragment();
 
-        confirmBtn = interaction.gameScreen.game.buttonBuilder.primary("Confirm", new ClickListener() {
+        confirmBtn = interaction.gameScreen.game.buttonBuilder.primary(interaction.t("date_inter.confirm_btn"), new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);

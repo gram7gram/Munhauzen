@@ -61,6 +61,10 @@ public class MunhauzenGame extends Game {
         this.params = params;
     }
 
+    public String t(String key) {
+        return params.translator.t(key);
+    }
+
     public static void pauseGame() {
         PAUSED = true;
     }

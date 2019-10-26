@@ -2,9 +2,11 @@ package ua.gram.munhauzen;
 
 import ua.gram.munhauzen.utils.AppStore;
 import ua.gram.munhauzen.utils.MemoryUsage;
+import ua.gram.munhauzen.utils.Translator;
 
 public class PlatformParams {
 
+    public Translator translator;
     public AppStore appStore;
     public MemoryUsage memoryUsage;
     public String gameHost = "http://munchausen-api.fingertips.cf";

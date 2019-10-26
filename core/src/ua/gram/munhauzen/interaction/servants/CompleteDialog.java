@@ -59,7 +59,7 @@ public class CompleteDialog extends Fragment {
 
         Log.i(tag, "create");
 
-        yesBtn = game.buttonBuilder.danger("Yes", new ClickListener() {
+        yesBtn = game.buttonBuilder.danger(game.t("servants_inter.complete_banner_yes"), new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
@@ -68,7 +68,7 @@ public class CompleteDialog extends Fragment {
             }
         });
 
-        noBtn = game.buttonBuilder.danger("No", new ClickListener() {
+        noBtn = game.buttonBuilder.danger(game.t("servants_inter.complete_banner_no"), new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
@@ -79,7 +79,7 @@ public class CompleteDialog extends Fragment {
             }
         });
 
-        Actor button = primaryDecision("Travel to Egypt?", buttonSize);
+        Actor button = primaryDecision(game.t("servants_inter.complete_banner_title"), buttonSize);
 
         Table table = new Table();
         table.add(yesBtn).left().expandX().padRight(5)

@@ -62,7 +62,7 @@ public class VictoryFragment extends Fragment {
 
         screen.game.fontProvider.loadHd();
 
-        title1 = new Label("The ", new Label.LabelStyle(
+        title1 = new Label(screen.game.t("ending.part1") + " ", new Label.LabelStyle(
                 screen.game.fontProvider.getHdFont(FontProvider.CalligraphModern2, FontProvider.hd),
                 Color.WHITE
         ));
@@ -70,7 +70,7 @@ public class VictoryFragment extends Fragment {
         title1.setAlignment(Align.center);
         title1.setVisible(false);
 
-        title2 = new Label("End", new Label.LabelStyle(
+        title2 = new Label(screen.game.t("ending.part2"), new Label.LabelStyle(
                 screen.game.fontProvider.getHdFont(FontProvider.CalligraphModern2, FontProvider.hd),
                 Color.WHITE
         ));
@@ -78,7 +78,7 @@ public class VictoryFragment extends Fragment {
         title2.setAlignment(Align.center);
         title2.setVisible(false);
 
-        Label menuLbl = new Label("menu", new Label.LabelStyle(
+        Label menuLbl = new Label(screen.game.t("ending.menu_btn"), new Label.LabelStyle(
                 screen.game.fontProvider.getFont(FontProvider.h4),
                 Color.WHITE
         ));

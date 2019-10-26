@@ -20,6 +20,10 @@ public abstract class AbstractInteraction implements Disposable {
         this.gameScreen = gameScreen;
     }
 
+    public String t(String key) {
+        return gameScreen.game.t(key);
+    }
+
     public void start() {
         Log.i(tag, "start");
 

@@ -183,7 +183,7 @@ public class SavesFragment extends Fragment {
 
         Image icon = new Image(screen.assetManager.get("saves/sv_baron.png", Texture.class));
 
-        Label title = new Label("Saves", new Label.LabelStyle(
+        Label title = new Label(screen.game.t("saves.title"), new Label.LabelStyle(
                 screen.game.fontProvider.getFont(FontProvider.h1),
                 Color.BLACK
         ));

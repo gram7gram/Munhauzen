@@ -73,7 +73,7 @@ public class ErrorScreen implements Screen {
         ));
         description.setWrap(true);
 
-        PrimaryButton button = game.buttonBuilder.primary("To menu", new ClickListener() {
+        PrimaryButton button = game.buttonBuilder.primary("В меню", new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);

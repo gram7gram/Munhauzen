@@ -6,8 +6,13 @@ const sources = [
 	'/Users/master/Projects/MunhauzenDocs/Elements/AUDIO_FINAL/Part_1',
 	'/Users/master/Projects/MunhauzenDocs/Elements/AUDIO_FINAL/Part_2',
 	'/Users/master/Projects/MunhauzenDocs/Elements/AUDIO_FINAL/Part_3',
+	'/Users/master/Projects/MunhauzenDocs/Elements/AUDIO_FINAL/Part_1_Ru',
+	'/Users/master/Projects/MunhauzenDocs/Elements/AUDIO_FINAL/Part_2_Ru',
+	'/Users/master/Projects/MunhauzenDocs/Elements/AUDIO_FINAL/Part_3_Ru',
 	'/Users/master/Projects/MunhauzenDocs/Elements/AUDIO_FINAL/Sfx',
+	'/Users/master/Projects/MunhauzenDocs/Elements/AUDIO_FINAL/Sfx_Ru',
 	'/Users/master/Projects/MunhauzenDocs/Elements/AUDIO_FINAL/Fails_Eng',
+	'/Users/master/Projects/MunhauzenDocs/Elements/AUDIO_FINAL/Fails_Ru',
 ]
 
 for (let i = 0; i < sources.length; i++) {
@@ -35,6 +40,6 @@ for (let i = 0; i < sources.length; i++) {
 		musicData.parseFile(path.join(dir, file), {duration: true}).then(metadata => {
 			const duration = Number((metadata.format.duration * 1000).toFixed(4))
 			onComplete(file, duration)
-		});
+		}).catch(e => console.error(e));
 	}
 }

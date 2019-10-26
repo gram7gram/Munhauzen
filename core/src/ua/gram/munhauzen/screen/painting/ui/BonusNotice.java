@@ -30,7 +30,7 @@ public class BonusNotice extends Group {
         stick = new Image();
         back = new Image();
 
-        Label lbl = new Label("Exhibit is not completed :(", new Label.LabelStyle(
+        Label lbl = new Label(screen.game.t("gallery.bonus_title"), new Label.LabelStyle(
                 screen.game.fontProvider.getFont(FontProvider.h4),
                 Color.BLACK
         ));

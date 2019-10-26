@@ -46,7 +46,7 @@ public class LoadOptionBanner extends Banner {
 
         float cellMinWidth = minWidth - content.getPadLeft() - content.getPadRight();
 
-        PrimaryButton saveBtn = screen.game.buttonBuilder.primary("Yes", new ClickListener() {
+        PrimaryButton saveBtn = screen.game.buttonBuilder.primary(screen.game.t("save_load_banner.yes_btn"), new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
@@ -67,7 +67,7 @@ public class LoadOptionBanner extends Banner {
             }
         });
 
-        PrimaryButton startBtn = screen.game.buttonBuilder.primary("No", new ClickListener() {
+        PrimaryButton startBtn = screen.game.buttonBuilder.primary(screen.game.t("save_load_banner.no_btn"), new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
@@ -88,7 +88,7 @@ public class LoadOptionBanner extends Banner {
             }
         });
 
-        Label title = new Label("The story will start from selected save.\nProceed?", new Label.LabelStyle(
+        Label title = new Label(screen.game.t("save_load_banner.title"), new Label.LabelStyle(
                 screen.game.fontProvider.getFont(FontProvider.h2),
                 Color.BLACK
         ));

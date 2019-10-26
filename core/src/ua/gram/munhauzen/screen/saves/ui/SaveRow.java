@@ -105,7 +105,7 @@ public class SaveRow extends Table {
             )));
 
         } else {
-            text += "Empty save";
+            text += screen.game.t("saves.empty_save_title");
 
             date.setText("");
             icon.setDrawable(new SpriteDrawable(new Sprite(

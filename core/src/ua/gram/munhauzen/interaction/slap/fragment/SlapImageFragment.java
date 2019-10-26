@@ -48,7 +48,7 @@ public class SlapImageFragment extends InteractionFragment {
 
         Log.i(tag, "create");
 
-        PrimaryButton btn = interaction.gameScreen.game.buttonBuilder.primary("Slap him!", new ClickListener() {
+        PrimaryButton btn = interaction.gameScreen.game.buttonBuilder.primary(interaction.t("slap_inter.start_btn"), new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);

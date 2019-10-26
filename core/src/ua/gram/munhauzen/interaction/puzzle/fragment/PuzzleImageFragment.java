@@ -70,7 +70,7 @@ public class PuzzleImageFragment extends InteractionFragment {
         Texture tex10 = interaction.assetManager.get("puzzle/inter_puzzle_rope_1.png", Texture.class);
         Texture tex12 = interaction.assetManager.get("puzzle/inter_puzzle_fond_2.png", Texture.class);
 
-        resetButton = interaction.gameScreen.game.buttonBuilder.primary("Again", new ClickListener() {
+        resetButton = interaction.gameScreen.game.buttonBuilder.primary(interaction.t("puzzle_inter.retry_btn"), new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);

@@ -47,7 +47,7 @@ public class LionsImageFragment extends InteractionFragment {
 
         interaction.gameScreen.hideImageFragment();
 
-        attackBtn = interaction.gameScreen.game.buttonBuilder.primary("Attack", new ClickListener() {
+        attackBtn = interaction.gameScreen.game.buttonBuilder.primary(interaction.t("lions_inter.attack_btn"), new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);

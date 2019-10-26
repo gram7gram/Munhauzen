@@ -14,29 +14,13 @@ obb/*.json
 /ios/robovm-build/
 
 ## Android
-/android-ru/libs/armeabi/
-/android-ru/libs/armeabi-v7a/
-/android-ru/libs/arm64-v8a/
-/android-ru/libs/x86/
-/android-ru/libs/x86_64/
-/android-ru/gen/
-/android-ru/build
-
-/android-ua/libs/armeabi/
-/android-ua/libs/armeabi-v7a/
-/android-ua/libs/arm64-v8a/
-/android-ua/libs/x86/
-/android-ua/libs/x86_64/
-/android-ua/gen/
-/android-ua/build
-
-/android-en/libs/armeabi/
-/android-en/libs/armeabi-v7a/
-/android-en/libs/arm64-v8a/
-/android-en/libs/x86/
-/android-en/libs/x86_64/
-/android-en/gen/
-/android-en/build
+/android-*/libs/armeabi/
+/android-*/libs/armeabi-v7a/
+/android-*/libs/arm64-v8a/
+/android-*/libs/x86/
+/android-*/libs/x86_64/
+/android-*/gen/
+/android-*/build
 
 ## Gradle
 

@@ -38,7 +38,7 @@ public class LogoScreen implements Screen {
 
         Image logo = new Image(new Texture("logo_500.png"));
 
-        Label title = new Label("creative studio\n\"Fingertips and Company\"\npresents", new Label.LabelStyle(
+        Label title = new Label(game.t("logo.title"), new Label.LabelStyle(
                 game.fontProvider.getFont(FontProvider.h2),
                 Color.BLACK
         ));

@@ -35,10 +35,6 @@ public class ShareBanner extends Banner {
     @Override
     Table createContent() {
 
-        String[] sentences = {
-                "Tell your friends about audio-book",
-        };
-
         float minWidth = MunhauzenGame.WORLD_WIDTH * .9f;
 
         Table content = new Table();
@@ -53,7 +49,7 @@ public class ShareBanner extends Banner {
                 Color.BLACK
         );
 
-        for (String sentence : sentences) {
+        for (String sentence : screen.game.t("share_banner.title").split("\n")) {
             Label label = new Label(sentence, style);
             label.setAlignment(Align.center);
             label.setWrap(true);
@@ -106,7 +102,7 @@ public class ShareBanner extends Banner {
     private Actor getFbBtn() {
         Texture txt = screen.assetManager.get("menu/fb_icon.jpg", Texture.class);
 
-        Label label = new Label("via Facebook", new Label.LabelStyle(
+        Label label = new Label(screen.game.t("share_banner.fb"), new Label.LabelStyle(
                 screen.game.fontProvider.getFont(FontProvider.h5),
                 Color.WHITE
         ));
@@ -140,7 +136,7 @@ public class ShareBanner extends Banner {
     private Actor getTwBtn() {
         Texture txt = screen.assetManager.get("menu/twitter_icon.jpg", Texture.class);
 
-        Label label = new Label("via Twitter", new Label.LabelStyle(
+        Label label = new Label(screen.game.t("share_banner.tw"), new Label.LabelStyle(
                 screen.game.fontProvider.getFont(FontProvider.h5),
                 Color.WHITE
         ));
@@ -172,7 +168,7 @@ public class ShareBanner extends Banner {
     private Actor getVkBtn() {
         Texture txt = screen.assetManager.get("menu/vk_icon.jpg", Texture.class);
 
-        Label label = new Label("via Vkontakte", new Label.LabelStyle(
+        Label label = new Label(screen.game.t("share_banner.vk"), new Label.LabelStyle(
                 screen.game.fontProvider.getFont(FontProvider.h5),
                 Color.WHITE
         ));
@@ -205,7 +201,7 @@ public class ShareBanner extends Banner {
     private Actor getInstaBtn() {
         Texture txt = screen.assetManager.get("menu/instagram_icon.jpg", Texture.class);
 
-        Label label = new Label("via Instagram", new Label.LabelStyle(
+        Label label = new Label(screen.game.t("share_banner.in"), new Label.LabelStyle(
                 screen.game.fontProvider.getFont(FontProvider.h5),
                 Color.WHITE
         ));

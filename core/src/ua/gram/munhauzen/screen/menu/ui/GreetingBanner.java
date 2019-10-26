@@ -34,12 +34,6 @@ public class GreetingBanner extends Banner {
     @Override
     Table createContent() {
 
-        String[] sentences = {
-                "Greetings!",
-                "Our team had put strength and soul into this audiobook! We hope that our it will bring a lot of wonderful and positive emotions to you, and let a smile lit up your face!",
-                "Listen and enjoy!",
-        };
-
         float minWidth = MunhauzenGame.WORLD_WIDTH * .9f;
 
         Table content = new Table();
@@ -54,7 +48,7 @@ public class GreetingBanner extends Banner {
                 Color.BLACK
         );
 
-        for (String sentence : sentences) {
+        for (String sentence : screen.game.t("greeting_banner.title").split("\n")) {
             Label label = new Label(sentence, style);
             label.setAlignment(Align.center);
             label.setWrap(true);

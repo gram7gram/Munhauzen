@@ -89,21 +89,21 @@ public class BalloonsImageFragment extends InteractionFragment {
                 cloudSize, cloudSize / 2,
                 -cloudSize - 100, MunhauzenGame.WORLD_HEIGHT * .75f);
 
-        Label title = new Label("Catch them all!", new Label.LabelStyle(
+        Label title = new Label(interaction.t("balloons_inter.title"), new Label.LabelStyle(
                 interaction.gameScreen.game.fontProvider.getFont(FontProvider.h2),
                 Color.BLACK
         ));
         title.setWrap(true);
         title.setAlignment(Align.center);
 
-        Label restartTitle = new Label("One was missed! Eh!", new Label.LabelStyle(
+        Label restartTitle = new Label(interaction.t("balloons_inter.on_miss_title"), new Label.LabelStyle(
                 interaction.gameScreen.game.fontProvider.getFont(FontProvider.h2),
                 Color.BLACK
         ));
         restartTitle.setWrap(true);
         restartTitle.setAlignment(Align.center);
 
-        Label winTitle = new Label("Nice! Full score!", new Label.LabelStyle(
+        Label winTitle = new Label(interaction.t("balloons_inter.completed_title"), new Label.LabelStyle(
                 interaction.gameScreen.game.fontProvider.getFont(FontProvider.h2),
                 Color.BLACK
         ));
@@ -122,7 +122,7 @@ public class BalloonsImageFragment extends InteractionFragment {
         cloud2.start();
         cloud3.start();
 
-        resetButton = interaction.gameScreen.game.buttonBuilder.primary("Retry", new ClickListener() {
+        resetButton = interaction.gameScreen.game.buttonBuilder.primary(interaction.t("balloons_inter.retry_btn"), new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
@@ -141,7 +141,7 @@ public class BalloonsImageFragment extends InteractionFragment {
             }
         });
 
-        PrimaryButton completeButton = interaction.gameScreen.game.buttonBuilder.primary("Continue", new ClickListener() {
+        PrimaryButton completeButton = interaction.gameScreen.game.buttonBuilder.primary(interaction.t("balloons_inter.continue_btn"), new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);

@@ -186,7 +186,7 @@ public class GalleryFragment extends Fragment {
 
         Image icon = new Image(screen.assetManager.get("gallery/gv_painting.png", Texture.class));
 
-        Label title = new Label("Gallery", new Label.LabelStyle(
+        Label title = new Label(screen.game.t("gallery.title"), new Label.LabelStyle(
                 screen.game.fontProvider.getFont(FontProvider.h1),
                 Color.BLACK
         ));

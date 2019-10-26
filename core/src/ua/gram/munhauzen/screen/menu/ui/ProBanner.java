@@ -34,11 +34,6 @@ public class ProBanner extends Banner {
     @Override
     Table createContent() {
 
-        String[] sentences = {
-                "Thank you for purchasing the full version!",
-                "You are breathtaking"
-        };
-
         float minWidth = MunhauzenGame.WORLD_WIDTH * .7f;
 
         Table content = new Table();
@@ -53,7 +48,7 @@ public class ProBanner extends Banner {
                 Color.BLACK
         );
 
-        for (String sentence : sentences) {
+        for (String sentence : screen.game.t("pro_banner.title").split("\n")) {
             Label label = new Label(sentence, style);
             label.setAlignment(Align.center);
             label.setWrap(true);
