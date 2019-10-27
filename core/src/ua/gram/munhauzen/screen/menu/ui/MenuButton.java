@@ -27,19 +27,33 @@ public abstract class MenuButton extends Stack {
 
     final MenuScreen screen;
     float iconSize = 60, buttonSize;
+    int textSize;
     AnimatedImage animation;
     public boolean hasLock;
     Actor lock;
     Image back;
     Table backContainer;
-    final SpriteDrawable enabledBack;
+    final SpriteDrawable drawable;
 
     public MenuButton(MenuScreen screen) {
         this.screen = screen;
 
-        buttonSize = MunhauzenGame.WORLD_WIDTH * .45f;
+        //подогнать размер иконки
 
-        enabledBack = new SpriteDrawable(new Sprite(
+        switch (screen.game.params.locale) {
+            case "en":
+                buttonSize = MunhauzenGame.WORLD_WIDTH * .45f;
+                textSize = FontProvider.h3;
+                iconSize = 60;
+                break;
+            case "ru":
+                buttonSize = MunhauzenGame.WORLD_WIDTH * .55f;
+                textSize = FontProvider.h4;
+                iconSize = 73;
+                break;
+        }
+
+        drawable = new SpriteDrawable(new Sprite(
                 screen.assetManager.get("menu/mmv_btn.png", Texture.class)
         ));
     }
@@ -51,7 +65,7 @@ public abstract class MenuButton extends Stack {
 
         back = new FitImage();
 
-        BitmapFont font = screen.game.fontProvider.getFont(FontProvider.h3);
+        BitmapFont font = screen.game.fontProvider.getFont(textSize);
 
         Label label = new Label(text, new Label.LabelStyle(font, Color.BLACK));
         label.setAlignment(Align.center);
@@ -99,7 +113,7 @@ public abstract class MenuButton extends Stack {
             }
         });
 
-        setBackground(enabledBack);
+        setBackground(drawable);
     }
 
     private void setBackground(SpriteDrawable drawable) {

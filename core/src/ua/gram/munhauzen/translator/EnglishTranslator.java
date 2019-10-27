@@ -1,10 +1,8 @@
-package ua.gram.munhauzen;
+package ua.gram.munhauzen.translator;
 
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import java.util.HashMap;
-
-import ua.gram.munhauzen.utils.Translator;
 
 public class EnglishTranslator implements Translator {
 
@@ -51,6 +49,10 @@ public class EnglishTranslator implements Translator {
         map.put("expansion_download.canceled", "Download was canceled");
         map.put("expansion_download.low_memory", "Not enough memory. Please, free some space for the game");
         map.put("expansion_download.completed", "Resources are loaded!");
+        map.put("expansion_download.extracting_part", "Extracting part __NUM__/__TOTAL__ ...");
+        map.put("expansion_download.downloading_part", "Downloading part __NUM__/__TOTAL__ ...");
+        map.put("expansion_download.downloading_part_failed", "Downloading part __NUM__ has failed");
+        map.put("expansion_download.extracting_part_failed", "Extracting part __NUM__ has failed");
         map.put("balloons_inter.retry_btn", "Retry");
         map.put("balloons_inter.continue_btn", "Continue");
         map.put("balloons_inter.title", "Catch them all!");
@@ -110,6 +112,7 @@ public class EnglishTranslator implements Translator {
         map.put("authors.share_title", "Share the game with your friends!");
         map.put("authors.rate_title", "Please, rate the app!");
         map.put("authors.title", "Creators");
+        map.put("authors.content", "");
         map.put("fails.title", "Goofs");
         map.put("gallery.title", "Gallery");
         map.put("gallery.bonus_title", "Exhibit is not completed :(");

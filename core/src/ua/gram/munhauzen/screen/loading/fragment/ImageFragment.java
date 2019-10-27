@@ -207,7 +207,7 @@ public class ImageFragment extends InteractionFragment {
 
                 ++count;
 
-                if (count == items.length) count = 0;
+                if (count >= items.length) count = 0;
 
                 Hat next = items[count];
 
@@ -245,7 +245,7 @@ public class ImageFragment extends InteractionFragment {
 
                 ++count;
 
-                if (count == items.length) count = 0;
+                if (count >= items.length) count = 0;
 
                 RotatingObject next = items[count];
                 if (isMounted()) {

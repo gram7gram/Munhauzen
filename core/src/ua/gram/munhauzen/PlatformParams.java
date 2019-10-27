@@ -1,8 +1,8 @@
 package ua.gram.munhauzen;
 
+import ua.gram.munhauzen.translator.Translator;
 import ua.gram.munhauzen.utils.AppStore;
 import ua.gram.munhauzen.utils.MemoryUsage;
-import ua.gram.munhauzen.utils.Translator;
 
 public class PlatformParams {
 

@@ -168,22 +168,6 @@ public class AuthorsFragment extends Fragment {
         rows.align(Align.top);
         rows.pad(10, 100, 10, 100);
 
-        String[] sentences = {
-                "Приносим большую благодарность художнику Андрею Кулагину за его прекрасные усердные работы лайнером, акварелью, рукой и головой.",
-
-                "Денису Шевченку и Питеру Хайдену за великолепную начитку роли Мюнхаузена , а Нате Басинских – его внучки.",
-
-                "Также приношу большую благодарность Владу Подопригоре и Денису Лукьянчуку за режиссуркую помощь своими фантастическими мозгами при составлении сценария и тщательное тестирование аудиокниги.",
-
-                "Спасибо Илье Кошевому за аппаратуру – а именно за микрофон и звуковую карту, которые он вечно одалживал для записи Наты и второстепенных персонажей.",
-
-                "Благодарочка Руслану КАКОМУ-то за его услуги звукорежиссера.",
-
-                "Ну и спасибо, конечно же, самому Распре!",
-
-                "Великолепно!"
-        };
-
         float widthLimit = MunhauzenGame.WORLD_WIDTH - 20 - rows.getPadLeft() - rows.getPadRight();
 
         Label.LabelStyle style = new Label.LabelStyle(
@@ -191,7 +175,7 @@ public class AuthorsFragment extends Fragment {
                 Color.BLACK
         );
 
-        for (String sentence : sentences) {
+        for (String sentence : screen.game.t("authors.content").split("\n")) {
 
             Label label = new Label(sentence, style);
             label.setWrap(true);

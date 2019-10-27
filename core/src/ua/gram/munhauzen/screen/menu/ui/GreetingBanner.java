@@ -48,7 +48,7 @@ public class GreetingBanner extends Banner {
                 Color.BLACK
         );
 
-        for (String sentence : screen.game.t("greeting_banner.title").split("\n")) {
+        for (String sentence : screen.game.t("greetings_banner.title").split("\n")) {
             Label label = new Label(sentence, style);
             label.setAlignment(Align.center);
             label.setWrap(true);

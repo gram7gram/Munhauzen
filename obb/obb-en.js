@@ -165,7 +165,7 @@ DPIs.forEach(DPI => {
             }
         }
 
-        console.log(` => Completed ${VERSION_NAME}!`)
+        console.log(`=> Completed ${VERSION_NAME}!`)
 
         fs.writeFileSync(`./${VERSION_NAME}-expansion.json`, JSON.stringify(expansion))
 

@@ -285,7 +285,7 @@ public class ControlsFragment extends Fragment {
 
         ++currentFooterTranslation;
 
-        if (currentFooterTranslation == footerTranslations.length) {
+        if (currentFooterTranslation >= footerTranslations.length) {
             currentFooterTranslation = 0;
         }
 

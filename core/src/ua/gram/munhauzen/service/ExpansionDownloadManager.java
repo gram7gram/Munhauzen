@@ -492,19 +492,25 @@ public class ExpansionDownloadManager implements Disposable {
             for (Part item : expansionInfo.parts.items) {
 
                 if (item.isDownloading) {
-                    progressText = "Downloading part " + item.part + "/" + expansionInfo.parts.count + "...";
+                    progressText = game.t("expansion_download.downloading_part")
+                            .replace("__NUM__", item.part + "")
+                            .replace("__TOTAL__", expansionInfo.parts.count + "");
                 }
 
                 if (item.isExtracting) {
-                    progressText = "Extracting part " + item.part + "/" + expansionInfo.parts.count + "...";
+                    progressText = game.t("expansion_download.extracting_part")
+                            .replace("__NUM__", item.part + "")
+                            .replace("__TOTAL__", expansionInfo.parts.count + "");
                 }
 
                 if (item.isDownloadFailure) {
-                    progressText = "Downloading part #" + item.part + " failed";
+                    progressText = game.t("expansion_download.downloading_part_failed")
+                            .replace("__NUM__", item.part + "");
                 }
 
                 if (item.isExtractFailure) {
-                    progressText = "Extracting part #" + item.part + " failed";
+                    progressText = game.t("expansion_download.extracting_part_failed")
+                            .replace("__NUM__", item.part + "");
                 }
 
                 item.isCompleted = item.isDownloaded && item.isExtracted;

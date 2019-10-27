@@ -1,4 +1,4 @@
-package ua.gram.munhauzen.utils;
+package ua.gram.munhauzen.translator;
 
 public interface Translator {
 

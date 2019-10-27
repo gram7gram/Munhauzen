@@ -6,6 +6,7 @@ import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 
 import ru.fingertips.munchausen.pro.BuildConfig;
+import ua.gram.munhauzen.translator.RussianTranslator;
 
 public class AndroidLauncher extends AndroidApplication {
 

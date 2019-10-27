@@ -1,10 +1,8 @@
-package ua.gram.munhauzen;
+package ua.gram.munhauzen.translator;
 
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import java.util.HashMap;
-
-import ua.gram.munhauzen.utils.Translator;
 
 public class RussianTranslator implements Translator {
 
@@ -37,7 +35,7 @@ public class RussianTranslator implements Translator {
         map.put("loading.retry_btn", "Повторить");
         map.put("loading.download_btn", "Скачать");
         map.put("loading.title", "Загрузка ресурсов");
-        map.put("loading.message", "Сейчас начнеться скачивание необходимых файлов для игры. Пожалуйста,  не прерывайте Wi-Fi соединения и дождитесь загрузки.");
+        map.put("loading.message", "Сейчас начнеться скачивание необходимых файлов для игры. Пожалуйста, не прерывайте Wi-Fi соединения и дождитесь загрузки.");
         map.put("loading.quality_message", "Рекомендуемое качество текстур");
         map.put("loading.quality_high", "Высокое");
         map.put("loading.quality_medium", "Среднее");
@@ -51,6 +49,10 @@ public class RussianTranslator implements Translator {
         map.put("expansion_download.canceled", "Скачивание было отменено");
         map.put("expansion_download.low_memory", "Нехватает памяти, пожалуйста освободите место");
         map.put("expansion_download.completed", "Все файлы были закачаны!");
+        map.put("expansion_download.extracting_part", "Распаковка части __NUM__/__TOTAL__ ...");
+        map.put("expansion_download.downloading_part", "Скачивание части __NUM__/__TOTAL__ ...");
+        map.put("expansion_download.downloading_part_failed", "Скачивание части __NUM__ не успешно");
+        map.put("expansion_download.extracting_part_failed", "Распаковка части __NUM__ не успешна");
         map.put("balloons_inter.retry_btn", "Повторить");
         map.put("balloons_inter.continue_btn", "Продолжить");
         map.put("balloons_inter.title", "Слови их все!");
@@ -59,7 +61,7 @@ public class RussianTranslator implements Translator {
         map.put("date_inter.confirm_btn", "Подтвердить");
         map.put("date_inter.banner_yes_btn", "Да");
         map.put("date_inter.banner_no_btn", "Нет");
-        map.put("date_inter.fail_banner_title", "");
+        map.put("date_inter.fail_banner_title", "Выбрать другую дату?");
         map.put("date_inter.fail_banner_yes", "Да");
         map.put("date_inter.fail_banner_no", "Нет");
         map.put("lions_inter.attack_btn", "Аттаковать!");
@@ -68,14 +70,14 @@ public class RussianTranslator implements Translator {
         map.put("servants_inter.goto_servants_btn", "Слуги");
         map.put("servants_inter.banner_yes_btn", "Да");
         map.put("servants_inter.banner_no_btn", "Нет");
-        map.put("servants_inter.fire_banner_title", "");
+        map.put("servants_inter.fire_banner_title", "Уволить компаньйона?");
         map.put("servants_inter.fire_banner_yes_btn", "Да");
         map.put("servants_inter.fire_banner_no_btn", "Нет");
-        map.put("servants_inter.hire_banner_title", "");
+        map.put("servants_inter.hire_banner_title", "Нанять его в свою свиту?");
         map.put("servants_inter.hire_banner_yes_btn", "Да");
         map.put("servants_inter.hire_banner_no_btn", "Нет");
         map.put("servants_inter.discard_btn", "Уволить");
-        map.put("servants_inter.complete_banner_title", "");
+        map.put("servants_inter.complete_banner_title", "Отправится в Египет?");
         map.put("servants_inter.complete_banner_yes", "Да");
         map.put("servants_inter.complete_banner_no", "Нет");
         map.put("slap_inter.start_btn", "Врежь ему!");
@@ -110,8 +112,16 @@ public class RussianTranslator implements Translator {
         map.put("authors.share_title", "Делитесь игрой с друзьями!");
         map.put("authors.rate_title", "Пожалуйста, оцените приложение!");
         map.put("authors.title", "Авторы");
-        map.put("authors.pro_title", "");
-        map.put("authors.demo_title", "");
+        map.put("authors.pro_title", "Спасибо Вам за поддержку!");
+        map.put("authors.demo_title", "Купите полную версию");
+        map.put("authors.content", "Приносим большую благодарность художнику Андрею Кулагину за его прекрасные усердные работы лайнером, акварелью, рукой и головой."
+                + "\nДенису Шевченку и Питеру Хайдену за великолепную начитку роли Мюнхаузена , а Нате Басинских – его внучки."
+                + "\nТакже приношу большую благодарность Владу Подопригоре и Денису Лукьянчуку за режиссуркую помощь своими фантастическими мозгами при составлении сценария и тщательное тестирование аудиокниги."
+                + "\nСпасибо Илье Кошевому за аппаратуру – а именно за микрофон и звуковую карту, которые он вечно одалживал для записи Наты и второстепенных персонажей."
+                + "\nБлагодарочка Руслану КАКОМУ-то за его услуги звукорежиссера."
+                + "\nНу и спасибо, конечно же, самому Распре!"
+                + "\nВеликолепно!"
+        );
         map.put("fails.title", "Неудачи");
         map.put("gallery.title", "Галерея");
         map.put("gallery.bonus_title", "Картина не окончена :(");
@@ -124,7 +134,7 @@ public class RussianTranslator implements Translator {
         map.put("share_banner.vk", "Вконтакте");
         map.put("share_banner.in", "Инстаграм");
         map.put("saves.title", "Сохранения");
-        map.put("saves.empty_save_title", "");
+        map.put("saves.empty_save_title", "Пустой слот");
         map.put("menu.authors_btn", "Авторы");
         map.put("menu.continue_btn", "Продолжить");
         map.put("menu.gallery_btn", "Галерея");

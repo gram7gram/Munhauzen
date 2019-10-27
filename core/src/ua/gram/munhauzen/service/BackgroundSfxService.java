@@ -42,7 +42,7 @@ public class BackgroundSfxService {
 
         ++index;
 
-        if (index == sfx.length) index = 0;
+        if (index >= sfx.length) index = 0;
 
         prepareAndPlay(sfx[index]);
     }
