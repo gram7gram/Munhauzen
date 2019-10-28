@@ -24,7 +24,7 @@ DPIs.forEach(DPI => {
         "/Part_1",
         "/Part_2",
         "/Part_3",
-        "/Sfx",
+        "/Sfx_Eng",
         "/Fails_Eng",
     ]
 

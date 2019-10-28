@@ -13,8 +13,6 @@ public class AuthorsButton extends MenuButton {
     public AuthorsButton(final MenuScreen screen) {
         super(screen);
 
-        iconSize = 40;
-
         create(screen.game.t("menu.authors_btn"), new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

@@ -13,8 +13,6 @@ public class ContinueButton extends MenuButton {
     public ContinueButton(final MenuScreen screen) {
         super(screen);
 
-        iconSize = 90;
-
         create(screen.game.t("menu.continue_btn"), new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

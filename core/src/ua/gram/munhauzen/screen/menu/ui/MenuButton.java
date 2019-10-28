@@ -26,7 +26,9 @@ import ua.gram.munhauzen.ui.FitImage;
 public abstract class MenuButton extends Stack {
 
     final MenuScreen screen;
-    float iconSize = 60, buttonSize;
+    float buttonWidth, buttonHeight;
+    float iconWidth, iconHeight;
+    float lockWidth, lockHeight;
     int textSize;
     AnimatedImage animation;
     public boolean hasLock;
@@ -38,20 +40,8 @@ public abstract class MenuButton extends Stack {
     public MenuButton(MenuScreen screen) {
         this.screen = screen;
 
-        //подогнать размер иконки
-
-        switch (screen.game.params.locale) {
-            case "en":
-                buttonSize = MunhauzenGame.WORLD_WIDTH * .45f;
-                textSize = FontProvider.h3;
-                iconSize = 60;
-                break;
-            case "ru":
-                buttonSize = MunhauzenGame.WORLD_WIDTH * .55f;
-                textSize = FontProvider.h4;
-                iconSize = 73;
-                break;
-        }
+        buttonWidth = MunhauzenGame.WORLD_WIDTH * .5f;
+        textSize = FontProvider.textSize45;
 
         drawable = new SpriteDrawable(new Sprite(
                 screen.assetManager.get("menu/mmv_btn.png", Texture.class)
@@ -64,15 +54,19 @@ public abstract class MenuButton extends Stack {
         clearChildren();
 
         back = new FitImage();
+        backContainer = new Table();
+        backContainer.add(back)
+                .grow();
+
+        setBackground(drawable);
+
+        lockHeight = buttonHeight * .5f;
+        iconHeight = buttonHeight * .3f;
 
         BitmapFont font = screen.game.fontProvider.getFont(textSize);
 
         Label label = new Label(text, new Label.LabelStyle(font, Color.BLACK));
         label.setAlignment(Align.center);
-
-        backContainer = new Table();
-        backContainer.add(back)
-                .grow();
 
         Table labelContainer = new Table();
         labelContainer.add(label)
@@ -112,21 +106,18 @@ public abstract class MenuButton extends Stack {
                 }, 1);
             }
         });
-
-        setBackground(drawable);
     }
 
     private void setBackground(SpriteDrawable drawable) {
 
         back.setDrawable(drawable);
 
-        float width = buttonSize;
-        float scale = 1f * width / drawable.getMinWidth();
-        float height = scale * drawable.getMinHeight();
+        float scale = 1f * buttonWidth / drawable.getMinWidth();
+        buttonHeight = scale * drawable.getMinHeight();
 
         backContainer.getCell(back)
-                .width(width)
-                .height(height);
+                .width(buttonWidth)
+                .height(buttonHeight);
     }
 
     @Override
@@ -142,15 +133,14 @@ public abstract class MenuButton extends Stack {
 
         animation = createAnimationIcon();
 
-        float width = screen.game.params.scaleFactor * iconSize;
-        float scale = width / animation.getCurrentDrawable().getMinWidth();
-        float height = scale * animation.getCurrentDrawable().getMinHeight();
+        float scale = 1f * iconHeight / animation.getCurrentDrawable().getMinHeight();
+        iconWidth = scale * animation.getCurrentDrawable().getMinWidth();
 
         Table table = new Table();
         table.add(animation).expand()
                 .align(Align.top)
-                .width(width)
-                .height(height);
+                .width(iconWidth)
+                .height(iconHeight);
 
         return table;
     }
@@ -161,15 +151,14 @@ public abstract class MenuButton extends Stack {
 
         Image img = new Image(txt);
 
-        float width = screen.game.params.scaleFactor * iconSize * .9f;
-        float scale = 1f * width / txt.getWidth();
-        float height = scale * txt.getHeight();
+        float scale = 1f * lockHeight / txt.getHeight();
+        lockWidth = scale * txt.getWidth();
 
         Table table = new Table();
         table.add(img).expand()
                 .align(Align.bottomRight)
-                .width(width)
-                .height(height);
+                .width(lockWidth)
+                .height(lockHeight);
 
         return table;
     }

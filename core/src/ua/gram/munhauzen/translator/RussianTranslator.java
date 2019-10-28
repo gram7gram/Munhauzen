@@ -140,7 +140,7 @@ public class RussianTranslator implements Translator {
         map.put("menu.gallery_btn", "Галерея");
         map.put("menu.goofs_btn", "Неудачи");
         map.put("menu.saves_btn", "Сохранения");
-        map.put("menu.start_btn", "Новый рассказ");
+        map.put("menu.start_btn", "Начать");
         map.put("painting.back_btn", "Назад");
 
     }
