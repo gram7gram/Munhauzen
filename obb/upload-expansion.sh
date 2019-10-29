@@ -42,24 +42,26 @@ function deploy() {
 
     cd ~/Projects/munhauzen-web/
 
-    git add api && git commit -m "#master hotfix" && git push origin master
+    git add api/src/server/resources \
+        && git commit -m "#master deploy expansion" \
+        && git push origin master
 
     bash deploy.sh
 
 }
 
-#syncLocal "$VERSION-en-mdpi"
-#syncLocal "$VERSION-en-hdpi"
+syncLocal "$VERSION-en-mdpi"
+syncLocal "$VERSION-en-hdpi"
 
 syncLocal "$VERSION-ru-mdpi"
 syncLocal "$VERSION-ru-hdpi"
 
-#syncRemote "$VERSION-ru-mdpi"
-#syncRemote "$VERSION-ru-hdpi"
+syncRemote "$VERSION-en-mdpi"
+syncRemote "$VERSION-en-hdpi"
 
-#syncRemote "$VERSION-en-mdpi"
-#syncRemote "$VERSION-en-hdpi"
+syncRemote "$VERSION-ru-mdpi"
+syncRemote "$VERSION-ru-hdpi"
 
-#deploy
+deploy
 
 echo "[+] Completed!"
