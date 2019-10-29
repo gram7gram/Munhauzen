@@ -32,7 +32,7 @@ public class AudioService implements Disposable {
 
     public AudioService(MunhauzenGame game) {
         this.game = game;
-        assetManager = new ExpansionAssetManager();
+        assetManager = new ExpansionAssetManager(game);
         activeAudio = new HashMap<>();
     }
 
@@ -49,7 +49,7 @@ public class AudioService implements Disposable {
             item.duration = audio.duration;
         }
 
-        FileHandle file = ExternalFiles.getExpansionAudio(audio);
+        FileHandle file = ExternalFiles.getExpansionAudio(game.params, audio);
         if (!file.exists()) {
             throw new GdxRuntimeException("Audio file does not exist " + audio.name + " at " + file.path());
         }
@@ -87,7 +87,7 @@ public class AudioService implements Disposable {
             item.duration = audio.duration;
         }
 
-        FileHandle file = ExternalFiles.getExpansionAudio(audio);
+        FileHandle file = ExternalFiles.getExpansionAudio(game.params, audio);
         if (!file.exists()) {
             throw new GdxRuntimeException("Audio file does not exist " + audio.name + " at " + file.path());
         }
@@ -162,7 +162,7 @@ public class AudioService implements Disposable {
             if (resource == null) {
                 Audio audio = AudioRepository.find(game.gameState, storyAudio.audio);
 
-                FileHandle file = ExternalFiles.getExpansionAudio(audio);
+                FileHandle file = ExternalFiles.getExpansionAudio(game.params, audio);
                 if (!file.exists()) {
                     throw new GdxRuntimeException("Audio file does not exist " + audio.name + " at " + file.path());
                 }

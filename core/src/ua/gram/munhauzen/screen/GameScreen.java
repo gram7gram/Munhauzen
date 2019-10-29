@@ -112,7 +112,7 @@ public class GameScreen implements Screen {
 
         background = game.internalAssetManager.get("p0.jpg", Texture.class);
 
-        assetManager = new ExpansionAssetManager();
+        assetManager = new ExpansionAssetManager(game);
         progressBarFragment = new ProgressBarFragment(this);
 
         audioService = new GameAudioService(this);

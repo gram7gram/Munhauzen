@@ -41,7 +41,6 @@ public abstract class MenuButton extends Stack {
         this.screen = screen;
 
         buttonWidth = MunhauzenGame.WORLD_WIDTH * .5f;
-        textSize = FontProvider.textSize45;
 
         drawable = new SpriteDrawable(new Sprite(
                 screen.assetManager.get("menu/mmv_btn.png", Texture.class)
@@ -55,13 +54,20 @@ public abstract class MenuButton extends Stack {
 
         back = new FitImage();
         backContainer = new Table();
-        backContainer.add(back)
-                .grow();
+        backContainer.add(back).grow();
 
         setBackground(drawable);
 
         lockHeight = buttonHeight * .5f;
         iconHeight = buttonHeight * .3f;
+
+        if (text.length() > 10) {
+            textSize = FontProvider.h5;
+        } else if (text.length() > 7) {
+            textSize = FontProvider.h4;
+        } else {
+            textSize = FontProvider.h3;
+        }
 
         BitmapFont font = screen.game.fontProvider.getFont(textSize);
 

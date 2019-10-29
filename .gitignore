@@ -4,15 +4,9 @@ Elements
 node_modules
 *.csv
 package-lock.json
-obb/hdpi
-obb/mdpi
 obb/en
 obb/ru
-obb/1-en-hdpi
-obb/1-en-mdpi
-obb/1-ru-hdpi
-obb/1-ru-mdpi
-obb/*.json
+obb/build
 
 ## Robovm
 /ios/robovm-build/

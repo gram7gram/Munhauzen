@@ -41,8 +41,8 @@ public class PrimaryDecision extends Stack {
     ClickListener onClick;
     HashMap<Integer, String> animatedMap;
 
-    AnimatedImage center, cannonLeft, cannonRight;
-    final int headerSize;
+    AnimatedImage letterInCenter, cannonLeft, cannonRight;
+    final int headerSize, letterWidth = 180;
     public final int buttonSize;
 
     public PrimaryDecision(final MunhauzenGame game, ExpansionAssetManager assetManager) {
@@ -122,7 +122,7 @@ public class PrimaryDecision extends Stack {
 
                     cannonLeft.start();
                     cannonRight.start();
-                    center.start();
+                    letterInCenter.start();
 
                     onClick.clicked(event, x, y);
                 } catch (Throwable e) {
@@ -142,25 +142,25 @@ public class PrimaryDecision extends Stack {
 
         switch (index) {
             case 0:
-                center = new LetterAAnimation(letter);
+                letterInCenter = new LetterAAnimation(letter);
                 break;
             case 1:
-                center = new LetterBAnimation(letter);
+                letterInCenter = new LetterBAnimation(letter);
                 break;
             case 2:
-                center = new LetterCAnimation(letter);
+                letterInCenter = new LetterCAnimation(letter);
                 break;
             case 3:
-                center = new LetterDAnimation(letter);
+                letterInCenter = new LetterDAnimation(letter);
                 break;
             case 4:
-                center = new LetterEAnimation(letter);
+                letterInCenter = new LetterEAnimation(letter);
                 break;
             case 5:
-                center = new LetterFAnimation(letter);
+                letterInCenter = new LetterFAnimation(letter);
                 break;
             default:
-                center = new LetterGAnimation(letter);
+                letterInCenter = new LetterGAnimation(letter);
         }
 
         cannonLeft = new CannonAnimation(sheet);
@@ -168,9 +168,9 @@ public class PrimaryDecision extends Stack {
 
         float pad = buttonSize * .175f;
 
-        float width1 = 180 * game.params.scaleFactor;
-        float scale1 = 1f * width1 / center.getCurrentDrawable().getMinWidth();
-        float height1 = 1f * center.getCurrentDrawable().getMinHeight() * scale1;
+        float width1 = letterWidth * game.params.scaleFactor;
+        float scale1 = 1f * width1 / letterInCenter.getCurrentDrawable().getMinWidth();
+        float height1 = 1f * letterInCenter.getCurrentDrawable().getMinHeight() * scale1;
 
         float width2 = (buttonSize - pad * 2 - width1 * .2f) / 2f;
         float scale2 = 1f * width2 / cannonLeft.getCurrentDrawable().getMinWidth();
@@ -184,7 +184,7 @@ public class PrimaryDecision extends Stack {
                 .expand().align(Align.topLeft);
 
         Table layer2 = new Table();
-        layer2.add(center)
+        layer2.add(letterInCenter)
                 .padLeft(width1 * .25f)
                 .width(width1).height(height1)
                 .expand().align(Align.top);

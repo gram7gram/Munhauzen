@@ -30,7 +30,6 @@ public class MunhauzenGame extends Game {
 
     public static final boolean DEBUG = true;
     public static final boolean DEBUG_UI = false;
-    public static final boolean IS_EXPANSION_HIDDEN = true;
     public static final boolean DEBUG_RENDER_INFO = false;
     public static final boolean CAN_REMOVE_PREVIOUS_EXPANSION = false;
     public static final boolean CAN_SKIP_EXPANSION_VALIDATION = true;
@@ -93,9 +92,7 @@ public class MunhauzenGame extends Game {
 
             Gdx.input.setCatchBackKey(true);
 
-            ExternalFiles.moveExpansionIfNeeded();
-
-            ExternalFiles.updateNomedia();
+            ExternalFiles.updateNomedia(params);
 
             preferences = Gdx.app.getPreferences(params.versionCode + "-prefs");
 
@@ -227,7 +224,7 @@ public class MunhauzenGame extends Game {
         fontProvider = new FontProvider(this);
         fontProvider.load();
 
-        expansionAssetManager = new ExpansionAssetManager();
+        expansionAssetManager = new ExpansionAssetManager(this);
         internalAssetManager = new InternalAssetManager();
         internalAssetManager.load("p0.jpg", Texture.class);
         internalAssetManager.load("p1.jpg", Texture.class);

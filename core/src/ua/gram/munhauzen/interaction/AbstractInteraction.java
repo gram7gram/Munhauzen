@@ -27,7 +27,7 @@ public abstract class AbstractInteraction implements Disposable {
     public void start() {
         Log.i(tag, "start");
 
-        assetManager = new ExpansionAssetManager();
+        assetManager = new ExpansionAssetManager(gameScreen.game);
 
         GameState.unpause(tag);
 

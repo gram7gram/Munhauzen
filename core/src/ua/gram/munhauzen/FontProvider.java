@@ -35,7 +35,6 @@ public class FontProvider implements Disposable {
             h3 = 50,
             h4 = 40,
             h5 = 32,
-            textSize45 = 45,
             p = 24,
             small = 16;
 
@@ -67,7 +66,7 @@ public class FontProvider implements Disposable {
         Log.i(tag, "load");
 
         String[] fonts = new String[]{CalligraphModern2, DroidSansMono, BuxtonSketch};
-        int[] sizes = new int[]{small, p, h1, h2, h3, h4, h5, textSize45};
+        int[] sizes = new int[]{small, p, h1, h2, h3, h4, h5};
 
         map = new HashMap<>(fonts.length);
 

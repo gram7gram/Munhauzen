@@ -74,7 +74,7 @@ public class ExpansionDownloadManager implements Disposable {
 
         final HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
 
-        final FileHandle output = ExternalFiles.getExpansionPartFile(part);
+        final FileHandle output = ExternalFiles.getExpansionPartFile(game.params, part);
 
         part.isDownloading = true;
 
@@ -160,7 +160,7 @@ public class ExpansionDownloadManager implements Disposable {
 
             part.isExtracted = true;
 
-            ExternalFiles.getExpansionPartFile(part).delete();
+            ExternalFiles.getExpansionPartFile(game.params, part).delete();
 
             processAvailablePart();
 
@@ -174,7 +174,7 @@ public class ExpansionDownloadManager implements Disposable {
     public void validateDownloadedPart(Part part) {
         Log.i(tag, "validateDownloadedPart part#" + part.part);
 
-        FileHandle expansionFile = ExternalFiles.getExpansionPartFile(part);
+        FileHandle expansionFile = ExternalFiles.getExpansionPartFile(game.params, part);
         if (!expansionFile.exists()) {
             throw new GdxRuntimeException("Expansion part#" + part.part + " was not downloaded");
         }
@@ -199,7 +199,7 @@ public class ExpansionDownloadManager implements Disposable {
         part.isDownloaded = false;
         part.isExtracted = false;
 
-        ExternalFiles.getExpansionPartFile(part).delete();
+        ExternalFiles.getExpansionPartFile(game.params, part).delete();
     }
 
     public void fetchExpansionInfo() {
@@ -273,7 +273,7 @@ public class ExpansionDownloadManager implements Disposable {
                                     serverPart.isExtracted = localPart.isExtracted;
 
                                     if (serverPart.isDownloaded && !serverPart.isExtracted) {
-                                        if (!ExternalFiles.getExpansionPartFile(serverPart).exists()) {
+                                        if (!ExternalFiles.getExpansionPartFile(game.params, serverPart).exists()) {
                                             serverPart.isDownloaded = false;
                                         }
                                     }
@@ -298,7 +298,7 @@ public class ExpansionDownloadManager implements Disposable {
                         Log.e(tag, "New expansion. Removing previous expansion and starting download...");
 
                         if (MunhauzenGame.CAN_REMOVE_PREVIOUS_EXPANSION)
-                            ExternalFiles.getExpansionDir().deleteDirectory();
+                            ExternalFiles.getExpansionDir(game.params).deleteDirectory();
 
                         final float sizeMb = (float) (serverExpansionInfo.size / 1024f / 1024f);
 
@@ -452,10 +452,10 @@ public class ExpansionDownloadManager implements Disposable {
         fragment.progressMessage.setText(game.t("expansion_download.completed"));
 
         for (Part item : expansionInfo.parts.items) {
-            ExternalFiles.getExpansionPartFile(item).delete();
+            ExternalFiles.getExpansionPartFile(game.params, item).delete();
         }
 
-        ExternalFiles.updateNomedia();
+        ExternalFiles.updateNomedia(game.params);
 
         fragment.onExpansionDownloadComplete();
     }

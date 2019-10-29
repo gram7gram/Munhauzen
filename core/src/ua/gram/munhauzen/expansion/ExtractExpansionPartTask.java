@@ -32,9 +32,9 @@ public class ExtractExpansionPartTask {
 
     public void extract(Part part) throws IOException {
 
-        FileHandle expansionFile = ExternalFiles.getExpansionPartFile(part);
+        FileHandle expansionFile = ExternalFiles.getExpansionPartFile(game.params, part);
 
-        FileHandle targetDirectory = ExternalFiles.getExpansionDir();
+        FileHandle targetDirectory = ExternalFiles.getExpansionDir(game.params);
 
         ZipInputStream zis = new ZipInputStream(expansionFile.read());
 

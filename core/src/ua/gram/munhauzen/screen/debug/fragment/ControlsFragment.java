@@ -175,13 +175,13 @@ public class ControlsFragment extends Fragment {
                     game.gameState.failsState = new FailsState();
 
                     for (String save : new String[]{"1", "2", "3", "4"}) {
-                        ExternalFiles.getSaveFile(save).delete();
+                        ExternalFiles.getSaveFile(game.params, save).delete();
                     }
 
-                    ExternalFiles.getHistoryFile().delete();
-                    ExternalFiles.getMenuStateFile().delete();
-                    ExternalFiles.getGalleryStateFile().delete();
-                    ExternalFiles.getFailsStateFile().delete();
+                    ExternalFiles.getHistoryFile(game.params).delete();
+                    ExternalFiles.getMenuStateFile(game.params).delete();
+                    ExternalFiles.getGalleryStateFile(game.params).delete();
+                    ExternalFiles.getFailsStateFile(game.params).delete();
 
                     game.gameState.history = new History();
                     game.gameState.setActiveSave(new Save());
@@ -585,7 +585,7 @@ public class ControlsFragment extends Fragment {
     }
 
     public void update() {
-        startButton.setDisabled(!ExternalFiles.getScenarioFile().exists());
+        startButton.setDisabled(!ExternalFiles.getScenarioFile(game.params).exists());
 
         upButton.setVisible(scroll.getScrollY() > 0);
     }
@@ -607,7 +607,7 @@ public class ControlsFragment extends Fragment {
         Gdx.net.sendHttpRequest(httpRequest, new Net.HttpResponseListener() {
 
             private void cleanup() {
-                ExternalFiles.getGameArchiveFile().delete();
+                ExternalFiles.getGameArchiveFile(game.params).delete();
             }
 
             @Override
@@ -625,7 +625,7 @@ public class ControlsFragment extends Fragment {
                         throw new GdxRuntimeException("Bad request");
                     }
 
-                    FileHandle output = ExternalFiles.getGameArchiveFile();
+                    FileHandle output = ExternalFiles.getGameArchiveFile(game.params);
 
                     Files.toFile(httpResponse.getResultAsStream(), output);
 
@@ -638,7 +638,7 @@ public class ControlsFragment extends Fragment {
 
                 try {
 
-                    new ExtractGameConfigTask().extract();
+                    new ExtractGameConfigTask(game).extract();
 
                     Log.i(tag, "extracted");
 

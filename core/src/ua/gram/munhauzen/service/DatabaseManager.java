@@ -147,7 +147,7 @@ public class DatabaseManager {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            ExternalFiles.getHistoryFile().delete();
+            ExternalFiles.getHistoryFile(game.params).delete();
 
             state.history = new History();
         }
@@ -157,7 +157,7 @@ public class DatabaseManager {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            ExternalFiles.getMenuStateFile().delete();
+            ExternalFiles.getMenuStateFile(game.params).delete();
 
             state.menuState = new MenuState();
         }
@@ -167,7 +167,7 @@ public class DatabaseManager {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            ExternalFiles.getGalleryStateFile().delete();
+            ExternalFiles.getGalleryStateFile(game.params).delete();
 
             state.galleryState = new GalleryState();
         }
@@ -177,7 +177,7 @@ public class DatabaseManager {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            ExternalFiles.getFailsStateFile().delete();
+            ExternalFiles.getFailsStateFile(game.params).delete();
 
             state.failsState = new FailsState();
         }
@@ -187,7 +187,7 @@ public class DatabaseManager {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            ExternalFiles.getFailsStateFile().delete();
+            ExternalFiles.getFailsStateFile(game.params).delete();
 
             state.failsState = new FailsState();
         }
@@ -197,7 +197,7 @@ public class DatabaseManager {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            ExternalFiles.getActiveSaveFile().delete();
+            ExternalFiles.getActiveSaveFile(game.params).delete();
 
             state.setActiveSave(new Save());
         }
@@ -304,7 +304,7 @@ public class DatabaseManager {
 
     public void persistAchievementState(AchievementState state) throws IOException {
 
-        FileHandle file = ExternalFiles.getAchievementStateFile();
+        FileHandle file = ExternalFiles.getAchievementStateFile(game.params);
 
         if (state != null)
             om.writeValue(file.file(), state);
@@ -312,34 +312,34 @@ public class DatabaseManager {
 
     public void persistGalleryState(GalleryState state) throws IOException {
 
-        FileHandle file = ExternalFiles.getGalleryStateFile();
+        FileHandle file = ExternalFiles.getGalleryStateFile(game.params);
 
         if (state != null)
             om.writeValue(file.file(), state);
     }
 
     public void persistMenuState(MenuState state) throws IOException {
-        FileHandle file = ExternalFiles.getMenuStateFile();
+        FileHandle file = ExternalFiles.getMenuStateFile(game.params);
 
         if (state != null)
             om.writeValue(file.file(), state);
     }
 
     public void persistFailsState(FailsState state) throws IOException {
-        FileHandle file = ExternalFiles.getFailsStateFile();
+        FileHandle file = ExternalFiles.getFailsStateFile(game.params);
 
         if (state != null)
             om.writeValue(file.file(), state);
     }
 
     public void persistHistory(History history) throws IOException {
-        FileHandle file = ExternalFiles.getHistoryFile();
+        FileHandle file = ExternalFiles.getHistoryFile(game.params);
 
         om.writeValue(file.file(), history);
     }
 
     public void persistSave(Save save) throws IOException {
-        FileHandle file = ExternalFiles.getSaveFile(save.id);
+        FileHandle file = ExternalFiles.getSaveFile(game.params, save.id);
 
         if (save.story != null) {
             StoryScenario storyScenario = save.story.last();
@@ -352,7 +352,7 @@ public class DatabaseManager {
     }
 
     private History loadHistory() throws IOException {
-        FileHandle file = ExternalFiles.getHistoryFile();
+        FileHandle file = ExternalFiles.getHistoryFile(game.params);
 
         History state = null;
         if (file.exists()) {
@@ -368,7 +368,7 @@ public class DatabaseManager {
 
     private MenuState loadMenuState() throws IOException {
 
-        FileHandle file = ExternalFiles.getMenuStateFile();
+        FileHandle file = ExternalFiles.getMenuStateFile(game.params);
 
         MenuState state = null;
         if (file.exists()) {
@@ -384,7 +384,7 @@ public class DatabaseManager {
 
     private FailsState loadFailsState() throws IOException {
 
-        FileHandle file = ExternalFiles.getFailsStateFile();
+        FileHandle file = ExternalFiles.getFailsStateFile(game.params);
 
         FailsState state = null;
         if (file.exists()) {
@@ -400,7 +400,7 @@ public class DatabaseManager {
 
     private AchievementState loadAchievementState() throws IOException {
 
-        FileHandle file = ExternalFiles.getAchievementStateFile();
+        FileHandle file = ExternalFiles.getAchievementStateFile(game.params);
 
         AchievementState state = null;
         if (file.exists()) {
@@ -416,7 +416,7 @@ public class DatabaseManager {
 
     private GalleryState loadGalleryState() throws IOException {
 
-        FileHandle file = ExternalFiles.getGalleryStateFile();
+        FileHandle file = ExternalFiles.getGalleryStateFile(game.params);
 
         GalleryState state = null;
         if (file.exists()) {
@@ -433,7 +433,7 @@ public class DatabaseManager {
     private void loadActiveSave(GameState state) throws IOException {
         Save save = null;
 
-        FileHandle file = ExternalFiles.getActiveSaveFile();
+        FileHandle file = ExternalFiles.getActiveSaveFile(game.params);
         if (file.exists()) {
             save = om.readValue(file.file(), Save.class);
         }
@@ -447,7 +447,7 @@ public class DatabaseManager {
 
     public Save loadSave(String id) throws IOException {
 
-        FileHandle file = ExternalFiles.getSaveFile(id);
+        FileHandle file = ExternalFiles.getSaveFile(game.params, id);
 
         Save state = null;
         if (file.exists()) {
@@ -563,7 +563,7 @@ public class DatabaseManager {
         json.setElementType(Scenario.class, "images", StoryImage.class);
         json.setElementType(Scenario.class, "name", StoryAudio.class);
 
-        return json.fromJson(ArrayList.class, Scenario.class, ExternalFiles.getScenarioFile());
+        return json.fromJson(ArrayList.class, Scenario.class, ExternalFiles.getScenarioFile(game.params));
     }
 
     @SuppressWarnings("unchecked")
@@ -571,7 +571,7 @@ public class DatabaseManager {
         Json json = new Json(JsonWriter.OutputType.json);
         json.setIgnoreUnknownFields(true);
 
-        FileHandle file = ExternalFiles.getChaptersFile();
+        FileHandle file = ExternalFiles.getChaptersFile(game.params);
 
         return json.fromJson(ArrayList.class, Chapter.class, file);
     }
@@ -581,7 +581,7 @@ public class DatabaseManager {
         Json json = new Json(JsonWriter.OutputType.json);
         json.setIgnoreUnknownFields(true);
 
-        FileHandle file = ExternalFiles.getImagesFile();
+        FileHandle file = ExternalFiles.getImagesFile(game.params);
 
         return json.fromJson(ArrayList.class, Image.class, file);
     }
@@ -591,7 +591,7 @@ public class DatabaseManager {
         Json json = new Json(JsonWriter.OutputType.json);
         json.setIgnoreUnknownFields(true);
 
-        FileHandle file = ExternalFiles.getAudioFile();
+        FileHandle file = ExternalFiles.getAudioFile(game.params);
 
         return json.fromJson(ArrayList.class, Audio.class, file);
     }
@@ -601,7 +601,7 @@ public class DatabaseManager {
         Json json = new Json(JsonWriter.OutputType.json);
         json.setIgnoreUnknownFields(true);
 
-        FileHandle file = ExternalFiles.getAudioFailsFile();
+        FileHandle file = ExternalFiles.getAudioFailsFile(game.params);
 
         return json.fromJson(ArrayList.class, AudioFail.class, file);
     }
@@ -611,7 +611,7 @@ public class DatabaseManager {
         Json json = new Json(JsonWriter.OutputType.json);
         json.setIgnoreUnknownFields(true);
 
-        FileHandle file = ExternalFiles.getInventoryFile();
+        FileHandle file = ExternalFiles.getInventoryFile(game.params);
 
         return json.fromJson(ArrayList.class, Inventory.class, file);
     }

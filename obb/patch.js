@@ -2,12 +2,13 @@ const fs = require('fs-extra')
 const archiver = require('archiver');
 
 const obbDir = "/Users/master/Projects/Munhauzen/obb"
+const buildDir = obbDir + "/build"
 
 const VERSION = 1;
-const LOCALE = 'en';
+const LOCALE = 'ru';
 
 const PATCH_DIRS = [
-    '/puzzle'
+    '/GameScreen'
 ];
 
 const DPIs = [
@@ -19,10 +20,10 @@ DPIs.forEach(DPI => {
 
     const VERSION_NAME = VERSION + "-" + LOCALE + "-" + DPI
 
-    const tmpDir = "/tmp/" + VERSION_NAME + "-patch"
-    const internalAssetsDir = obbDir + "/" + DPI
+    const tmpDir = buildDir + "/tmp/" + VERSION_NAME + "-patch"
+    const internalAssetsDir = obbDir + "/" + LOCALE + "/" + DPI
 
-    const expansion = JSON.parse(fs.readFileSync(`./${VERSION_NAME}-expansion.json`))
+    const expansion = JSON.parse(fs.readFileSync(`${buildDir}/${VERSION_NAME}-expansion.json`))
 
     const patchPart = expansion.parts.count + 1;
 
@@ -40,8 +41,9 @@ DPIs.forEach(DPI => {
 
         const totalSize = expansion.parts.items.reduce((sum, part) => sum + part.size, 0);
         expansion.size = totalSize
+        expansion.sizeMB = Number((totalSize / 1024 / 1024).toFixed(2)),
 
-        fs.writeFileSync(`./${VERSION_NAME}-expansion.json`, JSON.stringify(expansion))
+        fs.writeFileSync(`${buildDir}/${VERSION_NAME}-expansion.json`, JSON.stringify(expansion))
 
         cleanUp();
 
@@ -50,7 +52,7 @@ DPIs.forEach(DPI => {
 
     const createArchive = (part = 1) => {
 
-        const dest = obbDir + `/${VERSION_NAME}/`
+        const dest = buildDir + `/${VERSION_NAME}/`
         const output = `${dest}/part${patchPart}.zip`
 
         fs.ensureDir(dest, () => {})
@@ -61,9 +63,12 @@ DPIs.forEach(DPI => {
 
         archive.on('end', function () {
 
+            const size = archive.pointer()
+
             patch = {
                 isPatch: true,
-                size: archive.pointer(),
+                size,
+                sizeMB: Number((size / 1024 / 1024).toFixed(2)),
                 part: patchPart,
                 checksum: "",
                 path: `/expansions/${VERSION_NAME}/part${patchPart}.zip`

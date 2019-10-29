@@ -38,7 +38,7 @@ public abstract class AbstractScreen implements Screen {
         isDisposed = false;
         isLoaded = false;
 
-        assetManager = new ExpansionAssetManager();
+        assetManager = new ExpansionAssetManager(game);
 
         background = game.internalAssetManager.get("p0.jpg", Texture.class);
 

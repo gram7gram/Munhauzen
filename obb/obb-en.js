@@ -2,6 +2,7 @@ const fs = require('fs-extra')
 const archiver = require('archiver');
 
 const obbDir = "/Users/master/Projects/Munhauzen/obb"
+const buildDir = obbDir + "/build"
 const audioDir = "/Users/master/Projects/MunhauzenDocs/Elements/AUDIO_FINAL"
 
 const PARTS = 10;
@@ -16,7 +17,7 @@ const DPIs = [
 
 DPIs.forEach(DPI => {
 
-    const internalAssetsDir = obbDir + "/" + DPI
+    const internalAssetsDir = obbDir + "/" + LOCALE + "/" + DPI
 
     const VERSION_NAME = VERSION + "-" + LOCALE + "-" + DPI
 
@@ -69,7 +70,7 @@ DPIs.forEach(DPI => {
     audioParts.forEach(dir => {
         fs.readdirSync(audioDir + dir).forEach(file => {
 
-            const dest = "/tmp/" + VERSION_NAME + "-part" + currentPart + "/audio"
+            const dest = buildDir + "/tmp/" + VERSION_NAME + "-part" + currentPart + "/audio"
             const source = audioDir + dir + "/" + file
 
             fs.ensureDir(dest, () => {})
@@ -87,7 +88,7 @@ DPIs.forEach(DPI => {
     interactions.forEach(interaction => {
         const dir = internalAssetsDir + interaction
 
-        const dest = "/tmp/" + VERSION_NAME + "-part" + currentPart + interaction
+        const dest = buildDir + "/tmp/" + VERSION_NAME + "-part" + currentPart + interaction
 
         fs.ensureDir(dest, () => {})
 
@@ -106,7 +107,7 @@ DPIs.forEach(DPI => {
     picturesDir.forEach(dir => {
         fs.readdirSync(dir).forEach(file => {
 
-            const dest = "/tmp/" + VERSION_NAME + "-part" + currentPart + "/images"
+            const dest = buildDir + "/tmp/" + VERSION_NAME + "-part" + currentPart + "/images"
             const source = dir + "/" + file
 
             fs.ensureDir(dest, () => {})
@@ -124,7 +125,7 @@ DPIs.forEach(DPI => {
 
         fs.readdirSync(internalAssetsDir + dir).forEach(file => {
 
-            const dest = "/tmp/" + VERSION_NAME + "-part" + currentPart + dir
+            const dest = buildDir + "/tmp/" + VERSION_NAME + "-part" + currentPart + dir
             const source = internalAssetsDir + dir + "/" + file
 
             fs.ensureDir(dest, () => {})
@@ -143,7 +144,7 @@ DPIs.forEach(DPI => {
 
     const cleanUp = () => {
         for (let part = 1; part <= PARTS; part++) {
-            fs.removeSync("/tmp/" + VERSION_NAME + "-part" + part)
+            fs.removeSync(buildDir + "/tmp/" + VERSION_NAME + "-part" + part)
         }
     }
 
@@ -167,16 +168,16 @@ DPIs.forEach(DPI => {
 
         console.log(`=> Completed ${VERSION_NAME}!`)
 
-        fs.writeFileSync(`./${VERSION_NAME}-expansion.json`, JSON.stringify(expansion))
+        fs.writeFileSync(`${buildDir}/${VERSION_NAME}-expansion.json`, JSON.stringify(expansion))
 
         cleanUp();
     }
 
     const createArchive = (part = 1) => {
 
-        const dest = obbDir + `/${VERSION_NAME}/`
+        const dest = buildDir + `/${VERSION_NAME}/`
         const output = `${dest}/part${part}.zip`
-        const input = "/tmp/" + VERSION_NAME + "-part" + part;
+        const input = buildDir + "/tmp/" + VERSION_NAME + "-part" + part;
 
         fs.ensureDir(dest, () => {})
 
@@ -211,7 +212,7 @@ DPIs.forEach(DPI => {
         archive.finalize();
     }
 
-    fs.emptyDirSync(obbDir + `/${VERSION_NAME}/`)
+    fs.emptyDirSync(buildDir + `/${VERSION_NAME}/`)
 
     createArchive()
 })

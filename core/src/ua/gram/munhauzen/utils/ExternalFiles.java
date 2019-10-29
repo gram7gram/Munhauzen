@@ -3,7 +3,6 @@ package ua.gram.munhauzen.utils;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 
-import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.PlatformParams;
 import ua.gram.munhauzen.entity.Audio;
 import ua.gram.munhauzen.entity.AudioFail;
@@ -15,11 +14,11 @@ import ua.gram.munhauzen.expansion.response.Part;
  */
 public class ExternalFiles {
 
-    public static FileHandle getExpansionPartFile(Part part) {
-        return getExternal("part" + part.part + ".zip");
+    public static FileHandle getExpansionPartFile(PlatformParams params, Part part) {
+        return getExternal(params, "part" + part.part + ".zip");
     }
 
-    public static void updateNomedia() {
+    public static void updateNomedia(PlatformParams params) {
         String[] dirs = {
                 "expansion/gallery",
                 "expansion/menu",
@@ -51,111 +50,93 @@ public class ExternalFiles {
                 "expansion/wau",
         };
         for (String dir : dirs) {
-            getExternal(dir).mkdirs();
-            getExternal(dir + "/.nomedia").write(false);
+            getExternal(params, dir).mkdirs();
+            getExternal(params, dir + "/.nomedia").write(false);
         }
-        getExternal("expansion/.nomedia").write(false);
+        getExternal(params, "expansion/.nomedia").write(false);
     }
 
     public static FileHandle getExpansionInfoFile(PlatformParams params) {
-        return getExternal(params.versionCode + "-expansion.json");
+        return getExternal(params, params.versionCode + "-expansion.json");
     }
 
-    public static FileHandle getExpansionDir() {
-        return getExternal("expansion");
+    public static FileHandle getExpansionDir(PlatformParams params) {
+        return getExternal(params, "expansion");
     }
 
-    public static FileHandle getExpansionAudio(Audio audio) {
-        return Gdx.files.external(getExpansionDir().path() + "/" + audio.file);
+    public static FileHandle getExpansionAudio(PlatformParams params, Audio audio) {
+        return Gdx.files.external(getExpansionDir(params).path() + "/" + audio.file);
     }
 
-    public static FileHandle getExpansionAudio(AudioFail audio) {
-        return Gdx.files.external(getExpansionDir().path() + "/" + audio.file);
+    public static FileHandle getExpansionAudio(PlatformParams params, AudioFail audio) {
+        return Gdx.files.external(getExpansionDir(params).path() + "/" + audio.file);
     }
 
-    public static FileHandle getExpansionImage(Image image) {
-        return Gdx.files.external(getExpansionDir().path() + "/" + image.file);
+    public static FileHandle getExpansionImage(PlatformParams params, Image image) {
+        return Gdx.files.external(getExpansionDir(params).path() + "/" + image.file);
     }
 
-    public static FileHandle getExpansionFile(String file) {
-        return Gdx.files.external(getExpansionDir().path() + "/" + file);
+    public static FileHandle getExpansionFile(PlatformParams params, String file) {
+        return Gdx.files.external(getExpansionDir(params).path() + "/" + file);
     }
 
-    public static FileHandle getGameArchiveFile() {
-        return getExternal("game.zip");
+    public static FileHandle getGameArchiveFile(PlatformParams params) {
+        return getExternal(params, "game.zip");
     }
 
-    public static FileHandle getHistoryFile() {
-        return getExternal("history.json");
+    public static FileHandle getHistoryFile(PlatformParams params) {
+        return getExternal(params, "history.json");
     }
 
-    public static FileHandle getMenuStateFile() {
-        return getExternal("menu-state.json");
+    public static FileHandle getMenuStateFile(PlatformParams params) {
+        return getExternal(params, "menu-state.json");
     }
 
-    public static FileHandle getGalleryStateFile() {
-        return getExternal("gallery-state.json");
+    public static FileHandle getGalleryStateFile(PlatformParams params) {
+        return getExternal(params, "gallery-state.json");
     }
 
-    public static FileHandle getAchievementStateFile() {
-        return getExternal("achievement-state.json");
+    public static FileHandle getAchievementStateFile(PlatformParams params) {
+        return getExternal(params, "achievement-state.json");
     }
 
-    public static FileHandle getFailsStateFile() {
-        return getExternal("fails-state.json");
+    public static FileHandle getFailsStateFile(PlatformParams params) {
+        return getExternal(params, "fails-state.json");
     }
 
-    public static FileHandle getSaveFile(String id) {
-        return getExternal("save-" + id + ".json");
+    public static FileHandle getSaveFile(PlatformParams params, String id) {
+        return getExternal(params, "save-" + id + ".json");
     }
 
-    public static FileHandle getActiveSaveFile() {
-        return getExternal("save-0.json");
+    public static FileHandle getActiveSaveFile(PlatformParams params) {
+        return getExternal(params, "save-0.json");
     }
 
-    public static FileHandle getImagesFile() {
-        return getExternal("game/images.json");
+    public static FileHandle getImagesFile(PlatformParams params) {
+        return getExternal(params, "game/images.json");
     }
 
-    public static FileHandle getAudioFile() {
-        return getExternal("game/name.json");
+    public static FileHandle getAudioFile(PlatformParams params) {
+        return getExternal(params, "game/name.json");
     }
 
-    public static FileHandle getAudioFailsFile() {
-        return getExternal("game/name-fails.json");
+    public static FileHandle getAudioFailsFile(PlatformParams params) {
+        return getExternal(params, "game/name-fails.json");
     }
 
-    public static FileHandle getInventoryFile() {
-        return getExternal("game/inventory.json");
+    public static FileHandle getInventoryFile(PlatformParams params) {
+        return getExternal(params, "game/inventory.json");
     }
 
-    public static FileHandle getChaptersFile() {
-        return getExternal("game/chapters.json");
+    public static FileHandle getChaptersFile(PlatformParams params) {
+        return getExternal(params, "game/chapters.json");
     }
 
-    public static FileHandle getScenarioFile() {
-        return getExternal("game/scenario.json");
+    public static FileHandle getScenarioFile(PlatformParams params) {
+        return getExternal(params, "game/scenario.json");
     }
 
-    public static FileHandle getExternal(String name) {
-        if (MunhauzenGame.IS_EXPANSION_HIDDEN) {
-            return Gdx.files.external(".Munhauzen/ua.gram.munhauzen.any/" + name);
-        } else {
-            return Gdx.files.external("Munhauzen/ua.gram.munhauzen.any/" + name);
-        }
-    }
-
-    public static void moveExpansionIfNeeded() {
-        if (MunhauzenGame.IS_EXPANSION_HIDDEN) {
-            FileHandle dir = Gdx.files.external("Munhauzen");
-            if (dir.isDirectory()) {
-                dir.moveTo(Gdx.files.external(".Munhauzen"));
-            }
-        } else {
-            FileHandle dir = Gdx.files.external(".Munhauzen");
-            if (dir.isDirectory()) {
-                dir.moveTo(Gdx.files.external("Munhauzen"));
-            }
-        }
+    public static FileHandle getExternal(PlatformParams params, String name) {
+        return Gdx.files.external(params.storageDirectory + "/" + name);
     }
 }

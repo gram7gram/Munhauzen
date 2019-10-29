@@ -96,11 +96,11 @@ public class PaintingFragment extends Fragment {
     public void create(PaintingImage img) {
         Log.i(tag, "create " + img.image.name);
 
-        assetManager = new ExpansionAssetManager();
+        assetManager = new ExpansionAssetManager(screen.game);
 
         this.paintingImage = img;
 
-        paintingImage.imageResource = ExternalFiles.getExpansionImage(paintingImage.image).path();
+        paintingImage.imageResource = ExternalFiles.getExpansionImage(screen.game.params, paintingImage.image).path();
 
         if (paintingImage.isOpened) {
             assetManager.load(paintingImage.imageResource, Texture.class);

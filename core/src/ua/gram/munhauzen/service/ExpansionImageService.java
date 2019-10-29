@@ -31,7 +31,7 @@ public class ExpansionImageService extends ImageService {
 
         if (ImageRepository.LAST.equals(item.image) && image == null) return null;
 
-        FileHandle file = ExternalFiles.getExpansionImage(image);
+        FileHandle file = ExternalFiles.getExpansionImage(gameScreen.game.params, image);
         if (!file.exists()) {
             throw new GdxRuntimeException("Image file does not exist " + image.name + " at " + file.path());
         }

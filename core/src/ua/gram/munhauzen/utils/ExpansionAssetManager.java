@@ -5,14 +5,16 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.ExternalFileHandleResolver;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
+import ua.gram.munhauzen.MunhauzenGame;
+
 public class ExpansionAssetManager extends AssetManager {
 
     final String prefix;
 
-    public ExpansionAssetManager() {
+    public ExpansionAssetManager(MunhauzenGame game) {
         super(new ExternalFileHandleResolver());
 
-        prefix = ExternalFiles.getExpansionDir().path();
+        prefix = ExternalFiles.getExpansionDir(game.params).path();
     }
 
     @Override

@@ -25,6 +25,7 @@ public class AndroidLauncher extends AndroidApplication {
         params.applicationId = BuildConfig.APPLICATION_ID;
         params.applicationProId = "ru.fingertips.munchausen.pro";
         params.applicationDemoId = "ru.fingertips.munchausen.demo";
+        params.storageDirectory = ".Munchausen/ru.fingertips.munchausen.any";
         params.versionCode = BuildConfig.VERSION_CODE;
         params.versionName = BuildConfig.VERSION_NAME;
         params.locale = "ru";

@@ -35,9 +35,9 @@ public class InteractionImageService extends ImageService {
                 return null;
             }
 
-            file = ExternalFiles.getExpansionImage(image);
+            file = ExternalFiles.getExpansionImage(gameScreen.game.params, image);
         } else {
-            file = ExternalFiles.getExpansionFile(item.image);
+            file = ExternalFiles.getExpansionFile(gameScreen.game.params, item.image);
         }
 
         if (!file.exists()) {

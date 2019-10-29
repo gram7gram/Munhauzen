@@ -53,7 +53,7 @@ public class ConfigDownloadManager {
         Gdx.net.sendHttpRequest(httpRequest, new Net.HttpResponseListener() {
 
             private void cleanup() {
-                ExternalFiles.getGameArchiveFile().delete();
+                ExternalFiles.getGameArchiveFile(game.params).delete();
             }
 
             @Override
@@ -71,7 +71,7 @@ public class ConfigDownloadManager {
                         throw new GdxRuntimeException("Bad request");
                     }
 
-                    FileHandle output = ExternalFiles.getGameArchiveFile();
+                    FileHandle output = ExternalFiles.getGameArchiveFile(game.params);
 
                     Files.toFile(httpResponse.getResultAsStream(), output);
 
@@ -84,7 +84,7 @@ public class ConfigDownloadManager {
 
                 try {
 
-                    new ExtractGameConfigTask().extract();
+                    new ExtractGameConfigTask(game).extract();
 
                     Log.i(tag, "extracted");
 

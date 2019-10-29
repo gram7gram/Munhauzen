@@ -12,6 +12,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 
+import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.utils.ExternalFiles;
 import ua.gram.munhauzen.utils.Log;
 
@@ -20,11 +21,16 @@ import ua.gram.munhauzen.utils.Log;
  */
 public class ExtractGameConfigTask {
 
+    private final MunhauzenGame game;
     private final String tag = getClass().getSimpleName();
+
+    public ExtractGameConfigTask(MunhauzenGame game) {
+        this.game = game;
+    }
 
     public void extract() throws IOException {
 
-        FileHandle archive = ExternalFiles.getGameArchiveFile();
+        FileHandle archive = ExternalFiles.getGameArchiveFile(game.params);
         if (!archive.exists()) {
             throw new GdxRuntimeException("Nothing to extract");
         }
@@ -39,7 +45,7 @@ public class ExtractGameConfigTask {
                 throw new NullPointerException("No expansion entries found");
             }
 
-            ZipFile zip = new ZipFile(ExternalFiles.getGameArchiveFile().file());
+            ZipFile zip = new ZipFile(ExternalFiles.getGameArchiveFile(game.params).file());
 
             for (ZipEntry entry : entries) {
 
@@ -49,22 +55,22 @@ public class ExtractGameConfigTask {
                 FileHandle outputFile;
                 switch (entry.getName()) {
                     case "scenario.json":
-                        outputFile = ExternalFiles.getScenarioFile();
+                        outputFile = ExternalFiles.getScenarioFile(game.params);
                         break;
                     case "audio.json":
-                        outputFile = ExternalFiles.getAudioFile();
+                        outputFile = ExternalFiles.getAudioFile(game.params);
                         break;
                     case "audio-fails.json":
-                        outputFile = ExternalFiles.getAudioFailsFile();
+                        outputFile = ExternalFiles.getAudioFailsFile(game.params);
                         break;
                     case "chapters.json":
-                        outputFile = ExternalFiles.getChaptersFile();
+                        outputFile = ExternalFiles.getChaptersFile(game.params);
                         break;
                     case "images.json":
-                        outputFile = ExternalFiles.getImagesFile();
+                        outputFile = ExternalFiles.getImagesFile(game.params);
                         break;
                     case "inventory.json":
-                        outputFile = ExternalFiles.getInventoryFile();
+                        outputFile = ExternalFiles.getInventoryFile(game.params);
                         break;
                     default:
                         continue;

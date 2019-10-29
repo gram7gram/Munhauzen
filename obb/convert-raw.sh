@@ -1,42 +1,45 @@
 #!/bin/bash
 
-SRC_DIR="/Users/master/Projects/Munhauzen/obb/raw"
 OBB_PATH="/Users/master/Projects/Munhauzen/obb"
 
-function convertDir() {
+function convertRaw() {
 
-    dir=$1
+    LOCALE=$1
 
-    cd "$SRC_DIR/$dir"
+    RAW_DIR="$OBB_PATH/$LOCALE/raw"
+    HDPI_DIR="$OBB_PATH/$LOCALE/hdpi"
+    MDPI_DIR="$OBB_PATH/$LOCALE/mdpi"
 
-    mkdir -p "$OBB_PATH/hdpi/$dir"
-    mkdir -p "$OBB_PATH/mdpi/$dir"
+#    rm -rf $HDPI_DIR
+#    rm -rf $MDPI_DIR
 
-    echo "|- Converting $dir..."
-    for file in *; do
-        if [[ -f "$file" ]]; then
+    cd $RAW_DIR
+    for dir in *; do
+        echo "|- Converting $LOCALE/raw/$dir..."
 
-            echo "|-- $dir/$file"
+        mkdir -p "$HDPI_DIR/$dir"
+        mkdir -p "$MDPI_DIR/$dir"
 
-            IMG="$SRC_DIR/$dir/$file"
+        cd "$RAW_DIR/$dir"
+        for file in *; do
+            if [[ -f "$file" ]]; then
 
-            convert $IMG -resize 100% +profile "icc" $OBB_PATH/hdpi/$dir/$file
-            convert $IMG -resize 75% +profile "icc" $OBB_PATH/mdpi/$dir/$file
+                #echo "|-- $dir/$file"
 
-        fi
+                IMG="$RAW_DIR/$dir/$file"
+
+                convert $IMG -resize 100% +profile "icc" $HDPI_DIR/$dir/$file
+                test $? -gt 0 && exit 1
+
+                convert $IMG -resize 75% +profile "icc" $MDPI_DIR/$dir/$file
+                test $? -gt 0 && exit 1
+            fi
+        done
     done
-
-    cd "$SRC_DIR"
 }
 
-cd "$SRC_DIR"
+convertRaw "ru"
 
-for dir in *; do
-    if [[ -d "$dir" ]]; then
-
-        convertDir $dir
-
-    fi
-done
+#convertRaw "en"
 
 echo "=> Finished"

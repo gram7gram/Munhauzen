@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-OBB_PATH="/Users/master/Projects/Munhauzen/obb/raw"
+OBB_PATH="/Users/master/Projects/Munhauzen/obb"
 
 IN="$1"
 OUT="$OBB_PATH/$2"
