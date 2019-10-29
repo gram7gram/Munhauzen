@@ -44,7 +44,7 @@
     ],
     "translations": [
       {
-        "locale": "en",
+        "locale": "ru",
         "text": "Begin"
       }
     ]
@@ -100,8 +100,8 @@
     "decisions": [],
     "translations": [
       {
-        "locale": "en",
-        "text": "Set wine fumes on fire"
+        "locale": "ru",
+        "text": "Поджечь винные пары"
       }
     ]
   },
@@ -128,8 +128,8 @@
     ],
     "translations": [
       {
-        "locale": "en",
-        "text": "Snatch a cap from his head"
+        "locale": "ru",
+        "text": "Сорвать фуражку"
       }
     ]
   },
@@ -156,8 +156,8 @@
     ],
     "translations": [
       {
-        "locale": "en",
-        "text": "Put a canary next to him"
+        "locale": "ru",
+        "text": "Посадить рядом канарейку"
       }
     ]
   },
@@ -184,8 +184,8 @@
     ],
     "translations": [
       {
-        "locale": "en",
-        "text": "Knock his head with a bottle"
+        "locale": "ru",
+        "text": "Стукнуть бутылкой по голове"
       }
     ]
   }

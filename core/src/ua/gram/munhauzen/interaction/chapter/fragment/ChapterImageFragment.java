@@ -51,7 +51,9 @@ public class ChapterImageFragment extends Fragment {
         frameBottomSprite.setFlip(false, true);
 
         float labelWidth = MunhauzenGame.WORLD_WIDTH * .9f;
-        String headerPrefix = "intro".equals(chapter.name) ? "Part" : "Chapter";
+        String headerPrefix = "intro".equals(chapter.name)
+                ? game.t("chapter_inter.part")
+                : game.t("chapter_inter.chapter");
 
         Label header = new WrapLabel(headerPrefix + " " + Math.max(1, chapter.number), new Label.LabelStyle(
                 game.fontProvider.getFont(FontProvider.h1),

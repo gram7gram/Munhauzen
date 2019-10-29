@@ -81,14 +81,14 @@ public class ExitBanner extends Banner {
                     yesBtn.setDisabled(true);
 
                     screen.stopCurrentSfx();
-                    screen.currentSfx = game.sfxService.onExitYesClicked();
+                    screen.game.currentSfx = game.sfxService.onExitYesClicked();
 
                     Timer.instance().scheduleTask(new Timer.Task() {
                         @Override
                         public void run() {
                             onYesClicked();
                         }
-                    }, screen.currentSfx.duration / 1000f);
+                    }, screen.game.currentSfx.duration / 1000f);
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -109,14 +109,14 @@ public class ExitBanner extends Banner {
                     noBtn.setDisabled(true);
 
                     screen.stopCurrentSfx();
-                    screen.currentSfx = game.sfxService.onExitNoClicked();
+                    screen.game.currentSfx = game.sfxService.onExitNoClicked();
 
                     Timer.instance().scheduleTask(new Timer.Task() {
                         @Override
                         public void run() {
                             onNoClicked();
                         }
-                    }, screen.currentSfx.duration / 1000f);
+                    }, screen.game.currentSfx.duration / 1000f);
 
                 } catch (Throwable e) {
                     Log.e(tag, e);

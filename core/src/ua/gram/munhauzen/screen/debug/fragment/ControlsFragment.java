@@ -103,6 +103,8 @@ public class ControlsFragment extends Fragment {
 
                 try {
 
+                    screen.stopCurrentSfx();
+
                     screen.game.sfxService.onBackToMenuClicked();
 
                     screen.navigateTo(new MenuScreen(game));
@@ -223,14 +225,10 @@ public class ControlsFragment extends Fragment {
 
                 removeAllLbl.setVisible(false);
 
-                GameState.clearTimer();
+                GameState.clearTimer(tag);
 
-                if (Gdx.files.external("Munhauzen").exists()) {
-                    Gdx.files.external("Munhauzen").deleteDirectory();
-                }
-
-                if (Gdx.files.external(".Munhauzen").exists()) {
-                    Gdx.files.external(".Munhauzen").deleteDirectory();
+                if (Gdx.files.external(game.params.storageDirectory).exists()) {
+                    Gdx.files.external(game.params.storageDirectory).deleteDirectory();
                 }
 
                 Gdx.app.exit();

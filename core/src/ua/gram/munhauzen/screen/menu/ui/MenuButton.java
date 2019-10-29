@@ -25,6 +25,7 @@ import ua.gram.munhauzen.ui.FitImage;
 
 public abstract class MenuButton extends Stack {
 
+    final String tag = getClass().getSimpleName();
     final MenuScreen screen;
     float buttonWidth, buttonHeight;
     float iconWidth, iconHeight;
@@ -102,7 +103,7 @@ public abstract class MenuButton extends Stack {
 
                 screen.layers.setBannerLayer(null);
 
-                GameState.clearTimer();
+                GameState.clearTimer(tag);
 
                 Timer.instance().scheduleTask(new Timer.Task() {
                     @Override

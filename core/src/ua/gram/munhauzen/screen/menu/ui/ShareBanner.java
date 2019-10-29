@@ -124,7 +124,7 @@ public class ShareBanner extends Banner {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                fragment.onBtnCLicked("https://www.facebook.com/photo.php?fbid=233858484056409&set=gm.253300848748389&type=3&theater&ifg=1");
+                fragment.onBtnCLicked(game.params.fbLink);
 
             }
         });
@@ -158,7 +158,7 @@ public class ShareBanner extends Banner {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                fragment.onBtnCLicked("https://twitter.com/Finger_Tips_C/status/1005920810295611393");
+                fragment.onBtnCLicked(game.params.twLink);
             }
         });
 
@@ -190,8 +190,7 @@ public class ShareBanner extends Banner {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                fragment.onBtnCLicked("https://vk.com/fingertipsandcompany?z=photo491072996_456239025%2Fb76a7cd5942e3325a8");
-
+                fragment.onBtnCLicked(game.params.vkLink);
             }
         });
 
@@ -223,7 +222,7 @@ public class ShareBanner extends Banner {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                fragment.onBtnCLicked("https://www.instagram.com/p/Bj2-Y58gPRR/");
+                fragment.onBtnCLicked(game.params.instaLink);
 
             }
         });

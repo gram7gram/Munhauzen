@@ -220,9 +220,6 @@ public class WauScenarioFragment extends Fragment {
         try {
             Log.i(tag, "makeDecision " + decision.scenario);
 
-//            Sound sfx = assetManager.get("sfx/sfx_decision.mp3", Sound.class);
-//            sfx.play();
-
             GameState.unpause(tag);
 
             final Runnable onComplete = new Runnable() {

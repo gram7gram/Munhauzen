@@ -226,9 +226,6 @@ public class Timer2ScenarioFragment extends Fragment {
                 }
             }
 
-//            Sound sfx =  interaction.assetManager.get("sfx/sfx_decision.mp3", Sound.class);
-//            sfx.play();
-
             GameState.unpause(tag);
 
             final Runnable onComplete = new Runnable() {

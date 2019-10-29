@@ -131,6 +131,9 @@ public class ControlsFragment extends Fragment {
                 super.clicked(event, x, y);
 
                 try {
+
+                    screen.game.stopCurrentSfx();
+
                     screen.game.sfxService.onBackToMenuClicked();
 
                     screen.navigateTo(new MenuScreen(screen.game));

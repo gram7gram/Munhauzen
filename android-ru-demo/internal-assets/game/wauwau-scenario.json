@@ -82,8 +82,8 @@
     ],
     "translations": [
       {
-        "locale": "en",
-        "text": "To dig a hole and run until Wau-wau will fall there"
+        "locale": "ru",
+        "text": "Выкопать яму и бегать, пока Ваувау туда не упадет"
       }
     ]
   },
@@ -109,8 +109,8 @@
     ],
     "translations": [
       {
-        "locale": "en",
-        "text": "To dress someone as the rooster and catch Wau-wau"
+        "locale": "ru",
+        "text": "Переодеть кого-нибудь в петуха и поймать Ваувау"
       }
     ]
   },
@@ -146,8 +146,8 @@
     "decisions": [],
     "translations": [
       {
-        "locale": "en",
-        "text": "To surround the animal"
+        "locale": "ru",
+        "text": "Окружить животное"
       }
     ]
   },
@@ -173,8 +173,8 @@
     ],
     "translations": [
       {
-        "locale": "en",
-        "text": "To stun Wau-wau with stones"
+        "locale": "ru",
+        "text": "Оглушить камнями Ваувау"
       }
     ]
   },

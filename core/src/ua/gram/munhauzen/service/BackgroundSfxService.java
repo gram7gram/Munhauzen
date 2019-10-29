@@ -16,7 +16,7 @@ public class BackgroundSfxService {
     final String tag = getClass().getSimpleName();
     final MunhauzenGame game;
     StoryAudio activeAudio;
-    boolean isLooping;
+    boolean isPlaying;
 
     int index;
     final String[] sfx = {
@@ -38,7 +38,7 @@ public class BackgroundSfxService {
     public void start() {
         Log.i(tag, "start");
 
-        isLooping = true;
+        isPlaying = true;
 
         ++index;
 
@@ -50,13 +50,15 @@ public class BackgroundSfxService {
     public void stop() {
         Log.i(tag, "stop");
 
-        isLooping = false;
+        isPlaying = false;
 
-        float duration = 2;
+        final float duration = 2;
         float interval = .05f;
         final float step = 1f * interval / duration;
 
         Timer.instance().scheduleTask(new Timer.Task() {
+
+            float progress = 0;
 
             private void complete() {
                 dispose();
@@ -66,9 +68,13 @@ public class BackgroundSfxService {
             @Override
             public void run() {
 
+                progress += step;
+
+                Log.i(tag, "progress=" + progress + " / " + duration);
+
                 try {
                     if (activeAudio != null) {
-                        float volume = activeAudio.player.getVolume() - step;
+                        float volume = activeAudio.player.getVolume() - progress;
                         if (volume > 0) {
                             activeAudio.player.setVolume(volume);
                         } else {
@@ -83,6 +89,7 @@ public class BackgroundSfxService {
                 }
 
             }
+
         }, 0, interval);
     }
 
@@ -120,7 +127,7 @@ public class BackgroundSfxService {
 
                                 dispose();
 
-                                if (isLooping) {
+                                if (isPlaying) {
                                     start();
                                 }
                             }
@@ -144,7 +151,7 @@ public class BackgroundSfxService {
     }
 
     public void update() {
-        if (activeAudio != null && activeAudio.player != null && isLooping) {
+        if (activeAudio != null && activeAudio.player != null && isPlaying) {
             activeAudio.player.setVolume(GameState.isMute ? 0 : 1);
         }
     }

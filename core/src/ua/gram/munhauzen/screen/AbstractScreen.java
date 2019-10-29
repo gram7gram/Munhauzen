@@ -166,7 +166,7 @@ public abstract class AbstractScreen implements Screen {
 
         Log.i(tag, "dispose");
 
-        GameState.clearTimer();
+//        GameState.clearTimer(tag);
 
         isLoaded = false;
         isDisposed = true;
@@ -207,5 +207,9 @@ public abstract class AbstractScreen implements Screen {
 
             game.onCriticalError(e);
         }
+    }
+
+    public void stopCurrentSfx() {
+        game.stopCurrentSfx();
     }
 }

@@ -51,7 +51,7 @@ public class HornImageFragment extends InteractionFragment {
 
         interaction.gameScreen.hideImageFragment();
 
-        button = button("Continue", new ClickListener() {
+        button = button(interaction.t("horn_inter.btn"), new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);

@@ -298,7 +298,7 @@ public class StoryManager {
 
         gameScreen.audioService.dispose(story);
 
-        GameState.clearTimer();
+        GameState.clearTimer(tag);
 
         Timer.instance().scheduleTask(new Timer.Task() {
             @Override
@@ -327,7 +327,7 @@ public class StoryManager {
 
         GameState.pause(tag);
 
-        GameState.clearTimer();
+        GameState.clearTimer(tag);
 
         Timer.instance().scheduleTask(new Timer.Task() {
             @Override

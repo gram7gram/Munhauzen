@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import ua.gram.munhauzen.entity.GameState;
+import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.screen.ErrorScreen;
 import ua.gram.munhauzen.screen.LogoScreen;
 import ua.gram.munhauzen.service.AchievementService;
@@ -55,6 +56,7 @@ public class MunhauzenGame extends Game {
     public AchievementService achievementService;
     public SfxService sfxService;
     public BackgroundSfxService backgroundSfxService;
+    public StoryAudio currentSfx;
 
     public MunhauzenGame(PlatformParams params) {
         this.params = params;
@@ -137,6 +139,10 @@ public class MunhauzenGame extends Game {
                 sfxService.update();
             }
 
+            if (backgroundSfxService != null) {
+                backgroundSfxService.update();
+            }
+
         } catch (Throwable e) {
             Log.e(tag, e);
 
@@ -152,7 +158,7 @@ public class MunhauzenGame extends Game {
 
             Log.e(tag, "dispose");
 
-            GameState.clearTimer();
+            GameState.clearTimer(tag);
 
             if (batch != null) {
                 batch.dispose();
@@ -266,4 +272,12 @@ public class MunhauzenGame extends Game {
         setScreen(new ErrorScreen(this, e));
     }
 
+    public void stopCurrentSfx() {
+        if (currentSfx != null) {
+            sfxService.dispose(currentSfx);
+            currentSfx = null;
+        }
+
+        sfxService.dispose();
+    }
 }

@@ -28,8 +28,8 @@
     ],
     "translations": [
       {
-        "locale": "en",
-        "text": "Eight legged hare"
+        "locale": "ru",
+        "text": "Восьминогий заяц"
       }
     ]
   },
@@ -48,8 +48,8 @@
     ],
     "translations": [
       {
-        "locale": "en",
-        "text": "Left him alone and chilled"
+        "locale": "ru",
+        "text": "Оставил его а сам решил рассматривать травичку"
       }
     ]
   },
@@ -68,8 +68,8 @@
     ],
     "translations": [
       {
-        "locale": "en",
-        "text": "Shot the colt"
+        "locale": "ru",
+        "text": "Выстрелил из кольта"
       }
     ]
   },
@@ -88,8 +88,8 @@
     ],
     "translations": [
       {
-        "locale": "en",
-        "text": "Catapulted yourself"
+        "locale": "ru",
+        "text": "Катапультировал себя"
       }
     ]
   },
@@ -104,8 +104,8 @@
     "decisions": [],
     "translations": [
       {
-        "locale": "en",
-        "text": "Pursued the hare"
+        "locale": "ru",
+        "text": "Погнался за ним"
       }
     ]
   }

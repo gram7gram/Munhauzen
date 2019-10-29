@@ -132,6 +132,10 @@ public class EnglishTranslator implements Translator {
         map.put("menu.saves_btn", "Saves");
         map.put("menu.start_btn", "New story");
         map.put("painting.back_btn", "Back");
+        map.put("chapter_inter.part", "Part");
+        map.put("chapter_inter.chapter", "Chapter");
+        map.put("continue_inter.btn", "Continue");
+        map.put("horn_inter.btn", "Continue");
 
     }
 

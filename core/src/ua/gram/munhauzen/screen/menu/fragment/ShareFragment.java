@@ -105,7 +105,7 @@ public class ShareFragment extends MenuFragment {
 
         screen.stopCurrentSfx();
 
-        screen.currentSfx = screen.game.sfxService.onShareBannerShown();
+        screen.game.currentSfx = screen.game.sfxService.onShareBannerShown();
     }
 
     public boolean canFadeOut() {

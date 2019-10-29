@@ -62,8 +62,8 @@ public class GameState {
         isPaused = false;
     }
 
-    public static void clearTimer() {
-        Log.i(tag, "clearTimer");
+    public static void clearTimer(String tag) {
+        Log.i(tag, "clearTimer " + tag);
         Timer.instance().clear();
     }
 

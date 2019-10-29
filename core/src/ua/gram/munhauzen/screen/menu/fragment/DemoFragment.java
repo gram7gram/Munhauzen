@@ -93,7 +93,7 @@ public class DemoFragment extends MenuFragment {
 
         screen.stopCurrentSfx();
 
-        screen.currentSfx = screen.game.sfxService.onDemoBannerShown();
+        screen.game.currentSfx = screen.game.sfxService.onDemoBannerShown();
     }
 
     public boolean canFadeOut() {

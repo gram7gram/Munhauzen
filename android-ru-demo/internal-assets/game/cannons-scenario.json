@@ -93,8 +93,8 @@
     ],
     "translations": [
       {
-        "locale": "en",
-        "text": "Burnt it"
+        "locale": "ru",
+        "text": "Прожёг пушки"
       }
     ]
   },
@@ -121,8 +121,8 @@
     ],
     "translations": [
       {
-        "locale": "en",
-        "text": "Flooded it"
+        "locale": "ru",
+        "text": "Затопил пушки"
       }
     ]
   },
@@ -149,8 +149,8 @@
     ],
     "translations": [
       {
-        "locale": "en",
-        "text": "Sent an iron woodpecker"
+        "locale": "ru",
+        "text": "Приобрёл железного дятла"
       }
     ]
   },
@@ -177,8 +177,8 @@
     "decisions": [],
     "translations": [
       {
-        "locale": "en",
-        "text": "Made a poison"
+        "locale": "ru",
+        "text": "Приготовил яд"
       }
     ]
   },

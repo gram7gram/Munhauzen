@@ -85,7 +85,7 @@ public class ExitFragment extends MenuFragment {
 
         screen.stopCurrentSfx();
 
-        screen.currentSfx = screen.game.sfxService.onExitClicked();
+        screen.game.currentSfx = screen.game.sfxService.onExitClicked();
     }
 
     public void fadeOut(Runnable task) {

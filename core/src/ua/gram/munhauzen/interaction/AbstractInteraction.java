@@ -48,7 +48,7 @@ public abstract class AbstractInteraction implements Disposable {
             assetManager = null;
         }
 
-        GameState.clearTimer();
+        GameState.clearTimer(tag);
 
         GameState.unpause(tag);
     }

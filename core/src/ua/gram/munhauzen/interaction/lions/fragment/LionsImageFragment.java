@@ -125,7 +125,7 @@ public class LionsImageFragment extends InteractionFragment {
                 attackBtn.setDisabled(true);
                 attackBtn.setTouchable(Touchable.disabled);
 
-                GameState.clearTimer();
+                GameState.clearTimer(tag);
 
                 failedEarly();
             }
@@ -148,7 +148,7 @@ public class LionsImageFragment extends InteractionFragment {
 
                 root.setTouchable(Touchable.disabled);
 
-                GameState.clearTimer();
+                GameState.clearTimer(tag);
 
                 Timer.instance().scheduleTask(new Timer.Task() {
                     @Override
@@ -173,7 +173,7 @@ public class LionsImageFragment extends InteractionFragment {
 
                         root.setTouchable(Touchable.disabled);
 
-                        GameState.clearTimer();
+                        GameState.clearTimer(tag);
 
                         failedLate();
                     }

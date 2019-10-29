@@ -81,8 +81,8 @@
     "decisions": [],
     "translations": [
       {
-        "locale": "en",
-        "text": "Took the core and threw it back"
+        "locale": "ru",
+        "text": "Взял ядро и бросил назад"
       }
     ]
   },
@@ -108,8 +108,8 @@
     ],
     "translations": [
       {
-        "locale": "en",
-        "text": "Ate the cannon ball"
+        "locale": "ru",
+        "text": "Сьел ядро"
       }
     ]
   },
@@ -135,8 +135,8 @@
     ],
     "translations": [
       {
-        "locale": "en",
-        "text": "Closed eyes"
+        "locale": "ru",
+        "text": "Закрыл глаза"
       }
     ]
   },
@@ -162,8 +162,8 @@
     ],
     "translations": [
       {
-        "locale": "en",
-        "text": "Closed the cannon ball in the closet"
+        "locale": "ru",
+        "text": "Закрыл ядро в шкафу"
       }
     ]
   },

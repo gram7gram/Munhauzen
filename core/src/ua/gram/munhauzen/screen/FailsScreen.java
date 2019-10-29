@@ -102,6 +102,8 @@ public class FailsScreen extends AbstractScreen {
     public void onBackPressed() {
         super.onBackPressed();
 
+        stopCurrentSfx();
+
         game.sfxService.onBackToMenuClicked();
 
         navigateTo(new MenuScreen(game));

@@ -72,6 +72,8 @@ public class ControlsFragment extends Fragment {
                 try {
                     screen.beforeGalleryLeave();
 
+                    screen.stopCurrentSfx();
+
                     screen.game.sfxService.onBackToMenuClicked();
 
                     screen.navigateTo(new MenuScreen(screen.game));

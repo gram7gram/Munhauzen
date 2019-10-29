@@ -41,7 +41,7 @@ public class ContinueImageFragment extends InteractionFragment {
 
         Log.i(tag, "create");
 
-        PrimaryButton button = button("Continue", new ClickListener() {
+        PrimaryButton button = button(interaction.t("continue_inter.btn"), new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);

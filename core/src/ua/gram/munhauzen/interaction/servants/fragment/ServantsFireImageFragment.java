@@ -103,7 +103,7 @@ public class ServantsFireImageFragment extends InteractionFragment {
             }
         });
 
-        clearBtn = interaction.gameScreen.game.buttonBuilder.danger("Discard", new ClickListener() {
+        clearBtn = interaction.gameScreen.game.buttonBuilder.danger(interaction.t("servants_inter.discard_btn"), new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);

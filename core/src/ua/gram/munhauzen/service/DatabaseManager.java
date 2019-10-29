@@ -90,7 +90,7 @@ public class DatabaseManager {
             Log.e(tag, e);
         }
 
-        throw new GdxRuntimeException("Invalid expansion info. Raw\n" + raw);
+        throw new GdxRuntimeException("Invalid expansion info");
     }
 
     public void loadExternal(GameState state) {
@@ -465,10 +465,10 @@ public class DatabaseManager {
     public ArrayList<TimerScenario> loadTimerScenario() {
         Json json = new Json(JsonWriter.OutputType.json);
         json.setIgnoreUnknownFields(true);
-        json.setElementType(Scenario.class, "decisions", Decision.class);
-        json.setElementType(Scenario.class, "images", StoryImage.class);
-        json.setElementType(Scenario.class, "name", StoryAudio.class);
-        json.setElementType(Scenario.class, "translations", Translation.class);
+        json.setElementType(TimerScenario.class, "decisions", Decision.class);
+        json.setElementType(TimerScenario.class, "images", StoryImage.class);
+        json.setElementType(TimerScenario.class, "audio", StoryAudio.class);
+        json.setElementType(TimerScenario.class, "translations", Translation.class);
 
         return json.fromJson(ArrayList.class, TimerScenario.class, Files.getTimerScenarioFile());
     }
@@ -477,10 +477,10 @@ public class DatabaseManager {
     public ArrayList<Timer2Scenario> loadTimer2Scenario() {
         Json json = new Json(JsonWriter.OutputType.json);
         json.setIgnoreUnknownFields(true);
-        json.setElementType(Scenario.class, "decisions", Decision.class);
-        json.setElementType(Scenario.class, "images", StoryImage.class);
-        json.setElementType(Scenario.class, "name", StoryAudio.class);
-        json.setElementType(Scenario.class, "translations", Translation.class);
+        json.setElementType(Timer2Scenario.class, "decisions", Decision.class);
+        json.setElementType(Timer2Scenario.class, "images", StoryImage.class);
+        json.setElementType(Timer2Scenario.class, "audio", StoryAudio.class);
+        json.setElementType(Timer2Scenario.class, "translations", Translation.class);
 
         return json.fromJson(ArrayList.class, Timer2Scenario.class, Files.getTimer2ScenarioFile());
     }
@@ -489,10 +489,10 @@ public class DatabaseManager {
     public ArrayList<GeneralsScenario> loadGeneralsScenario() {
         Json json = new Json(JsonWriter.OutputType.json);
         json.setIgnoreUnknownFields(true);
-        json.setElementType(Scenario.class, "decisions", Decision.class);
-        json.setElementType(Scenario.class, "images", GeneralsStoryImage.class);
-        json.setElementType(Scenario.class, "name", StoryAudio.class);
-        json.setElementType(Scenario.class, "translations", Translation.class);
+        json.setElementType(GeneralsScenario.class, "decisions", Decision.class);
+        json.setElementType(GeneralsScenario.class, "images", GeneralsStoryImage.class);
+        json.setElementType(GeneralsScenario.class, "audio", StoryAudio.class);
+        json.setElementType(GeneralsScenario.class, "translations", Translation.class);
 
         return json.fromJson(ArrayList.class, GeneralsScenario.class, Files.getGeneralsScenarioFile());
     }
@@ -501,10 +501,10 @@ public class DatabaseManager {
     public ArrayList<WauScenario> loadWauwauScenario() {
         Json json = new Json(JsonWriter.OutputType.json);
         json.setIgnoreUnknownFields(true);
-        json.setElementType(Scenario.class, "decisions", Decision.class);
-        json.setElementType(Scenario.class, "images", WauStoryImage.class);
-        json.setElementType(Scenario.class, "name", StoryAudio.class);
-        json.setElementType(Scenario.class, "translations", Translation.class);
+        json.setElementType(WauScenario.class, "decisions", Decision.class);
+        json.setElementType(WauScenario.class, "images", WauStoryImage.class);
+        json.setElementType(WauScenario.class, "audio", StoryAudio.class);
+        json.setElementType(WauScenario.class, "translations", Translation.class);
 
         return json.fromJson(ArrayList.class, WauScenario.class, Files.getWauwauScenarioFile());
     }
@@ -513,10 +513,10 @@ public class DatabaseManager {
     public ArrayList<CannonsScenario> loadCannonsScenario() {
         Json json = new Json(JsonWriter.OutputType.json);
         json.setIgnoreUnknownFields(true);
-        json.setElementType(Scenario.class, "decisions", Decision.class);
-        json.setElementType(Scenario.class, "images", CannonsStoryImage.class);
-        json.setElementType(Scenario.class, "name", StoryAudio.class);
-        json.setElementType(Scenario.class, "translations", Translation.class);
+        json.setElementType(CannonsScenario.class, "decisions", Decision.class);
+        json.setElementType(CannonsScenario.class, "images", CannonsStoryImage.class);
+        json.setElementType(CannonsScenario.class, "audio", StoryAudio.class);
+        json.setElementType(CannonsScenario.class, "translations", Translation.class);
 
         return json.fromJson(ArrayList.class, CannonsScenario.class, Files.getCannonsScenarioFile());
     }
@@ -525,10 +525,9 @@ public class DatabaseManager {
     public ArrayList<HareScenario> loadHareScenario() {
         Json json = new Json(JsonWriter.OutputType.json);
         json.setIgnoreUnknownFields(true);
-        json.setElementType(Scenario.class, "decisions", Decision.class);
-        json.setElementType(Scenario.class, "images", StoryImage.class);
-        json.setElementType(Scenario.class, "name", StoryAudio.class);
-        json.setElementType(Scenario.class, "translations", Translation.class);
+        json.setElementType(HareScenario.class, "decisions", Decision.class);
+        json.setElementType(HareScenario.class, "audio", StoryAudio.class);
+        json.setElementType(HareScenario.class, "translations", Translation.class);
 
         return json.fromJson(ArrayList.class, HareScenario.class, Files.getHareScenarioFile());
     }
@@ -537,10 +536,10 @@ public class DatabaseManager {
     public ArrayList<PictureScenario> loadPictureScenario() {
         Json json = new Json(JsonWriter.OutputType.json);
         json.setIgnoreUnknownFields(true);
-        json.setElementType(Scenario.class, "decisions", Decision.class);
-        json.setElementType(Scenario.class, "images", StoryImage.class);
-        json.setElementType(Scenario.class, "name", StoryAudio.class);
-        json.setElementType(Scenario.class, "translations", Translation.class);
+        json.setElementType(PictureScenario.class, "decisions", Decision.class);
+        json.setElementType(PictureScenario.class, "images", StoryImage.class);
+        json.setElementType(PictureScenario.class, "audio", StoryAudio.class);
+        json.setElementType(PictureScenario.class, "translations", Translation.class);
 
         return json.fromJson(ArrayList.class, PictureScenario.class, Files.getPictureScenarioFile());
     }
@@ -549,8 +548,8 @@ public class DatabaseManager {
     public ArrayList<HireScenario> loadServantsHireScenario() {
         Json json = new Json(JsonWriter.OutputType.json);
         json.setIgnoreUnknownFields(true);
-        json.setElementType(Scenario.class, "images", HireStoryImage.class);
-        json.setElementType(Scenario.class, "name", StoryAudio.class);
+        json.setElementType(HireScenario.class, "images", HireStoryImage.class);
+        json.setElementType(HireScenario.class, "audio", StoryAudio.class);
 
         return json.fromJson(ArrayList.class, HireScenario.class, Files.getServantsHireScenarioFile());
     }
@@ -561,7 +560,7 @@ public class DatabaseManager {
         json.setIgnoreUnknownFields(true);
         json.setElementType(Scenario.class, "decisions", Decision.class);
         json.setElementType(Scenario.class, "images", StoryImage.class);
-        json.setElementType(Scenario.class, "name", StoryAudio.class);
+        json.setElementType(Scenario.class, "audio", StoryAudio.class);
 
         return json.fromJson(ArrayList.class, Scenario.class, ExternalFiles.getScenarioFile(game.params));
     }

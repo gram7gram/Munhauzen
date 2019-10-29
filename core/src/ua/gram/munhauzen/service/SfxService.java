@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.utils.GdxRuntimeException;
-import com.badlogic.gdx.utils.Timer;
 
 import java.util.HashSet;
 
@@ -143,7 +142,7 @@ public class SfxService {
                 "sfx_menu_sound_on_1", "sfx_menu_sound_on_2",
                 "sfx_menu_sound_on_3", "sfx_menu_sound_on_4",
                 "sfx_menu_sound_on_5"
-        }));
+        }), false);
     }
 
     public void onSoundDisabled() {
@@ -151,7 +150,7 @@ public class SfxService {
                 "sfx_menu_sound_off_1", "sfx_menu_sound_off_2",
                 "sfx_menu_sound_off_3", "sfx_menu_sound_off_4",
                 "sfx_menu_sound_off_5"
-        }));
+        }), false);
     }
 
     public StoryAudio onShareBannerShown() {
@@ -253,6 +252,10 @@ public class SfxService {
         }));
     }
 
+    public StoryAudio onMenuAuthorsClicked() {
+        return prepareAndPlay("sfx_menu_credits");
+    }
+
     public void onBackToMenuClicked() {
         prepareAndPlay("sfx_button_back");
 
@@ -282,14 +285,17 @@ public class SfxService {
     }
 
     private StoryAudio prepareAndPlay(String sfx) {
-        return prepareAndPlay(sfx, null);
+        return prepareAndPlay(sfx, true);
     }
 
-    private StoryAudio prepareAndPlay(String sfx, final Timer.Task onComplete) {
+    private StoryAudio prepareAndPlay(String sfx, boolean checkVolume) {
 
         try {
             if (game.expansionAssetManager == null) return null;
-            if (GameState.isMute) return null;
+
+            if (checkVolume && GameState.isMute) {
+                return null;
+            }
 
             final Audio audio = AudioRepository.find(game.gameState, sfx);
 
@@ -316,12 +322,7 @@ public class SfxService {
                         sound.setOnCompletionListener(new Music.OnCompletionListener() {
                             @Override
                             public void onCompletion(Music music) {
-
                                 dispose(storyAudio);
-
-                                if (onComplete != null) {
-                                    Timer.post(onComplete);
-                                }
                             }
                         });
 
@@ -417,6 +418,12 @@ public class SfxService {
         for (StoryAudio storyAudio : activeAudio) {
             if (storyAudio.player != null) {
                 storyAudio.player.setVolume(GameState.isMute ? 0 : 1);
+            }
+        }
+
+        if (game.currentSfx != null) {
+            if (game.currentSfx.player != null) {
+                game.currentSfx.player.setVolume(GameState.isMute ? 0 : 1);
             }
         }
     }

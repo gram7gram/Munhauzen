@@ -142,6 +142,10 @@ public class RussianTranslator implements Translator {
         map.put("menu.saves_btn", "Сохранения");
         map.put("menu.start_btn", "Начать");
         map.put("painting.back_btn", "Назад");
+        map.put("chapter_inter.part", "Часть");
+        map.put("chapter_inter.chapter", "Глава");
+        map.put("continue_inter.btn", "Продолжить");
+        map.put("horn_inter.btn", "Продолжить");
 
     }
 

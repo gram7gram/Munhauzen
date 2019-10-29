@@ -93,7 +93,7 @@ public class RateFragment extends MenuFragment {
 
         screen.stopCurrentSfx();
 
-        screen.currentSfx = screen.game.sfxService.onRateBannerShown();
+        screen.game.currentSfx = screen.game.sfxService.onRateBannerShown();
     }
 
     public boolean canFadeOut() {

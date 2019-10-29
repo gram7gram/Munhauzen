@@ -316,7 +316,7 @@ public class ControlsFragment extends Fragment {
 
         root.setTouchable(Touchable.disabled);
 
-        GameState.clearTimer();
+        GameState.clearTimer(tag);
 
         Timer.instance().scheduleTask(new Timer.Task() {
             @Override

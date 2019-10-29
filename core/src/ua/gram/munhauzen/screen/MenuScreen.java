@@ -9,7 +9,6 @@ import ua.gram.munhauzen.entity.AchievementState;
 import ua.gram.munhauzen.entity.AudioFail;
 import ua.gram.munhauzen.entity.Image;
 import ua.gram.munhauzen.entity.MenuState;
-import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.screen.menu.fragment.ControlsFragment;
 import ua.gram.munhauzen.screen.menu.fragment.DemoFragment;
 import ua.gram.munhauzen.screen.menu.fragment.ExitFragment;
@@ -22,6 +21,7 @@ import ua.gram.munhauzen.screen.menu.fragment.ThankYouFragment;
 import ua.gram.munhauzen.screen.menu.listenter.MenuStageListener;
 import ua.gram.munhauzen.screen.menu.ui.MenuLayers;
 import ua.gram.munhauzen.service.AudioService;
+import ua.gram.munhauzen.service.BackgroundSfxService;
 import ua.gram.munhauzen.utils.Log;
 
 /**
@@ -41,7 +41,6 @@ public class MenuScreen extends AbstractScreen {
     public ThankYouFragment thankYouFragment;
     public AudioService audioService;
     public boolean isButtonClicked, isZoomStarted;
-    public StoryAudio currentSfx;
 
     public MenuScreen(MunhauzenGame game) {
         super(game);
@@ -76,6 +75,9 @@ public class MenuScreen extends AbstractScreen {
         assetManager.load("menu/b_full_version_an_sheet.png", Texture.class);
         assetManager.load("menu/b_demo_version_an_sheet.png", Texture.class);
 
+        if (game.backgroundSfxService == null) {
+            game.backgroundSfxService = new BackgroundSfxService(game);
+        }
         game.backgroundSfxService.start();
     }
 
@@ -138,8 +140,8 @@ public class MenuScreen extends AbstractScreen {
 
             if (achievementState.areAllGoofsUnlocked && achievementState.areAllImagesUnlocked) {
 
-                stopCurrentSfx();
-                currentSfx = game.sfxService.onAllGoofsAndImagesUnlocked();
+                game.stopCurrentSfx();
+                game.currentSfx = game.sfxService.onAllGoofsAndImagesUnlocked();
 
                 return;
             }
@@ -372,7 +374,9 @@ public class MenuScreen extends AbstractScreen {
 
         controlsFragment.fadeOutFancy();
 
-        game.backgroundSfxService.stop();
+        if (game.backgroundSfxService != null) {
+            game.backgroundSfxService.stop();
+        }
 
         Timer.instance().scheduleTask(new Timer.Task() {
             @Override
@@ -399,12 +403,13 @@ public class MenuScreen extends AbstractScreen {
         }, 2.1f);
     }
 
-    public void stopCurrentSfx() {
-        if (currentSfx != null) {
-            game.sfxService.dispose(currentSfx);
-            currentSfx = null;
+    @Override
+    public void navigateTo(Screen screen) {
+
+        if (game.backgroundSfxService != null) {
+            game.backgroundSfxService.stop();
         }
 
-        game.sfxService.dispose();
+        super.navigateTo(screen);
     }
 }

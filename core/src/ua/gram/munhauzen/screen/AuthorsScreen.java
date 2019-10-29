@@ -5,12 +5,10 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 
 import ua.gram.munhauzen.MunhauzenGame;
-import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.screen.authors.fragment.AuthorsFragment;
 import ua.gram.munhauzen.screen.authors.fragment.ControlsFragment;
 import ua.gram.munhauzen.screen.authors.ui.AuthorsLayers;
 import ua.gram.munhauzen.service.AudioService;
-import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
@@ -21,7 +19,6 @@ public class AuthorsScreen extends AbstractScreen {
     public AuthorsLayers layers;
     public AuthorsFragment authorsFragment;
     public ControlsFragment controlsFragment;
-    private StoryAudio intro;
 
     public AuthorsScreen(MunhauzenGame game) {
         super(game);
@@ -53,6 +50,8 @@ public class AuthorsScreen extends AbstractScreen {
     public void onBackPressed() {
         super.onBackPressed();
 
+        stopCurrentSfx();
+
         game.sfxService.onBackToMenuClicked();
 
         navigateTo(new MenuScreen(game));
@@ -79,19 +78,6 @@ public class AuthorsScreen extends AbstractScreen {
         layers.setContentLayer(authorsFragment);
 
         authorsFragment.fadeIn();
-
-        playIntro();
-    }
-
-    private void playIntro() {
-        try {
-            intro = new StoryAudio();
-            intro.audio = "sfx_authors";
-
-            audioService.prepareAndPlay(intro);
-        } catch (Throwable e) {
-            Log.e(tag, e);
-        }
     }
 
     @Override
@@ -102,10 +88,6 @@ public class AuthorsScreen extends AbstractScreen {
 
     @Override
     public void renderAfterLoaded(float delta) {
-
-        if (intro != null) {
-            audioService.updateVolume(intro);
-        }
 
         if (authorsFragment != null) {
             authorsFragment.update();
@@ -119,11 +101,6 @@ public class AuthorsScreen extends AbstractScreen {
     @Override
     public void dispose() {
         super.dispose();
-
-        if (intro != null) {
-            audioService.stop(intro);
-            intro = null;
-        }
 
         if (audioService != null) {
             audioService.dispose();

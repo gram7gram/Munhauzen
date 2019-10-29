@@ -83,7 +83,7 @@ public class GreetingFragment extends MenuFragment {
 
         screen.stopCurrentSfx();
 
-        screen.currentSfx = screen.game.sfxService.onGreetingBannerShown();
+        screen.game.currentSfx = screen.game.sfxService.onGreetingBannerShown();
     }
 
     public boolean canFadeOut() {

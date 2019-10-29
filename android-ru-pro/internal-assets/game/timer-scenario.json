@@ -93,8 +93,8 @@
     ],
     "translations": [
       {
-        "locale": "en",
-        "text": "Jumped with a carriage over a hedge"
+        "locale": "ru",
+        "text": "Карету на плечи - и через забор"
       }
     ]
   },
@@ -120,8 +120,8 @@
     ],
     "translations": [
       {
-        "locale": "en",
-        "text": "Blew the horn yourself"
+        "locale": "ru",
+        "text": "Сам задул в рожок"
       }
     ]
   },
@@ -147,8 +147,8 @@
     ],
     "translations": [
       {
-        "locale": "en",
-        "text": "Back! Back! Back!"
+        "locale": "ru",
+        "text": "Включил задний ход"
       }
     ]
   },
@@ -174,8 +174,8 @@
     ],
     "translations": [
       {
-        "locale": "en",
-        "text": "Blocked the road and opened the carriage door"
+        "locale": "ru",
+        "text": "Перегородил дорогу и открыл дверцу кареты"
       }
     ]
   },
@@ -201,8 +201,8 @@
     ],
     "translations": [
       {
-        "locale": "en",
-        "text": "Very badly whipped the horses!"
+        "locale": "ru",
+        "text": "Очень сильно ударил кнутом по коням"
       }
     ]
   },
@@ -309,8 +309,8 @@
     ],
     "translations": [
       {
-        "locale": "en",
-        "text": "Finished him"
+        "locale": "ru",
+        "text": "Прикончил её"
       }
     ]
   },
@@ -336,8 +336,8 @@
     ],
     "translations": [
       {
-        "locale": "en",
-        "text": "Took control with a whip"
+        "locale": "ru",
+        "text": "Укротил её кнутом"
       }
     ]
   },
@@ -363,8 +363,8 @@
     ],
     "translations": [
       {
-        "locale": "en",
-        "text": "Calmed him down with magical words"
+        "locale": "ru",
+        "text": "Успокоил её волшебными словами"
       }
     ]
   },
@@ -382,8 +382,8 @@
     "decisions": [],
     "translations": [
       {
-        "locale": "en",
-        "text": "Put horse legs into the coat pocket"
+        "locale": "ru",
+        "text": "Засунул её задние ноги в карман"
       }
     ]
   }
