@@ -62,7 +62,7 @@ public class ServantsHireImageFragment extends InteractionFragment {
 
         interaction.gameScreen.hideImageFragment();
 
-        servantsBtn = interaction.gameScreen.game.buttonBuilder.primary(interaction.t("servants_inter.servants_btn"), new ClickListener() {
+        servantsBtn = interaction.gameScreen.game.buttonBuilder.primary(interaction.t("servants_inter.goto_servants_btn"), new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);

@@ -241,7 +241,7 @@ public class GameScreen implements Screen {
 
                         game.achievementService.onScenarioVisited(story.currentScenario.scenario);
 
-                        if (story.isCompleted) {
+                        if (story.isCompleted || MunhauzenGame.developmentInteraction != null) {
 
                             storyManager.onCompleted();
 

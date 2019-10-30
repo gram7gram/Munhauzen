@@ -28,6 +28,12 @@ public class History implements JsonEntry {
     public HashSet<String> openedFails;
 
     /**
+     * Visited stories on all iterations (allows progressbar skipping)
+     */
+    @JsonProperty
+    public HashSet<String> visitedStories;
+
+    /**
      * Unique items the player found on all interactions
      */
     @JsonProperty
@@ -38,6 +44,7 @@ public class History implements JsonEntry {
         viewedImages = new HashSet<>();
         listenedAudio = new HashSet<>();
         openedFails = new HashSet<>();
+        visitedStories = new HashSet<>();
     }
 
 }

@@ -76,7 +76,7 @@ public class EnglishTranslator implements Translator {
         map.put("servants_inter.hire_banner_title", "Hire him to your retinue?");
         map.put("servants_inter.hire_banner_yes_btn", "Yes");
         map.put("servants_inter.hire_banner_no_btn", "No");
-        map.put("servants_inter.discard_btn", "Discard");
+        map.put("servants_inter.discard_btn", "Discard all");
         map.put("servants_inter.complete_banner_title", "Travel to Egypt?");
         map.put("servants_inter.complete_banner_yes", "Yes");
         map.put("servants_inter.complete_banner_no", "No");

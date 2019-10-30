@@ -539,7 +539,6 @@ public class DatabaseManager {
         json.setElementType(PictureScenario.class, "decisions", Decision.class);
         json.setElementType(PictureScenario.class, "images", StoryImage.class);
         json.setElementType(PictureScenario.class, "audio", StoryAudio.class);
-        json.setElementType(PictureScenario.class, "translations", Translation.class);
 
         return json.fromJson(ArrayList.class, PictureScenario.class, Files.getPictureScenarioFile());
     }

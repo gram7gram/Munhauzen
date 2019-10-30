@@ -1,11 +1,7 @@
 package ua.gram.munhauzen.screen.debug.fragment;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Net;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.net.HttpRequestBuilder;
-import com.badlogic.gdx.net.HttpStatus;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -15,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -33,7 +28,6 @@ import ua.gram.munhauzen.entity.Inventory;
 import ua.gram.munhauzen.entity.MenuState;
 import ua.gram.munhauzen.entity.Save;
 import ua.gram.munhauzen.entity.Scenario;
-import ua.gram.munhauzen.expansion.ExtractGameConfigTask;
 import ua.gram.munhauzen.interaction.InteractionFactory;
 import ua.gram.munhauzen.screen.DebugScreen;
 import ua.gram.munhauzen.screen.GameScreen;
@@ -43,7 +37,6 @@ import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.ui.PrimaryButton;
 import ua.gram.munhauzen.utils.ExternalFiles;
-import ua.gram.munhauzen.utils.Files;
 import ua.gram.munhauzen.utils.Log;
 
 /**
@@ -57,7 +50,6 @@ public class ControlsFragment extends Fragment {
     public FragmentRoot root;
     ScrollPane scroll;
     TextButton startButton;
-    public Label progressLbl, expansionLbl, expansionInfoLbl;
     Label upButton;
     Table inventoryContainer, scenarioContainer, interactionContainer;
     VerticalGroup group;
@@ -160,6 +152,27 @@ public class ControlsFragment extends Fragment {
             }
         });
 
+        final Label openScenarioLbl = new Label("[+] Вкл перемотку вперед", new Label.LabelStyle(
+                game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
+                Color.BLUE
+        ));
+        openScenarioLbl.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                openScenarioLbl.setVisible(false);
+
+                try {
+                    for (Scenario s : game.gameState.scenarioRegistry) {
+                        game.gameState.history.visitedStories.add(s.name);
+                    }
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
+            }
+        });
+
         final Label removeHistoryLbl = new Label("[x] Очистить историю", new Label.LabelStyle(
                 game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
                 Color.RED
@@ -194,26 +207,6 @@ public class ControlsFragment extends Fragment {
             }
         });
 
-        final Label removeCacheLbl = new Label("[x] Очистить кеш файла расш.", new Label.LabelStyle(
-                game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
-                Color.RED
-        ));
-        removeCacheLbl.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-
-                removeCacheLbl.setVisible(false);
-
-                game.gameState.expansionInfo = null;
-
-                ExternalFiles.getExpansionInfoFile(game.params).delete();
-            }
-        });
-        removeCacheLbl.setVisible(
-                ExternalFiles.getExpansionInfoFile(game.params).exists()
-        );
-
         final Label removeAllLbl = new Label("[x] Удалить ВСЕ", new Label.LabelStyle(
                 game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
                 Color.RED
@@ -232,45 +225,6 @@ public class ControlsFragment extends Fragment {
                 }
 
                 Gdx.app.exit();
-            }
-        });
-
-        progressLbl = new Label("", new Label.LabelStyle(
-                game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
-                Color.BLUE
-        ));
-
-        expansionLbl = new Label("", new Label.LabelStyle(
-                game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
-                Color.BLUE
-        ));
-
-        expansionInfoLbl = new Label("", new Label.LabelStyle(
-                game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
-                Color.BLUE
-        ));
-
-        final Label jsonLbl = new Label("[+] Скачать json", new Label.LabelStyle(
-                game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
-                Color.BLUE
-        ));
-        jsonLbl.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-
-                jsonLbl.setVisible(false);
-
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            startDownload();
-                        } catch (Throwable e) {
-                            Log.e(tag, e);
-                        }
-                    }
-                }).start();
             }
         });
 
@@ -307,17 +261,11 @@ public class ControlsFragment extends Fragment {
         container.add(openGalleryLbl).pad(10).left().expandX();
         container.add(openFailsLbl).pad(10).left().expandX().row();
 
-        container.add(jsonLbl).pad(10).left().expandX();
-        container.add(expLbl).pad(10).left().expandX().row();
+        container.add(expLbl).pad(10).left().expandX();
+        container.add(openScenarioLbl).pad(10).left().expandX().row();
 
-        container.add(removeCacheLbl).pad(10).left().expandX();
-        container.add(removeHistoryLbl).pad(10).left().expandX().row();
-
-        container.add(removeAllLbl).pad(20, 10, 20, 10).left().expandX().colspan(2).row();
-
-        container.add(expansionLbl).expandX().colspan(2).row();
-        container.add(expansionInfoLbl).expandX().colspan(2).row();
-        container.add(progressLbl).expandX().colspan(2).row();
+        container.add(removeHistoryLbl).pad(10).left().expandX();
+        container.add(removeAllLbl).pad(10).left().expandX().row();
 
         inventoryContainer = new Table();
         inventoryContainer.padBottom(80);
@@ -591,110 +539,5 @@ public class ControlsFragment extends Fragment {
     @Override
     public Actor getRoot() {
         return root;
-    }
-
-    private void startDownload() {
-        final HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
-
-        Net.HttpRequest httpRequest = requestBuilder.newRequest()
-                .method(Net.HttpMethods.GET)
-                .url(game.params.getGameExportUrl())
-                .timeout(10000)
-                .build();
-
-        Gdx.net.sendHttpRequest(httpRequest, new Net.HttpResponseListener() {
-
-            private void cleanup() {
-                ExternalFiles.getGameArchiveFile(game.params).delete();
-            }
-
-            @Override
-            public void handleHttpResponse(Net.HttpResponse httpResponse) {
-
-                try {
-
-                    cleanup();
-
-                    int code = httpResponse.getStatus().getStatusCode();
-
-                    Log.e(tag, "getGameExportUrl: " + code);
-
-                    if (code != HttpStatus.SC_OK) {
-                        throw new GdxRuntimeException("Bad request");
-                    }
-
-                    FileHandle output = ExternalFiles.getGameArchiveFile(game.params);
-
-                    Files.toFile(httpResponse.getResultAsStream(), output);
-
-                    Log.i(tag, "downloaded");
-
-                } catch (Throwable e) {
-                    failed(e);
-                    return;
-                }
-
-                try {
-
-                    new ExtractGameConfigTask(game).extract();
-
-                    Log.i(tag, "extracted");
-
-                } catch (Throwable e) {
-                    failed(e);
-                    return;
-                }
-
-                try {
-
-                    game.databaseManager.loadExternal(game.gameState);
-
-                    Gdx.app.postRunnable(new Runnable() {
-                        @Override
-                        public void run() {
-                            onComplete();
-                        }
-                    });
-
-                } catch (Throwable e) {
-                    failed(e);
-                    return;
-                }
-
-                cleanup();
-            }
-
-            @Override
-            public void failed(Throwable t) {
-                Log.e(tag, t);
-
-                Gdx.app.postRunnable(new Runnable() {
-                    @Override
-                    public void run() {
-                        progressLbl.setText("Скачивание неудачно");
-                    }
-                });
-            }
-
-            public void onComplete() {
-
-                Gdx.app.postRunnable(new Runnable() {
-                    @Override
-                    public void run() {
-                        progressLbl.setText("Конфиги готовы к использованию");
-
-                        createInventoryTable();
-
-                        createScenarioTable();
-                    }
-                });
-            }
-
-            @Override
-            public void cancelled() {
-
-            }
-        });
-
     }
 }

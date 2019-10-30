@@ -389,7 +389,18 @@ public class ProgressBarFragment extends Fragment {
                     gameScreen.audioService.pause();
 
                     Story story = gameScreen.getStory();
-                    story.progress = story.totalDuration * percent;
+
+                    boolean hasVisitedBefore = gameScreen.game.gameState.history.visitedStories.contains(story.id);
+
+                    float newProgress = story.totalDuration * percent;
+
+                    if (!hasVisitedBefore) {
+                        if (newProgress > story.progress) {
+                            return;
+                        }
+                    }
+
+                    story.progress = newProgress;
 
                     postProgressChanged();
 
@@ -516,16 +527,18 @@ public class ProgressBarFragment extends Fragment {
             hasNext = true;
         }
 
+        boolean hasVisitedBefore = gameScreen.game.gameState.history.visitedStories.contains(story.id);
+
         pauseButton.setVisible(!GameState.isPaused);
         playButton.setVisible(GameState.isPaused);
 
-        skipForwardButton.setDisabled(story.isCompleted || !hasNext || story.isInteractionLocked());
+        skipForwardButton.setDisabled(!hasVisitedBefore || story.isCompleted || !hasNext || story.isInteractionLocked());
         skipForwardButton.setTouchable(skipForwardButton.isDisabled() ? Touchable.disabled : Touchable.enabled);
 
         skipBackButton.setDisabled(story.progress == 0 || !hasPrevious);
         skipBackButton.setTouchable(skipBackButton.isDisabled() ? Touchable.disabled : Touchable.enabled);
 
-        rewindForwardButton.setDisabled(story.isCompleted || story.isInteractionLocked());
+        rewindForwardButton.setDisabled(!hasVisitedBefore || story.isCompleted || story.isInteractionLocked());
         rewindForwardButton.setTouchable(rewindForwardButton.isDisabled() ? Touchable.disabled : Touchable.enabled);
 
         rewindBackButton.setDisabled(story.progress == 0);

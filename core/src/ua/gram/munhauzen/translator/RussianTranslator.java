@@ -76,7 +76,7 @@ public class RussianTranslator implements Translator {
         map.put("servants_inter.hire_banner_title", "Нанять его в свою свиту?");
         map.put("servants_inter.hire_banner_yes_btn", "Да");
         map.put("servants_inter.hire_banner_no_btn", "Нет");
-        map.put("servants_inter.discard_btn", "Уволить");
+        map.put("servants_inter.discard_btn", "Уволить всех");
         map.put("servants_inter.complete_banner_title", "Отправится в Египет?");
         map.put("servants_inter.complete_banner_yes", "Да");
         map.put("servants_inter.complete_banner_no", "Нет");

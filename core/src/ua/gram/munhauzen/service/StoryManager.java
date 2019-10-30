@@ -250,6 +250,8 @@ public class StoryManager {
 
         gameScreen.game.gameState.menuState.isContinueEnabled = true;
 
+        gameScreen.game.gameState.history.visitedStories.add(story.id);
+
         for (StoryScenario storyScenario : story.scenarios) {
             gameScreen.game.achievementService.onScenarioVisited(storyScenario.scenario);
         }
