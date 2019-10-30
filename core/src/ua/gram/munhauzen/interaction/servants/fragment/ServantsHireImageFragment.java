@@ -308,12 +308,6 @@ public class ServantsHireImageFragment extends InteractionFragment {
 
         interaction.progressBarFragment.fadeIn();
 
-//        if (hasServant(name)) {
-//            GameState.pause(tag);
-//        } else {
-//            GameState.unpause(tag);
-//        }
-
     }
 
     private void showEgypt() {

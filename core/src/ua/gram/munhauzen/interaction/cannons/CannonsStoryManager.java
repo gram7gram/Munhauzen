@@ -202,6 +202,9 @@ public class CannonsStoryManager {
     public void startLoadingImages() {
 
         try {
+
+            if (story == null) return;
+
             CannonsStoryScenario scenario = story.currentScenario;
             if (scenario == null) return;
 
@@ -241,6 +244,9 @@ public class CannonsStoryManager {
     public void startLoadingAudio() {
 
         try {
+
+            if (story == null) return;
+
             CannonsStoryScenario scenario = story.currentScenario;
             if (scenario == null) return;
 
@@ -277,6 +283,7 @@ public class CannonsStoryManager {
     }
 
     public void displayCurrentImage() {
+
         if (story == null) return;
 
         CannonsStoryScenario scenario = story.currentScenario;

@@ -24,7 +24,7 @@ android {
     }
     defaultConfig {
         applicationId "ru.fingertips.munchausen.demo"
-        minSdkVersion 28
+        minSdkVersion 19
         targetSdkVersion 28
         versionCode APP_VERSION_CODE as Integer
         versionName APP_VERSION_NAME

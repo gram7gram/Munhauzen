@@ -75,9 +75,11 @@ public class CannonsImageFragment extends InteractionFragment {
 
     public void update() {
 
+        if (interaction.storyManager == null) return;
+
         CannonsStory story = interaction.storyManager.story;
 
-        if (story.currentScenario != null) {
+        if (story != null && story.currentScenario != null) {
 
             CannonsStoryImage image = story.currentScenario.currentImage;
             if (image != null && image.withWorms) {

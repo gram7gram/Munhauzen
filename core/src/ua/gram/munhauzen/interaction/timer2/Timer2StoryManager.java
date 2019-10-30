@@ -101,7 +101,8 @@ public class Timer2StoryManager {
     }
 
     public void startLoadingAudio() {
-        Timer2Story story = interaction.storyManager.story;
+
+        if (story == null) return;
 
         Timer2StoryScenario scenario = story.currentScenario;
         if (scenario == null) return;
@@ -141,11 +142,11 @@ public class Timer2StoryManager {
     }
 
     public void startLoadingImages() {
-        Timer2Story story = interaction.storyManager.story;
+
+        if (story == null) return;
 
         Timer2StoryScenario scenario = story.currentScenario;
         if (scenario == null) return;
-
 
         try {
             final StoryImage image = scenario.currentImage;

@@ -474,7 +474,7 @@ public class ServantsProgressBarFragment extends Fragment {
 
     @Override
     public boolean isMounted() {
-        return super.isMounted() && interaction.storyManager.story != null;
+        return super.isMounted() && interaction.storyManager != null && interaction.storyManager.story != null;
     }
 
     public void update() {
@@ -613,7 +613,11 @@ public class ServantsProgressBarFragment extends Fragment {
 
     public void startCurrentMusicIfPaused() {
 
+        if (interaction.storyManager == null) return;
+
         HireStory story = interaction.storyManager.story;
+
+        if (story == null) return;
 
         for (HireStoryScenario scenarioOption : story.scenarios) {
             if (scenarioOption != story.currentScenario) {

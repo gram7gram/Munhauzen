@@ -120,6 +120,9 @@ public class WauStoryManager {
     public void startLoadingImages() {
 
         try {
+
+            if (story == null) return;
+
             WauStoryScenario scenario = story.currentScenario;
             if (scenario == null) return;
 
@@ -159,6 +162,9 @@ public class WauStoryManager {
     public void startLoadingAudio() {
 
         try {
+
+            if (story == null) return;
+
             WauStoryScenario scenario = story.currentScenario;
             if (scenario == null) return;
 

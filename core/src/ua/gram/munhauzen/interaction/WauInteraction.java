@@ -134,6 +134,11 @@ public class WauInteraction extends AbstractInteraction {
                 scenarioFragment = null;
             }
 
+            if (imageFragment != null) {
+                imageFragment.dispose();
+                imageFragment = null;
+            }
+
             if (imageService != null) {
                 imageService.dispose();
                 imageService = null;

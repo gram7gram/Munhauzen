@@ -540,7 +540,11 @@ public class CannonsProgressBarFragment extends Fragment {
 
         if (!isMounted()) return;
 
+        if (interaction.storyManager == null) return;
+
         CannonsStory story = interaction.storyManager.story;
+
+        if (story == null) return;
 
         pauseButton.setVisible(!GameState.isPaused);
         playButton.setVisible(GameState.isPaused);
@@ -563,7 +567,11 @@ public class CannonsProgressBarFragment extends Fragment {
 
     public void startCurrentMusicIfPaused() {
 
+        if (interaction.storyManager == null) return;
+
         CannonsStory story = interaction.storyManager.story;
+
+        if (story == null) return;
 
         for (CannonsStoryScenario scenarioOption : story.scenarios) {
             if (scenarioOption != story.currentScenario) {

@@ -8,6 +8,7 @@ sourceSets.main.java.srcDirs = ["src"]
 sourceSets.test.java.srcDirs = ["tests"]
 
 dependencies {
+    implementation 'io.sentry:sentry:1.7.27'
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.9.9'
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.9.9'
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.9'

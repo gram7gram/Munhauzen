@@ -529,7 +529,11 @@ public class Timer2ProgressBarFragment extends Fragment {
 
         if (!isMounted()) return;
 
+        if (interaction.storyManager == null) return;
+
         Timer2Story story = interaction.storyManager.story;
+
+        if (story == null) return;
 
         pauseButton.setVisible(!GameState.isPaused);
         playButton.setVisible(GameState.isPaused);

@@ -101,7 +101,8 @@ public class HareStoryManager {
 
     public void startLoadingResources() {
         try {
-            HareStory story = interaction.storyManager.story;
+
+            if (story == null) return;
 
             HareStoryScenario scenario = story.currentScenario;
             if (scenario == null) return;

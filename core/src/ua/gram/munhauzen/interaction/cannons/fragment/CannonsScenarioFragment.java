@@ -238,12 +238,11 @@ public class CannonsScenarioFragment extends Fragment {
 
             fadeOutDecoration();
 
-                CannonsStory newStory = interaction.storyManager.create(decision.scenario);
+            CannonsStory newStory = interaction.storyManager.create(decision.scenario);
 
-                interaction.storyManager.story = newStory;
+            interaction.storyManager.story = newStory;
 
-                interaction.storyManager.startLoadingResources();
-
+            interaction.storyManager.startLoadingResources();
 
             if (decision.scenario.equals("awau_2_a")) {
 

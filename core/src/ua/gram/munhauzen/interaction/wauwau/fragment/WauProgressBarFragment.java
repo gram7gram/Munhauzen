@@ -564,7 +564,11 @@ public class WauProgressBarFragment extends Fragment {
 
         if (!isMounted()) return;
 
+        if (interaction.storyManager == null) return;
+
         WauStory story = interaction.storyManager.story;
+
+        if (story == null) return;
 
         pauseButton.setVisible(!GameState.isPaused);
         playButton.setVisible(GameState.isPaused);

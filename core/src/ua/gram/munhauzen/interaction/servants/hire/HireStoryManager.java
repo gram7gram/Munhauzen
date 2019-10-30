@@ -53,7 +53,8 @@ public class HireStoryManager {
     }
 
     public void startLoadingAudio() {
-        HireStory story = interaction.storyManager.story;
+
+        if (story == null) return;
 
         HireStoryScenario scenario = story.currentScenario;
         if (scenario == null) return;
@@ -93,7 +94,8 @@ public class HireStoryManager {
     }
 
     public void startLoadingImages() {
-        HireStory story = interaction.storyManager.story;
+
+        if (story == null) return;
 
         HireStoryScenario scenario = story.currentScenario;
         if (scenario == null) return;

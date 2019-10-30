@@ -541,7 +541,11 @@ public class HareProgressBarFragment extends Fragment {
 
         if (!isMounted()) return;
 
+        if (interaction.storyManager == null) return;
+
         HareStory story = interaction.storyManager.story;
+
+        if (story == null) return;
 
         pauseButton.setVisible(!GameState.isPaused);
         playButton.setVisible(GameState.isPaused);
@@ -564,7 +568,11 @@ public class HareProgressBarFragment extends Fragment {
 
     public void startCurrentMusicIfPaused() {
 
+        if (interaction.storyManager == null) return;
+
         HareStory story = interaction.storyManager.story;
+
+        if (story == null) return;
 
         for (HareStoryScenario scenarioOption : story.scenarios) {
             if (scenarioOption != story.currentScenario) {

@@ -18,6 +18,7 @@ import ua.gram.munhauzen.service.DatabaseManager;
 import ua.gram.munhauzen.service.InventoryService;
 import ua.gram.munhauzen.service.SfxService;
 import ua.gram.munhauzen.ui.GameViewport;
+import ua.gram.munhauzen.utils.ErrorMonitoring;
 import ua.gram.munhauzen.utils.ExpansionAssetManager;
 import ua.gram.munhauzen.utils.ExternalFiles;
 import ua.gram.munhauzen.utils.InternalAssetManager;
@@ -57,6 +58,7 @@ public class MunhauzenGame extends Game {
     public SfxService sfxService;
     public BackgroundSfxService backgroundSfxService;
     public StoryAudio currentSfx;
+    public ErrorMonitoring errorMonitoring;
 
     public MunhauzenGame(PlatformParams params) {
         this.params = params;
@@ -91,6 +93,8 @@ public class MunhauzenGame extends Game {
         Log.i(tag, "create");
 
         try {
+
+            errorMonitoring = new ErrorMonitoring(this);
 
             Gdx.input.setCatchBackKey(true);
 
@@ -203,6 +207,7 @@ public class MunhauzenGame extends Game {
             inventoryService = null;
 
             gameState = null;
+            errorMonitoring = null;
 
         } catch (Throwable e) {
             Log.e(tag, e);
@@ -269,6 +274,10 @@ public class MunhauzenGame extends Game {
     }
 
     public void onCriticalError(Throwable e) {
+
+        if (errorMonitoring != null)
+            errorMonitoring.capture(e);
+
         setScreen(new ErrorScreen(this, e));
     }
 

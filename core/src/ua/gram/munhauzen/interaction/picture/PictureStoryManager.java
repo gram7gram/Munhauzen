@@ -90,6 +90,9 @@ public class PictureStoryManager {
 
     public void startLoadingAudio() {
         try {
+
+            if (story == null) return;
+
             PictureStoryScenario scenario = story.currentScenario;
             if (scenario == null) return;
 
@@ -126,6 +129,9 @@ public class PictureStoryManager {
 
     public void startLoadingImage() {
         try {
+
+            if (story == null) return;
+
             PictureStoryScenario scenario = story.currentScenario;
             if (scenario == null) return;
 

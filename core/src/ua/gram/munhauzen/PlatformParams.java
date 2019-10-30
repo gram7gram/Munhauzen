@@ -6,16 +6,18 @@ import ua.gram.munhauzen.utils.MemoryUsage;
 
 public class PlatformParams {
 
+    public String release = "development";
     public Translator translator;
     public AppStore appStore;
     public MemoryUsage memoryUsage;
-    //    public String gameHost = "http://munchausen-api.fingertips.cf";
-    public String gameHost = "http://192.168.1.102:20000";
+    public String gameHost = "http://munchausen-api.fingertips.cf";
+    //    public String gameHost = "http://192.168.1.102:20000";
     public String dpi = "mdpi";
     public String locale = "en";
     public String versionName;
     public int versionCode;
     public boolean isPro;
+    public String sentryDsn = "https://aaab9a00313c443498afb6184a21c867@sentry.io/1802514";
     public String applicationId;
     public String applicationProId;
     public String applicationDemoId;

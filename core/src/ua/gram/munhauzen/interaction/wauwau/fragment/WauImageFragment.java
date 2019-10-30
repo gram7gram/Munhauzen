@@ -106,9 +106,11 @@ public class WauImageFragment extends InteractionFragment {
 
     public void update() {
 
+        if (interaction.storyManager == null) return;
+
         WauStory story = interaction.storyManager.story;
 
-        if (story.currentScenario != null) {
+        if (story != null && story.currentScenario != null) {
 
             WauStoryImage image = story.currentScenario.currentImage;
             if (image != null) {

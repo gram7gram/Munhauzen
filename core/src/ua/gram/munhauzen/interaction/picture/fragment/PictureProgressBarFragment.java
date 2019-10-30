@@ -519,7 +519,11 @@ public class PictureProgressBarFragment extends Fragment {
 
         if (!isMounted()) return;
 
+        if (interaction.storyManager == null) return;
+
         PictureStory story = interaction.storyManager.story;
+
+        if (story == null) return;
 
         pauseButton.setVisible(!GameState.isPaused);
         playButton.setVisible(GameState.isPaused);

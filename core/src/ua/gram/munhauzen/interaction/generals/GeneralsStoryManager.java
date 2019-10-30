@@ -103,6 +103,9 @@ public class GeneralsStoryManager {
     public void startLoadingImages() {
 
         try {
+
+            if (story == null) return;
+
             GeneralsStoryScenario scenario = story.currentScenario;
             if (scenario == null) return;
 
@@ -142,6 +145,9 @@ public class GeneralsStoryManager {
     public void startLoadingAudio() {
 
         try {
+
+            if (story == null) return;
+
             GeneralsStoryScenario scenario = story.currentScenario;
             if (scenario == null) return;
 
