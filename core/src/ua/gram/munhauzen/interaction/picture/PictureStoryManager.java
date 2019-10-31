@@ -9,7 +9,6 @@ import ua.gram.munhauzen.interaction.PictureInteraction;
 import ua.gram.munhauzen.interaction.picture.fragment.PictureScenarioFragment;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.utils.Log;
-import ua.gram.munhauzen.utils.StringUtils;
 
 public class PictureStoryManager {
 
@@ -29,7 +28,7 @@ public class PictureStoryManager {
         reset();
 
         PictureStory story = new PictureStory();
-        story.id = StringUtils.cid();
+        story.id = begin;
 
         for (PictureScenario pictureScenario : interaction.scenarioRegistry) {
             if (pictureScenario.name.equals(begin)) {
@@ -194,6 +193,8 @@ public class PictureStoryManager {
         displayCurrentImage();
 
         Log.i(tag, "onCompleted " + story.id);
+
+        gameScreen.game.gameState.history.visitedStories.add(story.id);
 
         for (StoryAudio audio : story.currentScenario.scenario.audio) {
             if (audio.player != null) {

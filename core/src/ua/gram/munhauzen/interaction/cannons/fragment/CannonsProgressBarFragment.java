@@ -546,16 +546,20 @@ public class CannonsProgressBarFragment extends Fragment {
 
         if (story == null) return;
 
+        boolean hasVisitedBefore = gameScreen.game.gameState.history.visitedStories.contains(story.id);
+
+        bar.setVisible(hasVisitedBefore);
+
         pauseButton.setVisible(!GameState.isPaused);
         playButton.setVisible(GameState.isPaused);
 
-        skipForwardButton.setDisabled(story.isCompleted);
+        skipForwardButton.setDisabled(!hasVisitedBefore || story.isCompleted);
         skipForwardButton.setTouchable(skipForwardButton.isDisabled() ? Touchable.disabled : Touchable.enabled);
 
         skipBackButton.setDisabled(story.progress == 0);
         skipBackButton.setTouchable(skipBackButton.isDisabled() ? Touchable.disabled : Touchable.enabled);
 
-        rewindForwardButton.setDisabled(story.isCompleted);
+        rewindForwardButton.setDisabled(!hasVisitedBefore || story.isCompleted);
         rewindForwardButton.setTouchable(rewindForwardButton.isDisabled() ? Touchable.disabled : Touchable.enabled);
 
         rewindBackButton.setDisabled(story.progress == 0);

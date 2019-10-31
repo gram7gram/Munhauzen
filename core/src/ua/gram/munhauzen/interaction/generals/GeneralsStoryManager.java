@@ -14,7 +14,6 @@ import ua.gram.munhauzen.interaction.GeneralsInteraction;
 import ua.gram.munhauzen.interaction.generals.fragment.GeneralsScenarioFragment;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.utils.Log;
-import ua.gram.munhauzen.utils.StringUtils;
 
 public class GeneralsStoryManager {
 
@@ -34,7 +33,7 @@ public class GeneralsStoryManager {
         reset();
 
         GeneralsStory story = new GeneralsStory();
-        story.id = StringUtils.cid();
+        story.id = begin;
 
         for (GeneralsScenario hareScenario : interaction.scenarioRegistry) {
             if (hareScenario.name.equals(begin)) {
@@ -212,6 +211,8 @@ public class GeneralsStoryManager {
         displayCurrentImage();
 
         Log.i(tag, "onCompleted " + story.id);
+
+        gameScreen.game.gameState.history.visitedStories.add(story.id);
 
         Set<String> inventory = gameScreen.game.inventoryService.getAllInventory();
 

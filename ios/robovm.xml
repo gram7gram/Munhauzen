@@ -8,7 +8,7 @@
 
   <resources>
     <resource>
-      <directory>../core/internal-assets</directory>
+      <directory>./internal-assets</directory>
       <includes>
         <include>**</include>
       </includes>

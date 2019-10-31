@@ -154,6 +154,8 @@ public class HireStoryManager {
 
         Log.i(tag, "onCompleted " + story.id);
 
+        gameScreen.game.gameState.history.visitedStories.add(story.id);
+
         ServantsState state = interaction.gameScreen.getActiveSave().servantsInteractionState;
 
         state.viewedServants.add(interaction.hireFragment.hireDialog.servantName);

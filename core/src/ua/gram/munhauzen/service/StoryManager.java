@@ -246,6 +246,8 @@ public class StoryManager {
 
         Log.i(tag, "onCompleted " + story.id);
 
+        gameScreen.game.gameState.history.visitedStories.add(story.id);
+
         displayCurrentImage();
 
         gameScreen.game.gameState.menuState.isContinueEnabled = true;

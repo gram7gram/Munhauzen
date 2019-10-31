@@ -14,7 +14,6 @@ import ua.gram.munhauzen.interaction.TimerInteraction;
 import ua.gram.munhauzen.interaction.timer.fragment.TimerScenarioFragment;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.utils.Log;
-import ua.gram.munhauzen.utils.StringUtils;
 
 public class TimerStoryManager {
 
@@ -34,7 +33,7 @@ public class TimerStoryManager {
         reset();
 
         TimerStory story = new TimerStory();
-        story.id = StringUtils.cid();
+        story.id = begin;
 
         for (TimerScenario timerScenario : interaction.scenarioRegistry) {
             if (timerScenario.name.equals(begin)) {
@@ -211,6 +210,8 @@ public class TimerStoryManager {
         displayCurrentImage();
 
         Log.i(tag, "onCompleted " + story.id);
+
+        gameScreen.game.gameState.history.visitedStories.add(story.id);
 
         Set<String> inventory = gameScreen.game.inventoryService.getAllInventory();
 

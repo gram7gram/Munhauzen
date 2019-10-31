@@ -15,7 +15,6 @@ import ua.gram.munhauzen.interaction.cannons.fragment.CannonsScenarioFragment;
 import ua.gram.munhauzen.repository.InventoryRepository;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.utils.Log;
-import ua.gram.munhauzen.utils.StringUtils;
 
 public class CannonsStoryManager {
 
@@ -63,9 +62,9 @@ public class CannonsStoryManager {
         }
 
         CannonsStory story = new CannonsStory();
-        story.id = StringUtils.cid();
+        story.id = begin;
 
-        String log = "create from " + begin + " " + story.id;
+        String log = "create from " + story.id;
 
         for (CannonsScenario scenario : interaction.scenarioRegistry) {
             if (scenario.name.equals(begin)) {
@@ -315,6 +314,8 @@ public class CannonsStoryManager {
         displayCurrentImage();
 
         Log.i(tag, "onCompleted " + story.id);
+
+        gameScreen.game.gameState.history.visitedStories.add(story.id);
 
         for (StoryAudio audio : story.currentScenario.scenario.audio) {
             if (audio.player != null) {

@@ -6,13 +6,13 @@
     "audio": [
       {
         "audio": "swau_a_cont",
-        "duration": 46000
+        "duration": 32670
       }
     ],
     "images": [
       {
         "image": "images/pwau.jpg",
-        "duration": 46000
+        "duration": 32670
       }
     ],
     "decisions": [
@@ -66,13 +66,13 @@
     "audio": [
       {
         "audio": "swau_2_a",
-        "duration": 22000
+        "duration": 17275
       }
     ],
     "images": [
       {
         "image": "images/pwau.jpg",
-        "duration": 22000
+        "duration": 17275
       }
     ],
     "decisions": [
@@ -93,13 +93,13 @@
     "audio": [
       {
         "audio": "swau_2_b",
-        "duration": 106000
+        "duration": 82779
       }
     ],
     "images": [
       {
         "image": "images/pwau.jpg",
-        "duration": 106000
+        "duration": 82779
       }
     ],
     "decisions": [
@@ -120,7 +120,7 @@
     "audio": [
       {
         "audio": "swau_2_c",
-        "duration": 197000
+        "duration": 165860
       }
     ],
     "images": [
@@ -140,7 +140,7 @@
       {
         "image": "wau/inter_wauwau_font.jpg",
         "withWau": true,
-        "duration": 71000
+        "duration": 38860
       }
     ],
     "decisions": [],
@@ -157,13 +157,13 @@
     "audio": [
       {
         "audio": "swau_2_d",
-        "duration": 70000
+        "duration": 62578
       }
     ],
     "images": [
       {
         "image": "images/pwau.jpg",
-        "duration": 70000
+        "duration": 62578
       }
     ],
     "decisions": [
@@ -184,13 +184,13 @@
     "audio": [
       {
         "audio": "swau_2_a_win",
-        "duration": 36000
+        "duration": 28583
       }
     ],
     "images": [
       {
         "image": "images/pwau.jpg",
-        "duration": 35000
+        "duration": 28583
       }
     ],
     "decisions": [],
@@ -202,13 +202,13 @@
     "audio": [
       {
         "audio": "swau_2_a_loose",
-        "duration": 23000
+        "duration": 17275
       }
     ],
     "images": [
       {
         "image": "images/pwau.jpg",
-        "duration": 23000
+        "duration": 17275
       }
     ],
     "decisions": [

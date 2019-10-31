@@ -390,17 +390,7 @@ public class ProgressBarFragment extends Fragment {
 
                     Story story = gameScreen.getStory();
 
-                    boolean hasVisitedBefore = gameScreen.game.gameState.history.visitedStories.contains(story.id);
-
-                    float newProgress = story.totalDuration * percent;
-
-                    if (!hasVisitedBefore) {
-                        if (newProgress > story.progress) {
-                            return;
-                        }
-                    }
-
-                    story.progress = newProgress;
+                    story.progress = story.totalDuration * percent;
 
                     postProgressChanged();
 
@@ -528,6 +518,8 @@ public class ProgressBarFragment extends Fragment {
         }
 
         boolean hasVisitedBefore = gameScreen.game.gameState.history.visitedStories.contains(story.id);
+
+        bar.setVisible(hasVisitedBefore);
 
         pauseButton.setVisible(!GameState.isPaused);
         playButton.setVisible(GameState.isPaused);

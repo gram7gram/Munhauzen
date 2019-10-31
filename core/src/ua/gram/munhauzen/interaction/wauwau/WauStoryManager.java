@@ -13,7 +13,6 @@ import ua.gram.munhauzen.interaction.WauInteraction;
 import ua.gram.munhauzen.interaction.wauwau.fragment.WauScenarioFragment;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.utils.Log;
-import ua.gram.munhauzen.utils.StringUtils;
 
 public class WauStoryManager {
 
@@ -33,9 +32,9 @@ public class WauStoryManager {
         reset();
 
         WauStory story = new WauStory();
-        story.id = StringUtils.cid();
+        story.id = begin;
 
-        Log.i(tag, "create from " + begin + " " + story.id);
+        Log.i(tag, "create from " + story.id);
 
         for (WauScenario scenario : interaction.scenarioRegistry) {
             if (scenario.name.equals(begin)) {
@@ -229,6 +228,8 @@ public class WauStoryManager {
         displayCurrentImage();
 
         Log.i(tag, "onCompleted " + story.id);
+
+        gameScreen.game.gameState.history.visitedStories.add(story.id);
 
         for (StoryAudio audio : story.currentScenario.scenario.audio) {
             if (audio.player != null) {

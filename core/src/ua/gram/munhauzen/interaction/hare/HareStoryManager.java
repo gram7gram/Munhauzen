@@ -13,7 +13,6 @@ import ua.gram.munhauzen.interaction.HareInteraction;
 import ua.gram.munhauzen.interaction.hare.fragment.HareScenarioFragment;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.utils.Log;
-import ua.gram.munhauzen.utils.StringUtils;
 
 public class HareStoryManager {
 
@@ -33,7 +32,7 @@ public class HareStoryManager {
         reset();
 
         HareStory story = new HareStory();
-        story.id = StringUtils.cid();
+        story.id = begin;
 
         for (HareScenario hareScenario : interaction.scenarioRegistry) {
             if (hareScenario.name.equals(begin)) {
@@ -143,6 +142,8 @@ public class HareStoryManager {
     public void onCompleted() {
 
         Log.i(tag, "onCompleted " + story.id);
+
+        gameScreen.game.gameState.history.visitedStories.add(story.id);
 
         Set<String> inventory = gameScreen.game.inventoryService.getAllInventory();
 

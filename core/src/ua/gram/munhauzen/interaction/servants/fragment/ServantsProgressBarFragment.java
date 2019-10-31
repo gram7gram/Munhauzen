@@ -500,6 +500,12 @@ public class ServantsProgressBarFragment extends Fragment {
 
         HireStory story = interaction.storyManager.story;
 
+        if (story == null) return;
+
+        boolean hasVisitedBefore = gameScreen.game.gameState.history.visitedStories.contains(story.id);
+
+        bar.setVisible(hasVisitedBefore);
+
         interaction.hireFragment.hireDialog.root.setVisible(story.isCompleted);
 
         boolean canPlay = story.isCompleted || GameState.isPaused;
@@ -507,13 +513,13 @@ public class ServantsProgressBarFragment extends Fragment {
         pauseButton.setVisible(!canPlay);
         playButton.setVisible(canPlay);
 
-        skipForwardButton.setDisabled(story.isCompleted);
+        skipForwardButton.setDisabled(!hasVisitedBefore || story.isCompleted);
         skipForwardButton.setTouchable(skipForwardButton.isDisabled() ? Touchable.disabled : Touchable.enabled);
 
         skipBackButton.setDisabled(story.progress == 0);
         skipBackButton.setTouchable(skipBackButton.isDisabled() ? Touchable.disabled : Touchable.enabled);
 
-        rewindForwardButton.setDisabled(story.isCompleted);
+        rewindForwardButton.setDisabled(!hasVisitedBefore || story.isCompleted);
         rewindForwardButton.setTouchable(rewindForwardButton.isDisabled() ? Touchable.disabled : Touchable.enabled);
 
         rewindBackButton.setDisabled(story.progress == 0);
