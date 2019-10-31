@@ -6,22 +6,22 @@
     "audio": [
       {
         "audio": "s2_2_0",
-        "duration": 171000
+        "duration": 165860
       }
     ],
     "images": [
       {
         "image": "images/p33_d.jpg",
-        "duration": 76000
+        "duration": 88000
       },
       {
         "image": "generals/inter_general_1.jpg",
-        "duration": 10000
+        "duration": 67000
       },
       {
         "image": "generals/inter_general_1.jpg",
         "withFumes": true,
-        "duration": 85000
+        "duration": 10860
       }
     ],
     "decisions": [
@@ -42,12 +42,7 @@
         "order": 1
       }
     ],
-    "translations": [
-      {
-        "locale": "ru",
-        "text": "Begin"
-      }
-    ]
+    "translations": []
   },
   {
     "name": "a2_2_0_interaction_proxy",
@@ -81,20 +76,20 @@
     "audio": [
       {
         "audio": "s2_2_a",
-        "duration": 57000
+        "duration": 48227
       }
     ],
     "images": [
       {
         "image": "generals/inter_general_1.jpg",
         "withFumes": true,
-        "duration": 18000
+        "duration": 19500
       },
       {
         "image": "generals/inter_general_2.jpg",
         "withFireLeft": true,
         "withFireRight": true,
-        "duration": 39000
+        "duration": 28727
       }
     ],
     "decisions": [],
@@ -111,14 +106,14 @@
     "audio": [
       {
         "audio": "s2_2_b",
-        "duration": 14000
+        "duration": 11865
       }
     ],
     "images": [
       {
         "image": "generals/inter_general_1.jpg",
         "withFumes": true,
-        "duration": 14000
+        "duration": 11865
       }
     ],
     "decisions": [
@@ -139,14 +134,14 @@
     "audio": [
       {
         "audio": "s2_2_c",
-        "duration": 62000
+        "duration": 52384
       }
     ],
     "images": [
       {
         "image": "generals/inter_general_1.jpg",
         "withFumes": true,
-        "duration": 62000
+        "duration": 52384
       }
     ],
     "decisions": [
@@ -167,14 +162,14 @@
     "audio": [
       {
         "audio": "s2_2_d",
-        "duration": 44000
+        "duration": 33134
       }
     ],
     "images": [
       {
         "image": "generals/inter_general_1.jpg",
         "withFumes": true,
-        "duration": 44000
+        "duration": 33134
       }
     ],
     "decisions": [

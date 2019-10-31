@@ -18,20 +18,19 @@ import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
-import ua.gram.munhauzen.animation.AnimatedImage;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.screen.MenuScreen;
+import ua.gram.munhauzen.screen.menu.animation.IconAnimation;
 import ua.gram.munhauzen.ui.FitImage;
 
 public abstract class MenuButton extends Stack {
 
     final String tag = getClass().getSimpleName();
     final MenuScreen screen;
-    float buttonWidth, buttonHeight;
-    float iconWidth, iconHeight;
+    public float buttonWidth, buttonHeight;
     float lockWidth, lockHeight;
     int textSize;
-    AnimatedImage animation;
+    IconAnimation animation;
     public boolean hasLock;
     Actor lock;
     Image back;
@@ -60,7 +59,6 @@ public abstract class MenuButton extends Stack {
         setBackground(drawable);
 
         lockHeight = buttonHeight * .5f;
-        iconHeight = buttonHeight * .3f;
 
         if (text.length() > 10) {
             textSize = FontProvider.h5;
@@ -139,15 +137,13 @@ public abstract class MenuButton extends Stack {
     private Actor createHeader() {
 
         animation = createAnimationIcon();
-
-        float scale = 1f * iconHeight / animation.getCurrentDrawable().getMinHeight();
-        iconWidth = scale * animation.getCurrentDrawable().getMinWidth();
+        animation.layout();
 
         Table table = new Table();
         table.add(animation).expand()
                 .align(Align.top)
-                .width(iconWidth)
-                .height(iconHeight);
+                .width(animation.iconWidth)
+                .height(animation.iconHeight);
 
         return table;
     }
@@ -170,5 +166,5 @@ public abstract class MenuButton extends Stack {
         return table;
     }
 
-    abstract AnimatedImage createAnimationIcon();
+    abstract IconAnimation createAnimationIcon();
 }

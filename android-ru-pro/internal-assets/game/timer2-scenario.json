@@ -6,13 +6,13 @@
     "audio": [
       {
         "audio": "sprisoners",
-        "duration": 21382
+        "duration": 0
       }
     ],
     "images": [
       {
         "image": "images/pprisoners.jpg",
-        "duration": 21382
+        "duration": 0
       }
     ],
     "decisions": [
@@ -65,7 +65,7 @@
     "audio": [
       {
         "audio": "sprisoners_c",
-        "duration": 156000
+        "duration": 140643
       }
     ],
     "images": [
@@ -75,7 +75,7 @@
       },
       {
         "image": "images/pprisoners_2.jpg",
-        "duration": 151000
+        "duration": 135643
       }
     ],
     "decisions": [],
@@ -92,13 +92,13 @@
     "audio": [
       {
         "audio": "sprisoners_a",
-        "duration": 31000
+        "duration": 0
       }
     ],
     "images": [
       {
         "image": "images/pprisoners.jpg",
-        "duration": 31000
+        "duration": 0
       }
     ],
     "decisions": [
@@ -119,13 +119,13 @@
     "audio": [
       {
         "audio": "sprisoners_b",
-        "duration": 34000
+        "duration": 25959
       }
     ],
     "images": [
       {
         "image": "images/pprisoners.jpg",
-        "duration": 34000
+        "duration": 25959
       }
     ],
     "decisions": [
@@ -146,13 +146,13 @@
     "audio": [
       {
         "audio": "sprisoners_d",
-        "duration": 109000
+        "duration": 90673
       }
     ],
     "images": [
       {
         "image": "images/pprisoners.jpg",
-        "duration": 109000
+        "duration": 90673
       }
     ],
     "decisions": [
@@ -173,13 +173,13 @@
     "audio": [
       {
         "audio": "sprisoners_exploded",
-        "duration": 33829
+        "duration": 23870
       }
     ],
     "images": [
       {
         "image": "images/pprisoners_exploded.jpg",
-        "duration": 33829
+        "duration": 23870
       }
     ],
     "decisions": [

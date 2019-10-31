@@ -3,9 +3,9 @@ package ua.gram.munhauzen.screen.menu.ui;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-import ua.gram.munhauzen.animation.AnimatedImage;
 import ua.gram.munhauzen.screen.MenuScreen;
 import ua.gram.munhauzen.screen.SavesScreen;
+import ua.gram.munhauzen.screen.menu.animation.IconAnimation;
 import ua.gram.munhauzen.screen.menu.animation.ShieldAnimation;
 
 public class SavesButton extends MenuButton {
@@ -28,7 +28,7 @@ public class SavesButton extends MenuButton {
     }
 
     @Override
-    AnimatedImage createAnimationIcon() {
-        return new ShieldAnimation(screen);
+    IconAnimation createAnimationIcon() {
+        return new ShieldAnimation(screen, this);
     }
 }

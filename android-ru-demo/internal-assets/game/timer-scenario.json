@@ -6,13 +6,13 @@
     "audio": [
       {
         "audio": "s32_0",
-        "duration": 69000
+        "duration": 60975
       }
     ],
     "images": [
       {
         "image": "images/p32_0.jpg",
-        "duration": 69000
+        "duration": 60975
       }
     ],
     "decisions": [
@@ -73,7 +73,7 @@
     "audio": [
       {
         "audio": "s32_a",
-        "duration": 56000
+        "duration": 38614
       }
     ],
     "images": [
@@ -83,7 +83,7 @@
       },
       {
         "image": "images/p32_a.jpg",
-        "duration": 51000
+        "duration": 33614
       }
     ],
     "decisions": [
@@ -104,13 +104,13 @@
     "audio": [
       {
         "audio": "s32_b",
-        "duration": 17000
+        "duration": 16509
       }
     ],
     "images": [
       {
         "image": "images/p32_0.jpg",
-        "duration": 17000
+        "duration": 16509
       }
     ],
     "decisions": [
@@ -131,13 +131,13 @@
     "audio": [
       {
         "audio": "s32_c",
-        "duration": 24000
+        "duration": 26726
       }
     ],
     "images": [
       {
         "image": "images/p32_0.jpg",
-        "duration": 24000
+        "duration": 26726
       }
     ],
     "decisions": [
@@ -158,13 +158,13 @@
     "audio": [
       {
         "audio": "s32_d",
-        "duration": 141000
+        "duration": 125503
       }
     ],
     "images": [
       {
         "image": "images/p32_0.jpg",
-        "duration": 141000
+        "duration": 125503
       }
     ],
     "decisions": [
@@ -185,13 +185,13 @@
     "audio": [
       {
         "audio": "s32_e",
-        "duration": 21000
+        "duration": 22221
       }
     ],
     "images": [
       {
         "image": "images/p32_0.jpg",
-        "duration": 21000
+        "duration": 22221
       }
     ],
     "decisions": [
@@ -212,7 +212,7 @@
     "audio": [
       {
         "audio": "scarriage",
-        "duration": 29000
+        "duration": 23800
       }
     ],
     "images": [
@@ -222,7 +222,7 @@
       },
       {
         "image": "images/pcarriage.jpg",
-        "duration": 21500
+        "duration": 16300
       }
     ],
     "decisions": [
@@ -293,13 +293,13 @@
     "audio": [
       {
         "audio": "s33_a",
-        "duration": 21682
+        "duration": 15789
       }
     ],
     "images": [
       {
         "image": "images/p32_a.jpg",
-        "duration": 21682
+        "duration": 15789
       }
     ],
     "decisions": [
@@ -320,13 +320,13 @@
     "audio": [
       {
         "audio": "s33_d",
-        "duration": 51958
+        "duration": 47415
       }
     ],
     "images": [
       {
         "image": "images/p32_a.jpg",
-        "duration": 51958
+        "duration": 47415
       }
     ],
     "decisions": [
@@ -347,13 +347,13 @@
     "audio": [
       {
         "audio": "s33_c",
-        "duration": 42397
+        "duration": 33111
       }
     ],
     "images": [
       {
         "image": "images/p32_a.jpg",
-        "duration": 42397
+        "duration": 33111
       }
     ],
     "decisions": [

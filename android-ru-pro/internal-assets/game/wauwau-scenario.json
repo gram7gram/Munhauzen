@@ -125,22 +125,22 @@
     ],
     "images": [
       {
-        "image": "images/pwau.jpg",
+        "image": "images/unknown_4.jpg",
         "duration": 4000
       },
       {
         "image": "wau/inter_wauwau_font.jpg",
         "withWau": true,
-        "duration": 96000
+        "duration": 79000
       },
       {
-        "image": "images/p0.jpg",
-        "duration": 27000
+        "image": "images/unknown_4.jpg",
+        "duration": 24000
       },
       {
         "image": "wau/inter_wauwau_font.jpg",
         "withWau": true,
-        "duration": 38860
+        "duration": 58860
       }
     ],
     "decisions": [],

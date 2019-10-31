@@ -6,7 +6,7 @@
     "audio": [
       {
         "audio": "s35_3miss",
-        "duration": 44000
+        "duration": 40495
       }
     ],
     "images": [
@@ -16,7 +16,7 @@
       },
       {
         "image": "picture/p35_what_black.jpg",
-        "duration": 25500
+        "duration": 21995
       },
       {
         "image": "images/p35_what.jpg",
@@ -89,13 +89,13 @@
     "audio": [
       {
         "audio": "s36_a",
-        "duration": 10000
+        "duration": 6617
       }
     ],
     "images": [
       {
         "image": "images/p35_what.jpg",
-        "duration": 10000
+        "duration": 6617
       }
     ],
     "decisions": [
@@ -110,13 +110,13 @@
     "audio": [
       {
         "audio": "s36_b",
-        "duration": 12000
+        "duration": 9961
       }
     ],
     "images": [
       {
         "image": "images/p35_what.jpg",
-        "duration": 12000
+        "duration": 9961
       }
     ],
     "decisions": [
@@ -131,13 +131,13 @@
     "audio": [
       {
         "audio": "s36_c",
-        "duration": 9000
+        "duration": 6896
       }
     ],
     "images": [
       {
         "image": "images/p35_what.jpg",
-        "duration": 9000
+        "duration": 6896
       }
     ],
     "decisions": [
@@ -152,13 +152,13 @@
     "audio": [
       {
         "audio": "s36_d",
-        "duration": 8000
+        "duration": 4527
       }
     ],
     "images": [
       {
         "image": "images/p35_what.jpg",
-        "duration": 8000
+        "duration": 4527
       }
     ],
     "decisions": [

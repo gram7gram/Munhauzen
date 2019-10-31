@@ -6,17 +6,17 @@
     "audio": [
       {
         "audio": "sworm",
-        "duration": 202000
+        "duration": 198368
       }
     ],
     "images": [
       {
         "image": "images/pworm_0.jpg",
-        "duration": 126000
+        "duration": 192000
       },
       {
         "image": "cannons/inter_cannons_font.jpg",
-        "duration": 76000
+        "duration": 6368
       }
     ],
     "decisions": [
@@ -76,14 +76,14 @@
     "audio": [
       {
         "audio": "sworm_a",
-        "duration": 0
+        "duration": 11702
       }
     ],
     "images": [
       {
         "image": "cannons/inter_cannons_font.jpg",
         "withWorms": true,
-        "duration": 5000
+        "duration": 11702
       }
     ],
     "decisions": [
@@ -104,14 +104,14 @@
     "audio": [
       {
         "audio": "sworm_d",
-        "duration": 0
+        "duration": 33367
       }
     ],
     "images": [
       {
         "image": "cannons/inter_cannons_font.jpg",
         "withWorms": true,
-        "duration": 5000
+        "duration": 33367
       }
     ],
     "decisions": [
@@ -132,14 +132,14 @@
     "audio": [
       {
         "audio": "sworm_c",
-        "duration": 0
+        "duration": 62206
       }
     ],
     "images": [
       {
         "image": "cannons/inter_cannons_font.jpg",
         "withWorms": true,
-        "duration": 5000
+        "duration": 62206
       }
     ],
     "decisions": [
@@ -160,18 +160,18 @@
     "audio": [
       {
         "audio": "sworm_b",
-        "duration": 0
+        "duration": 261619
       }
     ],
     "images": [
       {
         "image": "cannons/inter_cannons_font.jpg",
         "withWorms": true,
-        "duration": 5000
+        "duration": 2500
       },
       {
         "image": "images/pworm_d.jpg",
-        "duration": 3000
+        "duration": 259119
       }
     ],
     "decisions": [],
