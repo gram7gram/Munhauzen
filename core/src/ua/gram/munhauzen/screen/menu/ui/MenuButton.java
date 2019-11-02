@@ -97,7 +97,7 @@ public abstract class MenuButton extends Stack {
 
                 animation.start();
 
-                screen.isButtonClicked = true;
+                screen.isUILocked = true;
 
                 screen.layers.setBannerLayer(null);
 

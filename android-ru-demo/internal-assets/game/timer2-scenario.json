@@ -6,13 +6,13 @@
     "audio": [
       {
         "audio": "sprisoners",
-        "duration": 0
+        "duration": 13258
       }
     ],
     "images": [
       {
         "image": "images/pprisoners.jpg",
-        "duration": 0
+        "duration": 13258
       }
     ],
     "decisions": [
@@ -92,13 +92,13 @@
     "audio": [
       {
         "audio": "sprisoners_a",
-        "duration": 0
+        "duration": 23219
       }
     ],
     "images": [
       {
         "image": "images/pprisoners.jpg",
-        "duration": 0
+        "duration": 23219
       }
     ],
     "decisions": [

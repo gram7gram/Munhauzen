@@ -2,7 +2,6 @@ package ua.gram.munhauzen.interaction.timer2.fragment;
 
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -11,12 +10,10 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Timer;
@@ -30,6 +27,7 @@ import ua.gram.munhauzen.interaction.timer2.Timer2StoryScenario;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.ui.Fragment;
+import ua.gram.munhauzen.ui.ScenarioBar;
 import ua.gram.munhauzen.utils.Log;
 
 /**
@@ -41,7 +39,7 @@ public class Timer2ProgressBarFragment extends Fragment {
     public final Timer2Interaction interaction;
     public final GameScreen gameScreen;
 
-    public ProgressBar bar;
+    public ScenarioBar bar;
     public Table root;
     public Stack stack;
     public Table controlsTable;
@@ -59,22 +57,11 @@ public class Timer2ProgressBarFragment extends Fragment {
 
         Log.i(tag, "create");
 
-        Texture line = interaction.assetManager.get("ui/player_progress_bar_progress.9.jpg", Texture.class);
-        Texture knob = interaction.assetManager.get("ui/player_progress_bar_knob.png", Texture.class);
         Texture backTexture = interaction.assetManager.get("ui/elements_player_fond_1.png", Texture.class);
         Texture sideTexture = interaction.assetManager.get("ui/elements_player_fond_3.png", Texture.class);
         Texture centerTexture = interaction.assetManager.get("ui/elements_player_fond_2.png", Texture.class);
 
-        Sprite knobSprite = new Sprite(knob);
-
-        ProgressBar.ProgressBarStyle barStyle = new ProgressBar.ProgressBarStyle();
-        barStyle.background = new NinePatchDrawable(new NinePatch(
-                line,
-                10, 10, 0, 0
-        ));
-        barStyle.knob = new SpriteDrawable(knobSprite);
-
-        bar = new ProgressBar(0, 100, 1, false, barStyle);
+        bar = new ScenarioBar(gameScreen);
 
         Sprite sideLeftSprite = new Sprite(sideTexture);
         Sprite sideRightSprite = new Sprite(sideTexture);
@@ -99,12 +86,6 @@ public class Timer2ProgressBarFragment extends Fragment {
         int controlsSize = MunhauzenGame.WORLD_HEIGHT / 20;
         int fragmentHeight = controlsSize * 4;
         int decorHeight = fragmentHeight - controlsSize + 5;
-
-        float originalKnobHeight = barStyle.knob.getMinHeight();
-        float knobScale = originalKnobHeight > 0 ? 1f * controlsSize / originalKnobHeight : 1;
-
-        barStyle.knob.setMinHeight(controlsSize);
-        barStyle.knob.setMinWidth(barStyle.knob.getMinWidth() * knobScale);
 
         controlsTable = new Table();
         controlsTable.add(skipBackButton).expandX().left().width(controlsSize).height(controlsSize);
@@ -537,7 +518,7 @@ public class Timer2ProgressBarFragment extends Fragment {
 
         boolean hasVisitedBefore = gameScreen.game.gameState.history.visitedStories.contains(story.id);
 
-        bar.setVisible(hasVisitedBefore);
+        bar.setEnabled(hasVisitedBefore);
 
         pauseButton.setVisible(!GameState.isPaused);
         playButton.setVisible(GameState.isPaused);

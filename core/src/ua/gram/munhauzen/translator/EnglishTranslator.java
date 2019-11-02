@@ -136,6 +136,12 @@ public class EnglishTranslator implements Translator {
         map.put("chapter_inter.chapter", "Chapter");
         map.put("continue_inter.btn", "Continue");
         map.put("horn_inter.btn", "Continue");
+        map.put("start_warning_banner.title",
+                "Do you want to start a new game?"
+                        + "\nUnsaved progress will be lost"
+        );
+        map.put("start_warning_banner.yes_btn", "Yes");
+        map.put("start_warning_banner.no_btn", "No");
 
     }
 

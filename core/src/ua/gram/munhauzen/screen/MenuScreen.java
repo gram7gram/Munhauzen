@@ -17,6 +17,7 @@ import ua.gram.munhauzen.screen.menu.fragment.ImageFragment;
 import ua.gram.munhauzen.screen.menu.fragment.ProFragment;
 import ua.gram.munhauzen.screen.menu.fragment.RateFragment;
 import ua.gram.munhauzen.screen.menu.fragment.ShareFragment;
+import ua.gram.munhauzen.screen.menu.fragment.StartWarningFragment;
 import ua.gram.munhauzen.screen.menu.fragment.ThankYouFragment;
 import ua.gram.munhauzen.screen.menu.listenter.MenuStageListener;
 import ua.gram.munhauzen.screen.menu.ui.MenuLayers;
@@ -38,9 +39,10 @@ public class MenuScreen extends AbstractScreen {
     public DemoFragment demoFragment;
     public ProFragment proFragment;
     public ExitFragment exitFragment;
+    public StartWarningFragment startWarningFragment;
     public ThankYouFragment thankYouFragment;
     public AudioService audioService;
-    public boolean isButtonClicked, isZoomStarted;
+    public boolean isUILocked, isZoomStarted;
 
     public MenuScreen(MunhauzenGame game) {
         super(game);
@@ -197,6 +199,19 @@ public class MenuScreen extends AbstractScreen {
         menuState.openCount = openCount;
     }
 
+    public void openStartWarningBanner(Timer.Task task) {
+        try {
+            startWarningFragment = new StartWarningFragment(MenuScreen.this, task);
+            startWarningFragment.create();
+
+            layers.setBannerLayer(startWarningFragment);
+
+            startWarningFragment.fadeIn();
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+    }
+
     private void openThankYouBanner() {
         try {
 
@@ -215,7 +230,7 @@ public class MenuScreen extends AbstractScreen {
         try {
 
             if (layers.bannerLayer != null) return;
-            if (isButtonClicked) return;
+            if (isUILocked) return;
 
             greetingFragment = new GreetingFragment(MenuScreen.this);
             greetingFragment.create();
@@ -235,7 +250,7 @@ public class MenuScreen extends AbstractScreen {
         try {
 
             if (layers.bannerLayer != null) return;
-            if (isButtonClicked) return;
+            if (isUILocked) return;
 
             shareFragment = new ShareFragment(MenuScreen.this);
             shareFragment.create();
@@ -253,7 +268,7 @@ public class MenuScreen extends AbstractScreen {
         try {
 
             if (layers.bannerLayer != null) return;
-            if (isButtonClicked) return;
+            if (isUILocked) return;
 
             if (game.params.isPro) {
                 proFragment = new ProFragment(MenuScreen.this);
@@ -326,6 +341,11 @@ public class MenuScreen extends AbstractScreen {
     @Override
     public void dispose() {
         super.dispose();
+
+        if (startWarningFragment != null) {
+            startWarningFragment.destroy();
+            startWarningFragment = null;
+        }
 
         if (exitFragment != null) {
             exitFragment.destroy();

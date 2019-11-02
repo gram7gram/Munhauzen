@@ -64,7 +64,7 @@ public class RussianTranslator implements Translator {
         map.put("date_inter.fail_banner_title", "Выбрать другую дату?");
         map.put("date_inter.fail_banner_yes", "Да");
         map.put("date_inter.fail_banner_no", "Нет");
-        map.put("lions_inter.attack_btn", "Аттаковать!");
+        map.put("lions_inter.attack_btn", "Атаковать!");
         map.put("puzzle_inter.retry_btn", "Снова");
         map.put("servants_inter.back_btn", "Назад");
         map.put("servants_inter.goto_servants_btn", "Слуги");
@@ -76,7 +76,7 @@ public class RussianTranslator implements Translator {
         map.put("servants_inter.hire_banner_title", "Нанять его в свою свиту?");
         map.put("servants_inter.hire_banner_yes_btn", "Да");
         map.put("servants_inter.hire_banner_no_btn", "Нет");
-        map.put("servants_inter.discard_btn", "Уволить всех");
+        map.put("servants_inter.discard_btn", "Очистить");
         map.put("servants_inter.complete_banner_title", "Отправится в Египет?");
         map.put("servants_inter.complete_banner_yes", "Да");
         map.put("servants_inter.complete_banner_no", "Нет");
@@ -146,6 +146,12 @@ public class RussianTranslator implements Translator {
         map.put("chapter_inter.chapter", "Глава");
         map.put("continue_inter.btn", "Продолжить");
         map.put("horn_inter.btn", "Продолжить");
+        map.put("start_warning_banner.title",
+                "Вы хотите начать слушать сначала?"
+                        + "\nНесохраннёный прогресс будет потерян"
+        );
+        map.put("start_warning_banner.yes_btn", "Да");
+        map.put("start_warning_banner.no_btn", "Нет");
 
     }
 
