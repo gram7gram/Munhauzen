@@ -116,7 +116,7 @@ public class EnglishTranslator implements Translator {
         map.put("fails.title", "Goofs");
         map.put("gallery.title", "Gallery");
         map.put("gallery.bonus_title", "Exhibit is not completed :(");
-        map.put("ending.part1", "The");
+        map.put("ending.part1", "The ");
         map.put("ending.part2", "End");
         map.put("ending.menu_btn", "menu");
         map.put("share_banner.title", "Tell your friends about audio-book");

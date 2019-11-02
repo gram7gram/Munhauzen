@@ -62,7 +62,7 @@ public class VictoryFragment extends Fragment {
 
         screen.game.fontProvider.loadHd();
 
-        title1 = new Label(screen.game.t("ending.part1") + " ", new Label.LabelStyle(
+        title1 = new Label(screen.game.t("ending.part1"), new Label.LabelStyle(
                 screen.game.fontProvider.getHdFont(FontProvider.CalligraphModern2, FontProvider.hd),
                 Color.WHITE
         ));

@@ -39,6 +39,7 @@ public class SlapImageFragment extends InteractionFragment {
     float afterWidth, betweenWidth, beforeWidth, beforeHeight;
     StoryAudio introAudio, winAudio;
     BackgroundImage doorBackground;
+    PrimaryButton btn;
 
     public SlapImageFragment(SlapInteraction interaction) {
         this.interaction = interaction;
@@ -48,7 +49,7 @@ public class SlapImageFragment extends InteractionFragment {
 
         Log.i(tag, "create");
 
-        PrimaryButton btn = interaction.gameScreen.game.buttonBuilder.primary(interaction.t("slap_inter.start_btn"), new ClickListener() {
+        btn = interaction.gameScreen.game.buttonBuilder.primary(interaction.t("slap_inter.start_btn"), new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
@@ -168,6 +169,11 @@ public class SlapImageFragment extends InteractionFragment {
         playWin();
 
         int animationDuration = 8;
+
+        btn.addAction(Actions.sequence(
+                Actions.fadeOut(.3f),
+                Actions.visible(false)
+        ));
 
         group.addAction(
                 Actions.moveTo(-beforeWidth - betweenWidth, group.getY(), animationDuration, Interpolation.fastSlow)

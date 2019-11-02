@@ -110,7 +110,6 @@ public class GameScreen implements Screen {
         }
 
         GameState.isEndingReached = false;
-        GameState.isMute = false;
 
         isLoaded = false;
 

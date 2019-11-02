@@ -390,7 +390,8 @@ public class StoryManager {
                 gameScreen.scenarioFragment = new ScenarioFragment(gameScreen, story.id);
             }
 
-            gameScreen.progressBarFragment.fadeIn();
+            if (gameScreen.progressBarFragment != null)
+                gameScreen.progressBarFragment.fadeIn();
 
             gameScreen.scenarioFragment.create(availableDecisions);
 
