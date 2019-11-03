@@ -10,6 +10,7 @@ import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.screen.MenuScreen;
 import ua.gram.munhauzen.screen.menu.animation.CrownAnimation;
 import ua.gram.munhauzen.screen.menu.animation.IconAnimation;
+import ua.gram.munhauzen.utils.Log;
 
 public class StartButton extends MenuButton {
 
@@ -24,19 +25,26 @@ public class StartButton extends MenuButton {
                 Timer.Task task = new Timer.Task() {
                     @Override
                     public void run() {
-                        screen.game.gameState.setActiveSave(new Save());
+                        try {
+                            screen.game.gameState.setActiveSave(new Save());
 
-                        screen.stopCurrentSfx();
-                        screen.game.currentSfx = screen.game.sfxService.onMenuStartClicked();
+                            screen.game.databaseManager.persist(screen.game.gameState);
 
-                        screen.scaleAndNavigateTo(new GameScreen(screen.game));
+                            screen.stopCurrentSfx();
+                            screen.game.currentSfx = screen.game.sfxService.onMenuStartClicked();
+
+                            screen.scaleAndNavigateTo(new GameScreen(screen.game));
+                        } catch (Throwable e) {
+                            Log.e(tag, e);
+
+                            screen.onCriticalError(e);
+                        }
                     }
                 };
 
                 if (!screen.game.gameState.menuState.isContinueEnabled) {
                     Timer.instance().postTask(task);
                 } else {
-
 
                     Gdx.input.setInputProcessor(screen.ui);
                     screen.isUILocked = false;

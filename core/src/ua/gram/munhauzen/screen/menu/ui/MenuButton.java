@@ -22,6 +22,7 @@ import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.screen.MenuScreen;
 import ua.gram.munhauzen.screen.menu.animation.IconAnimation;
 import ua.gram.munhauzen.ui.FitImage;
+import ua.gram.munhauzen.utils.Log;
 
 public abstract class MenuButton extends Stack {
 
@@ -89,26 +90,39 @@ public abstract class MenuButton extends Stack {
             public void clicked(final InputEvent event, final float x, final float y) {
                 super.clicked(event, x, y);
 
-                Gdx.input.setInputProcessor(null);
+                try {
 
-                screen.stopCurrentSfx();
+                    Gdx.input.setInputProcessor(null);
 
-                screen.game.sfxService.onAnyBtnClicked();
+                    screen.stopCurrentSfx();
 
-                animation.start();
+                    screen.game.sfxService.onAnyBtnClicked();
 
-                screen.isUILocked = true;
+                    animation.start();
 
-                screen.layers.setBannerLayer(null);
+                    screen.isUILocked = true;
 
-                GameState.clearTimer(tag);
+                    screen.layers.setBannerLayer(null);
 
-                Timer.instance().scheduleTask(new Timer.Task() {
-                    @Override
-                    public void run() {
-                        onClick.clicked(event, x, y);
-                    }
-                }, 1);
+                    GameState.clearTimer(tag);
+
+                    Timer.instance().scheduleTask(new Timer.Task() {
+                        @Override
+                        public void run() {
+                            try {
+                                onClick.clicked(event, x, y);
+                            } catch (Throwable e) {
+                                Log.e(tag, e);
+
+                                screen.onCriticalError(e);
+                            }
+                        }
+                    }, 1);
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+
+                    screen.onCriticalError(e);
+                }
             }
         });
     }

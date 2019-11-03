@@ -171,14 +171,13 @@ public class HareProgressBarFragment extends Fragment {
             }
         });
 
-        skipBackButton.addListener(new InputListener() {
+        skipBackButton.addListener(new ClickListener() {
+
             @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                super.enter(event, x, y, pointer, fromActor);
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
 
                 try {
-                    gameScreen.audioService.pause();
-
                     HareStory story = interaction.storyManager.story;
                     if (story.currentScenario == null) return;
 
@@ -187,8 +186,6 @@ public class HareProgressBarFragment extends Fragment {
                     } else {
                         story.progress = story.currentScenario.startsAt;
                     }
-
-                    GameState.pause(tag);
 
                     postProgressChanged();
 
@@ -213,18 +210,15 @@ public class HareProgressBarFragment extends Fragment {
             }
         });
 
-        skipForwardButton.addListener(new InputListener() {
+        skipForwardButton.addListener(new ClickListener() {
+
             @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                super.enter(event, x, y, pointer, fromActor);
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
 
                 try {
-                    gameScreen.audioService.pause();
-
                     HareStory story = interaction.storyManager.story;
                     if (story.currentScenario == null) return;
-
-                    GameState.pause(tag);
 
                     if (story.currentScenario.next != null) {
                         story.progress = story.currentScenario.next.startsAt;
@@ -246,6 +240,9 @@ public class HareProgressBarFragment extends Fragment {
                 super.exit(event, x, y, pointer, toActor);
 
                 try {
+                    HareStory story = interaction.storyManager.story;
+                    if (story == null || story.isCompleted) return;
+
                     GameState.unpause(tag);
 
                     startCurrentMusicIfPaused();

@@ -171,14 +171,13 @@ public class GeneralsProgressBarFragment extends Fragment {
             }
         });
 
-        skipBackButton.addListener(new InputListener() {
+        skipBackButton.addListener(new ClickListener() {
+
             @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                super.enter(event, x, y, pointer, fromActor);
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
 
                 try {
-                    gameScreen.audioService.pause();
-
                     GeneralsStory story = interaction.storyManager.story;
                     if (story.currentScenario == null) return;
 
@@ -187,8 +186,6 @@ public class GeneralsProgressBarFragment extends Fragment {
                     } else {
                         story.progress = story.currentScenario.startsAt;
                     }
-
-                    GameState.pause(tag);
 
                     postProgressChanged();
 
@@ -211,20 +208,18 @@ public class GeneralsProgressBarFragment extends Fragment {
                     Log.e(tag, e);
                 }
             }
+
         });
 
-        skipForwardButton.addListener(new InputListener() {
+        skipForwardButton.addListener(new ClickListener() {
+
             @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                super.enter(event, x, y, pointer, fromActor);
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
 
                 try {
-                    gameScreen.audioService.pause();
-
                     GeneralsStory story = interaction.storyManager.story;
                     if (story.currentScenario == null) return;
-
-                    GameState.pause(tag);
 
                     if (story.currentScenario.next != null) {
                         story.progress = story.currentScenario.next.startsAt;
@@ -246,6 +241,10 @@ public class GeneralsProgressBarFragment extends Fragment {
                 super.exit(event, x, y, pointer, toActor);
 
                 try {
+
+                    GeneralsStory story = interaction.storyManager.story;
+                    if (story == null || story.isCompleted) return;
+
                     GameState.unpause(tag);
 
                     startCurrentMusicIfPaused();

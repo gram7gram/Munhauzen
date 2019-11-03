@@ -184,14 +184,13 @@ public class WauProgressBarFragment extends Fragment {
             }
         });
 
-        skipBackButton.addListener(new InputListener() {
+        skipBackButton.addListener(new ClickListener() {
+
             @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                super.enter(event, x, y, pointer, fromActor);
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
 
                 try {
-                    gameScreen.audioService.pause();
-
                     WauStory story = interaction.storyManager.story;
                     if (story.currentScenario == null) return;
 
@@ -202,11 +201,7 @@ public class WauProgressBarFragment extends Fragment {
                         skipTo = story.currentScenario;
                     }
 
-                    Log.i(tag, "skipBackButton to " + skipTo.scenario.name + " at " + skipTo.startsAt + " ms");
-
                     story.progress = skipTo.startsAt;
-
-                    GameState.pause(tag);
 
                     postProgressChanged();
 
@@ -231,18 +226,15 @@ public class WauProgressBarFragment extends Fragment {
             }
         });
 
-        skipForwardButton.addListener(new InputListener() {
+        skipForwardButton.addListener(new ClickListener() {
+
             @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                super.enter(event, x, y, pointer, fromActor);
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
 
                 try {
-                    gameScreen.audioService.pause();
-
                     WauStory story = interaction.storyManager.story;
                     if (story.currentScenario == null) return;
-
-                    GameState.pause(tag);
 
                     if (story.currentScenario.next != null) {
                         story.progress = story.currentScenario.next.startsAt;
@@ -264,6 +256,10 @@ public class WauProgressBarFragment extends Fragment {
                 super.exit(event, x, y, pointer, toActor);
 
                 try {
+
+                    WauStory story = interaction.storyManager.story;
+                    if (story == null || story.isCompleted) return;
+
                     GameState.unpause(tag);
 
                     startCurrentMusicIfPaused();

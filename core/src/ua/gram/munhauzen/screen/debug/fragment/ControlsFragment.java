@@ -29,6 +29,14 @@ import ua.gram.munhauzen.entity.MenuState;
 import ua.gram.munhauzen.entity.Save;
 import ua.gram.munhauzen.entity.Scenario;
 import ua.gram.munhauzen.interaction.InteractionFactory;
+import ua.gram.munhauzen.interaction.cannons.CannonsScenario;
+import ua.gram.munhauzen.interaction.generals.GeneralsScenario;
+import ua.gram.munhauzen.interaction.hare.HareScenario;
+import ua.gram.munhauzen.interaction.picture.PictureScenario;
+import ua.gram.munhauzen.interaction.servants.hire.HireScenario;
+import ua.gram.munhauzen.interaction.timer.TimerScenario;
+import ua.gram.munhauzen.interaction.timer2.Timer2Scenario;
+import ua.gram.munhauzen.interaction.wauwau.WauScenario;
 import ua.gram.munhauzen.screen.DebugScreen;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.screen.LoadingScreen;
@@ -167,6 +175,30 @@ public class ControlsFragment extends Fragment {
                     for (Scenario s : game.gameState.scenarioRegistry) {
                         game.gameState.history.visitedStories.add(s.name);
                     }
+                    for (CannonsScenario s : game.databaseManager.loadCannonsScenario()) {
+                        game.gameState.history.visitedStories.add(s.name);
+                    }
+                    for (GeneralsScenario s : game.databaseManager.loadGeneralsScenario()) {
+                        game.gameState.history.visitedStories.add(s.name);
+                    }
+                    for (HareScenario s : game.databaseManager.loadHareScenario()) {
+                        game.gameState.history.visitedStories.add(s.name);
+                    }
+                    for (PictureScenario s : game.databaseManager.loadPictureScenario()) {
+                        game.gameState.history.visitedStories.add(s.name);
+                    }
+                    for (HireScenario s : game.databaseManager.loadServantsHireScenario()) {
+                        game.gameState.history.visitedStories.add(s.name);
+                    }
+                    for (Timer2Scenario s : game.databaseManager.loadTimer2Scenario()) {
+                        game.gameState.history.visitedStories.add(s.name);
+                    }
+                    for (TimerScenario s : game.databaseManager.loadTimerScenario()) {
+                        game.gameState.history.visitedStories.add(s.name);
+                    }
+                    for (WauScenario s : game.databaseManager.loadWauwauScenario()) {
+                        game.gameState.history.visitedStories.add(s.name);
+                    }
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -228,7 +260,7 @@ public class ControlsFragment extends Fragment {
             }
         });
 
-        final Label expLbl = new Label("[+] Скачать файл расш.", new Label.LabelStyle(
+        final Label expLbl = new Label("[+] Скачать обновления", new Label.LabelStyle(
                 game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
                 Color.BLUE
         ));

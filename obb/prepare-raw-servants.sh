@@ -3,6 +3,13 @@
 SRC_DIR="/Users/master/Projects/MunhauzenDocs/Elements/interaction SERVANTS"
 OBB_PATH="/Users/master/Projects/Munhauzen/obb"
 
+cd $SRC_DIR
+
+convert inter_servants_fond.jpg -resize x1600 -quality 80 $OBB_PATH/ru/raw/images/inter_servants_fond.jpg
+
+cp $OBB_PATH/en/raw/servants/inter_servants_fond.jpg $OBB_PATH/ru/raw/servants/inter_servants_fond.jpg
+
+
 cd "$SRC_DIR/servants_1"
 
 echo "=> Converting sources..."
