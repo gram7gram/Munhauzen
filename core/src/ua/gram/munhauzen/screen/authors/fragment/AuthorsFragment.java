@@ -24,7 +24,7 @@ import ua.gram.munhauzen.utils.Log;
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class AuthorsFragment extends Fragment {
+public abstract class AuthorsFragment extends Fragment {
 
     private final String tag = getClass().getSimpleName();
     public final AuthorsScreen screen;
@@ -35,6 +35,8 @@ public class AuthorsFragment extends Fragment {
     public AuthorsFragment(AuthorsScreen screen) {
         this.screen = screen;
     }
+
+    protected abstract Table createBody();
 
     @Override
     public Actor getRoot() {
@@ -160,31 +162,6 @@ public class AuthorsFragment extends Fragment {
 
     public void update() {
 
-    }
-
-    private Table createBody() {
-
-        Table rows = new Table();
-        rows.align(Align.top);
-        rows.pad(10, 100, 10, 100);
-
-        float widthLimit = MunhauzenGame.WORLD_WIDTH - 20 - rows.getPadLeft() - rows.getPadRight();
-
-        Label.LabelStyle style = new Label.LabelStyle(
-                screen.game.fontProvider.getFont(FontProvider.h4),
-                Color.BLACK
-        );
-
-        for (String sentence : screen.game.t("authors.content").split("\n")) {
-
-            Label label = new Label(sentence, style);
-            label.setWrap(true);
-            label.setAlignment(Align.center);
-
-            rows.add(label).padBottom(10).center().width(widthLimit).row();
-        }
-
-        return rows;
     }
 
     private Table createShareRow() {

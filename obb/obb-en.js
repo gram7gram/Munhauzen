@@ -34,6 +34,7 @@ DPIs.forEach(DPI => {
     ]
 
     const otherAssets = [
+        '/authors',
         '/gallery',
         '/menu',
         '/GameScreen',

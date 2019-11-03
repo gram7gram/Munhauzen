@@ -59,9 +59,9 @@ syncLocal "$VERSION-ru-hdpi"
 #syncRemote "$VERSION-en-mdpi"
 #syncRemote "$VERSION-en-hdpi"
 
-syncRemote "$VERSION-ru-mdpi"
-syncRemote "$VERSION-ru-hdpi"
+#syncRemote "$VERSION-ru-mdpi"
+#syncRemote "$VERSION-ru-hdpi"
 
-deploy
+#deploy
 
 echo "[+] Completed!"

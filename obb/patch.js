@@ -8,7 +8,7 @@ const VERSION = 1;
 const LOCALE = 'ru';
 
 const PATCH_DIRS = [
-    '/GameScreen'
+    '/authors'
 ];
 
 const DPIs = [
