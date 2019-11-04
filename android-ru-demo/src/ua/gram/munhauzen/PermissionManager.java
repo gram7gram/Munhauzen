@@ -14,7 +14,6 @@ import java.util.ArrayList;
 public class PermissionManager {
 
     public static final String[] PERMISSIONS = new String[]{
-            Manifest.permission.RECORD_AUDIO,
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.WAKE_LOCK,

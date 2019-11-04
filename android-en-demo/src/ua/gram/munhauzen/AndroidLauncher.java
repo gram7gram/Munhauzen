@@ -23,9 +23,9 @@ public class AndroidLauncher extends AndroidApplication {
 
         PlatformParams params = new PlatformParams();
         params.applicationId = BuildConfig.APPLICATION_ID;
-        params.applicationProId = "en.fingertips.munchausen.pro";
-        params.applicationDemoId = "en.fingertips.munchausen.demo";
-        params.storageDirectory = ".Munchausen/en.fingertips.munchausen.any";
+        params.applicationProId = "en.munchausen.fingertipsandcompany.full";
+        params.applicationDemoId = "en.munchausen.fingertipsandcompany.demo";
+        params.storageDirectory = ".Munchausen/en.munchausen.fingertipsandcompany.any";
         params.versionCode = BuildConfig.VERSION_CODE;
         params.versionName = BuildConfig.VERSION_NAME;
         params.locale = "en";

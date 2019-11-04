@@ -10,6 +10,7 @@ import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.screen.MenuScreen;
 import ua.gram.munhauzen.screen.menu.animation.CrownAnimation;
 import ua.gram.munhauzen.screen.menu.animation.IconAnimation;
+import ua.gram.munhauzen.utils.ExternalFiles;
 import ua.gram.munhauzen.utils.Log;
 
 public class StartButton extends MenuButton {
@@ -26,6 +27,8 @@ public class StartButton extends MenuButton {
                     @Override
                     public void run() {
                         try {
+                            ExternalFiles.getActiveSaveFile(screen.game.params).delete();
+
                             screen.game.gameState.setActiveSave(new Save());
 
                             screen.game.databaseManager.persist(screen.game.gameState);

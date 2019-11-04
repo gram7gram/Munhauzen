@@ -109,7 +109,7 @@ public class ExternalFiles {
     }
 
     public static FileHandle getActiveSaveFile(PlatformParams params) {
-        return getExternal(params, "save-0.json");
+        return getExternal(params, "save-active.json");
     }
 
     public static FileHandle getImagesFile(PlatformParams params) {
@@ -117,11 +117,11 @@ public class ExternalFiles {
     }
 
     public static FileHandle getAudioFile(PlatformParams params) {
-        return getExternal(params, "game/name.json");
+        return getExternal(params, "game/audio.json");
     }
 
     public static FileHandle getAudioFailsFile(PlatformParams params) {
-        return getExternal(params, "game/name-fails.json");
+        return getExternal(params, "game/audio-fails.json");
     }
 
     public static FileHandle getInventoryFile(PlatformParams params) {

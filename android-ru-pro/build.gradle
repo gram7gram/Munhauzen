@@ -23,7 +23,7 @@ android {
         exclude 'META-INF/robovm/ios/robovm.xml'
     }
     defaultConfig {
-        applicationId "ru.fingertips.munchausen.pro"
+        applicationId "ru.munchausen.fingertipsandcompany.full"
         minSdkVersion 19
         targetSdkVersion 28
         versionCode APP_VERSION_CODE as Integer
