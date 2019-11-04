@@ -85,25 +85,8 @@ public class ServantsHireImageFragment extends InteractionFragment {
         ));
 
         prevBtn = getPrev();
+
         nextBtn = getNext();
-
-        nextBtn.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-
-                next();
-            }
-        });
-
-        prevBtn.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-
-                prev();
-            }
-        });
 
         hireContainer = new Table();
 
@@ -299,9 +282,9 @@ public class ServantsHireImageFragment extends InteractionFragment {
 
         interaction.storyManager.story = interaction.storyManager.create(name);
 
-        interaction.storyManager.startLoadingResources();
-
         hireDialog.create(name);
+
+        interaction.storyManager.startLoadingResources();
 
         hireContainer.clearChildren();
         hireContainer.add(hireDialog.getRoot());
@@ -452,6 +435,15 @@ public class ServantsHireImageFragment extends InteractionFragment {
             }
         });
 
+        btn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                prev();
+            }
+        });
+
         return btn;
     }
 
@@ -475,6 +467,15 @@ public class ServantsHireImageFragment extends InteractionFragment {
                     return true;
                 }
                 return false;
+            }
+        });
+
+        btn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                next();
             }
         });
 

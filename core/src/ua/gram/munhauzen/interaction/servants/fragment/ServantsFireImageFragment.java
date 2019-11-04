@@ -80,25 +80,32 @@ public class ServantsFireImageFragment extends InteractionFragment {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                backBtn.setDisabled(true);
+                try {
+                    backBtn.setDisabled(true);
 
-                root.setTouchable(Touchable.disabled);
+                    root.setTouchable(Touchable.disabled);
 
-                playBack();
+                    playBack();
 
-                Timer.instance().scheduleTask(new Timer.Task() {
-                    @Override
-                    public void run() {
-                        try {
-                            interaction.openHireFragment();
+                    Timer.instance().scheduleTask(new Timer.Task() {
+                        @Override
+                        public void run() {
+                            try {
+                                interaction.openHireFragment();
 
-                        } catch (Throwable e) {
-                            Log.e(tag, e);
+                            } catch (Throwable e) {
+                                Log.e(tag, e);
 
-                            interaction.gameScreen.onCriticalError(e);
+                                interaction.gameScreen.onCriticalError(e);
+                            }
                         }
-                    }
-                }, backAudio.duration / 1000f);
+                    }, backAudio.duration / 1000f);
+
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+
+                    interaction.gameScreen.onCriticalError(e);
+                }
 
             }
         });
@@ -108,34 +115,44 @@ public class ServantsFireImageFragment extends InteractionFragment {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                clearBtn.setDisabled(true);
+                try {
+                    clearBtn.setDisabled(true);
 
-                root.setTouchable(Touchable.disabled);
+                    root.setTouchable(Touchable.disabled);
 
-                playDiscard();
+                    playDiscard();
 
-                Timer.instance().scheduleTask(new Timer.Task() {
-                    @Override
-                    public void run() {
-                        try {
+                    hiredServants.clear();
+                    items.clearChildren();
 
-                            for (String name : names) {
-                                Inventory item = InventoryRepository.find(game.gameState, name);
+                    for (String name : names) {
+                        Inventory item = InventoryRepository.find(game.gameState, name);
 
-                                if (game.inventoryService.isInInventory(item)) {
-                                    game.inventoryService.remove(item);
-                                }
-                            }
-
-                            interaction.openHireFragment();
-
-                        } catch (Throwable e) {
-                            Log.e(tag, e);
-
-                            interaction.gameScreen.onCriticalError(e);
+                        if (game.inventoryService.isInInventory(item)) {
+                            game.inventoryService.remove(item);
                         }
                     }
-                }, discardAudio.duration / 1000f);
+
+                    Timer.instance().scheduleTask(new Timer.Task() {
+                        @Override
+                        public void run() {
+                            try {
+
+                                interaction.openHireFragment();
+
+                            } catch (Throwable e) {
+                                Log.e(tag, e);
+
+                                interaction.gameScreen.onCriticalError(e);
+                            }
+                        }
+                    }, discardAudio.duration / 1000f);
+
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+
+                    interaction.gameScreen.onCriticalError(e);
+                }
             }
         });
 

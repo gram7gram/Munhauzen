@@ -81,7 +81,7 @@ public class ExternalFiles {
     }
 
     public static FileHandle getGameArchiveFile(PlatformParams params) {
-        return getExternal(params, "game.zip");
+        return getExternal(params, "game-" + params.locale + "-" + params.versionCode + ".zip");
     }
 
     public static FileHandle getHistoryFile(PlatformParams params) {
@@ -137,6 +137,12 @@ public class ExternalFiles {
     }
 
     public static FileHandle getExternal(PlatformParams params, String name) {
-        return Gdx.files.external(params.storageDirectory + "/" + name);
+        FileHandle path = Gdx.files.external(params.storageDirectory + "/" + name);
+
+        if (path.parent() != null && !path.parent().exists()) {
+            path.parent().mkdirs();
+        }
+
+        return path;
     }
 }

@@ -15,6 +15,7 @@ function convertRaw() {
 
     cd $RAW_DIR
     for dir in *; do
+#        dir="authors"
         echo "|- Converting $LOCALE/raw/$dir..."
 
         mkdir -p "$HDPI_DIR/$dir"
@@ -40,6 +41,6 @@ function convertRaw() {
 
 convertRaw "ru"
 
-#convertRaw "en"
+convertRaw "en"
 
 echo "=> Finished"

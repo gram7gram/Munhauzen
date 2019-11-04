@@ -112,7 +112,8 @@ public class EnglishTranslator implements Translator {
         map.put("authors.share_title", "Share the game with your friends!");
         map.put("authors.rate_title", "Please, rate the app!");
         map.put("authors.title", "Creators");
-        map.put("authors.content", "");
+        map.put("authors.pro_title", "Thank you for the support!");
+        map.put("authors.demo_title", "Purchase full version");
         map.put("fails.title", "Goofs");
         map.put("gallery.title", "Gallery");
         map.put("gallery.bonus_title", "Exhibit is not completed :(");
@@ -154,7 +155,7 @@ public class EnglishTranslator implements Translator {
         map.put("authors.link1", "Andrei Kulagin");
         map.put("authors.content2", "for his wonderful works with the liner, watercolors, hands and the head. His masterpieces, diligent work and gratuitous dedication gave us inspiration throughout the enire process.");
         map.put("authors.content3", "Best regards to Peter Hayden for the magnificent voice-over of the role of Munchausen, and Julia Lawn – of his granddaughter.");
-        map.put("authors.content4", "Many thanks to Dmitry Bondarchuk – the main developer! He is the one who persistently embodied our whole idea into the code!");
+        map.put("authors.content4", "Many thanks to Dmitriy Bondarchuk – the main developer! He is the one who persistently embodied our whole idea into the code!");
         map.put("authors.content5", "We also thank Vlad Podoprygora and Denis Lukyanchuk for extensive testing of the audiobook and for the help in writing the scenario.");
         map.put("authors.content6", "Thanks to Ruslan Khabibulin and his studio");
         map.put("authors.link2", "«MelodicVoiceStudio»");

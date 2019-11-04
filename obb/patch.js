@@ -5,7 +5,7 @@ const obbDir = "/Users/master/Projects/Munhauzen/obb"
 const buildDir = obbDir + "/build"
 
 const VERSION = 1;
-const LOCALE = 'ru';
+const LOCALE = 'en';
 
 const PATCH_DIRS = [
     '/authors'

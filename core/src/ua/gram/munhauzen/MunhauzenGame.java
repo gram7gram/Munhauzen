@@ -30,7 +30,6 @@ public class MunhauzenGame extends Game {
     public static int WORLD_HEIGHT;
     public static boolean PAUSED = false;
 
-    public static final boolean DEBUG = true;
     public static final boolean DEBUG_UI = false;
     public static final boolean DEBUG_RENDER_INFO = false;
     public static final boolean CAN_REMOVE_PREVIOUS_EXPANSION = false;

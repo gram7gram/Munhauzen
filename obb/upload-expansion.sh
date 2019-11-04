@@ -50,18 +50,18 @@ function deploy() {
 
 }
 
-#syncLocal "$VERSION-en-mdpi"
-#syncLocal "$VERSION-en-hdpi"
+syncLocal "$VERSION-en-mdpi"
+syncLocal "$VERSION-en-hdpi"
 
-syncLocal "$VERSION-ru-mdpi"
-syncLocal "$VERSION-ru-hdpi"
+#syncLocal "$VERSION-ru-mdpi"
+#syncLocal "$VERSION-ru-hdpi"
 
-#syncRemote "$VERSION-en-mdpi"
-#syncRemote "$VERSION-en-hdpi"
+syncRemote "$VERSION-en-mdpi"
+syncRemote "$VERSION-en-hdpi"
 
 #syncRemote "$VERSION-ru-mdpi"
 #syncRemote "$VERSION-ru-hdpi"
 
-#deploy
+deploy
 
 echo "[+] Completed!"

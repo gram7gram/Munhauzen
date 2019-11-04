@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -82,13 +83,17 @@ public class HireDialog extends Fragment {
                 super.clicked(event, x, y);
 
                 try {
+
+                    Log.i(tag, "yes clicked");
+
+                    yesBtn.setDisabled(true);
+                    root.setTouchable(Touchable.disabled);
+
                     isDecisionActive = true;
 
                     ServantsState state = interaction.gameScreen.getActiveSave().servantsInteractionState;
 
                     state.viewedServants.add(servantName);
-
-                    yesBtn.setDisabled(true);
 
                     stopAllAudio();
 
@@ -98,6 +103,7 @@ public class HireDialog extends Fragment {
 
                     if (interaction.isLimitReached() && !hasServant) {
 
+                        root.setTouchable(Touchable.enabled);
                         playToMuch();
 
                     } else {
@@ -117,6 +123,8 @@ public class HireDialog extends Fragment {
                         nextTask = Timer.instance().scheduleTask(new Timer.Task() {
                             @Override
                             public void run() {
+                                destroy();
+
                                 interaction.hireFragment.next();
                             }
                         }, confirmAudio.duration / 1000f);
@@ -135,13 +143,17 @@ public class HireDialog extends Fragment {
                 super.clicked(event, x, y);
 
                 try {
+
+                    Log.i(tag, "no clicked");
+
+                    noBtn.setDisabled(true);
+                    root.setTouchable(Touchable.disabled);
+
                     isDecisionActive = true;
 
                     ServantsState state = interaction.gameScreen.getActiveSave().servantsInteractionState;
 
                     state.viewedServants.add(servantName);
-
-                    noBtn.setDisabled(true);
 
                     stopAllAudio();
 
@@ -162,6 +174,9 @@ public class HireDialog extends Fragment {
                     nextTask = Timer.instance().scheduleTask(new Timer.Task() {
                         @Override
                         public void run() {
+
+                            destroy();
+
                             interaction.hireFragment.next();
                         }
                     }, cancelAudio.duration / 1000f);

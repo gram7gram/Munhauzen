@@ -49,6 +49,8 @@ public class ServantsInteraction extends AbstractInteraction {
 
     public void openHireFragment() {
 
+        gameScreen.audioService.stop(tag);
+
         imageService = new HireImageService(gameScreen, this);
         storyManager = new HireStoryManager(gameScreen, this);
 
@@ -102,6 +104,8 @@ public class ServantsInteraction extends AbstractInteraction {
     }
 
     public void openFireFragment() {
+
+        gameScreen.audioService.stop(tag);
 
         disposeHire();
 
@@ -198,11 +202,7 @@ public class ServantsInteraction extends AbstractInteraction {
                 }
 
                 if (story.isCompleted) {
-
                     storyManager.onCompleted();
-
-                } else {
-                    storyManager.startLoadingResources();
                 }
             }
         }
@@ -257,6 +257,11 @@ public class ServantsInteraction extends AbstractInteraction {
         if (hireFragment != null) {
             hireFragment.dispose();
             hireFragment = null;
+        }
+
+        if (progressBarFragment != null) {
+            progressBarFragment.dispose();
+            progressBarFragment = null;
         }
 
         if (fireAudio != null) {

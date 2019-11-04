@@ -1,6 +1,6 @@
 package ua.gram.munhauzen.interaction.servants.hire;
 
-import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.ServantsState;
@@ -25,27 +25,41 @@ public class HireStoryManager {
 
     public HireStory create(String begin) {
 
-        reset();
+        try {
+            reset();
 
-        HireStory story = new HireStory();
+            HireStory story = null;
 
-        for (HireScenario scenario : interaction.hireScenarioRegistry) {
-            if (scenario.name.equals(begin)) {
+            for (HireScenario scenario : interaction.hireScenarioRegistry) {
+                if (scenario.name.equals(begin)) {
 
-                story.id = scenario.name;
+                    story = new HireStory();
+                    story.id = scenario.name;
 
-                HireStoryScenario storyScenario = new HireStoryScenario(gameScreen.game.gameState);
-                storyScenario.scenario = scenario;
+                    HireStoryScenario storyScenario = new HireStoryScenario(gameScreen.game.gameState);
+                    storyScenario.scenario = scenario;
 
-                story.scenarios.add(storyScenario);
+                    story.scenarios.add(storyScenario);
 
-                break;
+                    break;
+                }
             }
+
+            if (story == null) {
+                throw new GdxRuntimeException("No story found for " + begin);
+            }
+
+            story.init();
+
+            return story;
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            gameScreen.onCriticalError(e);
+
+            return null;
         }
-
-        story.init();
-
-        return story;
     }
 
     public void update(float progress, int duration) {
@@ -61,30 +75,9 @@ public class HireStoryManager {
 
         try {
 
-            final StoryAudio audio = scenario.currentAudio;
+            StoryAudio audio = scenario.currentAudio;
             if (audio != null) {
-                gameScreen.audioService.prepare(audio, new Timer.Task() {
-                    @Override
-                    public void run() {
-                        try {
-                            if (gameScreen.audioService != null)
-                                gameScreen.audioService.playAudio(audio);
-                        } catch (Throwable e) {
-                            Log.e(tag, e);
-
-                            interaction.gameScreen.onCriticalError(e);
-                        }
-                    }
-                });
-
-                if (audio.next != null) {
-                    gameScreen.audioService.prepare(audio.next, new Timer.Task() {
-                        @Override
-                        public void run() {
-
-                        }
-                    });
-                }
+                gameScreen.audioService.prepareAndPlay(audio);
             }
         } catch (Throwable e) {
             Log.e(tag, e);
@@ -103,28 +96,7 @@ public class HireStoryManager {
         try {
             final StoryImage image = scenario.currentImage;
             if (image != null) {
-                interaction.imageService.prepare(image, new Timer.Task() {
-                    @Override
-                    public void run() {
-                        try {
-                            if (interaction.imageService != null)
-                                interaction.imageService.onPrepared(image);
-                        } catch (Throwable e) {
-                            Log.e(tag, e);
-
-                            interaction.gameScreen.onCriticalError(e);
-                        }
-                    }
-                });
-
-                if (image.next != null) {
-                    interaction.imageService.prepare(image.next, new Timer.Task() {
-                        @Override
-                        public void run() {
-
-                        }
-                    });
-                }
+                interaction.imageService.prepareAndDisplay(image);
             }
         } catch (Throwable e) {
             Log.e(tag, e);
@@ -137,11 +109,12 @@ public class HireStoryManager {
     public void startLoadingResources() {
 
         if (interaction.hireFragment != null) {
-            if (interaction.hireFragment.hireDialog.servantName != null) {
+            String servant = interaction.hireFragment.hireDialog.servantName;
+            if (servant != null) {
 
                 startLoadingImages();
 
-                if (!interaction.hireFragment.hasServant(interaction.hireFragment.hireDialog.servantName)) {
+                if (!interaction.hireFragment.hasServant(servant)) {
                     startLoadingAudio();
                 }
             }

@@ -121,7 +121,7 @@ public class GameAudioService implements Disposable {
             throw new GdxRuntimeException("Audio file does not exist " + audio.name + " at " + file.path());
         }
 
-        final String resource = file.path();
+        String resource = file.path();
 
         assetManager.load(resource, Music.class);
 
@@ -130,7 +130,6 @@ public class GameAudioService implements Disposable {
         item.player = assetManager.get(resource, Music.class);
 
         item.player.setVolume(GameState.isMute ? 0 : 1);
-
         item.player.play();
 
         synchronized (activeAudio) {
@@ -147,10 +146,17 @@ public class GameAudioService implements Disposable {
 
     public void playAudio(StoryAudio item) {
 
+        if (item == null) return;
+        if (!item.isLocked) return;
+        if (item.isActive) return;
+
+        playAudioImmediately(item);
+    }
+
+    public void playAudioImmediately(StoryAudio item) {
+
         try {
             if (item == null) return;
-            if (!item.isLocked) return;
-            if (item.isActive) return;
 
             float delay = Math.max(0, (item.progress - item.startsAt) / 1000);
 
@@ -823,42 +829,18 @@ public class GameAudioService implements Disposable {
 
             updateVolume(story);
 
-            if (story.isCompleted) {
-                stop(story);
-            } else {
+            StoryAudio audio = story.currentScenario.currentAudio;
 
+            if (story.isCompleted) {
+                pause(audio);
+            } else if (audio.player != null) {
                 if (GameState.isPaused) {
-                    for (HireStoryScenario option : story.scenarios) {
-                        for (StoryAudio audio : option.scenario.audio) {
-                            if (audio.player != null) {
-                                Log.e(tag, "updateMusicState paused " + audio.audio);
-                                audio.isActive = false;
-                                audio.player.pause();
-                            }
-                        }
+                    if (!audio.player.isPlaying()) {
+                        pause(audio);
                     }
                 } else {
-
-                    for (HireStoryScenario option : story.scenarios) {
-                        for (StoryAudio audio : option.scenario.audio) {
-                            if (audio.player != null) {
-                                if (audio.isCompleted) {
-                                    audio.player.pause();
-                                }
-
-                                if (audio.isActive && !audio.isLocked) {
-                                    Log.e(tag, "updateMusicState not locked " + audio.audio);
-                                    audio.isActive = false;
-                                    audio.player.pause();
-                                }
-
-                                if (!audio.isCompleted && audio.isActive
-                                        && audio.isLocked && audio.isPrepared
-                                        && !audio.player.isPlaying()) {
-                                    audio.player.play();
-                                }
-                            }
-                        }
+                    if (!audio.player.isPlaying()) {
+                        playAudio(audio);
                     }
                 }
             }

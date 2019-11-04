@@ -71,7 +71,7 @@ public class ControlsFragment extends Fragment {
         authorsButton = new AuthorsButton(screen);
 
         logo = new Image();
-        if (MunhauzenGame.DEBUG) {
+        if (!screen.game.params.isProduction()) {
             logo.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {

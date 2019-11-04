@@ -10,8 +10,8 @@ public class PlatformParams {
     public Translator translator;
     public AppStore appStore;
     public MemoryUsage memoryUsage;
-    //    public String gameHost = "http://munchausen-api.fingertips.cf";
-    public String gameHost = "http://192.168.1.102:20000";
+    public String gameHost = "http://munchausen-api.fingertips.cf";
+    //  public String gameHost = "http://192.168.1.102:20000";
     public String dpi = "mdpi";
     public String locale = "en";
     public String versionName;
@@ -27,6 +27,10 @@ public class PlatformParams {
     public String instaLink = "https://www.instagram.com/p/Bj2-Y58gPRR/";
     public String twLink = "https://twitter.com/Finger_Tips_C/status/1005920810295611393";
     public String fbLink = "https://www.facebook.com/photo.php?fbid=233858484056409&set=gm.253300848748389&type=3&theater&ifg=1";
+
+    public boolean isProduction() {
+        return release.equals("production");
+    }
 
     public String getExpansionUrl() {
         return gameHost + "/api/v1/" + locale + "/expansions/" + versionCode + "/" + dpi;

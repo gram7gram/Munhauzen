@@ -54,6 +54,9 @@ public class Files {
     }
 
     public static void toFile(InputStream is, FileHandle file) throws IOException {
+
+        file.parent().mkdirs();
+
         OutputStream os = file.write(false);
 
         byte[] bytes = new byte[1024];

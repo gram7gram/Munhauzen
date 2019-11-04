@@ -88,7 +88,7 @@ public class ThankYouBanner extends Banner {
 
     private Actor getActionBtn() {
 
-        return screen.game.buttonBuilder.danger(screen.game.t("thank_you_banner.title"), new ClickListener() {
+        return screen.game.buttonBuilder.danger(screen.game.t("thank_you_banner.btn"), new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);

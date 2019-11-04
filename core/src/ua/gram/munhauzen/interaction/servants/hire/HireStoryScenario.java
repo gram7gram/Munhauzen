@@ -1,5 +1,7 @@
 package ua.gram.munhauzen.interaction.servants.hire;
 
+import com.badlogic.gdx.utils.GdxRuntimeException;
+
 import ua.gram.munhauzen.entity.Audio;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.StoryAudio;
@@ -31,6 +33,10 @@ public class HireStoryScenario extends StoryMedia<HireStoryScenario> {
 
             Audio audio = AudioRepository.find(gameState, current.audio);
             current.duration = audio.duration;
+
+            if (current.duration == 0) {
+                throw new GdxRuntimeException("No audio duration for " + current.audio);
+            }
 
             current.isLocked = false;
             current.isCompleted = false;

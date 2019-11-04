@@ -1,6 +1,5 @@
 package ua.gram.munhauzen.interaction.servants.fragment;
 
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -22,11 +21,12 @@ import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.interaction.ServantsInteraction;
+import ua.gram.munhauzen.interaction.servants.HireDialog;
 import ua.gram.munhauzen.interaction.servants.hire.HireStory;
-import ua.gram.munhauzen.interaction.servants.hire.HireStoryScenario;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.ui.Fragment;
+import ua.gram.munhauzen.ui.PrimaryImageButton;
 import ua.gram.munhauzen.ui.ScenarioBar;
 import ua.gram.munhauzen.utils.Log;
 
@@ -41,9 +41,9 @@ public class ServantsProgressBarFragment extends Fragment {
 
     public ScenarioBar bar;
     public Table root;
-    public Stack stack;
+    public Stack content;
     public Table controlsTable;
-    public ImageButton rewindBackButton, rewindForwardButton, pauseButton, playButton, skipForwardButton, skipBackButton;
+    public PrimaryImageButton rewindBackButton, rewindForwardButton, pauseButton, playButton, skipForwardButton, skipBackButton;
     private Timer.Task fadeOutTask;
     public boolean isFadeIn;
     public boolean isFadeOut;
@@ -183,13 +183,7 @@ public class ServantsProgressBarFragment extends Fragment {
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 super.exit(event, x, y, pointer, toActor);
 
-                try {
-                    GameState.unpause(tag);
-
-                    startCurrentMusicIfPaused();
-                } catch (Throwable e) {
-                    Log.e(tag, e);
-                }
+                onAnyButtonTouchUp();
             }
         });
 
@@ -222,17 +216,7 @@ public class ServantsProgressBarFragment extends Fragment {
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 super.exit(event, x, y, pointer, toActor);
 
-                try {
-
-                    HireStory story = interaction.storyManager.story;
-                    if (story == null || story.isCompleted) return;
-
-                    GameState.unpause(tag);
-
-                    startCurrentMusicIfPaused();
-                } catch (Throwable e) {
-                    Log.e(tag, e);
-                }
+                onAnyButtonTouchUp();
             }
         });
 
@@ -383,7 +367,7 @@ public class ServantsProgressBarFragment extends Fragment {
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
 
-                GameState.unpause(tag);
+                onAnyButtonTouchUp();
             }
 
             @Override
@@ -421,14 +405,14 @@ public class ServantsProgressBarFragment extends Fragment {
             }
         });
 
-        stack = new Stack();
-        stack.addActor(backgroundContainer);
-        stack.addActor(decorLeftContainer);
-        stack.addActor(decorCenterContainer);
-        stack.addActor(decorRightContainer);
-        stack.addActor(barTable);
+        content = new Stack();
+        content.addActor(backgroundContainer);
+        content.addActor(decorLeftContainer);
+        content.addActor(decorCenterContainer);
+        content.addActor(decorRightContainer);
+        content.addActor(barTable);
 
-        stack.addListener(new ActorGestureListener() {
+        content.addListener(new ActorGestureListener() {
 
             @Override
             public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -440,7 +424,7 @@ public class ServantsProgressBarFragment extends Fragment {
 
         root = new Table();
         root.setTouchable(Touchable.childrenOnly);
-        root.add(stack).align(Align.bottom).fillX().expand().row();
+        root.add(content).align(Align.bottom).fillX().expand().row();
 
         root.setName(tag);
 
@@ -448,44 +432,38 @@ public class ServantsProgressBarFragment extends Fragment {
     }
 
     public float getHeight() {
-        return stack.getHeight();
+        return content.getHeight();
     }
 
     @Override
     public boolean isMounted() {
-        return super.isMounted() && interaction.storyManager != null && interaction.storyManager.story != null;
+        return super.isMounted() && interaction.storyManager != null;
     }
 
     public void update() {
 
-        root.setTouchable(isMounted() ? Touchable.childrenOnly : Touchable.disabled);
-
         if (!isMounted()) return;
 
-        boolean hasServant = interaction.hireFragment.hasServant(interaction.hireFragment.hireDialog.servantName);
+        HireStory story = interaction.storyManager.story;
+        if (story == null) return;
+
+        HireDialog hireDialog = interaction.hireFragment.hireDialog;
+
+        boolean hasServant = interaction.hireFragment.hasServant(hireDialog.servantName);
 
         root.setTouchable(Touchable.childrenOnly);
-        stack.setVisible(true);
+        content.setVisible(true);
 
-        if (hasServant) {
+        if (hasServant || hireDialog.isDecisionActive) {
             root.setTouchable(Touchable.disabled);
-            stack.setVisible(false);
+            content.setVisible(false);
         }
-
-        if (interaction.hireFragment.hireDialog.isDecisionActive) {
-            root.setTouchable(Touchable.disabled);
-            stack.setVisible(false);
-        }
-
-        HireStory story = interaction.storyManager.story;
-
-        if (story == null) return;
 
         boolean hasVisitedBefore = gameScreen.game.gameState.history.visitedStories.contains(story.id);
 
         bar.setEnabled(hasVisitedBefore);
 
-        interaction.hireFragment.hireDialog.root.setVisible(story.isCompleted);
+        hireDialog.root.setVisible(story.isCompleted);
 
         boolean canPlay = story.isCompleted || GameState.isPaused;
 
@@ -493,18 +471,12 @@ public class ServantsProgressBarFragment extends Fragment {
         playButton.setVisible(canPlay);
 
         skipForwardButton.setDisabled(!hasVisitedBefore || story.isCompleted);
-        skipForwardButton.setTouchable(skipForwardButton.isDisabled() ? Touchable.disabled : Touchable.enabled);
 
         skipBackButton.setDisabled(story.progress == 0);
-        skipBackButton.setTouchable(skipBackButton.isDisabled() ? Touchable.disabled : Touchable.enabled);
 
         rewindForwardButton.setDisabled(!hasVisitedBefore || story.isCompleted);
-        rewindForwardButton.setTouchable(rewindForwardButton.isDisabled() ? Touchable.disabled : Touchable.enabled);
 
         rewindBackButton.setDisabled(story.progress == 0);
-        rewindBackButton.setTouchable(rewindBackButton.isDisabled() ? Touchable.disabled : Touchable.enabled);
-
-        bar.setTouchable(bar.isDisabled() ? Touchable.disabled : Touchable.enabled);
 
         bar.setRange(0, story.totalDuration);
         bar.setValue(story.progress);
@@ -596,41 +568,6 @@ public class ServantsProgressBarFragment extends Fragment {
         return root;
     }
 
-    public void startCurrentMusicIfPaused() {
-
-        if (interaction.storyManager == null) return;
-
-        HireStory story = interaction.storyManager.story;
-
-        if (story == null) return;
-
-        for (HireStoryScenario scenarioOption : story.scenarios) {
-            if (scenarioOption != story.currentScenario) {
-                for (StoryAudio audio : scenarioOption.scenario.audio) {
-                    Music player = audio.player;
-                    if (player != null) {
-                        audio.isActive = false;
-                        player.pause();
-                    }
-                }
-            } else {
-                for (StoryAudio audio : scenarioOption.scenario.audio) {
-                    Music player = audio.player;
-                    if (player != null) {
-                        if (audio.isLocked) {
-                            if (!story.isCompleted && !audio.isActive) {
-                                gameScreen.audioService.playAudio(audio);
-                            }
-                        } else {
-                            audio.isActive = false;
-                            player.pause();
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     private void postProgressChanged() {
         try {
             HireStory story = interaction.storyManager.story;
@@ -662,7 +599,7 @@ public class ServantsProgressBarFragment extends Fragment {
 
     }
 
-    private ImageButton getRewindBack() {
+    private PrimaryImageButton getRewindBack() {
         Texture rewindBack = interaction.assetManager.get("ui/playbar_rewind_backward.png", Texture.class);
         Texture rewindBackOff = interaction.assetManager.get("ui/playbar_rewind_backward_off.png", Texture.class);
 
@@ -671,10 +608,10 @@ public class ServantsProgressBarFragment extends Fragment {
         style.down = new SpriteDrawable(new Sprite(rewindBack));
         style.disabled = new SpriteDrawable(new Sprite(rewindBackOff));
 
-        return new ImageButton(style);
+        return new PrimaryImageButton(style);
     }
 
-    private ImageButton getRewindForward() {
+    private PrimaryImageButton getRewindForward() {
         Texture rewindForward = interaction.assetManager.get("ui/playbar_rewind_forward.png", Texture.class);
         Texture rewindForwardOff = interaction.assetManager.get("ui/playbar_rewind_forward_off.png", Texture.class);
 
@@ -683,10 +620,10 @@ public class ServantsProgressBarFragment extends Fragment {
         style.down = new SpriteDrawable(new Sprite(rewindForward));
         style.disabled = new SpriteDrawable(new Sprite(rewindForwardOff));
 
-        return new ImageButton(style);
+        return new PrimaryImageButton(style);
     }
 
-    private ImageButton getPause() {
+    private PrimaryImageButton getPause() {
         Texture pause = interaction.assetManager.get("ui/playbar_pause.png", Texture.class);
 
         ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
@@ -694,10 +631,10 @@ public class ServantsProgressBarFragment extends Fragment {
         style.down = new SpriteDrawable(new Sprite(pause));
         style.disabled = new SpriteDrawable(new Sprite(pause));
 
-        return new ImageButton(style);
+        return new PrimaryImageButton(style);
     }
 
-    private ImageButton getPlay() {
+    private PrimaryImageButton getPlay() {
         Texture play = interaction.assetManager.get("ui/playbar_play.png", Texture.class);
 
         ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
@@ -705,10 +642,10 @@ public class ServantsProgressBarFragment extends Fragment {
         style.down = new SpriteDrawable(new Sprite(play));
         style.disabled = new SpriteDrawable(new Sprite(play));
 
-        return new ImageButton(style);
+        return new PrimaryImageButton(style);
     }
 
-    private ImageButton getSkipBack() {
+    private PrimaryImageButton getSkipBack() {
         Texture skipBack = gameScreen.assetManager.get("ui/playbar_skip_backward.png", Texture.class);
         Texture skipBackOff = gameScreen.assetManager.get("ui/playbar_skip_backward_off.png", Texture.class);
 
@@ -717,10 +654,10 @@ public class ServantsProgressBarFragment extends Fragment {
         style.down = new SpriteDrawable(new Sprite(skipBack));
         style.disabled = new SpriteDrawable(new Sprite(skipBackOff));
 
-        return new ImageButton(style);
+        return new PrimaryImageButton(style);
     }
 
-    private ImageButton getSkipForward() {
+    private PrimaryImageButton getSkipForward() {
         Texture skipForward = gameScreen.assetManager.get("ui/playbar_skip_forward.png", Texture.class);
         Texture skipForwardOff = gameScreen.assetManager.get("ui/playbar_skip_forward_off.png", Texture.class);
 
@@ -729,6 +666,33 @@ public class ServantsProgressBarFragment extends Fragment {
         style.down = new SpriteDrawable(new Sprite(skipForward));
         style.disabled = new SpriteDrawable(new Sprite(skipForwardOff));
 
-        return new ImageButton(style);
+        return new PrimaryImageButton(style);
+    }
+
+    private void onAnyButtonTouchUp() {
+        try {
+
+            HireStory story = interaction.storyManager.story;
+            if (story == null || story.isCompleted) return;
+
+            GameState.unpause(tag);
+
+            startCurrentMusicIfPaused();
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+    }
+
+    public void startCurrentMusicIfPaused() {
+
+        if (interaction.storyManager == null) return;
+
+        HireStory story = interaction.storyManager.story;
+        if (story == null) return;
+
+        StoryAudio audio = story.currentScenario.currentAudio;
+        if (audio.player != null) {
+            gameScreen.audioService.playAudioImmediately(audio);
+        }
     }
 }
