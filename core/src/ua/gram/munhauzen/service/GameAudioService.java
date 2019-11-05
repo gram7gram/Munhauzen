@@ -158,6 +158,11 @@ public class GameAudioService implements Disposable {
         try {
             if (item == null) return;
 
+            if (item.player == null) {
+                Log.e(tag, "Missing player in audio " + item.audio);
+                return;
+            }
+
             float delay = Math.max(0, (item.progress - item.startsAt) / 1000);
 
             item.player.setPosition(delay);

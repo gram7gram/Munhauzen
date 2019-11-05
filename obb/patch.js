@@ -8,7 +8,7 @@ const VERSION = 1;
 const LOCALE = 'en';
 
 const PATCH_DIRS = [
-    '/authors'
+    '/swamp'
 ];
 
 const DPIs = [

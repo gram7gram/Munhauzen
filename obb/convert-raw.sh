@@ -10,8 +10,8 @@ function convertRaw() {
     HDPI_DIR="$OBB_PATH/$LOCALE/hdpi"
     MDPI_DIR="$OBB_PATH/$LOCALE/mdpi"
 
-#    rm -rf $HDPI_DIR
-#    rm -rf $MDPI_DIR
+    rm -rf $HDPI_DIR
+    rm -rf $MDPI_DIR
 
     cd $RAW_DIR
     for dir in *; do

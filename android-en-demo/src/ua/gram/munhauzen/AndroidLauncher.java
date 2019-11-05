@@ -5,7 +5,7 @@ import android.os.Bundle;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 
-import en.fingertips.munchausen.demo.BuildConfig;
+import en.munchausen.fingertipsandcompany.demo.BuildConfig;
 import ua.gram.munhauzen.translator.EnglishTranslator;
 
 public class AndroidLauncher extends AndroidApplication {
