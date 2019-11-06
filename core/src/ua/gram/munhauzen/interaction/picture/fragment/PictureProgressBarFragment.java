@@ -241,6 +241,8 @@ public class PictureProgressBarFragment extends Fragment {
 
                 try {
 
+                    if (interaction.storyManager == null) return;
+
                     PictureStory story = interaction.storyManager.story;
                     if (story == null || story.isCompleted) return;
 

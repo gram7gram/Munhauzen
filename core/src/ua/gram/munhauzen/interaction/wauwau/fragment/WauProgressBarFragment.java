@@ -257,6 +257,8 @@ public class WauProgressBarFragment extends Fragment {
 
                 try {
 
+                    if (interaction.storyManager == null) return;
+
                     WauStory story = interaction.storyManager.story;
                     if (story == null || story.isCompleted) return;
 

@@ -90,20 +90,25 @@ public class WauInteraction extends AbstractInteraction {
 
         WauStory story = storyManager.story;
 
-        if (!story.isCompleted) {
+        if (story != null && !story.isCompleted) {
 
             if (!GameState.isPaused) {
                 storyManager.update(
                         story.progress + (Gdx.graphics.getDeltaTime() * 1000),
                         story.totalDuration
                 );
+            }
+
+            storyManager.startLoadingImages();
+
+            if (!GameState.isPaused) {
 
                 if (story.isCompleted) {
 
                     storyManager.onCompleted();
 
                 } else {
-                    storyManager.startLoadingResources();
+                    storyManager.startLoadingAudio();
                 }
             }
         }

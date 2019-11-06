@@ -30,4 +30,8 @@ public class Ground extends Image {
                 Actions.forever(Actions.rotateBy(-90, 2.5f))
         );
     }
+
+    public void pause() {
+        clearActions();
+    }
 }

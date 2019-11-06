@@ -145,6 +145,8 @@ public class HareProgressBarFragment extends Fragment {
 
                     gameScreen.game.sfxService.onProgressPlay();
 
+                    interaction.imageFragment.startAnimations();
+
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -164,6 +166,8 @@ public class HareProgressBarFragment extends Fragment {
                     GameState.pause(tag);
 
                     gameScreen.game.sfxService.onProgressPause();
+
+                    interaction.imageFragment.pauseAnimations();
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -240,6 +244,9 @@ public class HareProgressBarFragment extends Fragment {
                 super.exit(event, x, y, pointer, toActor);
 
                 try {
+
+                    if (interaction.storyManager == null) return;
+
                     HareStory story = interaction.storyManager.story;
                     if (story == null || story.isCompleted) return;
 

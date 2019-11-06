@@ -4,7 +4,6 @@ import ua.gram.munhauzen.entity.StoryImage;
 import ua.gram.munhauzen.interaction.TimerInteraction;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.service.InteractionImageService;
-import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
@@ -18,9 +17,10 @@ public class TimerImageService extends InteractionImageService {
         this.interaction = interaction;
     }
 
-    public void displayImage(StoryImage item) {
+    @Override
+    public void onPrepared(StoryImage item) {
 
-        Log.i(tag, "displayImage " + getResource(item));
+        if (item.isActive) return;
 
         TimerStory story = interaction.storyManager.story;
         if (story != null) {
@@ -30,6 +30,16 @@ public class TimerImageService extends InteractionImageService {
                 }
             }
         }
+
+        saveCurrentBackground(item);
+
+        displayImage(item);
+    }
+
+    @Override
+    protected void displayImage(StoryImage item) {
+
+        gameScreen.hideImageFragment();
 
         item.isActive = true;
 

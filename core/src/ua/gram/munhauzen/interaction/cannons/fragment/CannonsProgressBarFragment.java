@@ -241,6 +241,8 @@ public class CannonsProgressBarFragment extends Fragment {
 
                 try {
 
+                    if (interaction.storyManager == null) return;
+
                     CannonsStory story = interaction.storyManager.story;
                     if (story == null || story.isCompleted) return;
 

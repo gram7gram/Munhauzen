@@ -672,6 +672,8 @@ public class ServantsProgressBarFragment extends Fragment {
     private void onAnyButtonTouchUp() {
         try {
 
+            if (interaction.storyManager == null) return;
+
             HireStory story = interaction.storyManager.story;
             if (story == null || story.isCompleted) return;
 

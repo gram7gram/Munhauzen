@@ -119,13 +119,18 @@ public class TimerInteraction extends AbstractInteraction {
                         story.progress + (Gdx.graphics.getDeltaTime() * 1000),
                         story.totalDuration
                 );
+            }
+
+            storyManager.startLoadingImages();
+
+            if (!GameState.isPaused) {
 
                 if (story.isCompleted) {
 
                     storyManager.onCompleted();
 
                 } else {
-                    storyManager.startLoadingResources();
+                    storyManager.startLoadingAudio();
                 }
             }
         }

@@ -8,14 +8,12 @@ import com.badlogic.gdx.utils.Disposable;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.screen.game.fragment.ImageFragment;
 import ua.gram.munhauzen.ui.Fragment;
-import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
  */
 public class GameLayers extends Stack implements Disposable {
 
-    final String tag = getClass().getSimpleName();
     final GameScreen gameScreen;
     public ImageFragment backgroundLayer;
     public Fragment controlsLayer, interactionLayer, storyDecisionsLayer, progressBarLayer, interactionProgressBarLayer;
@@ -29,8 +27,6 @@ public class GameLayers extends Stack implements Disposable {
     }
 
     public void update() {
-
-        Log.i(tag, "update");
 
         clearChildren();
 

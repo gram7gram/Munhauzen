@@ -30,6 +30,12 @@ public class HareImageFragment extends InteractionFragment {
     FragmentRoot root;
     Group items;
     public BackgroundImage backgroundImage;
+    Ground ground;
+    DucksAnimation ducks;
+    HareAnimation hare;
+    HorseAnimation horse;
+    Butterflies misc1;
+    Cloud cloud1, cloud2, cloud3;
 
     public HareImageFragment(HareInteraction interaction) {
         this.interaction = interaction;
@@ -50,16 +56,16 @@ public class HareImageFragment extends InteractionFragment {
         Texture horseTexture = interaction.assetManager.get("hare/horse_sheet.png", Texture.class);
         Texture miscTexture1 = interaction.assetManager.get("hare/inter_hare_butterflies.png", Texture.class);
 
-        Ground ground = new Ground(groundTexture);
-        DucksAnimation ducks = new DucksAnimation(ducksTexture);
-        HareAnimation hare = new HareAnimation(hareTexture, ground);
-        HorseAnimation horse = new HorseAnimation(horseTexture, ground);
+        ground = new Ground(groundTexture);
+        ducks = new DucksAnimation(ducksTexture);
+        hare = new HareAnimation(hareTexture, ground);
+        horse = new HorseAnimation(horseTexture, ground);
 
-        Butterflies misc1 = new Butterflies(miscTexture1);
+        misc1 = new Butterflies(miscTexture1);
 
-        Cloud cloud1 = new Cloud(cloud1Texture, -100, MunhauzenGame.WORLD_HEIGHT * .9f);
-        Cloud cloud2 = new Cloud(cloud2Texture, -200, MunhauzenGame.WORLD_HEIGHT * .8f);
-        Cloud cloud3 = new Cloud(cloud3Texture, -180, MunhauzenGame.WORLD_HEIGHT * .75f);
+        cloud1 = new Cloud(cloud1Texture, -100, MunhauzenGame.WORLD_HEIGHT * .9f);
+        cloud2 = new Cloud(cloud2Texture, -200, MunhauzenGame.WORLD_HEIGHT * .8f);
+        cloud3 = new Cloud(cloud3Texture, -180, MunhauzenGame.WORLD_HEIGHT * .75f);
 
         misc1.addAction(Actions.rotateBy(30));
 
@@ -75,6 +81,28 @@ public class HareImageFragment extends InteractionFragment {
         items.addActor(ducks);
         items.addActor(misc1);
 
+        root = new FragmentRoot();
+        root.addContainer(backgroundImage);
+        root.addContainer(items);
+
+        startAnimations();
+    }
+
+    public void pauseAnimations() {
+        hare.pause();
+        horse.pause();
+        misc1.pause();
+        ground.pause();
+        ducks.pause();
+        cloud1.pause();
+        cloud2.pause();
+        cloud3.pause();
+    }
+
+    public void startAnimations() {
+
+        interaction.gameScreen.hideImageFragment();
+
         hare.start();
         horse.start();
         misc1.start();
@@ -83,10 +111,6 @@ public class HareImageFragment extends InteractionFragment {
         cloud1.start();
         cloud2.start();
         cloud3.start();
-
-        root = new FragmentRoot();
-        root.addContainer(backgroundImage);
-        root.addContainer(items);
     }
 
     public void update() {
@@ -119,8 +143,6 @@ public class HareImageFragment extends InteractionFragment {
     }
 
     public void setBackground(Texture texture, String file) {
-
-        interaction.gameScreen.hideImageFragment();
 
         items.setVisible(false);
         backgroundImage.setVisible(true);

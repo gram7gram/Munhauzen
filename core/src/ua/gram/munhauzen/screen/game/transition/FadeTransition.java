@@ -19,7 +19,9 @@ public class FadeTransition extends Transition {
     public void prepare(final StoryImage item) {
         isLocked = true;
 
-        ImageFragment fragment = gameScreen.imageFragment;
+        item.isActive = true;
+
+        final ImageFragment fragment = gameScreen.imageFragment;
 
         fragment.backgroundBottomImage.setVisible(true);
         fragment.backgroundTopImage.setVisible(true);
@@ -34,8 +36,15 @@ public class FadeTransition extends Transition {
                 Actions.run(new Runnable() {
                     @Override
                     public void run() {
+
+                        fragment.backgroundBottomImage.setVisible(true);
+                        fragment.backgroundTopImage.setVisible(false);
+
+                        fragment.backgroundBottomImage.addAction(Actions.alpha(1));
+
+                        fragment.backgroundBottomImage.setBackgroundDrawable(item.drawable);
+
                         isLocked = false;
-                        new NormalTransition(gameScreen).prepare(item);
                     }
                 })
         ));

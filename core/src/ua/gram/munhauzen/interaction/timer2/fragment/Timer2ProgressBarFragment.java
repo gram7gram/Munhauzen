@@ -229,6 +229,8 @@ public class Timer2ProgressBarFragment extends Fragment {
 
                 try {
 
+                    if (interaction.storyManager == null) return;
+
                     Timer2Story story = interaction.storyManager.story;
                     if (story == null || story.isCompleted) return;
 

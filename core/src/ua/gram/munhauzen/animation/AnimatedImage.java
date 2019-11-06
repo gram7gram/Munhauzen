@@ -96,4 +96,8 @@ public abstract class AnimatedImage extends Image {
         isStarted = true;
     }
 
+    public void pause() {
+        isStarted = false;
+    }
+
 }

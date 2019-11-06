@@ -47,7 +47,7 @@ public class StoryManager {
 
         story.init();
 
-        String log = "create " + story.id + " x" + story.scenarios.size() + "\r\n";
+        String log = "create `" + story.id + "` x" + story.scenarios.size() + "\r\n";
 
         for (StoryScenario storyScenario : story.scenarios) {
             log += storyScenario.startsAt + "-" + storyScenario.finishesAt + " " + storyScenario.scenario.name + "\r\n";
@@ -73,6 +73,10 @@ public class StoryManager {
     public void resume() {
 
         Story story = gameScreen.getStory();
+        if (story != null) {
+            story.init();
+        }
+
         if (story == null || !story.isValid()) {
             Log.e(tag, "Story is not valid. Resetting");
 
@@ -135,25 +139,14 @@ public class StoryManager {
         if (story == null) return;
 
         try {
+
+            displayCurrentImage();
+
             StoryScenario option = story.currentScenario;
             if (option == null) return;
 
             final StoryImage optionImage = option.currentImage;
             if (optionImage != null) {
-                gameScreen.imageService.prepare(optionImage, new Timer.Task() {
-                    @Override
-                    public void run() {
-                        try {
-                            if (gameScreen.imageService != null)
-                                gameScreen.imageService.onPrepared(optionImage);
-                        } catch (Throwable e) {
-                            Log.e(tag, e);
-
-                            gameScreen.onCriticalError(e);
-                        }
-                    }
-                });
-
                 if (optionImage.next != null) {
                     gameScreen.imageService.prepare(optionImage.next, new Timer.Task() {
                         @Override
@@ -181,7 +174,13 @@ public class StoryManager {
 
             final StoryImage optionImage = option.currentImage;
             if (optionImage != null) {
-                gameScreen.imageService.prepareAndDisplay(optionImage);
+                if (optionImage.isLocked) {
+                    gameScreen.imageService.prepareAndDisplay(optionImage);
+
+//                    if (gameScreen.imageService.transition == null) {
+//                        throw new GdxRuntimeException("Transition was not created");
+//                    }
+                }
             }
 
         } catch (Throwable e) {
@@ -270,13 +269,11 @@ public class StoryManager {
 
         } else {
 
-            // WAUWAU continue HORN GENERAL HARE BALLOONS CHAPTER
-            // DATE LIONS PICTURE SERVANTS SLAP PUZZLE SWAMP
             String interaction;
 
             if (MunhauzenGame.developmentInteraction != null) {
 
-                interaction = MunhauzenGame.developmentInteraction;
+                interaction = MunhauzenGame.developmentInteraction + "";
 
                 MunhauzenGame.developmentInteraction = null;
             } else {
@@ -300,6 +297,7 @@ public class StoryManager {
         gameScreen.progressBarFragment.root.setTouchable(Touchable.disabled);
         gameScreen.hideAndDestroyScenarioFragment();
 
+        gameScreen.audioService.stop(tag);
         gameScreen.audioService.dispose(story);
 
         GameState.clearTimer(tag);
@@ -415,20 +413,7 @@ public class StoryManager {
             storyScenario.reset();
         }
 
-        int beforeAudio = gameScreen.audioService.assetManager.getLoadedAssets();
-
         gameScreen.audioService.dispose(story);
-
-        int afterAudio = gameScreen.audioService.assetManager.getLoadedAssets();
-
-        int beforeImages = gameScreen.imageService.assetManager.getLoadedAssets();
-
-        gameScreen.imageService.dispose(story, false);
-
-        int afterImages = gameScreen.imageService.assetManager.getLoadedAssets();
-
-        Log.i(tag, "audio " + beforeAudio + " => " + afterAudio);
-        Log.i(tag, "image " + beforeImages + " => " + afterImages);
 
         story.reset();
     }

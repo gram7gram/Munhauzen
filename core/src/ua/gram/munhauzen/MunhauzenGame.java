@@ -10,8 +10,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.StoryAudio;
+import ua.gram.munhauzen.screen.DebugScreen;
 import ua.gram.munhauzen.screen.ErrorScreen;
-import ua.gram.munhauzen.screen.LogoScreen;
 import ua.gram.munhauzen.service.AchievementService;
 import ua.gram.munhauzen.service.BackgroundSfxService;
 import ua.gram.munhauzen.service.DatabaseManager;
@@ -37,6 +37,10 @@ public class MunhauzenGame extends Game {
     public static final int PROGRESS_BAR_FADE_OUT_DELAY = 5;
 
     public static String developmentScenario;
+
+    // WAUWAU GENERAL HARE PICTURE SERVANTS TIMER
+    // continue HORN BALLOONS CHAPTER
+    // DATE LIONS SLAP PUZZLE SWAMP
     public static String developmentInteraction;
 
     private final String tag = getClass().getSimpleName();
@@ -123,7 +127,7 @@ public class MunhauzenGame extends Game {
             buttonBuilder = new ButtonBuilder(this);
             achievementService = new AchievementService(this);
 
-            setScreen(new LogoScreen(this));
+            setScreen(new DebugScreen(this));
 
         } catch (Throwable e) {
             Log.e(tag, e);

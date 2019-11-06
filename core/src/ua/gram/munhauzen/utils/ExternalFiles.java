@@ -112,6 +112,10 @@ public class ExternalFiles {
         return getExternal(params, "save-active.json");
     }
 
+    public static FileHandle getActiveSaveBackupFile(PlatformParams params) {
+        return getExternal(params, "save-active.old");
+    }
+
     public static FileHandle getImagesFile(PlatformParams params) {
         return getExternal(params, "game/images.json");
     }
@@ -137,12 +141,17 @@ public class ExternalFiles {
     }
 
     public static FileHandle getExternal(PlatformParams params, String name) {
-        FileHandle path = Gdx.files.external(params.storageDirectory + "/" + name);
+        return Gdx.files.external(params.storageDirectory + "/" + name);
+    }
 
-        if (path.parent() != null && !path.parent().exists()) {
-            path.parent().mkdirs();
-        }
+    public static void createActiveSaveBackup(PlatformParams params) {
+        FileHandle save = ExternalFiles.getActiveSaveFile(params);
 
-        return path;
+        if (!save.exists()) return;
+
+        save.moveTo(
+                ExternalFiles.getActiveSaveBackupFile(params)
+        );
+
     }
 }

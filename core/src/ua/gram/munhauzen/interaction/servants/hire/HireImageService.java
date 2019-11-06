@@ -6,7 +6,6 @@ import ua.gram.munhauzen.entity.StoryImage;
 import ua.gram.munhauzen.interaction.ServantsInteraction;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.service.InteractionImageService;
-import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
@@ -49,9 +48,9 @@ public class HireImageService extends InteractionImageService {
     }
 
     @Override
-    public void displayImage(StoryImage item) {
+    public void onPrepared(StoryImage item) {
 
-        Log.i(tag, "displayImage " + item.resource);
+        if (item.isActive) return;
 
         HireStory story = interaction.storyManager.story;
         if (story != null) {
@@ -61,6 +60,16 @@ public class HireImageService extends InteractionImageService {
                 }
             }
         }
+
+        saveCurrentBackground(item);
+
+        displayImage(item);
+    }
+
+    @Override
+    protected void displayImage(StoryImage item) {
+
+        gameScreen.hideImageFragment();
 
         item.isActive = true;
 

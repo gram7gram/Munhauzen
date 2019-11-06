@@ -94,7 +94,7 @@ public class HireStoryManager {
         if (scenario == null) return;
 
         try {
-            final StoryImage image = scenario.currentImage;
+            StoryImage image = scenario.currentImage;
             if (image != null) {
                 interaction.imageService.prepareAndDisplay(image);
             }

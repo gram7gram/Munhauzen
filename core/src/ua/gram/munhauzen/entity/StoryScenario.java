@@ -15,17 +15,13 @@ public class StoryScenario extends StoryMedia<StoryScenario> {
     public StoryAudio currentAudio;
 
     public void init() {
-        currentImage = null;
-        currentAudio = null;
+        reset();
 
         int size = scenario.images.size();
         int imageDuration = 0;
 
         for (int i = 0; i < size; i++) {
             StoryImage current = scenario.images.get(i);
-
-            current.isLocked = false;
-            current.isCompleted = false;
 
             StoryImage next = null;
             StoryImage prev = null;
@@ -54,9 +50,6 @@ public class StoryScenario extends StoryMedia<StoryScenario> {
 
         for (int i = 0; i < size; i++) {
             StoryAudio current = scenario.audio.get(i);
-
-            current.isLocked = false;
-            current.isCompleted = false;
 
             StoryAudio next = null;
             StoryAudio prev = null;

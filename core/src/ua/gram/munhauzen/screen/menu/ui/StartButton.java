@@ -27,11 +27,11 @@ public class StartButton extends MenuButton {
                     @Override
                     public void run() {
                         try {
-                            ExternalFiles.getActiveSaveFile(screen.game.params).delete();
+                            ExternalFiles.createActiveSaveBackup(screen.game.params);
 
                             screen.game.gameState.setActiveSave(new Save());
 
-                            screen.game.databaseManager.persist(screen.game.gameState);
+                            screen.game.databaseManager.persistSave(screen.game.gameState.activeSave);
 
                             screen.stopCurrentSfx();
                             screen.game.currentSfx = screen.game.sfxService.onMenuStartClicked();
@@ -46,7 +46,8 @@ public class StartButton extends MenuButton {
                 };
 
                 if (!screen.game.gameState.menuState.isContinueEnabled) {
-                    Timer.instance().postTask(task);
+//                    Timer.instance().postTask(task);
+                    task.run();
                 } else {
 
                     Gdx.input.setInputProcessor(screen.ui);

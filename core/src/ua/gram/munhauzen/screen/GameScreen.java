@@ -80,19 +80,6 @@ public class GameScreen implements Screen {
     }
 
     public void setStory(Story story) {
-
-        if (game.gameState == null) {
-            throw new GdxRuntimeException("Game state was not loaded");
-        }
-
-        if (game.gameState.history == null) {
-            throw new GdxRuntimeException("History was not loaded");
-        }
-
-        if (game.gameState.activeSave == null) {
-            throw new GdxRuntimeException("Save was not loaded");
-        }
-
         game.gameState.activeSave.story = story;
     }
 
@@ -193,6 +180,7 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(235 / 255f, 232 / 255f, 112 / 255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
+        if (ui == null) return;
         if (assetManager == null) return;
 
         drawBackground();
@@ -235,6 +223,11 @@ public class GameScreen implements Screen {
                             story.progress + (delta * 1000),
                             story.totalDuration
                     );
+                }
+
+                storyManager.startLoadingImages();
+
+                if (!GameState.isPaused) {
 
                     if (story.isValid()) {
 
@@ -245,7 +238,7 @@ public class GameScreen implements Screen {
                             storyManager.onCompleted();
 
                         } else {
-                            storyManager.startLoadingResources();
+                            storyManager.startLoadingAudio();
                         }
                     }
                 }
@@ -262,13 +255,8 @@ public class GameScreen implements Screen {
             victoryFragment.update();
         }
 
-        if (ui != null) {
-            ui.act(delta);
-        }
-
-        if (ui != null) {
-            ui.draw();
-        }
+        ui.act(delta);
+        ui.draw();
 
         if (MunhauzenGame.DEBUG_RENDER_INFO)
             drawDebugInfo();
@@ -315,7 +303,7 @@ public class GameScreen implements Screen {
                 }
             }
 
-            int offset = fontSize + 1;
+            int offset = fontSize + 3;
             int row = -1;
 
             game.batch.begin();
@@ -421,8 +409,6 @@ public class GameScreen implements Screen {
         }
 
         background = null;
-
-        setStory(null);
     }
 
     public void restoreProgressBarIfDestroyed() {

@@ -19,6 +19,8 @@ public class NormalTransition extends Transition {
     public void prepare(final StoryImage item) {
         isLocked = true;
 
+        item.isActive = true;
+
         final ImageFragment fragment = gameScreen.imageFragment;
 
         fragment.backgroundBottomImage.setVisible(true);

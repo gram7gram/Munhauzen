@@ -14,6 +14,7 @@ import ua.gram.munhauzen.interaction.picture.fragment.PictureImageFragment;
 import ua.gram.munhauzen.interaction.picture.fragment.PictureProgressBarFragment;
 import ua.gram.munhauzen.interaction.picture.fragment.PictureScenarioFragment;
 import ua.gram.munhauzen.screen.GameScreen;
+import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
@@ -71,49 +72,60 @@ public class PictureInteraction extends AbstractInteraction {
         super.update();
 
         if (assetManager == null) return;
+        if (storyManager == null) return;
 
-        gameScreen.hideProgressBar();
+        try {
 
-        if (!isLoaded) {
-            if (assetManager.isFinished()) {
-                onResourcesLoaded();
+            gameScreen.hideProgressBar();
+
+            if (!isLoaded) {
+                if (assetManager.isFinished()) {
+                    onResourcesLoaded();
+                }
+                return;
             }
-            return;
-        }
 
-        if (imageService != null) {
-            imageService.update();
-        }
+            if (imageService != null) {
+                imageService.update();
+            }
 
-        PictureStory story = storyManager.story;
+            PictureStory story = storyManager.story;
 
-        if (!story.isCompleted) {
+            if (!story.isCompleted) {
 
-            if (!GameState.isPaused) {
-                storyManager.update(
-                        story.progress + (Gdx.graphics.getDeltaTime() * 1000),
-                        story.totalDuration
-                );
+                if (!GameState.isPaused) {
+                    storyManager.update(
+                            story.progress + (Gdx.graphics.getDeltaTime() * 1000),
+                            story.totalDuration
+                    );
+                }
 
-                if (story.isCompleted) {
+                storyManager.startLoadingImage();
 
-                    storyManager.onCompleted();
+                if (!GameState.isPaused) {
+                    if (story.isCompleted) {
 
-                } else {
-                    storyManager.startLoadingResources();
+                        storyManager.onCompleted();
+
+                    } else {
+                        storyManager.startLoadingAudio();
+                    }
                 }
             }
+
+            if (imageFragment != null) {
+                imageFragment.update();
+            }
+
+            if (progressBarFragment != null)
+                progressBarFragment.update();
+
+            if (scenarioFragment != null)
+                scenarioFragment.update();
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
         }
-
-        if (imageFragment != null) {
-            imageFragment.update();
-        }
-
-        if (progressBarFragment != null)
-            progressBarFragment.update();
-
-        if (scenarioFragment != null)
-            scenarioFragment.update();
     }
 
     @Override

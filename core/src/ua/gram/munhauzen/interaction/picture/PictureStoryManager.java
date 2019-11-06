@@ -129,6 +129,8 @@ public class PictureStoryManager {
     public void startLoadingImage() {
         try {
 
+            displayCurrentImage();
+
             if (story == null) return;
 
             PictureStoryScenario scenario = story.currentScenario;
@@ -136,18 +138,6 @@ public class PictureStoryManager {
 
             final StoryImage image = scenario.currentImage;
             if (image != null) {
-                interaction.imageService.prepare(image, new Timer.Task() {
-                    @Override
-                    public void run() {
-                        try {
-                            if (interaction.imageService != null)
-                                interaction.imageService.onPrepared(image);
-                        } catch (Throwable e) {
-                            Log.e(tag, e);
-                        }
-                    }
-                });
-
                 if (image.next != null) {
                     interaction.imageService.prepare(image.next, new Timer.Task() {
                         @Override
@@ -170,9 +160,10 @@ public class PictureStoryManager {
 
         try {
 
-            StoryImage optionImage = story.currentScenario.currentImage;
-            if (optionImage != null) {
-                interaction.imageService.prepareAndDisplay(optionImage);
+            StoryImage image = story.currentScenario.currentImage;
+            if (image != null) {
+                if (image.isLocked)
+                    interaction.imageService.prepareAndDisplay(image);
             }
 
         } catch (Throwable e) {

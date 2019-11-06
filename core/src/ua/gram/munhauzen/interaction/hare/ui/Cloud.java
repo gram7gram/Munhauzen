@@ -35,6 +35,10 @@ public class Cloud extends Image {
         this.y = y;
     }
 
+    public void pause() {
+        clearActions();
+    }
+
     public void start() {
 
         Random r = new Random();

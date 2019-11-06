@@ -8,7 +8,6 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.Timer;
 
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 import ua.gram.munhauzen.entity.Image;
 import ua.gram.munhauzen.entity.Scenario;
@@ -22,7 +21,6 @@ import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.screen.game.transition.FadeTransition;
 import ua.gram.munhauzen.screen.game.transition.NormalTransition;
 import ua.gram.munhauzen.screen.game.transition.Transition;
-import ua.gram.munhauzen.utils.DateUtils;
 import ua.gram.munhauzen.utils.Log;
 
 /**
@@ -51,8 +49,6 @@ public abstract class ImageService implements Disposable {
 
         item.resource = resource;
 
-        Log.i(tag, "prepareAndDisplay " + item.resource);
-
         if (item.isPrepared && item.drawable != null) {
             onPrepared(item);
             return;
@@ -68,9 +64,11 @@ public abstract class ImageService implements Disposable {
         item.isPrepared = true;
         item.prepareCompletedAt = new Date();
 
-        item.drawable = new SpriteDrawable(new Sprite(assetManager.get(resource, Texture.class)));
+        item.drawable = new SpriteDrawable(new Sprite(
+                assetManager.get(resource, Texture.class)
+        ));
 
-        displayImage(item);
+        onPrepared(item);
     }
 
     public void prepare(StoryImage item, Timer.Task onComplete) {
@@ -113,12 +111,7 @@ public abstract class ImageService implements Disposable {
 
         if (item.isActive) return;
 
-        long diff = DateUtils.getDateDiff(item.prepareCompletedAt, item.prepareStartedAt, TimeUnit.MILLISECONDS);
-
-        item.prepareCompletedAt = null;
-        item.prepareStartedAt = null;
-
-        Log.i(tag, "onPrepared " + item.resource + " in " + diff + "ms");
+        Log.i(tag, "onPrepared " + item.resource);
 
         Story story = gameScreen.getStory();
         if (story != null) {
@@ -134,7 +127,7 @@ public abstract class ImageService implements Disposable {
         displayImage(item);
     }
 
-    public void displayImage(final StoryImage item) {
+    protected void displayImage(final StoryImage item) {
 
         if (transition != null) {
             if (transition.isLocked) return;
@@ -142,7 +135,6 @@ public abstract class ImageService implements Disposable {
 
         Log.i(tag, "displayImage " + item.resource);
 
-        item.isActive = true;
 
         gameScreen.showImageFragment();
 
@@ -206,8 +198,6 @@ public abstract class ImageService implements Disposable {
         if (assetManager == null) return;
 
         Log.i(tag, "dispose " + story.id);
-
-        Image last = gameScreen.getLastBackground();
 
         for (HireStoryScenario storyScenario : story.scenarios) {
 

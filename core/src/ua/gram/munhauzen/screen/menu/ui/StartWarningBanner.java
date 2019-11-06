@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.ButtonBuilder;
 import ua.gram.munhauzen.FontProvider;
@@ -89,7 +88,8 @@ public class StartWarningBanner extends Banner {
                             fragment.destroy();
                             screen.startWarningFragment = null;
 
-                            Timer.instance().postTask(fragment.yesTask);
+//                            Timer.instance().postTask(fragment.yesTask);
+                            fragment.yesTask.run();
                         }
                     });
 

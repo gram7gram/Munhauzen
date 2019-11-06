@@ -218,8 +218,11 @@ public class GeneralsProgressBarFragment extends Fragment {
                 super.clicked(event, x, y);
 
                 try {
+
+                    if (interaction.storyManager == null) return;
+
                     GeneralsStory story = interaction.storyManager.story;
-                    if (story.currentScenario == null) return;
+                    if (story == null || story.currentScenario == null) return;
 
                     if (story.currentScenario.next != null) {
                         story.progress = story.currentScenario.next.startsAt;
@@ -241,6 +244,8 @@ public class GeneralsProgressBarFragment extends Fragment {
                 super.exit(event, x, y, pointer, toActor);
 
                 try {
+
+                    if (interaction.storyManager == null) return;
 
                     GeneralsStory story = interaction.storyManager.story;
                     if (story == null || story.isCompleted) return;

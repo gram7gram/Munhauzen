@@ -12,6 +12,10 @@ public class Butterflies extends Image {
         super(texture);
     }
 
+    public void pause() {
+        clearActions();
+    }
+
     public void start() {
         addAction(
                 Actions.forever(Actions.rotateBy(-90, 4f))
