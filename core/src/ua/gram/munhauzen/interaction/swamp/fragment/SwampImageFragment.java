@@ -2,6 +2,7 @@ package ua.gram.munhauzen.interaction.swamp.fragment;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.utils.Timer;
@@ -44,11 +45,15 @@ public class SwampImageFragment extends InteractionFragment {
         munchausenContainer = new Container<>(munhauzen);
         munchausenContainer.setClip(true);
 
+        Group group = new Group();
+
+        group.addActor(swampBackground);
+        group.addActor(munchausenContainer);
+        group.addActor(swamp);
+
         root = new FragmentRoot();
         root.setTouchable(Touchable.childrenOnly);
-        root.addContainer(swampBackground);
-        root.addContainer(munchausenContainer);
-        root.addContainer(new Container<>(swamp));
+        root.addContainer(group);
 
         root.setName(tag);
 
@@ -58,8 +63,8 @@ public class SwampImageFragment extends InteractionFragment {
     public void update() {
 
         munchausenContainer.setBounds(
-                swampBackground.background.getX(),
-                swampBackground.background.getY(),
+                swampBackground.getX(),
+                swampBackground.getY(),
                 MunhauzenGame.WORLD_WIDTH,
                 MunhauzenGame.WORLD_HEIGHT
         );
@@ -75,7 +80,7 @@ public class SwampImageFragment extends InteractionFragment {
             return;
         }
 
-        Vector2 screenCoord = munhauzen.localToScreenCoordinates(new Vector2(munhauzen.getX(), munhauzen.getY()));
+        Vector2 screenCoord = munhauzen.localToScreenCoordinates(new Vector2());
 
         if (screenCoord.y > munhauzen.winLimit) {
             complete();

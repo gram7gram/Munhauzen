@@ -31,7 +31,8 @@ public class InteractionService {
                 if (interaction.isCompleted) return;
 
                 if (interaction.isLocked) {
-                    interaction.interaction.update();
+                    if (interaction.interaction != null)
+                        interaction.interaction.update();
                 }
             }
 

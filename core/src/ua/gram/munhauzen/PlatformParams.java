@@ -6,7 +6,11 @@ import ua.gram.munhauzen.utils.MemoryUsage;
 
 public class PlatformParams {
 
-    public String release = "development";
+    enum Release {
+        DEV, PROD, STAGE
+    }
+
+    public Release release = Release.DEV;
     public Translator translator;
     public AppStore appStore;
     public MemoryUsage memoryUsage;
@@ -29,7 +33,11 @@ public class PlatformParams {
     public String fbLink = "https://www.facebook.com/photo.php?fbid=233858484056409&set=gm.253300848748389&type=3&theater&ifg=1";
 
     public boolean isProduction() {
-        return release.equals("production");
+        return release == Release.PROD;
+    }
+
+    public boolean isDev() {
+        return release == Release.DEV;
     }
 
     public String getExpansionUrl() {

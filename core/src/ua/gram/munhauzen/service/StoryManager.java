@@ -266,33 +266,36 @@ public class StoryManager {
         if (story.isVictory()) {
 
             startVictory(story);
+            return;
 
-        } else {
-
-            String interaction;
-
-            if (MunhauzenGame.developmentInteraction != null) {
-
-                interaction = MunhauzenGame.developmentInteraction + "";
-
-                MunhauzenGame.developmentInteraction = null;
-            } else {
-                interaction = story.currentScenario.scenario.interaction;
-            }
-
-            if (interaction != null) {
-                gameScreen.interactionService.create(interaction);
-            }
-
-            if (story.currentInteraction != null && story.currentInteraction.isLocked) {
-                startInteraction(story);
-            } else {
-                startScenarioDecisions(story);
-            }
         }
+
+        String interaction;
+
+        if (MunhauzenGame.developmentInteraction != null) {
+
+            interaction = MunhauzenGame.developmentInteraction + "";
+
+            MunhauzenGame.developmentInteraction = null;
+        } else {
+            interaction = story.currentScenario.scenario.interaction;
+        }
+
+        if (interaction != null) {
+            gameScreen.interactionService.create(interaction);
+        }
+
+        if (story.currentInteraction != null && story.currentInteraction.isLocked) {
+            startInteraction(story);
+            return;
+        }
+
+        startScenarioDecisions(story);
     }
 
     private void startInteraction(final Story story) {
+
+        Log.i(tag, "startInteraction");
 
         gameScreen.progressBarFragment.root.setTouchable(Touchable.disabled);
         gameScreen.hideAndDestroyScenarioFragment();
@@ -317,6 +320,8 @@ public class StoryManager {
     }
 
     private void startVictory(Story story) {
+
+        Log.i(tag, "startVictory");
 
         GameState.isEndingReached = true;
 
@@ -352,6 +357,8 @@ public class StoryManager {
     }
 
     private void startScenarioDecisions(Story story) {
+
+        Log.i(tag, "startScenarioDecisions");
 
         Set<String> inventory = gameScreen.game.inventoryService.getAllInventory();
 

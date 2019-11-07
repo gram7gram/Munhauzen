@@ -5,11 +5,15 @@ import ua.gram.munhauzen.MunhauzenGame;
 
 public class ErrorMonitoring {
 
+    private final boolean canCapture;
+
     public ErrorMonitoring(MunhauzenGame game) {
 
         Sentry.init(game.params.sentryDsn);
 
-        Sentry.getContext().addTag("release", game.params.release);
+        canCapture = !game.params.isDev();
+
+        Sentry.getContext().addTag("release", game.params.release + "");
         Sentry.getContext().addTag("applicationId", game.params.applicationId);
         Sentry.getContext().addTag("versionCode", game.params.versionCode + "");
         Sentry.getContext().addTag("versionName", game.params.versionName + "");
@@ -18,6 +22,9 @@ public class ErrorMonitoring {
     }
 
     public void capture(Throwable e) {
+
+        if (!canCapture) return;
+
         Sentry.capture(e);
     }
 }

@@ -31,17 +31,20 @@ public class Swamp extends Image {
 
         float[] numbers = getPercentBounds();
 
-        float width = backgroundImage.backgroundWidth * numbers[0] / 100;
-        float height = backgroundImage.backgroundHeight * numbers[1] / 100;
-        float x = backgroundImage.background.getX();
-        float y = backgroundImage.background.getY();
+        float width = backgroundImage.width * numbers[0] / 100;
+        float height = backgroundImage.height * numbers[1] / 100;
+        float x = backgroundImage.getX()
+                + backgroundImage.width * numbers[2] / 100;
+        float y = backgroundImage.getY()
+                + (backgroundImage.height * (100 - numbers[3]) / 100)
+                - height;
 
         setBounds(x, y, width, height);
     }
 
     private float[] getPercentBounds() {
         return new float[]{
-                96.7497f, 29.624f
+                100.00f, 29.62f, 0.00f, 70.38f
         };
     }
 

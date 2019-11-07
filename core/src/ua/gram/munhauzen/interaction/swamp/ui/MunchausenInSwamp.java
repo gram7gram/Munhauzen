@@ -76,16 +76,17 @@ public class MunchausenInSwamp extends Image {
 
         float[] numbers = getPercentBounds();
 
-        float width = swampBackground.backgroundWidth * numbers[0] / 100;
-        float height = swampBackground.backgroundHeight * numbers[1] / 100;
-        float x = swampBackground.background.getX()
-                + swampBackground.backgroundWidth * numbers[2] / 100;
-        float y = swampBackground.background.getY()
-                + (swampBackground.backgroundHeight * numbers[3] / 100) - height;
+        float width = swampBackground.width * numbers[0] / 100;
+        float height = swampBackground.height * numbers[1] / 100;
+        float x = swampBackground.getX()
+                + swampBackground.width * numbers[2] / 100;
+        float y = swampBackground.getY()
+                + (swampBackground.height * (100 - numbers[3]) / 100)
+                - height;
 
         bottomBound = y;
         topBound = MunhauzenGame.WORLD_HEIGHT - height;
-        winLimit = topBound * .9f;
+        winLimit = bottomBound + height;
 
         setSize(width, height);
 
@@ -96,7 +97,7 @@ public class MunchausenInSwamp extends Image {
 
     private float[] getPercentBounds() {
         return new float[]{
-                49.4371f, 65.0386f, 15.9374f, 32f
+                49.44f, 65.04f, 17.00f, 60.20f
         };
     }
 
@@ -113,6 +114,9 @@ public class MunchausenInSwamp extends Image {
 
     public void enableGravity() {
 
+        cancelTask();
+        isDragging = false;
+
         task = Timer.instance().scheduleTask(new Timer.Task() {
             @Override
             public void run() {
@@ -123,7 +127,7 @@ public class MunchausenInSwamp extends Image {
 
                 setY(newY);
 
-                if (getY() < bottomBound) {
+                if (newY < bottomBound) {
                     setY(bottomBound);
                     fragment.pausePull();
                     isDragging = false;
