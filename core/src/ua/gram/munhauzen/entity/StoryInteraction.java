@@ -14,8 +14,6 @@ public class StoryInteraction implements JsonEntry {
     public String name;
     @JsonProperty
     public boolean isLocked;
-    @JsonProperty
-    public boolean isCompleted;
 
     @JsonIgnore
     public AbstractInteraction interaction;

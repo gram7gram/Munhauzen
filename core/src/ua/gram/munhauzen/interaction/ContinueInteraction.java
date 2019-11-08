@@ -6,7 +6,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.Story;
-import ua.gram.munhauzen.entity.StoryInteraction;
 import ua.gram.munhauzen.interaction.continye.fragment.ContinueImageFragment;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.utils.Log;
@@ -62,27 +61,8 @@ public class ContinueInteraction extends AbstractInteraction {
         gameScreen.showProgressBar();
         gameScreen.progressBarFragment.cancelFadeOut();
 
-        try {
-
-            if (imageFragment != null) {
-                imageFragment.update();
-            }
-
-            Story story = gameScreen.getStory();
-            if (story.currentScenario == null) return;
-
-            String name = story.currentScenario.scenario.interaction;
-            if (name == null) return;
-
-            StoryInteraction interaction = story.currentInteraction;
-
-            if (interaction != null) {
-                interaction.isCompleted = false;
-            }
-        } catch (Throwable e) {
-            Log.e(tag, e);
-
-            gameScreen.onCriticalError(e);
+        if (imageFragment != null) {
+            imageFragment.update();
         }
     }
 

@@ -28,8 +28,6 @@ public class InteractionService {
 
             if (interaction != null) {
 
-                if (interaction.isCompleted) return;
-
                 if (interaction.isLocked) {
                     if (interaction.interaction != null)
                         interaction.interaction.update();
@@ -52,11 +50,6 @@ public class InteractionService {
             StoryInteraction interaction = story.currentInteraction;
 
             if (interaction != null) {
-
-                if (interaction.isCompleted) {
-                    return;
-                }
-
                 destroy();
             }
 
@@ -65,7 +58,6 @@ public class InteractionService {
 
             interaction.interaction = InteractionFactory.create(gameScreen, interaction.name);
             interaction.isLocked = true;
-            interaction.isCompleted = false;
 
             Log.i(tag, "create " + interaction.name);
 
@@ -114,7 +106,7 @@ public class InteractionService {
 
         Log.i(tag, "complete " + interaction.name);
 
-        interaction.isCompleted = true;
+//        interaction.isCompleted = true;
 
         destroy();
     }

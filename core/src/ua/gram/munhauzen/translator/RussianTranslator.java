@@ -145,20 +145,20 @@ public class RussianTranslator implements Translator {
         map.put("start_warning_banner.yes_btn", "Да");
         map.put("start_warning_banner.no_btn", "Нет");
 
-        map.put("authors.img_1_title", "«Рудольф Эрих Распе»");
-        map.put("authors.img_2_title", "«Андрей Кулагин»");
-        map.put("authors.img_3_title", "«Денис Шевченко»");
-        map.put("authors.img_4_title", "«Наталья Басинских»");
-        map.put("authors.img_5_title", "«Дима Бондарчук»");
-        map.put("authors.img_6_title", "«FingerTips»");
-        map.put("authors.img_7_title", "«Илья Кошевой»");
+        map.put("authors.img_1_title", "Рудольф Эрих Распе");
+        map.put("authors.img_2_title", "Андрей Кулагин");
+        map.put("authors.img_3_title", "Денис Шевченко");
+        map.put("authors.img_4_title", "Наталья Басинских");
+        map.put("authors.img_5_title", "Дима Бондарчук");
+        map.put("authors.img_6_title", "FingerTips");
+        map.put("authors.img_7_title", "Илья Кошевой");
 
         map.put("authors.content1", "Дорогие слушатели!\nПриносим большую благодарность художнику Андрею Кулагину за его прекрасные и усердные работы лайнером, акварелью, рукой и головой. Его шедевры и безвозмездная увлечённость дарили нам вдохновение на протяжении всей работы.");
         map.put("authors.content3", "Великий поклон Денису Шевченку за великолепную начитку роли Мюнхаузена, а Наталье Басинских – его внучки.");
         map.put("authors.content4", "Огромное спасибо Дмитрию Бондарчуку – главному разработчику – тому, кто с упорством воплотил весь наш замысел в код!");
         map.put("authors.content5", "Приношу большую благодарность Владу Подопрыгоре и Денису Лукьянчуку за тщательное тестирование аудиокниги и за режиссерскую помощь в составлении креативного сценария.");
         map.put("authors.content6", "Благодарность Руслану Хабибулину и его студии");
-        map.put("authors.link2", "«MelodicVoiceStudio»");
+        map.put("authors.link2", "MelodicVoiceStudio");
         map.put("authors.content7", "за услуги звукообработки.");
         map.put("authors.content8", "Спасибо команде монтажа ролика! Особенно хочу отметить актёров (Дениса и Злату Шевченко), оператора (Антона Борисюка),  режиссера монтажа (Оксану Войтенко), колориста (Кирилла Кужалёва) звукорежиссера и художника-аниматора (Андрея Кулагина).");
         map.put("authors.content9", "Выражаю искреннюю благодарность Илья Кошевой за написание музыки и помощи по всяким мелочам!");

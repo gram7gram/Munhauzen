@@ -386,6 +386,8 @@ public class ControlsFragment extends Fragment {
                 public void clicked(InputEvent event, float x, float y) {
                     super.clicked(event, x, y);
 
+                    MunhauzenGame.developmentScenario = null;
+
                     if (name.equals(MunhauzenGame.developmentInteraction)) {
                         MunhauzenGame.developmentInteraction = null;
                     } else {
@@ -512,6 +514,10 @@ public class ControlsFragment extends Fragment {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     super.clicked(event, x, y);
+
+                    MunhauzenGame.developmentInteraction = null;
+
+                    game.gameState.activeSave.story = null;
 
                     if (scenario.name.equals(MunhauzenGame.developmentScenario)) {
                         MunhauzenGame.developmentScenario = null;

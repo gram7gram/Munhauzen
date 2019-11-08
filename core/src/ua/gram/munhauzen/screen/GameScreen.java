@@ -276,7 +276,7 @@ public class GameScreen implements Screen {
 
             ArrayList<String> strings = new ArrayList<>();
 
-            if (story.currentInteraction != null && !story.currentInteraction.isCompleted) {
+            if (story.currentInteraction != null) {
                 strings.add("interaction:" + story.currentInteraction.name + "" + (story.currentInteraction.isLocked ? " lock" : ""));
             } else {
 

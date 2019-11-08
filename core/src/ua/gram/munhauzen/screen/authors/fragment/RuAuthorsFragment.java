@@ -60,7 +60,7 @@ public class RuAuthorsFragment extends AuthorsFragment {
         Portrait img3 = new Portrait(
                 screen.assetManager.get("authors/author_3_2.png", Texture.class),
                 screen.game.t("authors.img_3_title"),
-                null,
+                "https://www.facebook.com/profile.php?id=100001717704341",
                 style
         );
         Portrait img4 = new Portrait(

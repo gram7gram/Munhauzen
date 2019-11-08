@@ -17,7 +17,7 @@ public class FontProvider implements Disposable {
     final MunhauzenGame game;
     final String tag = getClass().getSimpleName();
 
-    final String alphabet = "\u0000\"'1234567890-=+?!@#$%&*(){}[].,:;/_><…–«»"
+    final String alphabet = "\u0000\"'1234567890-=+?!@#$%&*(){}[].,:;/_><…–"
             + "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
             + "АаБбВвГгДдЕеЭэЖжЗзИиЙйЫыКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчЩщШшЮюЯяЬьЪъЁё"
             + "АаБбВвГгДдЕеЄЄЖжЗзИиЙйІіЇїКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчЩщШшЮюЯяЬь";
