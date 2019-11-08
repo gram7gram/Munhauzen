@@ -1,16 +1,15 @@
 package ua.gram.munhauzen.interaction.swamp.fragment;
 
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.utils.Timer;
 
-import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.interaction.SwampInteraction;
 import ua.gram.munhauzen.interaction.swamp.ui.MunchausenInSwamp;
+import ua.gram.munhauzen.interaction.swamp.ui.Overlay;
 import ua.gram.munhauzen.interaction.swamp.ui.Swamp;
 import ua.gram.munhauzen.interaction.swamp.ui.SwampBackground;
 import ua.gram.munhauzen.screen.game.fragment.InteractionFragment;
@@ -27,7 +26,6 @@ public class SwampImageFragment extends InteractionFragment {
     public Swamp swamp;
     public MunchausenInSwamp munhauzen;
     public SwampBackground swampBackground;
-    Container<MunchausenInSwamp> munchausenContainer;
     StoryAudio audio;
 
     public SwampImageFragment(SwampInteraction interaction) {
@@ -35,21 +33,20 @@ public class SwampImageFragment extends InteractionFragment {
     }
 
     public void create() {
-
         Log.i(tag, "create");
+
+        Texture img = interaction.gameScreen.game.internalAssetManager.get("p0.jpg", Texture.class);
 
         swampBackground = new SwampBackground(interaction);
         swamp = new Swamp(interaction);
         munhauzen = new MunchausenInSwamp(interaction);
-
-        munchausenContainer = new Container<>(munhauzen);
-        munchausenContainer.setClip(true);
+        Overlay overlay = new Overlay(this, img);
 
         Group group = new Group();
-
         group.addActor(swampBackground);
-        group.addActor(munchausenContainer);
+        group.addActor(munhauzen);
         group.addActor(swamp);
+        group.addActor(overlay);
 
         root = new FragmentRoot();
         root.setTouchable(Touchable.childrenOnly);
@@ -62,13 +59,6 @@ public class SwampImageFragment extends InteractionFragment {
 
     public void update() {
 
-        munchausenContainer.setBounds(
-                swampBackground.getX(),
-                swampBackground.getY(),
-                MunhauzenGame.WORLD_WIDTH,
-                MunhauzenGame.WORLD_HEIGHT
-        );
-
         if (audio != null) {
             interaction.gameScreen.audioService.updateVolume(audio);
         }
@@ -76,25 +66,20 @@ public class SwampImageFragment extends InteractionFragment {
 
     public void checkIfWinner() {
 
-        if (root.getTouchable() == Touchable.disabled) {
-            return;
-        }
-
-        Vector2 screenCoord = munhauzen.localToScreenCoordinates(new Vector2());
-
-        if (screenCoord.y > munhauzen.winLimit) {
+        if (munhauzen.getY() >= munhauzen.limit) {
             complete();
         }
     }
 
     private void complete() {
-        Log.i(tag, "complete");
+        Log.i(tag, "complete y=" + munhauzen.getY());
 
         try {
 
             Timer.instance().clear();
 
             root.setTouchable(Touchable.disabled);
+            munhauzen.setTouchable(Touchable.disabled);
 
             munhauzen.complete();
 

@@ -99,7 +99,7 @@ public class RussianTranslator implements Translator {
                 + "\nНаша команда вложила в даную аудиокнигу свои силы и душу! Мы надеемся, что  она принесет вам много чудесных и положительных эмоций, и пусть улыбка озарится на вашем лице!"
                 + "\nСлушайте и наслаждайтесь!");
         map.put("greetings_banner.btn", "Начать");
-        map.put("rate_banner.btn", "Оценит");
+        map.put("rate_banner.btn", "Оценить");
         map.put("rate_banner.title", "Пожалуйста, оцените наше приложение и оставьте отзыв");
         map.put("pro_banner.btn", "Оценить");
         map.put("pro_banner.title", "Спасибо за покупку полной версии аудиокниги!"

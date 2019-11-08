@@ -63,7 +63,8 @@ public class DatabaseManager {
 
         String raw = file.readString("UTF-8");
         if (raw == null || raw.equals("")) {
-            throw new GdxRuntimeException("Expansion info exists but invalid");
+            Log.e(tag, "Expansion info exists but invalid");
+            return null;
         }
 
         return loadExpansionInfo(raw);

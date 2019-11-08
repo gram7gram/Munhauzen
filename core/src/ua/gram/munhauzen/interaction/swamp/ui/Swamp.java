@@ -11,6 +11,7 @@ import ua.gram.munhauzen.interaction.SwampInteraction;
 public class Swamp extends Image {
 
     final SwampInteraction interaction;
+    public float width, height, x, y;
 
     public Swamp(SwampInteraction interaction) {
 
@@ -31,20 +32,19 @@ public class Swamp extends Image {
 
         float[] numbers = getPercentBounds();
 
-        float width = backgroundImage.width * numbers[0] / 100;
-        float height = backgroundImage.height * numbers[1] / 100;
-        float x = backgroundImage.getX()
+        width = backgroundImage.width * numbers[0] / 100;
+        height = backgroundImage.height * numbers[1] / 100;
+        x = backgroundImage.getX()
                 + backgroundImage.width * numbers[2] / 100;
-        float y = backgroundImage.getY()
-                + (backgroundImage.height * (100 - numbers[3]) / 100)
-                - height;
+        y = backgroundImage.getY()
+                + (backgroundImage.height * numbers[3] / 100);
 
         setBounds(x, y, width, height);
     }
 
     private float[] getPercentBounds() {
         return new float[]{
-                100.00f, 29.62f, 0.00f, 70.38f
+                100.00f, 29.62f, 0.00f, 0f
         };
     }
 

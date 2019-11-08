@@ -14,8 +14,6 @@ public class PlatformParams {
     public Translator translator;
     public AppStore appStore;
     public MemoryUsage memoryUsage;
-    public String gameHost = "http://munchausen-api.fingertips.cf";
-    //public String gameHost = "http://192.168.1.102:20000";
     public String dpi = "mdpi";
     public String locale = "en";
     public String versionName;
@@ -40,8 +38,14 @@ public class PlatformParams {
         return release == Release.DEV;
     }
 
+    public String getGameHost() {
+        return isDev()
+                ? "http://192.168.1.102:20000"
+                : "http://munchausen-api.fingertips.cf";
+    }
+
     public String getExpansionUrl() {
-        return gameHost + "/api/v1/" + locale + "/expansions/" + versionCode + "/" + dpi;
+        return getGameHost() + "/api/v1/" + locale + "/expansions/" + versionCode + "/" + dpi;
     }
 
     public String getGameExportUrl() {
