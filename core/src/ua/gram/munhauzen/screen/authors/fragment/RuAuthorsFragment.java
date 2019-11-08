@@ -32,7 +32,6 @@ public class RuAuthorsFragment extends AuthorsFragment {
         rows.pad(10, 100, 10, 100);
 
         float widthLimit = MunhauzenGame.WORLD_WIDTH * .65f;
-        float imgWidth = MunhauzenGame.WORLD_WIDTH * .3f;
 
         Label.LabelStyle style = new Label.LabelStyle(
                 screen.game.fontProvider.getFont(FontProvider.h4),
@@ -41,44 +40,52 @@ public class RuAuthorsFragment extends AuthorsFragment {
 
         Label.LabelStyle linkStyle = new Label.LabelStyle(
                 screen.game.fontProvider.getFont(FontProvider.h4),
-                Color.BLUE
+                Color.BLACK
         );
 
         Portrait img1 = new Portrait(
                 screen.assetManager.get("authors/author_1.png", Texture.class),
                 screen.game.t("authors.img_1_title"),
-                style,
-                imgWidth
+                "https://uk.wikipedia.org/wiki/%D0%A0%D1%83%D0%B4%D0%BE%D0%BB%D1%8C%D1%84_%D0%95%D1%80%D1%96%D1%85_%D0%A0%D0%B0%D1%81%D0%BF%D0%B5",
+                style
         );
+
         Portrait img2 = new Portrait(
                 screen.assetManager.get("authors/author_2.png", Texture.class),
                 screen.game.t("authors.img_2_title"),
-                style,
-                imgWidth
+                "https://www.youtube.com/channel/UC_GO6yOVtXVBIgfztM-FzBQ",
+                style
         );
+
         Portrait img3 = new Portrait(
                 screen.assetManager.get("authors/author_3_2.png", Texture.class),
                 screen.game.t("authors.img_3_title"),
-                style,
-                imgWidth
+                null,
+                style
         );
         Portrait img4 = new Portrait(
                 screen.assetManager.get("authors/author_4_2.png", Texture.class),
                 screen.game.t("authors.img_4_title"),
-                style,
-                imgWidth
+                null,
+                style
         );
         Portrait img5 = new Portrait(
                 screen.assetManager.get("authors/author_5.png", Texture.class),
                 screen.game.t("authors.img_5_title"),
-                style,
-                imgWidth
+                "https://www.linkedin.com/in/gram7gram",
+                style
         );
         Portrait img6 = new Portrait(
                 screen.assetManager.get("authors/author_6.png", Texture.class),
                 screen.game.t("authors.img_6_title"),
-                style,
-                imgWidth
+                "http://munchausen.fingertips.cf/ru",
+                style
+        );
+        Portrait img7 = new Portrait(
+                screen.assetManager.get("authors/author_7.png", Texture.class),
+                screen.game.t("authors.img_7_title"),
+                "https://t.me/workalone000",
+                style
         );
 
         rows.add(img1).padBottom(10).expandX().row();
@@ -94,34 +101,8 @@ public class RuAuthorsFragment extends AuthorsFragment {
             rows.add(label).padBottom(10).center().width(widthLimit).row();
         }
 
-        Label link1 = new Label(screen.game.t("authors.link1"), linkStyle);
-        link1.setWrap(true);
-        link1.setAlignment(Align.center);
-        link1.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                Gdx.net.openURI("https://www.youtube.com/channel/UC_GO6yOVtXVBIgfztM-FzBQ");
-            }
-        });
 
-        rows.add(link1).center().width(widthLimit).row();
-        rows.add(new Underline()).height(3).padBottom(10).center().width(link1.getWidth()).row();
-
-        for (String sentence : screen.game.t("authors.content2").split("\n")) {
-
-            Label label = new Label(sentence, style);
-            label.setWrap(true);
-            label.setAlignment(Align.center);
-
-            rows.add(label).padBottom(10).center().width(widthLimit).row();
-        }
-
-
-        rows.add().padBottom(30).row();
-
-        rows.add(img2).padBottom(10).expandX().row();
-
-        rows.add().padBottom(30).row();
+        rows.add(img2).expandX().row();
 
 
 
@@ -135,14 +116,9 @@ public class RuAuthorsFragment extends AuthorsFragment {
         }
 
 
+        rows.add(img3).expandX().row();
 
-        rows.add().padBottom(30).row();
-
-        rows.add(img3).padBottom(10).expandX().row();
-
-        rows.add(img4).padBottom(10).expandX().row();
-
-        rows.add().padBottom(30).row();
+        rows.add(img4).expandX().row();
 
 
 
@@ -156,11 +132,7 @@ public class RuAuthorsFragment extends AuthorsFragment {
         }
 
 
-        rows.add().padBottom(30).row();
-
-        rows.add(img5).padBottom(10).expandX().row();
-
-        rows.add().padBottom(30).row();
+        rows.add(img5).expandX().row();
 
 
 
@@ -229,18 +201,8 @@ public class RuAuthorsFragment extends AuthorsFragment {
             rows.add(label).padBottom(10).center().width(widthLimit).row();
         }
 
-        Label link3 = new Label(screen.game.t("authors.link3"), linkStyle);
-        link3.setWrap(true);
-        link3.setAlignment(Align.center);
-        link3.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                Gdx.net.openURI("https://t.me/workalone000");
-            }
-        });
+        rows.add(img7).expandX().row();
 
-        rows.add(link3).center().width(widthLimit).row();
-        rows.add(new Underline()).height(3).padBottom(10).center().width(link3.getWidth()).row();
 
         for (String sentence : screen.game.t("authors.content10").split("\n")) {
 
@@ -251,24 +213,9 @@ public class RuAuthorsFragment extends AuthorsFragment {
             rows.add(label).padBottom(10).center().width(widthLimit).row();
         }
 
-        rows.add().padBottom(30).row();
+        rows.add(img6).expandX().row();
 
         for (String sentence : screen.game.t("authors.content11").split("\n")) {
-
-            Label label = new Label(sentence, style);
-            label.setWrap(true);
-            label.setAlignment(Align.center);
-
-            rows.add(label).padBottom(10).center().width(widthLimit).row();
-        }
-
-        rows.add().padBottom(30).row();
-
-        rows.add(img6).padBottom(10).expandX().row();
-
-        rows.add().padBottom(30).row();
-
-        for (String sentence : screen.game.t("authors.content12").split("\n")) {
 
             Label label = new Label(sentence, style);
             label.setWrap(true);

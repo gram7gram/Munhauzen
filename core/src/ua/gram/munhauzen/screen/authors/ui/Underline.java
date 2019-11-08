@@ -11,7 +11,7 @@ public class Underline extends Image {
 
     public Underline() {
         Pixmap px = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
-        px.setColor(Color.BLUE);
+        px.setColor(Color.BLACK);
         px.fill();
 
         setDrawable(new SpriteDrawable(new Sprite(new Texture(px))));

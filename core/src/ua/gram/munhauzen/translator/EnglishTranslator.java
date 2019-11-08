@@ -148,12 +148,11 @@ public class EnglishTranslator implements Translator {
         map.put("authors.img_2_title", "«Andrey Kulagin»");
         map.put("authors.img_3_title", "«Peter Hayden»");
         map.put("authors.img_4_title", "«Julia Lawn»");
-        map.put("authors.img_5_title", "«Dmitriy Bondarchuk»");
+        map.put("authors.img_5_title", "«Dmitro Bondarchuk»");
         map.put("authors.img_6_title", "«FingerTips»");
+        map.put("authors.img_7_title", "«Ilya Koshevoi»");
 
-        map.put("authors.content1", "Dear listeners!\nWe are very grateful to the artist");
-        map.put("authors.link1", "Andrei Kulagin");
-        map.put("authors.content2", "for his wonderful works with the liner, watercolors, hands and the head. His masterpieces, diligent work and gratuitous dedication gave us inspiration throughout the enire process.");
+        map.put("authors.content1", "Dear listeners!\nWe are very grateful to the artist Andrei Kulagin for his wonderful works with the liner, watercolors, hands and the head. His masterpieces, diligent work and gratuitous dedication gave us inspiration throughout the enire process.");
         map.put("authors.content3", "Best regards to Peter Hayden for the magnificent voice-over of the role of Munchausen, and Julia Lawn – of his granddaughter.");
         map.put("authors.content4", "Many thanks to Dmitriy Bondarchuk – the main developer! He is the one who persistently embodied our whole idea into the code!");
         map.put("authors.content5", "We also thank Vlad Podoprygora and Denis Lukyanchuk for extensive testing of the audiobook and for the help in writing the scenario.");
@@ -161,11 +160,9 @@ public class EnglishTranslator implements Translator {
         map.put("authors.link2", "«MelodicVoiceStudio»");
         map.put("authors.content7", "for sound editing services.");
         map.put("authors.content8", "Thanks to the movie editing team! Especially I want to mention the actors (Denis and Zlata Shevchenko), the cameraman (Anton Borisyuk), the editing director (Oksana Voitenko), the colorist (Kirill Kuzhalyov), the sound engineer and animation artist (Andrey Kulagin). ");
-        map.put("authors.content9", "And finally, I express my sincere gratitude to");
-        map.put("authors.link3", "Ilya Koshevoi");
-        map.put("authors.content10", "for writing music and helping with some little things!");
-        map.put("authors.content11", "Also thanks to the organizer! ");
-        map.put("authors.content12", "Well, and thanks, of course, to Raspe himself!\nBrilliant!");
+        map.put("authors.content9", "And finally, I express my sincere gratitude to Ilya Koshevoi for writing music and helping with some little things!");
+        map.put("authors.content10", "Also thanks to the organizer!");
+        map.put("authors.content11", "Well, and thanks, of course, to Raspe himself!\nBrilliant!");
 
 
 

@@ -14,8 +14,8 @@ function convertRaw() {
 #    rm -rf $MDPI_DIR
 
     cd $RAW_DIR
-#    for dir in *; do
-        dir="swamp"
+    for dir in *; do
+#        dir="authors"
         echo "|- Converting $LOCALE/raw/$dir..."
 
         mkdir -p "$HDPI_DIR/$dir"
@@ -36,7 +36,7 @@ function convertRaw() {
                 test $? -gt 0 && exit 1
             fi
         done
-#    done
+    done
 }
 
 convertRaw "ru"
