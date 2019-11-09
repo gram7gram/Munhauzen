@@ -105,59 +105,37 @@ public class SwampImageFragment extends InteractionFragment {
 
                                 } catch (Throwable e) {
                                     Log.e(tag, e);
-
-                                    interaction.gameScreen.onCriticalError(e);
                                 }
                             }
                         }, audio.duration / 1000f);
 
                     } catch (Throwable e) {
                         Log.e(tag, e);
-
-                        interaction.gameScreen.onCriticalError(e);
                     }
                 }
             }, audio.duration / 1000f);
         } catch (Throwable e) {
             Log.e(tag, e);
-
-            interaction.gameScreen.onCriticalError(e);
         }
 
     }
 
     private void playBounceBeforeWin() {
-        try {
+        stopAudio();
 
-            stopAudio();
+        audio = new StoryAudio();
+        audio.audio = "sfx_inter_swamp_2";
 
-            audio = new StoryAudio();
-            audio.audio = "sfx_inter_swamp_2";
-
-            interaction.gameScreen.audioService.prepareAndPlay(audio);
-
-        } catch (Throwable e) {
-            Log.e(tag, e);
-
-            interaction.gameScreen.onCriticalError(e);
-        }
+        interaction.gameScreen.audioService.prepareAndPlay(audio);
     }
 
     private void playWin() {
-        try {
+        stopAudio();
 
-            stopAudio();
+        audio = new StoryAudio();
+        audio.audio = "s24_a";
 
-            audio = new StoryAudio();
-            audio.audio = "s24_a";
-
-            interaction.gameScreen.audioService.prepareAndPlay(audio);
-
-        } catch (Throwable e) {
-            Log.e(tag, e);
-
-            interaction.gameScreen.onCriticalError(e);
-        }
+        interaction.gameScreen.audioService.prepareAndPlay(audio);
     }
 
     public void pausePull() {

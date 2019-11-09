@@ -45,8 +45,8 @@ public class BalloonsImageFragment extends InteractionFragment {
     Balloon balloon1, balloon2, balloon3, balloon4;
     Label progressLabel;
     Table titleTable, restartTable, winTable;
-    int progress, max = 21, spawnCount;
-    Timer.Task task;
+    int progress, spawnCount;
+    final int max = 21;
     StoryAudio currentAudio;
 
     public BalloonsImageFragment(BalloonsInteraction interaction) {
@@ -54,8 +54,6 @@ public class BalloonsImageFragment extends InteractionFragment {
     }
 
     public void create() {
-
-        Log.i(tag, "create");
 
         backgroundImage = new BackgroundImage(interaction.gameScreen);
 
@@ -297,6 +295,8 @@ public class BalloonsImageFragment extends InteractionFragment {
     private void checkProgress() {
         if (progress == max) {
             win();
+        } else {
+            spawnBalloon();
         }
     }
 
@@ -307,12 +307,12 @@ public class BalloonsImageFragment extends InteractionFragment {
         progress = 0;
         spawnCount = 0;
 
-        task = Timer.instance().scheduleTask(new Timer.Task() {
+        Timer.instance().scheduleTask(new Timer.Task() {
             @Override
             public void run() {
                 spawnBalloon();
             }
-        }, 1, 2.5f);
+        }, 1);
     }
 
     private ArrayList<Balloon> getActiveBalloons() {
@@ -344,17 +344,8 @@ public class BalloonsImageFragment extends InteractionFragment {
             }
 
             if (isLast) {
-                stopSpawn();
-
                 playBalloon21();
             }
-        }
-    }
-
-    private void stopSpawn() {
-        if (task != null) {
-            task.cancel();
-            task = null;
         }
     }
 
@@ -363,8 +354,6 @@ public class BalloonsImageFragment extends InteractionFragment {
         Log.i(tag, "win");
 
         spawnCount = 0;
-
-        stopSpawn();
 
         titleTable.addAction(Actions.alpha(0, .5f));
 
@@ -416,8 +405,6 @@ public class BalloonsImageFragment extends InteractionFragment {
             balloon3.reset();
             balloon4.reset();
 
-            stopSpawn();
-
             restartTable.setVisible(true);
             restartTable.addAction(Actions.sequence(
                     Actions.alpha(0),
@@ -448,8 +435,6 @@ public class BalloonsImageFragment extends InteractionFragment {
 
         } catch (Throwable e) {
             Log.e(tag, e);
-
-            interaction.gameScreen.onCriticalError(e);
         }
     }
 
@@ -463,8 +448,6 @@ public class BalloonsImageFragment extends InteractionFragment {
             interaction.gameScreen.audioService.prepareAndPlay(currentAudio);
         } catch (Throwable e) {
             Log.e(tag, e);
-
-            interaction.gameScreen.onCriticalError(e);
         }
     }
 
@@ -483,8 +466,6 @@ public class BalloonsImageFragment extends InteractionFragment {
             interaction.gameScreen.audioService.prepareAndPlay(currentAudio);
         } catch (Throwable e) {
             Log.e(tag, e);
-
-            interaction.gameScreen.onCriticalError(e);
         }
     }
 
@@ -502,8 +483,6 @@ public class BalloonsImageFragment extends InteractionFragment {
             interaction.gameScreen.audioService.prepareAndPlay(currentAudio);
         } catch (Throwable e) {
             Log.e(tag, e);
-
-            interaction.gameScreen.onCriticalError(e);
         }
     }
 
@@ -517,8 +496,6 @@ public class BalloonsImageFragment extends InteractionFragment {
             interaction.gameScreen.audioService.prepareAndPlay(currentAudio);
         } catch (Throwable e) {
             Log.e(tag, e);
-
-            interaction.gameScreen.onCriticalError(e);
         }
     }
 
@@ -538,7 +515,7 @@ public class BalloonsImageFragment extends InteractionFragment {
 
     public void update() {
 
-        progressLabel.setText(progress + "/" + max);
+        progressLabel.setText(progress + "/" + spawnCount + "/" + max);
 
         if (currentAudio != null) {
             interaction.gameScreen.audioService.updateVolume(currentAudio);
@@ -560,8 +537,6 @@ public class BalloonsImageFragment extends InteractionFragment {
         try {
             progress = 0;
             spawnCount = 0;
-
-            stopSpawn();
 
             stopAudio();
 

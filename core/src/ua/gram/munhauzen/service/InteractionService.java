@@ -44,6 +44,8 @@ public class InteractionService {
     public void create(String name) {
         try {
 
+            Log.i(tag, "create " + name);
+
             Story story = gameScreen.getStory();
             if (story == null) return;
 
@@ -58,8 +60,6 @@ public class InteractionService {
 
             interaction.interaction = InteractionFactory.create(gameScreen, interaction.name);
             interaction.isLocked = true;
-
-            Log.i(tag, "create " + interaction.name);
 
             story.currentInteraction = interaction;
 
@@ -115,27 +115,38 @@ public class InteractionService {
         Story story = gameScreen.getStory();
         if (story == null) return;
 
-        StoryInteraction interaction = story.currentInteraction;
-        if (interaction == null) return;
+        Log.i(tag, "destroy");
 
-        Log.i(tag, "destroy " + interaction.name);
+        try {
+            StoryInteraction interaction = story.currentInteraction;
+            if (interaction != null) {
 
-        interaction.interaction.dispose();
-        interaction.isLocked = false;
+                if (interaction.interaction != null) {
+                    interaction.interaction.dispose();
+                    interaction.interaction = null;
+                }
 
-        if (gameScreen.gameLayers.interactionLayer != null) {
-            gameScreen.gameLayers.interactionLayer.destroy();
-            gameScreen.gameLayers.interactionLayer = null;
-        }
+                interaction.isLocked = false;
 
-        if (gameScreen.gameLayers.storyDecisionsLayer != null) {
-            gameScreen.gameLayers.storyDecisionsLayer.destroy();
-            gameScreen.gameLayers.storyDecisionsLayer = null;
-        }
+                story.currentInteraction = null;
+            }
 
-        if (gameScreen.gameLayers.interactionProgressBarLayer != null) {
-            gameScreen.gameLayers.interactionProgressBarLayer.destroy();
-            gameScreen.gameLayers.interactionProgressBarLayer = null;
+            if (gameScreen.gameLayers.interactionLayer != null) {
+                gameScreen.gameLayers.interactionLayer.destroy();
+                gameScreen.gameLayers.interactionLayer = null;
+            }
+
+            if (gameScreen.gameLayers.storyDecisionsLayer != null) {
+                gameScreen.gameLayers.storyDecisionsLayer.destroy();
+                gameScreen.gameLayers.storyDecisionsLayer = null;
+            }
+
+            if (gameScreen.gameLayers.interactionProgressBarLayer != null) {
+                gameScreen.gameLayers.interactionProgressBarLayer.destroy();
+                gameScreen.gameLayers.interactionProgressBarLayer = null;
+            }
+        } catch (Throwable e) {
+            Log.e(tag, e);
         }
     }
 }

@@ -151,15 +151,11 @@ public class Balloon extends FitImage {
 
         if (isLocked && getY() > MunhauzenGame.WORLD_HEIGHT) {
 
-            clearActions();
-
             remove();
 
             if (onMiss != null) {
                 onMiss.run();
             }
-
-            isLocked = false;
 
             reset();
         }

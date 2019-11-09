@@ -11,7 +11,8 @@ public class Log {
 
     public static void e(String tag, Throwable e) {
 
-//        ErrorMonitoring.capture(e);
+        if (ErrorMonitoring.instance() != null)
+            ErrorMonitoring.instance().capture(e);
 
         String trace = "";
         for (StackTraceElement tr : e.getStackTrace()) {

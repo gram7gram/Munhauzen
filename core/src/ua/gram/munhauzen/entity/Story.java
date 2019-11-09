@@ -48,7 +48,7 @@ public class Story implements JsonEntry {
     public boolean isInteractionLocked() {
         if (currentInteraction == null) return false;
 
-        return currentInteraction.isLocked;
+        return currentInteraction.interaction != null && currentInteraction.isLocked;
     }
 
     @JsonIgnore

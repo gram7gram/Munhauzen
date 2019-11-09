@@ -1,16 +1,29 @@
 package ua.gram.munhauzen.utils;
 
+import java.util.HashSet;
+
 import io.sentry.Sentry;
 import ua.gram.munhauzen.MunhauzenGame;
 
 public class ErrorMonitoring {
 
     private final boolean canCapture;
+    private static ErrorMonitoring instance;
+    private static HashSet<Throwable> captured;
 
-    public ErrorMonitoring(MunhauzenGame game) {
+    public static ErrorMonitoring instance() {
+        return instance;
+    }
+
+    public static void createInstance(MunhauzenGame game) {
+        instance = new ErrorMonitoring(game);
+    }
+
+    private ErrorMonitoring(MunhauzenGame game) {
 
         Sentry.init(game.params.sentryDsn);
 
+        captured = new HashSet<>();
         canCapture = !game.params.isDev();
 
         Sentry.getContext().addTag("release", game.params.release + "");
@@ -21,9 +34,19 @@ public class ErrorMonitoring {
         Sentry.getContext().addTag("locale", game.params.locale + "");
     }
 
+    public static void destroy() {
+        captured.clear();
+        captured = null;
+        instance = null;
+    }
+
     public void capture(Throwable e) {
 
         if (!canCapture) return;
+
+        if (captured.contains(e)) return;
+
+        captured.add(e);
 
         Sentry.capture(e);
     }

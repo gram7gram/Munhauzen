@@ -104,12 +104,8 @@ public class MunchausenInSwamp extends Image {
 
         setSize(width, height);
 
-        if (!isDragging) {
+        if (!isDragging && !isCompleted) {
             setPosition(x, y);
-        }
-
-        if (isCompleted) {
-            setPosition(x, limit);
         }
     }
 
@@ -173,5 +169,16 @@ public class MunchausenInSwamp extends Image {
         clear();
 
         cancelTask();
+
+        setY(limit);
+
+        addAction(Actions.repeat(10,
+                Actions.sequence(
+                        Actions.moveBy(5, 0, .1f),
+                        Actions.moveBy(0, -5, .1f),
+                        Actions.moveBy(-5, 0, .1f),
+                        Actions.moveBy(0, 5, .1f)
+                )
+        ));
     }
 }
