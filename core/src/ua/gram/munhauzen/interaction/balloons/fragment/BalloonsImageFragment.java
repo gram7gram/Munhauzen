@@ -16,8 +16,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Timer;
 
-import java.util.ArrayList;
-
 import ua.gram.munhauzen.ButtonBuilder;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
@@ -33,21 +31,18 @@ import ua.gram.munhauzen.ui.PrimaryButton;
 import ua.gram.munhauzen.utils.Log;
 import ua.gram.munhauzen.utils.MathUtils;
 
-/**
- * @author Gram <gram7gram@gmail.com>
- */
 public class BalloonsImageFragment extends InteractionFragment {
 
     private final BalloonsInteraction interaction;
     public FragmentRoot root;
     public BackgroundImage backgroundImage;
-    PrimaryButton resetButton;
+    PrimaryButton resetButton, completeButton;
     Balloon balloon1, balloon2, balloon3, balloon4;
     Label progressLabel;
     Table titleTable, restartTable, winTable;
     int progress, spawnCount;
     final int max = 21;
-    StoryAudio currentAudio;
+    StoryAudio currentAudio, audio21, winAudio;
 
     public BalloonsImageFragment(BalloonsInteraction interaction) {
         this.interaction = interaction;
@@ -127,6 +122,10 @@ public class BalloonsImageFragment extends InteractionFragment {
 
                 Log.i(tag, "restart");
 
+                stopAudio();
+
+                resetButton.setDisabled(true);
+
                 restartTable.addAction(Actions.sequence(
                         Actions.alpha(0, .3f),
                         Actions.run(new Runnable() {
@@ -139,10 +138,12 @@ public class BalloonsImageFragment extends InteractionFragment {
             }
         });
 
-        PrimaryButton completeButton = interaction.gameScreen.game.buttonBuilder.primary(interaction.t("balloons_inter.continue_btn"), new ClickListener() {
+        completeButton = interaction.gameScreen.game.buttonBuilder.primary(interaction.t("balloons_inter.continue_btn"), new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
+
+                completeButton.setDisabled(true);
 
                 root.addAction(Actions.sequence(
                         Actions.alpha(0, .3f),
@@ -315,37 +316,31 @@ public class BalloonsImageFragment extends InteractionFragment {
         }, 1);
     }
 
-    private ArrayList<Balloon> getActiveBalloons() {
-
-        ArrayList<Balloon> balloons = new ArrayList<>();
-        if (!balloon1.isLocked) balloons.add(balloon1);
-        if (!balloon2.isLocked) balloons.add(balloon2);
-        if (!balloon3.isLocked) balloons.add(balloon3);
-        if (!balloon4.isLocked) balloons.add(balloon4);
-
-        return balloons;
-    }
-
     private void spawnBalloon() {
 
-        Balloon balloon = MathUtils.random(getActiveBalloons());
-        if (balloon != null) {
+        Balloon newBalloon;
 
-            ++spawnCount;
+        if (!balloon1.isLocked) newBalloon = (balloon1);
+        else if (!balloon2.isLocked) newBalloon = (balloon2);
+        else if (!balloon3.isLocked) newBalloon = (balloon3);
+        else if (!balloon4.isLocked) newBalloon = (balloon4);
+        else newBalloon = balloon1;
 
-            Log.i(tag, "spawnBalloon " + spawnCount + "/" + max);
+        newBalloon.reset();
 
-            boolean isLast = spawnCount == max;
+        ++spawnCount;
 
-            if (isLast) {
-                balloon.startFast();
-            } else {
-                balloon.start();
-            }
+        Log.i(tag, "spawnBalloon " + spawnCount + "/" + max);
 
-            if (isLast) {
-                playBalloon21();
-            }
+        boolean isLast = spawnCount == max;
+
+        if (isLast) {
+
+            playBalloon21();
+
+            newBalloon.startFast();
+        } else {
+            newBalloon.start();
         }
     }
 
@@ -357,6 +352,7 @@ public class BalloonsImageFragment extends InteractionFragment {
 
         titleTable.addAction(Actions.alpha(0, .5f));
 
+        completeButton.setDisabled(false);
         winTable.setVisible(true);
         winTable.addAction(Actions.sequence(
                 Actions.alpha(0),
@@ -426,12 +422,10 @@ public class BalloonsImageFragment extends InteractionFragment {
 
     private void playWin() {
         try {
-            stopAudio();
+            winAudio = new StoryAudio();
+            winAudio.audio = "sfx_inter_balloons_win";
 
-            currentAudio = new StoryAudio();
-            currentAudio.audio = "sfx_inter_balloons_win";
-
-            interaction.gameScreen.audioService.prepareAndPlay(currentAudio);
+            interaction.gameScreen.audioService.prepareAndPlay(winAudio);
 
         } catch (Throwable e) {
             Log.e(tag, e);
@@ -440,12 +434,10 @@ public class BalloonsImageFragment extends InteractionFragment {
 
     private void playBalloon21() {
         try {
-            stopAudio();
+            audio21 = new StoryAudio();
+            audio21.audio = "sfx_inter_last";
 
-            currentAudio = new StoryAudio();
-            currentAudio.audio = "sfx_inter_last";
-
-            interaction.gameScreen.audioService.prepareAndPlay(currentAudio);
+            interaction.gameScreen.audioService.prepareAndPlay(audio21);
         } catch (Throwable e) {
             Log.e(tag, e);
         }
@@ -515,10 +507,16 @@ public class BalloonsImageFragment extends InteractionFragment {
 
     public void update() {
 
-        progressLabel.setText(progress + "/" + spawnCount + "/" + max);
+        progressLabel.setText(progress + "/" + max);
 
         if (currentAudio != null) {
             interaction.gameScreen.audioService.updateVolume(currentAudio);
+        }
+        if (audio21 != null) {
+            interaction.gameScreen.audioService.updateVolume(audio21);
+        }
+        if (winAudio != null) {
+            interaction.gameScreen.audioService.updateVolume(winAudio);
         }
 
     }
@@ -539,6 +537,16 @@ public class BalloonsImageFragment extends InteractionFragment {
             spawnCount = 0;
 
             stopAudio();
+
+            if (winAudio != null) {
+                interaction.gameScreen.audioService.stop(winAudio);
+                winAudio = null;
+            }
+
+            if (audio21 != null) {
+                interaction.gameScreen.audioService.stop(audio21);
+                audio21 = null;
+            }
 
         } catch (Throwable e) {
             Log.e(tag, e);
