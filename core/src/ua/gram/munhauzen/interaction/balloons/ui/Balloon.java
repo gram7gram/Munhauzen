@@ -3,6 +3,7 @@ package ua.gram.munhauzen.interaction.balloons.ui;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.CatmullRomSpline;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.utils.Align;
@@ -76,6 +77,7 @@ public class Balloon extends FitImage {
 
         reset();
 
+        setTouchable(Touchable.enabled);
         isLocked = true;
 
         SequenceAction sequenceAction = new SequenceAction();
@@ -102,6 +104,7 @@ public class Balloon extends FitImage {
 
         reset();
 
+        setTouchable(Touchable.enabled);
         isLocked = true;
 
         SequenceAction sequenceAction = new SequenceAction();
@@ -149,7 +152,7 @@ public class Balloon extends FitImage {
     public void act(float delta) {
         super.act(delta);
 
-        if (isLocked && getY() > MunhauzenGame.WORLD_HEIGHT) {
+        if (getY() >= MunhauzenGame.WORLD_HEIGHT) {
 
             if (onMiss != null) {
                 onMiss.run();

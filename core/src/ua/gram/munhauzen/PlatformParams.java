@@ -41,7 +41,7 @@ public class PlatformParams {
     public String getGameHost() {
         return isDev()
                 ? "http://192.168.1.102:20000"
-                : "http://munchausen-api.fingertips.cf";
+                : "https://api.thebaronmunchausen.com";
     }
 
     public String getExpansionUrl() {
@@ -49,6 +49,6 @@ public class PlatformParams {
     }
 
     public String getGameExportUrl() {
-        return "http://munchausen-api.fingertips.cf/downloads/game-" + locale + "-" + versionCode + ".zip";
+        return "https://api.thebaronmunchausen.com/downloads/game-" + locale + "-" + versionCode + ".zip";
     }
 }

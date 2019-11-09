@@ -1,6 +1,8 @@
 gradle.properties
 Elements
 
+*.jks
+
 node_modules
 *.csv
 package-lock.json

@@ -30,8 +30,7 @@ public class EnglishTranslator implements Translator {
                         + "\nYou see for yourselves that this strange tale must be true, however improbable it sounds, or else how could it possibly have happened?"
                         + "\nI also would doubt it, if I hadn't seen the green iron worms and their destructive activity with my own eyes. "
                         + "\nIf the shadow of a doubt can remain on any person’s mind, I say, let him take a voyage to Moon himself, and then he will know I am a traveller of veracity."
-                        + "\nThis is because I love traveling and I am always looking for adventures, and you sit at home and see nothing, except the four walls of your room."
-        );
+                        + "\nThis is because I love traveling and I am always looking for adventures, and you sit at home and see nothing, except the four walls of your room.");
         map.put("loading.retry_btn", "Retry");
         map.put("loading.download_btn", "Download");
         map.put("loading.title", "Downloading resources");
@@ -126,6 +125,7 @@ public class EnglishTranslator implements Translator {
         map.put("share_banner.vk", "Vkontakte");
         map.put("share_banner.in", "Instagram");
         map.put("saves.title", "Saves");
+        map.put("saves.empty_save_title", "Empty slot");
         map.put("menu.authors_btn", "Creators");
         map.put("menu.continue_btn", "Continue");
         map.put("menu.gallery_btn", "Gallery");
@@ -139,11 +139,9 @@ public class EnglishTranslator implements Translator {
         map.put("horn_inter.btn", "Continue");
         map.put("start_warning_banner.title",
                 "Do you want to start a new game?"
-                        + "\nUnsaved progress will be lost"
-        );
+                        + "\nUnsaved progress will be lost");
         map.put("start_warning_banner.yes_btn", "Yes");
         map.put("start_warning_banner.no_btn", "No");
-
         map.put("authors.img_1_title", "Rudolf Erich Raspe");
         map.put("authors.img_2_title", "Andrey Kulagin");
         map.put("authors.img_3_title", "Peter Hayden");
@@ -151,7 +149,6 @@ public class EnglishTranslator implements Translator {
         map.put("authors.img_5_title", "Dmitro Bondarchuk");
         map.put("authors.img_6_title", "FingerTips");
         map.put("authors.img_7_title", "Ilya Koshevoi");
-
         map.put("authors.content1", "Dear listeners!\nWe are very grateful to the artist Andrei Kulagin for his wonderful works with the liner, watercolors, hands and the head. His masterpieces, diligent work and gratuitous dedication gave us inspiration throughout the enire process.");
         map.put("authors.content3", "Best regards to Peter Hayden for the magnificent voice-over of the role of Munchausen, and Julia Lawn – of his granddaughter.");
         map.put("authors.content4", "Many thanks to Dmitriy Bondarchuk – the main developer! He is the one who persistently embodied our whole idea into the code!");
@@ -163,9 +160,6 @@ public class EnglishTranslator implements Translator {
         map.put("authors.content9", "And finally, I express my sincere gratitude to Ilya Koshevoi for writing music and helping with some little things!");
         map.put("authors.content10", "Also thanks to the organizer!");
         map.put("authors.content11", "Well, and thanks, of course, to Raspe himself!\nBrilliant!");
-
-
-
     }
 
     @Override

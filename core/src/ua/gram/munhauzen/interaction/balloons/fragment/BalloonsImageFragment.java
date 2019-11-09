@@ -40,9 +40,10 @@ public class BalloonsImageFragment extends InteractionFragment {
     Balloon balloon1, balloon2, balloon3, balloon4;
     Label progressLabel;
     Table titleTable, restartTable, winTable;
-    int progress, spawnCount;
+    int progress, spawnCount, currentBalloon;
     final int max = 21;
     StoryAudio currentAudio, audio21, winAudio;
+    Balloon[] balloons;
 
     public BalloonsImageFragment(BalloonsInteraction interaction) {
         this.interaction = interaction;
@@ -221,6 +222,10 @@ public class BalloonsImageFragment extends InteractionFragment {
             public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchDown(event, x, y, pointer, button);
 
+                if (!balloon1.isTouchable()) return;
+
+                balloon1.setTouchable(Touchable.disabled);
+
                 Log.i(tag, "Clicked balloon");
 
                 progress += 1;
@@ -237,6 +242,10 @@ public class BalloonsImageFragment extends InteractionFragment {
             @Override
             public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchDown(event, x, y, pointer, button);
+
+                if (!balloon2.isTouchable()) return;
+
+                balloon2.setTouchable(Touchable.disabled);
 
                 Log.i(tag, "Clicked balloon");
 
@@ -256,6 +265,10 @@ public class BalloonsImageFragment extends InteractionFragment {
             public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchDown(event, x, y, pointer, button);
 
+                if (!balloon3.isTouchable()) return;
+
+                balloon3.setTouchable(Touchable.disabled);
+
                 Log.i(tag, "Clicked balloon");
 
                 progress += 1;
@@ -272,6 +285,10 @@ public class BalloonsImageFragment extends InteractionFragment {
             @Override
             public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchDown(event, x, y, pointer, button);
+
+                if (!balloon4.isTouchable()) return;
+
+                balloon4.setTouchable(Touchable.disabled);
 
                 Log.i(tag, "Clicked balloon");
 
@@ -291,6 +308,13 @@ public class BalloonsImageFragment extends InteractionFragment {
         balloon4.setVisible(false);
         restartTable.setVisible(false);
         winTable.setVisible(false);
+
+        balloons = new Balloon[]{
+                balloon1,
+                balloon2,
+                balloon3,
+                balloon4,
+        };
     }
 
     private void checkProgress() {
@@ -318,15 +342,11 @@ public class BalloonsImageFragment extends InteractionFragment {
 
     private void spawnBalloon() {
 
-        Balloon newBalloon;
+        ++currentBalloon;
 
-        if (!balloon1.isLocked) newBalloon = (balloon1);
-        else if (!balloon2.isLocked) newBalloon = (balloon2);
-        else if (!balloon3.isLocked) newBalloon = (balloon3);
-        else if (!balloon4.isLocked) newBalloon = (balloon4);
-        else newBalloon = balloon1;
+        if (currentBalloon >= balloons.length) currentBalloon = 0;
 
-        newBalloon.reset();
+        Balloon newBalloon = balloons[currentBalloon];
 
         ++spawnCount;
 
