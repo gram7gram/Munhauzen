@@ -602,9 +602,9 @@ public class PuzzleDecisionManager {
 
             String soundName;
             if (inventoryService.isInInventory(inventoryCrow)) {
-                soundName = "s15_1_с_crow";
+                soundName = "s15_1_c_crow";
             } else {
-                soundName = "s15_1_с";
+                soundName = "s15_1_c";
             }
 
             currentAudio = new StoryAudio();

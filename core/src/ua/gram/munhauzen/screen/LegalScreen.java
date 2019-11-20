@@ -113,6 +113,8 @@ public class LegalScreen implements Screen {
         );
 
         ui.addActor(root);
+
+        Gdx.input.setInputProcessor(ui);
     }
 
     @Override

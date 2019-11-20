@@ -10,7 +10,7 @@ public class PlatformParams {
         DEV, PROD, STAGE
     }
 
-    public Release release = Release.DEV;
+    public Release release = Release.STAGE;
     public int expansionVersion = 1;
     public Translator translator;
     public AppStore appStore;

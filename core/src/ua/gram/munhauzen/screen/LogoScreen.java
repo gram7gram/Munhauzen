@@ -71,6 +71,8 @@ public class LogoScreen implements Screen {
 
         ui.addActor(root);
 
+        Gdx.input.setInputProcessor(ui);
+
         game.sfxService.onLogoScreenOpened();
     }
 
