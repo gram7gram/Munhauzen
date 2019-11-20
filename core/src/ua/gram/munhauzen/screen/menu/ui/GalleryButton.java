@@ -24,7 +24,16 @@ public class GalleryButton extends MenuButton {
 
                 screen.game.currentSfx = screen.game.sfxService.onMenuGalleryClicked();
 
-                screen.navigateTo(new GalleryScreen(screen.game));
+                if (screen.game.gameState.menuState.isGalleryBannerViewed) {
+                    screen.navigateTo(new GalleryScreen(screen.game));
+                } else {
+
+                    screen.unlockUI();
+
+                    screen.game.gameState.menuState.isGalleryBannerViewed = true;
+
+                    screen.openGalleryBanner();
+                }
             }
         });
     }

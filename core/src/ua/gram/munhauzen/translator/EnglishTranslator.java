@@ -160,6 +160,16 @@ public class EnglishTranslator implements Translator {
         map.put("authors.content9", "And finally, I express my sincere gratitude to Ilya Koshevoi for writing music and helping with some little things!");
         map.put("authors.content10", "Also thanks to the organizer!");
         map.put("authors.content11", "Well, and thanks, of course, to Raspe himself!\nBrilliant!");
+        map.put("gallery_banner.title", "Welcome to Gallery!");
+        map.put("gallery_banner.btn", "Yes!");
+        map.put("gallery_banner.content", "All paintings and design elements are written by professional artist Andrei Kulagin specifically for our audiobook!");
+        map.put("goofs_banner.title", "Welcome to Goofs!");
+        map.put("goofs_banner.btn", "Yes!");
+        map.put("goofs_banner.content", "Here you can listen our the funniest goofs and improvisational jokes of Baron Munchausen and granddaughter");
+        map.put("legal.title", "Dear listeners!");
+        map.put("legal.content", "Many stories of Baron Munchausen are related to animal hunting. If you or your child is susceptible to animal deaths, then we ask you to refrain from this classic.");
+        map.put("legal.btn", "Continue");
+
     }
 
     @Override

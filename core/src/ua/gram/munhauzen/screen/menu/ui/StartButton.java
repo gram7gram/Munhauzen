@@ -1,6 +1,5 @@
 package ua.gram.munhauzen.screen.menu.ui;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
@@ -50,12 +49,10 @@ public class StartButton extends MenuButton {
                 };
 
                 if (!screen.game.gameState.menuState.isContinueEnabled) {
-//                    Timer.instance().postTask(task);
                     task.run();
                 } else {
 
-                    Gdx.input.setInputProcessor(screen.ui);
-                    screen.isUILocked = false;
+                    screen.unlockUI();
 
                     screen.openStartWarningBanner(task);
                 }

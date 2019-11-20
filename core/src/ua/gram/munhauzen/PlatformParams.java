@@ -10,7 +10,8 @@ public class PlatformParams {
         DEV, PROD, STAGE
     }
 
-    public Release release = Release.DEV;
+    public Release release = Release.STAGE;
+    public int expansionVersion = 1;
     public Translator translator;
     public AppStore appStore;
     public MemoryUsage memoryUsage;
@@ -45,10 +46,10 @@ public class PlatformParams {
     }
 
     public String getExpansionUrl() {
-        return getGameHost() + "/api/v1/" + locale + "/expansions/" + versionCode + "/" + dpi;
+        return getGameHost() + "/api/v1/" + locale + "/expansions/" + expansionVersion + "/" + dpi;
     }
 
     public String getGameExportUrl() {
-        return "https://api.thebaronmunchausen.com/downloads/game-" + locale + "-" + versionCode + ".zip";
+        return "https://api.thebaronmunchausen.com/downloads/game-" + locale + "-" + expansionVersion + ".zip";
     }
 }

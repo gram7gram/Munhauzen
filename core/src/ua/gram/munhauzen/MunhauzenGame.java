@@ -2,7 +2,6 @@ package ua.gram.munhauzen;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -11,7 +10,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.screen.ErrorScreen;
-import ua.gram.munhauzen.screen.LogoScreen;
+import ua.gram.munhauzen.screen.LegalScreen;
 import ua.gram.munhauzen.service.AchievementService;
 import ua.gram.munhauzen.service.BackgroundSfxService;
 import ua.gram.munhauzen.service.DatabaseManager;
@@ -56,7 +55,6 @@ public class MunhauzenGame extends Game {
     public InternalAssetManager internalAssetManager;
     public ExpansionAssetManager expansionAssetManager;
     public InventoryService inventoryService;
-    public Preferences preferences;
     public AchievementService achievementService;
     public SfxService sfxService;
     public BackgroundSfxService backgroundSfxService;
@@ -102,8 +100,6 @@ public class MunhauzenGame extends Game {
 
             ExternalFiles.updateNomedia(params);
 
-            preferences = Gdx.app.getPreferences(params.versionCode + "-prefs");
-
             WORLD_WIDTH = Gdx.graphics.getWidth();
             WORLD_HEIGHT = Gdx.graphics.getHeight();
 
@@ -126,7 +122,7 @@ public class MunhauzenGame extends Game {
             buttonBuilder = new ButtonBuilder(this);
             achievementService = new AchievementService(this);
 
-            setScreen(new LogoScreen(this));
+            setScreen(new LegalScreen(this));
 
         } catch (Throwable e) {
             Log.e(tag, e);
@@ -203,7 +199,6 @@ public class MunhauzenGame extends Game {
 
             view = null;
             camera = null;
-            preferences = null;
             buttonBuilder = null;
             achievementService = null;
             inventoryService = null;

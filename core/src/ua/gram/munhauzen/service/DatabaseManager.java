@@ -79,7 +79,7 @@ public class DatabaseManager {
                 ExpansionResponse result = om.readValue(raw, ExpansionResponse.class);
 
                 if (result != null) {
-                    if (result.version == game.params.versionCode) {
+                    if (result.version == game.params.expansionVersion) {
                         return result;
                     } else {
                         Log.e(tag, "Obsolete expansion info v" + result.version);

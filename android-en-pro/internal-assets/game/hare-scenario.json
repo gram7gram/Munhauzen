@@ -34,6 +34,35 @@
     ]
   },
   {
+    "name": "a18_0_interaction_proxy",
+    "action": "CLICK",
+    "audio": [],
+    "decisions": [
+      {
+        "scenario": "a18_a",
+        "order": 1
+      },
+      {
+        "scenario": "a18_b",
+        "order": 2
+      },
+      {
+        "scenario": "a18_c",
+        "order": 3
+      },
+      {
+        "scenario": "a18_d",
+        "order": 4
+      }
+    ],
+    "translations": [
+      {
+        "locale": "en",
+        "text": "Eight legged hare"
+      }
+    ]
+  },
+  {
     "name": "a18_a",
     "action": "GOTO",
     "audio": [
@@ -43,7 +72,7 @@
     ],
     "decisions": [
       {
-        "scenario": "a18_0_interaction"
+        "scenario": "a18_0_interaction_proxy"
       }
     ],
     "translations": [
@@ -63,7 +92,7 @@
     ],
     "decisions": [
       {
-        "scenario": "a18_0_interaction"
+        "scenario": "a18_0_interaction_proxy"
       }
     ],
     "translations": [
@@ -83,7 +112,7 @@
     ],
     "decisions": [
       {
-        "scenario": "a18_0_interaction"
+        "scenario": "a18_0_interaction_proxy"
       }
     ],
     "translations": [

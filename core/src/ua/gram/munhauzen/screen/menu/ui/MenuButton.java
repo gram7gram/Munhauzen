@@ -1,6 +1,5 @@
 package ua.gram.munhauzen.screen.menu.ui;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -92,15 +91,13 @@ public abstract class MenuButton extends Stack {
 
                 try {
 
-                    Gdx.input.setInputProcessor(null);
+                    screen.lockUI();
 
                     screen.stopCurrentSfx();
 
                     screen.game.sfxService.onAnyBtnClicked();
 
                     animation.start();
-
-                    screen.isUILocked = true;
 
                     screen.layers.setBannerLayer(null);
 

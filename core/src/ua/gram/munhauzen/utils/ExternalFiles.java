@@ -57,7 +57,7 @@ public class ExternalFiles {
     }
 
     public static FileHandle getExpansionInfoFile(PlatformParams params) {
-        return getExternal(params, params.versionCode + "-expansion.json");
+        return getExternal(params, params.expansionVersion + "-expansion.json");
     }
 
     public static FileHandle getExpansionDir(PlatformParams params) {
@@ -81,7 +81,7 @@ public class ExternalFiles {
     }
 
     public static FileHandle getGameArchiveFile(PlatformParams params) {
-        return getExternal(params, "game-" + params.locale + "-" + params.versionCode + ".zip");
+        return getExternal(params, "game-" + params.locale + "-" + params.expansionVersion + ".zip");
     }
 
     public static FileHandle getHistoryFile(PlatformParams params) {

@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.Timer;
 import ua.gram.munhauzen.ButtonBuilder;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.screen.menu.fragment.ExitFragment;
 import ua.gram.munhauzen.ui.PrimaryButton;
 import ua.gram.munhauzen.utils.Log;
@@ -81,14 +82,14 @@ public class ExitBanner extends Banner {
                     yesBtn.setDisabled(true);
 
                     screen.stopCurrentSfx();
-                    screen.game.currentSfx = game.sfxService.onExitYesClicked();
+                    StoryAudio audio = screen.game.currentSfx = game.sfxService.onExitYesClicked();
 
                     Timer.instance().scheduleTask(new Timer.Task() {
                         @Override
                         public void run() {
                             onYesClicked();
                         }
-                    }, screen.game.currentSfx.duration / 1000f);
+                    }, audio != null ? audio.duration / 1000f : 2000);
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -109,14 +110,14 @@ public class ExitBanner extends Banner {
                     noBtn.setDisabled(true);
 
                     screen.stopCurrentSfx();
-                    screen.game.currentSfx = game.sfxService.onExitNoClicked();
+                    StoryAudio audio = screen.game.currentSfx = game.sfxService.onExitNoClicked();
 
                     Timer.instance().scheduleTask(new Timer.Task() {
                         @Override
                         public void run() {
                             onNoClicked();
                         }
-                    }, screen.game.currentSfx.duration / 1000f);
+                    }, audio != null ? audio.duration / 1000f : 2000);
 
                 } catch (Throwable e) {
                     Log.e(tag, e);

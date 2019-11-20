@@ -3,6 +3,7 @@ package ua.gram.munhauzen.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.MunhauzenGame;
@@ -187,6 +188,9 @@ public class PaintingScreen extends AbstractScreen {
                         paintingFragment.fadeInRight();
 
                         game.gameState.galleryState.visitedImages.add(prev.image.name);
+
+                        controlsFragment.leftArrow.setTouchable(Touchable.enabled);
+                        controlsFragment.rightArrow.setTouchable(Touchable.enabled);
 
                     } catch (Throwable e) {
                         Log.e(tag, e);

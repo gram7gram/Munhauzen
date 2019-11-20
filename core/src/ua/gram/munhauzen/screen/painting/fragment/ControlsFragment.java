@@ -107,12 +107,14 @@ public class ControlsFragment extends Fragment {
         style.down = new SpriteDrawable(new Sprite(skipForward));
         style.disabled = new SpriteDrawable(new Sprite(skipForwardOff));
 
-        ImageButton btn = new ImageButton(style);
+        final ImageButton btn = new ImageButton(style);
 
         btn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
+
+                btn.setTouchable(Touchable.disabled);
 
                 screen.nextPainting();
             }
@@ -130,12 +132,14 @@ public class ControlsFragment extends Fragment {
         style.down = new SpriteDrawable(new Sprite(skipBack));
         style.disabled = new SpriteDrawable(new Sprite(skipBackOff));
 
-        ImageButton btn = new ImageButton(style);
+        final ImageButton btn = new ImageButton(style);
 
         btn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
+
+                btn.setTouchable(Touchable.disabled);
 
                 screen.prevPainting();
             }

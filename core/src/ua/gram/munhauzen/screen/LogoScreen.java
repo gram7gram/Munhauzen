@@ -92,12 +92,20 @@ public class LogoScreen implements Screen {
             Log.e(tag, e);
         }
 
-        if (game.gameState.expansionInfo != null) {
-            canRedirectToLoading = !game.gameState.expansionInfo.isCompleted;
+        if (game.params.isProduction()) {
+            if (game.gameState.expansionInfo != null) {
+                canRedirectToLoading = !game.gameState.expansionInfo.isCompleted;
+            }
         }
 
         if (canRedirectToLoading) {
-            game.setScreen(new LoadingScreen(game));
+
+            if (game.gameState.menuState.isLegalViewed) {
+                game.setScreen(new LoadingScreen(game));
+            } else {
+                game.setScreen(new LegalScreen(game));
+            }
+
         } else {
             game.setScreen(new MenuScreen(game));
         }
