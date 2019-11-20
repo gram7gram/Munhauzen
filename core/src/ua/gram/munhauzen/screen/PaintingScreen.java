@@ -136,6 +136,9 @@ public class PaintingScreen extends AbstractScreen {
 
                         game.gameState.galleryState.visitedImages.add(next.image.name);
 
+                        controlsFragment.leftArrow.setTouchable(Touchable.enabled);
+                        controlsFragment.rightArrow.setTouchable(Touchable.enabled);
+
                     } catch (Throwable e) {
                         Log.e(tag, e);
 

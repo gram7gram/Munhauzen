@@ -3,6 +3,7 @@ package ua.gram.munhauzen.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.Timer;
 
 import java.util.ArrayList;
 
@@ -12,8 +13,10 @@ import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.screen.fails.entity.GalleryFail;
 import ua.gram.munhauzen.screen.fails.fragment.ControlsFragment;
 import ua.gram.munhauzen.screen.fails.fragment.FailsFragment;
+import ua.gram.munhauzen.screen.fails.fragment.GoofsFragment;
 import ua.gram.munhauzen.screen.fails.ui.FailsLayers;
 import ua.gram.munhauzen.service.AudioFailService;
+import ua.gram.munhauzen.utils.Log;
 
 public class FailsScreen extends AbstractScreen {
 
@@ -22,6 +25,7 @@ public class FailsScreen extends AbstractScreen {
     public ControlsFragment controlsFragment;
     public ArrayList<GalleryFail> failsM, failsD;
     public AudioFailService audioService;
+    public GoofsFragment goofsFragment;
 
     public FailsScreen(MunhauzenGame game) {
         super(game);
@@ -75,6 +79,34 @@ public class FailsScreen extends AbstractScreen {
         layers.setContentLayer(failsFragment);
 
         failsFragment.fadeIn();
+
+        if (game.gameState.failsState != null) {
+            if (!game.gameState.failsState.isGoofsBannerViewed) {
+                game.gameState.failsState.isGoofsBannerViewed = true;
+
+                Timer.instance().scheduleTask(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        openGoofsBanner();
+                    }
+                }, .5f);
+            }
+        }
+    }
+
+    public void openGoofsBanner() {
+        try {
+
+            goofsFragment = new GoofsFragment(this);
+            goofsFragment.create();
+
+            layers.setBannerLayer(goofsFragment);
+
+            goofsFragment.fadeIn();
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
     }
 
     private void createFails() {
@@ -142,9 +174,18 @@ public class FailsScreen extends AbstractScreen {
         }
     }
 
+    public void destroyBanners() {
+        if (goofsFragment != null) {
+            goofsFragment.destroy();
+            goofsFragment = null;
+        }
+    }
+
     @Override
     public void dispose() {
         super.dispose();
+
+        destroyBanners();
 
         stopAll();
 

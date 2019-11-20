@@ -217,7 +217,7 @@ public class MunhauzenGame extends Game {
         view.update(width, height);
     }
 
-    private void loadGameState() {
+    public void loadGameState() {
         gameState = new GameState();
 
         try {

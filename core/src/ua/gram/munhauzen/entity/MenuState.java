@@ -14,10 +14,6 @@ public class MenuState implements JsonEntry {
     @JsonProperty
     public boolean isContinueEnabled;
     @JsonProperty
-    public boolean isGalleryBannerViewed;
-    @JsonProperty
-    public boolean isGoofsBannerViewed;
-    @JsonProperty
     public boolean isLegalViewed;
     @JsonProperty
     public boolean isFirstMenuAfterGameStart = true;

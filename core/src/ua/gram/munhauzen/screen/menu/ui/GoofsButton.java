@@ -24,16 +24,7 @@ public class GoofsButton extends MenuButton {
 
                 screen.game.currentSfx = screen.game.sfxService.onMenuGoofsClicked();
 
-                if (screen.game.gameState.menuState.isGoofsBannerViewed) {
-                    screen.navigateTo(new FailsScreen(screen.game));
-                } else {
-
-                    screen.unlockUI();
-
-                    screen.game.gameState.menuState.isGoofsBannerViewed = true;
-
-                    screen.openGoofsBanner();
-                }
+                screen.navigateTo(new FailsScreen(screen.game));
             }
         });
     }

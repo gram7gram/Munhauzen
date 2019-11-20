@@ -13,8 +13,6 @@ import ua.gram.munhauzen.entity.MenuState;
 import ua.gram.munhauzen.screen.menu.fragment.ControlsFragment;
 import ua.gram.munhauzen.screen.menu.fragment.DemoFragment;
 import ua.gram.munhauzen.screen.menu.fragment.ExitFragment;
-import ua.gram.munhauzen.screen.menu.fragment.GalleryFragment;
-import ua.gram.munhauzen.screen.menu.fragment.GoofsFragment;
 import ua.gram.munhauzen.screen.menu.fragment.GreetingFragment;
 import ua.gram.munhauzen.screen.menu.fragment.ImageFragment;
 import ua.gram.munhauzen.screen.menu.fragment.ProFragment;
@@ -45,8 +43,6 @@ public class MenuScreen extends AbstractScreen {
     public DemoFragment demoFragment;
     public ProFragment proFragment;
     public ExitFragment exitFragment;
-    public GalleryFragment galleryFragment;
-    public GoofsFragment goofsFragment;
     public StartWarningFragment startWarningFragment;
     public ThankYouFragment thankYouFragment;
 
@@ -248,14 +244,6 @@ public class MenuScreen extends AbstractScreen {
             exitFragment.destroy();
             exitFragment = null;
         }
-        if (galleryFragment != null) {
-            galleryFragment.destroy();
-            galleryFragment = null;
-        }
-        if (goofsFragment != null) {
-            goofsFragment.destroy();
-            goofsFragment = null;
-        }
         if (startWarningFragment != null) {
             startWarningFragment.destroy();
             startWarningFragment = null;
@@ -360,36 +348,6 @@ public class MenuScreen extends AbstractScreen {
 
                 demoFragment.fadeIn();
             }
-
-        } catch (Throwable e) {
-            Log.e(tag, e);
-        }
-    }
-
-    public void openGoofsBanner() {
-        try {
-
-            goofsFragment = new GoofsFragment(this);
-            goofsFragment.create();
-
-            layers.setBannerLayer(goofsFragment);
-
-            goofsFragment.fadeIn();
-
-        } catch (Throwable e) {
-            Log.e(tag, e);
-        }
-    }
-
-    public void openGalleryBanner() {
-        try {
-
-            galleryFragment = new GalleryFragment(this);
-            galleryFragment.create();
-
-            layers.setBannerLayer(galleryFragment);
-
-            galleryFragment.fadeIn();
 
         } catch (Throwable e) {
             Log.e(tag, e);

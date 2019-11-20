@@ -37,6 +37,8 @@ public class LegalScreen implements Screen {
     public void show() {
         ui = new MunhauzenStage(game);
 
+        game.loadGameState();
+
         background = game.internalAssetManager.get("p0.jpg", Texture.class);
 
         float minWidth = MunhauzenGame.WORLD_WIDTH * .9f;

@@ -3,6 +3,7 @@ package ua.gram.munhauzen.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.Timer;
 
 import java.util.ArrayList;
 
@@ -11,8 +12,10 @@ import ua.gram.munhauzen.entity.GalleryState;
 import ua.gram.munhauzen.entity.Image;
 import ua.gram.munhauzen.screen.gallery.entity.PaintingImage;
 import ua.gram.munhauzen.screen.gallery.fragment.ControlsFragment;
+import ua.gram.munhauzen.screen.gallery.fragment.GalleryBannerFragment;
 import ua.gram.munhauzen.screen.gallery.fragment.GalleryFragment;
 import ua.gram.munhauzen.screen.gallery.ui.GalleryLayers;
+import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
@@ -23,6 +26,7 @@ public class GalleryScreen extends AbstractScreen {
     public GalleryFragment galleryFragment;
     public ControlsFragment controlsFragment;
     public ArrayList<PaintingImage> paintings;
+    public GalleryBannerFragment galleryBannerFragment;
 
     public GalleryScreen(MunhauzenGame game) {
         super(game);
@@ -70,6 +74,19 @@ public class GalleryScreen extends AbstractScreen {
         layers.setContentLayer(galleryFragment);
 
         galleryFragment.fadeIn();
+
+        if (game.gameState.galleryState != null) {
+            if (!game.gameState.galleryState.isGalleryBannerViewed) {
+                game.gameState.galleryState.isGalleryBannerViewed = true;
+
+                Timer.instance().scheduleTask(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        openGalleryBanner();
+                    }
+                }, .5f);
+            }
+        }
     }
 
     private void createPaintings() {
@@ -108,6 +125,21 @@ public class GalleryScreen extends AbstractScreen {
         }
     }
 
+    public void openGalleryBanner() {
+        try {
+
+            galleryBannerFragment = new GalleryBannerFragment(this);
+            galleryBannerFragment.create();
+
+            layers.setBannerLayer(galleryBannerFragment);
+
+            galleryBannerFragment.fadeIn();
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+    }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -141,9 +173,18 @@ public class GalleryScreen extends AbstractScreen {
         }
     }
 
+    public void destroyBanners() {
+        if (galleryBannerFragment != null) {
+            galleryBannerFragment.destroy();
+            galleryBannerFragment = null;
+        }
+    }
+
     @Override
     public void dispose() {
         super.dispose();
+
+        destroyBanners();
 
         if (paintings != null) {
             paintings.clear();

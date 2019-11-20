@@ -1,4 +1,4 @@
-package ua.gram.munhauzen.screen.menu.ui;
+package ua.gram.munhauzen.screen.fails.ui;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -12,15 +12,15 @@ import com.badlogic.gdx.utils.Align;
 import ua.gram.munhauzen.ButtonBuilder;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
-import ua.gram.munhauzen.screen.menu.fragment.GalleryFragment;
+import ua.gram.munhauzen.screen.fails.fragment.GoofsFragment;
 import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.utils.Log;
 
-public class GalleryBanner extends Banner {
+public class GoofsBanner extends Banner {
 
-    final GalleryFragment fragment;
+    final GoofsFragment fragment;
 
-    public GalleryBanner(GalleryFragment fragment) {
+    public GoofsBanner(GoofsFragment fragment) {
         super(fragment.screen);
 
         this.fragment = fragment;
@@ -46,7 +46,7 @@ public class GalleryBanner extends Banner {
                 Color.BLACK
         );
 
-        Label title = new Label(screen.game.t("gallery_banner.title"), new Label.LabelStyle(
+        Label title = new Label(screen.game.t("goofs_banner.title"), new Label.LabelStyle(
                 screen.game.fontProvider.getFont(FontProvider.h2),
                 Color.BLACK
         ));
@@ -54,7 +54,7 @@ public class GalleryBanner extends Banner {
         title.setWrap(true);
 
         Table rows = new Table();
-        for (String sentence : screen.game.t("gallery_banner.content").split("\n")) {
+        for (String sentence : screen.game.t("goofs_banner.content").split("\n")) {
             Label label = new Label(sentence, style);
             label.setAlignment(Align.center);
             label.setWrap(true);
@@ -65,9 +65,19 @@ public class GalleryBanner extends Banner {
                     .row();
         }
 
-        FitImage img = new FitImage(
-                screen.assetManager.get("authors/author_2.png", Texture.class)
-        );
+        FitImage img = new FitImage();
+        switch (screen.game.params.locale) {
+            case "ru":
+                img = new FitImage(
+                        screen.assetManager.get("authors/author_3_2.png", Texture.class)
+                );
+                break;
+            case "en":
+                img = new FitImage(
+                        screen.assetManager.get("authors/author_3_1.png", Texture.class)
+                );
+                break;
+        }
 
         Table columns = new Table();
 
@@ -99,7 +109,7 @@ public class GalleryBanner extends Banner {
 
     private Actor getActionBtn() {
 
-        return screen.game.buttonBuilder.danger(screen.game.t("gallery_banner.btn"), new ClickListener() {
+        return screen.game.buttonBuilder.danger(screen.game.t("goofs_banner.btn"), new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);

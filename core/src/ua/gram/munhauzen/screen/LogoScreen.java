@@ -34,6 +34,8 @@ public class LogoScreen implements Screen {
     public void show() {
         ui = new MunhauzenStage(game);
 
+        game.loadGameState();
+
         background = game.internalAssetManager.get("p0.jpg", Texture.class);
 
         Image logo = new Image(new Texture("logo_500.png"));

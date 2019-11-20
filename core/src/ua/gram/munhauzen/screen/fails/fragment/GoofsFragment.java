@@ -1,4 +1,4 @@
-package ua.gram.munhauzen.screen.menu.fragment;
+package ua.gram.munhauzen.screen.fails.fragment;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -9,23 +9,23 @@ import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import ua.gram.munhauzen.screen.FailsScreen;
-import ua.gram.munhauzen.screen.MenuScreen;
-import ua.gram.munhauzen.screen.menu.ui.GoofsBanner;
+import ua.gram.munhauzen.screen.fails.ui.GoofsBanner;
+import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.utils.Log;
 
-public class GoofsFragment extends MenuFragment {
+public class GoofsFragment extends Fragment {
 
+    public final FailsScreen screen;
     FragmentRoot root;
     public boolean isFadeIn;
     public boolean isFadeOut;
 
-    public GoofsFragment(MenuScreen screen) {
-        super(screen);
+    public GoofsFragment(FailsScreen screen) {
+        this.screen = screen;
     }
 
     public void create() {
-        super.create();
 
         screen.assetManager.load("ui/banner_fond_0.png", Texture.class);
 
@@ -54,7 +54,14 @@ public class GoofsFragment extends MenuFragment {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                //ignore
+                if (event.isHandled()) return;
+
+                fadeOut(new Runnable() {
+                    @Override
+                    public void run() {
+                        screen.destroyBanners();
+                    }
+                });
 
             }
         });
@@ -155,7 +162,12 @@ public class GoofsFragment extends MenuFragment {
 
             root.setTouchable(Touchable.disabled);
 
-            screen.navigateTo(new FailsScreen(screen.game));
+            fadeOut(new Runnable() {
+                @Override
+                public void run() {
+                    screen.destroyBanners();
+                }
+            });
 
         } catch (Throwable e) {
             Log.e(tag, e);

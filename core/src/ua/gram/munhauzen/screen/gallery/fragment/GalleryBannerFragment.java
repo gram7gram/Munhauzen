@@ -1,4 +1,4 @@
-package ua.gram.munhauzen.screen.menu.fragment;
+package ua.gram.munhauzen.screen.gallery.fragment;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -9,23 +9,23 @@ import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import ua.gram.munhauzen.screen.GalleryScreen;
-import ua.gram.munhauzen.screen.MenuScreen;
-import ua.gram.munhauzen.screen.menu.ui.GalleryBanner;
+import ua.gram.munhauzen.screen.gallery.ui.GalleryBanner;
+import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.utils.Log;
 
-public class GalleryFragment extends MenuFragment {
+public class GalleryBannerFragment extends Fragment {
 
+    public final GalleryScreen screen;
     FragmentRoot root;
     public boolean isFadeIn;
     public boolean isFadeOut;
 
-    public GalleryFragment(MenuScreen screen) {
-        super(screen);
+    public GalleryBannerFragment(GalleryScreen screen) {
+        this.screen = screen;
     }
 
     public void create() {
-        super.create();
 
         screen.assetManager.load("ui/banner_fond_0.png", Texture.class);
         screen.assetManager.load("authors/author_2.png", Texture.class);
@@ -46,7 +46,14 @@ public class GalleryFragment extends MenuFragment {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                //ignore
+                if (event.isHandled()) return;
+
+                fadeOut(new Runnable() {
+                    @Override
+                    public void run() {
+                        screen.destroyBanners();
+                    }
+                });
 
             }
         });
@@ -147,7 +154,12 @@ public class GalleryFragment extends MenuFragment {
 
             root.setTouchable(Touchable.disabled);
 
-            screen.navigateTo(new GalleryScreen(screen.game));
+            fadeOut(new Runnable() {
+                @Override
+                public void run() {
+                    screen.destroyBanners();
+                }
+            });
 
         } catch (Throwable e) {
             Log.e(tag, e);

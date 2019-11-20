@@ -12,6 +12,8 @@ public class GalleryState implements JsonEntry {
     public HashSet<String> visitedImages;
     @JsonProperty
     public float scrollY;
+    @JsonProperty
+    public boolean isGalleryBannerViewed;
 
     public GalleryState() {
         visitedImages = new HashSet<>();
