@@ -16,7 +16,7 @@ public class BackgroundSfxService {
     final String tag = getClass().getSimpleName();
     final MunhauzenGame game;
     StoryAudio activeAudio;
-    boolean isPlaying;
+    public boolean isPlaying;
 
     int index;
     final String[] sfx = {

@@ -52,8 +52,7 @@ public class RateFragment extends MenuFragment {
                 fadeOut(new Runnable() {
                     @Override
                     public void run() {
-                        destroy();
-                        screen.rateFragment = null;
+                        screen.destroyBanners();
                     }
                 });
             }

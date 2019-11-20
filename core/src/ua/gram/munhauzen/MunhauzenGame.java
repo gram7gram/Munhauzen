@@ -10,7 +10,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.screen.ErrorScreen;
-import ua.gram.munhauzen.screen.LegalScreen;
+import ua.gram.munhauzen.screen.LogoScreen;
 import ua.gram.munhauzen.service.AchievementService;
 import ua.gram.munhauzen.service.BackgroundSfxService;
 import ua.gram.munhauzen.service.DatabaseManager;
@@ -122,7 +122,7 @@ public class MunhauzenGame extends Game {
             buttonBuilder = new ButtonBuilder(this);
             achievementService = new AchievementService(this);
 
-            setScreen(new LegalScreen(this));
+            setScreen(new LogoScreen(this));
 
         } catch (Throwable e) {
             Log.e(tag, e);
@@ -272,6 +272,13 @@ public class MunhauzenGame extends Game {
     }
 
     public void onCriticalError(Throwable e) {
+
+        try {
+            if (databaseManager != null && gameState != null) {
+                databaseManager.persist(gameState);
+            }
+        } catch (Throwable ignore) {
+        }
 
         if (ErrorMonitoring.instance() != null)
             ErrorMonitoring.instance().capture(e);

@@ -48,6 +48,11 @@ public class Scenario implements JsonEntry {
     }
 
     @JsonIgnore
+    public StoryAudio firstAudio() {
+        return audio.get(0);
+    }
+
+    @JsonIgnore
     public StoryAudio lastAudio() {
         return audio.get(audio.size() - 1);
     }

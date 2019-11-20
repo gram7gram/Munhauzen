@@ -64,8 +64,7 @@ public class ShareFragment extends MenuFragment {
                 fadeOut(new Runnable() {
                     @Override
                     public void run() {
-                        destroy();
-                        screen.shareFragment = null;
+                        screen.destroyBanners();
                     }
                 });
             }
@@ -173,7 +172,7 @@ public class ShareFragment extends MenuFragment {
         fadeOut(new Runnable() {
             @Override
             public void run() {
-                destroy();
+                screen.destroyBanners();
             }
         });
 

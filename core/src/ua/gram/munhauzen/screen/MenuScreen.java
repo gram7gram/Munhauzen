@@ -36,6 +36,9 @@ public class MenuScreen extends AbstractScreen {
     public MenuLayers layers;
     public ImageFragment imageFragment;
     public ControlsFragment controlsFragment;
+    public AudioService audioService;
+    public boolean isUILocked, isZoomStarted;
+
     public ShareFragment shareFragment;
     public GreetingFragment greetingFragment;
     public RateFragment rateFragment;
@@ -46,8 +49,6 @@ public class MenuScreen extends AbstractScreen {
     public GoofsFragment goofsFragment;
     public StartWarningFragment startWarningFragment;
     public ThankYouFragment thankYouFragment;
-    public AudioService audioService;
-    public boolean isUILocked, isZoomStarted;
 
     public MenuScreen(MunhauzenGame game) {
         super(game);
@@ -85,7 +86,6 @@ public class MenuScreen extends AbstractScreen {
         if (game.backgroundSfxService == null) {
             game.backgroundSfxService = new BackgroundSfxService(game);
         }
-        game.backgroundSfxService.start();
     }
 
     @Override
@@ -150,16 +150,22 @@ public class MenuScreen extends AbstractScreen {
                 game.stopCurrentSfx();
                 game.currentSfx = game.sfxService.onAllGoofsAndImagesUnlocked();
 
+                game.backgroundSfxService.start();
+
                 return;
             }
         }
 
         int openCount = menuState.openCount;
 
+        boolean canPlaySfx = true;
+
         if (menuState.showThankYouBanner) {
             menuState.showThankYouBanner = false;
 
             openThankYouBanner();
+
+            canPlaySfx = false;
 
         } else {
 
@@ -172,6 +178,9 @@ public class MenuScreen extends AbstractScreen {
             boolean canOpenVersion = !isBannerActive && openCount % 7 == 0;
 
             if (canOpenGreeting) {
+
+                canPlaySfx = false;
+
                 Timer.instance().scheduleTask(new Timer.Task() {
                     @Override
                     public void run() {
@@ -179,6 +188,9 @@ public class MenuScreen extends AbstractScreen {
                     }
                 }, 2);
             } else if (canOpenShare) {
+
+                canPlaySfx = false;
+
                 Timer.instance().scheduleTask(new Timer.Task() {
                     @Override
                     public void run() {
@@ -186,6 +198,9 @@ public class MenuScreen extends AbstractScreen {
                     }
                 }, 2);
             } else if (canOpenVersion) {
+
+                canPlaySfx = false;
+
                 Timer.instance().scheduleTask(new Timer.Task() {
                     @Override
                     public void run() {
@@ -202,6 +217,61 @@ public class MenuScreen extends AbstractScreen {
         }
 
         menuState.openCount = openCount;
+
+        if (canPlaySfx) {
+            game.backgroundSfxService.start();
+        }
+    }
+
+    public void destroyBanners() {
+        if (shareFragment != null) {
+            shareFragment.destroy();
+            shareFragment = null;
+        }
+        if (greetingFragment != null) {
+            greetingFragment.destroy();
+            greetingFragment = null;
+        }
+        if (rateFragment != null) {
+            rateFragment.destroy();
+            rateFragment = null;
+        }
+        if (demoFragment != null) {
+            demoFragment.destroy();
+            demoFragment = null;
+        }
+        if (proFragment != null) {
+            proFragment.destroy();
+            proFragment = null;
+        }
+        if (exitFragment != null) {
+            exitFragment.destroy();
+            exitFragment = null;
+        }
+        if (galleryFragment != null) {
+            galleryFragment.destroy();
+            galleryFragment = null;
+        }
+        if (goofsFragment != null) {
+            goofsFragment.destroy();
+            goofsFragment = null;
+        }
+        if (startWarningFragment != null) {
+            startWarningFragment.destroy();
+            startWarningFragment = null;
+        }
+        if (thankYouFragment != null) {
+            thankYouFragment.destroy();
+            thankYouFragment = null;
+        }
+
+        if (!isDisposed) {
+            if (game.backgroundSfxService != null) {
+                if (!game.backgroundSfxService.isPlaying) {
+                    game.backgroundSfxService.start();
+                }
+            }
+        }
     }
 
     public void openStartWarningBanner(Timer.Task task) {
@@ -377,40 +447,7 @@ public class MenuScreen extends AbstractScreen {
     public void dispose() {
         super.dispose();
 
-        if (startWarningFragment != null) {
-            startWarningFragment.destroy();
-            startWarningFragment = null;
-        }
-
-        if (exitFragment != null) {
-            exitFragment.destroy();
-            exitFragment = null;
-        }
-
-        if (greetingFragment != null) {
-            greetingFragment.destroy();
-            greetingFragment = null;
-        }
-
-        if (proFragment != null) {
-            proFragment.destroy();
-            proFragment = null;
-        }
-
-        if (demoFragment != null) {
-            demoFragment.destroy();
-            demoFragment = null;
-        }
-
-        if (shareFragment != null) {
-            shareFragment.destroy();
-            shareFragment = null;
-        }
-
-        if (rateFragment != null) {
-            rateFragment.destroy();
-            rateFragment = null;
-        }
+        destroyBanners();
 
         if (audioService != null) {
             audioService.dispose();

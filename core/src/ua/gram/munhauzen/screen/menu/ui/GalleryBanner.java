@@ -37,7 +37,7 @@ public class GalleryBanner extends Banner {
         float minWidth = MunhauzenGame.WORLD_WIDTH * .9f;
 
         Table content = new Table();
-        content.pad(20, 70, 40, 70);
+        content.pad(20, MunhauzenGame.WORLD_WIDTH * .1f, 40, MunhauzenGame.WORLD_WIDTH * .1f);
 
         float cellMinWidth = minWidth - content.getPadLeft() - content.getPadRight();
 

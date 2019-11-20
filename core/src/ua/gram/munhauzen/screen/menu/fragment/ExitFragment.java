@@ -56,8 +56,7 @@ public class ExitFragment extends MenuFragment {
                 fadeOut(new Runnable() {
                     @Override
                     public void run() {
-                        destroy();
-                        screen.exitFragment = null;
+                        screen.destroyBanners();
                     }
                 });
             }

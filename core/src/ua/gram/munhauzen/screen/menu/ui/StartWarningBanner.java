@@ -38,7 +38,7 @@ public class StartWarningBanner extends Banner {
         float minWidth = MunhauzenGame.WORLD_WIDTH * .7f;
 
         Table content = new Table();
-        content.pad(20, 70, 40, 70);
+        content.pad(20, MunhauzenGame.WORLD_WIDTH * .1f, 40, MunhauzenGame.WORLD_WIDTH * .1f);
 
         float cellMinWidth = minWidth - content.getPadLeft() - content.getPadRight();
 
@@ -85,8 +85,7 @@ public class StartWarningBanner extends Banner {
                     fragment.fadeOut(new Runnable() {
                         @Override
                         public void run() {
-                            fragment.destroy();
-                            screen.startWarningFragment = null;
+                            screen.destroyBanners();
 
 //                            Timer.instance().postTask(fragment.yesTask);
                             fragment.yesTask.run();
@@ -118,8 +117,7 @@ public class StartWarningBanner extends Banner {
                     fragment.fadeOut(new Runnable() {
                         @Override
                         public void run() {
-                            fragment.destroy();
-                            screen.startWarningFragment = null;
+                            screen.destroyBanners();
                         }
                     });
 

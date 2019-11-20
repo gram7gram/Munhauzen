@@ -41,7 +41,7 @@ public class ExitBanner extends Banner {
         float minWidth = MunhauzenGame.WORLD_WIDTH * .7f;
 
         Table content = new Table();
-        content.pad(20, 70, 40, 70);
+        content.pad(20, MunhauzenGame.WORLD_WIDTH * .1f, 40, MunhauzenGame.WORLD_WIDTH * .1f);
 
         float cellMinWidth = minWidth - content.getPadLeft() - content.getPadRight();
 
@@ -143,8 +143,7 @@ public class ExitBanner extends Banner {
         fragment.fadeOut(new Runnable() {
             @Override
             public void run() {
-                fragment.destroy();
-                screen.exitFragment = null;
+                screen.destroyBanners();
             }
         });
     }

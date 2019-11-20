@@ -59,8 +59,7 @@ public class ThankYouFragment extends MenuFragment {
                 fadeOut(new Runnable() {
                     @Override
                     public void run() {
-                        destroy();
-                        screen.thankYouFragment = null;
+                        screen.destroyBanners();
                     }
                 });
             }
@@ -74,15 +73,9 @@ public class ThankYouFragment extends MenuFragment {
 
             root.setTouchable(Touchable.disabled);
 
-            try {
-                screen.game.params.appStore.openRateUrl();
+            screen.game.params.appStore.openRateUrl();
 
-                destroy();
-                screen.thankYouFragment = null;
-
-            } catch (Throwable e) {
-                Log.e(tag, e);
-            }
+            screen.destroyBanners();
 
         } catch (Throwable e) {
             Log.e(tag, e);

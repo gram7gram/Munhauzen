@@ -52,8 +52,7 @@ public class DemoFragment extends MenuFragment {
                 fadeOut(new Runnable() {
                     @Override
                     public void run() {
-                        destroy();
-                        screen.demoFragment = null;
+                        screen.destroyBanners();
                     }
                 });
             }
@@ -162,8 +161,7 @@ public class DemoFragment extends MenuFragment {
             fadeOut(new Runnable() {
                 @Override
                 public void run() {
-                    destroy();
-                    screen.demoFragment = null;
+                    screen.destroyBanners();
                 }
             });
 

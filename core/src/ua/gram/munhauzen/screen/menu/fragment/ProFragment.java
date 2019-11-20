@@ -59,8 +59,7 @@ public class ProFragment extends MenuFragment {
                 fadeOut(new Runnable() {
                     @Override
                     public void run() {
-                        destroy();
-                        screen.proFragment = null;
+                        screen.destroyBanners();
                     }
                 });
             }
@@ -79,8 +78,7 @@ public class ProFragment extends MenuFragment {
             fadeOut(new Runnable() {
                 @Override
                 public void run() {
-                    destroy();
-                    screen.proFragment = null;
+                    screen.destroyBanners();
                 }
             });
 

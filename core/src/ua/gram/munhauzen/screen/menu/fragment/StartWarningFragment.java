@@ -60,8 +60,7 @@ public class StartWarningFragment extends MenuFragment {
                 fadeOut(new Runnable() {
                     @Override
                     public void run() {
-                        destroy();
-                        screen.startWarningFragment = null;
+                        screen.destroyBanners();
                     }
                 });
             }
