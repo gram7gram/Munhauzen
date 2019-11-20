@@ -82,37 +82,43 @@ public class LogoScreen implements Screen {
 
         try {
 
+            boolean isLegalViewed = false;
+
             if (game.gameState.menuState != null) {
                 game.gameState.menuState.isFirstMenuAfterGameStart = true;
+
+                isLegalViewed = game.gameState.menuState.isLegalViewed;
 
                 if (game.databaseManager != null) {
                     game.databaseManager.persist(game.gameState);
                 }
             }
 
+            if (game.params.isProduction()) {
+                if (game.gameState.expansionInfo != null) {
+                    canRedirectToLoading = !game.gameState.expansionInfo.isCompleted;
+                }
+            }
+
+            if (canRedirectToLoading) {
+
+                if (isLegalViewed) {
+                    game.setScreen(new LoadingScreen(game));
+                } else {
+                    game.setScreen(new LegalScreen(game));
+                }
+
+            } else {
+                game.setScreen(new MenuScreen(game));
+            }
+
+            dispose();
+
         } catch (Throwable e) {
             Log.e(tag, e);
+
+            game.onCriticalError(e);
         }
-
-        if (game.params.isProduction()) {
-            if (game.gameState.expansionInfo != null) {
-                canRedirectToLoading = !game.gameState.expansionInfo.isCompleted;
-            }
-        }
-
-        if (canRedirectToLoading) {
-
-            if (game.gameState.menuState.isLegalViewed) {
-                game.setScreen(new LoadingScreen(game));
-            } else {
-                game.setScreen(new LegalScreen(game));
-            }
-
-        } else {
-            game.setScreen(new MenuScreen(game));
-        }
-
-        dispose();
     }
 
     @Override
