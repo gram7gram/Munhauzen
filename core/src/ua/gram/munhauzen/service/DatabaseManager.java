@@ -98,6 +98,66 @@ public class DatabaseManager {
 
         Log.i(tag, "loadExternal");
 
+        try {
+            state.history = loadHistory();
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            ExternalFiles.getHistoryFile(game.params).delete();
+
+            state.history = new History();
+        }
+
+        try {
+            loadActiveSave(state);
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            ExternalFiles.getActiveSaveFile(game.params).delete();
+
+            state.setActiveSave(new Save());
+        }
+
+        try {
+            state.menuState = loadMenuState();
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            ExternalFiles.getMenuStateFile(game.params).delete();
+
+            state.menuState = new MenuState();
+        }
+
+        try {
+            state.galleryState = loadGalleryState();
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            ExternalFiles.getGalleryStateFile(game.params).delete();
+
+            state.galleryState = new GalleryState();
+        }
+
+        try {
+            state.failsState = loadFailsState();
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            ExternalFiles.getFailsStateFile(game.params).delete();
+
+            state.failsState = new FailsState();
+        }
+
+        try {
+            state.achievementState = loadAchievementState();
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            ExternalFiles.getFailsStateFile(game.params).delete();
+
+            state.failsState = new FailsState();
+        }
+
         if (state.expansionInfo == null) {
             state.expansionInfo = loadExpansionInfo();
 
@@ -141,66 +201,6 @@ public class DatabaseManager {
             state.chapterRegistry = loadExternalChapters();
         } catch (Throwable e) {
             Log.e(tag, e);
-        }
-
-        try {
-            state.history = loadHistory();
-        } catch (Throwable e) {
-            Log.e(tag, e);
-
-            ExternalFiles.getHistoryFile(game.params).delete();
-
-            state.history = new History();
-        }
-
-        try {
-            state.menuState = loadMenuState();
-        } catch (Throwable e) {
-            Log.e(tag, e);
-
-            ExternalFiles.getMenuStateFile(game.params).delete();
-
-            state.menuState = new MenuState();
-        }
-
-        try {
-            state.galleryState = loadGalleryState();
-        } catch (Throwable e) {
-            Log.e(tag, e);
-
-            ExternalFiles.getGalleryStateFile(game.params).delete();
-
-            state.galleryState = new GalleryState();
-        }
-
-        try {
-            state.failsState = loadFailsState();
-        } catch (Throwable e) {
-            Log.e(tag, e);
-
-            ExternalFiles.getFailsStateFile(game.params).delete();
-
-            state.failsState = new FailsState();
-        }
-
-        try {
-            state.achievementState = loadAchievementState();
-        } catch (Throwable e) {
-            Log.e(tag, e);
-
-            ExternalFiles.getFailsStateFile(game.params).delete();
-
-            state.failsState = new FailsState();
-        }
-
-        try {
-            loadActiveSave(state);
-        } catch (Throwable e) {
-            Log.e(tag, e);
-
-            ExternalFiles.getActiveSaveFile(game.params).delete();
-
-            state.setActiveSave(new Save());
         }
     }
 

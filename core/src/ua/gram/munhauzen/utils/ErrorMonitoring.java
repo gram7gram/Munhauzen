@@ -1,5 +1,8 @@
 package ua.gram.munhauzen.utils;
 
+import com.fasterxml.jackson.databind.exc.MismatchedInputException;
+
+import java.net.SocketException;
 import java.util.HashSet;
 
 import io.sentry.Sentry;
@@ -44,6 +47,9 @@ public class ErrorMonitoring {
     public void capture(Throwable e) {
 
         if (!canCapture) return;
+
+        if (e instanceof SocketException) return;
+        if (e instanceof MismatchedInputException) return;
 
         if (captured.contains(e)) return;
 

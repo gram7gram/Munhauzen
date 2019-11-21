@@ -73,7 +73,8 @@ public class LegalScreen implements Screen {
 
                 try {
 
-                    game.gameState.menuState.isLegalViewed = true;
+                    if (game.gameState.menuState != null)
+                        game.gameState.menuState.isLegalViewed = true;
 
                     navigateTo(new LoadingScreen(game));
 
