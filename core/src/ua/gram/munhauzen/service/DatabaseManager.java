@@ -295,6 +295,62 @@ public class DatabaseManager {
             }).start();
     }
 
+    public void persistSync(final GameState gameState) {
+
+        //Log.i(tag, "persist");
+
+        if (gameState == null) return;
+
+        if (gameState.history != null)
+            try {
+                persistHistory(gameState.history);
+            } catch (Throwable e) {
+                Log.e(tag, e);
+            }
+
+        if (gameState.activeSave != null)
+            try {
+                persistSave(gameState.activeSave);
+            } catch (Throwable e) {
+                Log.e(tag, e);
+            }
+
+        if (gameState.menuState != null)
+            try {
+                persistMenuState(gameState.menuState);
+            } catch (Throwable e) {
+                Log.e(tag, e);
+            }
+
+        if (gameState.galleryState != null)
+            try {
+                persistGalleryState(gameState.galleryState);
+            } catch (Throwable e) {
+                Log.e(tag, e);
+            }
+
+        if (gameState.failsState != null)
+            try {
+                persistFailsState(gameState.failsState);
+            } catch (Throwable e) {
+                Log.e(tag, e);
+            }
+
+        if (gameState.expansionInfo != null)
+            try {
+                persistExpansionInfo(gameState.expansionInfo);
+            } catch (Throwable e) {
+                Log.e(tag, e);
+            }
+
+        if (gameState.achievementState != null)
+            try {
+                persistAchievementState(gameState.achievementState);
+            } catch (Throwable e) {
+                Log.e(tag, e);
+            }
+    }
+
     public void persistExpansionInfo(ExpansionResponse state) throws IOException {
 
         FileHandle file = ExternalFiles.getExpansionInfoFile(game.params);
@@ -357,7 +413,12 @@ public class DatabaseManager {
 
         History state = null;
         if (file.exists()) {
-            state = om.readValue(file.file(), History.class);
+            String content = file.readString("UTF-8");
+            if (content != null && !content.equals("")) {
+                state = om.readValue(content, History.class);
+            } else {
+                state = om.readValue(file.file(), History.class);
+            }
         }
 
         if (state == null) {
@@ -373,7 +434,12 @@ public class DatabaseManager {
 
         MenuState state = null;
         if (file.exists()) {
-            state = om.readValue(file.file(), MenuState.class);
+            String content = file.readString("UTF-8");
+            if (content != null && !content.equals("")) {
+                state = om.readValue(content, MenuState.class);
+            } else {
+                state = om.readValue(file.file(), MenuState.class);
+            }
         }
 
         if (state == null) {
@@ -389,7 +455,12 @@ public class DatabaseManager {
 
         FailsState state = null;
         if (file.exists()) {
-            state = om.readValue(file.file(), FailsState.class);
+            String content = file.readString("UTF-8");
+            if (content != null && !content.equals("")) {
+                state = om.readValue(content, FailsState.class);
+            } else {
+                state = om.readValue(file.file(), FailsState.class);
+            }
         }
 
         if (state == null) {
@@ -405,7 +476,12 @@ public class DatabaseManager {
 
         AchievementState state = null;
         if (file.exists()) {
-            state = om.readValue(file.file(), AchievementState.class);
+            String content = file.readString("UTF-8");
+            if (content != null && !content.equals("")) {
+                state = om.readValue(content, AchievementState.class);
+            } else {
+                state = om.readValue(file.file(), AchievementState.class);
+            }
         }
 
         if (state == null) {
@@ -421,7 +497,12 @@ public class DatabaseManager {
 
         GalleryState state = null;
         if (file.exists()) {
-            state = om.readValue(file.file(), GalleryState.class);
+            String content = file.readString("UTF-8");
+            if (content != null && !content.equals("")) {
+                state = om.readValue(content, GalleryState.class);
+            } else {
+                state = om.readValue(file.file(), GalleryState.class);
+            }
         }
 
         if (state == null) {
@@ -436,7 +517,12 @@ public class DatabaseManager {
 
         FileHandle file = ExternalFiles.getActiveSaveFile(game.params);
         if (file.exists()) {
-            save = om.readValue(file.file(), Save.class);
+            String content = file.readString("UTF-8");
+            if (content != null && !content.equals("")) {
+                save = om.readValue(content, Save.class);
+            } else {
+                save = om.readValue(file.file(), Save.class);
+            }
         }
 
         if (save == null) {
@@ -452,7 +538,12 @@ public class DatabaseManager {
 
         Save state = null;
         if (file.exists()) {
-            state = om.readValue(file.file(), Save.class);
+            String content = file.readString("UTF-8");
+            if (content != null && !content.equals("")) {
+                state = om.readValue(content, Save.class);
+            } else {
+                state = om.readValue(file.file(), Save.class);
+            }
         }
 
         if (state == null) {

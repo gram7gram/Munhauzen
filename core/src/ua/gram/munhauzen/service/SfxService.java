@@ -472,7 +472,7 @@ public class SfxService {
     }
 
     public void onLoadOptionNoClicked() {
-        prepareAndPlay("sfx_menu_download_no");
+        prepareAndPlay("sfx_menu_save_no");
     }
 
     public void onSaveOptionClicked() {

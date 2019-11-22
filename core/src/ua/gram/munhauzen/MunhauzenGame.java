@@ -173,7 +173,7 @@ public class MunhauzenGame extends Game {
             }
 
             if (databaseManager != null) {
-                databaseManager.persist(gameState);
+                databaseManager.persistSync(gameState);
                 databaseManager = null;
             }
 
@@ -275,7 +275,7 @@ public class MunhauzenGame extends Game {
 
         try {
             if (databaseManager != null && gameState != null) {
-                databaseManager.persist(gameState);
+                databaseManager.persistSync(gameState);
             }
         } catch (Throwable ignore) {
         }

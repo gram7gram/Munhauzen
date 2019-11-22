@@ -168,7 +168,7 @@ public class MenuScreen extends AbstractScreen {
             boolean isGreetingViewed = menuState.isGreetingViewed;
             boolean isShareViewed = menuState.isShareViewed;
 
-            boolean isBannerActive = layers.bannerLayer != null;
+            boolean isBannerActive = layers == null || layers.bannerLayer != null;
             boolean canOpenGreeting = !isBannerActive && !isGreetingViewed;
             boolean canOpenShare = !isBannerActive && !isShareViewed && openCount % 5 == 0;
             boolean canOpenVersion = !isBannerActive && openCount % 7 == 0;
@@ -292,7 +292,7 @@ public class MenuScreen extends AbstractScreen {
     private void openGreetingBanner() {
         try {
 
-            if (layers.bannerLayer != null) return;
+            if (layers == null || layers.bannerLayer != null) return;
             if (isUILocked) return;
 
             greetingFragment = new GreetingFragment(MenuScreen.this);
@@ -312,7 +312,7 @@ public class MenuScreen extends AbstractScreen {
 
         try {
 
-            if (layers.bannerLayer != null) return;
+            if (layers == null || layers.bannerLayer != null) return;
             if (isUILocked) return;
 
             shareFragment = new ShareFragment(MenuScreen.this);
@@ -330,7 +330,7 @@ public class MenuScreen extends AbstractScreen {
     private void openVersionBanner() {
         try {
 
-            if (layers.bannerLayer != null) return;
+            if (layers == null || layers.bannerLayer != null) return;
             if (isUILocked) return;
 
             if (game.params.isPro) {

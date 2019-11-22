@@ -199,7 +199,7 @@ public abstract class AbstractScreen implements Screen {
         try {
             Gdx.input.setInputProcessor(null);
 
-            game.databaseManager.persist(game.gameState);
+            game.databaseManager.persistSync(game.gameState);
 
             game.setScreen(screen);
             dispose();

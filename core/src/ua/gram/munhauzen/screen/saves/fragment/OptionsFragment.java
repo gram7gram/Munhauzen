@@ -11,7 +11,6 @@ import com.badlogic.gdx.utils.JsonWriter;
 
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.Save;
-import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.screen.SavesScreen;
 import ua.gram.munhauzen.screen.saves.ui.LoadOptionBanner;
@@ -34,7 +33,6 @@ public class OptionsFragment extends Fragment {
     OptionsBanner banner;
     SaveOptionBanner saveOptionBanner;
     LoadOptionBanner loadOptionBanner;
-    StoryAudio yesAudio, noAudio;
 
     public OptionsFragment(SavesScreen screen, Save save) {
         this.screen = screen;
@@ -146,36 +144,6 @@ public class OptionsFragment extends Fragment {
         }
     }
 
-    private void playYes() {
-        try {
-
-            yesAudio = new StoryAudio();
-            yesAudio.audio = "sfx_save_yes";
-
-            screen.audioService.prepareAndPlay(yesAudio);
-
-        } catch (Throwable e) {
-            Log.e(tag, e);
-
-            screen.onCriticalError(e);
-        }
-    }
-
-    private void playNo() {
-        try {
-
-            noAudio = new StoryAudio();
-            noAudio.audio = "sfx_save_no";
-
-            screen.audioService.prepareAndPlay(noAudio);
-
-        } catch (Throwable e) {
-            Log.e(tag, e);
-
-            screen.onCriticalError(e);
-        }
-    }
-
     public void fadeIn() {
         root.clearActions();
 
@@ -205,30 +173,6 @@ public class OptionsFragment extends Fragment {
     }
 
     public void update() {
-        if (yesAudio != null) {
-            screen.audioService.updateVolume(yesAudio);
-        }
-        if (noAudio != null) {
-            screen.audioService.updateVolume(noAudio);
-        }
-    }
-
-    public void stopAllAudio() {
-        if (noAudio != null) {
-            screen.audioService.stop(noAudio);
-            noAudio = null;
-        }
-        if (yesAudio != null) {
-            screen.audioService.stop(yesAudio);
-            yesAudio = null;
-        }
-    }
-
-    @Override
-    public void dispose() {
-        super.dispose();
-
-        stopAllAudio();
 
     }
 }

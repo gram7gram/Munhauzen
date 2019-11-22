@@ -68,7 +68,7 @@ public class InteractionFactory {
                     .toLowerCase().split(",");
 
             if (params.length != 2) {
-                throw new GdxRuntimeException("Invalid TIMER_2 params");
+                throw new GdxRuntimeException("Invalid TIMER_2 params "+ type);
             }
 
             return new Timer2Interaction(gameScreen, params[0], Float.parseFloat(params[1]));
@@ -79,7 +79,7 @@ public class InteractionFactory {
                     .toLowerCase().split(",");
 
             if (params.length != 2) {
-                throw new GdxRuntimeException("Invalid TIMER params");
+                throw new GdxRuntimeException("Invalid TIMER params " + type);
             }
 
             return new TimerInteraction(gameScreen, params[0], Float.parseFloat(params[1]));
@@ -90,7 +90,7 @@ public class InteractionFactory {
                     .toLowerCase().split(",");
 
             if (params.length != 2) {
-                throw new GdxRuntimeException("Invalid RANDOM params");
+                throw new GdxRuntimeException("Invalid RANDOM params "+ type);
             }
 
             return new RandomInteraction(gameScreen, params[0], params[1]);

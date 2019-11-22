@@ -446,7 +446,7 @@ public class ExpansionDownloadManager implements Disposable {
 
         expansionInfo.isCompleted = true;
 
-        game.databaseManager.persist(game.gameState);
+        game.databaseManager.persistSync(game.gameState);
 
         fragment.progress.setText("100%");
         fragment.progressMessage.setText(game.t("expansion_download.completed"));

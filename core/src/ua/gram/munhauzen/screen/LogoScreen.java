@@ -92,7 +92,7 @@ public class LogoScreen implements Screen {
                 isLegalViewed = game.gameState.menuState.isLegalViewed;
 
                 if (game.databaseManager != null) {
-                    game.databaseManager.persist(game.gameState);
+                    game.databaseManager.persistSync(game.gameState);
                 }
             }
 

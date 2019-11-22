@@ -127,6 +127,8 @@ public class Story implements JsonEntry {
             progress = duration;
         }
 
+        isCompleted = false;
+
         if (!isCurrentAudioLoaded()) return;
 
         this.progress = progress;
