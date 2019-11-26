@@ -17,6 +17,7 @@ import ua.gram.munhauzen.entity.Chapter;
 import ua.gram.munhauzen.entity.Decision;
 import ua.gram.munhauzen.entity.FailsState;
 import ua.gram.munhauzen.entity.GalleryState;
+import ua.gram.munhauzen.entity.GamePreferences;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.History;
 import ua.gram.munhauzen.entity.Image;
@@ -139,6 +140,16 @@ public class DatabaseManager {
         }
 
         try {
+            state.preferences = loadPreferences();
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            ExternalFiles.getGamePreferencesFile(game.params).delete();
+
+            state.preferences = new GamePreferences();
+        }
+
+        try {
             state.failsState = loadFailsState();
         } catch (Throwable e) {
             Log.e(tag, e);
@@ -209,6 +220,18 @@ public class DatabaseManager {
         //Log.i(tag, "persist");
 
         if (gameState == null) return;
+
+        if (gameState.preferences != null)
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        persistPreferences(gameState.preferences);
+                    } catch (Throwable e) {
+                        Log.e(tag, e);
+                    }
+                }
+            }).start();
 
         if (gameState.history != null)
             new Thread(new Runnable() {
@@ -300,6 +323,13 @@ public class DatabaseManager {
         //Log.i(tag, "persist");
 
         if (gameState == null) return;
+
+        if (gameState.preferences != null)
+            try {
+                persistPreferences(gameState.preferences);
+            } catch (Throwable e) {
+                Log.e(tag, e);
+            }
 
         if (gameState.history != null)
             try {
@@ -393,6 +423,12 @@ public class DatabaseManager {
         FileHandle file = ExternalFiles.getHistoryFile(game.params);
 
         om.writeValue(file.file(), history);
+    }
+
+    public void persistPreferences(GamePreferences state) throws IOException {
+        FileHandle file = ExternalFiles.getGamePreferencesFile(game.params);
+
+        om.writeValue(file.file(), state);
     }
 
     public void persistSave(Save save) throws IOException {
@@ -507,6 +543,27 @@ public class DatabaseManager {
 
         if (state == null) {
             state = new GalleryState();
+        }
+
+        return state;
+    }
+
+    private GamePreferences loadPreferences() throws IOException {
+
+        FileHandle file = ExternalFiles.getGamePreferencesFile(game.params);
+
+        GamePreferences state = null;
+        if (file.exists()) {
+            String content = file.readString("UTF-8");
+            if (content != null && !content.equals("")) {
+                state = om.readValue(content, GamePreferences.class);
+            } else {
+                state = om.readValue(file.file(), GamePreferences.class);
+            }
+        }
+
+        if (state == null) {
+            state = new GamePreferences();
         }
 
         return state;

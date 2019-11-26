@@ -256,7 +256,7 @@ public class ControlsFragment extends Fragment {
                     Gdx.files.external(game.params.storageDirectory).deleteDirectory();
                 }
 
-                Gdx.app.exit();
+                game.navigator.closeApp();
             }
         });
 

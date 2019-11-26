@@ -10,7 +10,7 @@ public class PlatformParams {
         DEV, PROD, STAGE
     }
 
-    public Release release = Release.STAGE;
+    public Release release = Release.DEV;
     public int expansionVersion = 1;
     public Translator translator;
     public AppStore appStore;
@@ -39,14 +39,8 @@ public class PlatformParams {
         return release == Release.DEV;
     }
 
-    public String getGameHost() {
-        return isDev()
-                ? "http://192.168.1.102:20000"
-                : "https://api.thebaronmunchausen.com";
-    }
-
     public String getExpansionUrl() {
-        return getGameHost() + "/api/v1/" + locale + "/expansions/" + expansionVersion + "/" + dpi;
+        return "https://api.thebaronmunchausen.com/api/v1/" + locale + "/expansions/" + expansionVersion + "/" + dpi;
     }
 
     public String getGameExportUrl() {

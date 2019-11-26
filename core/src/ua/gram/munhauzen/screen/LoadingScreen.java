@@ -1,6 +1,5 @@
 package ua.gram.munhauzen.screen;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 
 import ua.gram.munhauzen.MunhauzenGame;
@@ -84,7 +83,7 @@ public class LoadingScreen extends AbstractScreen {
     public void onBackPressed() {
         super.onBackPressed();
 
-        Gdx.app.exit();
+        game.navigator.closeApp();
     }
 
     @Override

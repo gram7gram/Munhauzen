@@ -96,6 +96,8 @@ public abstract class AbstractScreen implements Screen {
 
         if (isDisposed) return;
 
+        checkBackPressed();
+
         if (assetManager == null) return;
 
         drawBackground();
@@ -110,8 +112,6 @@ public abstract class AbstractScreen implements Screen {
             return;
         }
 
-        checkInput();
-
         renderAfterLoaded(delta);
 
         if (ui != null) {
@@ -120,7 +120,7 @@ public abstract class AbstractScreen implements Screen {
         }
     }
 
-    public void checkInput() {
+    public void checkBackPressed() {
         if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
             onBackPressed();
         }
@@ -167,8 +167,6 @@ public abstract class AbstractScreen implements Screen {
 
         Log.i(tag, "dispose");
 
-//        GameState.clearTimer(tag);
-
         isLoaded = false;
         isDisposed = true;
 
@@ -188,26 +186,11 @@ public abstract class AbstractScreen implements Screen {
     }
 
     public void onCriticalError(Throwable e) {
-        game.onCriticalError(e);
-        dispose();
+        game.navigator.onCriticalError(e);
     }
 
     public void navigateTo(Screen screen) {
-
-        Log.i(tag, "navigateTo " + getClass().getSimpleName() + " => " + screen.getClass().getSimpleName());
-
-        try {
-            Gdx.input.setInputProcessor(null);
-
-            game.databaseManager.persistSync(game.gameState);
-
-            game.setScreen(screen);
-            dispose();
-        } catch (Throwable e) {
-            Log.e(tag, e);
-
-            game.onCriticalError(e);
-        }
+        game.navigator.navigateTo(screen);
     }
 
     public void stopCurrentSfx() {

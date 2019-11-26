@@ -32,8 +32,9 @@ public class GameState {
     public MenuState menuState;
     public GalleryState galleryState;
     public FailsState failsState;
-    public ExpansionResponse expansionInfo;
     public AchievementState achievementState;
+    public ExpansionResponse expansionInfo;
+    public GamePreferences preferences;
 
     public GameState() {
         history = new History();

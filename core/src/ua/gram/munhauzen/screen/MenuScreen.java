@@ -360,6 +360,9 @@ public class MenuScreen extends AbstractScreen {
 
         try {
 
+            if (layers == null) return;
+            if (exitFragment != null) return;
+
             exitFragment = new ExitFragment(this);
             exitFragment.create();
 

@@ -17,12 +17,16 @@ public class FontProvider implements Disposable {
     final MunhauzenGame game;
     final String tag = getClass().getSimpleName();
 
-    final String alphabet = "\u0000\"'1234567890-=+?!@#$%&*(){}[].,:;/_><…–"
+    public final static String star1 = "\u231B", star2 = "\u2726", star3 = "\u2727", star4 = "\u272F";
+
+    final String alphabet = "\u00001234567890'\"-=+?!@#$%&*(){}[].,:;/_><…–"
             + "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
             + "АаБбВвГгДдЕеЭэЖжЗзИиЙйЫыКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчЩщШшЮюЯяЬьЪъЁё"
-            + "АаБбВвГгДдЕеЄєЖжЗзИиЙйІіЇїКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчЩщШшЮюЯяЬь";
+            + "АаБбВвГгДдЕеЄєЖжЗзИиЙйІіЇїКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчЩщШшЮюЯяЬь"
+            + star4 + star3 + star2 + star1;
 
     public static final String
+            SEGUISYM = "SEGUISYM.ttf",
             CalligraphModern2 = "CalligraphModern2.ttf",
             BuxtonSketch = "BuxtonSketch.ttf",
             FleischmannGotich = "FleischmannGotich.ttf",
@@ -65,7 +69,7 @@ public class FontProvider implements Disposable {
 
         Log.i(tag, "load");
 
-        String[] fonts = new String[]{CalligraphModern2, DroidSansMono, BuxtonSketch};
+        String[] fonts = new String[]{CalligraphModern2, DroidSansMono, BuxtonSketch, SEGUISYM};
         int[] sizes = new int[]{small, p, h1, h2, h3, h4, h5};
 
         map = new HashMap<>(fonts.length);

@@ -1,6 +1,5 @@
 package ua.gram.munhauzen.screen.menu.ui;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -149,7 +148,7 @@ public class ExitBanner extends Banner {
     }
 
     private void onYesClicked() {
-        Gdx.app.exit();
+        game.navigator.closeApp();
     }
 
 }

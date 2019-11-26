@@ -53,8 +53,6 @@ public class GalleryScreen extends AbstractScreen {
         layers = new GalleryLayers();
 
         ui.addActor(layers);
-
-        Gdx.input.setInputProcessor(ui);
     }
 
     @Override

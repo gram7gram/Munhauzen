@@ -31,6 +31,7 @@ public class AudioRow extends Table {
     Image lock, unlock, play;
     float iconSize = 35;
     Container<Image> iconContainer;
+    final Label.LabelStyle openedStyle, hiddenStyle;
 
     public AudioRow(final FailsScreen screen, final GalleryFail fail, int index, float width) {
 
@@ -40,18 +41,23 @@ public class AudioRow extends Table {
 
         iconSize *= screen.game.params.scaleFactor;
 
-        Label.LabelStyle style = new Label.LabelStyle(
+        openedStyle = new Label.LabelStyle(
                 screen.game.fontProvider.getFont(FontProvider.h4),
                 Color.BLACK
         );
 
-        number = new Label(index + ".", style);
+        hiddenStyle = new Label.LabelStyle(
+                screen.game.fontProvider.getFont(FontProvider.SEGUISYM, FontProvider.h5),
+                Color.BLACK
+        );
+
+        number = new Label(index + ".", openedStyle);
         number.setWrap(false);
         number.setAlignment(Align.left);
 
         number.layout();
 
-        title = new Label("", style);
+        title = new Label("", openedStyle);
         title.setWrap(true);
         title.setAlignment(Align.left);
 
@@ -116,10 +122,6 @@ public class AudioRow extends Table {
     public void act(float delta) {
         super.act(delta);
 
-//        lock.setSize(iconSize, lockHeight);
-//        unlock.setSize(iconSize, unlockHeight);
-//        play.setSize(iconSize, playHeight);
-
         if (fail.isPlaying) {
 
             if (!play.isVisible()) {
@@ -145,22 +147,26 @@ public class AudioRow extends Table {
 
         setTouchable(Touchable.enabled);
 
+        title.setStyle(openedStyle);
+
         if (!fail.isOpened) {
 
-            String altText = "";
+            title.setStyle(hiddenStyle);
+
+            String altText = " ";//space
 
             for (int i = 0; i < text.length(); i++) {
                 String ch = text.charAt(i) + "";
 
                 if (!" ".equals(ch)) {
                     if (i % 4 == 0) {
-                        ch = "@";
+                        ch = FontProvider.star1;
                     } else if (i % 3 == 0) {
-                        ch = "$";
+                        ch = FontProvider.star2;
                     } else if (i % 2 == 0) {
-                        ch = "!";
+                        ch = FontProvider.star3;
                     } else {
-                        ch = "#";
+                        ch = FontProvider.star4;
                     }
                 }
 

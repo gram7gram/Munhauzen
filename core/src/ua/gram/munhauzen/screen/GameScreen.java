@@ -476,11 +476,6 @@ public class GameScreen implements Screen {
         scenarioFragment = null;
     }
 
-    public void onCriticalError(Throwable e) {
-        game.onCriticalError(e);
-        dispose();
-    }
-
     public void setLastBackground(String file) {
 
         String[] path = file.split("/");
@@ -519,21 +514,11 @@ public class GameScreen implements Screen {
         return save;
     }
 
+    public void onCriticalError(Throwable e) {
+        game.navigator.onCriticalError(e);
+    }
+
     public void navigateTo(Screen screen) {
-
-        Log.i(tag, "navigateTo " + getClass().getSimpleName() + " => " + screen.getClass().getSimpleName());
-
-        try {
-            Gdx.input.setInputProcessor(null);
-
-            game.databaseManager.persistSync(game.gameState);
-
-            game.setScreen(screen);
-            dispose();
-        } catch (Throwable e) {
-            Log.e(tag, e);
-
-            game.onCriticalError(e);
-        }
+        game.navigator.navigateTo(screen);
     }
 }

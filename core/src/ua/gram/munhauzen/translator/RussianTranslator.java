@@ -119,7 +119,7 @@ public class RussianTranslator implements Translator {
         map.put("ending.part1", "Ко");
         map.put("ending.part2", "нец");
         map.put("ending.menu_btn", "меню");
-        map.put("share_banner.title", "Расскажи друзья о аудиокниге");
+        map.put("share_banner.title", "Расскажи друзьям о аудиокниге");
         map.put("share_banner.fb", "Фейсбук");
         map.put("share_banner.tw", "Твиттер");
         map.put("share_banner.vk", "Вконтакте");

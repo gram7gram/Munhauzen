@@ -29,6 +29,7 @@ public class ImageRow extends Stack {
     FitImage lock, unlock;
     Table content;
     float iconSize = 35;
+    final Label.LabelStyle openedStyle, hiddenStyle;
 
     public ImageRow(final GalleryScreen screen, final PaintingImage paintingImage, int index, float width) {
 
@@ -38,16 +39,21 @@ public class ImageRow extends Stack {
 
         iconSize *= screen.game.params.scaleFactor;
 
-        Label.LabelStyle style = new Label.LabelStyle(
+        openedStyle = new Label.LabelStyle(
                 screen.game.fontProvider.getFont(FontProvider.h4),
                 Color.BLACK
         );
 
-        number = new Label(index + ".", style);
+        hiddenStyle = new Label.LabelStyle(
+                screen.game.fontProvider.getFont(FontProvider.SEGUISYM, FontProvider.h5),
+                Color.BLACK
+        );
+
+        number = new Label(index + ".", openedStyle);
         number.setWrap(false);
         number.setAlignment(Align.left);
 
-        title = new Label("", style);
+        title = new Label("", openedStyle);
         title.setWrap(true);
         title.setAlignment(Align.left);
 
@@ -98,22 +104,26 @@ public class ImageRow extends Stack {
 
         String text = paintingImage.image.description;
 
+        title.setStyle(openedStyle);
+
         if (!paintingImage.isOpened) {
 
-            String altText = "";
+            title.setStyle(hiddenStyle);
+
+            String altText = " ";//space
 
             for (int i = 0; i < text.length(); i++) {
                 String ch = text.charAt(i) + "";
 
                 if (!" ".equals(ch)) {
                     if (i % 4 == 0) {
-                        ch = "@";
+                        ch = FontProvider.star1;
                     } else if (i % 3 == 0) {
-                        ch = "$";
+                        ch = FontProvider.star2;
                     } else if (i % 2 == 0) {
-                        ch = "!";
+                        ch = FontProvider.star3;
                     } else {
-                        ch = "#";
+                        ch = FontProvider.star4;
                     }
                 }
 
