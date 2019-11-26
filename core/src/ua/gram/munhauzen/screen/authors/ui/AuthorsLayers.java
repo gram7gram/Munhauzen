@@ -14,7 +14,7 @@ import ua.gram.munhauzen.utils.Log;
 public class AuthorsLayers extends Stack implements Disposable {
 
     final String tag = getClass().getSimpleName();
-    public Fragment contentLayer, controlsLayer;
+    public Fragment contentLayer, controlsLayer, bannerLayer;
 
     public AuthorsLayers() {
         setFillParent(true);
@@ -40,6 +40,22 @@ public class AuthorsLayers extends Stack implements Disposable {
             addActor(createDummy("controlsLayer"));
         }
 
+        if (bannerLayer != null) {
+            addActor(bannerLayer.getRoot());
+        } else {
+            addActor(createDummy("bannerLayer"));
+        }
+
+    }
+
+    public void setBannerLayer(Fragment actor) {
+        if (bannerLayer != null) {
+            removeActor(bannerLayer.getRoot());
+            bannerLayer.destroy();
+        }
+        bannerLayer = actor;
+
+        update();
     }
 
     public void setContentLayer(Fragment actor) {
@@ -81,6 +97,11 @@ public class AuthorsLayers extends Stack implements Disposable {
         if (controlsLayer != null) {
             controlsLayer.destroy();
             controlsLayer = null;
+        }
+
+        if (bannerLayer != null) {
+            bannerLayer.destroy();
+            bannerLayer = null;
         }
     }
 }

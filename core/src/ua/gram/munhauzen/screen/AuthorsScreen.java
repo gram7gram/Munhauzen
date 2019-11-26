@@ -7,10 +7,15 @@ import com.badlogic.gdx.graphics.Texture;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.screen.authors.fragment.AuthorsFragment;
 import ua.gram.munhauzen.screen.authors.fragment.ControlsFragment;
+import ua.gram.munhauzen.screen.authors.fragment.DemoFragment;
 import ua.gram.munhauzen.screen.authors.fragment.EnAuthorsFragment;
+import ua.gram.munhauzen.screen.authors.fragment.ProFragment;
+import ua.gram.munhauzen.screen.authors.fragment.RateFragment;
 import ua.gram.munhauzen.screen.authors.fragment.RuAuthorsFragment;
+import ua.gram.munhauzen.screen.authors.fragment.ShareFragment;
 import ua.gram.munhauzen.screen.authors.ui.AuthorsLayers;
 import ua.gram.munhauzen.service.AudioService;
+import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
@@ -21,6 +26,10 @@ public class AuthorsScreen extends AbstractScreen {
     public AuthorsLayers layers;
     public AuthorsFragment authorsFragment;
     public ControlsFragment controlsFragment;
+    public RateFragment rateFragment;
+    public ShareFragment shareFragment;
+    public DemoFragment demoFragment;
+    public ProFragment proFragment;
 
     public AuthorsScreen(MunhauzenGame game) {
         super(game);
@@ -125,9 +134,87 @@ public class AuthorsScreen extends AbstractScreen {
         }
     }
 
+    public void destroyBanners() {
+        if (rateFragment != null) {
+            rateFragment.destroy();
+            rateFragment = null;
+        }
+        if (shareFragment != null) {
+            shareFragment.destroy();
+            shareFragment = null;
+        }
+        if (demoFragment != null) {
+            demoFragment.destroy();
+            demoFragment = null;
+        }
+        if (proFragment != null) {
+            proFragment.destroy();
+            proFragment = null;
+        }
+    }
+
+    public void openRateBanner() {
+        try {
+
+            if (layers == null) return;
+
+            rateFragment = new RateFragment(this);
+            rateFragment.create();
+
+            layers.setBannerLayer(rateFragment);
+
+            rateFragment.fadeIn();
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+    }
+
+    public void openVersionBanner() {
+        try {
+
+            if (layers == null) return;
+
+            if (game.params.isPro) {
+                proFragment = new ProFragment(this);
+                proFragment.create();
+
+                layers.setBannerLayer(proFragment);
+
+                proFragment.fadeIn();
+            } else {
+                demoFragment = new DemoFragment(this);
+                demoFragment.create();
+
+                layers.setBannerLayer(demoFragment);
+
+                demoFragment.fadeIn();
+            }
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+    }
+
+    public void openShareBanner() {
+        try {
+
+            if (layers == null) return;
+
+            shareFragment = new ShareFragment(this);
+            shareFragment.create();
+
+            layers.setBannerLayer(shareFragment);
+
+            shareFragment.fadeIn();
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+    }
+
     @Override
     public void dispose() {
         super.dispose();
+
+        destroyBanners();
 
         if (audioService != null) {
             audioService.dispose();

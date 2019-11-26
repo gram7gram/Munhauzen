@@ -4,12 +4,14 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 
@@ -190,6 +192,24 @@ public abstract class AuthorsFragment extends Fragment {
         rows.add(label).width(widthLimit - width - 5).center();
         rows.add(icon).pad(5).width(width).height(height).center().row();
 
+
+        rows.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                try {
+
+                    screen.openShareBanner();
+
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+
+                    screen.onCriticalError(e);
+                }
+
+            }
+        });
         return rows;
     }
 
@@ -218,6 +238,24 @@ public abstract class AuthorsFragment extends Fragment {
 
         rows.add(icon).pad(5).width(width).height(height).center();
         rows.add(label).width(widthLimit - width - 5).center().row();
+
+        rows.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                try {
+
+                    screen.openRateBanner();
+
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+
+                    screen.onCriticalError(e);
+                }
+
+            }
+        });
 
         return rows;
     }
@@ -253,6 +291,24 @@ public abstract class AuthorsFragment extends Fragment {
 
         rows.add(icon).pad(5).width(width).height(height).center();
         rows.add(label).width(widthLimit - width - 5).center().row();
+
+        rows.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                try {
+
+                    screen.openVersionBanner();
+
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+
+                    screen.onCriticalError(e);
+                }
+
+            }
+        });
 
         return rows;
     }
