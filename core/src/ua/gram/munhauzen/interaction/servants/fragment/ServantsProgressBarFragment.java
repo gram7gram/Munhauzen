@@ -601,24 +601,22 @@ public class ServantsProgressBarFragment extends Fragment {
 
     private PrimaryImageButton getRewindBack() {
         Texture rewindBack = interaction.assetManager.get("ui/playbar_rewind_backward.png", Texture.class);
-        Texture rewindBackOff = interaction.assetManager.get("ui/playbar_rewind_backward_off.png", Texture.class);
 
         ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
         style.up = new SpriteDrawable(new Sprite(rewindBack));
         style.down = new SpriteDrawable(new Sprite(rewindBack));
-        style.disabled = new SpriteDrawable(new Sprite(rewindBackOff));
+        style.disabled = new SpriteDrawable(new Sprite(rewindBack));
 
         return new PrimaryImageButton(style);
     }
 
     private PrimaryImageButton getRewindForward() {
         Texture rewindForward = interaction.assetManager.get("ui/playbar_rewind_forward.png", Texture.class);
-        Texture rewindForwardOff = interaction.assetManager.get("ui/playbar_rewind_forward_off.png", Texture.class);
 
         ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
         style.up = new SpriteDrawable(new Sprite(rewindForward));
         style.down = new SpriteDrawable(new Sprite(rewindForward));
-        style.disabled = new SpriteDrawable(new Sprite(rewindForwardOff));
+        style.disabled = new SpriteDrawable(new Sprite(rewindForward));
 
         return new PrimaryImageButton(style);
     }
@@ -647,24 +645,22 @@ public class ServantsProgressBarFragment extends Fragment {
 
     private PrimaryImageButton getSkipBack() {
         Texture skipBack = gameScreen.assetManager.get("ui/playbar_skip_backward.png", Texture.class);
-        Texture skipBackOff = gameScreen.assetManager.get("ui/playbar_skip_backward_off.png", Texture.class);
 
         ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
         style.up = new SpriteDrawable(new Sprite(skipBack));
         style.down = new SpriteDrawable(new Sprite(skipBack));
-        style.disabled = new SpriteDrawable(new Sprite(skipBackOff));
+        style.disabled = new SpriteDrawable(new Sprite(skipBack));
 
         return new PrimaryImageButton(style);
     }
 
     private PrimaryImageButton getSkipForward() {
         Texture skipForward = gameScreen.assetManager.get("ui/playbar_skip_forward.png", Texture.class);
-        Texture skipForwardOff = gameScreen.assetManager.get("ui/playbar_skip_forward_off.png", Texture.class);
 
         ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
         style.up = new SpriteDrawable(new Sprite(skipForward));
         style.down = new SpriteDrawable(new Sprite(skipForward));
-        style.disabled = new SpriteDrawable(new Sprite(skipForwardOff));
+        style.disabled = new SpriteDrawable(new Sprite(skipForward));
 
         return new PrimaryImageButton(style);
     }

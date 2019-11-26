@@ -21,6 +21,7 @@ import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.AudioFail;
 import ua.gram.munhauzen.entity.FailsState;
 import ua.gram.munhauzen.entity.GalleryState;
+import ua.gram.munhauzen.entity.GamePreferences;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.History;
 import ua.gram.munhauzen.entity.Image;
@@ -220,6 +221,7 @@ public class ControlsFragment extends Fragment {
                     game.gameState.menuState = new MenuState();
                     game.gameState.galleryState = new GalleryState();
                     game.gameState.failsState = new FailsState();
+                    game.gameState.preferences = new GamePreferences();
 
                     for (String save : new String[]{"1", "2", "3", "4"}) {
                         ExternalFiles.getSaveFile(game.params, save).delete();
@@ -228,6 +230,7 @@ public class ControlsFragment extends Fragment {
                     ExternalFiles.getHistoryFile(game.params).delete();
                     ExternalFiles.getMenuStateFile(game.params).delete();
                     ExternalFiles.getGalleryStateFile(game.params).delete();
+                    ExternalFiles.getGamePreferencesFile(game.params).delete();
                     ExternalFiles.getFailsStateFile(game.params).delete();
 
                     game.gameState.history = new History();
@@ -248,15 +251,21 @@ public class ControlsFragment extends Fragment {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                removeAllLbl.setVisible(false);
+                try {
+                    removeAllLbl.setVisible(false);
 
-                GameState.clearTimer(tag);
+                    GameState.clearTimer(tag);
 
-                if (Gdx.files.external(game.params.storageDirectory).exists()) {
-                    Gdx.files.external(game.params.storageDirectory).deleteDirectory();
+                    game.gameState = null;
+
+                    if (Gdx.files.external(game.params.storageDirectory).exists()) {
+                        Gdx.files.external(game.params.storageDirectory).deleteDirectory();
+                    }
+
+                    game.navigator.closeApp();
+                } catch (Throwable e) {
+                    Log.e(tag, e);
                 }
-
-                game.navigator.closeApp();
             }
         });
 

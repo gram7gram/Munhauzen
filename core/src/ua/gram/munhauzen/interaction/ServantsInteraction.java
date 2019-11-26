@@ -59,9 +59,7 @@ public class ServantsInteraction extends AbstractInteraction {
         assetManager.clear();
 
         assetManager.load("ui/playbar_skip_backward.png", Texture.class);
-        assetManager.load("ui/playbar_skip_backward_off.png", Texture.class);
         assetManager.load("ui/playbar_skip_forward.png", Texture.class);
-        assetManager.load("ui/playbar_skip_forward_off.png", Texture.class);
 
         assetManager.load("GameScreen/an_cannons_main.png", Texture.class);
         assetManager.load("GameScreen/b_decision_add_line.png", Texture.class);
@@ -75,11 +73,7 @@ public class ServantsInteraction extends AbstractInteraction {
         assetManager.load("ui/playbar_play.png", Texture.class);
 
         assetManager.load("ui/playbar_rewind_backward.png", Texture.class);
-        assetManager.load("ui/playbar_rewind_backward_off.png", Texture.class);
-
         assetManager.load("ui/playbar_rewind_forward.png", Texture.class);
-        assetManager.load("ui/playbar_rewind_forward_off.png", Texture.class);
-
         assetManager.load("ui/elements_player_fond_1.png", Texture.class);
         assetManager.load("ui/elements_player_fond_2.png", Texture.class);
         assetManager.load("ui/elements_player_fond_3.png", Texture.class);

@@ -27,6 +27,7 @@ import ua.gram.munhauzen.interaction.generals.GeneralsStoryScenario;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.ui.Fragment;
+import ua.gram.munhauzen.ui.ProgressIconButton;
 import ua.gram.munhauzen.ui.ScenarioBar;
 import ua.gram.munhauzen.utils.Log;
 
@@ -61,10 +62,7 @@ public class GeneralsProgressBarFragment extends Fragment {
         interaction.assetManager.load("ui/playbar_play.png", Texture.class);
 
         interaction.assetManager.load("ui/playbar_rewind_backward.png", Texture.class);
-        interaction.assetManager.load("ui/playbar_rewind_backward_off.png", Texture.class);
-
         interaction.assetManager.load("ui/playbar_rewind_forward.png", Texture.class);
-        interaction.assetManager.load("ui/playbar_rewind_forward_off.png", Texture.class);
 
         interaction.assetManager.load("ui/elements_player_fond_1.png", Texture.class);
         interaction.assetManager.load("ui/elements_player_fond_2.png", Texture.class);
@@ -716,51 +714,47 @@ public class GeneralsProgressBarFragment extends Fragment {
 
     private ImageButton getRewindBack() {
         Texture rewindBack = interaction.assetManager.get("ui/playbar_rewind_backward.png", Texture.class);
-        Texture rewindBackOff = interaction.assetManager.get("ui/playbar_rewind_backward_off.png", Texture.class);
 
         ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
         style.up = new SpriteDrawable(new Sprite(rewindBack));
         style.down = new SpriteDrawable(new Sprite(rewindBack));
-        style.disabled = new SpriteDrawable(new Sprite(rewindBackOff));
+        style.disabled = new SpriteDrawable(new Sprite(rewindBack));
 
-        return new ImageButton(style);
+        return new ProgressIconButton(style);
     }
 
     private ImageButton getSkipBack() {
         Texture skipBack = gameScreen.assetManager.get("ui/playbar_skip_backward.png", Texture.class);
-        Texture skipBackOff = gameScreen.assetManager.get("ui/playbar_skip_backward_off.png", Texture.class);
 
         ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
         style.up = new SpriteDrawable(new Sprite(skipBack));
         style.down = new SpriteDrawable(new Sprite(skipBack));
-        style.disabled = new SpriteDrawable(new Sprite(skipBackOff));
+        style.disabled = new SpriteDrawable(new Sprite(skipBack));
 
-        return new ImageButton(style);
+        return new ProgressIconButton(style);
     }
 
     private ImageButton getSkipForward() {
         Texture skipForward = gameScreen.assetManager.get("ui/playbar_skip_forward.png", Texture.class);
-        Texture skipForwardOff = gameScreen.assetManager.get("ui/playbar_skip_forward_off.png", Texture.class);
 
         ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
         style.up = new SpriteDrawable(new Sprite(skipForward));
         style.down = new SpriteDrawable(new Sprite(skipForward));
-        style.disabled = new SpriteDrawable(new Sprite(skipForwardOff));
+        style.disabled = new SpriteDrawable(new Sprite(skipForward));
 
-        return new ImageButton(style);
+        return new ProgressIconButton(style);
     }
 
 
     private ImageButton getRewindForward() {
         Texture rewindForward = interaction.assetManager.get("ui/playbar_rewind_forward.png", Texture.class);
-        Texture rewindForwardOff = interaction.assetManager.get("ui/playbar_rewind_forward_off.png", Texture.class);
 
         ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
         style.up = new SpriteDrawable(new Sprite(rewindForward));
         style.down = new SpriteDrawable(new Sprite(rewindForward));
-        style.disabled = new SpriteDrawable(new Sprite(rewindForwardOff));
+        style.disabled = new SpriteDrawable(new Sprite(rewindForward));
 
-        return new ImageButton(style);
+        return new ProgressIconButton(style);
     }
 
     private ImageButton getPause() {
@@ -771,7 +765,7 @@ public class GeneralsProgressBarFragment extends Fragment {
         style.down = new SpriteDrawable(new Sprite(pause));
         style.disabled = new SpriteDrawable(new Sprite(pause));
 
-        return new ImageButton(style);
+        return new ProgressIconButton(style);
     }
 
     private ImageButton getPlay() {
@@ -782,7 +776,7 @@ public class GeneralsProgressBarFragment extends Fragment {
         style.down = new SpriteDrawable(new Sprite(play));
         style.disabled = new SpriteDrawable(new Sprite(play));
 
-        return new ImageButton(style);
+        return new ProgressIconButton(style);
     }
 
     private void postProgressChanged() {

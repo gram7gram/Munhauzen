@@ -35,9 +35,7 @@ public class DateInteraction extends AbstractInteraction {
         assetManager.load("date/back.jpg", Texture.class);
 
         assetManager.load("ui/playbar_skip_backward.png", Texture.class);
-        assetManager.load("ui/playbar_skip_backward_off.png", Texture.class);
         assetManager.load("ui/playbar_skip_forward.png", Texture.class);
-        assetManager.load("ui/playbar_skip_forward_off.png", Texture.class);
 
         assetManager.load("GameScreen/an_cannons_main.png", Texture.class);
         assetManager.load("GameScreen/b_decision_add_line.png", Texture.class);

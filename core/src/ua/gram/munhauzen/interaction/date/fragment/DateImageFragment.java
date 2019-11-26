@@ -24,6 +24,7 @@ import ua.gram.munhauzen.screen.game.fragment.InteractionFragment;
 import ua.gram.munhauzen.screen.game.ui.BackgroundImage;
 import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.ui.PrimaryButton;
+import ua.gram.munhauzen.ui.ProgressIconButton;
 import ua.gram.munhauzen.utils.Log;
 
 /**
@@ -395,27 +396,25 @@ public class DateImageFragment extends InteractionFragment {
 
 
     private ImageButton getPrev() {
-        Texture skipBack = interaction.assetManager.get("ui/playbar_skip_backward.png", Texture.class);
-        Texture skipBackOff = interaction.assetManager.get("ui/playbar_skip_backward_off.png", Texture.class);
+        Texture img = interaction.assetManager.get("ui/playbar_skip_backward.png", Texture.class);
 
         ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
-        style.up = new SpriteDrawable(new Sprite(skipBack));
-        style.down = new SpriteDrawable(new Sprite(skipBack));
-        style.disabled = new SpriteDrawable(new Sprite(skipBackOff));
+        style.up = new SpriteDrawable(new Sprite(img));
+        style.down = new SpriteDrawable(new Sprite(img));
+        style.disabled = new SpriteDrawable(new Sprite(img));
 
-        return new ImageButton(style);
+        return new ProgressIconButton(style);
     }
 
 
     private ImageButton getNext() {
-        Texture skipBack = interaction.assetManager.get("ui/playbar_skip_forward.png", Texture.class);
-        Texture skipBackOff = interaction.assetManager.get("ui/playbar_skip_forward_off.png", Texture.class);
+        Texture img = interaction.assetManager.get("ui/playbar_skip_forward.png", Texture.class);
 
         ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
-        style.up = new SpriteDrawable(new Sprite(skipBack));
-        style.down = new SpriteDrawable(new Sprite(skipBack));
-        style.disabled = new SpriteDrawable(new Sprite(skipBackOff));
+        style.up = new SpriteDrawable(new Sprite(img));
+        style.down = new SpriteDrawable(new Sprite(img));
+        style.disabled = new SpriteDrawable(new Sprite(img));
 
-        return new ImageButton(style);
+        return new ProgressIconButton(style);
     }
 }

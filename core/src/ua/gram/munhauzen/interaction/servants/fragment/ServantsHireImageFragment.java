@@ -4,8 +4,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Event;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
@@ -30,6 +28,7 @@ import ua.gram.munhauzen.repository.InventoryRepository;
 import ua.gram.munhauzen.screen.game.fragment.InteractionFragment;
 import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.ui.PrimaryButton;
+import ua.gram.munhauzen.ui.ProgressIconButton;
 import ua.gram.munhauzen.utils.Log;
 import ua.gram.munhauzen.utils.MathUtils;
 
@@ -414,26 +413,14 @@ public class ServantsHireImageFragment extends InteractionFragment {
     }
 
     private ImageButton getPrev() {
-        Texture skipBack = interaction.assetManager.get("ui/playbar_skip_backward.png", Texture.class);
-        Texture skipBackOff = interaction.assetManager.get("ui/playbar_skip_backward_off.png", Texture.class);
+        Texture img = interaction.assetManager.get("ui/playbar_skip_backward.png", Texture.class);
 
         ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
-        style.up = new SpriteDrawable(new Sprite(skipBack));
-        style.down = new SpriteDrawable(new Sprite(skipBack));
-        style.disabled = new SpriteDrawable(new Sprite(skipBackOff));
+        style.up = new SpriteDrawable(new Sprite(img));
+        style.down = new SpriteDrawable(new Sprite(img));
+        style.disabled = new SpriteDrawable(new Sprite(img));
 
-        final ImageButton btn = new ImageButton(style);
-
-        btn.addCaptureListener(new EventListener() {
-            @Override
-            public boolean handle(Event event) {
-                if (btn.isDisabled()) {
-                    event.cancel();
-                    return true;
-                }
-                return false;
-            }
-        });
+        final ImageButton btn = new ProgressIconButton(style);
 
         btn.addListener(new ClickListener() {
             @Override
@@ -449,26 +436,14 @@ public class ServantsHireImageFragment extends InteractionFragment {
 
 
     private ImageButton getNext() {
-        Texture skipBack = interaction.assetManager.get("ui/playbar_skip_forward.png", Texture.class);
-        Texture skipBackOff = interaction.assetManager.get("ui/playbar_skip_forward_off.png", Texture.class);
+        Texture img = interaction.assetManager.get("ui/playbar_skip_forward.png", Texture.class);
 
         ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
-        style.up = new SpriteDrawable(new Sprite(skipBack));
-        style.down = new SpriteDrawable(new Sprite(skipBack));
-        style.disabled = new SpriteDrawable(new Sprite(skipBackOff));
+        style.up = new SpriteDrawable(new Sprite(img));
+        style.down = new SpriteDrawable(new Sprite(img));
+        style.disabled = new SpriteDrawable(new Sprite(img));
 
-        final ImageButton btn = new ImageButton(style);
-
-        btn.addCaptureListener(new EventListener() {
-            @Override
-            public boolean handle(Event event) {
-                if (btn.isDisabled()) {
-                    event.cancel();
-                    return true;
-                }
-                return false;
-            }
-        });
+        final ImageButton btn = new ProgressIconButton(style);
 
         btn.addListener(new ClickListener() {
             @Override

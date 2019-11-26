@@ -17,7 +17,7 @@ function syncLocal() {
 
     mkdir -p ~/Projects/munhauzen-web/api/public/expansions/$SYNC_VERSION
 
-    cp ./build/${SYNC_VERSION}/* /Users/master/Projects/munhauzen-web/api/public/expansions/$SYNC_VERSION
+#    cp ./build/${SYNC_VERSION}/* /Users/master/Projects/munhauzen-web/api/public/expansions/$SYNC_VERSION
 
     cp ./build/${SYNC_VERSION}-expansion.json ~/Projects/munhauzen-web/api/src/server/resources/$SYNC_VERSION-expansion.json
 }

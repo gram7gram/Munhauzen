@@ -6,9 +6,10 @@ import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.screen.loading.fragment.ControlsFragment;
 import ua.gram.munhauzen.screen.loading.fragment.ImageFragment;
 import ua.gram.munhauzen.screen.loading.ui.LoadingLayers;
-import ua.gram.munhauzen.service.ConfigDownloadManager;
 import ua.gram.munhauzen.service.ExpansionDownloadManager;
+import ua.gram.munhauzen.service.SilentConfigDownloadManager;
 import ua.gram.munhauzen.utils.InternalAssetManager;
+import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
@@ -19,7 +20,6 @@ public class LoadingScreen extends AbstractScreen {
     public ImageFragment imageFragment;
     public ControlsFragment controlsFragment;
     public ExpansionDownloadManager expansionDownloader;
-    public ConfigDownloadManager configDownloader;
 
     public LoadingScreen(MunhauzenGame game) {
         super(game);
@@ -66,6 +66,21 @@ public class LoadingScreen extends AbstractScreen {
     public void onResourcesLoaded() {
         super.onResourcesLoaded();
 
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    new SilentConfigDownloadManager(game).start();
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
+            }
+        }).start();
+
+        if (game.gameState.expansionInfo != null) {
+            game.gameState.expansionInfo.isDownloadStarted = false;
+        }
+
         controlsFragment = new ControlsFragment(this);
         controlsFragment.create();
 
@@ -77,6 +92,8 @@ public class LoadingScreen extends AbstractScreen {
         layers.setContentLayer(imageFragment);
 
         game.sfxService.onLoadingVisited();
+
+        expansionDownloader = new ExpansionDownloadManager(game, controlsFragment);
     }
 
     @Override
@@ -105,11 +122,6 @@ public class LoadingScreen extends AbstractScreen {
     @Override
     public void dispose() {
         super.dispose();
-
-        if (configDownloader != null) {
-            configDownloader.dispose();
-            configDownloader = null;
-        }
 
         if (expansionDownloader != null) {
             expansionDownloader.dispose();

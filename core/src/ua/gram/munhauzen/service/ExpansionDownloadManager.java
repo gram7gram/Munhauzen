@@ -480,6 +480,11 @@ public class ExpansionDownloadManager implements Disposable {
 
         if (expansionInfo == null) return;
 
+        float sizeMb = (float) (expansionInfo.size / 1024f / 1024f);
+
+        fragment.subtitle.setText("v" + expansionInfo.version
+                + " " + String.format("%.2f", sizeMb) + "MB");
+
         if (!expansionInfo.isDownloadStarted) return;
 
         try {
@@ -522,10 +527,6 @@ public class ExpansionDownloadManager implements Disposable {
 
             fragment.progress.setText(Math.max(1, expansionInfo.progress) + "%");
             fragment.progressMessage.setText(progressText);
-
-            float sizeMb = (float) (expansionInfo.size / 1024f / 1024f);
-
-            fragment.expansionInfo.setText("v" + expansionInfo.version + " " + String.format("%.2f", sizeMb) + "MB");
 
             expansionInfo.isCompleted = areAllCompleted;
 

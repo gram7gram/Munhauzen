@@ -117,32 +117,32 @@ public class Story implements JsonEntry {
         return scenarios.get(scenarios.size() - 1);
     }
 
-    public void update(float progress, int duration) {
+    public void update(float newProgress, int newDuration) {
 
-        if (progress < 0) {
-            progress = 0;
+        if (newProgress < 0) {
+            newProgress = 0;
         }
 
-        if (progress > duration) {
-            progress = duration;
+        if (newProgress > newDuration) {
+            newProgress = newDuration;
         }
 
-        isCompleted = false;
+        isCompleted = newProgress >= newDuration;
 
         if (!isCurrentAudioLoaded()) return;
 
-        this.progress = progress;
-        this.totalDuration = duration;
-
-        isCompleted = progress >= duration;
+        this.progress = newProgress;
+        this.totalDuration = newDuration;
 
         update();
     }
 
     public boolean isCurrentAudioLoaded() {
-        if (currentScenario != null) {
-            if (currentScenario.currentAudio != null) {
-                return currentScenario.currentAudio.isPrepared;
+        if (currentInteraction != null) {
+            if (currentScenario != null) {
+                if (currentScenario.currentAudio != null) {
+                    return currentScenario.currentAudio.isPrepared;
+                }
             }
         }
 

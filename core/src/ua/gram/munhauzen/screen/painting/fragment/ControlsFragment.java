@@ -20,6 +20,7 @@ import ua.gram.munhauzen.screen.gallery.entity.PaintingImage;
 import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.ui.PrimaryButton;
+import ua.gram.munhauzen.ui.ProgressIconButton;
 import ua.gram.munhauzen.utils.Log;
 
 public class ControlsFragment extends Fragment {
@@ -99,15 +100,14 @@ public class ControlsFragment extends Fragment {
     }
 
     private ImageButton getArrowRight() {
-        Texture skipForward = screen.assetManager.get("ui/playbar_skip_forward.png", Texture.class);
-        Texture skipForwardOff = screen.assetManager.get("ui/playbar_skip_forward_off.png", Texture.class);
+        Texture img = screen.assetManager.get("ui/playbar_skip_forward.png", Texture.class);
 
         ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
-        style.up = new SpriteDrawable(new Sprite(skipForward));
-        style.down = new SpriteDrawable(new Sprite(skipForward));
-        style.disabled = new SpriteDrawable(new Sprite(skipForwardOff));
+        style.up = new SpriteDrawable(new Sprite(img));
+        style.down = new SpriteDrawable(new Sprite(img));
+        style.disabled = new SpriteDrawable(new Sprite(img));
 
-        final ImageButton btn = new ImageButton(style);
+        final ImageButton btn = new ProgressIconButton(style);
 
         btn.addListener(new ClickListener() {
             @Override
@@ -124,15 +124,14 @@ public class ControlsFragment extends Fragment {
     }
 
     private ImageButton getArrowLeft() {
-        Texture skipBack = screen.assetManager.get("ui/playbar_skip_backward.png", Texture.class);
-        Texture skipBackOff = screen.assetManager.get("ui/playbar_skip_backward_off.png", Texture.class);
+        Texture img = screen.assetManager.get("ui/playbar_skip_backward.png", Texture.class);
 
         ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
-        style.up = new SpriteDrawable(new Sprite(skipBack));
-        style.down = new SpriteDrawable(new Sprite(skipBack));
-        style.disabled = new SpriteDrawable(new Sprite(skipBackOff));
+        style.up = new SpriteDrawable(new Sprite(img));
+        style.down = new SpriteDrawable(new Sprite(img));
+        style.disabled = new SpriteDrawable(new Sprite(img));
 
-        final ImageButton btn = new ImageButton(style);
+        final ImageButton btn = new ProgressIconButton(style);
 
         btn.addListener(new ClickListener() {
             @Override

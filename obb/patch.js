@@ -5,10 +5,11 @@ const obbDir = "/Users/master/Projects/Munhauzen/obb"
 const buildDir = obbDir + "/build"
 
 const VERSION = 1;
-const LOCALE = 'en';
+const LOCALE = 'ru';
 
 const PATCH_DIRS = [
-    '/authors'
+    '/audio',
+    '/ui',
 ];
 
 const DPIs = [
@@ -21,7 +22,7 @@ DPIs.forEach(DPI => {
     const VERSION_NAME = VERSION + "-" + LOCALE + "-" + DPI
 
     const tmpDir = buildDir + "/tmp/" + VERSION_NAME + "-patch"
-    const internalAssetsDir = obbDir + "/" + LOCALE + "/" + DPI
+    const internalAssetsDir = obbDir + "/" + LOCALE + "/patch"
 
     const expansion = JSON.parse(fs.readFileSync(`${buildDir}/${VERSION_NAME}-expansion.json`))
 

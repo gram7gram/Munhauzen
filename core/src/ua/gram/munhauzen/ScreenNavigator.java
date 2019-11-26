@@ -19,6 +19,8 @@ public class ScreenNavigator {
     final String tag = getClass().getSimpleName();
     final MunhauzenGame game;
 
+    public boolean shouldIgnoreSavedScreenUntilAppIsClosed;
+
     protected ScreenNavigator(MunhauzenGame game) {
         this.game = game;
     }
@@ -69,9 +71,11 @@ public class ScreenNavigator {
         try {
             Gdx.input.setInputProcessor(null);
 
-            try {
-                game.gameState.preferences.currentScreen = newScreen;
-            } catch (Throwable ignore) {
+            if (!shouldIgnoreSavedScreenUntilAppIsClosed) {
+                try {
+                    game.gameState.preferences.currentScreen = newScreen;
+                } catch (Throwable ignore) {
+                }
             }
 
             try {
@@ -110,5 +114,13 @@ public class ScreenNavigator {
         }
 
         Gdx.app.exit();
+    }
+
+    public void forceLogoScreenOnBoot() {
+        shouldIgnoreSavedScreenUntilAppIsClosed = true;
+        try {
+            game.gameState.preferences.currentScreen = null;
+        } catch (Throwable ignore) {
+        }
     }
 }

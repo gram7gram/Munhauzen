@@ -9,22 +9,19 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.expansion.ExtractGameConfigTask;
-import ua.gram.munhauzen.screen.loading.fragment.ControlsFragment;
 import ua.gram.munhauzen.utils.ExternalFiles;
 import ua.gram.munhauzen.utils.Files;
 import ua.gram.munhauzen.utils.Log;
 
-public class ConfigDownloadManager {
+public class SilentConfigDownloadManager {
 
     final String tag = getClass().getSimpleName();
     final MunhauzenGame game;
     final HttpRequestBuilder requestBuilder;
-    final ControlsFragment fragment;
     Net.HttpRequest httpRequest;
 
-    public ConfigDownloadManager(MunhauzenGame game, ControlsFragment fragment) {
+    public SilentConfigDownloadManager(MunhauzenGame game) {
         this.game = game;
-        this.fragment = fragment;
 
         requestBuilder = new HttpRequestBuilder();
     }
@@ -95,8 +92,6 @@ public class ConfigDownloadManager {
 
                 try {
 
-                    game.databaseManager.loadExternal(game.gameState);
-
                     Gdx.app.postRunnable(new Runnable() {
                         @Override
                         public void run() {
@@ -141,39 +136,22 @@ public class ConfigDownloadManager {
 
     private void onConnectionStarted() {
         Log.i(tag, "onConnectionStarted");
-
-        fragment.progress.setText("");
-        fragment.progressMessage.setText(game.t("config_download.started"));
     }
 
     private void onComplete() {
-        fragment.onConfigDownloadComplete();
+
+        game.databaseManager.loadExternal(game.gameState);
+
     }
 
     private void onConnectionFailed() {
         Log.e(tag, "onConnectionFailed");
 
-        fragment.progress.setText("");
-        fragment.progressMessage.setText(game.t("config_download.failed"));
-        fragment.retryBtn.setVisible(true);
-
-        if (fragment.screen.configDownloader != null) {
-            fragment.screen.configDownloader.dispose();
-            fragment.screen.configDownloader = null;
-        }
     }
 
     private void onConnectionCanceled() {
         Log.e(tag, "onConnectionCanceled");
 
-        fragment.progress.setText("");
-        fragment.progressMessage.setText(game.t("config_download.canceled"));
-        fragment.retryBtn.setVisible(true);
-
-        if (fragment.screen.configDownloader != null) {
-            fragment.screen.configDownloader.dispose();
-            fragment.screen.configDownloader = null;
-        }
     }
 
     public void dispose() {
@@ -182,3 +160,4 @@ public class ConfigDownloadManager {
 
     }
 }
+

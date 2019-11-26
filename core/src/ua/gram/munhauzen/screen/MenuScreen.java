@@ -24,6 +24,7 @@ import ua.gram.munhauzen.screen.menu.listenter.MenuStageListener;
 import ua.gram.munhauzen.screen.menu.ui.MenuLayers;
 import ua.gram.munhauzen.service.AudioService;
 import ua.gram.munhauzen.service.BackgroundSfxService;
+import ua.gram.munhauzen.service.SilentConfigDownloadManager;
 import ua.gram.munhauzen.utils.Log;
 
 /**
@@ -53,6 +54,19 @@ public class MenuScreen extends AbstractScreen {
     @Override
     public void show() {
         super.show();
+
+        if (!game.params.isProduction()) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        new SilentConfigDownloadManager(game).start();
+                    } catch (Throwable e) {
+                        Log.e(tag, e);
+                    }
+                }
+            }).start();
+        }
 
         audioService = new AudioService(game);
 

@@ -60,10 +60,7 @@ public class Timer2Interaction extends AbstractInteraction {
         assetManager.load("ui/playbar_play.png", Texture.class);
 
         assetManager.load("ui/playbar_rewind_backward.png", Texture.class);
-        assetManager.load("ui/playbar_rewind_backward_off.png", Texture.class);
-
         assetManager.load("ui/playbar_rewind_forward.png", Texture.class);
-        assetManager.load("ui/playbar_rewind_forward_off.png", Texture.class);
 
         assetManager.load("ui/elements_player_fond_1.png", Texture.class);
         assetManager.load("ui/elements_player_fond_2.png", Texture.class);

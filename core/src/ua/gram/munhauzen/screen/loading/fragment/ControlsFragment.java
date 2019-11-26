@@ -21,8 +21,6 @@ import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.screen.LoadingScreen;
 import ua.gram.munhauzen.screen.MenuScreen;
-import ua.gram.munhauzen.service.ConfigDownloadManager;
-import ua.gram.munhauzen.service.ExpansionDownloadManager;
 import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.ui.PrimaryButton;
@@ -35,7 +33,7 @@ public class ControlsFragment extends Fragment {
     public FragmentRoot root;
     Image decorTop, decorBottom;
     Label footer;
-    public Label progress, progressMessage, expansionInfo;
+    public Label progress, progressMessage, expansionInfo, subtitle;
     String[] footerTranslations;
     int currentFooterTranslation = 0;
     public PrimaryButton retryBtn;
@@ -61,7 +59,7 @@ public class ControlsFragment extends Fragment {
                 progress.setText("");
                 progressMessage.setText("");
 
-                startConfigDownload();
+                startExpansionDownload();
             }
         });
         retryBtn.setVisible(false);
@@ -72,6 +70,13 @@ public class ControlsFragment extends Fragment {
         ));
         title.setWrap(true);
         title.setAlignment(Align.center);
+
+        subtitle = new Label("", new Label.LabelStyle(
+                screen.game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
+                Color.BLACK
+        ));
+        subtitle.setWrap(true);
+        subtitle.setAlignment(Align.center);
 
         footer = new Label("", new Label.LabelStyle(
                 screen.game.fontProvider.getFont(FontProvider.h4),
@@ -94,13 +99,6 @@ public class ControlsFragment extends Fragment {
         progressMessage.setWrap(true);
         progressMessage.setAlignment(Align.center);
 
-        expansionInfo = new Label("", new Label.LabelStyle(
-                screen.game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
-                Color.BLACK
-        ));
-        expansionInfo.setWrap(true);
-        expansionInfo.setAlignment(Align.center);
-
         decorTop = new Image();
         decorBottom = new Image();
 
@@ -108,7 +106,6 @@ public class ControlsFragment extends Fragment {
         footerTable.add(footer).width(MunhauzenGame.WORLD_WIDTH * .75f);
 
         Table progressTable = new Table();
-        progressTable.add(expansionInfo).width(MunhauzenGame.WORLD_WIDTH / 2f).padBottom(5).row();
         progressTable.add(progress).width(MunhauzenGame.WORLD_WIDTH / 2f).padBottom(5).row();
         progressTable.add(progressMessage).width(MunhauzenGame.WORLD_WIDTH / 2f).padBottom(10).row();
         progressTable.add(retryBtn)
@@ -117,7 +114,8 @@ public class ControlsFragment extends Fragment {
                 .row();
 
         Table titleTable = new Table();
-        titleTable.add(title).width(MunhauzenGame.WORLD_WIDTH * .75f);
+        titleTable.add(title).width(MunhauzenGame.WORLD_WIDTH * .75f).padBottom(10).row();
+        titleTable.add(subtitle).width(MunhauzenGame.WORLD_WIDTH * .75f).row();
 
         Label startMessage = new Label(screen.game.t("loading.message"), new Label.LabelStyle(
                 screen.game.fontProvider.getFont(FontProvider.h4),
@@ -148,7 +146,7 @@ public class ControlsFragment extends Fragment {
                 startContainer.setVisible(false);
                 progressContainer.setVisible(true);
 
-                startConfigDownload();
+                startExpansionDownload();
             }
         });
 
@@ -181,7 +179,7 @@ public class ControlsFragment extends Fragment {
         progressContainer.pad(10);
         progressContainer.padTop(MunhauzenGame.WORLD_HEIGHT * .25f);
         progressContainer.align(Align.top);
-        progressContainer.setVisible(false);
+        progressContainer.setVisible(true);
 
         startContainer = new Container<>(startTable);
         startContainer.pad(10);
@@ -219,29 +217,11 @@ public class ControlsFragment extends Fragment {
         }, .2f, 20);
     }
 
-    private void startConfigDownload() {
-
-        if (screen.configDownloader != null) {
-            screen.configDownloader.dispose();
-        }
-
-        screen.configDownloader = new ConfigDownloadManager(screen.game, this);
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                screen.configDownloader.start();
-            }
-        }).start();
-    }
-
     private void startExpansionDownload() {
 
         if (screen.expansionDownloader != null) {
             screen.expansionDownloader.dispose();
         }
-
-        screen.expansionDownloader = new ExpansionDownloadManager(screen.game, this);
 
         new Thread(new Runnable() {
             @Override
@@ -293,18 +273,7 @@ public class ControlsFragment extends Fragment {
     }
 
     public void update() {
-    }
 
-    public void onConfigDownloadComplete() {
-
-        Log.i(tag, "onConfigDownloadComplete");
-
-        screen.configDownloader.dispose();
-        screen.configDownloader = null;
-
-        screen.game.databaseManager.loadExternal(screen.game.gameState);
-
-        startExpansionDownload();
     }
 
     public void onExpansionDownloadComplete() {

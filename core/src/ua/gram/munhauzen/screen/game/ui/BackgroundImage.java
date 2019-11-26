@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.Timer;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.ui.FitImage;
+import ua.gram.munhauzen.ui.ProgressIconButton;
 import ua.gram.munhauzen.utils.Log;
 
 public class BackgroundImage extends Group {
@@ -238,27 +239,25 @@ public class BackgroundImage extends Group {
     }
 
     private ImageButton getArrowRight() {
-        Texture skipForward = gameScreen.assetManager.get("ui/playbar_skip_forward.png", Texture.class);
-        Texture skipForwardOff = gameScreen.assetManager.get("ui/playbar_skip_forward_off.png", Texture.class);
+        Texture img = gameScreen.assetManager.get("ui/playbar_skip_forward.png", Texture.class);
 
         ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
-        style.up = new SpriteDrawable(new Sprite(skipForward));
-        style.down = new SpriteDrawable(new Sprite(skipForward));
-        style.disabled = new SpriteDrawable(new Sprite(skipForwardOff));
+        style.up = new SpriteDrawable(new Sprite(img));
+        style.down = new SpriteDrawable(new Sprite(img));
+        style.disabled = new SpriteDrawable(new Sprite(img));
 
-        return new ImageButton(style);
+        return new ProgressIconButton(style);
     }
 
     private ImageButton getArrowLeft() {
-        Texture skipBack = gameScreen.assetManager.get("ui/playbar_skip_backward.png", Texture.class);
-        Texture skipBackOff = gameScreen.assetManager.get("ui/playbar_skip_backward_off.png", Texture.class);
+        Texture img = gameScreen.assetManager.get("ui/playbar_skip_backward.png", Texture.class);
 
         ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
-        style.up = new SpriteDrawable(new Sprite(skipBack));
-        style.down = new SpriteDrawable(new Sprite(skipBack));
-        style.disabled = new SpriteDrawable(new Sprite(skipBackOff));
+        style.up = new SpriteDrawable(new Sprite(img));
+        style.down = new SpriteDrawable(new Sprite(img));
+        style.disabled = new SpriteDrawable(new Sprite(img));
 
-        return new ImageButton(style);
+        return new ProgressIconButton(style);
     }
 
     public void setBackgroundListener(ActorGestureListener backgroundListener) {
