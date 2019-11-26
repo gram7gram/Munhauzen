@@ -23,4 +23,15 @@ public class PrimaryButton extends TextButton {
             }
         });
     }
+
+    @Override
+    public void layout() {
+        super.layout();
+
+        if (isDisabled()) {
+            getColor().a = .5f;
+        } else {
+            getColor().a = 1;
+        }
+    }
 }

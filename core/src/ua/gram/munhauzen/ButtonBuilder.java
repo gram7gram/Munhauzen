@@ -25,7 +25,8 @@ public class ButtonBuilder {
     public ButtonBuilder(MunhauzenGame game) {
         this.game = game;
         primaryEnabled = game.internalAssetManager.get("ui/b_primary_sm_enabled.png", Texture.class);
-        primaryDisabled = game.internalAssetManager.get("ui/b_primary_sm_disabled.png", Texture.class);
+//        primaryDisabled = game.internalAssetManager.get("ui/b_primary_sm_disabled.png", Texture.class);
+        primaryDisabled = primaryEnabled;
         dangerEnabled = game.internalAssetManager.get("ui/b_danger_sm_enabled.png", Texture.class);
         dangerDisabled = game.internalAssetManager.get("ui/b_danger_sm_disabled.png", Texture.class);
 

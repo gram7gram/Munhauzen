@@ -241,7 +241,7 @@ public class MunhauzenGame extends Game {
         internalAssetManager.load("p0.jpg", Texture.class);
         internalAssetManager.load("p1.jpg", Texture.class);
         internalAssetManager.load("ui/b_primary_sm_enabled.png", Texture.class);
-        internalAssetManager.load("ui/b_primary_sm_disabled.png", Texture.class);
+//        internalAssetManager.load("ui/b_primary_sm_disabled.png", Texture.class);
         internalAssetManager.load("ui/b_danger_sm_enabled.png", Texture.class);
         internalAssetManager.load("ui/b_danger_sm_disabled.png", Texture.class);
         internalAssetManager.load("ui/btn_rose_enabled.png", Texture.class);

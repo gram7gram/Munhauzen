@@ -89,7 +89,7 @@ public class LogoScreen implements Screen {
             if (game.gameState.menuState != null) {
                 game.gameState.menuState.isFirstMenuAfterGameStart = true;
 
-                isLegalViewed = game.gameState.menuState.isLegalViewed;
+                isLegalViewed = game.gameState.preferences.isLegalViewed;
 
                 if (game.databaseManager != null) {
                     game.databaseManager.persistSync(game.gameState);
