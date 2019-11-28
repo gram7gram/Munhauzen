@@ -19,6 +19,7 @@ import ua.gram.munhauzen.entity.StoryImage;
 import ua.gram.munhauzen.entity.StoryScenario;
 import ua.gram.munhauzen.repository.ScenarioRepository;
 import ua.gram.munhauzen.screen.GameScreen;
+import ua.gram.munhauzen.screen.MenuScreen;
 import ua.gram.munhauzen.screen.game.fragment.ScenarioFragment;
 import ua.gram.munhauzen.screen.game.fragment.VictoryFragment;
 import ua.gram.munhauzen.utils.Log;
@@ -406,6 +407,8 @@ public class StoryManager {
             );
 
             gameScreen.scenarioFragment.fadeIn();
+        } else {
+            gameScreen.navigateTo(new MenuScreen(gameScreen.game));
         }
     }
 

@@ -45,7 +45,7 @@ public class PictureProgressBarFragment extends Fragment {
     public Stack stack;
     public Table controlsTable;
     public ImageButton rewindBackButton, rewindForwardButton, pauseButton, playButton, skipForwardButton, skipBackButton;
-    private Timer.Task fadeOutTask;
+    private Timer.Task fadeOutTask, progressTask;
     public boolean isFadeIn;
     public boolean isFadeOut;
 
@@ -255,8 +255,6 @@ public class PictureProgressBarFragment extends Fragment {
 
         rewindBackButton.addListener(new InputListener() {
 
-            Timer.Task progressTask;
-
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 super.enter(event, x, y, pointer, fromActor);
@@ -281,6 +279,12 @@ public class PictureProgressBarFragment extends Fragment {
 
                                 story.progress -= story.totalDuration * 0.025f;
 
+                                if (story.progress < 0) {
+                                    story.progress = 0;
+                                    restartScenario();
+                                    return;
+                                }
+
                                 postProgressChanged();
                             } catch (Throwable e) {
                                 Log.e(tag, e);
@@ -299,28 +303,12 @@ public class PictureProgressBarFragment extends Fragment {
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 super.exit(event, x, y, pointer, toActor);
 
-                try {
-                    Log.i(tag, "rewindBackButton enter");
-
-                    GameState.unpause(tag);
-
-                    progressTask.cancel();
-                    progressTask = null;
-
-                    startCurrentMusicIfPaused();
-
-                    gameScreen.game.sfxService.onProgressScrollEnd();
-
-                } catch (Throwable e) {
-                    Log.e(tag, e);
-                }
+                restartScenario();
             }
 
         });
 
         rewindForwardButton.addListener(new InputListener() {
-
-            Timer.Task progressTask;
 
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
@@ -341,6 +329,15 @@ public class PictureProgressBarFragment extends Fragment {
 
                                 story.progress += story.totalDuration * 0.025f;
 
+                                if (story.progress > story.totalDuration) {
+                                    story.progress = story.totalDuration;
+
+                                    if (story.isCompleted) {
+                                        restartScenario();
+                                        return;
+                                    }
+                                }
+
                                 postProgressChanged();
 
                             } catch (Throwable e) {
@@ -360,21 +357,7 @@ public class PictureProgressBarFragment extends Fragment {
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 super.exit(event, x, y, pointer, toActor);
 
-                try {
-                    Log.i(tag, "rewindForwardButton exit");
-
-                    GameState.unpause(tag);
-
-                    progressTask.cancel();
-                    progressTask = null;
-
-                    startCurrentMusicIfPaused();
-
-                    gameScreen.game.sfxService.onProgressScrollEnd();
-
-                } catch (Throwable e) {
-                    Log.e(tag, e);
-                }
+                restartScenario();
             }
 
         });
@@ -506,8 +489,13 @@ public class PictureProgressBarFragment extends Fragment {
 
         bar.setEnabled(hasVisitedBefore);
 
-        pauseButton.setVisible(!GameState.isPaused);
-        playButton.setVisible(GameState.isPaused);
+        if (story.isCompleted) {
+            pauseButton.setVisible(false);
+            playButton.setVisible(true);
+        } else {
+            pauseButton.setVisible(!GameState.isPaused);
+            playButton.setVisible(GameState.isPaused);
+        }
 
         skipForwardButton.setDisabled(!hasVisitedBefore || story.isCompleted);
         skipForwardButton.setTouchable(skipForwardButton.isDisabled() ? Touchable.disabled : Touchable.enabled);
@@ -768,6 +756,26 @@ public class PictureProgressBarFragment extends Fragment {
 
                 }
             }
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+    }
+
+    private void restartScenario() {
+        try {
+            Log.i(tag, "restartScenario");
+
+            GameState.unpause(tag);
+
+            if (progressTask != null) {
+                progressTask.cancel();
+                progressTask = null;
+            }
+
+            startCurrentMusicIfPaused();
+
+            gameScreen.game.sfxService.onProgressScrollEnd();
+
         } catch (Throwable e) {
             Log.e(tag, e);
         }
