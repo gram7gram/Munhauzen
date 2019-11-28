@@ -25,8 +25,8 @@ public class ProgressIconButton extends ImageButton {
     }
 
     @Override
-    public void layout() {
-        super.layout();
+    public void act(float delta) {
+        super.act(delta);
 
         if (isDisabled()) {
             getColor().a = .5f;

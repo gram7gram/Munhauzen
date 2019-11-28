@@ -54,7 +54,7 @@ public class StageInputListener extends ClickListener {
 
             StoryInteraction storyInteraction = gameScreen.getStory().currentInteraction;
 
-            if (storyInteraction != null) {
+            if (storyInteraction != null && storyInteraction.interaction != null) {
                 if (storyInteraction.interaction instanceof ContinueInteraction) {
                     ContinueImageFragment imageFragment = ((ContinueInteraction) storyInteraction.interaction).imageFragment;
 

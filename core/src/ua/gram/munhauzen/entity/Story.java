@@ -19,7 +19,7 @@ public class Story implements JsonEntry {
     public final ArrayList<StoryScenario> scenarios;
     @JsonIgnore
     public StoryScenario currentScenario;
-    @JsonProperty
+    @JsonIgnore
     public StoryInteraction currentInteraction;
     @JsonIgnore
     private boolean isInit;

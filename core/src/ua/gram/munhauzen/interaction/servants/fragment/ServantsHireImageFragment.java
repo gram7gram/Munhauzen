@@ -420,7 +420,7 @@ public class ServantsHireImageFragment extends InteractionFragment {
         style.down = new SpriteDrawable(new Sprite(img));
         style.disabled = new SpriteDrawable(new Sprite(img));
 
-        final ImageButton btn = new ProgressIconButton(style);
+        ImageButton btn = new ProgressIconButton(style);
 
         btn.addListener(new ClickListener() {
             @Override
@@ -443,7 +443,7 @@ public class ServantsHireImageFragment extends InteractionFragment {
         style.down = new SpriteDrawable(new Sprite(img));
         style.disabled = new SpriteDrawable(new Sprite(img));
 
-        final ImageButton btn = new ProgressIconButton(style);
+        ImageButton btn = new ProgressIconButton(style);
 
         btn.addListener(new ClickListener() {
             @Override

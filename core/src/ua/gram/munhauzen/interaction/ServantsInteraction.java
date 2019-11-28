@@ -19,18 +19,16 @@ import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.utils.Log;
 import ua.gram.munhauzen.utils.MathUtils;
 
-/**
- * @author Gram <gram7gram@gmail.com>
- */
 public class ServantsInteraction extends AbstractInteraction {
 
     public ServantsHireImageFragment hireFragment;
     public ServantsFireImageFragment fireFragment;
     public ServantsProgressBarFragment progressBarFragment;
-    StoryAudio fireAudio;
     public ArrayList<HireScenario> hireScenarioRegistry;
     public HireStoryManager storyManager;
     public HireImageService imageService;
+    public String currentFragment;
+    StoryAudio fireAudio;
 
     public ServantsInteraction(GameScreen gameScreen) {
         super(gameScreen);
@@ -95,6 +93,8 @@ public class ServantsInteraction extends AbstractInteraction {
         gameScreen.gameLayers.setInteractionLayer(hireFragment);
 
         hireFragment.fadeInRoot();
+
+        currentFragment = ServantsHireImageFragment.class.getSimpleName();
     }
 
     public void openFireFragment() {
@@ -128,6 +128,8 @@ public class ServantsInteraction extends AbstractInteraction {
         gameScreen.gameLayers.setInteractionLayer(fireFragment);
 
         fireFragment.fadeInRoot();
+
+        currentFragment = ServantsFireImageFragment.class.getSimpleName();
 
         playFireOpened();
     }
@@ -242,6 +244,8 @@ public class ServantsInteraction extends AbstractInteraction {
     @Override
     public void dispose() {
         super.dispose();
+
+        currentFragment = null;
 
         if (fireFragment != null) {
             fireFragment.dispose();

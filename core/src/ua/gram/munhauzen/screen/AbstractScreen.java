@@ -25,7 +25,7 @@ public abstract class AbstractScreen implements Screen {
     public AssetManager assetManager;
     protected Texture background;
     private boolean isLoaded;
-    protected boolean isDisposed;
+    protected boolean isDisposed, isBackPressed;
     Timer.Task persistTask;
 
     public AbstractScreen(MunhauzenGame game) {
@@ -36,6 +36,7 @@ public abstract class AbstractScreen implements Screen {
     public void show() {
         Log.i(tag, "show");
 
+        isBackPressed = false;
         isDisposed = false;
         isLoaded = false;
 
@@ -122,7 +123,10 @@ public abstract class AbstractScreen implements Screen {
 
     public void checkBackPressed() {
         if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
-            onBackPressed();
+            if (!isBackPressed) {
+                isBackPressed = true;
+                onBackPressed();
+            }
         }
     }
 
@@ -167,6 +171,7 @@ public abstract class AbstractScreen implements Screen {
 
         Log.i(tag, "dispose");
 
+        isBackPressed = false;
         isLoaded = false;
         isDisposed = true;
 

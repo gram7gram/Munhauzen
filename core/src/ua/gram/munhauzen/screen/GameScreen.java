@@ -1,6 +1,7 @@
 package ua.gram.munhauzen.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -19,6 +20,8 @@ import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.entity.StoryImage;
 import ua.gram.munhauzen.entity.StoryScenario;
+import ua.gram.munhauzen.interaction.ServantsInteraction;
+import ua.gram.munhauzen.interaction.servants.fragment.ServantsFireImageFragment;
 import ua.gram.munhauzen.screen.game.fragment.ControlsFragment;
 import ua.gram.munhauzen.screen.game.fragment.ImageFragment;
 import ua.gram.munhauzen.screen.game.fragment.ProgressBarFragment;
@@ -54,7 +57,7 @@ public class GameScreen implements Screen {
     public ExpansionImageService imageService;
     public InteractionService interactionService;
     private Texture background;
-    private boolean isLoaded;
+    private boolean isLoaded, isBackPressed;
     public StageInputListener stageInputListener;
     public VictoryFragment victoryFragment;
 
@@ -98,6 +101,7 @@ public class GameScreen implements Screen {
 
         GameState.isEndingReached = false;
 
+        isBackPressed = false;
         isLoaded = false;
 
         background = game.internalAssetManager.get("p0.jpg", Texture.class);
@@ -174,6 +178,9 @@ public class GameScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
         if (ui == null) return;
+
+        checkBackPressed();
+
         if (assetManager == null) return;
 
         drawBackground();
@@ -254,6 +261,46 @@ public class GameScreen implements Screen {
         if (MunhauzenGame.DEBUG_RENDER_INFO)
             drawDebugInfo();
 
+    }
+
+    public void checkBackPressed() {
+        if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
+            if (!isBackPressed) {
+                isBackPressed = true;
+                onBackPressed();
+            }
+        }
+    }
+
+    public void onBackPressed() {
+        Log.i(tag, "onBackPressed");
+
+        stopCurrentSfx();
+
+        Story story = getStory();
+        if (story != null) {
+            if (story.currentInteraction != null) {
+                if (story.currentInteraction.interaction instanceof ServantsInteraction) {
+                    ServantsInteraction interaction = (ServantsInteraction) story.currentInteraction.interaction;
+
+                    if (ServantsFireImageFragment.class.getSimpleName().equals(interaction.currentFragment)) {
+
+                        Log.i(tag, "onBackPressed but SERVANTS are active");
+
+                        interaction.openHireFragment();
+
+                        isBackPressed = false;
+
+                        return;
+                    }
+                }
+            }
+
+        }
+
+        game.sfxService.onBackToMenuClicked();
+
+        navigateTo(new MenuScreen(game));
     }
 
     private void drawDebugInfo() {
@@ -341,6 +388,8 @@ public class GameScreen implements Screen {
     public void dispose() {
 
         Log.i(tag, "dispose");
+
+        isBackPressed = false;
 
         Story story = getStory();
         if (story != null) {
@@ -505,6 +554,10 @@ public class GameScreen implements Screen {
         save.updatedAt = DateUtils.now();
 
         return save;
+    }
+
+    public void stopCurrentSfx() {
+        game.stopCurrentSfx();
     }
 
     public void onCriticalError(Throwable e) {
