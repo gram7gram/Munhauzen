@@ -88,9 +88,7 @@ public class ContinueInteraction extends AbstractInteraction {
 
                                         GameState.unpause(tag);
 
-                                        //Continue interaction is NEVER completed.
-                                        //When scrolling back the interaction should reappear
-                                        gameScreen.interactionService.destroy();
+                                        gameScreen.interactionService.complete();
 
                                         gameScreen.interactionService.findStoryAfterInteraction();
 

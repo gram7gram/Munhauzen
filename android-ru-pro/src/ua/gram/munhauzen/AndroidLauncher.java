@@ -1,6 +1,8 @@
 package ua.gram.munhauzen;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
@@ -9,6 +11,18 @@ import ru.munchausen.fingertipsandcompany.full.BuildConfig;
 import ua.gram.munhauzen.translator.RussianTranslator;
 
 public class AndroidLauncher extends AndroidApplication {
+
+    @Override
+    public void startActivity(Intent intent) {
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        super.startActivity(intent);
+    }
+
+    @Override
+    public void startActivity(Intent intent, @Nullable Bundle options) {
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        super.startActivity(intent, options);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

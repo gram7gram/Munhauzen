@@ -310,7 +310,11 @@ public class StoryManager {
             @Override
             public void run() {
                 try {
-                    story.currentInteraction.interaction.start();
+                    if (story.currentInteraction != null) {
+                        if (story.currentInteraction.interaction != null) {
+                            story.currentInteraction.interaction.start();
+                        }
+                    }
                 } catch (Throwable e) {
                     Log.e(tag, e);
 

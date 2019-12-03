@@ -88,7 +88,7 @@ public class VersionScreen implements Screen {
 
                 try {
 
-                    navigateTo(new LoadingScreen(game));
+                    game.params.appStore.openUrl();
 
                 } catch (Throwable e) {
                     Log.e(tag, e);

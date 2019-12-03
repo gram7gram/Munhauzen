@@ -163,7 +163,8 @@ public class ProgressBarFragment extends Fragment {
 
                     Story story = gameScreen.getStory();
 
-                    story.progress = story.totalDuration * percent;
+                    //do not scroll till the end
+                    story.progress = Math.min(story.totalDuration * .975f, story.totalDuration * percent);
 
                     postProgressChanged();
 
@@ -316,6 +317,8 @@ public class ProgressBarFragment extends Fragment {
 
                 gameScreen.restoreProgressBarIfDestroyed();
             }
+
+            story.currentInteraction = null;
         }
     }
 
