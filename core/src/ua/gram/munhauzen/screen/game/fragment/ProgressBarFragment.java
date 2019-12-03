@@ -470,7 +470,7 @@ public class ProgressBarFragment extends Fragment {
 
     public void cancelFadeOut() {
 
-        Log.i(tag, "cancelFadeOut");
+//        Log.i(tag, "cancelFadeOut");
 
         if (fadeOutTask != null) {
             fadeOutTask.cancel();
@@ -642,6 +642,17 @@ public class ProgressBarFragment extends Fragment {
                                 Story story = gameScreen.getStory();
                                 if (story == null) return;
 
+                                //jump progress so that interaction does not start immediately
+                                //example - Continue interaction
+                                StoryScenario scenario = story.last();
+                                if (scenario != null) {
+                                    if (scenario.scenario.interaction != null) {
+                                        if (story.progress >= scenario.startsAt) {
+                                            story.progress = scenario.startsAt - 1;
+                                        }
+                                    }
+                                }
+
                                 story.progress -= story.totalDuration * 0.025f;
 
                                 if (story.progress < 0) {
@@ -773,9 +784,9 @@ public class ProgressBarFragment extends Fragment {
 
             boolean isCompletedBefore = story.isCompleted;
 
-            story.update(story.progress, story.totalDuration);
-
             destroyContinueInteraction();
+
+            story.update(story.progress, story.totalDuration);
 
             if (!story.isCompleted) {
                 gameScreen.hideAndDestroyScenarioFragment();

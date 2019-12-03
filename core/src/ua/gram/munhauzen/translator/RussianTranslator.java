@@ -169,6 +169,11 @@ public class RussianTranslator implements Translator {
         map.put("legal.title", "Дорогие слушатели!");
         map.put("legal.content", "Много рассказов барона Мюнхаузена касаются охоты на животных. Если Вы либо Ваш ребенок восприимчивы к смертям животных, то попросим вас удержаться от данного классического произведения.");
         map.put("legal.btn", "Продолжить");
+        map.put("version_screen.title", "Новая версия!");
+        map.put("version_screen.content", "Ваша игра не последней версии. Пожалуйста, скачайте новее");
+        map.put("version_screen.ignore_btn", "Игнорировать");
+        map.put("version_screen.confirm_btn", "Скачать");
+
 
     }
 

@@ -10,9 +10,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.service.GameVersionService;
 import ua.gram.munhauzen.ui.MunhauzenStage;
 import ua.gram.munhauzen.utils.Log;
 
@@ -61,19 +63,36 @@ public class LogoScreen implements Screen {
                         Actions.visible(true),
                         Actions.alpha(1, .4f),
                         Actions.delay(2.5f),
-                        Actions.alpha(0, .4f),
-                        Actions.run(new Runnable() {
-                            @Override
-                            public void run() {
-                                onComplete();
-                            }
-                        })
+                        Actions.alpha(0, .4f)
                 )
         );
 
         ui.addActor(root);
 
         Gdx.input.setInputProcessor(ui);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    new GameVersionService(game).start(new Timer.Task() {
+                        @Override
+                        public void run() {
+
+                            try {
+
+                                onComplete();
+
+                            } catch (Throwable e) {
+                                Log.e(tag, e);
+                            }
+                        }
+                    });
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
+            }
+        }).start();
 
         game.sfxService.onLogoScreenOpened();
     }

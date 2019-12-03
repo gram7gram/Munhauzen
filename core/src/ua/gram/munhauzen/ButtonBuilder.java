@@ -13,7 +13,7 @@ import ua.gram.munhauzen.ui.PrimaryButton;
 public class ButtonBuilder {
 
     private final MunhauzenGame game;
-    private final Texture primaryDisabled, primaryEnabled;
+    private final Texture secondaryEnabled, primaryEnabled;
     private final Texture dangerDisabled, dangerEnabled;
     final int pad = 50;
 
@@ -25,8 +25,7 @@ public class ButtonBuilder {
     public ButtonBuilder(MunhauzenGame game) {
         this.game = game;
         primaryEnabled = game.internalAssetManager.get("ui/b_primary_sm_enabled.png", Texture.class);
-//        primaryDisabled = game.internalAssetManager.get("ui/b_primary_sm_disabled.png", Texture.class);
-        primaryDisabled = primaryEnabled;
+        secondaryEnabled = game.internalAssetManager.get("ui/b_primary_sm_disabled.png", Texture.class);
         dangerEnabled = game.internalAssetManager.get("ui/b_danger_sm_enabled.png", Texture.class);
         dangerDisabled = game.internalAssetManager.get("ui/b_danger_sm_disabled.png", Texture.class);
 
@@ -40,14 +39,12 @@ public class ButtonBuilder {
 
         NinePatchDrawable background1 = new NinePatchDrawable(new NinePatch(primaryEnabled,
                 pad, pad, 0, 0));
-        NinePatchDrawable background2 = new NinePatchDrawable(new NinePatch(primaryDisabled,
-                pad, pad, 0, 0));
 
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
         style.font = game.fontProvider.getFont(FontProvider.h4);
         style.up = background1;
         style.down = background1;
-        style.disabled = background2;
+        style.disabled = background1;
         style.fontColor = Color.BLACK;
 
         final PrimaryButton button = new PrimaryButton(text, style);
@@ -122,6 +119,40 @@ public class ButtonBuilder {
         style.up = background1;
         style.down = background1;
         style.disabled = background2;
+        style.fontColor = Color.BLACK;
+
+        final PrimaryButton button = new PrimaryButton(text, style);
+
+        button.addCaptureListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                if (game.sfxService == null) return;
+
+                if (button.isDisabled()) {
+                    game.sfxService.onAnyDisabledBtnClicked();
+                } else {
+                    game.sfxService.onAnyBtnClicked();
+                }
+            }
+        });
+
+        button.addListener(onClick);
+
+        return button;
+    }
+
+    public PrimaryButton secondary(String text, final ClickListener onClick) {
+
+        NinePatchDrawable background1 = new NinePatchDrawable(new NinePatch(secondaryEnabled,
+                pad, pad, 0, 0));
+
+        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
+        style.font = game.fontProvider.getFont(FontProvider.h4);
+        style.up = background1;
+        style.down = background1;
+        style.disabled = background1;
         style.fontColor = Color.BLACK;
 
         final PrimaryButton button = new PrimaryButton(text, style);

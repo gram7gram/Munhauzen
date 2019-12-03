@@ -21,6 +21,7 @@ import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.screen.LoadingScreen;
 import ua.gram.munhauzen.screen.MenuScreen;
+import ua.gram.munhauzen.service.ExpansionDownloadManager;
 import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.ui.PrimaryButton;
@@ -33,7 +34,7 @@ public class ControlsFragment extends Fragment {
     public FragmentRoot root;
     Image decorTop, decorBottom;
     Label footer;
-    public Label progress, progressMessage, expansionInfo, subtitle;
+    public Label progress, progressMessage, subtitle;
     String[] footerTranslations;
     int currentFooterTranslation = 0;
     public PrimaryButton retryBtn;
@@ -226,7 +227,14 @@ public class ControlsFragment extends Fragment {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                screen.expansionDownloader.start();
+                try {
+                    screen.expansionDownloader = new ExpansionDownloadManager(screen.game, ControlsFragment.this);
+                    screen.expansionDownloader.start();
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+
+                    screen.onCriticalError(e);
+                }
             }
         }).start();
     }
@@ -280,8 +288,10 @@ public class ControlsFragment extends Fragment {
 
         Log.i(tag, "onExpansionDownloadComplete");
 
-        screen.expansionDownloader.dispose();
-        screen.expansionDownloader = null;
+        if (screen.expansionDownloader != null) {
+            screen.expansionDownloader.dispose();
+            screen.expansionDownloader = null;
+        }
 
         root.setTouchable(Touchable.disabled);
 

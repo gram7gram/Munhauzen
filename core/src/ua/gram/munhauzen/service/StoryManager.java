@@ -314,6 +314,8 @@ public class StoryManager {
                 } catch (Throwable e) {
                     Log.e(tag, e);
 
+                    story.currentInteraction = null;
+
                     gameScreen.onCriticalError(e);
                 }
             }

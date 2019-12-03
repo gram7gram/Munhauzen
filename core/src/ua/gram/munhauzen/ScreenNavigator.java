@@ -54,6 +54,11 @@ public class ScreenNavigator {
     }
 
     public void onCriticalError(Throwable e) {
+        try {
+            game.gameState.preferences.currentScreen = null;
+        } catch (Throwable ignore) {
+        }
+
         game.onCriticalError(e);
         game.getScreen().dispose();
     }

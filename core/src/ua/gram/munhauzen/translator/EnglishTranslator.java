@@ -169,6 +169,10 @@ public class EnglishTranslator implements Translator {
         map.put("legal.title", "Dear listeners!");
         map.put("legal.content", "Many stories of Baron Munchausen are related to animal hunting. If you or your child is susceptible to animal deaths, then we ask you to refrain from this classic.");
         map.put("legal.btn", "Continue");
+        map.put("version_screen.title", "New version!");
+        map.put("version_screen.content", "Your app is not the latest version. Please, download the newer one");
+        map.put("version_screen.ignore_btn", "Ignore");
+        map.put("version_screen.confirm_btn", "Download");
 
     }
 

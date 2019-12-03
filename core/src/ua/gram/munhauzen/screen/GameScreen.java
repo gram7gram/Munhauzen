@@ -469,7 +469,7 @@ public class GameScreen implements Screen {
 
         if (progressBarFragment == null) return;
 
-        Log.i(tag, "showProgressBar");
+//        Log.i(tag, "showProgressBar");
         try {
 
             if (!progressBarFragment.isFadeIn) {

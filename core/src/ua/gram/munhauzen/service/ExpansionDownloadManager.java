@@ -364,8 +364,10 @@ public class ExpansionDownloadManager implements Disposable {
         fragment.progressMessage.setText(game.t("expansion_download.not_found"));
         fragment.retryBtn.setVisible(true);
 
-        fragment.screen.expansionDownloader.dispose();
-        fragment.screen.expansionDownloader = null;
+        if (fragment.screen.expansionDownloader != null) {
+            fragment.screen.expansionDownloader.dispose();
+            fragment.screen.expansionDownloader = null;
+        }
 
     }
 
@@ -380,8 +382,10 @@ public class ExpansionDownloadManager implements Disposable {
         fragment.progressMessage.setText(game.t("expansion_download.failed"));
         fragment.retryBtn.setVisible(true);
 
-        fragment.screen.expansionDownloader.dispose();
-        fragment.screen.expansionDownloader = null;
+        if (fragment.screen.expansionDownloader != null) {
+            fragment.screen.expansionDownloader.dispose();
+            fragment.screen.expansionDownloader = null;
+        }
     }
 
     private void onExtractionFailed(Part part) {
@@ -432,8 +436,10 @@ public class ExpansionDownloadManager implements Disposable {
         fragment.progressMessage.setText(game.t("expansion_download.low_memory"));
         fragment.retryBtn.setVisible(true);
 
-        fragment.screen.expansionDownloader.dispose();
-        fragment.screen.expansionDownloader = null;
+        if (fragment.screen.expansionDownloader != null) {
+            fragment.screen.expansionDownloader.dispose();
+            fragment.screen.expansionDownloader = null;
+        }
     }
 
     private void onComplete() {

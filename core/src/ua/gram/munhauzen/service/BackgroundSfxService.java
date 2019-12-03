@@ -71,7 +71,7 @@ public class BackgroundSfxService {
                 progress += step;
 
                 try {
-                    if (activeAudio != null) {
+                    if (activeAudio != null && activeAudio.player != null) {
                         float volume = activeAudio.player.getVolume() - progress;
                         if (volume > 0) {
                             activeAudio.player.setVolume(volume);

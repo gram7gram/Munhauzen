@@ -7,10 +7,10 @@ import ua.gram.munhauzen.utils.MemoryUsage;
 public class PlatformParams {
 
     enum Release {
-        DEV, PROD, STAGE
+        DEV, PROD, TEST
     }
 
-    public Release release = Release.STAGE;
+    public Release release = Release.DEV;
     public int expansionVersion = 1;
     public Translator translator;
     public AppStore appStore;
@@ -41,6 +41,10 @@ public class PlatformParams {
 
     public String getExpansionUrl() {
         return "https://api.thebaronmunchausen.com/api/v1/" + locale + "/expansions/" + expansionVersion + "/" + dpi;
+    }
+
+    public String getGameVersionUrl() {
+        return "https://api.thebaronmunchausen.com/downloads/version.json";
     }
 
     public String getGameExportUrl() {
