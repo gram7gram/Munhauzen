@@ -1,5 +1,7 @@
 package ua.gram.munhauzen;
 
+import com.badlogic.gdx.pay.PurchaseManager;
+
 import ua.gram.munhauzen.translator.Translator;
 import ua.gram.munhauzen.utils.AppStore;
 import ua.gram.munhauzen.utils.MemoryUsage;
@@ -15,6 +17,7 @@ public class PlatformParams {
     public Translator translator;
     public AppStore appStore;
     public MemoryUsage memoryUsage;
+    public PurchaseManager iap;
     public String dpi = "mdpi";
     public String locale = "en";
     public String versionName;

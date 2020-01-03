@@ -12,4 +12,5 @@ robovm {
     archs = "thumbv7:arm64"
 }
 dependencies {
+    implementation "com.badlogicgames.gdxpay:gdx-pay-iosmoe-apple:0.12.1"
 }
