@@ -13,18 +13,6 @@ import ua.gram.munhauzen.translator.RussianTranslator;
 public class AndroidLauncher extends AndroidApplication {
 
     @Override
-    public void startActivity(Intent intent) {
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        super.startActivity(intent);
-    }
-
-    @Override
-    public void startActivity(Intent intent, @Nullable Bundle options) {
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        super.startActivity(intent, options);
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -37,14 +25,13 @@ public class AndroidLauncher extends AndroidApplication {
 
         PlatformParams params = new PlatformParams();
         params.applicationId = BuildConfig.APPLICATION_ID;
-        params.applicationProId = "ru.munchausen.fingertipsandcompany.full";
-        params.applicationDemoId = "ru.munchausen.fingertipsandcompany.demo";
         params.storageDirectory = ".Munchausen/ru.munchausen.fingertipsandcompany.any";
         params.versionCode = BuildConfig.VERSION_CODE;
         params.versionName = BuildConfig.VERSION_NAME;
         params.locale = "ru";
-        params.isPro = true;
-//        params.iap = new PurchaseManagerGoogleBilling(this);
+        params.appStoreSkuFull = "full_munchausen_audiobook_ru";
+        params.appStoreSkuPart1 = "part1_munchausen_audiobook_ru";
+        params.appStoreSkuPart2 = "part2_munchausen_audiobook_ru";
         params.translator = new RussianTranslator();
         params.memoryUsage = new AndroidMemoryUsage();
         params.appStore = new AndroidAppStore(params, getApplicationContext());
@@ -52,5 +39,17 @@ public class AndroidLauncher extends AndroidApplication {
         PermissionManager.grant(this, PermissionManager.PERMISSIONS);
 
         initialize(new MunhauzenGame(params), config);
+    }
+
+    @Override
+    public void startActivity(Intent intent) {
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        super.startActivity(intent);
+    }
+
+    @Override
+    public void startActivity(Intent intent, @Nullable Bundle options) {
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        super.startActivity(intent, options);
     }
 }

@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 
 import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.entity.Purchase;
 import ua.gram.munhauzen.expansion.ExtractExpansionPartTask;
 import ua.gram.munhauzen.expansion.response.ExpansionResponse;
 import ua.gram.munhauzen.expansion.response.Part;
@@ -205,6 +206,11 @@ public class ExpansionDownloadManager implements Disposable {
     public void fetchExpansionInfo() {
         Log.i(tag, "fetchExpansionInfo");
 
+        if (game.gameState.purchaseState.purchases == null) {
+            onConnectionCanceled();
+            return;
+        }
+
         final HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
 
         Gdx.app.postRunnable(new Runnable() {
@@ -215,9 +221,37 @@ public class ExpansionDownloadManager implements Disposable {
             }
         });
 
+        Purchase fullPurchase = null, part2Purchase = null, part1Purchase = null;
+
+        for (Purchase purchase : game.gameState.purchaseState.purchases) {
+            if (purchase.productId.equals(game.params.appStoreSkuFull)) {
+                fullPurchase = purchase;
+                break;
+            }
+
+            if (purchase.productId.equals(game.params.appStoreSkuPart2)) {
+                part2Purchase = purchase;
+                break;
+            }
+
+            if (purchase.productId.equals(game.params.appStoreSkuPart1)) {
+                part1Purchase = purchase;
+                break;
+            }
+        }
+
+        String purchaseId = "free";
+        if (fullPurchase != null) {
+            purchaseId = fullPurchase.orderId;
+        } else if (part2Purchase != null) {
+            purchaseId = part2Purchase.orderId;
+        } else if (part1Purchase != null) {
+            purchaseId = part1Purchase.orderId;
+        }
+
         httpRequest = requestBuilder.newRequest()
                 .method(Net.HttpMethods.GET)
-                .url(game.params.getExpansionUrl())
+                .url(game.params.getExpansionUrl(purchaseId))
                 .timeout(10000)
                 .build();
 

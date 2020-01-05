@@ -156,7 +156,7 @@ public class DemoFragment extends MenuFragment {
 
             root.setTouchable(Touchable.disabled);
 
-            screen.game.params.appStore.openProUrl();
+//            screen.game.params.appStore.openProUrl();
 
             fadeOut(new Runnable() {
                 @Override

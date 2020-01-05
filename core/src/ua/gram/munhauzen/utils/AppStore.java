@@ -6,9 +6,5 @@ package ua.gram.munhauzen.utils;
 public interface AppStore {
     void openUrl();
 
-    void openProUrl();
-
-    void openDemoUrl();
-
     void openRateUrl();
 }

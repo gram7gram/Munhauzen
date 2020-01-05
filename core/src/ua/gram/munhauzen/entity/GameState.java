@@ -35,6 +35,7 @@ public class GameState {
     public AchievementState achievementState;
     public ExpansionResponse expansionInfo;
     public GamePreferences preferences;
+    public PurchaseState purchaseState;
 
     public GameState() {
         history = new History();

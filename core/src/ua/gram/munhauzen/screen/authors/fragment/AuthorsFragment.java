@@ -267,7 +267,7 @@ public abstract class AuthorsFragment extends Fragment {
         rows.pad(10, 100, 10, 100);
 
         Image icon = new Image(
-                screen.assetManager.get(screen.game.params.isPro
+                screen.assetManager.get(screen.game.gameState.purchaseState.isPro
                         ? "menu/b_full_version_2.png"
                         : "menu/b_demo_version_2.png", Texture.class)
         );
@@ -278,7 +278,7 @@ public abstract class AuthorsFragment extends Fragment {
         float scale = 1f * width / icon.getDrawable().getMinWidth();
         float height = icon.getDrawable().getMinHeight() * scale;
 
-        String text = screen.game.params.isPro
+        String text = screen.game.gameState.purchaseState.isPro
                 ? screen.game.t("authors.pro_title")
                 : screen.game.t("authors.demo_title");
 

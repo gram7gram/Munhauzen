@@ -63,7 +63,26 @@ public class LogoScreen implements Screen {
                         Actions.visible(true),
                         Actions.alpha(1, .4f),
                         Actions.delay(2.5f),
-                        Actions.alpha(0, .4f)
+                        Actions.parallel(
+                                Actions.alpha(0, .4f),
+                                Actions.run(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            new GameVersionService(game).start(new Timer.Task() {
+                                                @Override
+                                                public void run() {
+                                                    onComplete();
+                                                }
+                                            });
+                                        } catch (Throwable e) {
+                                            Log.e(tag, e);
+
+                                            onComplete();
+                                        }
+                                    }
+                                })
+                        )
                 )
         );
 
@@ -71,75 +90,11 @@ public class LogoScreen implements Screen {
 
         Gdx.input.setInputProcessor(ui);
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    new GameVersionService(game).start(new Timer.Task() {
-                        @Override
-                        public void run() {
-
-                            try {
-
-                                onComplete();
-
-                            } catch (Throwable e) {
-                                Log.e(tag, e);
-                            }
-                        }
-                    });
-                } catch (Throwable e) {
-                    Log.e(tag, e);
-                }
-            }
-        }).start();
-
         game.sfxService.onLogoScreenOpened();
     }
 
     private void onComplete() {
-
-        boolean canRedirectToLoading = true;
-
-        try {
-
-            boolean isLegalViewed = false;
-
-            if (game.gameState.menuState != null) {
-                game.gameState.menuState.isFirstMenuAfterGameStart = true;
-
-                isLegalViewed = game.gameState.preferences.isLegalViewed;
-
-                if (game.databaseManager != null) {
-                    game.databaseManager.persistSync(game.gameState);
-                }
-            }
-
-            if (game.params.isProduction()) {
-                if (game.gameState.expansionInfo != null) {
-                    canRedirectToLoading = !game.gameState.expansionInfo.isCompleted;
-                }
-            }
-
-            if (canRedirectToLoading) {
-
-                if (isLegalViewed) {
-                    game.setScreen(new LoadingScreen(game));
-                } else {
-                    game.setScreen(new LegalScreen(game));
-                }
-
-            } else {
-                game.setScreen(new MenuScreen(game));
-            }
-
-            dispose();
-
-        } catch (Throwable e) {
-            Log.e(tag, e);
-
-            game.onCriticalError(e);
-        }
+        game.navigator.openNextPage();
     }
 
     @Override

@@ -347,7 +347,7 @@ public class MenuScreen extends AbstractScreen {
             if (layers == null || layers.bannerLayer != null) return;
             if (isUILocked) return;
 
-            if (game.params.isPro) {
+            if (game.gameState.purchaseState.isPro) {
                 proFragment = new ProFragment(MenuScreen.this);
                 proFragment.create();
 

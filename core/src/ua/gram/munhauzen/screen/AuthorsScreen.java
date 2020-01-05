@@ -69,7 +69,7 @@ public class AuthorsScreen extends AbstractScreen {
                 break;
         }
 
-        assetManager.load(game.params.isPro
+        assetManager.load(game.gameState.purchaseState.isPro
                 ? "menu/b_full_version_2.png"
                 : "menu/b_demo_version_2.png", Texture.class);
     }
@@ -174,7 +174,7 @@ public class AuthorsScreen extends AbstractScreen {
 
             if (layers == null) return;
 
-            if (game.params.isPro) {
+            if (game.gameState.purchaseState.isPro) {
                 proFragment = new ProFragment(this);
                 proFragment.create();
 

@@ -76,7 +76,7 @@ public class LegalScreen implements Screen {
                     if (game.gameState.preferences != null)
                         game.gameState.preferences.isLegalViewed = true;
 
-                    navigateTo(new LoadingScreen(game));
+                    game.navigator.openNextPage();
 
                 } catch (Throwable e) {
                     Log.e(tag, e);

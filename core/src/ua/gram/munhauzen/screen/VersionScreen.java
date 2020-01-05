@@ -12,9 +12,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 
+import java.util.HashSet;
+
 import ua.gram.munhauzen.ButtonBuilder;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.entity.GameVersionResponse;
 import ua.gram.munhauzen.ui.MunhauzenStage;
 import ua.gram.munhauzen.ui.PrimaryButton;
 import ua.gram.munhauzen.utils.Log;
@@ -25,12 +28,14 @@ import ua.gram.munhauzen.utils.Log;
 public class VersionScreen implements Screen {
 
     private final String tag = getClass().getSimpleName();
+    private final GameVersionResponse gameVersion;
     private final MunhauzenGame game;
     private Texture background;
     private MunhauzenStage ui;
 
-    public VersionScreen(MunhauzenGame game) {
+    public VersionScreen(MunhauzenGame game, GameVersionResponse gameVersion) {
         this.game = game;
+        this.gameVersion = gameVersion;
     }
 
     @Override
@@ -71,7 +76,13 @@ public class VersionScreen implements Screen {
 
                 try {
 
-                    navigateTo(new LoadingScreen(game));
+                    if (game.gameState.preferences.ignoredAppUpdates == null) {
+                        game.gameState.preferences.ignoredAppUpdates = new HashSet<>();
+                    }
+
+                    game.gameState.preferences.ignoredAppUpdates.add(gameVersion.versionCode);
+
+                    game.navigator.openNextPage();
 
                 } catch (Throwable e) {
                     Log.e(tag, e);

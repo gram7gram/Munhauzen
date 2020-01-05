@@ -134,7 +134,7 @@ public class ControlsFragment extends Fragment {
                 .pad(10)
                 .row();
 
-        if (screen.game.params.isPro) {
+        if (screen.game.gameState.purchaseState.isPro) {
 
             final ProSideButton proBtnAnimation = new ProSideButton(screen);
 

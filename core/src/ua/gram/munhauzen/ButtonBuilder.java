@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 
+import io.sentry.util.Nullable;
 import ua.gram.munhauzen.ui.PrimaryButton;
 
 public class ButtonBuilder {
@@ -35,7 +36,7 @@ public class ButtonBuilder {
         BTN_PRIMARY_SM_HEIGHT *= game.params.scaleFactor;
     }
 
-    public PrimaryButton primary(String text, final ClickListener onClick) {
+    public PrimaryButton primary(String text, @Nullable ClickListener onClick) {
 
         NinePatchDrawable background1 = new NinePatchDrawable(new NinePatch(primaryEnabled,
                 pad, pad, 0, 0));
@@ -64,12 +65,13 @@ public class ButtonBuilder {
             }
         });
 
-        button.addListener(onClick);
+        if (onClick != null)
+            button.addListener(onClick);
 
         return button;
     }
 
-    public PrimaryButton primaryRose(String text, final ClickListener onClick) {
+    public PrimaryButton primaryRose(String text, @Nullable ClickListener onClick) {
 
         NinePatchDrawable background1 = new NinePatchDrawable(new NinePatch(
                 game.internalAssetManager.get("ui/btn_rose_enabled.png", Texture.class),
@@ -102,12 +104,13 @@ public class ButtonBuilder {
             }
         });
 
-        button.addListener(onClick);
+        if (onClick != null)
+            button.addListener(onClick);
 
         return button;
     }
 
-    public PrimaryButton danger(String text, final ClickListener onClick) {
+    public PrimaryButton danger(String text, @Nullable ClickListener onClick) {
 
         NinePatchDrawable background1 = new NinePatchDrawable(new NinePatch(dangerEnabled,
                 pad, pad, 0, 0));
@@ -138,12 +141,13 @@ public class ButtonBuilder {
             }
         });
 
-        button.addListener(onClick);
+        if (onClick != null)
+            button.addListener(onClick);
 
         return button;
     }
 
-    public PrimaryButton secondary(String text, final ClickListener onClick) {
+    public PrimaryButton secondary(String text, @Nullable ClickListener onClick) {
 
         NinePatchDrawable background1 = new NinePatchDrawable(new NinePatch(secondaryEnabled,
                 pad, pad, 0, 0));
@@ -172,7 +176,8 @@ public class ButtonBuilder {
             }
         });
 
-        button.addListener(onClick);
+        if (onClick != null)
+            button.addListener(onClick);
 
         return button;
     }

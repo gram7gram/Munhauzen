@@ -157,7 +157,7 @@ public class DemoFragment extends Fragment {
 
             root.setTouchable(Touchable.disabled);
 
-            screen.game.params.appStore.openProUrl();
+//            screen.game.params.appStore.openProUrl();
 
             fadeOut(new Runnable() {
                 @Override

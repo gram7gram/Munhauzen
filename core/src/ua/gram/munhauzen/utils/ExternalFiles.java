@@ -92,6 +92,10 @@ public class ExternalFiles {
         return getExternal(params, "menu-state.json");
     }
 
+    public static FileHandle getPurchaseStateFile(PlatformParams params) {
+        return getExternal(params, "purchases.json");
+    }
+
     public static FileHandle getGamePreferencesFile(PlatformParams params) {
         return getExternal(params, "preferences.json");
     }

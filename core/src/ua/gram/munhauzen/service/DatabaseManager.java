@@ -23,6 +23,7 @@ import ua.gram.munhauzen.entity.History;
 import ua.gram.munhauzen.entity.Image;
 import ua.gram.munhauzen.entity.Inventory;
 import ua.gram.munhauzen.entity.MenuState;
+import ua.gram.munhauzen.entity.PurchaseState;
 import ua.gram.munhauzen.entity.Save;
 import ua.gram.munhauzen.entity.Scenario;
 import ua.gram.munhauzen.entity.StoryAudio;
@@ -140,6 +141,16 @@ public class DatabaseManager {
         }
 
         try {
+            state.purchaseState = loadPurchaseState();
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            ExternalFiles.getPurchaseStateFile(game.params).delete();
+
+            state.purchaseState = new PurchaseState();
+        }
+
+        try {
             state.preferences = loadPreferences();
         } catch (Throwable e) {
             Log.e(tag, e);
@@ -220,6 +231,18 @@ public class DatabaseManager {
         //Log.i(tag, "persist");
 
         if (gameState == null) return;
+
+        if (gameState.purchaseState != null)
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        persistPurchaseState(gameState.purchaseState);
+                    } catch (Throwable e) {
+                        Log.e(tag, e);
+                    }
+                }
+            }).start();
 
         if (gameState.preferences != null)
             new Thread(new Runnable() {
@@ -324,6 +347,13 @@ public class DatabaseManager {
 
         if (gameState == null) return;
 
+        if (gameState.purchaseState != null)
+            try {
+                persistPurchaseState(gameState.purchaseState);
+            } catch (Throwable e) {
+                Log.e(tag, e);
+            }
+
         if (gameState.preferences != null)
             try {
                 persistPreferences(gameState.preferences);
@@ -423,6 +453,12 @@ public class DatabaseManager {
         FileHandle file = ExternalFiles.getHistoryFile(game.params);
 
         om.writeValue(file.file(), history);
+    }
+
+    public void persistPurchaseState(PurchaseState state) throws IOException {
+        FileHandle file = ExternalFiles.getPurchaseStateFile(game.params);
+
+        om.writeValue(file.file(), state);
     }
 
     public void persistPreferences(GamePreferences state) throws IOException {
@@ -543,6 +579,27 @@ public class DatabaseManager {
 
         if (state == null) {
             state = new GalleryState();
+        }
+
+        return state;
+    }
+
+    private PurchaseState loadPurchaseState() throws IOException {
+
+        FileHandle file = ExternalFiles.getPurchaseStateFile(game.params);
+
+        PurchaseState state = null;
+        if (file.exists()) {
+            String content = file.readString("UTF-8");
+            if (content != null && !content.equals("")) {
+                state = om.readValue(content, PurchaseState.class);
+            } else {
+                state = om.readValue(file.file(), PurchaseState.class);
+            }
+        }
+
+        if (state == null) {
+            state = new PurchaseState();
         }
 
         return state;

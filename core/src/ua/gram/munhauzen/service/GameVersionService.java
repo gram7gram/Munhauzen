@@ -72,8 +72,9 @@ public class GameVersionService implements Disposable {
                         return;
                     }
 
-                    if (gameVersion.versionCode > game.params.versionCode) {
-                        game.navigator.navigateTo(new VersionScreen(game));
+                    if (gameVersion.versionCode > game.params.versionCode
+                            && !game.gameState.preferences.ignoredAppUpdates.contains(gameVersion.versionCode)) {
+                        game.navigator.navigateTo(new VersionScreen(game, gameVersion));
                     } else {
                         onComplete();
                     }

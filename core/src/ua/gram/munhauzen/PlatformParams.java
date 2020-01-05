@@ -12,7 +12,7 @@ public class PlatformParams {
         DEV, PROD, TEST
     }
 
-    public Release release = Release.TEST;
+    public Release release = Release.DEV;
     public int expansionVersion = 1;
     public Translator translator;
     public AppStore appStore;
@@ -21,12 +21,10 @@ public class PlatformParams {
     public String dpi = "mdpi";
     public String locale = "en";
     public String versionName;
+    public String appStoreSkuFull, appStoreSkuPart1, appStoreSkuPart2;
     public int versionCode;
-    public boolean isPro;
     public String sentryDsn = "https://aaab9a00313c443498afb6184a21c867@sentry.io/1802514";
     public String applicationId;
-    public String applicationProId;
-    public String applicationDemoId;
     public String storageDirectory;
     public float scaleFactor = 1;
     public String vkLink = "https://vk.com/fingertipsandcompany?z=photo491072996_456239025%2Fb76a7cd5942e3325a8";
@@ -42,8 +40,8 @@ public class PlatformParams {
         return release == Release.DEV;
     }
 
-    public String getExpansionUrl() {
-        return "https://api.thebaronmunchausen.com/api/v1/" + locale + "/expansions/" + expansionVersion + "/" + dpi;
+    public String getExpansionUrl(String purchaseId) {
+        return "https://api.thebaronmunchausen.com/api/v1/" + locale + "/expansions/" + expansionVersion + "/" + dpi + "?purchase=" + purchaseId;
     }
 
     public String getGameVersionUrl() {
