@@ -36,6 +36,14 @@ public class AndroidLauncher extends AndroidApplication {
         params.memoryUsage = new AndroidMemoryUsage();
         params.appStore = new AndroidAppStore(params, getApplicationContext());
 
+        if (BuildConfig.BUILD_TYPE.equals("staging")) {
+            params.release = PlatformParams.Release.TEST;
+        }
+
+        if (BuildConfig.BUILD_TYPE.equals("release")) {
+            params.release = PlatformParams.Release.PROD;
+        }
+
         PermissionManager.grant(this, PermissionManager.PERMISSIONS);
 
         initialize(new MunhauzenGame(params), config);

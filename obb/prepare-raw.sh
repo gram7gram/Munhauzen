@@ -1,66 +1,53 @@
 #!/bin/bash
 
-SRC_DIR="/Users/master/Projects/MunhauzenDocs/Elements/PICTURES_FINAL/drawable"
-SRC_DIR2="/Users/master/Projects/MunhauzenDocs/Elements/PICTURES_FINAL/drawable-horizontal"
+SRC_DIR="/Users/master/Projects/MunhauzenDocs/Elements/PICTURES_FINAL"
 OBB_PATH="/Users/master/Projects/Munhauzen/obb"
 
-mkdir -p $OBB_PATH/ru/raw/images
-mkdir -p $OBB_PATH/en/raw/images
+function prepare() {
 
-cd $SRC_DIR
+    part=$1
 
-echo "=> Renaming sources..."
-for file in *.jpg; do
+    echo "|- $part"
 
-	newFile="${file// /_}"
+    inputDir="$SRC_DIR$part"
+    outputPartDir="$OBB_PATH$part"
+    outputDir="$outputPartDir/raw/images"
 
-	if [[ "$newFile" != "$file" ]]; then
+    mkdir -p $outputDir
 
-		echo "Renaming: $file => $newFile"
+    rm -f $outputDir/*
 
-		mv "$SRC_DIR/$file" "$SRC_DIR/$newFile"
+    cd $inputDir
 
-	fi
-done
+    for file in *.jpg; do
 
-echo "=> Converting sources..."
-for file in *.jpg; do
+        newFile="${file// /_}"
 
-    echo "=> $file"
+        if [[ "$newFile" != "$file" ]]; then
 
-    convert $file -resize 1600 -quality 80 -colors 256 $OBB_PATH/ru/raw/images/$file
-    test $? -gt 0 && exit 1
+            echo "Renaming: $file => $newFile"
 
-    cp $OBB_PATH/ru/raw/images/$file $OBB_PATH/en/raw/images/$file
+            mv "$inputDir/$file" "$inputDir/$newFile"
 
-done
+        fi
+    done
 
-cd $SRC_DIR2
+    cd $inputDir
 
-echo "=> Renaming horizontal sources..."
-for file in *.jpg; do
+    for file in *.jpg; do
 
-	newFile="${file// /_}"
+        echo "|-- $file"
 
-	if [[ "$newFile" != "$file" ]]; then
+        currentFile="$inputDir/$file"
 
-		echo "Renaming: $file => $newFile"
+        convert $currentFile -quality 80 -colors 256 +profile "icc" "$outputDir/$file"
+        test $? -gt 0 && exit 1
 
-		mv "$SRC_DIR2/$file" "$SRC_DIR2/$newFile"
+    done
+}
 
-	fi
-done
+prepare "/Part_demo"
 
-echo "=> Converting horizontal sources..."
-for file in *.jpg; do
+prepare "/Part_1"
 
-    echo "=> $file"
-
-    convert $file -resize x1600 -quality 80 -colors 256 $OBB_PATH/ru/raw/images/$file
-    test $? -gt 0 && exit 1
-
-    cp $OBB_PATH/ru/raw/images/$file $OBB_PATH/en/raw/images/$file
-
-done
-
-echo "=> Finished"
+prepare "/Part_2"

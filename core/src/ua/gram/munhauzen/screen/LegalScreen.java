@@ -1,6 +1,7 @@
 package ua.gram.munhauzen.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -28,6 +29,7 @@ public class LegalScreen implements Screen {
     private final MunhauzenGame game;
     private Texture background;
     private MunhauzenStage ui;
+    public boolean isBackPressed;
 
     public LegalScreen(MunhauzenGame game) {
         this.game = game;
@@ -130,6 +132,8 @@ public class LegalScreen implements Screen {
         Gdx.gl.glClearColor(235 / 255f, 232 / 255f, 112 / 255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
+        checkBackPressed();
+
         if (background == null) return;
 
         game.batch.begin();
@@ -142,6 +146,21 @@ public class LegalScreen implements Screen {
 
         ui.act(delta);
         ui.draw();
+    }
+
+    public void checkBackPressed() {
+        if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
+            if (!isBackPressed) {
+                isBackPressed = true;
+                onBackPressed();
+            }
+        }
+    }
+
+    public void onBackPressed() {
+        Log.i(tag, "onBackPressed");
+
+        game.navigator.closeApp();
     }
 
     @Override

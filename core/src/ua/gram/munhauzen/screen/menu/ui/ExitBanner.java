@@ -83,12 +83,16 @@ public class ExitBanner extends Banner {
                     screen.stopCurrentSfx();
                     StoryAudio audio = screen.game.currentSfx = game.sfxService.onExitYesClicked();
 
-                    Timer.instance().scheduleTask(new Timer.Task() {
-                        @Override
-                        public void run() {
-                            onYesClicked();
-                        }
-                    }, audio != null ? audio.duration / 1000f : 2000);
+                    if (audio != null) {
+                        Timer.instance().scheduleTask(new Timer.Task() {
+                            @Override
+                            public void run() {
+                                onYesClicked();
+                            }
+                        }, audio.duration / 1000f);
+                    } else {
+                        onYesClicked();
+                    }
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -111,12 +115,16 @@ public class ExitBanner extends Banner {
                     screen.stopCurrentSfx();
                     StoryAudio audio = screen.game.currentSfx = game.sfxService.onExitNoClicked();
 
-                    Timer.instance().scheduleTask(new Timer.Task() {
-                        @Override
-                        public void run() {
-                            onNoClicked();
-                        }
-                    }, audio != null ? audio.duration / 1000f : 2000);
+                    if (audio != null) {
+                        Timer.instance().scheduleTask(new Timer.Task() {
+                            @Override
+                            public void run() {
+                                onNoClicked();
+                            }
+                        }, audio.duration / 1000f);
+                    } else {
+                        onNoClicked();
+                    }
 
                 } catch (Throwable e) {
                     Log.e(tag, e);

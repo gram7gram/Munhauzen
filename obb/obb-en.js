@@ -1,219 +1,258 @@
-const fs = require('fs-extra')
+const fs = require('fs-extra');
 const archiver = require('archiver');
 
-const obbDir = "/Users/master/Projects/Munhauzen/obb"
-const buildDir = obbDir + "/build"
-const audioDir = "/Users/master/Projects/MunhauzenDocs/Elements/AUDIO_FINAL"
+const obbDir = "/Users/master/Projects/Munhauzen/obb";
+const buildDir = obbDir + "/build";
+const audioDir = "/Users/master/Projects/MunhauzenDocs/Elements/AUDIO_FINAL";
 
-const PARTS = 10;
+const PARTS = 5;
 
 const VERSION = 1;
 const LOCALE = 'en';
 
+const DLC = {
+  Part_demo: {
+    audio: [ "/Part_demo", "/Fails_Eng", "/Sfx_Eng" ],
+    images: [ "/Part_demo" ],
+    otherAssets: [
+      '/authors',
+      '/gallery',
+      '/menu',
+      '/GameScreen',
+      '/ui',
+      '/saves',
+      '/fails',
+      '/victory',
+    ],
+    interactions: [
+      "/timer",
+      "/timer2",
+      "/hare",
+      "/generals",
+      "/cannons",
+      "/wau",
+      "/picture",
+      "/servants",
+      "/lions",
+      "/date",
+      "/horn",
+      "/swamp",
+      "/slap",
+      "/puzzle",
+      "/continue",
+      "/chapter",
+      "/balloons" ]
+  },
+  Part_1: {
+    audio: [ "/Part_1" ],
+    images: [ "/Part_1" ],
+    otherAssets: [],
+    interactions: []
+  },
+  Part_2: {
+    audio: [ "/Part_2" ],
+    images: [ "/Part_2" ],
+    otherAssets: [],
+    interactions: []
+  }
+};
+
 const DPIs = [
   'mdpi',
   'hdpi'
-]
+];
 
-DPIs.forEach(DPI => {
+const EXPANSIONS = [
+  'Part_demo',
+  'Part_1',
+  'Part_2',
+];
 
-    const internalAssetsDir = obbDir + "/" + LOCALE + "/" + DPI
+const createDLC = async (DPI, EXP) => {
 
-    const VERSION_NAME = VERSION + "-" + LOCALE + "-" + DPI
+  const dlcConfig = DLC[EXP];
 
-    const audioParts = [
-        "/Part_1",
-        "/Part_2",
-        "/Part_3",
-        "/Sfx_Eng",
-        "/Fails_Eng",
-    ]
+  const coreImagesDir = obbDir + "/" + EXP + "/" + DPI;
 
-    const picturesDir = [
-        internalAssetsDir + "/images"
-    ]
+  const VERSION_NAME = VERSION + "-" + LOCALE + "-" + DPI + "-" + EXP;
 
-    const otherAssets = [
-        '/authors',
-        '/gallery',
-        '/menu',
-        '/GameScreen',
-        '/ui',
-        '/saves',
-        '/fails',
-        '/victory',
-    ]
+  console.log(`=> Splitting expansion ${VERSION_NAME} in ${PARTS} parts`);
 
-    const interactions = [
-        "/timer",
-        "/timer2",
-        "/hare",
-        "/generals",
-        "/cannons",
-        "/wau",
-        "/picture",
-        "/servants",
-        "/lions",
-        "/date",
-        "/horn",
-        "/swamp",
-        "/slap",
-        "/puzzle",
-        "/continue",
-        "/chapter",
-        "/balloons",
-    ]
+  let currentPart = 1;
 
-    console.log(`=> Splitting expansion ${VERSION_NAME} in ${PARTS} parts`)
+  const getTmpDir = () => buildDir + "/tmp/" + VERSION_NAME + "-part" + currentPart;
 
-    let currentPart = 1
+  const nextPart = () => {
+    currentPart += 1;
 
-    audioParts.forEach(dir => {
-        fs.readdirSync(audioDir + dir).forEach(file => {
+    if (currentPart > PARTS) currentPart = 1;
+  };
 
-            const dest = buildDir + "/tmp/" + VERSION_NAME + "-part" + currentPart + "/audio"
-            const source = audioDir + dir + "/" + file
+  dlcConfig.images.forEach(dir => {
+    const sourceDir = obbDir + "/" + dir + "/" + DPI;
 
-            fs.ensureDir(dest, () => {})
+    fs.readdirSync(sourceDir).forEach(file => {
+      const outputDir = getTmpDir();
+      const destDir = outputDir + dir;
 
-            fs.copySync(source, dest + "/" + file)
+      fs.ensureDir(destDir, () => {
+      });
 
-            currentPart += 1
+      fs.copySync(sourceDir + "/" + file, destDir + "/" + file);
 
-            if (currentPart > PARTS) currentPart = 1
+      nextPart();
+    });
+  });
 
-        })
-    })
+  dlcConfig.audio.forEach(dir => {
+    const sourceDir = audioDir + dir;
 
+    fs.readdirSync(sourceDir).forEach(file => {
+      const outputDir = getTmpDir();
+      const destDir = outputDir + "/audio";
 
-    interactions.forEach(interaction => {
-        const dir = internalAssetsDir + interaction
+      fs.ensureDir(destDir, () => {
+      });
 
-        const dest = buildDir + "/tmp/" + VERSION_NAME + "-part" + currentPart + interaction
+      fs.copySync(sourceDir + "/" + file, destDir + "/" + file);
 
-        fs.ensureDir(dest, () => {})
+      nextPart();
+    });
+  });
 
-        fs.readdirSync(dir).forEach(file => {
-            const source = dir + "/" + file
+  dlcConfig.interactions.forEach(dir => {
+    const sourceDir = coreImagesDir + dir;
 
-            fs.copySync(source, dest + "/" + file)
-        })
+    fs.readdirSync(sourceDir).forEach(file => {
+      const outputDir = getTmpDir();
+      const destDir = outputDir + dir;
 
-        currentPart += 1
+      fs.ensureDir(destDir, () => {
+      });
 
-        if (currentPart > PARTS) currentPart = 1
-    })
+      fs.copySync(sourceDir + "/" + file, destDir + "/" + file);
 
+      nextPart();
+    });
+  });
 
-    picturesDir.forEach(dir => {
-        fs.readdirSync(dir).forEach(file => {
+  dlcConfig.otherAssets.forEach(dir => {
+    const sourceDir = coreImagesDir + dir;
 
-            const dest = buildDir + "/tmp/" + VERSION_NAME + "-part" + currentPart + "/images"
-            const source = dir + "/" + file
+    fs.readdirSync(sourceDir).forEach(file => {
+      const outputDir = getTmpDir();
+      const destDir = outputDir + dir;
 
-            fs.ensureDir(dest, () => {})
+      fs.ensureDir(destDir, () => {
+      });
 
-            fs.copySync(source, dest + "/" + file)
+      fs.copySync(sourceDir + "/" + file, destDir + "/" + file);
 
-            currentPart += 1
+      nextPart();
+    });
+  });
 
-            if (currentPart > PARTS) currentPart = 1
-        })
-    })
+  const completed = [];
 
-
-    otherAssets.forEach(dir => {
-
-        fs.readdirSync(internalAssetsDir + dir).forEach(file => {
-
-            const dest = buildDir + "/tmp/" + VERSION_NAME + "-part" + currentPart + dir
-            const source = internalAssetsDir + dir + "/" + file
-
-            fs.ensureDir(dest, () => {})
-
-            fs.copySync(source, dest + "/" + file)
-
-            currentPart += 1
-
-            if (currentPart > PARTS) currentPart = 1
-        })
-    })
-
-
-
-    const completed = []
-
-    const cleanUp = () => {
-        for (let part = 1; part <= PARTS; part++) {
-            fs.removeSync(buildDir + "/tmp/" + VERSION_NAME + "-part" + part)
-        }
+  const cleanUp = () => {
+    for (let part = 1; part <= PARTS; part++) {
+      fs.removeSync(buildDir + "/tmp/" + VERSION_NAME + "-part" + part);
     }
+  };
 
-    const onComplete = () => {
-        const totalSize = completed.reduce((sum, part) => sum + part.size, 0);
+  const onComplete = () => {
+    const totalSize = completed.reduce((sum, part) => sum + part.size, 0);
 
-        const expansion = {
-            version: VERSION,
-            locale: LOCALE,
-            dpi: DPI,
-            size: totalSize,
-            sizeMB: Number((totalSize / 1024 / 1024).toFixed(2)),
-            parts: {
-                count: completed.length,
-                items: completed.map(item => ({
-                    ...item,
-                    path: `/expansions/${VERSION_NAME}/part${item.part}.zip`
-                }))
-            }
-        }
+    const expansion = {
+      version: VERSION,
+      locale: LOCALE,
+      dpi: DPI,
+      size: totalSize,
+      sizeMB: Number((totalSize / 1024 / 1024).toFixed(2)),
+      parts: {
+        count: completed.length,
+        items: completed.map(item => ({
+          ...item,
+          path: `/expansions/${VERSION_NAME}/part${item.part}.zip`
+        }))
+      }
+    };
 
-        console.log(`=> Completed ${VERSION_NAME}!`)
+    console.log(`=> Completed ${VERSION_NAME}!`);
 
-        fs.writeFileSync(`${buildDir}/${VERSION_NAME}-expansion.json`, JSON.stringify(expansion))
+    fs.writeFileSync(`${buildDir}/${VERSION_NAME}-expansion.json`, JSON.stringify(expansion));
 
-        cleanUp();
-    }
+    cleanUp();
+  };
 
-    const createArchive = (part = 1) => {
+  const createArchive = (part = 1) =>
+    new Promise((resolve, reject) => {
 
-        const dest = buildDir + `/${VERSION_NAME}/`
-        const output = `${dest}/part${part}.zip`
-        const input = buildDir + "/tmp/" + VERSION_NAME + "-part" + part;
+      try {
 
-        fs.ensureDir(dest, () => {})
+        console.log(`=> createArchive ${VERSION_NAME} part ${part}...`);
+
+        const dest = `${buildDir}/${VERSION_NAME}/`;
+        const input = `${buildDir}/tmp/${VERSION_NAME}-part${part}`;
+        const output = `${dest}/part${part}.zip`;
+
+        fs.ensureDir(dest, () => {
+        });
 
         const archive = archiver('zip', {
-          zlib: {level: 5}
+          zlib: { level: 5 }
         });
 
         archive.on('end', function () {
 
-            const size = archive.pointer()
+          const size = archive.pointer();
 
-            completed.push({
-                size,
-                sizeMB: Number((size / 1024 / 1024).toFixed(2)),
-                part,
-                checksum: ""
-            });
+          completed.push({
+            size,
+            sizeMB: Number((size / 1024 / 1024).toFixed(2)),
+            part,
+            checksum: ""
+          });
 
-            setTimeout(() => {
-                if (completed.length === PARTS) {
-                    onComplete()
-                } else {
-                    createArchive(++part)
-                }
-            }, 100)
+          setTimeout(() => {
+            resolve();
+          }, 100);
+
         });
 
-        archive.directory(input, "")
+        archive.directory(input, "");
 
         archive.pipe(fs.createWriteStream(output));
 
         archive.finalize();
+
+      } catch (e) {
+        reject(e);
+      }
+    });
+
+  fs.emptyDirSync(`${buildDir}/${VERSION_NAME}/`);
+
+  const tasks = [];
+  for (let part = 1; part <= PARTS; part++) {
+    tasks.push(createArchive(part));
+  }
+
+  await Promise.all(tasks);
+
+  onComplete();
+};
+
+const start = async () => {
+  for (const DPI of DPIs) {
+    for (const EXP of EXPANSIONS) {
+      await createDLC(DPI, EXP);
     }
+  }
+};
 
-    fs.emptyDirSync(buildDir + `/${VERSION_NAME}/`)
+start().catch(e => {
+  console.error(e);
+});
 
-    createArchive()
-})
+

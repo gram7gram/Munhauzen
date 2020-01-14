@@ -17,7 +17,7 @@ function syncLocal() {
 
     mkdir -p ~/Projects/munhauzen-web/api/public/expansions/$SYNC_VERSION
 
-#    cp ./build/${SYNC_VERSION}/* /Users/master/Projects/munhauzen-web/api/public/expansions/$SYNC_VERSION
+    cp ./build/${SYNC_VERSION}/* /Users/master/Projects/munhauzen-web/api/public/expansions/$SYNC_VERSION
 
     cp ./build/${SYNC_VERSION}-expansion.json ~/Projects/munhauzen-web/api/src/server/resources/$SYNC_VERSION-expansion.json
 }
@@ -50,18 +50,38 @@ function deploy() {
 
 }
 
-syncLocal "$VERSION-en-mdpi"
-syncLocal "$VERSION-en-hdpi"
+#syncLocal "$VERSION-en-mdpi-Part_demo"
+#syncLocal "$VERSION-en-mdpi-Part_1"
+#syncLocal "$VERSION-en-mdpi-Part_2"
+#
+#syncLocal "$VERSION-en-hdpi-Part_demo"
+#syncLocal "$VERSION-en-hdpi-Part_1"
+#syncLocal "$VERSION-en-hdpi-Part_2"
+#
+#syncLocal "$VERSION-ru-mdpi-Part_demo"
+#syncLocal "$VERSION-ru-mdpi-Part_1"
+#syncLocal "$VERSION-ru-mdpi-Part_2"
+#
+#syncLocal "$VERSION-ru-hdpi-Part_demo"
+#syncLocal "$VERSION-ru-hdpi-Part_1"
+#syncLocal "$VERSION-ru-hdpi-Part_2"
 
-syncLocal "$VERSION-ru-mdpi"
-syncLocal "$VERSION-ru-hdpi"
+syncRemote "$VERSION-en-mdpi-Part_demo"
+syncRemote "$VERSION-en-mdpi-Part_1"
+syncRemote "$VERSION-en-mdpi-Part_2"
 
-syncRemote "$VERSION-en-mdpi"
-syncRemote "$VERSION-en-hdpi"
+syncRemote "$VERSION-en-hdpi-Part_demo"
+syncRemote "$VERSION-en-hdpi-Part_1"
+syncRemote "$VERSION-en-hdpi-Part_2"
 
-syncRemote "$VERSION-ru-mdpi"
-syncRemote "$VERSION-ru-hdpi"
+syncRemote "$VERSION-ru-mdpi-Part_demo"
+syncRemote "$VERSION-ru-mdpi-Part_1"
+syncRemote "$VERSION-ru-mdpi-Part_2"
 
-deploy
+syncRemote "$VERSION-ru-hdpi-Part_demo"
+syncRemote "$VERSION-ru-hdpi-Part_1"
+syncRemote "$VERSION-ru-hdpi-Part_2"
+
+#deploy
 
 echo "[+] Completed!"

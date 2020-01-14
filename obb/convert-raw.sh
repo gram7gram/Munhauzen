@@ -4,11 +4,13 @@ OBB_PATH="/Users/master/Projects/Munhauzen/obb"
 
 function convertRaw() {
 
-    LOCALE=$1
+    echo "|- $1"
 
-    RAW_DIR="$OBB_PATH/$LOCALE/raw"
-    HDPI_DIR="$OBB_PATH/$LOCALE/hdpi"
-    MDPI_DIR="$OBB_PATH/$LOCALE/mdpi"
+    inputDir="$OBB_PATH$1"
+
+    RAW_DIR="$inputDir/raw"
+    HDPI_DIR="$inputDir/hdpi"
+    MDPI_DIR="$inputDir/mdpi"
 
     rm -rf $HDPI_DIR
     rm -rf $MDPI_DIR
@@ -16,31 +18,35 @@ function convertRaw() {
     cd $RAW_DIR
     for dir in *; do
 #        dir="authors"
-        echo "|- Converting $LOCALE/raw/$dir..."
+        echo "|-- Converting $dir ..."
+
+        currentDir="$RAW_DIR/$dir"
 
         mkdir -p "$HDPI_DIR/$dir"
         mkdir -p "$MDPI_DIR/$dir"
 
-        cd "$RAW_DIR/$dir"
+        cd $currentDir
         for file in *; do
             if [[ -f "$file" ]]; then
 
                 #echo "|-- $dir/$file"
 
-                IMG="$RAW_DIR/$dir/$file"
+                currentFile="$currentDir/$file"
 
-                convert $IMG -resize 100% +profile "icc" $HDPI_DIR/$dir/$file
+                convert $currentFile -quality 80 -colors 256 +profile "icc" $HDPI_DIR/$dir/$file
                 test $? -gt 0 && exit 1
 
-                convert $IMG -resize 75% +profile "icc" $MDPI_DIR/$dir/$file
+                convert $currentFile -quality 80 -colors 256 -resize 75% +profile "icc" $MDPI_DIR/$dir/$file
                 test $? -gt 0 && exit 1
             fi
         done
     done
 }
 
-convertRaw "ru"
+convertRaw "/Part_demo"
 
-convertRaw "en"
+convertRaw "/Part_1"
+
+convertRaw "/Part_2"
 
 echo "=> Finished"

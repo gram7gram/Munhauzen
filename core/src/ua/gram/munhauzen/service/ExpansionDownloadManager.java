@@ -71,7 +71,7 @@ public class ExpansionDownloadManager implements Disposable {
     }
 
     public void fetchExpansionPart(final Part part) {
-        Log.i(tag, "fetchExpansionPart part#" + part.part + " " + part.url);
+        Log.i(tag, "fetchExpansionPart part#" + part.partKey + " " + part.url);
 
         final HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
 
@@ -104,7 +104,7 @@ public class ExpansionDownloadManager implements Disposable {
 
                     part.isDownloaded = true;
 
-                    Log.i(tag, "fetchExpansionPart success part#" + part.part);
+                    Log.i(tag, "fetchExpansionPart success part#" + part.partKey);
 
                 } catch (Throwable e) {
 
@@ -149,7 +149,7 @@ public class ExpansionDownloadManager implements Disposable {
     }
 
     public void extractPart(final Part part) {
-        Log.i(tag, "extractPart part#" + part.part);
+        Log.i(tag, "extractPart part#" + part.partKey);
 
         try {
 
@@ -173,7 +173,7 @@ public class ExpansionDownloadManager implements Disposable {
     }
 
     public void validateDownloadedPart(Part part) {
-        Log.i(tag, "validateDownloadedPart part#" + part.part);
+        Log.i(tag, "validateDownloadedPart part#" + part.partKey);
 
         FileHandle expansionFile = ExternalFiles.getExpansionPartFile(game.params, part);
         if (!expansionFile.exists()) {
@@ -182,8 +182,8 @@ public class ExpansionDownloadManager implements Disposable {
 
         String md5 = MD5.get(expansionFile);
 
-        Log.i(tag, "downloaded part #" + part.part + " " + md5
-                + "\n" + "original part #" + part.part + " " + part.checksum);
+        Log.i(tag, "downloaded part #" + part.partKey + " " + md5
+                + "\n" + "original part #" + part.partKey + " " + part.checksum);
 
         if (!MunhauzenGame.CAN_SKIP_EXPANSION_VALIDATION) {
             if (!md5.equals(part.checksum)) {
@@ -204,7 +204,6 @@ public class ExpansionDownloadManager implements Disposable {
     }
 
     public void fetchExpansionInfo() {
-        Log.i(tag, "fetchExpansionInfo");
 
         if (game.gameState.purchaseState.purchases == null) {
             onConnectionCanceled();
@@ -240,18 +239,22 @@ public class ExpansionDownloadManager implements Disposable {
             }
         }
 
-        String purchaseId = "free";
+        String id = "free";
         if (fullPurchase != null) {
-            purchaseId = fullPurchase.orderId;
+            id = fullPurchase.productId;
         } else if (part2Purchase != null) {
-            purchaseId = part2Purchase.orderId;
+            id = part2Purchase.productId;
         } else if (part1Purchase != null) {
-            purchaseId = part1Purchase.orderId;
+            id = part1Purchase.productId;
         }
+
+        String url = game.params.getExpansionUrl(id);
+
+        Log.i(tag, "fetchExpansionInfo\nGET " + url);
 
         httpRequest = requestBuilder.newRequest()
                 .method(Net.HttpMethods.GET)
-                .url(game.params.getExpansionUrl(purchaseId))
+                .url(url)
                 .timeout(10000)
                 .build();
 
@@ -301,7 +304,7 @@ public class ExpansionDownloadManager implements Disposable {
                             serverPart.isExtractFailure = false;
 
                             for (Part localPart : expansionInfo.parts.items) {
-                                if (localPart.part == serverPart.part && localPart.checksum.equals(serverPart.checksum)) {
+                                if (localPart.partKey.equals(serverPart.partKey) && localPart.checksum.equals(serverPart.checksum)) {
 
                                     serverPart.isDownloaded = localPart.isDownloaded;
                                     serverPart.isExtracted = localPart.isExtracted;
@@ -318,7 +321,7 @@ public class ExpansionDownloadManager implements Disposable {
 
                             serverPart.isCompleted = serverPart.isDownloaded && serverPart.isExtracted;
 
-                            log += "\npart " + serverPart.part
+                            log += "\npart " + serverPart.partKey
                                     + " isCompleted " + (serverPart.isCompleted ? "+" : "-")
                                     + " isDownloaded " + (serverPart.isDownloaded ? "+" : "-")
                                     + " isExtracted " + (serverPart.isExtracted ? "+" : "-");

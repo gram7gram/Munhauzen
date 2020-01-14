@@ -48,6 +48,8 @@ public class ListFragment extends Fragment {
         card3 = new PurchasePart2Card(screen);
         card4 = new PurchaseFullCard(screen);
 
+        card1.setPurchased(true);
+
         VerticalGroup list = new VerticalGroup();
         list.addActor(card1);
         list.addActor(card4);

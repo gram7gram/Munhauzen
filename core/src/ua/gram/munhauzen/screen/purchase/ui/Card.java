@@ -19,27 +19,33 @@ public abstract class Card extends Container<Table> {
 
     protected final String tag = getClass().getSimpleName();
     public final PurchaseScreen screen;
+    public final Image okImg;
     public final Label price;
-    public Table root;
-    public boolean enabled;
+    public final Table root, content;
+    public boolean enabled, purchased;
 
     public Card(PurchaseScreen s) {
         this.screen = s;
 
         float maxWidth = MunhauzenGame.WORLD_WIDTH - 10 * 6;
-//        float maxHeight = MunhauzenGame.WORLD_HEIGHT * .25f - 10 * 4;
 
         root = new Table();
 
-        Table content = new Table();
+        content = new Table();
 
         Texture cardBg = screen.game.internalAssetManager.get("bg3.jpg", Texture.class);
+        Texture okBg = screen.game.internalAssetManager.get("purchase/ok.png", Texture.class);
         Texture bg = getImage();
 
         float imgWidth = maxWidth * .35f;
         float imgHeight = bg.getHeight() * (imgWidth / bg.getWidth());
 
+        float okWidth = maxWidth * .1f;
+        float okHeight = okBg.getHeight() * (okWidth / okBg.getWidth());
+
         Image img = new Image(bg);
+        okImg = new Image(okBg);
+        okImg.setVisible(false);
 
         Label title = createTitle();
         title.setWrap(true);
@@ -57,7 +63,9 @@ public abstract class Card extends Container<Table> {
         price.setWrap(true);
         price.setAlignment(Align.left);
 
-        content.add(price).expandX().align(Align.bottomLeft).row();
+        content.add(price).expandX().align(Align.bottomLeft);
+        content.add(okImg).width(okWidth).height(okHeight).align(Align.bottomRight);
+        content.row();
 
         root.pad(10);
         root.add(img).width(imgWidth).height(imgHeight).center();
@@ -86,6 +94,24 @@ public abstract class Card extends Container<Table> {
             }
         });
 
+        addCaptureListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                if (purchased) {
+                    event.cancel();
+
+                    screen.onPurchaseCompleted();
+                }
+            }
+        });
+
+    }
+
+    public void setPurchased(boolean purchased) {
+        this.purchased = purchased;
+        okImg.setVisible(purchased);
     }
 
     public void setEnabled(boolean enabled) {

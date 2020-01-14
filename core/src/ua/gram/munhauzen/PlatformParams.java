@@ -40,8 +40,8 @@ public class PlatformParams {
         return release == Release.DEV;
     }
 
-    public String getExpansionUrl(String purchaseId) {
-        return "https://api.thebaronmunchausen.com/api/v1/" + locale + "/expansions/" + expansionVersion + "/" + dpi + "?purchase=" + purchaseId;
+    public String getExpansionUrl(String productId) {
+        return "https://api.thebaronmunchausen.com/api/v1/" + locale + "/expansions/" + expansionVersion + "/" + dpi + "?product=" + productId;
     }
 
     public String getGameVersionUrl() {

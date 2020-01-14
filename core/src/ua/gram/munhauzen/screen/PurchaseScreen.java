@@ -1,6 +1,7 @@
 package ua.gram.munhauzen.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -10,7 +11,6 @@ import com.badlogic.gdx.pay.OfferType;
 import com.badlogic.gdx.pay.PurchaseManagerConfig;
 import com.badlogic.gdx.pay.PurchaseObserver;
 import com.badlogic.gdx.pay.Transaction;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.ArrayList;
@@ -33,6 +33,7 @@ public class PurchaseScreen implements Screen {
     public MunhauzenStage ui;
     public Texture background;
     public ListFragment fragment;
+    public boolean isBackPressed;
 
     public PurchaseScreen(MunhauzenGame game) {
         this.game = game;
@@ -50,6 +51,7 @@ public class PurchaseScreen implements Screen {
         game.internalAssetManager.load("purchase/part1.jpg", Texture.class);
         game.internalAssetManager.load("purchase/part2.jpg", Texture.class);
         game.internalAssetManager.load("purchase/free.jpg", Texture.class);
+        game.internalAssetManager.load("purchase/ok.png", Texture.class);
 
         game.internalAssetManager.finishLoading();
 
@@ -185,17 +187,17 @@ public class PurchaseScreen implements Screen {
                     for (Purchase transaction : game.gameState.purchaseState.purchases) {
                         if (transaction.productId.equals(game.params.appStoreSkuFull)) {
                             fragment.card4.price.setText(game.t("purchase_screen.already_purchased"));
-                            fragment.card4.setTouchable(Touchable.disabled);
+                            fragment.card4.setPurchased(true);
                         }
 
                         if (transaction.productId.equals(game.params.appStoreSkuPart1)) {
                             fragment.card2.price.setText(game.t("purchase_screen.already_purchased"));
-                            fragment.card2.setTouchable(Touchable.disabled);
+                            fragment.card2.setPurchased(true);
                         }
 
                         if (transaction.productId.equals(game.params.appStoreSkuPart2)) {
                             fragment.card3.price.setText(game.t("purchase_screen.already_purchased"));
-                            fragment.card3.setTouchable(Touchable.disabled);
+                            fragment.card3.setPurchased(true);
                         }
                     }
                 } catch (Throwable e) {
@@ -227,14 +229,7 @@ public class PurchaseScreen implements Screen {
 
                     game.gameState.purchaseState.purchases.add(p);
 
-                    game.databaseManager.persistSync(game.gameState);
-
-                    fragment.fadeOut(new Runnable() {
-                        @Override
-                        public void run() {
-                            navigateTo(new LoadingScreen(game));
-                        }
-                    });
+                    onPurchaseCompleted();
                 } catch (Throwable e) {
                     Log.e(tag, e);
 
@@ -255,6 +250,32 @@ public class PurchaseScreen implements Screen {
 
     }
 
+    public void onPurchaseCompleted() {
+        game.databaseManager.persistSync(game.gameState);
+
+        fragment.fadeOut(new Runnable() {
+            @Override
+            public void run() {
+                navigateTo(new LoadingScreen(game));
+            }
+        });
+    }
+
+    public void checkBackPressed() {
+        if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
+            if (!isBackPressed) {
+                isBackPressed = true;
+                onBackPressed();
+            }
+        }
+    }
+
+    public void onBackPressed() {
+        Log.i(tag, "onBackPressed");
+
+        game.navigator.closeApp();
+    }
+
     @Override
     public void hide() {
         Gdx.input.setInputProcessor(null);
@@ -264,6 +285,8 @@ public class PurchaseScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(235 / 255f, 232 / 255f, 112 / 255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+
+        checkBackPressed();
 
         if (background == null) return;
 

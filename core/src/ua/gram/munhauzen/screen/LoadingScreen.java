@@ -100,7 +100,7 @@ public class LoadingScreen extends AbstractScreen {
     public void onBackPressed() {
         super.onBackPressed();
 
-        game.navigator.closeApp();
+        game.navigator.navigateTo(new PurchaseScreen(game));
     }
 
     @Override
