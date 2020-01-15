@@ -213,36 +213,33 @@ public class GameScreen implements Screen {
 
             boolean isInteractionLocked = story.isInteractionLocked();
 
-            boolean canUpdateStory = !isInteractionLocked && !story.isCompleted && !GameState.isPaused;
+            if (!isInteractionLocked && !story.isCompleted) {
 
-            if (canUpdateStory) {
-                storyManager.update(
-                        story.progress + (delta * 1000),
-                        story.totalDuration
-                );
-            }
+                removePurchaseFragment();
 
-            checkExpansionIsPurchased();
+                if (!GameState.isPaused) {
+                    storyManager.update(
+                            story.progress + (delta * 1000),
+                            story.totalDuration
+                    );
+                }
 
-            boolean isPurchaseLocked = purchaseFragment == null;
+                storyManager.startLoadingImages();
 
-            boolean canUpdateStoryImage = !isInteractionLocked && !story.isCompleted;
-            boolean canCompleteStory = canUpdateStoryImage && !isPurchaseLocked && !GameState.isPaused && story.isValid();
+                if (!GameState.isPaused) {
 
-            if (canUpdateStoryImage) {
-//                storyManager.startLoadingImages();
-            }
+                    if (story.isValid()) {
 
-            if (canCompleteStory) {
+                        game.achievementService.onScenarioVisited(story.currentScenario.scenario);
 
-                game.achievementService.onScenarioVisited(story.currentScenario.scenario);
+                        if (story.isCompleted || MunhauzenGame.developmentInteraction != null) {
 
-                if (story.isCompleted || MunhauzenGame.developmentInteraction != null) {
+                            storyManager.onCompleted();
 
-                    storyManager.onCompleted();
-
-                } else {
-                    storyManager.startLoadingAudio();
+                        } else {
+                            storyManager.startLoadingAudio();
+                        }
+                    }
                 }
             }
 
@@ -262,25 +259,40 @@ public class GameScreen implements Screen {
 
     }
 
-    private void checkExpansionIsPurchased() {
+    public boolean checkExpansionIsPurchased() {
         Story story = getStory();
 
-        if (story != null && !purchaseManager.isExpansionPurchased(story.currentScenario.scenario.expansion)) {
+        boolean isPurchased = true;
 
-            if (purchaseFragment == null) {
-                purchaseFragment = new PurchaseFragment(this);
-                purchaseFragment.create();
+        if (story != null) {
 
-                gameLayers.setPurchaseLayer(purchaseFragment);
+            isPurchased = purchaseManager.isExpansionPurchased(story.currentScenario.scenario.expansion);
 
-                purchaseFragment.fadeIn();
-            }
-        } else {
-            if (purchaseFragment != null) {
-                purchaseFragment.dispose();
-                gameLayers.setPurchaseLayer(null);
-                purchaseFragment = null;
-            }
+//            if (story.currentScenario.scenario.name.equals("a1_intro")) {
+//                isPurchased = false;
+//            }
+
+        }
+
+        return isPurchased;
+    }
+
+    public void createPurchaseFragment() {
+        if (purchaseFragment == null) {
+            purchaseFragment = new PurchaseFragment(this);
+            purchaseFragment.create();
+
+            gameLayers.setPurchaseLayer(purchaseFragment);
+
+            purchaseFragment.fadeIn();
+        }
+    }
+
+    public void removePurchaseFragment() {
+        if (purchaseFragment != null) {
+            purchaseFragment.dispose();
+            gameLayers.setPurchaseLayer(null);
+            purchaseFragment = null;
         }
     }
 

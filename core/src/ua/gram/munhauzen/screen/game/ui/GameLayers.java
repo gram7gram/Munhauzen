@@ -53,6 +53,13 @@ public class GameLayers extends Stack implements Disposable {
             addActor(createDummy("storyDecisionsLayer"));
         }
 
+        if (purchaseLayer != null) {
+            purchaseLayer.getRoot().setTouchable(Touchable.childrenOnly);
+            addActor(purchaseLayer.getRoot());
+        } else {
+            addActor(createDummy("purchaseLayer"));
+        }
+
         if (progressBarLayer != null) {
             progressBarLayer.getRoot().setTouchable(Touchable.childrenOnly);
             addActor(progressBarLayer.getRoot());
@@ -65,13 +72,6 @@ public class GameLayers extends Stack implements Disposable {
             addActor(interactionProgressBarLayer.getRoot());
         } else {
             addActor(createDummy("interactionProgressBarLayer"));
-        }
-
-        if (purchaseLayer != null) {
-            purchaseLayer.getRoot().setTouchable(Touchable.childrenOnly);
-            addActor(purchaseLayer.getRoot());
-        } else {
-            addActor(createDummy("purchaseLayer"));
         }
 
         if (controlsLayer != null) {

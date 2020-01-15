@@ -59,7 +59,7 @@ const DLC = {
 
 const DPIs = [
   'mdpi',
-  'hdpi'
+//  'hdpi'
 ];
 
 const EXPANSIONS = [
@@ -89,11 +89,11 @@ const createDLC = async (DPI, EXP) => {
   };
 
   dlcConfig.images.forEach(dir => {
-    const sourceDir = obbDir + "/" + dir + "/" + DPI;
+    const sourceDir = obbDir + dir + "/" + DPI + "/images";
 
     fs.readdirSync(sourceDir).forEach(file => {
       const outputDir = getTmpDir();
-      const destDir = outputDir + dir;
+      const destDir = outputDir + "/images";
 
       fs.ensureDir(destDir, () => {
       });

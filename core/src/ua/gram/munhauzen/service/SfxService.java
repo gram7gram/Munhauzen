@@ -111,6 +111,14 @@ public class SfxService {
         return prepareAndPlay("sfx_menu_intro");
     }
 
+    public StoryAudio onPurchasePart1() {
+        return prepareAndPlay("sfx_menu_demo");
+    }
+
+    public StoryAudio onPurchasePart2() {
+        return prepareAndPlay("sfx_menu_buy");
+    }
+
     public void onAllImagesUnlocked() {
         prepareAndPlay("sfx_menu_win_gallery");
     }

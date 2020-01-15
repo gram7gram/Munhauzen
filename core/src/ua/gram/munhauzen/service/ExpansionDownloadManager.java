@@ -225,17 +225,14 @@ public class ExpansionDownloadManager implements Disposable {
         for (Purchase purchase : game.gameState.purchaseState.purchases) {
             if (purchase.productId.equals(game.params.appStoreSkuFull)) {
                 fullPurchase = purchase;
-                break;
             }
 
             if (purchase.productId.equals(game.params.appStoreSkuPart2)) {
                 part2Purchase = purchase;
-                break;
             }
 
             if (purchase.productId.equals(game.params.appStoreSkuPart1)) {
                 part1Purchase = purchase;
-                break;
             }
         }
 

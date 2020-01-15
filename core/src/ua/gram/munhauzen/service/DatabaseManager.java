@@ -776,6 +776,7 @@ public class DatabaseManager {
         json.setIgnoreUnknownFields(true);
 
         FileHandle file = ExternalFiles.getChaptersFile(game.params);
+        if (!file.exists()) return null;
 
         return json.fromJson(ArrayList.class, Chapter.class, file);
     }
@@ -786,6 +787,7 @@ public class DatabaseManager {
         json.setIgnoreUnknownFields(true);
 
         FileHandle file = ExternalFiles.getImagesFile(game.params);
+        if (!file.exists()) return null;
 
         return json.fromJson(ArrayList.class, Image.class, file);
     }
@@ -796,6 +798,7 @@ public class DatabaseManager {
         json.setIgnoreUnknownFields(true);
 
         FileHandle file = ExternalFiles.getAudioFile(game.params);
+        if (!file.exists()) return null;
 
         return json.fromJson(ArrayList.class, Audio.class, file);
     }
@@ -806,6 +809,7 @@ public class DatabaseManager {
         json.setIgnoreUnknownFields(true);
 
         FileHandle file = ExternalFiles.getAudioFailsFile(game.params);
+        if (!file.exists()) return null;
 
         return json.fromJson(ArrayList.class, AudioFail.class, file);
     }
@@ -816,6 +820,7 @@ public class DatabaseManager {
         json.setIgnoreUnknownFields(true);
 
         FileHandle file = ExternalFiles.getInventoryFile(game.params);
+        if (!file.exists()) return null;
 
         return json.fromJson(ArrayList.class, Inventory.class, file);
     }

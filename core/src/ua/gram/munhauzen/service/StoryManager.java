@@ -246,13 +246,13 @@ public class StoryManager {
 
         Log.i(tag, "onCompleted " + story.id);
 
+        boolean isPurchased = gameScreen.checkExpansionIsPurchased();
+
         gameScreen.game.gameState.history.visitedStories.add(story.id);
 
         displayCurrentImage();
 
         gameScreen.game.gameState.menuState.isContinueEnabled = true;
-
-        gameScreen.game.gameState.history.visitedStories.add(story.id);
 
         for (StoryScenario storyScenario : story.scenarios) {
             gameScreen.game.achievementService.onScenarioVisited(storyScenario.scenario);
@@ -262,6 +262,11 @@ public class StoryManager {
             if (audio.player != null) {
                 audio.player.pause();
             }
+        }
+
+        if (!isPurchased) {
+            gameScreen.createPurchaseFragment();
+            return;
         }
 
         if (story.isVictory()) {

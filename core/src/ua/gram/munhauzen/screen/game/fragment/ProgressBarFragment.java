@@ -419,38 +419,6 @@ public class ProgressBarFragment extends Fragment {
         return isMounted() && root.isVisible() && !isFadeOut && gameScreen.scenarioFragment == null;
     }
 
-    public void fadeOut(Runnable task) {
-
-        if (!canFadeOut()) return;
-
-        Log.i(tag, "fadeOut");
-
-        content.setTouchable(Touchable.disabled);
-
-        isFadeIn = false;
-        isFadeOut = true;
-
-        root.clearActions();
-        root.addAction(
-                Actions.sequence(
-                        Actions.parallel(
-                                Actions.fadeOut(.5f),
-                                Actions.moveTo(0, -40, .5f)
-                        ),
-                        Actions.run(new Runnable() {
-                            @Override
-                            public void run() {
-                                root.setVisible(false);
-
-                                isFadeIn = false;
-                                isFadeOut = false;
-                            }
-                        }),
-                        Actions.run(task)
-                )
-        );
-    }
-
     public void scheduleFadeOut() {
 
         cancelFadeOut();

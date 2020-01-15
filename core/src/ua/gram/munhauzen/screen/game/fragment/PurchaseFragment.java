@@ -10,6 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.entity.Purchase;
+import ua.gram.munhauzen.entity.PurchaseState;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.screen.game.ui.PurchaseBanner;
 import ua.gram.munhauzen.ui.Fragment;
@@ -62,6 +64,8 @@ public class PurchaseFragment extends Fragment {
 
                 Log.i(tag, "backdrop clicked");
 
+                screen.stageInputListener.clicked(event, x, y);
+
                 if (banner.isVisible()) {
                     banner.fadeOut();
                 } else {
@@ -102,7 +106,31 @@ public class PurchaseFragment extends Fragment {
 
         screen.stopCurrentSfx();
 
-        screen.game.currentSfx = screen.game.sfxService.onGreetingBannerShown();
+        try {
+
+            PurchaseState state = screen.game.gameState.purchaseState;
+
+            Purchase part2Purchase = null, part1Purchase = null;
+
+            for (Purchase purchase : state.purchases) {
+
+                if (purchase.productId.equals(screen.game.params.appStoreSkuPart2)) {
+                    part2Purchase = purchase;
+                }
+
+                if (purchase.productId.equals(screen.game.params.appStoreSkuPart1)) {
+                    part1Purchase = purchase;
+                }
+            }
+
+            if (part1Purchase == null) {
+                screen.game.currentSfx = screen.game.sfxService.onPurchasePart1();
+            } else if (part2Purchase == null) {
+                screen.game.currentSfx = screen.game.sfxService.onPurchasePart2();
+            }
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
     }
 
     public void fadeOut() {
