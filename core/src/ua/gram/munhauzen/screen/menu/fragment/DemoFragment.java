@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import ua.gram.munhauzen.screen.MenuScreen;
+import ua.gram.munhauzen.screen.PurchaseScreen;
 import ua.gram.munhauzen.screen.menu.ui.DemoBanner;
 import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.utils.Log;
@@ -156,12 +157,10 @@ public class DemoFragment extends MenuFragment {
 
             root.setTouchable(Touchable.disabled);
 
-//            screen.game.params.appStore.openProUrl();
-
             fadeOut(new Runnable() {
                 @Override
                 public void run() {
-                    screen.destroyBanners();
+                    screen.navigateTo(new PurchaseScreen(screen.game));
                 }
             });
 

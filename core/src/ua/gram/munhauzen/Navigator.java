@@ -6,10 +6,12 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.screen.AuthorsScreen;
+import ua.gram.munhauzen.screen.DebugScreen;
 import ua.gram.munhauzen.screen.FailsScreen;
 import ua.gram.munhauzen.screen.GalleryScreen;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.screen.LegalScreen;
+import ua.gram.munhauzen.screen.LoadingScreen;
 import ua.gram.munhauzen.screen.LogoScreen;
 import ua.gram.munhauzen.screen.MenuScreen;
 import ua.gram.munhauzen.screen.PaintingScreen;
@@ -17,14 +19,14 @@ import ua.gram.munhauzen.screen.PurchaseScreen;
 import ua.gram.munhauzen.screen.SavesScreen;
 import ua.gram.munhauzen.utils.Log;
 
-public class ScreenNavigator {
+public class Navigator {
 
     final String tag = getClass().getSimpleName();
     final MunhauzenGame game;
 
     public boolean shouldIgnoreSavedScreenUntilAppIsClosed;
 
-    protected ScreenNavigator(MunhauzenGame game) {
+    protected Navigator(MunhauzenGame game) {
         this.game = game;
     }
 
@@ -50,6 +52,15 @@ public class ScreenNavigator {
 
         } else if (GameScreen.class.getSimpleName().equals(currentScreen)) {
             game.setScreen(new GameScreen(game));
+
+        } else if (LoadingScreen.class.getSimpleName().equals(currentScreen)) {
+            game.setScreen(new LoadingScreen(game));
+
+        } else if (PurchaseScreen.class.getSimpleName().equals(currentScreen)) {
+            game.setScreen(new PurchaseScreen(game));
+
+        } else if (DebugScreen.class.getSimpleName().equals(currentScreen)) {
+            game.setScreen(new DebugScreen(game));
 
         } else {
             game.setScreen(new LogoScreen(game));
@@ -112,6 +123,13 @@ public class ScreenNavigator {
         Gdx.input.setInputProcessor(null);
 
         try {
+            if (game.params.iap != null)
+                game.params.iap.dispose();
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+
+        try {
             game.gameState.preferences.currentScreen = null;
         } catch (Throwable ignore) {
         }
@@ -152,7 +170,7 @@ public class ScreenNavigator {
             }
 
             if (game.gameState.expansionInfo != null) {
-//                isExpansionDownloaded = game.gameState.expansionInfo.isCompleted;
+                isExpansionDownloaded = game.gameState.expansionInfo.isCompleted;
             }
 
             if (!isLegalViewed) {

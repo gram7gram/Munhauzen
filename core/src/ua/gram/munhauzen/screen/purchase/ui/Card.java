@@ -14,12 +14,13 @@ import com.badlogic.gdx.utils.Align;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.screen.PurchaseScreen;
+import ua.gram.munhauzen.utils.Log;
 
 public abstract class Card extends Container<Table> {
 
     protected final String tag = getClass().getSimpleName();
     public final PurchaseScreen screen;
-    public final Image okImg;
+    public final Image sideIcon, img;
     public final Label price;
     public final Table root, content;
     public boolean enabled, purchased;
@@ -34,18 +35,15 @@ public abstract class Card extends Container<Table> {
         content = new Table();
 
         Texture cardBg = screen.game.internalAssetManager.get("bg3.jpg", Texture.class);
-        Texture okBg = screen.game.internalAssetManager.get("purchase/ok.png", Texture.class);
+
         Texture bg = getImage();
 
         float imgWidth = maxWidth * .35f;
         float imgHeight = bg.getHeight() * (imgWidth / bg.getWidth());
 
-        float okWidth = maxWidth * .1f;
-        float okHeight = okBg.getHeight() * (okWidth / okBg.getWidth());
-
-        Image img = new Image(bg);
-        okImg = new Image(okBg);
-        okImg.setVisible(false);
+        img = new Image(bg);
+        sideIcon = new Image();
+        sideIcon.setVisible(false);
 
         Label title = createTitle();
         title.setWrap(true);
@@ -64,7 +62,7 @@ public abstract class Card extends Container<Table> {
         price.setAlignment(Align.left);
 
         content.add(price).expandX().align(Align.bottomLeft);
-        content.add(okImg).width(okWidth).height(okHeight).align(Align.bottomRight);
+        content.add(sideIcon).align(Align.bottomRight);
         content.row();
 
         root.pad(10);
@@ -77,12 +75,12 @@ public abstract class Card extends Container<Table> {
         setActor(root);
         padBottom(20);
 
-        enabled = true;
-
-        addCaptureListener(new ClickListener() {
+        ClickListener listener1 = new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
+
+                Log.i(tag, "listener1");
 
                 if (screen.game.sfxService == null) return;
 
@@ -92,12 +90,14 @@ public abstract class Card extends Container<Table> {
                     screen.game.sfxService.onAnyBtnClicked();
                 }
             }
-        });
+        };
 
-        addCaptureListener(new ClickListener() {
+        ClickListener listener2 = new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
+
+                Log.i(tag, "listener2");
 
                 if (purchased) {
                     event.cancel();
@@ -105,18 +105,46 @@ public abstract class Card extends Container<Table> {
                     screen.onPurchaseCompleted();
                 }
             }
-        });
+        };
 
+        root.addCaptureListener(listener1);
+        root.addCaptureListener(listener2);
+
+        setEnabled(true);
+        updateSideIcon();
+    }
+
+    public void onClick(ClickListener listener) {
+        root.addListener(listener);
+    }
+
+    public void updateSideIcon() {
+
+        sideIcon.setVisible(purchased);
+
+        if (!purchased) return;
+
+        float maxWidth = MunhauzenGame.WORLD_WIDTH - 10 * 6;
+
+        Texture okBg = screen.game.internalAssetManager.get("purchase/ok.png", Texture.class);
+
+        float width = maxWidth * .1f;
+        float height = okBg.getHeight() * (width / okBg.getWidth());
+
+        sideIcon.setDrawable(new SpriteDrawable(new Sprite(okBg)));
+
+        content.getCell(sideIcon).width(width).height(height);
     }
 
     public void setPurchased(boolean purchased) {
         this.purchased = purchased;
-        okImg.setVisible(purchased);
+
+        updateSideIcon();
     }
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
-        setTouchable(enabled ? Touchable.enabled : Touchable.disabled);
+        root.setTouchable(enabled ? Touchable.enabled : Touchable.disabled);
     }
 
     @Override

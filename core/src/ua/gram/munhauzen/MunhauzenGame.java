@@ -29,7 +29,6 @@ public class MunhauzenGame extends Game {
     public static boolean PAUSED = false;
 
     public static final boolean DEBUG_UI = false;
-    public static final boolean DEBUG_RENDER_INFO = false;
     public static final boolean CAN_REMOVE_PREVIOUS_EXPANSION = false;
     public static final boolean CAN_SKIP_EXPANSION_VALIDATION = true;
     public static final int PROGRESS_BAR_FADE_OUT_DELAY = 5;
@@ -58,7 +57,7 @@ public class MunhauzenGame extends Game {
     public SfxService sfxService;
     public BackgroundSfxService backgroundSfxService;
     public StoryAudio currentSfx;
-    public ScreenNavigator navigator;
+    public Navigator navigator;
 
     public MunhauzenGame(PlatformParams params) {
         this.params = params;
@@ -108,7 +107,7 @@ public class MunhauzenGame extends Game {
             sfxService = new SfxService(this);
             backgroundSfxService = new BackgroundSfxService(this);
             databaseManager = new DatabaseManager(this);
-            navigator = new ScreenNavigator(this);
+            navigator = new Navigator(this);
 
             loadGameState();
             loadGlobalAssets();

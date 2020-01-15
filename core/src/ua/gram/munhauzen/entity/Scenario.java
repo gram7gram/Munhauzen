@@ -28,7 +28,7 @@ public class Scenario implements JsonEntry {
     @JsonProperty
     public String chapter;
     @JsonProperty
-    public String type;
+    public String expansion;
     @JsonProperty
     public String interaction;
     @JsonProperty

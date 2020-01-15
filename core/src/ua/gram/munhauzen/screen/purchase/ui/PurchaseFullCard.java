@@ -1,12 +1,15 @@
 package ua.gram.munhauzen.screen.purchase.ui;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 
 import ua.gram.munhauzen.FontProvider;
+import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.screen.PurchaseScreen;
 import ua.gram.munhauzen.utils.ColorUtils;
 import ua.gram.munhauzen.utils.Log;
@@ -16,7 +19,7 @@ public class PurchaseFullCard extends Card {
     public PurchaseFullCard(final PurchaseScreen screen) {
         super(screen);
 
-        addListener(new ClickListener() {
+        onClick(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
@@ -33,6 +36,29 @@ public class PurchaseFullCard extends Card {
                 }
             }
         });
+    }
+
+    @Override
+    public void updateSideIcon() {
+
+        if (purchased) {
+            super.updateSideIcon();
+            return;
+        }
+
+        sideIcon.setVisible(true);
+
+        float maxWidth = MunhauzenGame.WORLD_WIDTH - 10 * 6;
+
+        Texture txt = screen.game.internalAssetManager.get("purchase/off.png", Texture.class);
+
+        float width = maxWidth * .2f;
+        float height = txt.getHeight() * (width / txt.getWidth());
+
+        sideIcon.setDrawable(new SpriteDrawable(new Sprite(txt)));
+
+        content.getCell(sideIcon).width(width).height(height);
+
     }
 
     @Override

@@ -73,12 +73,12 @@ public class ProFragment extends MenuFragment {
 
             root.setTouchable(Touchable.disabled);
 
-            screen.game.params.appStore.openRateUrl();
-
             fadeOut(new Runnable() {
                 @Override
                 public void run() {
                     screen.destroyBanners();
+
+                    screen.game.params.appStore.openRateUrl();
                 }
             });
 

@@ -3,31 +3,25 @@ package ua.gram.munhauzen.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
-import java.util.ArrayList;
-
-import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.Image;
 import ua.gram.munhauzen.entity.Save;
 import ua.gram.munhauzen.entity.Story;
-import ua.gram.munhauzen.entity.StoryAudio;
-import ua.gram.munhauzen.entity.StoryImage;
-import ua.gram.munhauzen.entity.StoryScenario;
 import ua.gram.munhauzen.interaction.ServantsInteraction;
 import ua.gram.munhauzen.interaction.servants.fragment.ServantsFireImageFragment;
 import ua.gram.munhauzen.screen.game.fragment.ControlsFragment;
 import ua.gram.munhauzen.screen.game.fragment.ImageFragment;
 import ua.gram.munhauzen.screen.game.fragment.ProgressBarFragment;
+import ua.gram.munhauzen.screen.game.fragment.PurchaseFragment;
 import ua.gram.munhauzen.screen.game.fragment.ScenarioFragment;
 import ua.gram.munhauzen.screen.game.fragment.VictoryFragment;
 import ua.gram.munhauzen.screen.game.listener.StageInputListener;
+import ua.gram.munhauzen.screen.game.service.PurchaseManager;
 import ua.gram.munhauzen.screen.game.ui.GameLayers;
 import ua.gram.munhauzen.service.ExpansionImageService;
 import ua.gram.munhauzen.service.GameAudioService;
@@ -56,10 +50,12 @@ public class GameScreen implements Screen {
     public GameAudioService audioService;
     public ExpansionImageService imageService;
     public InteractionService interactionService;
+    public PurchaseManager purchaseManager;
     private Texture background;
     private boolean isLoaded, isBackPressed;
     public StageInputListener stageInputListener;
     public VictoryFragment victoryFragment;
+    public PurchaseFragment purchaseFragment;
 
     public GameScreen(MunhauzenGame game) {
         this.game = game;
@@ -112,6 +108,7 @@ public class GameScreen implements Screen {
         audioService = new GameAudioService(this);
         imageService = new ExpansionImageService(this);
         interactionService = new InteractionService(this);
+        purchaseManager = new PurchaseManager(this);
 
         ui = new MunhauzenStage(game);
         storyManager = new StoryManager(this, game.gameState);
@@ -216,31 +213,36 @@ public class GameScreen implements Screen {
 
             boolean isInteractionLocked = story.isInteractionLocked();
 
-            if (!isInteractionLocked && !story.isCompleted) {
+            boolean canUpdateStory = !isInteractionLocked && !story.isCompleted && !GameState.isPaused;
 
-                if (!GameState.isPaused) {
-                    storyManager.update(
-                            story.progress + (delta * 1000),
-                            story.totalDuration
-                    );
-                }
+            if (canUpdateStory) {
+                storyManager.update(
+                        story.progress + (delta * 1000),
+                        story.totalDuration
+                );
+            }
 
-                storyManager.startLoadingImages();
+            checkExpansionIsPurchased();
 
-                if (!GameState.isPaused) {
+            boolean isPurchaseLocked = purchaseFragment == null;
 
-                    if (story.isValid()) {
+            boolean canUpdateStoryImage = !isInteractionLocked && !story.isCompleted;
+            boolean canCompleteStory = canUpdateStoryImage && !isPurchaseLocked && !GameState.isPaused && story.isValid();
 
-                        game.achievementService.onScenarioVisited(story.currentScenario.scenario);
+            if (canUpdateStoryImage) {
+//                storyManager.startLoadingImages();
+            }
 
-                        if (story.isCompleted || MunhauzenGame.developmentInteraction != null) {
+            if (canCompleteStory) {
 
-                            storyManager.onCompleted();
+                game.achievementService.onScenarioVisited(story.currentScenario.scenario);
 
-                        } else {
-                            storyManager.startLoadingAudio();
-                        }
-                    }
+                if (story.isCompleted || MunhauzenGame.developmentInteraction != null) {
+
+                    storyManager.onCompleted();
+
+                } else {
+                    storyManager.startLoadingAudio();
                 }
             }
 
@@ -258,9 +260,28 @@ public class GameScreen implements Screen {
         ui.act(delta);
         ui.draw();
 
-        if (MunhauzenGame.DEBUG_RENDER_INFO)
-            drawDebugInfo();
+    }
 
+    private void checkExpansionIsPurchased() {
+        Story story = getStory();
+
+        if (story != null && !purchaseManager.isExpansionPurchased(story.currentScenario.scenario.expansion)) {
+
+            if (purchaseFragment == null) {
+                purchaseFragment = new PurchaseFragment(this);
+                purchaseFragment.create();
+
+                gameLayers.setPurchaseLayer(purchaseFragment);
+
+                purchaseFragment.fadeIn();
+            }
+        } else {
+            if (purchaseFragment != null) {
+                purchaseFragment.dispose();
+                gameLayers.setPurchaseLayer(null);
+                purchaseFragment = null;
+            }
+        }
     }
 
     public void checkBackPressed() {
@@ -301,57 +322,6 @@ public class GameScreen implements Screen {
         game.sfxService.onBackToMenuClicked();
 
         navigateTo(new MenuScreen(game));
-    }
-
-    private void drawDebugInfo() {
-
-        Story story = getStory();
-        if (story == null) return;
-
-        int fontSize = FontProvider.p;
-        BitmapFont font = game.fontProvider.getFont(FontProvider.DroidSansMono, fontSize);
-        if (font != null) {
-
-            font.setColor(Color.BLUE);
-
-            ArrayList<String> strings = new ArrayList<>();
-
-            if (story.currentInteraction != null) {
-                strings.add("interaction:" + story.currentInteraction.name + "" + (story.currentInteraction.isLocked ? " lock" : ""));
-            } else {
-
-                strings.add("duration:" + story.totalDuration + "ms");
-                strings.add("progress:" + ((int) story.progress) + "ms");
-
-                for (StoryScenario scenarioOption : story.scenarios) {
-                    strings.add("-scenario:" + scenarioOption.scenario.name
-                            + "" + (scenarioOption.scenario.interaction != null ? " (" + scenarioOption.scenario.interaction + ")" : "")
-                            + "" + (scenarioOption.isLocked ? " lock" : "")
-                    );
-                    for (StoryAudio audio : scenarioOption.scenario.audio) {
-                        strings.add("--audio:" + audio.audio
-                                + "" + (audio.isLocked ? " locked" : "")
-                                + "" + (audio.isActive ? " active" : "")
-                        );
-                    }
-                    for (StoryImage image : scenarioOption.scenario.images) {
-                        strings.add("--image:" + image.image
-                                + "" + (image.isLocked ? " locked" : "")
-                                + "" + (image.isActive ? " active" : "")
-                        );
-                    }
-                }
-            }
-
-            int offset = fontSize + 3;
-            int row = -1;
-
-            game.batch.begin();
-            for (String string : strings) {
-                font.draw(game.batch, string, 10, MunhauzenGame.WORLD_HEIGHT - 10 - (++row) * offset);
-            }
-            game.batch.end();
-        }
     }
 
     private void drawBackground() {
@@ -425,6 +395,11 @@ public class GameScreen implements Screen {
             victoryFragment = null;
         }
 
+        if (purchaseFragment != null) {
+            purchaseFragment.destroy();
+            purchaseFragment = null;
+        }
+
         if (gameLayers != null) {
             gameLayers.dispose();
             gameLayers = null;
@@ -450,6 +425,7 @@ public class GameScreen implements Screen {
             imageService = null;
         }
 
+        purchaseManager = null;
         background = null;
     }
 

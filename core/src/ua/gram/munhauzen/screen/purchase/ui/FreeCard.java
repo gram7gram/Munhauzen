@@ -17,7 +17,7 @@ public class FreeCard extends Card {
     public FreeCard(final PurchaseScreen screen) {
         super(screen);
 
-        addListener(new ClickListener() {
+        onClick(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);

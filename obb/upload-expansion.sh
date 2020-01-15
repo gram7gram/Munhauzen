@@ -50,21 +50,21 @@ function deploy() {
 
 }
 
-#syncLocal "$VERSION-en-mdpi-Part_demo"
-#syncLocal "$VERSION-en-mdpi-Part_1"
-#syncLocal "$VERSION-en-mdpi-Part_2"
-#
-#syncLocal "$VERSION-en-hdpi-Part_demo"
-#syncLocal "$VERSION-en-hdpi-Part_1"
-#syncLocal "$VERSION-en-hdpi-Part_2"
-#
-#syncLocal "$VERSION-ru-mdpi-Part_demo"
-#syncLocal "$VERSION-ru-mdpi-Part_1"
-#syncLocal "$VERSION-ru-mdpi-Part_2"
-#
-#syncLocal "$VERSION-ru-hdpi-Part_demo"
-#syncLocal "$VERSION-ru-hdpi-Part_1"
-#syncLocal "$VERSION-ru-hdpi-Part_2"
+syncLocal "$VERSION-en-mdpi-Part_demo"
+syncLocal "$VERSION-en-mdpi-Part_1"
+syncLocal "$VERSION-en-mdpi-Part_2"
+
+syncLocal "$VERSION-en-hdpi-Part_demo"
+syncLocal "$VERSION-en-hdpi-Part_1"
+syncLocal "$VERSION-en-hdpi-Part_2"
+
+syncLocal "$VERSION-ru-mdpi-Part_demo"
+syncLocal "$VERSION-ru-mdpi-Part_1"
+syncLocal "$VERSION-ru-mdpi-Part_2"
+
+syncLocal "$VERSION-ru-hdpi-Part_demo"
+syncLocal "$VERSION-ru-hdpi-Part_1"
+syncLocal "$VERSION-ru-hdpi-Part_2"
 
 syncRemote "$VERSION-en-mdpi-Part_demo"
 syncRemote "$VERSION-en-mdpi-Part_1"
@@ -82,6 +82,6 @@ syncRemote "$VERSION-ru-hdpi-Part_demo"
 syncRemote "$VERSION-ru-hdpi-Part_1"
 syncRemote "$VERSION-ru-hdpi-Part_2"
 
-#deploy
+deploy
 
 echo "[+] Completed!"

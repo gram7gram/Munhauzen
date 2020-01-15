@@ -16,14 +16,20 @@ public class PurchasePart2Card extends Card {
     public PurchasePart2Card(final PurchaseScreen screen) {
         super(screen);
 
-        addListener(new ClickListener() {
+        onClick(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                Log.i(tag, "clicked on " + screen.game.params.appStoreSkuPart2);
+                try {
+                    Log.i(tag, "clicked on " + screen.game.params.appStoreSkuPart2);
 
-                screen.game.params.iap.purchase(screen.game.params.appStoreSkuPart2);
+                    screen.game.params.iap.purchase(screen.game.params.appStoreSkuPart2);
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+
+                    screen.onCriticalError(e);
+                }
             }
         });
     }
