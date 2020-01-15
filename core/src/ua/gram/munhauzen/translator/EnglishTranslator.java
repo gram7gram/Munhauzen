@@ -100,7 +100,8 @@ public class EnglishTranslator implements Translator {
         map.put("greetings_banner.btn", "Start");
         map.put("rate_banner.btn", "Rate");
         map.put("rate_banner.title", "Please, rate out application and leave a positive review");
-        map.put("pro_banner.btn", "Rate");
+        map.put("pro_banner.btn", "Rate app!");
+        map.put("pro_banner.purchases_btn", "Purchases");
         map.put("pro_banner.title", "Thank you for purchasing the full version!"
                 + "\nOur bow!");
         map.put("thank_you_banner.btn", "Feedback");
@@ -173,7 +174,6 @@ public class EnglishTranslator implements Translator {
         map.put("version_screen.content", "Your app is not the latest version. Please, download the newer one");
         map.put("version_screen.ignore_btn", "Ignore");
         map.put("version_screen.confirm_btn", "Download");
-
         map.put("purchase_screen.title", "Purchase");
         map.put("purchase_screen.unavailable", "Not available");
         map.put("purchase_screen.already_purchased", "Owned!");

@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
+import com.badlogic.gdx.pay.android.googlebilling.PurchaseManagerGoogleBilling;
 
 import ru.munchausen.fingertipsandcompany.full.BuildConfig;
 import ua.gram.munhauzen.translator.RussianTranslator;
@@ -32,6 +33,7 @@ public class AndroidLauncher extends AndroidApplication {
         params.appStoreSkuFull = "full_munchausen_audiobook_ru";
         params.appStoreSkuPart1 = "part1_munchausen_audiobook_ru";
         params.appStoreSkuPart2 = "part2_munchausen_audiobook_ru";
+        params.iap = new PurchaseManagerGoogleBilling(this);
         params.translator = new RussianTranslator();
         params.memoryUsage = new AndroidMemoryUsage();
         params.appStore = new AndroidAppStore(params, getApplicationContext());

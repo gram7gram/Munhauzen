@@ -101,6 +101,7 @@ public class RussianTranslator implements Translator {
         map.put("rate_banner.btn", "Оценить");
         map.put("rate_banner.title", "Пожалуйста, оцените наше приложение и оставьте отзыв");
         map.put("pro_banner.btn", "Оценить");
+        map.put("pro_banner.purchases_btn", "Мои покупки");
         map.put("pro_banner.title", "Спасибо за покупку полной версии аудиокниги!"
                 + "\nПоклон!");
         map.put("thank_you_banner.btn", "Оставить отзыв");
@@ -173,7 +174,18 @@ public class RussianTranslator implements Translator {
         map.put("version_screen.content", "Ваша игра не последней версии. Пожалуйста, скачайте новее");
         map.put("version_screen.ignore_btn", "Игнорировать");
         map.put("version_screen.confirm_btn", "Скачать");
-
+        map.put("purchase_screen.title", "Покупки");
+        map.put("purchase_screen.unavailable", "Недоступно");
+        map.put("purchase_screen.already_purchased", "Куплено!");
+        map.put("purchase_screen.free_title", "Демо версия");
+        map.put("purchase_screen.free_price", "Бесплатно");
+        map.put("purchase_screen.free_description", "1 час аудиокниги!\n8 глав!\n31 илюстраций!");
+        map.put("purchase_screen.full_title", "Полная версия");
+        map.put("purchase_screen.full_description", "7+ часов аудиокниги!\n69 глав!\n250+ илюстраций!");
+        map.put("purchase_screen.part1_title", "Часть 1");
+        map.put("purchase_screen.part1_description", "4+ часов аудиокниги!\n34 глав!\n100+ илюстраций!");
+        map.put("purchase_screen.part2_title", "Часть 2");
+        map.put("purchase_screen.part2_description", "3+ часов аудиокниги!\n27 глав!\n100+ илюстраций!");
 
     }
 

@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.Align;
 import ua.gram.munhauzen.ButtonBuilder;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.screen.PurchaseScreen;
 import ua.gram.munhauzen.screen.menu.fragment.ProFragment;
 import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.utils.Log;
@@ -78,7 +79,13 @@ public class ProBanner extends Banner {
         Table buttons = new Table();
         buttons.add(getActionBtn())
                 .width(ButtonBuilder.BTN_PRIMARY_WIDTH)
-                .height(ButtonBuilder.BTN_PRIMARY_HEIGHT);
+                .height(ButtonBuilder.BTN_PRIMARY_HEIGHT)
+                .padBottom(10)
+                .row();
+        buttons.add(getPurchasesBtn())
+                .width(ButtonBuilder.BTN_PRIMARY_WIDTH)
+                .height(ButtonBuilder.BTN_PRIMARY_HEIGHT)
+                .row();
 
         content.add(columns).row();
         content.add(buttons).row();
@@ -96,6 +103,23 @@ public class ProBanner extends Banner {
                 try {
                     fragment.onOkClicked();
 
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
+            }
+        });
+
+    }
+
+    private Actor getPurchasesBtn() {
+
+        return screen.game.buttonBuilder.danger(screen.game.t("pro_banner.purchases_btn"), new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                try {
+                    screen.navigateTo(new PurchaseScreen(screen.game));
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }

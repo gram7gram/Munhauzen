@@ -36,12 +36,6 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'androiddebug'
         }
-        staging {
-            storeFile file(RELEASE_STORE_FILE)
-            storePassword RELEASE_STORE_PASSWORD
-            keyAlias RELEASE_KEY_ALIAS
-            keyPassword RELEASE_KEY_PASSWORD
-        }
         release {
             storeFile file(RELEASE_STORE_FILE)
             storePassword RELEASE_STORE_PASSWORD
@@ -60,6 +54,11 @@ android {
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
+        }
+        staging {
+            signingConfig signingConfigs.release
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         release {
             signingConfig signingConfigs.release
