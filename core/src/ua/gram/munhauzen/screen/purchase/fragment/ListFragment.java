@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.utils.Align;
 
 import ua.gram.munhauzen.FontProvider;
+import ua.gram.munhauzen.entity.PurchaseState;
 import ua.gram.munhauzen.screen.PurchaseScreen;
 import ua.gram.munhauzen.screen.purchase.ui.Card;
 import ua.gram.munhauzen.screen.purchase.ui.FreeCard;
@@ -68,6 +69,20 @@ public class ListFragment extends Fragment {
         root.setName(tag);
 
         root.setVisible(false);
+    }
+
+    public void update() {
+        PurchaseState state = screen.game.gameState.purchaseState;
+        if (state != null) {
+            if (state.isPro) {
+                if (!card2.purchased) {
+                    card2.setEnabled(false);
+                }
+                if (!card3.purchased) {
+                    card3.setEnabled(false);
+                }
+            }
+        }
     }
 
     public void fadeOut(Runnable runnable) {

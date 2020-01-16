@@ -71,6 +71,6 @@ public class PurchasePart2Card extends Card {
 
     @Override
     public Texture getImage() {
-        return screen.game.internalAssetManager.get("purchase/part2.jpg", Texture.class);
+        return screen.game.internalAssetManager.get("purchase/part2.png", Texture.class);
     }
 }

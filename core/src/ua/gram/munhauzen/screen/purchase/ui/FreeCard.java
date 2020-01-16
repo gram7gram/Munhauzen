@@ -66,7 +66,7 @@ public class FreeCard extends Card {
 
     @Override
     public Texture getImage() {
-        return screen.game.internalAssetManager.get("purchase/free.jpg", Texture.class);
+        return screen.game.internalAssetManager.get("purchase/free.png", Texture.class);
     }
 
 

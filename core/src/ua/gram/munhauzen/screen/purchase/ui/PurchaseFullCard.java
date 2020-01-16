@@ -98,6 +98,6 @@ public class PurchaseFullCard extends Card {
 
     @Override
     public Texture getImage() {
-        return screen.game.internalAssetManager.get("purchase/full.jpg", Texture.class);
+        return screen.game.internalAssetManager.get("purchase/full.png", Texture.class);
     }
 }

@@ -50,10 +50,10 @@ public class PurchaseScreen implements Screen {
         background = game.internalAssetManager.get("p0.jpg", Texture.class);
 
         game.internalAssetManager.load("bg3.jpg", Texture.class);
-        game.internalAssetManager.load("purchase/full.jpg", Texture.class);
-        game.internalAssetManager.load("purchase/part1.jpg", Texture.class);
-        game.internalAssetManager.load("purchase/part2.jpg", Texture.class);
-        game.internalAssetManager.load("purchase/free.jpg", Texture.class);
+        game.internalAssetManager.load("purchase/full.png", Texture.class);
+        game.internalAssetManager.load("purchase/part1.png", Texture.class);
+        game.internalAssetManager.load("purchase/part2.png", Texture.class);
+        game.internalAssetManager.load("purchase/free.png", Texture.class);
         game.internalAssetManager.load("purchase/ok.png", Texture.class);
         game.internalAssetManager.load("purchase/off.png", Texture.class);
         game.internalAssetManager.load("purchase/b_menu.png", Texture.class);
@@ -241,6 +241,8 @@ public class PurchaseScreen implements Screen {
 
                         game.gameState.purchaseState.purchases.add(p);
 
+                        setPro(game.gameState.purchaseState.purchases);
+
                         onPurchaseCompleted();
                     } catch (Throwable e) {
                         Log.e(tag, e);
@@ -312,8 +314,14 @@ public class PurchaseScreen implements Screen {
 
         checkBackPressed();
 
-        controlsFragment.root.setVisible(game.gameState.expansionInfo != null
-                && game.gameState.expansionInfo.isCompleted);
+        if (controlsFragment != null) {
+            controlsFragment.root.setVisible(game.gameState.expansionInfo != null
+                    && game.gameState.expansionInfo.isCompleted);
+        }
+
+        if (fragment != null) {
+            fragment.update();
+        }
 
         ui.act(delta);
         ui.draw();
@@ -356,11 +364,10 @@ public class PurchaseScreen implements Screen {
         }
 
         game.internalAssetManager.unload("bg3.jpg");
-        game.internalAssetManager.unload("purchase/full.jpg");
-        game.internalAssetManager.unload("purchase/part1.jpg");
-        game.internalAssetManager.unload("purchase/part2.jpg");
-        game.internalAssetManager.unload("purchase/free.jpg");
-        game.internalAssetManager.unload("purchase/free.jpg");
+        game.internalAssetManager.unload("purchase/full.png");
+        game.internalAssetManager.unload("purchase/part1.png");
+        game.internalAssetManager.unload("purchase/part2.png");
+        game.internalAssetManager.unload("purchase/free.png");
         game.internalAssetManager.unload("purchase/b_menu.png");
         game.internalAssetManager.unload("purchase/ok.png");
         game.internalAssetManager.unload("purchase/off.png");
@@ -375,24 +382,24 @@ public class PurchaseScreen implements Screen {
         game.navigator.navigateTo(screen);
     }
 
-    public void setPro(ArrayList<Purchase> transactions) {
+    public void setPro(ArrayList<Purchase> purchases) {
 
         game.gameState.purchaseState.isPro = false;
 
-        if (transactions != null) {
+        if (purchases != null) {
 
             boolean hasFull = false, hasPart1 = false, hasPart2 = false;
 
-            for (Purchase transaction : transactions) {
-                if (transaction.productId.equals(game.params.appStoreSkuFull)) {
+            for (Purchase purchase : purchases) {
+                if (purchase.productId.equals(game.params.appStoreSkuFull)) {
                     hasFull = true;
                 }
 
-                if (transaction.productId.equals(game.params.appStoreSkuPart1)) {
+                if (purchase.productId.equals(game.params.appStoreSkuPart1)) {
                     hasPart1 = true;
                 }
 
-                if (transaction.productId.equals(game.params.appStoreSkuPart2)) {
+                if (purchase.productId.equals(game.params.appStoreSkuPart2)) {
                     hasPart2 = true;
                 }
             }

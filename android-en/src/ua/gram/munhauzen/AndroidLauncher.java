@@ -31,8 +31,8 @@ public class AndroidLauncher extends AndroidApplication {
         params.versionName = BuildConfig.VERSION_NAME;
         params.locale = "en";
         params.appStoreSkuFull = "full_munchausen_audiobook_eng";
-        params.appStoreSkuPart1 = "part1_munchausen_audiobook_eng";
-        params.appStoreSkuPart2 = "part2_munchausen_audiobook_eng";
+        params.appStoreSkuPart1 = "part_1_munchausen_audiobook_eng";
+        params.appStoreSkuPart2 = "part_2_munchausen_audiobook_eng";
         params.iap = new PurchaseManagerGoogleBilling(this);
         params.translator = new EnglishTranslator();
         params.memoryUsage = new AndroidMemoryUsage();
