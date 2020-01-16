@@ -85,13 +85,15 @@ public class MenuScreen extends AbstractScreen {
         assetManager.load("menu/mmv_fond_1.jpg", Texture.class);
         assetManager.load("menu/b_menu.png", Texture.class);
         assetManager.load("menu/b_exit_on.png", Texture.class);
-        assetManager.load("menu/menu_logo.png", Texture.class);
         assetManager.load("menu/b_lock.png", Texture.class);
 
         assetManager.load("menu/b_share_an_sheet.png", Texture.class);
         assetManager.load("menu/b_rate_an_sheet.png", Texture.class);
         assetManager.load("menu/b_full_version_an_sheet.png", Texture.class);
         assetManager.load("menu/b_demo_version_an_sheet.png", Texture.class);
+
+        game.internalAssetManager.load("menu_logo.png", Texture.class);
+        game.internalAssetManager.finishLoading();
 
         if (game.backgroundSfxService == null) {
             game.backgroundSfxService = new BackgroundSfxService(game);
@@ -422,16 +424,23 @@ public class MenuScreen extends AbstractScreen {
     public void dispose() {
         super.dispose();
 
-        destroyBanners();
+        try {
 
-        if (audioService != null) {
-            audioService.dispose();
-            audioService = null;
-        }
+            destroyBanners();
 
-        if (layers != null) {
-            layers.dispose();
-            layers = null;
+            if (audioService != null) {
+                audioService.dispose();
+                audioService = null;
+            }
+
+            if (layers != null) {
+                layers.dispose();
+                layers = null;
+            }
+
+            game.internalAssetManager.unload("menu_logo.png");
+        } catch (Throwable e) {
+            Log.e(tag, e);
         }
     }
 

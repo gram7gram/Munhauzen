@@ -212,7 +212,7 @@ public class ControlsFragment extends Fragment {
         isVisible = false;
 
         setLogoDrawable(new SpriteDrawable(new Sprite(
-                screen.assetManager.get("menu/menu_logo.png", Texture.class)
+                screen.game.internalAssetManager.get("menu_logo.png", Texture.class)
         )));
 
         Timer.instance().scheduleTask(new Timer.Task() {
