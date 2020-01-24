@@ -761,13 +761,17 @@ public class DatabaseManager {
 
     @SuppressWarnings("unchecked")
     private ArrayList<Scenario> loadExternalScenario() {
+
+        FileHandle file = ExternalFiles.getScenarioFile(game.params);
+        if (!file.exists()) return null;
+
         Json json = new Json(JsonWriter.OutputType.json);
         json.setIgnoreUnknownFields(true);
         json.setElementType(Scenario.class, "decisions", Decision.class);
         json.setElementType(Scenario.class, "images", StoryImage.class);
         json.setElementType(Scenario.class, "audio", StoryAudio.class);
 
-        return json.fromJson(ArrayList.class, Scenario.class, ExternalFiles.getScenarioFile(game.params));
+        return json.fromJson(ArrayList.class, Scenario.class, file);
     }
 
     @SuppressWarnings("unchecked")

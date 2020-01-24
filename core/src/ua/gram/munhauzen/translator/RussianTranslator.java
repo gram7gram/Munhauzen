@@ -31,7 +31,11 @@ public class RussianTranslator implements Translator {
                         + "\nЯ и сам стал бы в этом сомневаться, если бы не видел зеленых железных червей и собственными глазами не убедился в их разрушительной деятельности."
                         + "\nКаждое мое слово есть чистейшая истина, а если вы не верите мне, отправляйтесь сами на Луну. Там вы увидите, что я ничего не выдумываю и рассказываю вам одну только правду."
                         + "\nЭто потому, что я люблю путешествовать и всегда ищу приключений, а вы сидите дома и ничего не видите, разве что четыре стены своей комнаты.");
+        map.put("loading.retry_title", "Загрузка была прервана или отменена");
         map.put("loading.retry_btn", "Повторить");
+        map.put("loading.cancel_btn", "Отменить");
+        map.put("loading.purchases_btn", "Покупки");
+        map.put("loading.menu_btn", "Главное меню");
         map.put("loading.download_btn", "Скачать");
         map.put("loading.title", "Загрузка ресурсов");
         map.put("loading.message", "Сейчас начнеться скачивание необходимых файлов для игры. Пожалуйста, не прерывайте Wi-Fi соединения и дождитесь загрузки.");
@@ -177,6 +181,7 @@ public class RussianTranslator implements Translator {
         map.put("purchase_screen.title", "Покупки");
         map.put("purchase_screen.unavailable", "Недоступно");
         map.put("purchase_screen.already_purchased", "Куплено!");
+        map.put("purchase_screen.download", "Скачать");
         map.put("purchase_screen.free_title", "Демо версия");
         map.put("purchase_screen.free_price", "Бесплатно");
         map.put("purchase_screen.free_description", "1 час аудиокниги!\n8 глав!\n31 илюстраций!");

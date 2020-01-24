@@ -291,6 +291,7 @@ public class MunhauzenGame extends Game {
     public void stopCurrentSfx() {
         if (currentSfx != null) {
             sfxService.dispose(currentSfx);
+            sfxService.disposeInternal(currentSfx);
             currentSfx = null;
         }
 

@@ -9,6 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.utils.Align;
 
 import ua.gram.munhauzen.FontProvider;
+import ua.gram.munhauzen.entity.Product;
+import ua.gram.munhauzen.entity.Purchase;
 import ua.gram.munhauzen.entity.PurchaseState;
 import ua.gram.munhauzen.screen.PurchaseScreen;
 import ua.gram.munhauzen.screen.purchase.ui.Card;
@@ -25,7 +27,7 @@ public class ListFragment extends Fragment {
 
     private final String tag = getClass().getSimpleName();
     private final PurchaseScreen screen;
-    public Card card1, card2, card3, card4;
+    public Card cardFree, cardPart1, cardPart2, cardFull;
     public FragmentRoot root;
     boolean isFadeIn, isFadeOut;
 
@@ -44,23 +46,23 @@ public class ListFragment extends Fragment {
         title.setWrap(true);
         title.setAlignment(Align.center);
 
-        card1 = new FreeCard(screen);
-        card2 = new PurchasePart1Card(screen);
-        card3 = new PurchasePart2Card(screen);
-        card4 = new PurchaseFullCard(screen);
+        cardFree = new FreeCard(screen);
+        cardPart1 = new PurchasePart1Card(screen);
+        cardPart2 = new PurchasePart2Card(screen);
+        cardFull = new PurchaseFullCard(screen);
 
-        card1.setPurchased(true);
+        cardFree.setPurchased(true);
 
         VerticalGroup list = new VerticalGroup();
-        list.addActor(card1);
-        list.addActor(card4);
-        list.addActor(card2);
-        list.addActor(card3);
+        list.addActor(title);
+        list.addActor(cardFree);
+        list.addActor(cardFull);
+        list.addActor(cardPart1);
+        list.addActor(cardPart2);
 
         Table content = new Table();
         content.setFillParent(true);
         content.pad(10);
-        content.add(title).expandX().row();
         content.add(new VerticalScrollPane(list)).fill().row();
 
         root = new FragmentRoot();
@@ -74,14 +76,115 @@ public class ListFragment extends Fragment {
     public void update() {
         PurchaseState state = screen.game.gameState.purchaseState;
         if (state != null) {
-            if (state.isPro) {
-                if (!card2.purchased) {
-                    card2.setEnabled(false);
-                }
-                if (!card3.purchased) {
-                    card3.setEnabled(false);
+
+            if (state.products != null) {
+                for (Product product : state.products) {
+
+                    if (screen.game.params.appStoreSkuFull.equals(product.id)) {
+
+                        if (!product.isAvailable) {
+                            cardFull.price.setText(screen.game.t("purchase_screen.unavailable"));
+                            cardFull.setEnabled(false);
+                        } else {
+
+                            boolean isPurchased = false;
+
+                            if (state.purchases != null) {
+                                for (Purchase purchase : state.purchases) {
+                                    if (purchase.productId.equals(product.id)) {
+                                        isPurchased = true;
+                                        break;
+                                    }
+                                }
+                            }
+
+                            cardFull.setPurchased(isPurchased);
+
+                            if (isPurchased) {
+                                if (product.isDownloaded) {
+                                    cardFull.price.setText(screen.game.t("purchase_screen.already_purchased"));
+                                } else {
+                                    cardFull.price.setText(screen.game.t("purchase_screen.download"));
+                                }
+
+                            } else {
+                                cardFull.price.setText(product.localPricing);
+                            }
+                        }
+                    }
+
+                    if (screen.game.params.appStoreSkuPart1.equals(product.id)) {
+
+                        if (!product.isAvailable) {
+                            cardPart1.price.setText(screen.game.t("purchase_screen.unavailable"));
+                            cardPart1.setEnabled(false);
+                        } else {
+
+                            boolean isPurchased = false;
+
+                            if (state.purchases != null) {
+                                for (Purchase purchase : state.purchases) {
+                                    if (purchase.productId.equals(product.id)) {
+                                        isPurchased = true;
+                                        break;
+                                    }
+                                }
+                            }
+
+                            cardPart1.setPurchased(isPurchased);
+
+                            if (isPurchased) {
+                                if (product.isDownloaded) {
+                                    cardPart1.price.setText(screen.game.t("purchase_screen.already_purchased"));
+                                } else {
+                                    cardPart1.price.setText(screen.game.t("purchase_screen.download"));
+                                }
+
+                            } else {
+                                cardPart1.price.setText(product.localPricing);
+                            }
+                        }
+                    }
+
+                    if (screen.game.params.appStoreSkuPart2.equals(product.id)) {
+
+                        if (!product.isAvailable) {
+                            cardPart2.price.setText(screen.game.t("purchase_screen.unavailable"));
+                            cardPart2.setEnabled(false);
+                        } else {
+
+                            boolean isPurchased = false;
+
+                            if (state.purchases != null) {
+                                for (Purchase purchase : state.purchases) {
+                                    if (purchase.productId.equals(product.id)) {
+                                        isPurchased = true;
+                                        break;
+                                    }
+                                }
+                            }
+
+                            cardPart2.setPurchased(isPurchased);
+
+                            if (isPurchased) {
+                                if (product.isDownloaded) {
+                                    cardPart2.price.setText(screen.game.t("purchase_screen.already_purchased"));
+                                } else {
+                                    cardPart2.price.setText(screen.game.t("purchase_screen.download"));
+                                }
+
+                            } else {
+                                cardPart2.price.setText(product.localPricing);
+                            }
+                        }
+                    }
+
                 }
             }
+
+            cardPart1.setEnabled(!state.isPro);
+            cardPart2.setEnabled(!state.isPro);
+
         }
     }
 

@@ -135,6 +135,16 @@ public class SfxService {
         prepareAndPlay("sfx_menu_win_items");
     }
 
+    public StoryAudio onPurchaseSuccess() {
+        return prepareAndPlayInternal(MathUtils.random(new String[]{
+                "sfx_menu_thanks_1",
+                "sfx_menu_thanks_2",
+                "sfx_menu_thanks_3",
+                "sfx_menu_thanks_4",
+                "sfx_menu_thanks_5",
+                "sfx_menu_thanks_6"
+        }));
+    }
     public void onLoadingVisited() {
         prepareAndPlayInternal(MathUtils.random(new String[]{
                 "sfx_menu_downloading_1",
@@ -379,11 +389,11 @@ public class SfxService {
         }
     }
 
-    private void prepareAndPlayInternal(String sfx) {
+    private StoryAudio prepareAndPlayInternal(String sfx) {
 
         try {
-            if (game.internalAssetManager == null) return;
-            if (GameState.isMute) return;
+            if (game.internalAssetManager == null) return null;
+            if (GameState.isMute) return null;
 
             String file = "audio/" + sfx + ".mp3";
 
@@ -415,11 +425,15 @@ public class SfxService {
 
             sound.play();
 
+            return storyAudio;
+
         } catch (Throwable e) {
             Log.e(tag, e);
 
             game.onCriticalError(e);
         }
+
+        return null;
     }
 
     public void update() {
@@ -445,29 +459,35 @@ public class SfxService {
 
     public void dispose(StoryAudio storyAudio) {
 
-        if (storyAudio.player != null) {
-            storyAudio.player.stop();
-            storyAudio.player = null;
-        }
+        try {
+            if (storyAudio.player != null) {
+                storyAudio.player.stop();
+                storyAudio.player = null;
+            }
 
-        activeAudio.remove(storyAudio);
+            activeAudio.remove(storyAudio);
 
-        if (game.expansionAssetManager != null) {
-            game.expansionAssetManager.unload(storyAudio.resource);
+            if (game.expansionAssetManager != null) {
+                game.expansionAssetManager.unload(storyAudio.resource);
+            }
+        } catch (Throwable ignore) {
         }
     }
 
     public void disposeInternal(StoryAudio storyAudio) {
 
-        if (storyAudio.player != null) {
-            storyAudio.player.stop();
-            storyAudio.player = null;
-        }
+        try {
+            if (storyAudio.player != null) {
+                storyAudio.player.stop();
+                storyAudio.player = null;
+            }
 
-        activeAudio.remove(storyAudio);
+            activeAudio.remove(storyAudio);
 
-        if (game.internalAssetManager != null) {
-            game.internalAssetManager.unload(storyAudio.resource);
+            if (game.internalAssetManager != null) {
+                game.internalAssetManager.unload(storyAudio.resource);
+            }
+        } catch (Throwable ignore) {
         }
     }
 

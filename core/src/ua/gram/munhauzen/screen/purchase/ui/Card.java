@@ -34,7 +34,7 @@ public abstract class Card extends Container<Table> {
 
         content = new Table();
 
-        Texture cardBg = screen.game.internalAssetManager.get("bg3.jpg", Texture.class);
+        Texture cardBg = screen.game.internalAssetManager.get("bg3.png", Texture.class);
 
         Texture bg = getImage();
 

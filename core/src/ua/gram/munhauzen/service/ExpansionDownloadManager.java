@@ -26,7 +26,8 @@ public class ExpansionDownloadManager implements Disposable {
     final String tag = getClass().getSimpleName();
     final MunhauzenGame game;
     final ControlsFragment fragment;
-    Net.HttpRequest httpRequest;
+    public Net.HttpRequest httpRequest;
+    private boolean isCanceled;
 
     final Json json;
 
@@ -41,10 +42,20 @@ public class ExpansionDownloadManager implements Disposable {
     public void start() {
         Log.i(tag, "start");
 
+        cancel();
+
+        dispose();
+
         fetchExpansionInfo();
     }
 
     private void processAvailablePart() {
+
+        if (isDisposed()) {
+            Log.i(tag, "ignored");
+            return;
+        }
+
         Part nextPart = null;
         for (Part item : game.gameState.expansionInfo.parts.items) {
 
@@ -71,6 +82,12 @@ public class ExpansionDownloadManager implements Disposable {
     }
 
     public void fetchExpansionPart(final Part part) {
+
+        if (isDisposed()) {
+            Log.i(tag, "ignored");
+            return;
+        }
+
         Log.i(tag, "fetchExpansionPart part#" + part.partKey + " " + part.url);
 
         final HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
@@ -149,6 +166,12 @@ public class ExpansionDownloadManager implements Disposable {
     }
 
     public void extractPart(final Part part) {
+
+        if (isDisposed()) {
+            Log.i(tag, "ignored");
+            return;
+        }
+
         Log.i(tag, "extractPart part#" + part.partKey);
 
         try {
@@ -173,6 +196,12 @@ public class ExpansionDownloadManager implements Disposable {
     }
 
     public void validateDownloadedPart(Part part) {
+
+        if (isDisposed()) {
+            Log.i(tag, "ignored");
+            return;
+        }
+
         Log.i(tag, "validateDownloadedPart part#" + part.partKey);
 
         FileHandle expansionFile = ExternalFiles.getExpansionPartFile(game.params, part);
@@ -394,15 +423,10 @@ public class ExpansionDownloadManager implements Disposable {
         ExpansionResponse expansionInfo = game.gameState.expansionInfo;
         expansionInfo.isDownloadStarted = false;
 
-        fragment.progress.setText(expansionInfo.progress + "%");
-        fragment.progressMessage.setText(game.t("expansion_download.not_found"));
-        fragment.retryBtn.setVisible(true);
+        fragment.retryTitle.setText(game.t("expansion_download.not_found"));
+        fragment.showRetry();
 
-        if (fragment.screen.expansionDownloader != null) {
-            fragment.screen.expansionDownloader.dispose();
-            fragment.screen.expansionDownloader = null;
-        }
-
+        dispose();
     }
 
     private void onConnectionFailed() {
@@ -412,14 +436,10 @@ public class ExpansionDownloadManager implements Disposable {
         if (expansionInfo != null)
             expansionInfo.isDownloadStarted = false;
 
-        fragment.progress.setText("");
-        fragment.progressMessage.setText(game.t("expansion_download.failed"));
-        fragment.retryBtn.setVisible(true);
+        fragment.retryTitle.setText(game.t("expansion_download.failed"));
+        fragment.showRetry();
 
-        if (fragment.screen.expansionDownloader != null) {
-            fragment.screen.expansionDownloader.dispose();
-            fragment.screen.expansionDownloader = null;
-        }
+        dispose();
     }
 
     private void onExtractionFailed(Part part) {
@@ -434,14 +454,10 @@ public class ExpansionDownloadManager implements Disposable {
         part.isExtracted = false;
         part.isExtractFailure = true;
 
-        fragment.progress.setText("");
-        fragment.progressMessage.setText(game.t("expansion_download.extract_failed") + part.part);
-        fragment.retryBtn.setVisible(true);
+        fragment.retryTitle.setText(game.t("expansion_download.extract_failed") + part.part);
+        fragment.showRetry();
 
-        if (fragment.screen.expansionDownloader != null) {
-            fragment.screen.expansionDownloader.dispose();
-            fragment.screen.expansionDownloader = null;
-        }
+        dispose();
     }
 
     private void onConnectionCanceled() {
@@ -450,14 +466,9 @@ public class ExpansionDownloadManager implements Disposable {
 
         Log.e(tag, "onConnectionCanceled");
 
-        fragment.progress.setText("");
-        fragment.progressMessage.setText(game.t("expansion_download.canceled"));
-        fragment.retryBtn.setVisible(true);
+        fragment.showRetry();
 
-        if (fragment.screen.expansionDownloader != null) {
-            fragment.screen.expansionDownloader.dispose();
-            fragment.screen.expansionDownloader = null;
-        }
+        dispose();
     }
 
     private void onLowMemory() {
@@ -467,13 +478,10 @@ public class ExpansionDownloadManager implements Disposable {
         if (expansionInfo != null)
             expansionInfo.isDownloadStarted = false;
 
-        fragment.progressMessage.setText(game.t("expansion_download.low_memory"));
-        fragment.retryBtn.setVisible(true);
+        fragment.retryTitle.setText(game.t("expansion_download.low_memory"));
+        fragment.showRetry();
 
-        if (fragment.screen.expansionDownloader != null) {
-            fragment.screen.expansionDownloader.dispose();
-            fragment.screen.expansionDownloader = null;
-        }
+        dispose();
     }
 
     private void onComplete() {
@@ -518,14 +526,7 @@ public class ExpansionDownloadManager implements Disposable {
     public void updateProgress() {
         ExpansionResponse expansionInfo = game.gameState.expansionInfo;
 
-        if (expansionInfo == null) return;
-
-        float sizeMb = (float) (expansionInfo.size / 1024f / 1024f);
-
-        fragment.subtitle.setText("v" + expansionInfo.version
-                + " " + String.format("%.2f", sizeMb) + "MB");
-
-        if (!expansionInfo.isDownloadStarted) return;
+        if (expansionInfo == null || isCanceled || !expansionInfo.isDownloadStarted) return;
 
         try {
 
@@ -578,9 +579,22 @@ public class ExpansionDownloadManager implements Disposable {
         }
     }
 
+    public void cancel() {
+        if (httpRequest != null) {
+            Gdx.net.cancelHttpRequest(httpRequest);
+            httpRequest = null;
+        }
+        isCanceled = true;
+    }
+
+    private boolean isDisposed() {
+        return httpRequest == null || isCanceled;
+    }
+
     @Override
     public void dispose() {
         httpRequest = null;
+        isCanceled = false;
     }
 
 }

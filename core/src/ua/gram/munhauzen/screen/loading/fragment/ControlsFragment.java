@@ -19,8 +19,10 @@ import ua.gram.munhauzen.ButtonBuilder;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.GameState;
+import ua.gram.munhauzen.expansion.response.ExpansionResponse;
 import ua.gram.munhauzen.screen.LoadingScreen;
 import ua.gram.munhauzen.screen.MenuScreen;
+import ua.gram.munhauzen.screen.PurchaseScreen;
 import ua.gram.munhauzen.service.ExpansionDownloadManager;
 import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.ui.FragmentRoot;
@@ -33,13 +35,13 @@ public class ControlsFragment extends Fragment {
     public final LoadingScreen screen;
     public FragmentRoot root;
     Image decorTop, decorBottom;
-    Label footer;
-    public Label progress, progressMessage, subtitle;
+    public Label progress, progressMessage, subtitle, retryTitle, footer;
     String[] footerTranslations;
     int currentFooterTranslation = 0;
-    public PrimaryButton retryBtn;
-    Container<Table> startContainer, progressContainer;
+    Container<Table> startContainer, progressContainer, retryContainer;
     Table topTable, bottomTable;
+    PrimaryButton menuBtn;
+    Thread downloadThread;
 
     public ControlsFragment(LoadingScreen screen) {
         this.screen = screen;
@@ -51,19 +53,67 @@ public class ControlsFragment extends Fragment {
 
         footerTranslations = screen.game.t("loading.footer").split("\n");
 
-        retryBtn = screen.game.buttonBuilder.primaryRose(screen.game.t("loading.retry_btn"), new ClickListener() {
+        PrimaryButton startBtn = screen.game.buttonBuilder.primaryRose(screen.game.t("loading.download_btn"), new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                retryBtn.setVisible(false);
                 progress.setText("");
                 progressMessage.setText("");
+
+                showDownload();
 
                 startExpansionDownload();
             }
         });
-        retryBtn.setVisible(false);
+
+        PrimaryButton retryBtn = screen.game.buttonBuilder.primaryRose(screen.game.t("loading.retry_btn"), new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                progress.setText("");
+                progressMessage.setText("");
+
+                showDownload();
+
+                startExpansionDownload();
+            }
+        });
+
+        menuBtn = screen.game.buttonBuilder.danger(screen.game.t("loading.menu_btn"), new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                screen.navigateTo(new MenuScreen(screen.game));
+            }
+        });
+
+        PrimaryButton purchasesBtn = screen.game.buttonBuilder.danger(screen.game.t("loading.purchases_btn"), new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                screen.navigateTo(new PurchaseScreen(screen.game));
+            }
+        });
+
+        PrimaryButton cancelBtn = screen.game.buttonBuilder.danger(screen.game.t("loading.cancel_btn"), new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                stopDownloadThread();
+
+                if (screen.expansionDownloader != null) {
+                    screen.expansionDownloader.cancel();
+                }
+
+                retryTitle.setText(screen.game.t("loading.retry_title"));
+                showRetry();
+            }
+        });
 
         Label title = new Label(screen.game.t("loading.title"), new Label.LabelStyle(
                 screen.game.fontProvider.getFont(FontProvider.h3),
@@ -109,7 +159,7 @@ public class ControlsFragment extends Fragment {
         Table progressTable = new Table();
         progressTable.add(progress).width(MunhauzenGame.WORLD_WIDTH / 2f).padBottom(5).row();
         progressTable.add(progressMessage).width(MunhauzenGame.WORLD_WIDTH / 2f).padBottom(10).row();
-        progressTable.add(retryBtn)
+        progressTable.add(cancelBtn)
                 .width(ButtonBuilder.BTN_PRIMARY_WIDTH)
                 .height(ButtonBuilder.BTN_PRIMARY_HEIGHT)
                 .row();
@@ -125,6 +175,13 @@ public class ControlsFragment extends Fragment {
         startMessage.setWrap(true);
         startMessage.setAlignment(Align.center);
 
+        retryTitle = new Label("", new Label.LabelStyle(
+                screen.game.fontProvider.getFont(FontProvider.h4),
+                Color.BLACK
+        ));
+        retryTitle.setWrap(true);
+        retryTitle.setAlignment(Align.center);
+
         String quality;
         if ("hdpi".equals(screen.game.params.dpi)) {
             quality = screen.game.t("loading.quality_high");
@@ -139,18 +196,6 @@ public class ControlsFragment extends Fragment {
         qualityMessage.setWrap(true);
         qualityMessage.setAlignment(Align.center);
 
-        PrimaryButton startBtn = screen.game.buttonBuilder.primaryRose(screen.game.t("loading.download_btn"), new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-
-                startContainer.setVisible(false);
-                progressContainer.setVisible(true);
-
-                startExpansionDownload();
-            }
-        });
-
         Table startTable = new Table();
         startTable.add(startMessage)
                 .width(MunhauzenGame.WORLD_WIDTH * .75f)
@@ -161,6 +206,23 @@ public class ControlsFragment extends Fragment {
         startTable.add(startBtn)
                 .width(ButtonBuilder.BTN_PRIMARY_WIDTH)
                 .height(ButtonBuilder.BTN_PRIMARY_HEIGHT);
+
+        Table retryTable = new Table();
+        retryTable.add(retryTitle)
+                .width(MunhauzenGame.WORLD_WIDTH * .75f)
+                .padBottom(10).row();
+        retryTable.add(retryBtn)
+                .width(ButtonBuilder.BTN_PRIMARY_WIDTH)
+                .height(ButtonBuilder.BTN_PRIMARY_HEIGHT)
+                .padBottom(10).row();
+        retryTable.add(purchasesBtn)
+                .width(ButtonBuilder.BTN_PRIMARY_WIDTH)
+                .height(ButtonBuilder.BTN_PRIMARY_HEIGHT)
+                .padBottom(10).row();
+        retryTable.add(menuBtn)
+                .width(ButtonBuilder.BTN_PRIMARY_WIDTH)
+                .height(ButtonBuilder.BTN_PRIMARY_HEIGHT)
+                .padBottom(10).row();
 
         topTable = new Table();
         topTable.add(decorTop).expand().top().pad(5);
@@ -180,13 +242,14 @@ public class ControlsFragment extends Fragment {
         progressContainer.pad(10);
         progressContainer.padTop(MunhauzenGame.WORLD_HEIGHT * .25f);
         progressContainer.align(Align.top);
-        progressContainer.setVisible(true);
 
         startContainer = new Container<>(startTable);
         startContainer.pad(10);
-        startContainer.padTop(MunhauzenGame.WORLD_HEIGHT * .25f);
-        startContainer.align(Align.top);
-        startContainer.setVisible(true);
+        startContainer.align(Align.center);
+
+        retryContainer = new Container<>(retryTable);
+        retryContainer.pad(10);
+        retryContainer.align(Align.center);
 
         root = new FragmentRoot();
         root.addContainer(topTable);
@@ -195,6 +258,7 @@ public class ControlsFragment extends Fragment {
         root.addContainer(footerContainer);
         root.addContainer(progressContainer);
         root.addContainer(startContainer);
+        root.addContainer(retryContainer);
 
         root.setName(tag);
 
@@ -216,6 +280,26 @@ public class ControlsFragment extends Fragment {
                 }
             }
         }, .2f, 20);
+
+        showIntro();
+    }
+
+    private void showIntro() {
+        startContainer.setVisible(true);
+        progressContainer.setVisible(false);
+        retryContainer.setVisible(false);
+    }
+
+    private void showDownload() {
+        startContainer.setVisible(false);
+        progressContainer.setVisible(true);
+        retryContainer.setVisible(false);
+    }
+
+    public void showRetry() {
+        startContainer.setVisible(false);
+        progressContainer.setVisible(false);
+        retryContainer.setVisible(true);
     }
 
     private void startExpansionDownload() {
@@ -224,7 +308,7 @@ public class ControlsFragment extends Fragment {
             screen.expansionDownloader.dispose();
         }
 
-        new Thread(new Runnable() {
+        downloadThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -236,7 +320,9 @@ public class ControlsFragment extends Fragment {
                     screen.onCriticalError(e);
                 }
             }
-        }).start();
+        });
+
+        downloadThread.start();
     }
 
     public void setDecorTopBackground(Texture texture) {
@@ -281,6 +367,28 @@ public class ControlsFragment extends Fragment {
     }
 
     public void update() {
+        try {
+
+            ExpansionResponse expansionInfo = screen.game.gameState.expansionInfo;
+
+            if (expansionInfo == null) {
+                subtitle.setText("");
+                menuBtn.setVisible(false);
+                return;
+            }
+
+            menuBtn.setVisible(expansionInfo.isCompleted);
+
+            if (expansionInfo.version > 0) {
+
+                float sizeMb = (float) (expansionInfo.size / 1024f / 1024f);
+
+                subtitle.setText("v" + expansionInfo.version
+                        + " " + String.format("%.2f", sizeMb) + "MB");
+            }
+
+        } catch (Throwable ignore) {
+        }
 
     }
 
@@ -303,5 +411,23 @@ public class ControlsFragment extends Fragment {
                 screen.navigateTo(new MenuScreen(screen.game));
             }
         }, 1);
+    }
+
+    private void stopDownloadThread() {
+        try {
+            if (downloadThread != null) {
+                downloadThread.interrupt();
+                downloadThread = null;
+            }
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+
+        stopDownloadThread();
     }
 }

@@ -31,7 +31,11 @@ public class EnglishTranslator implements Translator {
                         + "\nI also would doubt it, if I hadn't seen the green iron worms and their destructive activity with my own eyes. "
                         + "\nIf the shadow of a doubt can remain on any person’s mind, I say, let him take a voyage to Moon himself, and then he will know I am a traveller of veracity."
                         + "\nThis is because I love traveling and I am always looking for adventures, and you sit at home and see nothing, except the four walls of your room.");
+        map.put("loading.retry_title", "Download was canceled or interrupted");
         map.put("loading.retry_btn", "Retry");
+        map.put("loading.cancel_btn", "Cancel");
+        map.put("loading.purchases_btn", "Purchases");
+        map.put("loading.menu_btn", "Main menu");
         map.put("loading.download_btn", "Download");
         map.put("loading.title", "Downloading resources");
         map.put("loading.message", "The game will now start downloading the resources. Please, do not interrupt the Wi-Fi connection and wait for the download.");
@@ -60,7 +64,7 @@ public class EnglishTranslator implements Translator {
         map.put("date_inter.confirm_btn", "Confirm");
         map.put("date_inter.banner_yes_btn", "Yes");
         map.put("date_inter.banner_no_btn", "No");
-        map.put("date_inter.fail_banner_title", "Chose another date?");
+        map.put("date_inter.fail_banner_title", "Choose another date?");
         map.put("date_inter.fail_banner_yes", "Yes");
         map.put("date_inter.fail_banner_no", "No");
         map.put("lions_inter.attack_btn", "Attack!");
@@ -177,6 +181,7 @@ public class EnglishTranslator implements Translator {
         map.put("purchase_screen.title", "Purchase");
         map.put("purchase_screen.unavailable", "Not available");
         map.put("purchase_screen.already_purchased", "Owned!");
+        map.put("purchase_screen.download", "Download");
         map.put("purchase_screen.free_title", "Demo version");
         map.put("purchase_screen.free_price", "Free");
         map.put("purchase_screen.free_description", "1 hour of audiobook!\n8 chapters!\n31 illustrations!");
