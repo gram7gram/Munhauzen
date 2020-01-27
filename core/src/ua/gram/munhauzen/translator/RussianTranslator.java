@@ -185,13 +185,13 @@ public class RussianTranslator implements Translator {
         map.put("purchase_screen.download", "Скачать");
         map.put("purchase_screen.free_title", "Демо версия");
         map.put("purchase_screen.free_price", "Бесплатно");
-        map.put("purchase_screen.free_description", "1 час аудиокниги!\n8 глав!\n31 илюстраций!");
+        map.put("purchase_screen.free_description", "Более 1 часа аудиокниги!\n10 разделов!\n31 иллюстрация!");
         map.put("purchase_screen.full_title", "Полная версия");
-        map.put("purchase_screen.full_description", "7+ часов аудиокниги!\n69 глав!\n250+ илюстраций!");
+        map.put("purchase_screen.full_description", "Более 8 часов аудиокниги!\nВсе 69 разделов!\nВсе 250+ иллюстраций!");
         map.put("purchase_screen.part1_title", "Часть 1");
-        map.put("purchase_screen.part1_description", "4+ часов аудиокниги!\n34 глав!\n100+ илюстраций!");
+        map.put("purchase_screen.part1_description", "Около 4 часов аудиокниги!\n34 раздела!\n100+ иллюстраций!");
         map.put("purchase_screen.part2_title", "Часть 2");
-        map.put("purchase_screen.part2_description", "3+ часов аудиокниги!\n27 глав!\n100+ илюстраций!");
+        map.put("purchase_screen.part2_description", "Около 4 часов аудиокниги!\n35 раздела!\n150+ иллюстраций!");
 
     }
 

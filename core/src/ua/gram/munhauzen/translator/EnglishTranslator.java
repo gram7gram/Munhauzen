@@ -185,13 +185,13 @@ public class EnglishTranslator implements Translator {
         map.put("purchase_screen.download", "Download");
         map.put("purchase_screen.free_title", "Demo version");
         map.put("purchase_screen.free_price", "Free");
-        map.put("purchase_screen.free_description", "1 hour of audiobook!\n8 chapters!\n31 illustrations!");
+        map.put("purchase_screen.free_description", "About 1 hour of audiobook!\n10 chapters!\n31 illustrations!");
         map.put("purchase_screen.full_title", "Full version");
-        map.put("purchase_screen.full_description", "7+ hours of audiobook!\n69 chapters!\n250+ illustrations!");
+        map.put("purchase_screen.full_description", "More then 8 hours of audiobook!\nAll 69 chapters!\nAll 250+ illustrations!");
         map.put("purchase_screen.part1_title", "Part 1");
-        map.put("purchase_screen.part1_description", "4+ hours of audiobook!\n34 chapters!\n100+ illustrations!");
+        map.put("purchase_screen.part1_description", "About 4 hours of audiobook!\n34 chapters!\n100+ illustrations!");
         map.put("purchase_screen.part2_title", "Part 2");
-        map.put("purchase_screen.part2_description", "3+ hours of audiobook!\n27 chapters!\n100+ illustrations!");
+        map.put("purchase_screen.part2_description", "About 4 hours of audiobook!\n35 chapters!\n150+ illustrations!");
 
     }
 
