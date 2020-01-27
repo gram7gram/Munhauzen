@@ -56,9 +56,9 @@ public class ListFragment extends Fragment {
         VerticalGroup list = new VerticalGroup();
         list.addActor(title);
         list.addActor(cardFree);
-        list.addActor(cardFull);
         list.addActor(cardPart1);
         list.addActor(cardPart2);
+        list.addActor(cardFull);
 
         Table content = new Table();
         content.setFillParent(true);
@@ -71,6 +71,13 @@ public class ListFragment extends Fragment {
         root.setName(tag);
 
         root.setVisible(false);
+
+        cardFull.price.setText(screen.game.t("purchase_screen.unavailable"));
+        cardFull.setEnabled(false);
+        cardPart1.price.setText(screen.game.t("purchase_screen.unavailable"));
+        cardPart1.setEnabled(false);
+        cardPart2.price.setText(screen.game.t("purchase_screen.unavailable"));
+        cardPart2.setEnabled(false);
     }
 
     public void update() {
@@ -98,6 +105,7 @@ public class ListFragment extends Fragment {
                                 }
                             }
 
+                            cardFull.setEnabled(true);
                             cardFull.setPurchased(isPurchased);
 
                             if (isPurchased) {
@@ -131,6 +139,7 @@ public class ListFragment extends Fragment {
                                 }
                             }
 
+                            cardPart1.setEnabled(true);
                             cardPart1.setPurchased(isPurchased);
 
                             if (isPurchased) {
@@ -164,6 +173,7 @@ public class ListFragment extends Fragment {
                                 }
                             }
 
+                            cardPart2.setEnabled(true);
                             cardPart2.setPurchased(isPurchased);
 
                             if (isPurchased) {
@@ -180,10 +190,13 @@ public class ListFragment extends Fragment {
                     }
 
                 }
-            }
 
-            cardPart1.setEnabled(!state.isPro);
-            cardPart2.setEnabled(!state.isPro);
+                if (cardPart1.enabled)
+                    cardPart1.setEnabled(!state.isPro);
+
+                if (cardPart2.enabled)
+                    cardPart2.setEnabled(!state.isPro);
+            }
 
         }
     }

@@ -1,13 +1,16 @@
 package ua.gram.munhauzen.screen.purchase;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.pay.Information;
 import com.badlogic.gdx.pay.PurchaseObserver;
 import com.badlogic.gdx.pay.Transaction;
+import com.badlogic.gdx.utils.Timer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.Product;
 import ua.gram.munhauzen.entity.Purchase;
 import ua.gram.munhauzen.screen.PurchaseScreen;
@@ -137,7 +140,23 @@ public class IAPObserver implements PurchaseObserver {
                 game.currentSfx = game.sfxService.onPurchaseSuccess();
             }
 
-            screen.onPurchaseCompleted();
+            if (game.currentSfx != null) {
+                Gdx.input.setInputProcessor(null);
+                GameState.clearTimer(tag);
+                Timer.instance().scheduleTask(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        try {
+                            screen.onPurchaseCompleted();
+                        } catch (Throwable e) {
+                            Log.e(tag, e);
+                        }
+                    }
+                }, game.currentSfx.duration / 1000f);
+            } else {
+                screen.onPurchaseCompleted();
+            }
+
 
         } catch (Throwable e) {
             Log.e(tag, e);

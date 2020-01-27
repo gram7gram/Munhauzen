@@ -178,6 +178,7 @@ public class RussianTranslator implements Translator {
         map.put("version_screen.content", "Ваша игра не последней версии. Пожалуйста, скачайте новее");
         map.put("version_screen.ignore_btn", "Игнорировать");
         map.put("version_screen.confirm_btn", "Скачать");
+        map.put("purchase_screen.full_discount", "20% СКИДКА");
         map.put("purchase_screen.title", "Покупки");
         map.put("purchase_screen.unavailable", "Недоступно");
         map.put("purchase_screen.already_purchased", "Куплено!");

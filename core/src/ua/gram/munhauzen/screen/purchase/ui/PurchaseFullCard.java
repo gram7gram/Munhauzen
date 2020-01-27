@@ -1,20 +1,26 @@
 package ua.gram.munhauzen.screen.purchase.ui;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 
 import ua.gram.munhauzen.FontProvider;
-import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.screen.PurchaseScreen;
-import ua.gram.munhauzen.utils.ColorUtils;
+import ua.gram.munhauzen.ui.FixedImage;
 import ua.gram.munhauzen.utils.Log;
 
 public class PurchaseFullCard extends Card {
+
+    final Label discount;
+    final FixedImage discountImg;
+    final Container<Table> discountImgContainer;
 
     public PurchaseFullCard(final PurchaseScreen screen) {
         super(screen);
@@ -36,28 +42,49 @@ public class PurchaseFullCard extends Card {
                 }
             }
         });
+
+        discount = new Label(screen.game.t("purchase_screen.full_discount"), new Label.LabelStyle(
+                screen.game.fontProvider.getFont(FontProvider.BuxtonSketch, FontProvider.h2),
+                Color.RED
+        ));
+        discount.getColor().a = .5f;
+
+        Group discountTable = new Group();
+        discountTable.addActor(discount);
+        discountTable.setOrigin(Align.center);
+        discountTable.setRotation(15);
+
+        Container<Group> discountContainer = new Container<>(discountTable);
+        discountContainer.setFillParent(true);
+        discountContainer.pad(maxWidth * .3f, 100, 30, 10);
+        discountContainer.align(Align.center);
+        discountContainer.setTouchable(Touchable.disabled);
+
+        addActor(discountContainer);
+
+        Texture txt = screen.game.internalAssetManager.get("purchase/off.png", Texture.class);
+        discountImg = new FixedImage(txt, maxWidth * .2f);
+
+        Table discountImgTable = new Table();
+        discountImgTable.add(discountImg)
+                .width(discountImg.width)
+                .height(discountImg.height);
+
+        discountImgContainer = new Container<>(discountImgTable);
+        discountImgContainer.setFillParent(true);
+        discountImgContainer.pad(10);
+        discountImgContainer.align(Align.bottomRight);
+        discountImgContainer.padBottom(30);
+        discountImgContainer.setTouchable(Touchable.disabled);
+
+        addActor(discountImgContainer);
     }
 
     @Override
     public void updateSideIcon() {
 
-        if (purchased) {
-            super.updateSideIcon();
-            return;
-        }
-
-        sideIcon.setVisible(true);
-
-        float maxWidth = MunhauzenGame.WORLD_WIDTH - 10 * 6;
-
-        Texture txt = screen.game.internalAssetManager.get("purchase/off.png", Texture.class);
-
-        float width = maxWidth * .2f;
-        float height = txt.getHeight() * (width / txt.getWidth());
-
-        sideIcon.setDrawable(new SpriteDrawable(new Sprite(txt)));
-
-        content.getCell(sideIcon).width(width).height(height);
+        purchasedIconContainer.setVisible(purchased);
+        discountImgContainer.setVisible(!purchased);
 
     }
 
@@ -69,7 +96,7 @@ public class PurchaseFullCard extends Card {
         for (int i = 0; i < lines.length; i++) {
             Label label = new Label(lines[i], new Label.LabelStyle(
                     screen.game.fontProvider.getFont(FontProvider.h5),
-                    ColorUtils.dark
+                    Color.BLACK
             ));
             label.setWrap(true);
             label.setAlignment(Align.left);
@@ -84,7 +111,7 @@ public class PurchaseFullCard extends Card {
     public Label createTitle() {
         return new Label(screen.game.t("purchase_screen.full_title"), new Label.LabelStyle(
                 screen.game.fontProvider.getFont(FontProvider.h3),
-                ColorUtils.yellowLight
+                Color.BLACK
         ));
     }
 
@@ -92,7 +119,7 @@ public class PurchaseFullCard extends Card {
     public Label createPrice() {
         return new Label("", new Label.LabelStyle(
                 screen.game.fontProvider.getFont(FontProvider.BuxtonSketch, FontProvider.h3),
-                ColorUtils.yellowLight
+                Color.BLACK
         ));
     }
 

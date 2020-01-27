@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
@@ -14,21 +15,25 @@ import com.badlogic.gdx.utils.Align;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.screen.PurchaseScreen;
+import ua.gram.munhauzen.ui.FixedImage;
 import ua.gram.munhauzen.utils.Log;
 
-public abstract class Card extends Container<Table> {
+public abstract class Card extends Stack {
 
     protected final String tag = getClass().getSimpleName();
     public final PurchaseScreen screen;
-    public final Image sideIcon, img;
+    public final Image purchasedIcon, img;
     public final Label price;
     public final Table root, content;
     public boolean enabled, purchased;
+    public final Container<Table> container;
+    final Container<Image> purchasedIconContainer;
+    public final float maxWidth;
 
     public Card(PurchaseScreen s) {
         this.screen = s;
 
-        float maxWidth = MunhauzenGame.WORLD_WIDTH - 10 * 6;
+        maxWidth = MunhauzenGame.WORLD_WIDTH - 10 * 6;
 
         root = new Table();
 
@@ -41,9 +46,11 @@ public abstract class Card extends Container<Table> {
         float imgWidth = maxWidth * .35f;
         float imgHeight = bg.getHeight() * (imgWidth / bg.getWidth());
 
-        img = new Image(bg);
-        sideIcon = new Image();
-        sideIcon.setVisible(false);
+        img = new FixedImage(bg, maxWidth * .35f);
+
+        Texture iconTxt = screen.game.internalAssetManager.get("purchase/ok.png", Texture.class);
+
+        purchasedIcon = new FixedImage(iconTxt, maxWidth * .12f);
 
         Label title = createTitle();
         title.setWrap(true);
@@ -62,7 +69,6 @@ public abstract class Card extends Container<Table> {
         price.setAlignment(Align.left);
 
         content.add(price).expandX().align(Align.bottomLeft);
-        content.add(sideIcon).align(Align.bottomRight);
         content.row();
 
         root.pad(10);
@@ -71,23 +77,22 @@ public abstract class Card extends Container<Table> {
 
         root.setBackground(new SpriteDrawable(new Sprite(cardBg)));
 
-        align(Align.center);
-        setActor(root);
-        padBottom(20);
 
         ClickListener listener1 = new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                Log.i(tag, "listener1");
+                try {
+                    if (screen.game.sfxService == null) return;
 
-                if (screen.game.sfxService == null) return;
-
-                if (!enabled) {
-                    screen.game.sfxService.onAnyDisabledBtnClicked();
-                } else {
-                    screen.game.sfxService.onAnyBtnClicked();
+                    if (!enabled) {
+                        screen.game.sfxService.onAnyDisabledBtnClicked();
+                    } else {
+                        screen.game.sfxService.onAnyBtnClicked();
+                    }
+                } catch (Throwable e) {
+                    Log.e(tag, e);
                 }
             }
         };
@@ -97,12 +102,16 @@ public abstract class Card extends Container<Table> {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                Log.i(tag, "listener2");
+                try {
+                    Log.i(tag, "listener2");
 
-                if (purchased) {
-                    event.cancel();
+                    if (purchased) {
+                        event.cancel();
 
-                    screen.onPurchaseCompleted();
+                        screen.onPurchaseCompleted();
+                    }
+                } catch (Throwable e) {
+                    Log.e(tag, e);
                 }
             }
         };
@@ -110,8 +119,23 @@ public abstract class Card extends Container<Table> {
         root.addCaptureListener(listener1);
         root.addCaptureListener(listener2);
 
+        container = new Container<>(root);
+        container.align(Align.top);
+        container.padBottom(20);
+
+        addActor(container);
+
+        purchasedIconContainer = new Container<>(purchasedIcon);
+        purchasedIconContainer.setFillParent(true);
+        purchasedIconContainer.pad(10);
+        purchasedIconContainer.align(Align.bottomRight);
+        purchasedIconContainer.setVisible(false);
+        purchasedIconContainer.padBottom(30);
+        purchasedIconContainer.setTouchable(Touchable.disabled);
+
+        addActor(purchasedIconContainer);
+
         setEnabled(true);
-        updateSideIcon();
     }
 
     public void onClick(ClickListener listener) {
@@ -120,20 +144,8 @@ public abstract class Card extends Container<Table> {
 
     public void updateSideIcon() {
 
-        sideIcon.setVisible(purchased);
+        purchasedIconContainer.setVisible(purchased);
 
-        if (!purchased) return;
-
-        float maxWidth = MunhauzenGame.WORLD_WIDTH - 10 * 6;
-
-        Texture okBg = screen.game.internalAssetManager.get("purchase/ok.png", Texture.class);
-
-        float width = maxWidth * .1f;
-        float height = okBg.getHeight() * (width / okBg.getWidth());
-
-        sideIcon.setDrawable(new SpriteDrawable(new Sprite(okBg)));
-
-        content.getCell(sideIcon).width(width).height(height);
     }
 
     public void setPurchased(boolean purchased) {

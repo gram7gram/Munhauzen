@@ -5,18 +5,10 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import ua.gram.munhauzen.entity.GameState;
-import ua.gram.munhauzen.screen.AuthorsScreen;
-import ua.gram.munhauzen.screen.DebugScreen;
-import ua.gram.munhauzen.screen.FailsScreen;
-import ua.gram.munhauzen.screen.GalleryScreen;
-import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.screen.LegalScreen;
-import ua.gram.munhauzen.screen.LoadingScreen;
 import ua.gram.munhauzen.screen.LogoScreen;
 import ua.gram.munhauzen.screen.MenuScreen;
-import ua.gram.munhauzen.screen.PaintingScreen;
 import ua.gram.munhauzen.screen.PurchaseScreen;
-import ua.gram.munhauzen.screen.SavesScreen;
 import ua.gram.munhauzen.utils.Log;
 
 public class Navigator {
@@ -32,39 +24,9 @@ public class Navigator {
 
     public void openCurrentScreen() {
 
-        String currentScreen = game.gameState.preferences.currentScreen;
+//        String currentScreen = game.gameState.preferences.currentScreen;
 
-        if (GalleryScreen.class.getSimpleName().equals(currentScreen)
-                || PaintingScreen.class.getSimpleName().equals(currentScreen)) {
-            game.setScreen(new GalleryScreen(game));
-
-        } else if (FailsScreen.class.getSimpleName().equals(currentScreen)) {
-            game.setScreen(new FailsScreen(game));
-
-        } else if (SavesScreen.class.getSimpleName().equals(currentScreen)) {
-            game.setScreen(new SavesScreen(game));
-
-        } else if (AuthorsScreen.class.getSimpleName().equals(currentScreen)) {
-            game.setScreen(new AuthorsScreen(game));
-
-        } else if (MenuScreen.class.getSimpleName().equals(currentScreen)) {
-            game.setScreen(new MenuScreen(game));
-
-        } else if (GameScreen.class.getSimpleName().equals(currentScreen)) {
-            game.setScreen(new GameScreen(game));
-
-        } else if (LoadingScreen.class.getSimpleName().equals(currentScreen)) {
-            game.setScreen(new LoadingScreen(game));
-
-        } else if (PurchaseScreen.class.getSimpleName().equals(currentScreen)) {
-            game.setScreen(new PurchaseScreen(game));
-
-        } else if (DebugScreen.class.getSimpleName().equals(currentScreen)) {
-            game.setScreen(new DebugScreen(game));
-
-        } else {
-            game.setScreen(new LogoScreen(game));
-        }
+        game.setScreen(new LogoScreen(game));
     }
 
     public void onCriticalError(Throwable e) {
