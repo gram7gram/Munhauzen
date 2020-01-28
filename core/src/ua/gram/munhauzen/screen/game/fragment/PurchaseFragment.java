@@ -1,5 +1,6 @@
 package ua.gram.munhauzen.screen.game.fragment;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -7,11 +8,15 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 
+import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.Purchase;
 import ua.gram.munhauzen.entity.PurchaseState;
+import ua.gram.munhauzen.entity.Scenario;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.screen.game.ui.PurchaseBanner;
 import ua.gram.munhauzen.ui.Fragment;
@@ -29,7 +34,7 @@ public class PurchaseFragment extends Fragment {
         this.screen = screen;
     }
 
-    public void create() {
+    public void create(Scenario scenario) {
 
         screen.assetManager.load("menu/b_demo_version_2.png", Texture.class);
         screen.assetManager.load("ui/banner_fond_1.png", Texture.class);
@@ -53,6 +58,25 @@ public class PurchaseFragment extends Fragment {
 
         root = new FragmentRoot();
         root.addContainer(backdrop);
+
+        if (scenario != null) {
+            if (!screen.game.params.isProduction()) {
+
+                Label info = new Label(scenario.name + " (" + scenario.expansion + ")", new Label.LabelStyle(
+                        screen.game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.h3),
+                        Color.BLACK
+                ));
+                info.setAlignment(Align.center);
+
+                Container<Label> container = new Container<>(info);
+                container.pad(10);
+                container.align(Align.top);
+                container.setTouchable(Touchable.disabled);
+
+                root.addContainer(container);
+            }
+        }
+
         root.addContainer(banner);
 
         backdrop.addListener(new ClickListener() {

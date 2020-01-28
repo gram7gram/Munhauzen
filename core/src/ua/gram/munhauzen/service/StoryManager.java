@@ -265,7 +265,7 @@ public class StoryManager {
         }
 
         if (!isPurchased) {
-            gameScreen.createPurchaseFragment();
+            gameScreen.createPurchaseFragment(story.currentScenario.scenario);
             return;
         }
 

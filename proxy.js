@@ -22,7 +22,8 @@ const scenario = function (sheet, prefix) {
     ,"id_audio","id_picture"
     ,"duration_picture_eng","duration_picture_ru"
     ,"Interaction","action","id_decisions","decision_order"
-    ,"inventory_required","inventory_abscent","transition_picture"
+    ,"inventory_required","inventory_abscent","transition_picture",
+    "Purchase"
   ]
 
   const rows = [headers.join(',')]

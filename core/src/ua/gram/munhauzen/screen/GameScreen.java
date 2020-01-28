@@ -11,6 +11,7 @@ import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.Image;
 import ua.gram.munhauzen.entity.Save;
+import ua.gram.munhauzen.entity.Scenario;
 import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.interaction.ServantsInteraction;
 import ua.gram.munhauzen.interaction.servants.fragment.ServantsFireImageFragment;
@@ -277,10 +278,10 @@ public class GameScreen implements Screen {
         return isPurchased;
     }
 
-    public void createPurchaseFragment() {
+    public void createPurchaseFragment(Scenario scenario) {
         if (purchaseFragment == null) {
             purchaseFragment = new PurchaseFragment(this);
-            purchaseFragment.create();
+            purchaseFragment.create(scenario);
 
             gameLayers.setPurchaseLayer(purchaseFragment);
 

@@ -19,6 +19,8 @@ public class PurchaseManager {
 
         if (state == null || state.purchases == null) return false;
 
+        if (state.isPro) return true;
+
         Purchase fullPurchase = null, part2Purchase = null, part1Purchase = null;
 
         for (Purchase purchase : state.purchases) {
