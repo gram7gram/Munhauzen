@@ -63,7 +63,7 @@ public class ListFragment extends Fragment {
         Table content = new Table();
         content.setFillParent(true);
         content.pad(10);
-        content.add(new VerticalScrollPane(list)).fill().row();
+        content.add(new VerticalScrollPane(list)).fill().top().row();
 
         root = new FragmentRoot();
         root.addContainer(content);

@@ -62,7 +62,7 @@ public class PurchaseFragment extends Fragment {
         if (scenario != null) {
             if (!screen.game.params.isProduction()) {
 
-                Label info = new Label(scenario.name + " (" + scenario.expansion + ")", new Label.LabelStyle(
+                Label info = new Label(scenario.name + "\n(" + scenario.expansion + ")", new Label.LabelStyle(
                         screen.game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.h3),
                         Color.BLACK
                 ));
@@ -86,14 +86,19 @@ public class PurchaseFragment extends Fragment {
 
                 if (event.isHandled()) return;
 
-                Log.i(tag, "backdrop clicked");
+                try {
 
-                screen.stageInputListener.clicked(event, x, y);
+                    Log.i(tag, "backdrop clicked");
 
-                if (banner.isVisible()) {
-                    banner.fadeOut();
-                } else {
-                    banner.fadeIn();
+                    screen.stageInputListener.clicked(event, x, y);
+
+                    if (banner.isVisible()) {
+                        banner.fadeOut();
+                    } else {
+                        banner.fadeIn();
+                    }
+                } catch (Throwable e) {
+                    Log.e(tag, e);
                 }
             }
         });

@@ -669,6 +669,10 @@ public class DatabaseManager {
 
     @SuppressWarnings("unchecked")
     public ArrayList<TimerScenario> loadTimerScenario() {
+
+        FileHandle file = Files.getTimerScenarioFile();
+        if (!file.exists()) return null;
+
         Json json = new Json(JsonWriter.OutputType.json);
         json.setIgnoreUnknownFields(true);
         json.setElementType(TimerScenario.class, "decisions", Decision.class);
@@ -676,11 +680,15 @@ public class DatabaseManager {
         json.setElementType(TimerScenario.class, "audio", StoryAudio.class);
         json.setElementType(TimerScenario.class, "translations", Translation.class);
 
-        return json.fromJson(ArrayList.class, TimerScenario.class, Files.getTimerScenarioFile());
+        return json.fromJson(ArrayList.class, TimerScenario.class, file);
     }
 
     @SuppressWarnings("unchecked")
     public ArrayList<Timer2Scenario> loadTimer2Scenario() {
+
+        FileHandle file = Files.getTimer2ScenarioFile();
+        if (!file.exists()) return null;
+
         Json json = new Json(JsonWriter.OutputType.json);
         json.setIgnoreUnknownFields(true);
         json.setElementType(Timer2Scenario.class, "decisions", Decision.class);
@@ -688,11 +696,15 @@ public class DatabaseManager {
         json.setElementType(Timer2Scenario.class, "audio", StoryAudio.class);
         json.setElementType(Timer2Scenario.class, "translations", Translation.class);
 
-        return json.fromJson(ArrayList.class, Timer2Scenario.class, Files.getTimer2ScenarioFile());
+        return json.fromJson(ArrayList.class, Timer2Scenario.class, file);
     }
 
     @SuppressWarnings("unchecked")
     public ArrayList<GeneralsScenario> loadGeneralsScenario() {
+
+        FileHandle file = Files.getGeneralsScenarioFile();
+        if (!file.exists()) return null;
+
         Json json = new Json(JsonWriter.OutputType.json);
         json.setIgnoreUnknownFields(true);
         json.setElementType(GeneralsScenario.class, "decisions", Decision.class);
@@ -700,11 +712,15 @@ public class DatabaseManager {
         json.setElementType(GeneralsScenario.class, "audio", StoryAudio.class);
         json.setElementType(GeneralsScenario.class, "translations", Translation.class);
 
-        return json.fromJson(ArrayList.class, GeneralsScenario.class, Files.getGeneralsScenarioFile());
+        return json.fromJson(ArrayList.class, GeneralsScenario.class, file);
     }
 
     @SuppressWarnings("unchecked")
     public ArrayList<WauScenario> loadWauwauScenario() {
+
+        FileHandle file = Files.getWauwauScenarioFile();
+        if (!file.exists()) return null;
+
         Json json = new Json(JsonWriter.OutputType.json);
         json.setIgnoreUnknownFields(true);
         json.setElementType(WauScenario.class, "decisions", Decision.class);
@@ -712,11 +728,15 @@ public class DatabaseManager {
         json.setElementType(WauScenario.class, "audio", StoryAudio.class);
         json.setElementType(WauScenario.class, "translations", Translation.class);
 
-        return json.fromJson(ArrayList.class, WauScenario.class, Files.getWauwauScenarioFile());
+        return json.fromJson(ArrayList.class, WauScenario.class, file);
     }
 
     @SuppressWarnings("unchecked")
     public ArrayList<CannonsScenario> loadCannonsScenario() {
+
+        FileHandle file = Files.getCannonsScenarioFile();
+        if (!file.exists()) return null;
+
         Json json = new Json(JsonWriter.OutputType.json);
         json.setIgnoreUnknownFields(true);
         json.setElementType(CannonsScenario.class, "decisions", Decision.class);
@@ -724,39 +744,51 @@ public class DatabaseManager {
         json.setElementType(CannonsScenario.class, "audio", StoryAudio.class);
         json.setElementType(CannonsScenario.class, "translations", Translation.class);
 
-        return json.fromJson(ArrayList.class, CannonsScenario.class, Files.getCannonsScenarioFile());
+        return json.fromJson(ArrayList.class, CannonsScenario.class, file);
     }
 
     @SuppressWarnings("unchecked")
     public ArrayList<HareScenario> loadHareScenario() {
+
+        FileHandle file = Files.getHareScenarioFile();
+        if (!file.exists()) return null;
+
         Json json = new Json(JsonWriter.OutputType.json);
         json.setIgnoreUnknownFields(true);
         json.setElementType(HareScenario.class, "decisions", Decision.class);
         json.setElementType(HareScenario.class, "audio", StoryAudio.class);
         json.setElementType(HareScenario.class, "translations", Translation.class);
 
-        return json.fromJson(ArrayList.class, HareScenario.class, Files.getHareScenarioFile());
+        return json.fromJson(ArrayList.class, HareScenario.class, file);
     }
 
     @SuppressWarnings("unchecked")
     public ArrayList<PictureScenario> loadPictureScenario() {
+
+        FileHandle file = Files.getPictureScenarioFile();
+        if (!file.exists()) return null;
+
         Json json = new Json(JsonWriter.OutputType.json);
         json.setIgnoreUnknownFields(true);
         json.setElementType(PictureScenario.class, "decisions", Decision.class);
         json.setElementType(PictureScenario.class, "images", StoryImage.class);
         json.setElementType(PictureScenario.class, "audio", StoryAudio.class);
 
-        return json.fromJson(ArrayList.class, PictureScenario.class, Files.getPictureScenarioFile());
+        return json.fromJson(ArrayList.class, PictureScenario.class, file);
     }
 
     @SuppressWarnings("unchecked")
     public ArrayList<HireScenario> loadServantsHireScenario() {
+
+        FileHandle file = Files.getServantsHireScenarioFile();
+        if (!file.exists()) return null;
+
         Json json = new Json(JsonWriter.OutputType.json);
         json.setIgnoreUnknownFields(true);
         json.setElementType(HireScenario.class, "images", HireStoryImage.class);
         json.setElementType(HireScenario.class, "audio", StoryAudio.class);
 
-        return json.fromJson(ArrayList.class, HireScenario.class, Files.getServantsHireScenarioFile());
+        return json.fromJson(ArrayList.class, HireScenario.class, file);
     }
 
     @SuppressWarnings("unchecked")
@@ -776,55 +808,60 @@ public class DatabaseManager {
 
     @SuppressWarnings("unchecked")
     private ArrayList<Chapter> loadExternalChapters() {
-        Json json = new Json(JsonWriter.OutputType.json);
-        json.setIgnoreUnknownFields(true);
 
         FileHandle file = ExternalFiles.getChaptersFile(game.params);
         if (!file.exists()) return null;
+
+        Json json = new Json(JsonWriter.OutputType.json);
+        json.setIgnoreUnknownFields(true);
 
         return json.fromJson(ArrayList.class, Chapter.class, file);
     }
 
     @SuppressWarnings("unchecked")
     private ArrayList<Image> loadExternalImages() {
-        Json json = new Json(JsonWriter.OutputType.json);
-        json.setIgnoreUnknownFields(true);
 
         FileHandle file = ExternalFiles.getImagesFile(game.params);
         if (!file.exists()) return null;
+
+        Json json = new Json(JsonWriter.OutputType.json);
+        json.setIgnoreUnknownFields(true);
 
         return json.fromJson(ArrayList.class, Image.class, file);
     }
 
     @SuppressWarnings("unchecked")
     private ArrayList<Audio> loadExternalAudio() {
-        Json json = new Json(JsonWriter.OutputType.json);
-        json.setIgnoreUnknownFields(true);
 
         FileHandle file = ExternalFiles.getAudioFile(game.params);
         if (!file.exists()) return null;
+
+        Json json = new Json(JsonWriter.OutputType.json);
+        json.setIgnoreUnknownFields(true);
 
         return json.fromJson(ArrayList.class, Audio.class, file);
     }
 
     @SuppressWarnings("unchecked")
     private ArrayList<AudioFail> loadExternalAudioFails() {
-        Json json = new Json(JsonWriter.OutputType.json);
-        json.setIgnoreUnknownFields(true);
 
         FileHandle file = ExternalFiles.getAudioFailsFile(game.params);
         if (!file.exists()) return null;
+
+        Json json = new Json(JsonWriter.OutputType.json);
+        json.setIgnoreUnknownFields(true);
 
         return json.fromJson(ArrayList.class, AudioFail.class, file);
     }
 
     @SuppressWarnings("unchecked")
     private ArrayList<Inventory> loadExternalInventory() {
-        Json json = new Json(JsonWriter.OutputType.json);
-        json.setIgnoreUnknownFields(true);
 
         FileHandle file = ExternalFiles.getInventoryFile(game.params);
         if (!file.exists()) return null;
+
+        Json json = new Json(JsonWriter.OutputType.json);
+        json.setIgnoreUnknownFields(true);
 
         return json.fromJson(ArrayList.class, Inventory.class, file);
     }

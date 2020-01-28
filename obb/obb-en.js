@@ -59,7 +59,7 @@ const DLC = {
 
 const DPIs = [
   'mdpi',
-//  'hdpi'
+  'hdpi'
 ];
 
 const EXPANSIONS = [

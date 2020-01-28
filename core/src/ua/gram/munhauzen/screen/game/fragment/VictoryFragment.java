@@ -273,8 +273,6 @@ public class VictoryFragment extends Fragment {
             screen.game.gameState.menuState.isContinueEnabled = false;
             screen.getActiveSave().reset();
 
-            screen.game.navigator.forceLogoScreenOnBoot();
-
             screen.navigateTo(new MenuScreen(screen.game));
 
         } catch (Throwable e) {

@@ -98,6 +98,7 @@ public class PurchaseScreen implements Screen {
             }
 
             game.gameState.expansionInfo.isCompleted = false;
+            game.gameState.expansionInfo.isDownloadStarted = false;
 
             game.databaseManager.persistSync(game.gameState);
 
@@ -139,8 +140,7 @@ public class PurchaseScreen implements Screen {
         checkBackPressed();
 
         if (controlsFragment != null) {
-            controlsFragment.root.setVisible(game.gameState.expansionInfo != null
-                    && game.gameState.expansionInfo.isCompleted);
+            controlsFragment.update();
         }
 
         if (fragment != null) {

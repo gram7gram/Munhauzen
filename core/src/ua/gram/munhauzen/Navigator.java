@@ -16,25 +16,15 @@ public class Navigator {
     final String tag = getClass().getSimpleName();
     final MunhauzenGame game;
 
-    public boolean shouldIgnoreSavedScreenUntilAppIsClosed;
-
     protected Navigator(MunhauzenGame game) {
         this.game = game;
     }
 
     public void openCurrentScreen() {
-
-//        String currentScreen = game.gameState.preferences.currentScreen;
-
         game.setScreen(new LogoScreen(game));
     }
 
     public void onCriticalError(Throwable e) {
-        try {
-            game.gameState.preferences.currentScreen = null;
-        } catch (Throwable ignore) {
-        }
-
         game.onCriticalError(e);
         game.getScreen().dispose();
     }
@@ -51,13 +41,6 @@ public class Navigator {
 
         try {
             Gdx.input.setInputProcessor(null);
-
-            if (!shouldIgnoreSavedScreenUntilAppIsClosed) {
-                try {
-                    game.gameState.preferences.currentScreen = newScreen;
-                } catch (Throwable ignore) {
-                }
-            }
 
             try {
                 game.databaseManager.persistSync(game.gameState);
@@ -92,24 +75,11 @@ public class Navigator {
         }
 
         try {
-            game.gameState.preferences.currentScreen = null;
-        } catch (Throwable ignore) {
-        }
-
-        try {
             game.databaseManager.persistSync(game.gameState);
         } catch (Throwable ignore) {
         }
 
         Gdx.app.exit();
-    }
-
-    public void forceLogoScreenOnBoot() {
-        shouldIgnoreSavedScreenUntilAppIsClosed = true;
-        try {
-            game.gameState.preferences.currentScreen = null;
-        } catch (Throwable ignore) {
-        }
     }
 
     public void openNextPage() {

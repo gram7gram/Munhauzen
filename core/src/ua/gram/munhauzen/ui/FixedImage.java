@@ -18,11 +18,4 @@ public class FixedImage extends Image {
 
         setSize(width, height);
     }
-
-    @Override
-    public void act(float delta) {
-        super.act(delta);
-
-        setSize(width, height);
-    }
 }

@@ -269,7 +269,7 @@ public class GameScreen implements Screen {
 
             isPurchased = purchaseManager.isExpansionPurchased(story.currentScenario.scenario.expansion);
 
-//            if (story.currentScenario.scenario.name.equals("a1_intro")) {
+//            if (story.id.equals("a7_3_0")) {
 //                isPurchased = false;
 //            }
 

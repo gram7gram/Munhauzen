@@ -22,12 +22,13 @@ public abstract class Card extends Stack {
 
     protected final String tag = getClass().getSimpleName();
     public final PurchaseScreen screen;
-    public final Image purchasedIcon, img;
+    public final FixedImage purchasedIcon;
+    public final Image img;
     public final Label price;
     public final Table root, content;
     public boolean enabled, purchased;
     public final Container<Table> container;
-    final Container<Image> purchasedIconContainer;
+    final Container<Table> purchasedIconContainer;
     public final float maxWidth;
 
     public Card(PurchaseScreen s) {
@@ -125,7 +126,12 @@ public abstract class Card extends Stack {
 
         addActor(container);
 
-        purchasedIconContainer = new Container<>(purchasedIcon);
+        Table purchasedIconTable = new Table();
+        purchasedIconTable.add(purchasedIcon)
+                .width(purchasedIcon.width)
+                .height(purchasedIcon.height);
+
+        purchasedIconContainer = new Container<>(purchasedIconTable);
         purchasedIconContainer.setFillParent(true);
         purchasedIconContainer.pad(10);
         purchasedIconContainer.align(Align.bottomRight);

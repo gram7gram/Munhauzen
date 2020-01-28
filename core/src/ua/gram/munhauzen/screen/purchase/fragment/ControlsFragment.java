@@ -49,6 +49,14 @@ public class ControlsFragment extends Fragment {
         root.setName(tag);
     }
 
+    public void update() {
+        root.setVisible(
+                screen.game.gameState != null
+                        && screen.game.gameState.expansionInfo != null
+                        && screen.game.gameState.expansionInfo.isCompleted
+        );
+    }
+
     @Override
     public Actor getRoot() {
         return root;
