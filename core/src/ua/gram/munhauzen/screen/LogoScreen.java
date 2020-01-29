@@ -10,20 +10,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
-import ua.gram.munhauzen.service.GameVersionService;
 import ua.gram.munhauzen.ui.MunhauzenStage;
-import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
  */
 public class LogoScreen implements Screen {
 
-    private final String tag = getClass().getSimpleName();
     private final MunhauzenGame game;
     private Texture background;
     private MunhauzenStage ui;
@@ -68,18 +64,7 @@ public class LogoScreen implements Screen {
                                 Actions.run(new Runnable() {
                                     @Override
                                     public void run() {
-                                        try {
-                                            new GameVersionService(game).start(new Timer.Task() {
-                                                @Override
-                                                public void run() {
-                                                    onComplete();
-                                                }
-                                            });
-                                        } catch (Throwable e) {
-                                            Log.e(tag, e);
-
-                                            onComplete();
-                                        }
+                                        onComplete();
                                     }
                                 })
                         )

@@ -1,0 +1,229 @@
+[
+  {
+    "isBegin": true,
+    "name": "awau_2",
+    "action": "CLICK",
+    "audio": [
+      {
+        "audio": "swau_a_cont",
+        "duration": 46000
+      }
+    ],
+    "images": [
+      {
+        "image": "images/pwau.jpg",
+        "duration": 46000
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "awau_2_a",
+        "order": 1
+      },
+      {
+        "scenario": "awau_2_b",
+        "order": 2
+      },
+      {
+        "scenario": "awau_2_c",
+        "order": 3
+      },
+      {
+        "scenario": "awau_2_d",
+        "order": 4
+      }
+    ],
+    "translations": []
+  },
+  {
+    "name": "awau_2_proxy",
+    "action": "CLICK",
+    "audio": [],
+    "images": [],
+    "decisions": [
+      {
+        "scenario": "awau_2_a",
+        "order": 1
+      },
+      {
+        "scenario": "awau_2_b",
+        "order": 2
+      },
+      {
+        "scenario": "awau_2_c",
+        "order": 3
+      },
+      {
+        "scenario": "awau_2_d",
+        "order": 4
+      }
+    ],
+    "translations": []
+  },
+  {
+    "name": "awau_2_a",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "swau_2_a",
+        "duration": 22000
+      }
+    ],
+    "images": [
+      {
+        "image": "images/pwau.jpg",
+        "duration": 22000
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "awau_2_check"
+      }
+    ],
+    "translations": [
+      {
+        "locale": "en",
+        "text": "To dig a hole and run until Wau-wau will fall there"
+      }
+    ]
+  },
+  {
+    "name": "awau_2_b",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "swau_2_b",
+        "duration": 106000
+      }
+    ],
+    "images": [
+      {
+        "image": "images/pwau.jpg",
+        "duration": 106000
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "awau_2_proxy"
+      }
+    ],
+    "translations": [
+      {
+        "locale": "en",
+        "text": "To dress someone as the rooster and catch Wau-wau"
+      }
+    ]
+  },
+  {
+    "isExit": true,
+    "name": "awau_2_c",
+    "audio": [
+      {
+        "audio": "swau_2_c",
+        "duration": 197000
+      }
+    ],
+    "images": [
+      {
+        "image": "images/pwau.jpg",
+        "duration": 4000
+      },
+      {
+        "image": "wau/inter_wauwau_font.jpg",
+        "withWau": true,
+        "duration": 96000
+      },
+      {
+        "image": "images/unknown_4.jpg",
+        "duration": 27000
+      },
+      {
+        "image": "wau/inter_wauwau_font.jpg",
+        "withWau": true,
+        "duration": 71000
+      }
+    ],
+    "decisions": [],
+    "translations": [
+      {
+        "locale": "en",
+        "text": "To surround the animal"
+      }
+    ]
+  },
+  {
+    "name": "awau_2_d",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "swau_2_d",
+        "duration": 70000
+      }
+    ],
+    "images": [
+      {
+        "image": "images/pwau.jpg",
+        "duration": 70000
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "awau_2_proxy"
+      }
+    ],
+    "translations": [
+      {
+        "locale": "en",
+        "text": "To stun Wau-wau with stones"
+      }
+    ]
+  },
+  {
+    "isExit": true,
+    "name": "awau_2_a_win",
+    "audio": [
+      {
+        "audio": "swau_2_a_win",
+        "duration": 36000
+      }
+    ],
+    "images": [
+      {
+        "image": "images/pwau.jpg",
+        "duration": 35000
+      }
+    ],
+    "decisions": [],
+    "translations": []
+  },
+  {
+    "name": "awau_2_a_loose",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "swau_2_a_loose",
+        "duration": 23000
+      }
+    ],
+    "images": [
+      {
+        "image": "images/pwau.jpg",
+        "duration": 23000
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "awau_2_proxy"
+      }
+    ],
+    "translations": []
+  },
+  {
+    "name": "awau_2_check",
+    "action": "CLICK",
+    "audio": [],
+    "images": [],
+    "decisions": [],
+    "translations": []
+  }
+]

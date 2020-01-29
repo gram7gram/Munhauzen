@@ -4,9 +4,17 @@ buildscript {
     }
 }
 
+dependencies {
+    //noinspection GradleCompatible
+    implementation "com.android.support:appcompat-v7:$androidSupportVersion"
+    //noinspection GradleCompatible
+    implementation "com.android.support:support-v4:$androidSupportVersion"
+    implementation "com.badlogicgames.gdxpay:gdx-pay-android-googlebilling:${gdxPayVersion}"
+}
+
 android {
-    buildToolsVersion "28.0.3"
-    compileSdkVersion 28
+    buildToolsVersion "29.0.2"
+    compileSdkVersion 29
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
@@ -25,7 +33,7 @@ android {
     defaultConfig {
         applicationId "ru.munchausen.fingertipsandcompany.full"
         minSdkVersion 19
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode APP_VERSION_CODE as Integer
         versionName APP_VERSION_NAME
     }
@@ -53,7 +61,6 @@ android {
     }
     buildTypes {
         debug {
-//            applicationIdSuffix ".debug"
             signingConfig signingConfigs.debug
         }
         staging {
@@ -160,12 +167,4 @@ idea {
             }
         }
     }
-}
-
-dependencies {
-    //noinspection GradleCompatible
-    implementation "com.android.support:appcompat-v7:$androidSupportVersion"
-    //noinspection GradleCompatible
-    implementation "com.android.support:support-v4:$androidSupportVersion"
-    implementation "com.badlogicgames.gdxpay:gdx-pay-android-googlebilling:0.12.1"
 }

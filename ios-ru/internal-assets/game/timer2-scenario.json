@@ -1,0 +1,192 @@
+[
+  {
+    "isBegin": true,
+    "name": "aprisoners",
+    "action": "CLICK",
+    "audio": [
+      {
+        "audio": "sprisoners",
+        "duration": 13258
+      }
+    ],
+    "images": [
+      {
+        "image": "images/pprisoners.jpg",
+        "duration": 13258
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "aprisoners_a",
+        "order": 1
+      },
+      {
+        "scenario": "aprisoners_b",
+        "order": 2
+      },
+      {
+        "scenario": "aprisoners_c",
+        "order": 3
+      },
+      {
+        "scenario": "aprisoners_d",
+        "order": 4
+      }
+    ]
+  },
+  {
+    "name": "aprisoners_proxy",
+    "action": "CLICK",
+    "images": [],
+    "audio": [],
+    "decisions": [
+      {
+        "scenario": "aprisoners_a",
+        "order": 1
+      },
+      {
+        "scenario": "aprisoners_b",
+        "order": 2
+      },
+      {
+        "scenario": "aprisoners_c",
+        "order": 3
+      },
+      {
+        "scenario": "aprisoners_d",
+        "order": 4
+      }
+    ]
+  },
+  {
+    "isExit": true,
+    "isWin": true,
+    "name": "aprisoners_c",
+    "audio": [
+      {
+        "audio": "sprisoners_c",
+        "duration": 140643
+      }
+    ],
+    "images": [
+      {
+        "image": "images/pprisoners.jpg",
+        "duration": 5000
+      },
+      {
+        "image": "images/pprisoners_2.jpg",
+        "duration": 135643
+      }
+    ],
+    "decisions": [],
+    "translations": [
+      {
+        "locale": "ru",
+        "text": "Взял ядро и бросил назад"
+      }
+    ]
+  },
+  {
+    "name": "aprisoners_a",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "sprisoners_a",
+        "duration": 23219
+      }
+    ],
+    "images": [
+      {
+        "image": "images/pprisoners.jpg",
+        "duration": 23219
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "aprisoners_proxy"
+      }
+    ],
+    "translations": [
+      {
+        "locale": "ru",
+        "text": "Сьел ядро"
+      }
+    ]
+  },
+  {
+    "name": "aprisoners_b",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "sprisoners_b",
+        "duration": 25959
+      }
+    ],
+    "images": [
+      {
+        "image": "images/pprisoners.jpg",
+        "duration": 25959
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "aprisoners_proxy"
+      }
+    ],
+    "translations": [
+      {
+        "locale": "ru",
+        "text": "Закрыл глаза"
+      }
+    ]
+  },
+  {
+    "name": "aprisoners_d",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "sprisoners_d",
+        "duration": 90673
+      }
+    ],
+    "images": [
+      {
+        "image": "images/pprisoners.jpg",
+        "duration": 90673
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "aprisoners_proxy"
+      }
+    ],
+    "translations": [
+      {
+        "locale": "ru",
+        "text": "Закрыл ядро в шкафу"
+      }
+    ]
+  },
+  {
+    "name": "aprisoners_exploded",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "sprisoners_exploded",
+        "duration": 23870
+      }
+    ],
+    "images": [
+      {
+        "image": "images/pprisoners_exploded.jpg",
+        "duration": 23870
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "aprisoners_proxy"
+      }
+    ],
+    "translations": []
+  }
+]

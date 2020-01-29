@@ -1,0 +1,390 @@
+[
+  {
+    "isBegin": true,
+    "name": "a32_0_interaction",
+    "action": "CLICK",
+    "audio": [
+      {
+        "audio": "s32_0",
+        "duration": 60975
+      }
+    ],
+    "images": [
+      {
+        "image": "images/p32_0.jpg",
+        "duration": 60975
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "a32_a",
+        "order": 1
+      },
+      {
+        "scenario": "a32_b",
+        "order": 2
+      },
+      {
+        "scenario": "a32_c",
+        "order": 3
+      },
+      {
+        "scenario": "a32_d",
+        "order": 4
+      },
+      {
+        "scenario": "a32_e",
+        "order": 5
+      }
+    ]
+  },
+  {
+    "name": "a32_0_interaction_proxy",
+    "action": "CLICK",
+    "images": [],
+    "audio": [],
+    "decisions": [
+      {
+        "scenario": "a32_a",
+        "order": 1
+      },
+      {
+        "scenario": "a32_b",
+        "order": 2
+      },
+      {
+        "scenario": "a32_c",
+        "order": 3
+      },
+      {
+        "scenario": "a32_d",
+        "order": 4
+      },
+      {
+        "scenario": "a32_e",
+        "order": 5
+      }
+    ]
+  },
+  {
+    "isWin": true,
+    "name": "a32_a",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "s32_a",
+        "duration": 38614
+      }
+    ],
+    "images": [
+      {
+        "image": "images/p32_0.jpg",
+        "duration": 5000
+      },
+      {
+        "image": "images/p32_a.jpg",
+        "duration": 33614
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "a33"
+      }
+    ],
+    "translations": [
+      {
+        "locale": "ru",
+        "text": "Карету на плечи - и через забор"
+      }
+    ]
+  },
+  {
+    "name": "a32_b",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "s32_b",
+        "duration": 16509
+      }
+    ],
+    "images": [
+      {
+        "image": "images/p32_0.jpg",
+        "duration": 16509
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "a32_0_interaction_proxy"
+      }
+    ],
+    "translations": [
+      {
+        "locale": "ru",
+        "text": "Сам задул в рожок"
+      }
+    ]
+  },
+  {
+    "name": "a32_c",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "s32_c",
+        "duration": 26726
+      }
+    ],
+    "images": [
+      {
+        "image": "images/p32_0.jpg",
+        "duration": 26726
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "a32_0_interaction_proxy"
+      }
+    ],
+    "translations": [
+      {
+        "locale": "ru",
+        "text": "Включил задний ход"
+      }
+    ]
+  },
+  {
+    "name": "a32_d",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "s32_d",
+        "duration": 125503
+      }
+    ],
+    "images": [
+      {
+        "image": "images/p32_0.jpg",
+        "duration": 125503
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "a32_0_interaction_proxy"
+      }
+    ],
+    "translations": [
+      {
+        "locale": "ru",
+        "text": "Перегородил дорогу и открыл дверцу кареты"
+      }
+    ]
+  },
+  {
+    "name": "a32_e",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "s32_e",
+        "duration": 22221
+      }
+    ],
+    "images": [
+      {
+        "image": "images/p32_0.jpg",
+        "duration": 22221
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "a32_0_interaction_proxy"
+      }
+    ],
+    "translations": [
+      {
+        "locale": "ru",
+        "text": "Очень сильно ударил кнутом по коням"
+      }
+    ]
+  },
+  {
+    "name": "acarriage",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "scarriage",
+        "duration": 23800
+      }
+    ],
+    "images": [
+      {
+        "image": "images/p32_0.jpg",
+        "duration": 7500
+      },
+      {
+        "image": "images/pcarriage.jpg",
+        "duration": 16300
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "a32_0_interaction_proxy"
+      }
+    ],
+    "translations": []
+  },
+  {
+    "name": "a33",
+    "action": "CLICK",
+    "audio": [],
+    "images": [
+      {
+        "image": "images/p32_a.jpg",
+        "duration": 600
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "a33_a",
+        "order": 1
+      },
+      {
+        "scenario": "a33_b",
+        "order": 2
+      },
+      {
+        "scenario": "a33_c",
+        "order": 3
+      },
+      {
+        "scenario": "a33_d",
+        "order": 4
+      }
+    ],
+    "translations": []
+  },
+  {
+    "name": "a33_proxy",
+    "action": "CLICK",
+    "audio": [],
+    "images": [],
+    "decisions": [
+      {
+        "scenario": "a33_a",
+        "order": 1
+      },
+      {
+        "scenario": "a33_b",
+        "order": 2
+      },
+      {
+        "scenario": "a33_c",
+        "order": 3
+      },
+      {
+        "scenario": "a33_d",
+        "order": 4
+      }
+    ],
+    "translations": []
+  },
+  {
+    "name": "a33_a",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "s33_a",
+        "duration": 15789
+      }
+    ],
+    "images": [
+      {
+        "image": "images/p32_a.jpg",
+        "duration": 15789
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "a33_proxy"
+      }
+    ],
+    "translations": [
+      {
+        "locale": "ru",
+        "text": "Прикончил её"
+      }
+    ]
+  },
+  {
+    "name": "a33_d",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "s33_d",
+        "duration": 47415
+      }
+    ],
+    "images": [
+      {
+        "image": "images/p32_a.jpg",
+        "duration": 47415
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "a33_proxy"
+      }
+    ],
+    "translations": [
+      {
+        "locale": "ru",
+        "text": "Укротил её кнутом"
+      }
+    ]
+  },
+  {
+    "name": "a33_c",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "s33_c",
+        "duration": 33111
+      }
+    ],
+    "images": [
+      {
+        "image": "images/p32_a.jpg",
+        "duration": 33111
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "a33_proxy"
+      }
+    ],
+    "translations": [
+      {
+        "locale": "ru",
+        "text": "Успокоил её волшебными словами"
+      }
+    ]
+  },
+  {
+    "isExit": true,
+    "name": "a33_b",
+    "action": "GOTO",
+    "audio": [],
+    "images": [
+      {
+        "image": "images/p32_a.jpg",
+        "duration": 600
+      }
+    ],
+    "decisions": [],
+    "translations": [
+      {
+        "locale": "ru",
+        "text": "Засунул её задние ноги в карман"
+      }
+    ]
+  }
+]

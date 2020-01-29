@@ -1,0 +1,229 @@
+[
+  {
+    "isBegin": true,
+    "name": "awau_2",
+    "action": "CLICK",
+    "audio": [
+      {
+        "audio": "swau_a_cont",
+        "duration": 32670
+      }
+    ],
+    "images": [
+      {
+        "image": "images/pwau.jpg",
+        "duration": 32670
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "awau_2_a",
+        "order": 1
+      },
+      {
+        "scenario": "awau_2_b",
+        "order": 2
+      },
+      {
+        "scenario": "awau_2_c",
+        "order": 3
+      },
+      {
+        "scenario": "awau_2_d",
+        "order": 4
+      }
+    ],
+    "translations": []
+  },
+  {
+    "name": "awau_2_proxy",
+    "action": "CLICK",
+    "audio": [],
+    "images": [],
+    "decisions": [
+      {
+        "scenario": "awau_2_a",
+        "order": 1
+      },
+      {
+        "scenario": "awau_2_b",
+        "order": 2
+      },
+      {
+        "scenario": "awau_2_c",
+        "order": 3
+      },
+      {
+        "scenario": "awau_2_d",
+        "order": 4
+      }
+    ],
+    "translations": []
+  },
+  {
+    "name": "awau_2_a",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "swau_2_a",
+        "duration": 17275
+      }
+    ],
+    "images": [
+      {
+        "image": "images/pwau.jpg",
+        "duration": 17275
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "awau_2_check"
+      }
+    ],
+    "translations": [
+      {
+        "locale": "ru",
+        "text": "Выкопать яму и бегать, пока Ваувау туда не упадет"
+      }
+    ]
+  },
+  {
+    "name": "awau_2_b",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "swau_2_b",
+        "duration": 82779
+      }
+    ],
+    "images": [
+      {
+        "image": "images/pwau.jpg",
+        "duration": 82779
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "awau_2_proxy"
+      }
+    ],
+    "translations": [
+      {
+        "locale": "ru",
+        "text": "Переодеть кого-нибудь в петуха и поймать Ваувау"
+      }
+    ]
+  },
+  {
+    "isExit": true,
+    "name": "awau_2_c",
+    "audio": [
+      {
+        "audio": "swau_2_c",
+        "duration": 165860
+      }
+    ],
+    "images": [
+      {
+        "image": "images/pwau.jpg",
+        "duration": 4000
+      },
+      {
+        "image": "wau/inter_wauwau_font.jpg",
+        "withWau": true,
+        "duration": 79000
+      },
+      {
+        "image": "images/unknown_4.jpg",
+        "duration": 24000
+      },
+      {
+        "image": "wau/inter_wauwau_font.jpg",
+        "withWau": true,
+        "duration": 58860
+      }
+    ],
+    "decisions": [],
+    "translations": [
+      {
+        "locale": "ru",
+        "text": "Окружить животное"
+      }
+    ]
+  },
+  {
+    "name": "awau_2_d",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "swau_2_d",
+        "duration": 62578
+      }
+    ],
+    "images": [
+      {
+        "image": "images/pwau.jpg",
+        "duration": 62578
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "awau_2_proxy"
+      }
+    ],
+    "translations": [
+      {
+        "locale": "ru",
+        "text": "Оглушить камнями Ваувау"
+      }
+    ]
+  },
+  {
+    "isExit": true,
+    "name": "awau_2_a_win",
+    "audio": [
+      {
+        "audio": "swau_2_a_win",
+        "duration": 28583
+      }
+    ],
+    "images": [
+      {
+        "image": "images/pwau.jpg",
+        "duration": 28583
+      }
+    ],
+    "decisions": [],
+    "translations": []
+  },
+  {
+    "name": "awau_2_a_loose",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "swau_2_a_loose",
+        "duration": 17275
+      }
+    ],
+    "images": [
+      {
+        "image": "images/pwau.jpg",
+        "duration": 17275
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "awau_2_proxy"
+      }
+    ],
+    "translations": []
+  },
+  {
+    "name": "awau_2_check",
+    "action": "CLICK",
+    "audio": [],
+    "images": [],
+    "decisions": [],
+    "translations": []
+  }
+]

@@ -8,11 +8,11 @@ sourceSets.main.java.srcDirs = ["src"]
 sourceSets.test.java.srcDirs = ["tests"]
 
 dependencies {
-    implementation "com.badlogicgames.gdxpay:gdx-pay-client:0.12.1"
-    implementation 'io.sentry:sentry:1.7.27'
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.9.9'
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.9.9'
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.9'
+    api "com.badlogicgames.gdxpay:gdx-pay-client:${gdxPayVersion}"
+    api 'io.sentry:sentry:1.7.27'
+    api group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.9.9'
+    api group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.9.9'
+    api group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.9'
 
     testImplementation "junit:junit:4.12"
     testImplementation "org.mockito:mockito-core:2.13.0"

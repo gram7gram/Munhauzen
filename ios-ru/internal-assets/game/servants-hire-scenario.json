@@ -1,0 +1,142 @@
+[
+  {
+    "name": "RUNNER",
+    "audio": [
+      {
+        "audio": "s41_2"
+      }
+    ],
+    "images": [
+      {
+        "imageEnabled": "servants/inter_servants_runner_0.jpg",
+        "imageDisabled": "servants/inter_servants_runner_1.jpg"
+      }
+    ]
+  },
+  {
+    "name": "JUMPER",
+    "audio": [
+      {
+        "audio": "s41_7"
+      }
+    ],
+    "images": [
+      {
+        "imageEnabled": "servants/inter_servants_jumper_0.jpg",
+        "imageDisabled": "servants/inter_servants_jumper_1.jpg"
+      }
+    ]
+  },
+  {
+    "name": "JOKER",
+    "audio": [
+      {
+        "audio": "s41_9"
+      }
+    ],
+    "images": [
+      {
+        "imageEnabled": "servants/inter_servants_joker_0.jpg",
+        "imageDisabled": "servants/inter_servants_joker_1.jpg"
+      }
+    ]
+  },
+  {
+    "name": "USURER",
+    "audio": [
+      {
+        "audio": "s41_10"
+      }
+    ],
+    "images": [
+      {
+        "imageEnabled": "servants/inter_servants_usurer_0.jpg",
+        "imageDisabled": "servants/inter_servants_usurer_1.jpg"
+      }
+    ]
+  },
+  {
+    "name": "GIGANT",
+    "audio": [
+      {
+        "audio": "s41_5"
+      }
+    ],
+    "images": [
+      {
+        "imageEnabled": "servants/inter_servants_gigant_0.jpg",
+        "imageDisabled": "servants/inter_servants_gigant_1.jpg"
+      }
+    ]
+  },
+  {
+    "name": "VASILIY",
+    "audio": [
+      {
+        "audio": "s41_11"
+      }
+    ],
+    "images": [
+      {
+        "imageEnabled": "servants/inter_servants_vasiliy_0.jpg",
+        "imageDisabled": "servants/inter_servants_vasiliy_1.jpg"
+      }
+    ]
+  },
+  {
+    "name": "LISTENER",
+    "audio": [
+      {
+        "audio": "s41_3"
+      }
+    ],
+    "images": [
+      {
+        "imageEnabled": "servants/inter_servants_listener_0.jpg",
+        "imageDisabled": "servants/inter_servants_listener_1.jpg"
+      }
+    ]
+  },
+  {
+    "name": "SHOOTER",
+    "audio": [
+      {
+        "audio": "s41_4"
+      }
+    ],
+    "images": [
+      {
+        "imageEnabled": "servants/inter_servants_shooter_0.jpg",
+        "imageDisabled": "servants/inter_servants_shooter_1.jpg"
+      }
+    ]
+  },
+  {
+    "name": "BLOWER",
+    "audio": [
+      {
+        "audio": "s41_6"
+      }
+    ],
+    "images": [
+      {
+        "imageEnabled": "servants/inter_servants_blower_0.jpg",
+        "imageDisabled": "servants/inter_servants_blower_1.jpg"
+      }
+    ]
+  },
+  {
+    "name": "CARPETENER",
+    "audio": [
+      {
+        "audio": "s41_8"
+      }
+    ],
+    "images": [
+      {
+        "imageEnabled": "servants/inter_servants_carpenter_0.jpg",
+        "imageDisabled": "servants/inter_servants_carpenter_1.jpg"
+      }
+    ]
+  }
+]

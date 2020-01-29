@@ -23,15 +23,12 @@ obb/build
 /android-*/build
 
 ## Gradle
-
 /local.properties
 .gradle/
-gradle-app.settingk
 /build/
 /core/build/
-/desktop/build/
-/html/build/
-/ios/build/
+/ios-ru/build/
+/ios-en/build/
 /ios-moe/build/
 
 ## OS Specific
@@ -43,10 +40,15 @@ Thumbs.db
 *.iml
 
 ## iOS
-/ios/xcode/*.xcodeproj/*
-!/ios/xcode/*.xcodeproj/xcshareddata
-!/ios/xcode/*.xcodeproj/project.pbxproj
-/ios/xcode/native/
+/ios-ru/xcode/*.xcodeproj/*
+!/ios-ru/xcode/*.xcodeproj/xcshareddata
+!/ios-ru/xcode/*.xcodeproj/project.pbxproj
+/ios-ru/xcode/native/
+
+/ios-en/xcode/*.xcodeproj/*
+!/ios-en/xcode/*.xcodeproj/xcshareddata
+!/ios-en/xcode/*.xcodeproj/project.pbxproj
+/ios-en/xcode/native/
 
 /ios-moe/xcode/*.xcodeproj/*
 !/ios-moe/xcode/*.xcodeproj/xcshareddata

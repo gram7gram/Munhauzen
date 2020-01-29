@@ -1,2 +1,2 @@
-include 'core', 'android-en', 'android-ru'
-// , 'ios', 'ios-moe'
+include 'ios-en', 'ios-ru', 'core'
+//'android-en', 'android-ru',

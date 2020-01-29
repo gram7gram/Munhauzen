@@ -1,0 +1,192 @@
+[
+  {
+    "isBegin": true,
+    "name": "a2_2_0_interaction",
+    "action": "CLICK",
+    "audio": [
+      {
+        "audio": "s2_2_0",
+        "duration": 171000
+      }
+    ],
+    "images": [
+      {
+        "image": "images/p33_d.jpg",
+        "duration": 76000
+      },
+      {
+        "image": "generals/inter_general_1.jpg",
+        "duration": 10000
+      },
+      {
+        "image": "generals/inter_general_1.jpg",
+        "withFumes": true,
+        "duration": 85000
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "a2_2_b",
+        "order": 2
+      },
+      {
+        "scenario": "a2_2_c",
+        "order": 3
+      },
+      {
+        "scenario": "a2_2_d",
+        "order": 4
+      },
+      {
+        "scenario": "a2_2_a",
+        "order": 1
+      }
+    ],
+    "translations": [
+      {
+        "locale": "en",
+        "text": "Begin"
+      }
+    ]
+  },
+  {
+    "name": "a2_2_0_interaction_proxy",
+    "action": "CLICK",
+    "audio": [],
+    "images": [],
+    "decisions": [
+      {
+        "scenario": "a2_2_b",
+        "order": 2
+      },
+      {
+        "scenario": "a2_2_c",
+        "order": 3
+      },
+      {
+        "scenario": "a2_2_d",
+        "order": 4
+      },
+      {
+        "scenario": "a2_2_a",
+        "order": 1
+      }
+    ],
+    "translations": []
+  },
+  {
+    "isExit": true,
+    "name": "a2_2_a",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "s2_2_a",
+        "duration": 57000
+      }
+    ],
+    "images": [
+      {
+        "image": "generals/inter_general_1.jpg",
+        "withFumes": true,
+        "duration": 18000
+      },
+      {
+        "image": "generals/inter_general_2.jpg",
+        "withFireLeft": true,
+        "withFireRight": true,
+        "duration": 39000
+      }
+    ],
+    "decisions": [],
+    "translations": [
+      {
+        "locale": "en",
+        "text": "Set wine fumes on fire"
+      }
+    ]
+  },
+  {
+    "name": "a2_2_b",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "s2_2_b",
+        "duration": 14000
+      }
+    ],
+    "images": [
+      {
+        "image": "generals/inter_general_1.jpg",
+        "withFumes": true,
+        "duration": 14000
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "a2_2_0_interaction_proxy"
+      }
+    ],
+    "translations": [
+      {
+        "locale": "en",
+        "text": "Snatch a cap from his head"
+      }
+    ]
+  },
+  {
+    "name": "a2_2_c",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "s2_2_c",
+        "duration": 62000
+      }
+    ],
+    "images": [
+      {
+        "image": "generals/inter_general_1.jpg",
+        "withFumes": true,
+        "duration": 62000
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "a2_2_0_interaction_proxy"
+      }
+    ],
+    "translations": [
+      {
+        "locale": "en",
+        "text": "Put a canary next to him"
+      }
+    ]
+  },
+  {
+    "name": "a2_2_d",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "s2_2_d",
+        "duration": 44000
+      }
+    ],
+    "images": [
+      {
+        "image": "generals/inter_general_1.jpg",
+        "withFumes": true,
+        "duration": 44000
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "a2_2_0_interaction_proxy"
+      }
+    ],
+    "translations": [
+      {
+        "locale": "en",
+        "text": "Knock his head with a bottle"
+      }
+    ]
+  }
+]
