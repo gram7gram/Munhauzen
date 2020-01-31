@@ -2,13 +2,14 @@ buildscript {
     repositories {
         mavenLocal()
         mavenCentral()
-        maven { url "https://plugins.gradle.org/m2/" }
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         jcenter()
         google()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        maven { url "https://oss.sonatype.org/content/repositories/releases/" }
     }
     dependencies {
-        classpath 'com.mobidevelop.robovm:robovm-gradle-plugin:2.3.8'
+        //Needed for `apply plugin: "robovm"`
+        classpath "com.mobidevelop.robovm:robovm-gradle-plugin:2.3.8"
     }
 }
 
@@ -19,9 +20,6 @@ allprojects {
         appName = "Munchausen"
         gdxVersion = '1.9.10'
         roboVMVersion = '2.3.8'
-        box2DLightsVersion = '1.4'
-        ashleyVersion = '1.7.0'
-        aiVersion = '1.8.0'
         gdxPayVersion = '1.1.0'
     }
 
@@ -43,6 +41,36 @@ project(":core") {
         api "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
     }
 }
+
+project(":ios-ru") {
+    apply plugin: "java-library"
+    apply plugin: "robovm"
+
+    dependencies {
+        implementation project(":core")
+        api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-ios"
+        api "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-ios"
+        api "com.mobidevelop.robovm:robovm-rt:$roboVMVersion"
+        api "com.mobidevelop.robovm:robovm-cocoatouch:$roboVMVersion"
+        api "com.badlogicgames.gdx:gdx-backend-robovm:$gdxVersion"
+        api "com.badlogicgames.gdxpay:gdx-pay-iosrobovm-apple:${gdxPayVersion}"
+    }
+}
+
+//project(":ios-en") {
+//    apply plugin: "java-library"
+//    apply plugin: "robovm"
+//
+//    dependencies {
+//        implementation project(":core")
+//        api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-ios"
+//        api "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-ios"
+//        api "com.mobidevelop.robovm:robovm-rt:$roboVMVersion"
+//        api "com.mobidevelop.robovm:robovm-cocoatouch:$roboVMVersion"
+//        api "com.badlogicgames.gdx:gdx-backend-robovm:$gdxVersion"
+//        api "com.badlogicgames.gdxpay:gdx-pay-iosrobovm-apple:${gdxPayVersion}"
+//    }
+//}
 
 //project(":android-en") {
 //    apply plugin: "android"
@@ -87,33 +115,3 @@ project(":core") {
 //        natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-x86_64"
 //    }
 //}
-
-project(":ios-en") {
-    apply plugin: "java-library"
-    apply plugin: "robovm"
-
-    dependencies {
-        implementation project(":core")
-        api "com.mobidevelop.robovm:robovm-rt:$roboVMVersion"
-        api "com.mobidevelop.robovm:robovm-cocoatouch:$roboVMVersion"
-        api "com.badlogicgames.gdx:gdx-backend-robovm:$gdxVersion"
-        api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-ios"
-        api "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-ios"
-        api "com.badlogicgames.gdxpay:gdx-pay-iosmoe-apple:${gdxPayVersion}"
-    }
-}
-
-project(":ios-ru") {
-    apply plugin: "java-library"
-    apply plugin: "robovm"
-
-    dependencies {
-        implementation project(":core")
-        api "com.mobidevelop.robovm:robovm-rt:$roboVMVersion"
-        api "com.mobidevelop.robovm:robovm-cocoatouch:$roboVMVersion"
-        api "com.badlogicgames.gdx:gdx-backend-robovm:$gdxVersion"
-        api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-ios"
-        api "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-ios"
-        api "com.badlogicgames.gdxpay:gdx-pay-iosmoe-apple:${gdxPayVersion}"
-    }
-}

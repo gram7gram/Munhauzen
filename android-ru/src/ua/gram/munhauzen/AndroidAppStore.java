@@ -32,7 +32,7 @@ public class AndroidAppStore implements AppStore {
             context.startActivity(goToMarket);
         } catch (ActivityNotFoundException e) {
             context.startActivity(new Intent(Intent.ACTION_VIEW,
-                    Uri.parse("http://play.google.com/store/apps/details?id=" + params.applicationId)));
+                    Uri.parse("https://play.google.com/store/apps/details?id=" + params.applicationId)));
         }
     }
 

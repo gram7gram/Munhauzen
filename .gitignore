@@ -1,14 +1,18 @@
 gradle.properties
 Elements
 
+.docker
 *.jks
 
 node_modules
 *.csv
 package-lock.json
 obb/en
-obb/ru
+obb/Part_1
+obb/Part_2
+obb/Part_demo
 obb/build
+obb/*.zip
 
 ## Robovm
 /ios/robovm-build/
