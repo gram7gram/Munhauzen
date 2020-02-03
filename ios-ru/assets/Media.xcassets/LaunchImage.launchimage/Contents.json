@@ -1,0 +1,136 @@
+{
+  "images": [
+    {
+      "extent": "full-screen",
+      "idiom": "iphone",
+      "subtype": "2688h",
+      "filename": "p0.jpg",
+      "minimum-system-version": "12.0",
+      "orientation": "portrait",
+      "scale": "3x"
+    },
+    {
+      "extent": "full-screen",
+      "idiom": "iphone",
+      "subtype": "1792h",
+      "filename": "p0-1.jpg",
+      "minimum-system-version": "12.0",
+      "orientation": "portrait",
+      "scale": "2x"
+    },
+    {
+      "extent": "full-screen",
+      "idiom": "iphone",
+      "subtype": "2436h",
+      "filename": "p0-2.jpg",
+      "minimum-system-version": "11.0",
+      "orientation": "portrait",
+      "scale": "3x"
+    },
+    {
+      "extent": "full-screen",
+      "idiom": "iphone",
+      "subtype": "736h",
+      "filename": "p0-3.jpg",
+      "minimum-system-version": "8.0",
+      "orientation": "portrait",
+      "scale": "3x"
+    },
+    {
+      "extent": "full-screen",
+      "idiom": "iphone",
+      "subtype": "667h",
+      "filename": "p0-4.jpg",
+      "minimum-system-version": "8.0",
+      "orientation": "portrait",
+      "scale": "2x"
+    },
+    {
+      "orientation": "portrait",
+      "idiom": "iphone",
+      "filename": "p0-5.jpg",
+      "extent": "full-screen",
+      "minimum-system-version": "7.0",
+      "scale": "2x"
+    },
+    {
+      "extent": "full-screen",
+      "idiom": "iphone",
+      "subtype": "retina4",
+      "filename": "p0-6.jpg",
+      "minimum-system-version": "7.0",
+      "orientation": "portrait",
+      "scale": "2x"
+    },
+    {
+      "orientation": "portrait",
+      "idiom": "ipad",
+      "filename": "p0-7.jpg",
+      "extent": "full-screen",
+      "minimum-system-version": "7.0",
+      "scale": "1x"
+    },
+    {
+      "orientation": "portrait",
+      "idiom": "ipad",
+      "filename": "p0-8.jpg",
+      "extent": "full-screen",
+      "minimum-system-version": "7.0",
+      "scale": "2x"
+    },
+    {
+      "orientation": "portrait",
+      "idiom": "iphone",
+      "filename": "p0-9.jpg",
+      "extent": "full-screen",
+      "scale": "1x"
+    },
+    {
+      "orientation": "portrait",
+      "idiom": "iphone",
+      "filename": "p0-10.jpg",
+      "extent": "full-screen",
+      "scale": "2x"
+    },
+    {
+      "orientation": "portrait",
+      "idiom": "iphone",
+      "filename": "p0-11.jpg",
+      "extent": "full-screen",
+      "subtype": "retina4",
+      "scale": "2x"
+    },
+    {
+      "orientation": "portrait",
+      "idiom": "ipad",
+      "filename": "p0-12.jpg",
+      "extent": "to-status-bar",
+      "scale": "1x"
+    },
+    {
+      "orientation": "portrait",
+      "idiom": "ipad",
+      "filename": "p0-14.jpg",
+      "extent": "full-screen",
+      "scale": "1x"
+    },
+    {
+      "orientation": "portrait",
+      "idiom": "ipad",
+      "filename": "p0-13.jpg",
+      "extent": "to-status-bar",
+      "scale": "2x"
+    },
+    {
+      "orientation": "portrait",
+      "idiom": "ipad",
+      "filename": "p0-15.jpg",
+      "extent": "full-screen",
+      "scale": "2x"
+    }
+  ],
+  "info": {
+    "version": 1,
+    "author": "xcode"
+  }
+}

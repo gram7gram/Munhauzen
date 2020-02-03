@@ -7,6 +7,9 @@
   <iosInfoPList>Info.plist.xml</iosInfoPList>
   <resources>
     <resource>
+      <directory>assets</directory>
+    </resource>
+    <resource>
       <directory>./internal-assets</directory>
       <includes>
         <include>**</include>
