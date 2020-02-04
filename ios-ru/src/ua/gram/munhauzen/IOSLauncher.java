@@ -37,7 +37,7 @@ public class IOSLauncher extends IOSApplication.Delegate {
         params.appStoreSkuPart2 = "part_2_munchausen_audiobook_ru";
         params.iap = new PurchaseManageriOSApple();
         params.translator = new RussianTranslator();
-//        params.appStore = new AndroidAppStore(params, getApplicationContext());
+        params.appStore = new AppStore(params);
 
         return new IOSApplication(new MunhauzenGame(params), config);
     }
@@ -64,8 +64,7 @@ public class IOSLauncher extends IOSApplication.Delegate {
 
     int getIosVersion() {
         String systemVersion = UIDevice.getCurrentDevice().getSystemVersion();
-        int version = Integer.parseInt(systemVersion.split("\\.")[0]);
-        return version;
+        return Integer.parseInt(systemVersion.split("\\.")[0]);
     }
 
     public static void main(String[] argv) {

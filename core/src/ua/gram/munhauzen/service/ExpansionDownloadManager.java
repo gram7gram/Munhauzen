@@ -365,8 +365,8 @@ public class ExpansionDownloadManager implements Disposable {
 
                         final float sizeMb = (float) (serverExpansionInfo.size / 1024f / 1024f);
 
-                        float memory = game.params.memoryUsage.megabytesAvailable();
-                        if (memory > 0) {
+                        if (game.params.memoryUsage != null) {
+                            float memory = game.params.memoryUsage.megabytesAvailable();
                             if (sizeMb > memory) {
                                 Gdx.app.postRunnable(new Runnable() {
                                     @Override

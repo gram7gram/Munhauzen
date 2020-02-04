@@ -1,38 +1,28 @@
 package ua.gram.munhauzen;
 
-import android.content.ActivityNotFoundException;
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
+import com.badlogic.gdx.Gdx;
 
 import ua.gram.munhauzen.utils.AppStore;
+import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
  */
 public class AndroidAppStore implements AppStore {
 
-    final Context context;
+    final String tag = getClass().getSimpleName();
     final PlatformParams params;
 
-    public AndroidAppStore(PlatformParams params, Context context) {
+    public AndroidAppStore(PlatformParams params) {
         this.params = params;
-        this.context = context;
     }
 
     @Override
     public void openUrl() {
-        Uri uri = Uri.parse("market://details?id=" + params.applicationId);
-        Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
-
-        goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
-                Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
-                Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
         try {
-            context.startActivity(goToMarket);
-        } catch (ActivityNotFoundException e) {
-            context.startActivity(new Intent(Intent.ACTION_VIEW,
-                    Uri.parse("https://play.google.com/store/apps/details?id=" + params.applicationId)));
+            Gdx.net.openURI("https://play.google.com/store/apps/details?id=" + params.applicationId);
+        } catch (Throwable e) {
+            Log.e(tag, e);
         }
     }
 

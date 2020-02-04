@@ -36,7 +36,7 @@ public class AndroidLauncher extends AndroidApplication {
         params.iap = new PurchaseManagerGoogleBilling(this);
         params.translator = new RussianTranslator();
         params.memoryUsage = new AndroidMemoryUsage();
-        params.appStore = new AndroidAppStore(params, getApplicationContext());
+        params.appStore = new AndroidAppStore(params);
 
         if (BuildConfig.BUILD_TYPE.equals("staging")) {
             params.release = PlatformParams.Release.TEST;
