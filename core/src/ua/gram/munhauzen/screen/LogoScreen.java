@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -13,6 +14,7 @@ import com.badlogic.gdx.utils.Align;
 
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.ui.MunhauzenStage;
 
 /**
@@ -45,35 +47,47 @@ public class LogoScreen implements Screen {
         title.setWrap(true);
         title.setAlignment(Align.center);
 
-        Table root = new Table();
-        root.setFillParent(true);
-        root.pad(10);
-        root.add(logo).size(MunhauzenGame.WORLD_WIDTH * .5f).pad(10).row();
-        root.add(title).width(MunhauzenGame.WORLD_WIDTH * .9f).row();
+        Table table = new Table();
+        table.setFillParent(true);
+        table.pad(10);
+        table.add(logo).size(MunhauzenGame.WORLD_WIDTH * .5f).pad(10).row();
+        table.add(title).width(MunhauzenGame.WORLD_WIDTH * .9f).row();
 
-        root.setVisible(false);
-        root.addAction(
+        Label version = new Label("v" + game.params.versionName + " " + game.params.locale, new Label.LabelStyle(
+                game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
+                Color.BLACK
+        ));
+        version.setWrap(false);
+        version.setAlignment(Align.center);
+
+        Container<Label> versionContainer = new Container<>(version);
+        versionContainer.align(Align.bottom);
+        versionContainer.pad(10);
+
+        FragmentRoot container = new FragmentRoot();
+        container.addContainer(table);
+        container.addContainer(versionContainer);
+
+        ui.addActor(container);
+
+        Gdx.input.setInputProcessor(ui);
+
+        table.setVisible(false);
+        table.addAction(
                 Actions.sequence(
                         Actions.alpha(0),
                         Actions.delay(.3f),
                         Actions.visible(true),
                         Actions.alpha(1, .4f),
                         Actions.delay(2.5f),
-                        Actions.parallel(
-                                Actions.alpha(0, .4f),
-                                Actions.run(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        onComplete();
-                                    }
-                                })
-                        )
+                        Actions.run(new Runnable() {
+                            @Override
+                            public void run() {
+                                onComplete();
+                            }
+                        })
                 )
         );
-
-        ui.addActor(root);
-
-        Gdx.input.setInputProcessor(ui);
 
         game.sfxService.onLogoScreenOpened();
     }

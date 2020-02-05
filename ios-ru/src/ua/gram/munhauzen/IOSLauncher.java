@@ -5,11 +5,18 @@ import com.badlogic.gdx.backends.iosrobovm.IOSApplicationConfiguration;
 import com.badlogic.gdx.pay.ios.apple.PurchaseManageriOSApple;
 
 import org.robovm.apple.foundation.NSAutoreleasePool;
+import org.robovm.apple.foundation.NSBundle;
+import org.robovm.apple.foundation.NSDictionary;
+import org.robovm.apple.foundation.NSObject;
+import org.robovm.apple.foundation.NSString;
 import org.robovm.apple.uikit.UIApplication;
 import org.robovm.apple.uikit.UIDevice;
 import org.robovm.apple.uikit.UIScreen;
 import org.robovm.apple.uikit.UIUserInterfaceIdiom;
 
+import java.util.Set;
+
+import ua.gram.munhauzen.entity.Device;
 import ua.gram.munhauzen.translator.RussianTranslator;
 
 public class IOSLauncher extends IOSApplication.Delegate {
@@ -26,18 +33,35 @@ public class IOSLauncher extends IOSApplication.Delegate {
         config.useCompass = false;
 
         PlatformParams params = new PlatformParams();
+        params.device.type = Device.Type.ios;
         params.scaleFactor = getDeviceScaleFactor();
         params.storageDirectory = ".Munchausen/ru.munchausen.fingertipsandcompany.any";
-        params.applicationId = "ru.munchausen.fingertipsandcompany.full";
-        params.versionCode = 31;
-        params.versionName = "1.0.2";
         params.locale = "ru";
         params.appStoreSkuFull = "full_munchausen_audiobook_ru";
         params.appStoreSkuPart1 = "part_1_munchausen_audiobook_ru";
         params.appStoreSkuPart2 = "part_2_munchausen_audiobook_ru";
         params.iap = new PurchaseManageriOSApple();
         params.translator = new RussianTranslator();
-        params.appStore = new AppStore(params);
+        params.appStore = new AppleStore(params);
+
+        final NSDictionary<NSString, ?> infoDictionary = NSBundle.getMainBundle().getInfoDictionary();
+        final Set<NSString> keys = infoDictionary.keySet();
+
+        for (final NSString key : keys) {
+
+            if (key.toString().equals("CFBundleVersion")) {
+                final NSObject value = infoDictionary.get(key);
+                params.versionCode = Integer.parseInt(value.toString());
+            }
+            if (key.toString().equals("CFBundleShortVersionString")) {
+                final NSObject value = infoDictionary.get(key);
+                params.versionName = value.toString();
+            }
+            if (key.toString().equals("CFBundleIdentifier")) {
+                final NSObject value = infoDictionary.get(key);
+                params.applicationId = value.toString();
+            }
+        }
 
         return new IOSApplication(new MunhauzenGame(params), config);
     }

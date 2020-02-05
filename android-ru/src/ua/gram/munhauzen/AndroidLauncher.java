@@ -9,6 +9,7 @@ import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.badlogic.gdx.pay.android.googlebilling.PurchaseManagerGoogleBilling;
 
 import ru.munchausen.fingertipsandcompany.full.BuildConfig;
+import ua.gram.munhauzen.entity.Device;
 import ua.gram.munhauzen.translator.RussianTranslator;
 
 public class AndroidLauncher extends AndroidApplication {
@@ -25,6 +26,7 @@ public class AndroidLauncher extends AndroidApplication {
         config.useWakelock = true;
 
         PlatformParams params = new PlatformParams();
+        params.device.type = Device.Type.android;
         params.applicationId = BuildConfig.APPLICATION_ID;
         params.storageDirectory = ".Munchausen/ru.munchausen.fingertipsandcompany.any";
         params.versionCode = BuildConfig.VERSION_CODE;
@@ -36,7 +38,7 @@ public class AndroidLauncher extends AndroidApplication {
         params.iap = new PurchaseManagerGoogleBilling(this);
         params.translator = new RussianTranslator();
         params.memoryUsage = new AndroidMemoryUsage();
-        params.appStore = new AndroidAppStore(params);
+        params.appStore = new GooglePlay(params);
 
         if (BuildConfig.BUILD_TYPE.equals("staging")) {
             params.release = PlatformParams.Release.TEST;

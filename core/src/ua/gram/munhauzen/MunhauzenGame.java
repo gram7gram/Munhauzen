@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import ua.gram.munhauzen.entity.Device;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.screen.ErrorScreen;
@@ -76,25 +77,11 @@ public class MunhauzenGame extends Game {
         PAUSED = false;
     }
 
-    public void updateDpi() {
-        if (WORLD_WIDTH >= 1600 || WORLD_HEIGHT >= 2000) {
-            params.dpi = "hdpi";
-
-            if (params.scaleFactor == 1) {
-                params.scaleFactor = 1.5f;
-            }
-        } else {
-            params.dpi = "mdpi";
-        }
-    }
-
     @Override
     public void create() {
         Log.i(tag, "create");
 
         try {
-
-            ErrorMonitoring.createInstance(this);
 
             Gdx.input.setCatchKey(Input.Keys.BACK, true);
 
@@ -104,6 +91,8 @@ public class MunhauzenGame extends Game {
             WORLD_HEIGHT = Gdx.graphics.getHeight();
 
             updateDpi();
+
+            ErrorMonitoring.createInstance(this);
 
             sfxService = new SfxService(this);
             backgroundSfxService = new BackgroundSfxService(this);
@@ -297,5 +286,36 @@ public class MunhauzenGame extends Game {
         }
 
         sfxService.dispose();
+    }
+
+    public void updateDpi() {
+        if (params.device.type == Device.Type.ios) {
+            updateIphoneDpi();
+        } else {
+            updateAndroidDpi();
+        }
+    }
+
+    public void updateIphoneDpi() {
+        if (WORLD_WIDTH >= 1000 || WORLD_HEIGHT >= 1700) {
+            params.dpi = "hdpi";
+        } else {
+            params.dpi = "mdpi";
+            params.scaleFactor = 1;
+        }
+    }
+
+    public void updateAndroidDpi() {
+
+        if (WORLD_WIDTH >= 1600 || WORLD_HEIGHT >= 2000) {
+            params.dpi = "hdpi";
+
+            if (params.scaleFactor == 1) {
+                params.scaleFactor = 1.5f;
+            }
+        } else {
+            params.dpi = "mdpi";
+            params.scaleFactor = 1;
+        }
     }
 }

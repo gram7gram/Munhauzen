@@ -2,6 +2,7 @@ package ua.gram.munhauzen;
 
 import com.badlogic.gdx.pay.PurchaseManager;
 
+import ua.gram.munhauzen.entity.Device;
 import ua.gram.munhauzen.translator.Translator;
 import ua.gram.munhauzen.utils.AppStore;
 import ua.gram.munhauzen.utils.MemoryUsage;
@@ -15,15 +16,16 @@ public class PlatformParams {
     public Release release = Release.DEV;
     public int expansionVersion = 1;
     public Translator translator;
+    public final Device device = new Device();
     public AppStore appStore;
     public MemoryUsage memoryUsage;
     public PurchaseManager iap;
     public String dpi = "mdpi";
-    public String locale = "en";
+    public String locale;
     public String versionName;
     public String appStoreSkuFull, appStoreSkuPart1, appStoreSkuPart2;
     public int versionCode;
-    public String sentryDsn = "https://aaab9a00313c443498afb6184a21c867@sentry.io/1802514";
+    public final String sentryDsn = "https://aaab9a00313c443498afb6184a21c867@sentry.io/1802514";
     public String applicationId;
     public String storageDirectory;
     public float scaleFactor = 1;
