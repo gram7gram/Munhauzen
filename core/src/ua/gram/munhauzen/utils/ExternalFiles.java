@@ -81,7 +81,7 @@ public class ExternalFiles {
     }
 
     public static FileHandle getGameArchiveFile(PlatformParams params) {
-        return getExternal(params, "game-" + params.locale + "-" + params.expansionVersion + ".zip");
+        return getExternal(params, "game-" + params.locale + "-" + params.gameConfigVersion + ".zip");
     }
 
     public static FileHandle getHistoryFile(PlatformParams params) {

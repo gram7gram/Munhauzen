@@ -7,7 +7,8 @@ if [[ -z "$VERSION" ]]; then
 	exit
 fi
 
-SERVER=185.227.111.144
+OBB_DIR="/Users/master/Projects/Munhauzen/obb"
+SERVER="185.227.111.144"
 
 function syncLocal() {
 
@@ -17,9 +18,9 @@ function syncLocal() {
 
     mkdir -p ~/Projects/munhauzen-web/api/public/expansions/$SYNC_VERSION
 
-    cp ./build/${SYNC_VERSION}/* /Users/master/Projects/munhauzen-web/api/public/expansions/$SYNC_VERSION
+    cp $OBB_DIR/build/${SYNC_VERSION}/* /Users/master/Projects/munhauzen-web/api/public/expansions/$SYNC_VERSION
 
-    cp ./build/${SYNC_VERSION}-expansion.json ~/Projects/munhauzen-web/api/src/server/resources/$SYNC_VERSION-expansion.json
+    cp $OBB_DIR/build/${SYNC_VERSION}-expansion.json ~/Projects/munhauzen-web/api/src/server/resources/$SYNC_VERSION-expansion.json
 }
 
 function syncRemote() {
@@ -28,11 +29,9 @@ function syncRemote() {
 
     echo "[+] Sync with remote server ${SYNC_VERSION}..."
 
-    ssh root@${SERVER} "mkdir -p /var/www/munhauzen-web/api/public/expansions/${SYNC_VERSION}"
+    ssh root@${SERVER} "mkdir -p /var/www/munhauzen-web/api/public/expansions/${SYNC_VERSION} && rm -f /var/www/munhauzen-web/api/public/expansions/${SYNC_VERSION}/*"
 
-    ssh root@${SERVER} "rm /var/www/munhauzen-web/api/public/expansions/${SYNC_VERSION}/*"
-
-    scp ./build/${SYNC_VERSION}/* \
+    scp $OBB_DIR/build/${SYNC_VERSION}/* \
         root@${SERVER}:/var/www/munhauzen-web/api/public/expansions/${SYNC_VERSION}
 }
 

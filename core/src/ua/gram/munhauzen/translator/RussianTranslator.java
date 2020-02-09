@@ -193,6 +193,12 @@ public class RussianTranslator implements Translator {
         map.put("purchase_screen.part2_title", "Часть 2");
         map.put("purchase_screen.part2_description", "Около 4 часов аудиокниги!\n35 раздела!\n150+ иллюстраций!");
 
+        map.put("error_screen.title", "Неожиданная ошибка :(");
+        map.put("error_screen.subtitle", "Самая вероятная причина ошибки - нехватка памяти из-за чего содержимое не было отображено.\nОтчёт был отправлен ответственному человеку для исправления ошибки и восстановления Вашего наслаждения игрой.\nПожалуйста, дайте игре еще один шанс.");
+        map.put("error_screen.to_menu", "В меню");
+        map.put("error_screen.show_error", "Показать ошибку");
+        map.put("error_screen.reason", "Причина");
+
     }
 
     @Override

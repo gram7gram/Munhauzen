@@ -82,7 +82,7 @@ public class RuAuthorsFragment extends AuthorsFragment {
                 style
         );
         Portrait img7 = new Portrait(
-                screen.assetManager.get("authors/author_7.png", Texture.class),
+                screen.assetManager.get("authors/Author_7.png", Texture.class),
                 screen.game.t("authors.img_7_title"),
                 "https://t.me/workalone000",
                 style

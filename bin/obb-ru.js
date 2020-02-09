@@ -7,13 +7,14 @@ const audioDir = "/Users/master/Projects/MunhauzenDocs/Elements/AUDIO_FINAL";
 
 const PARTS = 5;
 
-const VERSION = 1;
+const VERSION = 2;
 const LOCALE = 'ru';
 
 const DLC = {
     Part_demo: {
         audio: [ "/Part_demo_Ru", "/Fails_Ru", "/Sfx_Ru" ],
         images: [ "/Part_demo" ],
+        localeAssets: [ "/Part_demo_Ru" ],
         otherAssets: [
             '/authors',
             '/gallery',
@@ -46,12 +47,14 @@ const DLC = {
     Part_1: {
         audio: [ "/Part_1_Ru" ],
         images: [ "/Part_1" ],
+        localeAssets: [],
         otherAssets: [],
         interactions: []
     },
     Part_2: {
         audio: [ "/Part_2_Ru" ],
         images: [ "/Part_2" ],
+        localeAssets: [],
         otherAssets: [],
         interactions: []
     }
@@ -67,6 +70,8 @@ const EXPANSIONS = [
     'Part_1',
     'Part_2',
 ];
+
+const getDirs = source => fs.readdirSync(source).filter(dir => dir !== '.DS_Store')
 
 const createDLC = async (DPI, EXP) => {
 
@@ -91,7 +96,7 @@ const createDLC = async (DPI, EXP) => {
     dlcConfig.images.forEach(dir => {
         const sourceDir = obbDir + dir + "/" + DPI + "/images";
 
-        fs.readdirSync(sourceDir).forEach(file => {
+        getDirs(sourceDir).forEach(file => {
             const outputDir = getTmpDir();
             const destDir = outputDir + "/images";
 
@@ -104,10 +109,31 @@ const createDLC = async (DPI, EXP) => {
         });
     });
 
+    dlcConfig.localeAssets.forEach(dir => {
+        const dpiDir = obbDir + dir + "/" + DPI;
+
+        getDirs(dpiDir).forEach(dir => {
+
+            const sourceDir = dpiDir + "/" + dir;
+
+            getDirs(sourceDir).forEach(file => {
+              const outputDir = getTmpDir();
+              const destDir = outputDir + "/" + dir;
+
+              fs.ensureDir(destDir, () => {
+              });
+
+              fs.copySync(sourceDir + "/" + file, destDir + "/" + file);
+
+              nextPart();
+            });
+        });
+    });
+
     dlcConfig.audio.forEach(dir => {
         const sourceDir = audioDir + dir;
 
-        fs.readdirSync(sourceDir).forEach(file => {
+        getDirs(sourceDir).forEach(file => {
             const outputDir = getTmpDir();
             const destDir = outputDir + "/audio";
 
@@ -123,7 +149,7 @@ const createDLC = async (DPI, EXP) => {
     dlcConfig.interactions.forEach(dir => {
         const sourceDir = coreImagesDir + dir;
 
-        fs.readdirSync(sourceDir).forEach(file => {
+        getDirs(sourceDir).forEach(file => {
             const outputDir = getTmpDir();
             const destDir = outputDir + dir;
 
@@ -139,7 +165,7 @@ const createDLC = async (DPI, EXP) => {
     dlcConfig.otherAssets.forEach(dir => {
         const sourceDir = coreImagesDir + dir;
 
-        fs.readdirSync(sourceDir).forEach(file => {
+        getDirs(sourceDir).forEach(file => {
             const outputDir = getTmpDir();
             const destDir = outputDir + dir;
 

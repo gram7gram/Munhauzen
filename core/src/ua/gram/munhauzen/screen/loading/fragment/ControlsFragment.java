@@ -144,7 +144,7 @@ public class ControlsFragment extends Fragment {
         progress.setAlignment(Align.center);
 
         progressMessage = new Label("", new Label.LabelStyle(
-                screen.game.fontProvider.getFont(FontProvider.h5),
+                screen.game.fontProvider.getFont(FontProvider.h4),
                 Color.BLACK
         ));
         progressMessage.setWrap(true);
@@ -176,7 +176,7 @@ public class ControlsFragment extends Fragment {
         startMessage.setAlignment(Align.center);
 
         retryTitle = new Label("", new Label.LabelStyle(
-                screen.game.fontProvider.getFont(FontProvider.h4),
+                screen.game.fontProvider.getFont(FontProvider.h3),
                 Color.BLACK
         ));
         retryTitle.setWrap(true);

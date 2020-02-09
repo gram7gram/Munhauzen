@@ -20,7 +20,7 @@ public class AppleStore implements AppStore {
     @Override
     public void openUrl() {
         try {
-            Gdx.net.openURI("https://www.apple.com/ios/app-store?id=" + params.applicationId);
+            Gdx.net.openURI("https://apps.apple.com/app/id1496752335");
         } catch (Throwable e) {
             Log.e(tag, e);
         }

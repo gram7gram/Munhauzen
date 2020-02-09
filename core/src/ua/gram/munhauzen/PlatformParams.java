@@ -14,7 +14,8 @@ public class PlatformParams {
     }
 
     public Release release = Release.DEV;
-    public int expansionVersion = 1;
+    public final int expansionVersion = 2;
+    public final int gameConfigVersion = 1;
     public Translator translator;
     public final Device device = new Device();
     public AppStore appStore;
@@ -46,11 +47,7 @@ public class PlatformParams {
         return "https://api.thebaronmunchausen.com/api/v1/" + locale + "/expansions/" + expansionVersion + "/" + dpi + "?product=" + productId;
     }
 
-    public String getGameVersionUrl() {
-        return "https://api.thebaronmunchausen.com/downloads/version.json";
-    }
-
     public String getGameExportUrl() {
-        return "https://api.thebaronmunchausen.com/downloads/game-" + locale + "-" + expansionVersion + ".zip";
+        return "https://api.thebaronmunchausen.com/downloads/game-" + locale + "-" + gameConfigVersion + ".zip";
     }
 }

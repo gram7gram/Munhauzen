@@ -89,7 +89,7 @@ public class TimerScenarioFragment extends Fragment {
         for (int i = 0; i < decisions.size(); i++) {
             String letterResource = animatedMap.get(i);
 
-            interaction.assetManager.load(letterResource, Texture.class);
+            interaction.gameScreen.game.internalAssetManager.load(letterResource, Texture.class);
         }
 
         interaction.assetManager.finishLoading();

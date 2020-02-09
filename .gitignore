@@ -10,7 +10,7 @@ package-lock.json
 obb/en
 obb/Part_1
 obb/Part_2
-obb/Part_demo
+obb/Part_demo*
 obb/build
 obb/*.zip
 

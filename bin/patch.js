@@ -4,12 +4,12 @@ const archiver = require('archiver');
 const obbDir = "/Users/master/Projects/Munhauzen/obb"
 const buildDir = obbDir + "/build"
 
-const VERSION = 1;
+const VERSION = 2;
 const LOCALE = 'ru';
 
 const PATCH_DIRS = [
-    '/audio',
-    '/ui',
+//    '/audio',
+//    '/ui',
 ];
 
 const DPIs = [

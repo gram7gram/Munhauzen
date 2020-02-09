@@ -56,7 +56,7 @@ public class AuthorsScreen extends AbstractScreen {
         assetManager.load("authors/author_2.png", Texture.class);
         assetManager.load("authors/author_5.png", Texture.class);
         assetManager.load("authors/author_6.png", Texture.class);
-        assetManager.load("authors/author_7.png", Texture.class);
+        assetManager.load("authors/Author_7.png", Texture.class);
 
         switch (game.params.locale) {
             case "ru":

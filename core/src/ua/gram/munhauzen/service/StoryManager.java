@@ -300,126 +300,140 @@ public class StoryManager {
     }
 
     private void startInteraction(final Story story) {
+        try {
+            Log.i(tag, "startInteraction");
 
-        Log.i(tag, "startInteraction");
+            gameScreen.progressBarFragment.root.setTouchable(Touchable.disabled);
+            gameScreen.hideAndDestroyScenarioFragment();
 
-        gameScreen.progressBarFragment.root.setTouchable(Touchable.disabled);
-        gameScreen.hideAndDestroyScenarioFragment();
+            gameScreen.audioService.stop(tag);
+            gameScreen.audioService.dispose(story);
 
-        gameScreen.audioService.stop(tag);
-        gameScreen.audioService.dispose(story);
+            GameState.clearTimer(tag);
 
-        GameState.clearTimer(tag);
-
-        Timer.instance().scheduleTask(new Timer.Task() {
-            @Override
-            public void run() {
-                try {
-                    if (story.currentInteraction != null) {
-                        if (story.currentInteraction.interaction != null) {
-                            story.currentInteraction.interaction.start();
+            Timer.instance().scheduleTask(new Timer.Task() {
+                @Override
+                public void run() {
+                    try {
+                        if (story.currentInteraction != null) {
+                            if (story.currentInteraction.interaction != null) {
+                                story.currentInteraction.interaction.start();
+                            }
                         }
+                    } catch (Throwable e) {
+                        Log.e(tag, e);
+
+                        gameScreen.onCriticalError(e);
                     }
-                } catch (Throwable e) {
-                    Log.e(tag, e);
-
-                    story.currentInteraction = null;
-
-                    gameScreen.onCriticalError(e);
                 }
-            }
-        }, .4f);
+            }, .4f);
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            gameScreen.onCriticalError(e);
+        }
     }
 
     private void startVictory(Story story) {
+        try {
+            Log.i(tag, "startVictory");
 
-        Log.i(tag, "startVictory");
+            GameState.isEndingReached = true;
 
-        GameState.isEndingReached = true;
+            gameScreen.hideProgressBar();
+            gameScreen.hideAndDestroyScenarioFragment();
 
-        gameScreen.hideProgressBar();
-        gameScreen.hideAndDestroyScenarioFragment();
+            gameScreen.controlsFragment.fadeOut();
 
-        gameScreen.controlsFragment.fadeOut();
+            gameScreen.audioService.dispose(story);
 
-        gameScreen.audioService.dispose(story);
+            GameState.pause(tag);
 
-        GameState.pause(tag);
+            GameState.clearTimer(tag);
 
-        GameState.clearTimer(tag);
+            Timer.instance().scheduleTask(new Timer.Task() {
+                @Override
+                public void run() {
+                    try {
+                        gameScreen.victoryFragment = new VictoryFragment(gameScreen);
+                        gameScreen.victoryFragment.create();
 
-        Timer.instance().scheduleTask(new Timer.Task() {
-            @Override
-            public void run() {
-                try {
-                    gameScreen.victoryFragment = new VictoryFragment(gameScreen);
-                    gameScreen.victoryFragment.create();
+                        gameScreen.gameLayers.setInteractionLayer(gameScreen.victoryFragment);
 
-                    gameScreen.gameLayers.setInteractionLayer(gameScreen.victoryFragment);
+                        gameScreen.victoryFragment.fadeIn();
 
-                    gameScreen.victoryFragment.fadeIn();
+                    } catch (Throwable e) {
+                        Log.e(tag, e);
 
-                } catch (Throwable e) {
-                    Log.e(tag, e);
-
-                    gameScreen.onCriticalError(e);
+                        gameScreen.onCriticalError(e);
+                    }
                 }
-            }
-        }, .4f);
+            }, .4f);
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            gameScreen.onCriticalError(e);
+        }
     }
 
     private void startScenarioDecisions(Story story) {
 
-        Log.i(tag, "startScenarioDecisions");
+        try {
+            Log.i(tag, "startScenarioDecisions");
 
-        Set<String> inventory = gameScreen.game.inventoryService.getAllInventory();
+            Set<String> inventory = gameScreen.game.inventoryService.getAllInventory();
 
-        ArrayList<Decision> availableDecisions = new ArrayList<>();
-        if (story.currentScenario.scenario.decisions != null) {
-            for (Decision decision : story.currentScenario.scenario.decisions) {
-                if (isDecisionAvailable(decision, inventory)) {
-                    availableDecisions.add(decision);
+            ArrayList<Decision> availableDecisions = new ArrayList<>();
+            if (story.currentScenario.scenario.decisions != null) {
+                for (Decision decision : story.currentScenario.scenario.decisions) {
+                    if (isDecisionAvailable(decision, inventory)) {
+                        availableDecisions.add(decision);
+                    }
                 }
             }
-        }
 
-        if (availableDecisions.size() > 0) {
+            if (availableDecisions.size() > 0) {
 
-            Collections.sort(availableDecisions, new Comparator<Decision>() {
-                @Override
-                public int compare(Decision a, Decision b) {
-                    if (a.order > b.order) return 1;
+                Collections.sort(availableDecisions, new Comparator<Decision>() {
+                    @Override
+                    public int compare(Decision a, Decision b) {
+                        if (a.order > b.order) return 1;
 
-                    if (a.order < b.order) return -1;
+                        if (a.order < b.order) return -1;
 
-                    return 0;
+                        return 0;
+                    }
+                });
+
+                if (gameScreen.scenarioFragment == null) {
+
+                    gameScreen.scenarioFragment = new ScenarioFragment(gameScreen, story.id);
+
+                } else if (!gameScreen.scenarioFragment.storyId.equals(story.id)) {
+
+                    gameScreen.scenarioFragment.destroy();
+
+                    gameScreen.scenarioFragment = new ScenarioFragment(gameScreen, story.id);
                 }
-            });
 
-            if (gameScreen.scenarioFragment == null) {
+                if (gameScreen.progressBarFragment != null)
+                    gameScreen.progressBarFragment.fadeIn();
 
-                gameScreen.scenarioFragment = new ScenarioFragment(gameScreen, story.id);
+                gameScreen.scenarioFragment.create(availableDecisions);
 
-            } else if (!gameScreen.scenarioFragment.storyId.equals(story.id)) {
+                gameScreen.gameLayers.setInteractionLayer(null);
+                gameScreen.gameLayers.setStoryDecisionsLayer(
+                        gameScreen.scenarioFragment
+                );
 
-                gameScreen.scenarioFragment.destroy();
-
-                gameScreen.scenarioFragment = new ScenarioFragment(gameScreen, story.id);
+                gameScreen.scenarioFragment.fadeIn();
+            } else {
+                gameScreen.navigateTo(new MenuScreen(gameScreen.game));
             }
+        } catch (Throwable e) {
+            Log.e(tag, e);
 
-            if (gameScreen.progressBarFragment != null)
-                gameScreen.progressBarFragment.fadeIn();
-
-            gameScreen.scenarioFragment.create(availableDecisions);
-
-            gameScreen.gameLayers.setInteractionLayer(null);
-            gameScreen.gameLayers.setStoryDecisionsLayer(
-                    gameScreen.scenarioFragment
-            );
-
-            gameScreen.scenarioFragment.fadeIn();
-        } else {
-            gameScreen.navigateTo(new MenuScreen(gameScreen.game));
+            gameScreen.onCriticalError(e);
         }
     }
 

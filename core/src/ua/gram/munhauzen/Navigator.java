@@ -3,6 +3,7 @@ package ua.gram.munhauzen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.utils.GdxRuntimeException;
+import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.screen.LegalScreen;
@@ -25,8 +26,14 @@ public class Navigator {
     }
 
     public void onCriticalError(Throwable e) {
+        Timer.instance().stop();
+
         game.onCriticalError(e);
-        game.getScreen().dispose();
+
+        try {
+            game.getScreen().dispose();
+        } catch (Throwable ignore) {
+        }
     }
 
     public void navigateTo(Screen screen) {

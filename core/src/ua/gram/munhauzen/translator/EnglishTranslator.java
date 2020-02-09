@@ -193,6 +193,12 @@ public class EnglishTranslator implements Translator {
         map.put("purchase_screen.part2_title", "Part 2");
         map.put("purchase_screen.part2_description", "About 4 hours of audiobook!\n35 chapters!\n150+ illustrations!");
 
+        map.put("error_screen.title", "Sorry, an error :(");
+        map.put("error_screen.subtitle", "The most common reason for error is a lack of memory, so the contents could not be displayed.\nThe report was sent to man in charge to fix the issue and restore your game experience.\nPlease, give the game another chance.");
+        map.put("error_screen.to_menu", "To menu");
+        map.put("error_screen.show_error", "Display error");
+        map.put("error_screen.reason", "Reason");
+
     }
 
     @Override
