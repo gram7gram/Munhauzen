@@ -52,10 +52,6 @@
     "audio": [],
     "images": [
       {
-        "image": "picture/p35_what_black.jpg",
-        "duration": 500
-      },
-      {
         "image": "images/p35_what.jpg",
         "duration": 500
       }

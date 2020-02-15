@@ -144,18 +144,22 @@ public class LionsImageFragment extends InteractionFragment {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                attackBtn.setDisabled(true);
+                attackBtn.setVisible(false);
 
                 root.setTouchable(Touchable.disabled);
 
                 GameState.clearTimer(tag);
 
-                Timer.instance().scheduleTask(new Timer.Task() {
-                    @Override
-                    public void run() {
-                        complete();
-                    }
-                }, attackAudio.duration / 1000f - attackDuration);
+                try {
+                    Timer.instance().scheduleTask(new Timer.Task() {
+                        @Override
+                        public void run() {
+                            complete();
+                        }
+                    }, attackAudio.duration / 1000f - attackDuration);
+                } catch (Throwable ignore) {
+                    complete();
+                }
             }
         });
 
@@ -169,7 +173,7 @@ public class LionsImageFragment extends InteractionFragment {
                     public void clicked(InputEvent event, float x, float y) {
                         super.clicked(event, x, y);
 
-                        attackBtn.setDisabled(true);
+                        attackBtn.setVisible(false);
 
                         root.setTouchable(Touchable.disabled);
 

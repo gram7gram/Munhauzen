@@ -1,154 +1,112 @@
 {
   "images": [
     {
-      "filename": "icon-40.png",
-      "size": "40x40",
-      "scale": "1x",
-      "idiom": "ipad"
-    },
-    {
-      "filename": "icon-40@2x.png",
-      "idiom": "ipad",
-      "scale": "2x",
-      "size": "40x40"
-    },
-    {
-      "size": "60x60",
-      "scale": "2x",
+      "size": "20x20",
       "idiom": "iphone",
-      "filename": "icon-60@2x.png"
-    },
-    {
-      "idiom": "ipad",
-      "scale": "1x",
-      "size": "72x72",
-      "filename": "icon-72.png"
-    },
-    {
-      "size": "72x72",
-      "filename": "icon-72@2x.png",
-      "scale": "2x",
-      "idiom": "ipad"
-    },
-    {
-      "filename": "icon-76.png",
-      "idiom": "ipad",
-      "scale": "1x",
-      "size": "76x76"
-    },
-    {
-      "scale": "2x",
-      "size": "76x76",
-      "filename": "icon-76@2x.png",
-      "idiom": "ipad"
-    },
-    {
-      "filename": "icon-small-50.png",
-      "idiom": "ipad",
-      "scale": "1x",
-      "size": "50x50"
-    },
-    {
-      "filename": "icon-small-50@2x.png",
-      "idiom": "ipad",
-      "size": "50x50",
+      "filename": "Munchausen_RU-15.jpg",
       "scale": "2x"
     },
     {
-      "filename": "icon-small.png",
+      "size": "20x20",
       "idiom": "iphone",
-      "scale": "1x",
-      "size": "29x29"
-    },
-    {
-      "filename": "icon-small@2x.png",
-      "idiom": "iphone",
-      "scale": "2x",
-      "size": "29x29"
-    },
-    {
-      "idiom": "iphone",
-      "size": "57x57",
-      "scale": "1x",
-      "filename": "icon.png"
-    },
-    {
-      "scale": "2x",
-      "size": "57x57",
-      "idiom": "iphone",
-      "filename": "icon@2x.png"
+      "filename": "Munchausen_RU-10.jpg",
+      "scale": "3x"
     },
     {
       "size": "29x29",
       "idiom": "iphone",
-      "scale": "3x",
-      "filename": "icon-small@3x.png"
+      "filename": "Munchausen_RU-12.jpg",
+      "scale": "2x"
     },
     {
+      "size": "29x29",
       "idiom": "iphone",
-      "scale": "3x",
+      "filename": "Munchausen_RU-6.jpg",
+      "scale": "3x"
+    },
+    {
       "size": "40x40",
-      "filename": "icon-40@3x.png"
+      "idiom": "iphone",
+      "filename": "Munchausen_RU-7.jpg",
+      "scale": "2x"
+    },
+    {
+      "size": "40x40",
+      "idiom": "iphone",
+      "filename": "Munchausen_RU-4.jpg",
+      "scale": "3x"
     },
     {
       "size": "60x60",
-      "filename": "icon-60@3x.png",
       "idiom": "iphone",
+      "filename": "Munchausen_RU-5.jpg",
+      "scale": "2x"
+    },
+    {
+      "size": "60x60",
+      "idiom": "iphone",
+      "filename": "Munchausen_RU-1.jpg",
       "scale": "3x"
+    },
+    {
+      "size": "20x20",
+      "idiom": "ipad",
+      "filename": "Munchausen_RU-17.jpg",
+      "scale": "1x"
+    },
+    {
+      "size": "20x20",
+      "idiom": "ipad",
+      "filename": "Munchausen_RU-13.jpg",
+      "scale": "2x"
+    },
+    {
+      "size": "29x29",
+      "idiom": "ipad",
+      "filename": "Munchausen_RU-16.jpg",
+      "scale": "1x"
+    },
+    {
+      "size": "29x29",
+      "idiom": "ipad",
+      "filename": "Munchausen_RU-11.jpg",
+      "scale": "2x"
     },
     {
       "size": "40x40",
-      "scale": "2x",
-      "filename": "icon-40@2x.png",
-      "idiom": "iphone"
-    },
-    {
-      "scale": "1x",
       "idiom": "ipad",
-      "size": "29x29",
-      "filename": "icon-small.png"
+      "filename": "Munchausen_RU-14.jpg",
+      "scale": "1x"
     },
     {
-      "size": "29x29",
-      "filename": "icon-small@2x.png",
-      "scale": "2x",
-      "idiom": "ipad"
+      "size": "40x40",
+      "idiom": "ipad",
+      "filename": "Munchausen_RU-8.jpg",
+      "scale": "2x"
+    },
+    {
+      "size": "76x76",
+      "idiom": "ipad",
+      "filename": "Munchausen_RU-9.jpg",
+      "scale": "1x"
+    },
+    {
+      "size": "76x76",
+      "idiom": "ipad",
+      "filename": "Munchausen_RU-3.jpg",
+      "scale": "2x"
     },
     {
       "size": "83.5x83.5",
-      "scale": "2x",
-      "filename": "icon-83.5@2x.png",
-      "idiom": "ipad"
-    },
-    {
-      "idiom": "iphone",
-      "size": "20x20",
-      "scale": "2x",
-      "filename": "notification-icon@2x.png"
-    },
-    {
-      "size": "20x20",
-      "filename": "notification-icon@3x.png",
-      "idiom": "iphone",
-      "scale": "3x"
-    },
-    {
-      "scale": "1x",
-      "size": "20x20",
       "idiom": "ipad",
-      "filename": "notification-icon~ipad.png"
+      "filename": "Munchausen_RU-2.jpg",
+      "scale": "2x"
     },
     {
-      "size": "20x20",
-      "filename": "notification-icon~ipad@2x.png",
-      "scale": "2x",
-      "idiom": "ipad"
-    },
-    {
-      "filename": "ios-marketing.png",
-      "scale": "1x",
+      "size": "1024x1024",
       "idiom": "ios-marketing",
-      "size": "1024x1024"
+      "filename": "Munchausen_RU.jpg",
+      "scale": "1x"
     }
   ],
   "info": {

@@ -468,7 +468,7 @@ public class BalloonsImageFragment extends InteractionFragment {
 
             stopAudio();
 
-            currentAudio = new StoryAudio();
+            StoryAudio currentAudio = new StoryAudio();
             currentAudio.audio = MathUtils.random(new String[]{
                     "sfx_inter_balloons_one_1",
                     "sfx_inter_balloons_one_2",

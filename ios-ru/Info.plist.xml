@@ -29,7 +29,7 @@
         <key>UIViewControllerBasedStatusBarAppearance</key>
         <false />
         <key>UIStatusBarHidden</key>
-        <true />
+        <false />
         <key>UIRequiresFullScreen</key>
         <true />
         <key>UIDeviceFamily</key>

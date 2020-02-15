@@ -19,7 +19,6 @@ import ua.gram.munhauzen.screen.loading.fragment.ControlsFragment;
 import ua.gram.munhauzen.utils.ExternalFiles;
 import ua.gram.munhauzen.utils.Files;
 import ua.gram.munhauzen.utils.Log;
-import ua.gram.munhauzen.utils.MD5;
 
 public class ExpansionDownloadManager implements Disposable {
 
@@ -209,20 +208,17 @@ public class ExpansionDownloadManager implements Disposable {
             throw new GdxRuntimeException("Expansion part#" + part.part + " was not downloaded");
         }
 
-        String md5 = MD5.get(expansionFile);
-
-        Log.i(tag, "downloaded part #" + part.partKey + " " + md5
-                + "\n" + "original part #" + part.partKey + " " + part.checksum);
-
-        if (!MunhauzenGame.CAN_SKIP_EXPANSION_VALIDATION) {
-            if (!md5.equals(part.checksum)) {
-
-                discardPart(part);
-
-                throw new GdxRuntimeException("Expansion part#" + part.part + " is corrupted");
-            }
-        }
-
+//        String md5 = MD5.get(expansionFile);
+//
+//        Log.i(tag, "downloaded part #" + part.partKey + " " + md5
+//                + "\n" + "original part #" + part.partKey + " " + part.checksum);
+//
+//        if (!md5.equals(part.checksum)) {
+//
+//            discardPart(part);
+//
+//            throw new GdxRuntimeException("Expansion part#" + part.part + " is corrupted");
+//        }
     }
 
     private void discardPart(Part part) {
