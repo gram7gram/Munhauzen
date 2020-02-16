@@ -446,7 +446,7 @@ public class MenuScreen extends AbstractScreen {
                 layers = null;
             }
 
-            game.internalAssetManager.unload("menu_logo.png");
+//            game.internalAssetManager.unload("menu_logo.png");
         } catch (Throwable e) {
             Log.e(tag, e);
         }
