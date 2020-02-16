@@ -1,6 +1,8 @@
 package ua.gram.munhauzen;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
@@ -27,6 +29,7 @@ public class AndroidLauncher extends AndroidApplication {
 
         PlatformParams params = new PlatformParams();
         params.device.type = Device.Type.android;
+        params.isTablet = isTablet(this);
         params.applicationId = BuildConfig.APPLICATION_ID;
         params.storageDirectory = ".Munchausen/ru.munchausen.fingertipsandcompany.any";
         params.versionCode = BuildConfig.VERSION_CODE;
@@ -51,6 +54,12 @@ public class AndroidLauncher extends AndroidApplication {
         PermissionManager.grant(this, PermissionManager.PERMISSIONS);
 
         initialize(new MunhauzenGame(params), config);
+    }
+
+    public boolean isTablet(Context context) {
+        boolean xlarge = ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == 4);
+        boolean large = ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE);
+        return (xlarge || large);
     }
 
     @Override

@@ -31,8 +31,6 @@ public class MunhauzenGame extends Game {
     public static boolean PAUSED = false;
 
     public static final boolean DEBUG_UI = false;
-    public static final boolean CAN_REMOVE_PREVIOUS_EXPANSION = false;
-    public static final boolean CAN_SKIP_EXPANSION_VALIDATION = true;
     public static final int PROGRESS_BAR_FADE_OUT_DELAY = 5;
 
     public static String developmentScenario;
@@ -87,8 +85,8 @@ public class MunhauzenGame extends Game {
 
             ExternalFiles.updateNomedia(params);
 
-            WORLD_WIDTH = Gdx.graphics.getWidth();
-            WORLD_HEIGHT = Gdx.graphics.getHeight();
+            WORLD_WIDTH = params.width = Gdx.graphics.getWidth();
+            WORLD_HEIGHT = params.height = Gdx.graphics.getHeight();
 
             updateDpi();
 
@@ -98,6 +96,15 @@ public class MunhauzenGame extends Game {
             backgroundSfxService = new BackgroundSfxService(this);
             databaseManager = new DatabaseManager(this);
             navigator = new Navigator(this);
+
+//            try {
+//
+//                String value = databaseManager.om.writeValueAsString(params);
+//                Log.i(tag, value);
+//
+//            } catch (Throwable ignore) {
+//
+//            }
 
             loadGameState();
             loadGlobalAssets();
@@ -291,9 +298,16 @@ public class MunhauzenGame extends Game {
     public void updateDpi() {
         if (params.device.type == Device.Type.ios) {
             updateIphoneDpi();
+        } else if (params.device.type == Device.Type.ipad) {
+            updateIpadDpi();
         } else {
             updateAndroidDpi();
         }
+    }
+
+    public void updateIpadDpi() {
+        params.dpi = "hdpi";
+        params.scaleFactor = 1.5f;
     }
 
     public void updateIphoneDpi() {
@@ -307,7 +321,7 @@ public class MunhauzenGame extends Game {
 
     public void updateAndroidDpi() {
 
-        if (WORLD_WIDTH >= 1600 || WORLD_HEIGHT >= 2000) {
+        if (WORLD_WIDTH >= 1600 || WORLD_HEIGHT >= 1900) {
             params.dpi = "hdpi";
 
             if (params.scaleFactor == 1) {

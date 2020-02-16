@@ -33,7 +33,8 @@ public class IOSLauncher extends IOSApplication.Delegate {
         config.useCompass = false;
 
         PlatformParams params = new PlatformParams();
-        params.device.type = Device.Type.ios;
+        params.device.type = isIpad() ? Device.Type.ipad : Device.Type.ios;
+        params.isTablet = params.device.type == Device.Type.ipad;
         params.scaleFactor = getDeviceScaleFactor();
         params.storageDirectory = ".Munchausen/en.munchausen.fingertipsandcompany.any";
         params.locale = "en";
@@ -84,6 +85,10 @@ public class IOSLauncher extends IOSApplication.Delegate {
 
         if (displayScaleFactor > 2) return 1.5f;
         return 1;
+    }
+
+    boolean isIpad() {
+        return UIDevice.getCurrentDevice().getModel().toLowerCase().contains("ipad");
     }
 
     int getIosVersion() {

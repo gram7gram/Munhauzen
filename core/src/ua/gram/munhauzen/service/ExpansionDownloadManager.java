@@ -356,9 +356,6 @@ public class ExpansionDownloadManager implements Disposable {
 
                         Log.e(tag, "New expansion. Removing previous expansion and starting download...");
 
-                        if (MunhauzenGame.CAN_REMOVE_PREVIOUS_EXPANSION)
-                            ExternalFiles.getExpansionDir(game.params).deleteDirectory();
-
                         final float sizeMb = (float) (serverExpansionInfo.size / 1024f / 1024f);
 
                         if (game.params.memoryUsage != null) {

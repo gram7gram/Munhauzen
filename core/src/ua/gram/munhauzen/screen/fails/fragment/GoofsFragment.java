@@ -42,7 +42,7 @@ public class GoofsFragment extends Fragment {
 
         GoofsBanner banner = new GoofsBanner(this);
 
-        Container c = new Container();
+        Container<?> c = new Container<>();
         c.setTouchable(Touchable.enabled);
 
         root = new FragmentRoot();

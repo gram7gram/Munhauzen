@@ -166,7 +166,7 @@ public class PrimaryDecision extends Stack {
         cannonLeft = new CannonAnimation(sheet);
         cannonRight = new CannonAnimation(sheetLeft);
 
-        float pad = buttonSize * .175f;
+        float pad = buttonSize * .15f;
 
         float width1 = letterWidth * game.params.scaleFactor;
         float scale1 = 1f * width1 / letterInCenter.getCurrentDrawable().getMinWidth();

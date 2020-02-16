@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -40,7 +39,7 @@ public class ControlsFragment extends Fragment {
     int currentFooterTranslation = 0;
     Container<Table> startContainer, progressContainer, retryContainer;
     Table topTable, bottomTable;
-    PrimaryButton menuBtn;
+    PrimaryButton menuBtn, completeBtn, cancelBtn;
     Thread downloadThread;
 
     public ControlsFragment(LoadingScreen screen) {
@@ -99,7 +98,7 @@ public class ControlsFragment extends Fragment {
             }
         });
 
-        PrimaryButton cancelBtn = screen.game.buttonBuilder.danger(screen.game.t("loading.cancel_btn"), new ClickListener() {
+        cancelBtn = screen.game.buttonBuilder.danger(screen.game.t("loading.cancel_btn"), new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
@@ -114,6 +113,16 @@ public class ControlsFragment extends Fragment {
                 showRetry();
             }
         });
+
+        completeBtn = screen.game.buttonBuilder.danger(screen.game.t("loading.completed_btn"), new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                screen.navigateTo(new MenuScreen(screen.game));
+            }
+        });
+        completeBtn.setVisible(false);
 
         Label title = new Label(screen.game.t("loading.title"), new Label.LabelStyle(
                 screen.game.fontProvider.getFont(FontProvider.h3),
@@ -160,6 +169,10 @@ public class ControlsFragment extends Fragment {
         progressTable.add(progress).width(MunhauzenGame.WORLD_WIDTH / 2f).padBottom(5).row();
         progressTable.add(progressMessage).width(MunhauzenGame.WORLD_WIDTH / 2f).padBottom(10).row();
         progressTable.add(cancelBtn)
+                .width(ButtonBuilder.BTN_PRIMARY_WIDTH)
+                .height(ButtonBuilder.BTN_PRIMARY_HEIGHT)
+                .row();
+        progressTable.add(completeBtn)
                 .width(ButtonBuilder.BTN_PRIMARY_WIDTH)
                 .height(ButtonBuilder.BTN_PRIMARY_HEIGHT)
                 .row();
@@ -401,16 +414,12 @@ public class ControlsFragment extends Fragment {
             screen.expansionDownloader = null;
         }
 
-        root.setTouchable(Touchable.disabled);
+        completeBtn.setVisible(true);
+        cancelBtn.setVisible(false);
 
         GameState.clearTimer(tag);
 
-        Timer.instance().scheduleTask(new Timer.Task() {
-            @Override
-            public void run() {
-                screen.navigateTo(new MenuScreen(screen.game));
-            }
-        }, 1);
+        screen.navigateTo(new MenuScreen(screen.game));
     }
 
     private void stopDownloadThread() {

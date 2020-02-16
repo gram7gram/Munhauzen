@@ -32,6 +32,7 @@ public class RussianTranslator implements Translator {
                         + "\nКаждое мое слово есть чистейшая истина, а если вы не верите мне, отправляйтесь сами на Луну. Там вы увидите, что я ничего не выдумываю и рассказываю вам одну только правду."
                         + "\nЭто потому, что я люблю путешествовать и всегда ищу приключений, а вы сидите дома и ничего не видите, разве что четыре стены своей комнаты.");
         map.put("loading.retry_title", "Загрузка была прервана или отменена");
+        map.put("loading.completed_btn", "Продолжить");
         map.put("loading.retry_btn", "Повторить");
         map.put("loading.cancel_btn", "Отменить");
         map.put("loading.purchases_btn", "Покупки");
@@ -178,6 +179,7 @@ public class RussianTranslator implements Translator {
         map.put("version_screen.content", "Ваша игра не последней версии. Пожалуйста, скачайте новее");
         map.put("version_screen.ignore_btn", "Игнорировать");
         map.put("version_screen.confirm_btn", "Скачать");
+        map.put("purchase_screen.processing", "Обработка...");
         map.put("purchase_screen.full_discount", "20% СКИДКА");
         map.put("purchase_screen.title", "Покупки");
         map.put("purchase_screen.unavailable", "Недоступно");

@@ -32,6 +32,7 @@ public class EnglishTranslator implements Translator {
                         + "\nIf the shadow of a doubt can remain on any person’s mind, I say, let him take a voyage to Moon himself, and then he will know I am a traveller of veracity."
                         + "\nThis is because I love traveling and I am always looking for adventures, and you sit at home and see nothing, except the four walls of your room.");
         map.put("loading.retry_title", "Download was canceled or interrupted");
+        map.put("loading.completed_btn", "Continue");
         map.put("loading.retry_btn", "Retry");
         map.put("loading.cancel_btn", "Cancel");
         map.put("loading.purchases_btn", "Purchases");
@@ -178,6 +179,7 @@ public class EnglishTranslator implements Translator {
         map.put("version_screen.content", "Your app is not the latest version. Please, download the newer one");
         map.put("version_screen.ignore_btn", "Ignore");
         map.put("version_screen.confirm_btn", "Download");
+        map.put("purchase_screen.processing", "Processing...");
         map.put("purchase_screen.full_discount", "20% SALE");
         map.put("purchase_screen.title", "Purchase");
         map.put("purchase_screen.unavailable", "Not available");

@@ -110,6 +110,10 @@ public class BackgroundSfxService {
                 public void run() {
 
                     try {
+                        if (game.expansionAssetManager == null || activeAudio == null) {
+                            return;
+                        }
+
                         game.expansionAssetManager.load(audio.file, Music.class);
 
                         game.expansionAssetManager.finishLoading();

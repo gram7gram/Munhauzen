@@ -19,41 +19,45 @@ public class ExternalFiles {
     }
 
     public static void updateNomedia(PlatformParams params) {
-        String[] dirs = {
-                "expansion/gallery",
-                "expansion/menu",
-                "expansion/GameScreen",
-                "expansion/ui",
-                "expansion/saves",
-                "expansion/fails",
-                "expansion/victory",
+        try {
+            String[] dirs = {
+                    "expansion/gallery",
+                    "expansion/menu",
+                    "expansion/GameScreen",
+                    "expansion/ui",
+                    "expansion/saves",
+                    "expansion/fails",
+                    "expansion/victory",
 
-                "expansion/images",
-                "expansion/audio",
+                    "expansion/images",
+                    "expansion/audio",
 
-                "expansion/balloons",
-                "expansion/cannons",
-                "expansion/chapter",
-                "expansion/continue",
-                "expansion/date",
-                "expansion/generals",
-                "expansion/hare",
-                "expansion/horn",
-                "expansion/lions",
-                "expansion/picture",
-                "expansion/puzzle",
-                "expansion/servants",
-                "expansion/slap",
-                "expansion/swamp",
-                "expansion/timer",
-                "expansion/timer2",
-                "expansion/wau",
-        };
-        for (String dir : dirs) {
-            getExternal(params, dir).mkdirs();
-            getExternal(params, dir + "/.nomedia").write(false);
+                    "expansion/balloons",
+                    "expansion/cannons",
+                    "expansion/chapter",
+                    "expansion/continue",
+                    "expansion/date",
+                    "expansion/generals",
+                    "expansion/hare",
+                    "expansion/horn",
+                    "expansion/lions",
+                    "expansion/picture",
+                    "expansion/puzzle",
+                    "expansion/servants",
+                    "expansion/slap",
+                    "expansion/swamp",
+                    "expansion/timer",
+                    "expansion/timer2",
+                    "expansion/wau",
+            };
+            for (String dir : dirs) {
+                getExternal(params, dir).mkdirs();
+                getExternal(params, dir + "/.nomedia").write(false);
+            }
+            getExternal(params, "expansion/.nomedia").write(false);
+        } catch (Throwable ignore) {
+
         }
-        getExternal(params, "expansion/.nomedia").write(false);
     }
 
     public static FileHandle getExpansionInfoFile(PlatformParams params) {

@@ -40,7 +40,7 @@ public abstract class MenuButton extends Stack {
     public MenuButton(MenuScreen screen) {
         this.screen = screen;
 
-        buttonWidth = MunhauzenGame.WORLD_WIDTH * .5f;
+        buttonHeight = (MunhauzenGame.WORLD_HEIGHT - 40) / 7f;
 
         drawable = new SpriteDrawable(new Sprite(
                 screen.assetManager.get("menu/mmv_btn.png", Texture.class)
@@ -128,8 +128,15 @@ public abstract class MenuButton extends Stack {
 
         back.setDrawable(drawable);
 
-        float scale = 1f * buttonWidth / drawable.getMinWidth();
-        buttonHeight = scale * drawable.getMinHeight();
+        float scale = 1f * buttonHeight / drawable.getMinHeight();
+        buttonWidth = scale * drawable.getMinWidth();
+
+        float maxWidth = MunhauzenGame.WORLD_WIDTH * .5f;
+        if (buttonWidth > maxWidth) {
+            buttonWidth = maxWidth;
+            scale = 1f * buttonWidth / drawable.getMinWidth();
+            buttonHeight = scale * drawable.getMinHeight();
+        }
 
         backContainer.getCell(back)
                 .width(buttonWidth)

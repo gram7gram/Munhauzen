@@ -106,6 +106,8 @@ public abstract class Card extends Stack {
                 try {
                     Log.i(tag, "listener2");
 
+                    price.setText(screen.game.t("purchase_screen.processing"));
+
                     if (purchased) {
                         event.cancel();
 

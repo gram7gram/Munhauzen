@@ -168,7 +168,12 @@ public class GalleryFragment extends Fragment {
 
         Table rows = new Table();
         rows.align(Align.top);
-        rows.pad(10, 100, 10, 130);
+        if (!screen.game.params.isTablet) {
+            rows.pad(10, 100, 10, 130);
+        } else {
+            rows.pad(10, 180, 10, 180);
+        }
+
         int num = 0;
 
         float width = MunhauzenGame.WORLD_WIDTH - 20 - rows.getPadLeft() - rows.getPadRight();

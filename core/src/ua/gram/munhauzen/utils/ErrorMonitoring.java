@@ -1,7 +1,9 @@
 package ua.gram.munhauzen.utils;
 
+import com.badlogic.gdx.pay.FetchItemInformationException;
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 
+import java.io.IOException;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.HashSet;
@@ -52,6 +54,8 @@ public class ErrorMonitoring {
         if (e instanceof SocketException) return;
         if (e instanceof SocketTimeoutException) return;
         if (e instanceof MismatchedInputException) return;
+        if (e instanceof FetchItemInformationException) return;
+        if (e instanceof IOException) return;
 
         if (captured.contains(e)) return;
 

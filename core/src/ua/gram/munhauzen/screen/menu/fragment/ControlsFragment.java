@@ -85,6 +85,7 @@ public class ControlsFragment extends Fragment {
         }
 
         btnTable = new Table();
+        btnTable.padTop(50);
 
         if (state.isContinueEnabled) {
             btnTable.add(continueButton).row();

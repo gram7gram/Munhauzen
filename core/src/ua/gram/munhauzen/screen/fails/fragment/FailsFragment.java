@@ -165,7 +165,11 @@ public class FailsFragment extends Fragment {
 
         Table rows = new Table();
         rows.align(Align.top);
-        rows.pad(10, 100, 10, 130);
+        if (!screen.game.params.isTablet) {
+            rows.pad(10, 100, 10, 130);
+        } else {
+            rows.pad(10, 180, 10, 180);
+        }
 
         FailsState state = screen.game.gameState.failsState;
 

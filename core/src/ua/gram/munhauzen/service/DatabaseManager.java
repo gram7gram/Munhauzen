@@ -51,7 +51,7 @@ public class DatabaseManager {
 
     private final String tag = getClass().getSimpleName();
     final MunhauzenGame game;
-    final ObjectMapper om;
+    public final ObjectMapper om;
 
     public DatabaseManager(MunhauzenGame game) {
         this.game = game;
