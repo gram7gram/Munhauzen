@@ -122,20 +122,25 @@ public class HireStoryManager {
     }
 
     public void onCompleted() {
+        try {
+            startLoadingImages();
 
-        startLoadingImages();
+            Log.i(tag, "onCompleted " + story.id);
 
-        Log.i(tag, "onCompleted " + story.id);
+            gameScreen.game.gameState.history.visitedStories.add(story.id);
 
-        gameScreen.game.gameState.history.visitedStories.add(story.id);
+            ServantsState state = interaction.gameScreen.getActiveSave().servantsInteractionState;
 
-        ServantsState state = interaction.gameScreen.getActiveSave().servantsInteractionState;
+            state.viewedServants.add(interaction.hireFragment.hireDialog.servantName);
 
-        state.viewedServants.add(interaction.hireFragment.hireDialog.servantName);
+            interaction.hireFragment.hireDialog.fadeIn();
 
-        interaction.hireFragment.hireDialog.fadeIn();
+            GameState.pause(tag);
+        } catch (Throwable e) {
+            Log.e(tag, e);
 
-        GameState.pause(tag);
+            interaction.gameScreen.onCriticalError(e);
+        }
     }
 
     public void reset() {

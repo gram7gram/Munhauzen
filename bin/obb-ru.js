@@ -259,12 +259,9 @@ const createDLC = async (DPI, EXP) => {
 
     fs.emptyDirSync(`${buildDir}/${VERSION_NAME}/`);
 
-    const tasks = [];
     for (let part = 1; part <= PARTS; part++) {
-        tasks.push(createArchive(part));
+        await createArchive(part)
     }
-
-    await Promise.all(tasks);
 
     onComplete();
 };

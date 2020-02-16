@@ -299,71 +299,77 @@ public class CannonsStoryManager {
     }
 
     public void onCompleted() {
+        try {
+            displayCurrentImage();
 
-        displayCurrentImage();
+            Log.i(tag, "onCompleted " + story.id);
 
-        Log.i(tag, "onCompleted " + story.id);
+            gameScreen.game.gameState.history.visitedStories.add(story.id);
 
-        gameScreen.game.gameState.history.visitedStories.add(story.id);
-
-        for (StoryAudio audio : story.currentScenario.scenario.audio) {
-            if (audio.player != null) {
-                audio.player.pause();
-            }
-        }
-
-        if (story.currentScenario.scenario.isExit) {
-
-            if (interaction.progressBarFragment != null) {
-                interaction.progressBarFragment.destroy();
-                interaction.progressBarFragment = null;
-            }
-
-            if (interaction.scenarioFragment != null) {
-                interaction.scenarioFragment.destroy();
-                interaction.scenarioFragment = null;
-            }
-
-            complete();
-
-            return;
-        }
-
-        ArrayList<Decision> availableDecisions = new ArrayList<>();
-        if (story.currentScenario.scenario.decisions != null) {
-            for (Decision decision : story.currentScenario.scenario.decisions) {
-                //if (isDecisionAvailable(decision, inventory))
-                availableDecisions.add(decision);
-            }
-        }
-
-        if (availableDecisions.size() > 0) {
-
-            Collections.sort(availableDecisions, new Comparator<Decision>() {
-                @Override
-                public int compare(Decision a, Decision b) {
-                    if (a.order > b.order) return 1;
-
-                    if (a.order < b.order) return -1;
-
-                    return 0;
+            for (StoryAudio audio : story.currentScenario.scenario.audio) {
+                if (audio.player != null) {
+                    audio.player.pause();
                 }
-            });
-
-            if (interaction.scenarioFragment == null) {
-                interaction.scenarioFragment = new CannonsScenarioFragment(gameScreen, interaction);
             }
 
-            interaction.progressBarFragment.fadeIn();
+            if (story.currentScenario.scenario.isExit) {
 
-            interaction.scenarioFragment.create(availableDecisions);
+                if (interaction.progressBarFragment != null) {
+                    interaction.progressBarFragment.destroy();
+                    interaction.progressBarFragment = null;
+                }
 
-            gameScreen.gameLayers.setStoryDecisionsLayer(
-                    interaction.scenarioFragment
-            );
+                if (interaction.scenarioFragment != null) {
+                    interaction.scenarioFragment.destroy();
+                    interaction.scenarioFragment = null;
+                }
 
-            interaction.scenarioFragment.fadeIn();
+                complete();
+
+                return;
+            }
+
+            ArrayList<Decision> availableDecisions = new ArrayList<>();
+            if (story.currentScenario.scenario.decisions != null) {
+                for (Decision decision : story.currentScenario.scenario.decisions) {
+                    //if (isDecisionAvailable(decision, inventory))
+                    availableDecisions.add(decision);
+                }
+            }
+
+            if (availableDecisions.size() > 0) {
+
+                Collections.sort(availableDecisions, new Comparator<Decision>() {
+                    @Override
+                    public int compare(Decision a, Decision b) {
+                        if (a.order > b.order) return 1;
+
+                        if (a.order < b.order) return -1;
+
+                        return 0;
+                    }
+                });
+
+                if (interaction.scenarioFragment == null) {
+                    interaction.scenarioFragment = new CannonsScenarioFragment(gameScreen, interaction);
+                }
+
+                interaction.progressBarFragment.fadeIn();
+
+                interaction.scenarioFragment.create(availableDecisions);
+
+                gameScreen.gameLayers.setStoryDecisionsLayer(
+                        interaction.scenarioFragment
+                );
+
+                interaction.scenarioFragment.fadeIn();
+            }
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            interaction.gameScreen.onCriticalError(e);
         }
+
     }
 
     public void complete() {

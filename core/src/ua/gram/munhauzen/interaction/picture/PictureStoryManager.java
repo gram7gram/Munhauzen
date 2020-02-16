@@ -180,52 +180,56 @@ public class PictureStoryManager {
     }
 
     public void onCompleted() {
+        try {
+            displayCurrentImage();
 
-        displayCurrentImage();
+            Log.i(tag, "onCompleted " + story.id);
 
-        Log.i(tag, "onCompleted " + story.id);
+            gameScreen.game.gameState.history.visitedStories.add(story.id);
 
-        gameScreen.game.gameState.history.visitedStories.add(story.id);
-
-        for (StoryAudio audio : story.currentScenario.scenario.audio) {
-            if (audio.player != null) {
-                audio.player.pause();
-            }
-        }
-
-        if (story.currentScenario.scenario.isExit) {
-
-            Log.i(tag, "Exit reached");
-
-            if (interaction.progressBarFragment != null) {
-                interaction.progressBarFragment.destroy();
-                interaction.progressBarFragment = null;
+            for (StoryAudio audio : story.currentScenario.scenario.audio) {
+                if (audio.player != null) {
+                    audio.player.pause();
+                }
             }
 
-            if (interaction.scenarioFragment != null) {
-                interaction.scenarioFragment.destroy();
-                interaction.scenarioFragment = null;
+            if (story.currentScenario.scenario.isExit) {
+
+                Log.i(tag, "Exit reached");
+
+                if (interaction.progressBarFragment != null) {
+                    interaction.progressBarFragment.destroy();
+                    interaction.progressBarFragment = null;
+                }
+
+                if (interaction.scenarioFragment != null) {
+                    interaction.scenarioFragment.destroy();
+                    interaction.scenarioFragment = null;
+                }
+
+                complete();
+
+                return;
             }
 
-            complete();
+            if (interaction.scenarioFragment == null) {
+                interaction.scenarioFragment = new PictureScenarioFragment(interaction);
+            }
 
-            return;
+            interaction.progressBarFragment.fadeIn();
+
+            interaction.scenarioFragment.create();
+
+            gameScreen.gameLayers.setStoryDecisionsLayer(
+                    interaction.scenarioFragment
+            );
+
+            interaction.scenarioFragment.fadeIn();
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            interaction.gameScreen.onCriticalError(e);
         }
-
-        if (interaction.scenarioFragment == null) {
-            interaction.scenarioFragment = new PictureScenarioFragment(interaction);
-        }
-
-        interaction.progressBarFragment.fadeIn();
-
-        interaction.scenarioFragment.create();
-
-        gameScreen.gameLayers.setStoryDecisionsLayer(
-                interaction.scenarioFragment
-        );
-
-        interaction.scenarioFragment.fadeIn();
-
     }
 
     public void complete() {

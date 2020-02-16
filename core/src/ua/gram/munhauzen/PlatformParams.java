@@ -26,7 +26,7 @@ public class PlatformParams implements JsonEntry {
     public PurchaseManager iap;
 
     @JsonProperty
-    public Release release = Release.DEV;
+    public Release release = Release.PROD;
     @JsonProperty
     public final int expansionVersion = 3;
     @JsonProperty

@@ -95,7 +95,11 @@ public class CannonsScenarioFragment extends Fragment {
         for (int i = 0; i < decisions.size(); i++) {
             String letterResource = animatedMap.get(i);
 
-            interaction.assetManager.load(letterResource, Texture.class);
+            try {
+                interaction.assetManager.load(letterResource, Texture.class);
+            } catch (Throwable e) {
+                Log.e(tag, e);
+            }
         }
 
         interaction.assetManager.finishLoading();

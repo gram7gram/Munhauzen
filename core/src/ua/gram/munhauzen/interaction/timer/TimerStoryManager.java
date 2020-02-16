@@ -196,78 +196,85 @@ public class TimerStoryManager {
     }
 
     public void onCompleted() {
+        try {
 
-        displayCurrentImage();
+            displayCurrentImage();
 
-        Log.i(tag, "onCompleted " + story.id);
+            Log.i(tag, "onCompleted " + story.id);
 
-        gameScreen.game.gameState.history.visitedStories.add(story.id);
+            gameScreen.game.gameState.history.visitedStories.add(story.id);
 
-        Set<String> inventory = gameScreen.game.inventoryService.getAllInventory();
+            Set<String> inventory = gameScreen.game.inventoryService.getAllInventory();
 
-        if (story.currentScenario == null) return;
+            if (story.currentScenario == null) return;
 
-        for (StoryAudio audio : story.currentScenario.scenario.audio) {
-            if (audio.player != null) {
-                audio.player.pause();
-            }
-        }
-
-        if (story.currentScenario.scenario.isExit) {
-
-            Log.i(tag, "Exit reached");
-
-            if (interaction.progressBarFragment != null) {
-                interaction.progressBarFragment.destroy();
-                interaction.progressBarFragment = null;
-            }
-
-            if (interaction.scenarioFragment != null) {
-                interaction.scenarioFragment.destroy();
-                interaction.scenarioFragment = null;
-            }
-
-            complete();
-
-            return;
-        }
-
-        ArrayList<Decision> availableDecisions = new ArrayList<>();
-        if (story.currentScenario.scenario.decisions != null) {
-            for (Decision decision : story.currentScenario.scenario.decisions) {
-                if (isDecisionAvailable(decision, inventory)) {
-                    availableDecisions.add(decision);
+            for (StoryAudio audio : story.currentScenario.scenario.audio) {
+                if (audio.player != null) {
+                    audio.player.pause();
                 }
             }
-        }
 
-        if (availableDecisions.size() > 0) {
+            if (story.currentScenario.scenario.isExit) {
 
-            Collections.sort(availableDecisions, new Comparator<Decision>() {
-                @Override
-                public int compare(Decision a, Decision b) {
-                    if (a.order > b.order) return 1;
+                Log.i(tag, "Exit reached");
 
-                    if (a.order < b.order) return -1;
-
-                    return 0;
+                if (interaction.progressBarFragment != null) {
+                    interaction.progressBarFragment.destroy();
+                    interaction.progressBarFragment = null;
                 }
-            });
 
-            if (interaction.scenarioFragment == null) {
-                interaction.scenarioFragment = new TimerScenarioFragment(gameScreen, interaction);
+                if (interaction.scenarioFragment != null) {
+                    interaction.scenarioFragment.destroy();
+                    interaction.scenarioFragment = null;
+                }
+
+                complete();
+
+                return;
             }
 
-            interaction.progressBarFragment.fadeIn();
+            ArrayList<Decision> availableDecisions = new ArrayList<>();
+            if (story.currentScenario.scenario.decisions != null) {
+                for (Decision decision : story.currentScenario.scenario.decisions) {
+                    if (isDecisionAvailable(decision, inventory)) {
+                        availableDecisions.add(decision);
+                    }
+                }
+            }
 
-            interaction.scenarioFragment.create(availableDecisions);
+            if (availableDecisions.size() > 0) {
 
-            gameScreen.gameLayers.setStoryDecisionsLayer(
-                    interaction.scenarioFragment
-            );
+                Collections.sort(availableDecisions, new Comparator<Decision>() {
+                    @Override
+                    public int compare(Decision a, Decision b) {
+                        if (a.order > b.order) return 1;
 
-            interaction.scenarioFragment.fadeIn();
+                        if (a.order < b.order) return -1;
+
+                        return 0;
+                    }
+                });
+
+                if (interaction.scenarioFragment == null) {
+                    interaction.scenarioFragment = new TimerScenarioFragment(gameScreen, interaction);
+                }
+
+                interaction.progressBarFragment.fadeIn();
+
+                interaction.scenarioFragment.create(availableDecisions);
+
+                gameScreen.gameLayers.setStoryDecisionsLayer(
+                        interaction.scenarioFragment
+                );
+
+                interaction.scenarioFragment.fadeIn();
+            }
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            interaction.gameScreen.onCriticalError(e);
         }
+
     }
 
     public void complete() {

@@ -80,8 +80,10 @@ public class ErrorScreen implements Screen {
         Gdx.gl.glClearColor(Color.DARK_GRAY.r, Color.DARK_GRAY.g, Color.DARK_GRAY.b, Color.DARK_GRAY.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
-        ui.act(delta);
-        ui.draw();
+        if (ui != null) {
+            ui.act(delta);
+            ui.draw();
+        }
     }
 
     @Override

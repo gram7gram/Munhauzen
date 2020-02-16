@@ -19,29 +19,51 @@ public class ExpansionAssetManager extends AssetManager {
 
     @Override
     public synchronized <T> T get(String fileName, Class<T> type) {
-        return super.get(getPath(fileName), type);
+        try {
+            return super.get(getPath(fileName), type);
+        } catch (Throwable ignore) {
+        }
+
+        return null;
     }
 
     @Override
     public synchronized boolean isLoaded(String fileName, Class type) {
-        return super.isLoaded(getPath(fileName), type);
+        try {
+            return super.isLoaded(getPath(fileName), type);
+        } catch (Throwable ignore) {
+        }
+
+        return false;
     }
+
 
     @Override
     public synchronized boolean isLoaded(String fileName) {
-        return super.isLoaded(getPath(fileName));
+        try {
+            return super.isLoaded(getPath(fileName));
+        } catch (Throwable ignore) {
+        }
+
+        return false;
     }
 
     @Override
     public synchronized void unload(String fileName) {
-        if (!isLoaded(fileName)) return;
+        try {
+            if (!isLoaded(fileName)) return;
 
-        super.unload(getPath(fileName));
+            super.unload(getPath(fileName));
+        } catch (Throwable ignore) {
+        }
     }
 
     @Override
     public synchronized <T> void load(String fileName, Class<T> type) {
-        super.load(getPath(fileName), type);
+        try {
+            super.load(getPath(fileName), type);
+        } catch (Throwable ignore) {
+        }
     }
 
     private String getPath(String file) {

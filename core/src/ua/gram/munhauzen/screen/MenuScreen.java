@@ -104,49 +104,57 @@ public class MenuScreen extends AbstractScreen {
     protected void onResourcesLoaded() {
         super.onResourcesLoaded();
 
-        for (AudioFail fail : game.gameState.audioFailRegistry) {
-            if (fail.isFailOpenedOnStart) {
-                game.gameState.history.openedFails.add(fail.name);
+        try {
+
+            if (game.gameState != null) {
+                for (AudioFail fail : game.gameState.audioFailRegistry) {
+                    if (fail.isFailOpenedOnStart) {
+                        game.gameState.history.openedFails.add(fail.name);
+                    }
+                }
+
+                for (Image image : game.gameState.getGalleryImages()) {
+
+                    boolean isOpened = game.gameState.history.viewedImages.contains(image.name);
+                    boolean isViewed = game.gameState.galleryState.visitedImages.contains(image.name);
+                    if (isOpened && !isViewed) {
+                        game.gameState.galleryState.hasUpdates = true;
+                        break;
+                    }
+                }
+
+                for (AudioFail fail : game.gameState.audioFailRegistry) {
+
+                    boolean isOpened = game.gameState.history.openedFails.contains(fail.name);
+                    boolean isViewed = game.gameState.failsState.listenedAudio.contains(fail.name);
+                    if (isOpened && !isViewed) {
+                        game.gameState.failsState.hasUpdates = true;
+                        break;
+                    }
+                }
             }
+
+            layers = new MenuLayers();
+
+            ui.addActor(layers);
+
+            controlsFragment = new ControlsFragment(this);
+            controlsFragment.create();
+
+            layers.setControlsLayer(controlsFragment);
+
+            imageFragment = new ImageFragment(this);
+            imageFragment.create();
+
+            layers.setBackgroundLayer(imageFragment);
+
+            ui.addListener(new MenuStageListener(this));
+
+            openBannerIfNeeded();
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
         }
-
-        for (Image image : game.gameState.getGalleryImages()) {
-
-            boolean isOpened = game.gameState.history.viewedImages.contains(image.name);
-            boolean isViewed = game.gameState.galleryState.visitedImages.contains(image.name);
-            if (isOpened && !isViewed) {
-                game.gameState.galleryState.hasUpdates = true;
-                break;
-            }
-        }
-
-        for (AudioFail fail : game.gameState.audioFailRegistry) {
-
-            boolean isOpened = game.gameState.history.openedFails.contains(fail.name);
-            boolean isViewed = game.gameState.failsState.listenedAudio.contains(fail.name);
-            if (isOpened && !isViewed) {
-                game.gameState.failsState.hasUpdates = true;
-                break;
-            }
-        }
-
-        layers = new MenuLayers();
-
-        ui.addActor(layers);
-
-        controlsFragment = new ControlsFragment(this);
-        controlsFragment.create();
-
-        layers.setControlsLayer(controlsFragment);
-
-        imageFragment = new ImageFragment(this);
-        imageFragment.create();
-
-        layers.setBackgroundLayer(imageFragment);
-
-        ui.addListener(new MenuStageListener(this));
-
-        openBannerIfNeeded();
     }
 
     private void openBannerIfNeeded() {

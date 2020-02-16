@@ -1,6 +1,7 @@
 package ua.gram.munhauzen.utils;
 
 import com.badlogic.gdx.pay.FetchItemInformationException;
+import com.badlogic.gdx.pay.ItemAlreadyOwnedException;
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 
 import java.io.IOException;
@@ -33,6 +34,7 @@ public class ErrorMonitoring {
         canCapture = !game.params.isDev();
 
         Sentry.getContext().addTag("release", game.params.release + "");
+        Sentry.getContext().addTag("device", game.params.device.type + "");
         Sentry.getContext().addTag("applicationId", game.params.applicationId);
         Sentry.getContext().addTag("expansionVersion", game.params.expansionVersion + "");
         Sentry.getContext().addTag("versionCode", game.params.versionCode + "");
@@ -55,6 +57,7 @@ public class ErrorMonitoring {
         if (e instanceof SocketTimeoutException) return;
         if (e instanceof MismatchedInputException) return;
         if (e instanceof FetchItemInformationException) return;
+        if (e instanceof ItemAlreadyOwnedException) return;
         if (e instanceof IOException) return;
 
         if (captured.contains(e)) return;

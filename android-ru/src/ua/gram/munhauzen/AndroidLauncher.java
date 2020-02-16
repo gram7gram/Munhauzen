@@ -45,10 +45,10 @@ public class AndroidLauncher extends AndroidApplication {
 
         if (BuildConfig.BUILD_TYPE.equals("staging")) {
             params.release = PlatformParams.Release.TEST;
-        }
-
-        if (BuildConfig.BUILD_TYPE.equals("release")) {
+        } else if (BuildConfig.BUILD_TYPE.equals("release")) {
             params.release = PlatformParams.Release.PROD;
+        } else {
+            params.release = PlatformParams.Release.DEV;
         }
 
         PermissionManager.grant(this, PermissionManager.PERMISSIONS);

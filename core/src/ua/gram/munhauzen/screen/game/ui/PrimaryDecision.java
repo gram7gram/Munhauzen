@@ -122,7 +122,9 @@ public class PrimaryDecision extends Stack {
 
                     cannonLeft.start();
                     cannonRight.start();
-                    letterInCenter.start();
+
+                    if (letterInCenter != null)
+                        letterInCenter.start();
 
                     onClick.clicked(event, x, y);
                 } catch (Throwable e) {
@@ -134,33 +136,36 @@ public class PrimaryDecision extends Stack {
 
     private Stack createDefaultHeader(int index) {
 
-        String letterResource = animatedMap.get(index);
-
-        Texture letter = assetManager.get(letterResource, Texture.class);
         Texture sheet = assetManager.get("GameScreen/an_cannons_sheet.png", Texture.class);
         Texture sheetLeft = assetManager.get("GameScreen/an_cannons_left_sheet.png", Texture.class);
 
-        switch (index) {
-            case 0:
-                letterInCenter = new LetterAAnimation(letter);
-                break;
-            case 1:
-                letterInCenter = new LetterBAnimation(letter);
-                break;
-            case 2:
-                letterInCenter = new LetterCAnimation(letter);
-                break;
-            case 3:
-                letterInCenter = new LetterDAnimation(letter);
-                break;
-            case 4:
-                letterInCenter = new LetterEAnimation(letter);
-                break;
-            case 5:
-                letterInCenter = new LetterFAnimation(letter);
-                break;
-            default:
-                letterInCenter = new LetterGAnimation(letter);
+        String letterResource = animatedMap.get(index);
+
+        if (assetManager.isLoaded(letterResource, Texture.class)) {
+            Texture letter = assetManager.get(letterResource, Texture.class);
+
+            switch (index) {
+                case 0:
+                    letterInCenter = new LetterAAnimation(letter);
+                    break;
+                case 1:
+                    letterInCenter = new LetterBAnimation(letter);
+                    break;
+                case 2:
+                    letterInCenter = new LetterCAnimation(letter);
+                    break;
+                case 3:
+                    letterInCenter = new LetterDAnimation(letter);
+                    break;
+                case 4:
+                    letterInCenter = new LetterEAnimation(letter);
+                    break;
+                case 5:
+                    letterInCenter = new LetterFAnimation(letter);
+                    break;
+                default:
+                    letterInCenter = new LetterGAnimation(letter);
+            }
         }
 
         cannonLeft = new CannonAnimation(sheet);
@@ -169,8 +174,6 @@ public class PrimaryDecision extends Stack {
         float pad = buttonSize * .15f;
 
         float width1 = letterWidth * game.params.scaleFactor;
-        float scale1 = 1f * width1 / letterInCenter.getCurrentDrawable().getMinWidth();
-        float height1 = 1f * letterInCenter.getCurrentDrawable().getMinHeight() * scale1;
 
         float width2 = (buttonSize - pad * 2 - width1 * .2f) / 2f;
         float scale2 = 1f * width2 / cannonLeft.getCurrentDrawable().getMinWidth();
@@ -184,10 +187,17 @@ public class PrimaryDecision extends Stack {
                 .expand().align(Align.topLeft);
 
         Table layer2 = new Table();
-        layer2.add(letterInCenter)
-                .padLeft(width1 * .25f)
-                .width(width1).height(height1)
-                .expand().align(Align.top);
+
+        if (letterInCenter != null) {
+
+            float scale1 = 1f * width1 / letterInCenter.getCurrentDrawable().getMinWidth();
+            float height1 = 1f * letterInCenter.getCurrentDrawable().getMinHeight() * scale1;
+
+            layer2.add(letterInCenter)
+                    .padLeft(width1 * .25f)
+                    .width(width1).height(height1)
+                    .expand().align(Align.top);
+        }
 
         Table layer3 = new Table();
         layer3.add(cannonRight)

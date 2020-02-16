@@ -241,62 +241,71 @@ public class StoryManager {
 
     public void onCompleted() {
 
-        final Story story = gameScreen.getStory();
-        if (story == null) return;
+        try {
 
-        Log.i(tag, "onCompleted " + story.id);
+            final Story story = gameScreen.getStory();
+            if (story == null) return;
 
-        boolean isPurchased = gameScreen.checkExpansionIsPurchased();
+            Log.i(tag, "onCompleted " + story.id);
 
-        gameScreen.game.gameState.history.visitedStories.add(story.id);
+            boolean isPurchased = gameScreen.checkExpansionIsPurchased();
 
-        displayCurrentImage();
+            gameScreen.game.gameState.history.visitedStories.add(story.id);
 
-        gameScreen.game.gameState.menuState.isContinueEnabled = true;
+            displayCurrentImage();
 
-        for (StoryScenario storyScenario : story.scenarios) {
-            gameScreen.game.achievementService.onScenarioVisited(storyScenario.scenario);
-        }
+            gameScreen.game.gameState.menuState.isContinueEnabled = true;
 
-        for (StoryAudio audio : story.currentScenario.scenario.audio) {
-            if (audio.player != null) {
-                audio.player.pause();
+            for (StoryScenario storyScenario : story.scenarios) {
+                gameScreen.game.achievementService.onScenarioVisited(storyScenario.scenario);
             }
+
+            for (StoryAudio audio : story.currentScenario.scenario.audio) {
+                if (audio.player != null) {
+                    audio.player.pause();
+                }
+            }
+
+            if (!isPurchased) {
+                gameScreen.createPurchaseFragment(story.currentScenario.scenario);
+                return;
+            }
+
+            if (story.isVictory()) {
+
+                startVictory(story);
+                return;
+
+            }
+
+            String interaction;
+
+            if (MunhauzenGame.developmentInteraction != null) {
+
+                interaction = MunhauzenGame.developmentInteraction + "";
+
+                MunhauzenGame.developmentInteraction = null;
+            } else {
+                interaction = story.currentScenario.scenario.interaction;
+            }
+
+            if (interaction != null) {
+                gameScreen.interactionService.create(interaction);
+            }
+
+            if (story.currentInteraction != null && story.currentInteraction.isLocked) {
+                startInteraction(story);
+                return;
+            }
+
+            startScenarioDecisions(story);
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            gameScreen.onCriticalError(e);
         }
 
-        if (!isPurchased) {
-            gameScreen.createPurchaseFragment(story.currentScenario.scenario);
-            return;
-        }
-
-        if (story.isVictory()) {
-
-            startVictory(story);
-            return;
-
-        }
-
-        String interaction;
-
-        if (MunhauzenGame.developmentInteraction != null) {
-
-            interaction = MunhauzenGame.developmentInteraction + "";
-
-            MunhauzenGame.developmentInteraction = null;
-        } else {
-            interaction = story.currentScenario.scenario.interaction;
-        }
-
-        if (interaction != null) {
-            gameScreen.interactionService.create(interaction);
-        }
-
-        if (story.currentInteraction != null && story.currentInteraction.isLocked) {
-            startInteraction(story);
-            return;
-        }
-
-        startScenarioDecisions(story);
     }
 
     private void startInteraction(final Story story) {
