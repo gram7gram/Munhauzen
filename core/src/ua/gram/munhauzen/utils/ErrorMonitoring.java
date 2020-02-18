@@ -1,7 +1,6 @@
 package ua.gram.munhauzen.utils;
 
-import com.badlogic.gdx.pay.FetchItemInformationException;
-import com.badlogic.gdx.pay.ItemAlreadyOwnedException;
+import com.badlogic.gdx.pay.GdxPayException;
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 
 import java.io.IOException;
@@ -53,12 +52,17 @@ public class ErrorMonitoring {
 
         if (!canCapture) return;
 
+        if (e instanceof GdxPayException) return;
         if (e instanceof SocketException) return;
         if (e instanceof SocketTimeoutException) return;
         if (e instanceof MismatchedInputException) return;
-        if (e instanceof FetchItemInformationException) return;
-        if (e instanceof ItemAlreadyOwnedException) return;
         if (e instanceof IOException) return;
+
+        if (e.getMessage() != null) {
+            if (e.getMessage().contains("ENOSPC")) return;
+            if (e.getMessage().contains("Couldn't load dependencies of asset")) return;
+            if (e.getMessage().contains("Couldn't load file")) return;
+        }
 
         if (captured.contains(e)) return;
 

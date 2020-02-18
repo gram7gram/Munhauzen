@@ -126,6 +126,8 @@ public class GalleryScreen extends AbstractScreen {
     public void openGalleryBanner() {
         try {
 
+            if (assetManager == null) return;
+
             galleryBannerFragment = new GalleryBannerFragment(this);
             galleryBannerFragment.create();
 

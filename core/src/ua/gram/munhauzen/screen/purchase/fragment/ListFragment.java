@@ -2,6 +2,7 @@ package ua.gram.munhauzen.screen.purchase.fragment;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -191,11 +192,20 @@ public class ListFragment extends Fragment {
 
                 }
 
-                if (cardPart1.enabled)
-                    cardPart1.setEnabled(!state.isPro);
+                if (state.isPro) {
+                    if (cardPart1.enabled) {
+                        cardPart1.setTouchable(Touchable.disabled);
+                        cardPart1.price.setText("");
+                        cardPart1.setPurchased(true);
+                    }
 
-                if (cardPart2.enabled)
-                    cardPart2.setEnabled(!state.isPro);
+                    if (cardPart2.enabled) {
+                        cardPart2.setTouchable(Touchable.disabled);
+                        cardPart2.price.setText("");
+                        cardPart2.setPurchased(true);
+
+                    }
+                }
             }
 
         }

@@ -75,7 +75,7 @@ public abstract class AbstractScreen implements Screen {
 
         isLoaded = true;
 
-        if (!persistTask.isScheduled()) {
+        if (persistTask != null && !persistTask.isScheduled()) {
             Timer.instance().scheduleTask(persistTask, 5, 5);
         }
     }

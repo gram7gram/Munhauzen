@@ -213,7 +213,7 @@ public class ControlsFragment extends Fragment {
         isVisible = false;
 
         setLogoDrawable(new SpriteDrawable(new Sprite(
-                screen.game.internalAssetManager.get("menu_logo.png", Texture.class)
+                screen.assetManager.get("menu/menu_logo.png", Texture.class)
         )));
 
         Timer.instance().scheduleTask(new Timer.Task() {
@@ -251,7 +251,7 @@ public class ControlsFragment extends Fragment {
 
         delay += .3f;
 
-        for (Cell cell : btnTable.getCells()) {
+        for (Cell<?> cell : btnTable.getCells()) {
 
             cell.getActor().addAction(Actions.sequence(
                     Actions.visible(false),
@@ -322,10 +322,11 @@ public class ControlsFragment extends Fragment {
 
         float delay = 0;
 
+        @SuppressWarnings("rawtypes")
         Array<Cell> cells = btnTable.getCells();
         cells.reverse();
 
-        for (Cell cell : cells) {
+        for (Cell<?> cell : cells) {
 
             cell.getActor().addAction(Actions.sequence(
                     Actions.delay(delay),

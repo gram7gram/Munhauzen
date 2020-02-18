@@ -48,6 +48,7 @@ public class GeneralsProgressBarFragment extends Fragment {
     private Timer.Task fadeOutTask, progressTask;
     public boolean isFadeIn;
     public boolean isFadeOut;
+    StoryAudio currentSfx;
 
     public GeneralsProgressBarFragment(GameScreen gameScreen, GeneralsInteraction interaction) {
         this.gameScreen = gameScreen;
@@ -307,7 +308,9 @@ public class GeneralsProgressBarFragment extends Fragment {
                         }
                     }, 0, 0.05f);
 
+                    stopCurrentSfx();
                     gameScreen.game.sfxService.onProgressScrollStart();
+                    currentSfx = gameScreen.game.sfxService.onProgressScrollEnd();
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -361,6 +364,7 @@ public class GeneralsProgressBarFragment extends Fragment {
                     }, 0, 0.05f);
 
                     gameScreen.game.sfxService.onProgressScrollStart();
+                    currentSfx = gameScreen.game.sfxService.onProgressScrollEnd();
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -694,9 +698,27 @@ public class GeneralsProgressBarFragment extends Fragment {
     public void dispose() {
         super.dispose();
 
+        if (progressTask != null) {
+            progressTask.cancel();
+            progressTask = null;
+        }
+
         cancelFadeOut();
         isFadeIn = false;
         isFadeOut = false;
+
+        stopCurrentSfx();
+    }
+
+    private void stopCurrentSfx() {
+        try {
+            if (currentSfx != null) {
+                gameScreen.game.sfxService.dispose(currentSfx);
+                currentSfx = null;
+            }
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
     }
 
     private ImageButton getRewindBack() {
@@ -800,7 +822,7 @@ public class GeneralsProgressBarFragment extends Fragment {
 
             startCurrentMusicIfPaused();
 
-            gameScreen.game.sfxService.onProgressScrollEnd();
+            stopCurrentSfx();
 
         } catch (Throwable e) {
             Log.e(tag, e);

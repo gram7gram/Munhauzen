@@ -83,8 +83,8 @@ public class SfxService {
         prepareAndPlay("sfx_cannon");
     }
 
-    public void onProgressScrollEnd() {
-        prepareAndPlay("sfx_audio_scroll_end");
+    public StoryAudio onProgressScrollEnd() {
+        return prepareAndPlay("sfx_audio_scroll_end", true, true);
     }
 
     public void onProgressScrollStart() {
@@ -160,7 +160,7 @@ public class SfxService {
                 "sfx_menu_sound_on_1", "sfx_menu_sound_on_2",
                 "sfx_menu_sound_on_3", "sfx_menu_sound_on_4",
                 "sfx_menu_sound_on_5"
-        }), false);
+        }), false, false);
     }
 
     public void onSoundDisabled() {
@@ -168,7 +168,7 @@ public class SfxService {
                 "sfx_menu_sound_off_1", "sfx_menu_sound_off_2",
                 "sfx_menu_sound_off_3", "sfx_menu_sound_off_4",
                 "sfx_menu_sound_off_5"
-        }), false);
+        }), false, false);
     }
 
     public StoryAudio onShareBannerShown() {
@@ -303,10 +303,10 @@ public class SfxService {
     }
 
     private StoryAudio prepareAndPlay(String sfx) {
-        return prepareAndPlay(sfx, true);
+        return prepareAndPlay(sfx, true, false);
     }
 
-    private StoryAudio prepareAndPlay(String sfx, boolean checkVolume) {
+    private StoryAudio prepareAndPlay(String sfx, boolean checkVolume, final boolean loop) {
 
         try {
             if (game.expansionAssetManager == null) return null;
@@ -333,6 +333,7 @@ public class SfxService {
                         game.expansionAssetManager.finishLoading();
 
                         Music sound = game.expansionAssetManager.get(audio.file, Music.class);
+                        sound.setLooping(loop);
                         sound.play();
 
                         storyAudio.player = sound;

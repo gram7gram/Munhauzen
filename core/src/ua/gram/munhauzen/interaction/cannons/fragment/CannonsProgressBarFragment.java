@@ -48,6 +48,7 @@ public class CannonsProgressBarFragment extends Fragment {
     private Timer.Task fadeOutTask, progressTask;
     public boolean isFadeIn;
     public boolean isFadeOut;
+    StoryAudio currentSfx;
 
     public CannonsProgressBarFragment(GameScreen gameScreen, CannonsInteraction interaction) {
         this.gameScreen = gameScreen;
@@ -303,7 +304,9 @@ public class CannonsProgressBarFragment extends Fragment {
                         }
                     }, 0, 0.05f);
 
+                    stopCurrentSfx();
                     gameScreen.game.sfxService.onProgressScrollStart();
+                    currentSfx = gameScreen.game.sfxService.onProgressScrollEnd();
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -356,7 +359,9 @@ public class CannonsProgressBarFragment extends Fragment {
                         }
                     }, 0, 0.05f);
 
+                    stopCurrentSfx();
                     gameScreen.game.sfxService.onProgressScrollStart();
+                    currentSfx = gameScreen.game.sfxService.onProgressScrollEnd();
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -691,9 +696,27 @@ public class CannonsProgressBarFragment extends Fragment {
     public void dispose() {
         super.dispose();
 
+        if (progressTask != null) {
+            progressTask.cancel();
+            progressTask = null;
+        }
+
         cancelFadeOut();
         isFadeIn = false;
         isFadeOut = false;
+
+        stopCurrentSfx();
+    }
+
+    private void stopCurrentSfx() {
+        try {
+            if (currentSfx != null) {
+                gameScreen.game.sfxService.dispose(currentSfx);
+                currentSfx = null;
+            }
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
     }
 
     private ImageButton getRewindBack() {
@@ -728,7 +751,6 @@ public class CannonsProgressBarFragment extends Fragment {
 
         return new ProgressIconButton(style);
     }
-
 
     private ImageButton getRewindForward() {
         Texture rewindForward = interaction.assetManager.get("ui/playbar_rewind_forward.png", Texture.class);
@@ -797,7 +819,7 @@ public class CannonsProgressBarFragment extends Fragment {
 
             startCurrentMusicIfPaused();
 
-            gameScreen.game.sfxService.onProgressScrollEnd();
+            stopCurrentSfx();
 
         } catch (Throwable e) {
             Log.e(tag, e);

@@ -92,8 +92,7 @@ public class MenuScreen extends AbstractScreen {
         assetManager.load("menu/b_full_version_an_sheet.png", Texture.class);
         assetManager.load("menu/b_demo_version_an_sheet.png", Texture.class);
 
-        game.internalAssetManager.load("menu_logo.png", Texture.class);
-        game.internalAssetManager.finishLoading();
+        assetManager.load("menu/menu_logo.png", Texture.class);
 
         if (game.backgroundSfxService == null) {
             game.backgroundSfxService = new BackgroundSfxService(game);
@@ -446,7 +445,6 @@ public class MenuScreen extends AbstractScreen {
                 layers = null;
             }
 
-//            game.internalAssetManager.unload("menu_logo.png");
         } catch (Throwable e) {
             Log.e(tag, e);
         }

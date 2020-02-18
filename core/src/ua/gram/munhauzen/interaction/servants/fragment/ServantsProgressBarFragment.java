@@ -47,6 +47,7 @@ public class ServantsProgressBarFragment extends Fragment {
     private Timer.Task fadeOutTask, progressTask;
     public boolean isFadeIn;
     public boolean isFadeOut;
+    StoryAudio currentSfx;
 
     public ServantsProgressBarFragment(GameScreen gameScreen, ServantsInteraction interaction) {
         this.gameScreen = gameScreen;
@@ -371,10 +372,28 @@ public class ServantsProgressBarFragment extends Fragment {
     public void dispose() {
         super.dispose();
 
+        if (progressTask != null) {
+            progressTask.cancel();
+            progressTask = null;
+        }
+
         cancelFadeOut();
         isFadeIn = false;
         isFadeOut = false;
 
+        stopCurrentSfx();
+
+    }
+
+    private void stopCurrentSfx() {
+        try {
+            if (currentSfx != null) {
+                gameScreen.game.sfxService.dispose(currentSfx);
+                currentSfx = null;
+            }
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
     }
 
     private ProgressIconButton getRewindBack() {
@@ -422,7 +441,9 @@ public class ServantsProgressBarFragment extends Fragment {
                         }
                     }, 0, 0.05f);
 
+                    stopCurrentSfx();
                     gameScreen.game.sfxService.onProgressScrollStart();
+                    currentSfx = gameScreen.game.sfxService.onProgressScrollEnd();
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -489,8 +510,9 @@ public class ServantsProgressBarFragment extends Fragment {
                         }
                     }, 0, 0.05f);
 
+                    stopCurrentSfx();
                     gameScreen.game.sfxService.onProgressScrollStart();
-
+                    currentSfx = gameScreen.game.sfxService.onProgressScrollEnd();
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -710,7 +732,7 @@ public class ServantsProgressBarFragment extends Fragment {
 
             startCurrentMusicIfPaused();
 
-            gameScreen.game.sfxService.onProgressScrollEnd();
+            stopCurrentSfx();
 
         } catch (Throwable e) {
             Log.e(tag, e);

@@ -419,7 +419,12 @@ public class ControlsFragment extends Fragment {
 
         GameState.clearTimer(tag);
 
-        screen.navigateTo(new MenuScreen(screen.game));
+        Timer.instance().scheduleTask(new Timer.Task() {
+            @Override
+            public void run() {
+                screen.navigateTo(new MenuScreen(screen.game));
+            }
+        }, 1);
     }
 
     private void stopDownloadThread() {

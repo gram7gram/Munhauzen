@@ -47,6 +47,7 @@ public class ProgressBarFragment extends Fragment {
     private Timer.Task fadeOutTask, progressTask;
     public boolean isFadeIn;
     public boolean isFadeOut;
+    StoryAudio currentSfx;
 
     public ProgressBarFragment(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
@@ -467,6 +468,19 @@ public class ProgressBarFragment extends Fragment {
 
         isFadeIn = false;
         isFadeOut = false;
+
+        stopCurrentSfx();
+    }
+
+    private void stopCurrentSfx() {
+        try {
+            if (currentSfx != null) {
+                gameScreen.game.sfxService.dispose(currentSfx);
+                currentSfx = null;
+            }
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
     }
 
     private ImageButton getSkipBack() {
@@ -640,7 +654,9 @@ public class ProgressBarFragment extends Fragment {
                         }
                     }, 0, 0.05f);
 
+                    stopCurrentSfx();
                     gameScreen.game.sfxService.onProgressScrollStart();
+                    currentSfx = gameScreen.game.sfxService.onProgressScrollEnd();
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -708,7 +724,9 @@ public class ProgressBarFragment extends Fragment {
                         }
                     }, 0, 0.05f);
 
+                    stopCurrentSfx();
                     gameScreen.game.sfxService.onProgressScrollStart();
+                    currentSfx = gameScreen.game.sfxService.onProgressScrollEnd();
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -809,7 +827,7 @@ public class ProgressBarFragment extends Fragment {
 
             startCurrentMusicIfPaused();
 
-            gameScreen.game.sfxService.onProgressScrollEnd();
+            stopCurrentSfx();
 
         } catch (Throwable e) {
             Log.e(tag, e);
