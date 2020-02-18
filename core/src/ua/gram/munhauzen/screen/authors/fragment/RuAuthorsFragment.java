@@ -88,10 +88,6 @@ public class RuAuthorsFragment extends AuthorsFragment {
                 style
         );
 
-        rows.add(img1).padBottom(10).expandX().row();
-
-        rows.add().padBottom(30).row();
-
         for (String sentence : screen.game.t("authors.content1").split("\n")) {
 
             Label label = new Label(sentence, style);
@@ -181,6 +177,17 @@ public class RuAuthorsFragment extends AuthorsFragment {
 
         rows.add().padBottom(30).row();
 
+        for (String sentence : screen.game.t("authors.content12").split("\n")) {
+
+            Label label = new Label(sentence, style);
+            label.setWrap(true);
+            label.setAlignment(Align.center);
+
+            rows.add(label).padBottom(10).center().width(widthLimit).row();
+        }
+
+        rows.add().padBottom(30).row();
+
         for (String sentence : screen.game.t("authors.content8").split("\n")) {
 
             Label label = new Label(sentence, style);
@@ -223,6 +230,8 @@ public class RuAuthorsFragment extends AuthorsFragment {
 
             rows.add(label).padBottom(10).center().width(widthLimit).row();
         }
+
+        rows.add(img1).padBottom(10).expandX().row();
 
         return rows;
     }

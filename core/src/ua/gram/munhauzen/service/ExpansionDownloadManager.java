@@ -261,14 +261,14 @@ public class ExpansionDownloadManager implements Disposable {
             }
         }
 
-        String id = "free";
-        if (fullPurchase != null) {
-            id = fullPurchase.productId;
-        } else if (part2Purchase != null) {
-            id = part2Purchase.productId;
-        } else if (part1Purchase != null) {
-            id = part1Purchase.productId;
-        }
+        String id = game.params.appStoreSkuFull; //"free";
+//        if (fullPurchase != null) {
+//            id = fullPurchase.productId;
+//        } else if (part2Purchase != null) {
+//            id = part2Purchase.productId;
+//        } else if (part1Purchase != null) {
+//            id = part1Purchase.productId;
+//        }
 
         String url = game.params.getExpansionUrl(id);
 

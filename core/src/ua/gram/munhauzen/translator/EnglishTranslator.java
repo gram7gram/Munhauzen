@@ -162,10 +162,11 @@ public class EnglishTranslator implements Translator {
         map.put("authors.content6", "Thanks to Ruslan Khabibulin and his studio");
         map.put("authors.link2", "MelodicVoiceStudio");
         map.put("authors.content7", "for sound editing services.");
-        map.put("authors.content8", "Thanks to the movie editing team! Especially I want to mention the actors (Denis and Zlata Shevchenko), the cameraman (Anton Borisyuk), the editing director (Oksana Voitenko), the colorist (Kirill Kuzhalyov), the sound engineer and animation artist (Andrey Kulagin). ");
+        map.put("authors.content8", "Thanks to the movie editing team! Especially I want to mention the actors (Denis and Zlata Shevchenko), the cameraman (Anton Borisyuk), the editing director (Oksana Voitenko), the colorist (Kirill Kuzhalyov), the sound engineer (Leonid Lysenko) and animation artist (Andrey Kulagin).");
         map.put("authors.content9", "And finally, I express my sincere gratitude to Ilya Koshevoi for writing music and helping with some little things!");
         map.put("authors.content10", "Also thanks to the organizer!");
         map.put("authors.content11", "Well, and thanks, of course, to Raspe himself!\nBrilliant!");
+        map.put("authors.content12", "Great thanks to Rikki Wright, Alex Hyde-White, Paul Hernandez, Andre Refig and Shurio Pischev for the narration of Munchausen’s guests!");
         map.put("gallery_banner.title", "Welcome to Gallery!");
         map.put("gallery_banner.btn", "Yes!");
         map.put("gallery_banner.content", "All paintings and design elements are written by professional artist Andrei Kulagin specifically for our audiobook!");
