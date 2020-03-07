@@ -100,7 +100,7 @@ public class EnglishTranslator implements Translator {
         map.put("exit_banner.no_btn", "No");
         map.put("exit_banner.title", "Do you want to exit?");
         map.put("greetings_banner.title", "Greetings!"
-                + "\nOur team had put strength and soul into this audiobook! We hope that our it will bring a lot of wonderful and positive emotions to you, and let a smile lit up your face!"
+                + "\nOur team had put strength and soul into this audiobook! We hope that our it will bring a lot of wonderful and positive emotions to you, and let a smile light up your face!"
                 + "\nListen and enjoy!");
         map.put("greetings_banner.btn", "Start");
         map.put("rate_banner.btn", "Rate");
@@ -152,10 +152,10 @@ public class EnglishTranslator implements Translator {
         map.put("authors.img_2_title", "Andrey Kulagin");
         map.put("authors.img_3_title", "Peter Hayden");
         map.put("authors.img_4_title", "Julia Lawn");
-        map.put("authors.img_5_title", "Dmitro Bondarchuk");
+        map.put("authors.img_5_title", "Dmitriy Bondarchuk");
         map.put("authors.img_6_title", "FingerTips");
         map.put("authors.img_7_title", "Ilya Koshevoi");
-        map.put("authors.content1", "Dear listeners!\nWe are very grateful to the artist Andrei Kulagin for his wonderful works with the liner, watercolors, hands and the head. His masterpieces, diligent work and gratuitous dedication gave us inspiration throughout the enire process.");
+        map.put("authors.content1", "Dear listeners!\nWe are very grateful to the artist Andrey Kulagin for his wonderful works with the liner, watercolors, hands and the head. His masterpieces, diligent work and gratuitous dedication gave us inspiration throughout the enire process.");
         map.put("authors.content3", "Best regards to Peter Hayden for the magnificent voice-over of the role of Munchausen, and Julia Lawn – of his granddaughter.");
         map.put("authors.content4", "Many thanks to Dmitriy Bondarchuk – the main developer! He is the one who persistently embodied our whole idea into the code!");
         map.put("authors.content5", "We also thank Vlad Podoprygora and Denis Lukyanchuk for extensive testing of the audiobook and for the help in writing the scenario.");
@@ -169,10 +169,10 @@ public class EnglishTranslator implements Translator {
         map.put("authors.content12", "Great thanks to Rikki Wright, Alex Hyde-White, Paul Hernandez, Andre Refig and Shurio Pischev for the narration of Munchausen’s guests!");
         map.put("gallery_banner.title", "Welcome to Gallery!");
         map.put("gallery_banner.btn", "Yes!");
-        map.put("gallery_banner.content", "All paintings and design elements are written by professional artist Andrei Kulagin specifically for our audiobook!");
+        map.put("gallery_banner.content", "All paintings and design elements are written by professional artist Andrey Kulagin specifically for our audiobook!");
         map.put("goofs_banner.title", "Welcome to Goofs!");
         map.put("goofs_banner.btn", "Yes!");
-        map.put("goofs_banner.content", "Here you can listen our the funniest goofs and improvisational jokes of Baron Munchausen and granddaughter");
+        map.put("goofs_banner.content", "Here you can listen to the funniest goofs and improvisational jokes of Baron Munchausen and granddaughter");
         map.put("legal.title", "Dear listeners!");
         map.put("legal.content", "Many stories of Baron Munchausen are related to animal hunting. If you or your child is susceptible to animal deaths, then we ask you to refrain from this classic.");
         map.put("legal.btn", "Continue");
