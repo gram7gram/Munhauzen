@@ -36,6 +36,7 @@ public class PrimaryDecision extends Stack {
     final MunhauzenGame game;
     final ExpansionAssetManager assetManager;
 
+    boolean visited;
     String text;
     int index;
     ClickListener onClick;
@@ -59,6 +60,10 @@ public class PrimaryDecision extends Stack {
 
     public void setIndex(int index) {
         this.index = index;
+    }
+
+    public void setVisited(boolean visited) {
+        this.visited = visited;
     }
 
     public void setOnClick(ClickListener onClick) {

@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -15,7 +16,6 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Timer;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.Decision;
@@ -27,40 +27,19 @@ import ua.gram.munhauzen.interaction.timer.TimerStory;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.screen.game.ui.PrimaryDecision;
 import ua.gram.munhauzen.ui.FitImage;
-import ua.gram.munhauzen.ui.Fragment;
+import ua.gram.munhauzen.ui.ScenarioFragment;
 import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class TimerScenarioFragment extends Fragment {
+public class TimerScenarioFragment extends ScenarioFragment {
 
-    private final String tag = getClass().getSimpleName();
     private final TimerInteraction interaction;
-    private final MunhauzenGame game;
-    public final GameScreen gameScreen;
-    private FitImage imgLeft, imgRight, imgTop;
-    private Table decorLeft, decorRight, decorTop;
-    public Table blocks;
-    public Stack root;
-    private final ArrayList<Actor> buttonList;
-    private final HashMap<Integer, String> animatedMap = new HashMap<>(7);
-    public boolean isFadeIn, isFadeOut;
 
     public TimerScenarioFragment(GameScreen gameScreen, TimerInteraction interaction) {
-        this.game = gameScreen.game;
-        this.gameScreen = gameScreen;
+        super(gameScreen);
         this.interaction = interaction;
-
-        buttonList = new ArrayList<>();
-
-        animatedMap.put(0, "GameScreen/an_letter_A_sheet.png");
-        animatedMap.put(1, "GameScreen/an_letter_B_sheet.png");
-        animatedMap.put(2, "GameScreen/an_letter_C_sheet.png");
-        animatedMap.put(3, "GameScreen/an_letter_D_sheet.png");
-        animatedMap.put(4, "GameScreen/an_letter_E_sheet.png");
-        animatedMap.put(5, "GameScreen/an_letter_F_sheet.png");
-        animatedMap.put(6, "GameScreen/an_letter_G_sheet.png");
     }
 
     public void update() {
@@ -202,7 +181,15 @@ public class TimerScenarioFragment extends Fragment {
                 .width(MunhauzenGame.WORLD_WIDTH / 3f)
                 .height(MunhauzenGame.WORLD_HEIGHT / 4f);
 
+        SpriteDrawable bg = new SpriteDrawable(new Sprite(
+                game.internalAssetManager.get("p0.jpg", Texture.class)
+        ));
+        bgContainer = new Container<>();
+        bgContainer.background(bg);
+        bgContainer.getColor().a = .4f;
+
         root = new Stack();
+        root.add(bgContainer);
         root.add(blocks);
         root.add(decorLeft);
         root.add(decorTop);
@@ -217,7 +204,7 @@ public class TimerScenarioFragment extends Fragment {
             interaction.imageFragment.startTimer();
     }
 
-    private void makeDecision(final int currentIndex, Decision decision) {
+    public void makeDecision(final int currentIndex, Decision decision) {
         try {
             Log.i(tag, "makeDecision " + decision.scenario);
 
@@ -285,159 +272,4 @@ public class TimerScenarioFragment extends Fragment {
         }
     }
 
-    public void fadeOut(Runnable task) {
-
-        if (!isMounted()) return;
-
-        isFadeIn = false;
-        isFadeOut = true;
-
-        float duration = .3f;
-
-        blocks.addAction(Actions.sequence(
-                Actions.alpha(0, duration),
-                Actions.visible(false),
-                Actions.run(new Runnable() {
-                    @Override
-                    public void run() {
-                        isFadeIn = false;
-                        isFadeOut = false;
-                    }
-                }),
-                Actions.run(task)
-        ));
-
-        fadeOutDecoration();
-    }
-
-    public void fadeOut() {
-
-        fadeOutWithoutDecoration();
-
-        fadeOutDecoration();
-    }
-
-    public void fadeOutWithoutDecoration() {
-
-        isFadeIn = false;
-        isFadeOut = true;
-
-        float duration = .3f;
-
-        blocks.addAction(Actions.sequence(
-                Actions.alpha(0, duration),
-                Actions.visible(false),
-                Actions.run(new Runnable() {
-                    @Override
-                    public void run() {
-                        isFadeIn = false;
-                        isFadeOut = false;
-                    }
-                })
-        ));
-    }
-
-    public void fadeIn() {
-
-        if (!isMounted()) return;
-
-        root.setVisible(true);
-
-        fadeInWithoutDecoration();
-
-        fadeInDecoration();
-    }
-
-    public void fadeInWithoutDecoration() {
-
-        if (!isMounted()) return;
-
-        isFadeIn = true;
-        isFadeOut = false;
-
-        blocks.setVisible(true);
-        blocks.addAction(Actions.sequence(
-                Actions.alpha(0),
-                Actions.alpha(1, .3f),
-                Actions.run(new Runnable() {
-                    @Override
-                    public void run() {
-                        isFadeIn = false;
-                        isFadeOut = false;
-                    }
-                })
-        ));
-    }
-
-    private void fadeOutDecoration() {
-
-        if (!isMounted()) return;
-
-        float duration = .5f;
-
-        decorLeft.addAction(Actions.parallel(
-                Actions.moveTo(-decorLeft.getWidth(), 0, duration),
-                Actions.alpha(0, duration)
-        ));
-
-        decorTop.addAction(Actions.parallel(
-                Actions.moveTo(0, decorTop.getHeight(), duration),
-                Actions.alpha(0, duration)
-        ));
-
-        decorRight.addAction(
-                Actions.parallel(
-                        Actions.moveTo(decorRight.getWidth(), 0, duration),
-                        Actions.alpha(0, duration)
-                ));
-    }
-
-    private void fadeInDecoration() {
-
-        if (!isMounted()) return;
-
-        float duration = .3f;
-
-        decorLeft.addAction(Actions.moveBy(-imgLeft.getWidth(), 0));
-        decorLeft.addAction(Actions.alpha(0));
-        decorLeft.addAction(
-                Actions.parallel(
-                        Actions.moveTo(0, 0, duration),
-                        Actions.alpha(1, duration)
-                )
-
-        );
-
-        decorTop.addAction(Actions.moveBy(0, imgTop.getHeight()));
-        decorTop.addAction(Actions.alpha(0));
-        decorTop.addAction(
-                Actions.parallel(
-                        Actions.moveTo(0, 0, duration),
-                        Actions.alpha(1, duration)
-                )
-
-        );
-
-        decorRight.addAction(Actions.moveBy(imgRight.getWidth(), 0));
-        decorRight.addAction(Actions.alpha(0));
-        decorRight.addAction(
-                Actions.parallel(
-                        Actions.moveTo(0, 0, duration),
-                        Actions.alpha(1, duration)
-                )
-
-        );
-    }
-
-    @Override
-    public Actor getRoot() {
-        return root;
-    }
-
-    @Override
-    public void dispose() {
-        super.dispose();
-
-        buttonList.clear();
-    }
 }
