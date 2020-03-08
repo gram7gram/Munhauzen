@@ -1,0 +1,122 @@
+package ua.gram.munhauzen.screen;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+
+import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.entity.Chapter;
+import ua.gram.munhauzen.screen.chapters.fragment.ChaptersFragment;
+import ua.gram.munhauzen.screen.chapters.fragment.ControlsFragment;
+import ua.gram.munhauzen.screen.chapters.ui.Layers;
+import ua.gram.munhauzen.service.AudioService;
+
+/**
+ * @author Gram <gram7gram@gmail.com>
+ */
+public class ChaptersScreen extends AbstractScreen {
+
+    public AudioService audioService;
+    public Layers layers;
+    public ChaptersFragment fragment;
+    public ControlsFragment controlsFragment;
+
+    public ChaptersScreen(MunhauzenGame game) {
+        super(game);
+    }
+
+    @Override
+    public void show() {
+        super.show();
+
+        background = game.internalAssetManager.get("p1.jpg", Texture.class);
+
+        audioService = new AudioService(game);
+
+        layers = new Layers();
+
+        ui.addActor(layers);
+
+        assetManager.load("menu/b_menu.png", Texture.class);
+        assetManager.load("ui/gv_paper_1.png", Texture.class);
+        assetManager.load("ui/gv_paper_2.png", Texture.class);
+        assetManager.load("ui/gv_paper_3.png", Texture.class);
+        assetManager.load("saves/sv_baron.png", Texture.class);
+        assetManager.load("gallery/b_closed_0.png", Texture.class);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        stopCurrentSfx();
+
+        game.sfxService.onBackToMenuClicked();
+
+        navigateTo(new MenuScreen(game));
+    }
+
+    @Override
+    public void onResourcesLoaded() {
+        super.onResourcesLoaded();
+
+        for (Chapter chapter : game.gameState.chapterRegistry) {
+            if (game.gameState.history.visitedChapters.contains(chapter.name)) {
+                assetManager.load(chapter.icon, Texture.class);
+            }
+        }
+
+        assetManager.finishLoading();
+
+        controlsFragment = new ControlsFragment(this);
+        controlsFragment.create();
+
+        layers.setControlsLayer(controlsFragment);
+
+        fragment = new ChaptersFragment(this);
+        fragment.create();
+
+        layers.setContentLayer(fragment);
+
+        fragment.fadeIn();
+    }
+
+    @Override
+    public void fillBackgroundColor() {
+        Gdx.gl.glClearColor(137 / 255f, 60 / 255f, 54 / 255f, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+    }
+
+    @Override
+    public void renderAfterLoaded(float delta) {
+
+        if (fragment != null) {
+            fragment.update();
+        }
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+
+        if (fragment != null) {
+            fragment.destroy();
+            fragment = null;
+        }
+
+        if (controlsFragment != null) {
+            controlsFragment.destroy();
+            controlsFragment = null;
+        }
+
+        if (audioService != null) {
+            audioService.dispose();
+            audioService = null;
+        }
+
+        if (layers != null) {
+            layers.dispose();
+            layers = null;
+        }
+    }
+}

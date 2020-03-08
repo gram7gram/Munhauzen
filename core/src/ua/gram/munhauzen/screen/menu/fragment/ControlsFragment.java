@@ -22,6 +22,7 @@ import ua.gram.munhauzen.entity.MenuState;
 import ua.gram.munhauzen.screen.DebugScreen;
 import ua.gram.munhauzen.screen.MenuScreen;
 import ua.gram.munhauzen.screen.menu.ui.AuthorsButton;
+import ua.gram.munhauzen.screen.menu.ui.ChaptersButton;
 import ua.gram.munhauzen.screen.menu.ui.ContinueButton;
 import ua.gram.munhauzen.screen.menu.ui.DemoSideButton;
 import ua.gram.munhauzen.screen.menu.ui.GalleryButton;
@@ -29,7 +30,6 @@ import ua.gram.munhauzen.screen.menu.ui.GoofsButton;
 import ua.gram.munhauzen.screen.menu.ui.MenuButton;
 import ua.gram.munhauzen.screen.menu.ui.ProSideButton;
 import ua.gram.munhauzen.screen.menu.ui.RateSideButton;
-import ua.gram.munhauzen.screen.menu.ui.SavesButton;
 import ua.gram.munhauzen.screen.menu.ui.ShareSideButton;
 import ua.gram.munhauzen.screen.menu.ui.StartButton;
 import ua.gram.munhauzen.ui.Fragment;
@@ -46,7 +46,7 @@ public class ControlsFragment extends Fragment {
     private final String tag = getClass().getSimpleName();
     private final MenuScreen screen;
     public FragmentRoot root;
-    public MenuButton startButton, continueButton, savesButton, galleryButton, goofsButton, authorsButton;
+    public MenuButton startButton, continueButton, chaptersButton, galleryButton, goofsButton, authorsButton;
     Table btnTable, sideTable, logoTable;
     Container<Table> sideContainer, exitContainer, titleContainer;
     Timer.Task fadeTask;
@@ -65,7 +65,7 @@ public class ControlsFragment extends Fragment {
 
         startButton = new StartButton(screen);
         continueButton = new ContinueButton(screen);
-        savesButton = new SavesButton(screen);
+        chaptersButton = new ChaptersButton(screen);
         galleryButton = new GalleryButton(screen);
         goofsButton = new GoofsButton(screen);
         authorsButton = new AuthorsButton(screen);
@@ -92,7 +92,7 @@ public class ControlsFragment extends Fragment {
         }
 
         btnTable.add(startButton).row();
-        btnTable.add(savesButton).row();
+        btnTable.add(chaptersButton).row();
         btnTable.add(galleryButton).row();
         btnTable.add(goofsButton).row();
         btnTable.add(authorsButton).row();

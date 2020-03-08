@@ -138,6 +138,7 @@ public class EnglishTranslator implements Translator {
         map.put("menu.goofs_btn", "Goofs");
         map.put("menu.saves_btn", "Saves");
         map.put("menu.start_btn", "New story");
+        map.put("menu.chapters_btn", "Chapters");
         map.put("painting.back_btn", "Back");
         map.put("chapter_inter.part", "Part");
         map.put("chapter_inter.chapter", "Chapter");
@@ -201,6 +202,7 @@ public class EnglishTranslator implements Translator {
         map.put("error_screen.to_menu", "To menu");
         map.put("error_screen.show_error", "Display error");
         map.put("error_screen.reason", "Reason");
+        map.put("chapter_screen.title", "Chapters");
 
         map.put("debug_screen.enable_skip", "Enable skip scenario");
         map.put("debug_screen.open_fails", "Open all fails");
