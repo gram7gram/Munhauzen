@@ -124,6 +124,9 @@ public class WauScenarioFragment extends ScenarioFragment {
                 }
             });
 
+            boolean isVisited = gameScreen.game.gameState.history.visitedStories.contains(decision.scenario);
+            button.setVisited(isVisited);
+
             button.init();
 
             buttonList.add(button);

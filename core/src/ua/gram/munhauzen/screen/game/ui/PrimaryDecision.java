@@ -137,6 +137,8 @@ public class PrimaryDecision extends Stack {
                 }
             }
         });
+
+        getColor().a = visited ? .5f : 1;
     }
 
     private Stack createDefaultHeader(int index) {
