@@ -26,7 +26,7 @@ public class SfxService {
     }
 
     public void load() {
-        game.internalAssetManager.load("audio/sfx_button_main.mp3", Sound.class);
+        game.internalAssetManager.load("audio/sfx_button_main.aac", Sound.class);
     }
 
     public void onAnyBtnClicked() {

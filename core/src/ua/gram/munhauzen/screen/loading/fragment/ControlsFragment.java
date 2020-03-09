@@ -14,6 +14,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Timer;
 
+import java.util.Locale;
+
 import ua.gram.munhauzen.ButtonBuilder;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
@@ -34,9 +36,7 @@ public class ControlsFragment extends Fragment {
     public final LoadingScreen screen;
     public FragmentRoot root;
     Image decorTop, decorBottom;
-    public Label progress, progressMessage, subtitle, retryTitle, footer;
-    String[] footerTranslations;
-    int currentFooterTranslation = 0;
+    public Label progress, progressMessage, subtitle, retryTitle;
     Container<Table> startContainer, progressContainer, retryContainer;
     Table topTable, bottomTable;
     PrimaryButton menuBtn, completeBtn, cancelBtn;
@@ -49,8 +49,6 @@ public class ControlsFragment extends Fragment {
     public void create() {
 
         Log.i(tag, "create");
-
-        footerTranslations = screen.game.t("loading.footer").split("\n");
 
         PrimaryButton startBtn = screen.game.buttonBuilder.primaryRose(screen.game.t("loading.download_btn"), new ClickListener() {
             @Override
@@ -66,7 +64,7 @@ public class ControlsFragment extends Fragment {
             }
         });
 
-        PrimaryButton retryBtn = screen.game.buttonBuilder.primaryRose(screen.game.t("loading.retry_btn"), new ClickListener() {
+        PrimaryButton retryBtn = screen.game.buttonBuilder.danger(screen.game.t("loading.retry_btn"), new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
@@ -138,13 +136,6 @@ public class ControlsFragment extends Fragment {
         subtitle.setWrap(true);
         subtitle.setAlignment(Align.center);
 
-        footer = new Label("", new Label.LabelStyle(
-                screen.game.fontProvider.getFont(FontProvider.h4),
-                Color.BLACK
-        ));
-        footer.setWrap(true);
-        footer.setAlignment(Align.center);
-
         progress = new Label("", new Label.LabelStyle(
                 screen.game.fontProvider.getFont(FontProvider.h3),
                 Color.BLACK
@@ -161,9 +152,6 @@ public class ControlsFragment extends Fragment {
 
         decorTop = new Image();
         decorBottom = new Image();
-
-        Table footerTable = new Table();
-        footerTable.add(footer).width(MunhauzenGame.WORLD_WIDTH * .75f);
 
         Table progressTable = new Table();
         progressTable.add(progress).width(MunhauzenGame.WORLD_WIDTH / 2f).padBottom(5).row();
@@ -195,27 +183,27 @@ public class ControlsFragment extends Fragment {
         retryTitle.setWrap(true);
         retryTitle.setAlignment(Align.center);
 
-        String quality;
-        if ("hdpi".equals(screen.game.params.dpi)) {
-            quality = screen.game.t("loading.quality_high");
-        } else {
-            quality = screen.game.t("loading.quality_medium");
-        }
+//        String quality;
+//        if ("hdpi".equals(screen.game.params.dpi)) {
+//            quality = screen.game.t("loading.quality_high");
+//        } else {
+//            quality = screen.game.t("loading.quality_medium");
+//        }
 
-        Label qualityMessage = new Label(screen.game.t("loading.quality_message") + ": " + quality, new Label.LabelStyle(
-                screen.game.fontProvider.getFont(FontProvider.h4),
-                Color.BLACK
-        ));
-        qualityMessage.setWrap(true);
-        qualityMessage.setAlignment(Align.center);
+//        Label qualityMessage = new Label(screen.game.t("loading.quality_message") + ": " + quality, new Label.LabelStyle(
+//                screen.game.fontProvider.getFont(FontProvider.h4),
+//                Color.BLACK
+//        ));
+//        qualityMessage.setWrap(true);
+//        qualityMessage.setAlignment(Align.center);
 
         Table startTable = new Table();
         startTable.add(startMessage)
                 .width(MunhauzenGame.WORLD_WIDTH * .75f)
                 .padBottom(10).row();
-        startTable.add(qualityMessage)
-                .width(MunhauzenGame.WORLD_WIDTH * .75f)
-                .padBottom(10).row();
+//        startTable.add(qualityMessage)
+//                .width(MunhauzenGame.WORLD_WIDTH * .75f)
+//                .padBottom(10).row();
         startTable.add(startBtn)
                 .width(ButtonBuilder.BTN_PRIMARY_WIDTH)
                 .height(ButtonBuilder.BTN_PRIMARY_HEIGHT);
@@ -243,10 +231,6 @@ public class ControlsFragment extends Fragment {
         bottomTable = new Table();
         bottomTable.add(decorBottom).expand().bottom().pad(5);
 
-        Container<Table> footerContainer = new Container<>(footerTable);
-        footerContainer.padBottom(30);
-        footerContainer.align(Align.bottom);
-
         Container<Table> titleContainer = new Container<>(titleTable);
         titleContainer.padTop(30);
         titleContainer.align(Align.top);
@@ -268,7 +252,6 @@ public class ControlsFragment extends Fragment {
         root.addContainer(topTable);
         root.addContainer(bottomTable);
         root.addContainer(titleContainer);
-        root.addContainer(footerContainer);
         root.addContainer(progressContainer);
         root.addContainer(startContainer);
         root.addContainer(retryContainer);
@@ -282,17 +265,6 @@ public class ControlsFragment extends Fragment {
         setDecorTopBackground(
                 screen.assetManager.get("loading/lv_decor_1.png", Texture.class)
         );
-
-        Timer.instance().scheduleTask(new Timer.Task() {
-            @Override
-            public void run() {
-                if (isMounted()) {
-                    updateFooterText();
-                } else {
-                    cancel();
-                }
-            }
-        }, .2f, 20);
 
         showIntro();
     }
@@ -316,6 +288,8 @@ public class ControlsFragment extends Fragment {
     }
 
     private void startExpansionDownload() {
+
+        screen.game.sfxService.onLoadingVisited();
 
         if (screen.expansionDownloader != null) {
             screen.expansionDownloader.dispose();
@@ -368,17 +342,6 @@ public class ControlsFragment extends Fragment {
         return root;
     }
 
-    public void updateFooterText() {
-
-        ++currentFooterTranslation;
-
-        if (currentFooterTranslation >= footerTranslations.length) {
-            currentFooterTranslation = 0;
-        }
-
-        footer.setText(footerTranslations[currentFooterTranslation]);
-    }
-
     public void update() {
         try {
 
@@ -397,7 +360,7 @@ public class ControlsFragment extends Fragment {
                 float sizeMb = (float) (expansionInfo.size / 1024f / 1024f);
 
                 subtitle.setText("v" + expansionInfo.version
-                        + " " + String.format("%.2f", sizeMb) + "MB");
+                        + " " + String.format(Locale.US, "%.2f", sizeMb) + "MB");
             }
 
         } catch (Throwable ignore) {

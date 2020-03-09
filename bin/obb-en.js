@@ -7,7 +7,7 @@ const audioDir = "/Users/master/Projects/MunhauzenDocs/Elements/AUDIO_FINAL";
 
 const PARTS = 5;
 
-const VERSION = 4;
+const VERSION = 5;
 const LOCALE = 'en';
 
 const DLC = {
@@ -109,27 +109,6 @@ const createDLC = async (DPI, EXP) => {
     });
   });
 
-    dlcConfig.localeAssets.forEach(dir => {
-        const dpiDir = obbDir + dir + "/" + DPI;
-
-        getDirs(dpiDir).forEach(dir => {
-
-            const sourceDir = dpiDir + "/" + dir;
-
-            getDirs(sourceDir).forEach(file => {
-              const outputDir = getTmpDir();
-              const destDir = outputDir + "/" + dir;
-
-              fs.ensureDir(destDir, () => {
-              });
-
-              fs.copySync(sourceDir + "/" + file, destDir + "/" + file);
-
-              nextPart();
-            });
-        });
-    });
-
   dlcConfig.audio.forEach(dir => {
     const sourceDir = audioDir + dir;
 
@@ -177,6 +156,27 @@ const createDLC = async (DPI, EXP) => {
       nextPart();
     });
   });
+
+    dlcConfig.localeAssets.forEach(dir => {
+        const dpiDir = obbDir + dir + "/" + DPI;
+
+        getDirs(dpiDir).forEach(dir => {
+
+            const sourceDir = dpiDir + "/" + dir;
+
+            getDirs(sourceDir).forEach(file => {
+              const outputDir = getTmpDir();
+              const destDir = outputDir + "/" + dir;
+
+              fs.ensureDir(destDir, () => {
+              });
+
+              fs.copySync(sourceDir + "/" + file, destDir + "/" + file);
+
+              nextPart();
+            });
+        });
+    });
 
   const completed = [];
 

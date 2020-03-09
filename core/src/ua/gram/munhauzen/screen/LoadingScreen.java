@@ -91,8 +91,6 @@ public class LoadingScreen extends AbstractScreen {
 
         layers.setContentLayer(imageFragment);
 
-        game.sfxService.onLoadingVisited();
-
         expansionDownloader = new ExpansionDownloadManager(game, controlsFragment);
     }
 

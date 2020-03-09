@@ -34,7 +34,7 @@ public class RateFragment extends Fragment {
 
         RateBanner banner = new RateBanner(this);
 
-        Container c = new Container();
+        Container<?> c = new Container<>();
         c.setTouchable(Touchable.enabled);
 
         root = new FragmentRoot();

@@ -52,7 +52,7 @@ public class OptionsFragment extends Fragment {
         saveOptionBanner = new SaveOptionBanner(this);
         loadOptionBanner = new LoadOptionBanner(this);
 
-        Container c = new Container();
+        Container<?> c = new Container<>();
         c.setTouchable(Touchable.enabled);
 
         root = new FragmentRoot();

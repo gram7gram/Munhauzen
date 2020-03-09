@@ -39,7 +39,7 @@ public class ThankYouFragment extends MenuFragment {
         px.setColor(Color.BLACK.r, Color.BLACK.g, Color.BLACK.b, .3f);
         px.fill();
 
-        Container c = new Container();
+        Container<?> c = new Container<>();
         c.setTouchable(Touchable.enabled);
 //        c.setBackground(new SpriteDrawable(new Sprite(new Texture(px))));
 

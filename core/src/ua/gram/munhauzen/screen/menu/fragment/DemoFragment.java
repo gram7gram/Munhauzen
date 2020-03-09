@@ -34,7 +34,7 @@ public class DemoFragment extends MenuFragment {
 
         DemoBanner banner = new DemoBanner(this);
 
-        Container c = new Container();
+        Container<?> c = new Container<>();
         c.setTouchable(Touchable.enabled);
 
         root = new FragmentRoot();
