@@ -203,6 +203,7 @@ public class TimerStoryManager {
             Log.i(tag, "onCompleted " + story.id);
 
             gameScreen.game.gameState.history.visitedStories.add(story.id);
+            gameScreen.game.gameState.activeSave.visitedStories.add(story.id);
 
             Set<String> inventory = gameScreen.game.inventoryService.getAllInventory();
 

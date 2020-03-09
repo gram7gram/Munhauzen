@@ -279,7 +279,7 @@ public class ProgressBarFragment extends Fragment {
             hasNext = true;
         }
 
-        boolean hasVisitedBefore = gameScreen.game.gameState.history.visitedStories.contains(story.id);
+        boolean hasVisitedBefore = gameScreen.game.gameState.activeSave.visitedStories.contains(story.id);
 
         bar.setEnabled(hasVisitedBefore);
 

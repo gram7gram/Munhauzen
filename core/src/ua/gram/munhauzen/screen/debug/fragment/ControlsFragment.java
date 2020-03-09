@@ -83,7 +83,7 @@ public class ControlsFragment extends Fragment {
             }
         });
 
-        startButton = game.buttonBuilder.danger("Начать", new ClickListener() {
+        startButton = game.buttonBuilder.danger(game.t("debug_screen.start"), new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
@@ -97,7 +97,7 @@ public class ControlsFragment extends Fragment {
             }
         });
 
-        PrimaryButton menuButton = game.buttonBuilder.primary("Меню", new ClickListener() {
+        PrimaryButton menuButton = game.buttonBuilder.primary(game.t("debug_screen.menu"), new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
@@ -116,7 +116,7 @@ public class ControlsFragment extends Fragment {
             }
         });
 
-        final Label openGalleryLbl = new Label("[+] Открыть всю галерею", new Label.LabelStyle(
+        final Label openGalleryLbl = new Label("[+] " + game.t("debug_screen.open_gallery"), new Label.LabelStyle(
                 game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
                 Color.BLUE
         ));
@@ -140,7 +140,7 @@ public class ControlsFragment extends Fragment {
             }
         });
 
-        final Label openFailsLbl = new Label("[+] Открыть все фейлы", new Label.LabelStyle(
+        final Label openFailsLbl = new Label("[+] " + game.t("debug_screen.open_fails"), new Label.LabelStyle(
                 game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
                 Color.BLUE
         ));
@@ -161,7 +161,7 @@ public class ControlsFragment extends Fragment {
             }
         });
 
-        final Label openScenarioLbl = new Label("[+] Вкл перемотку вперед", new Label.LabelStyle(
+        final Label openScenarioLbl = new Label("[+] " + game.t("debug_screen.enable_skip"), new Label.LabelStyle(
                 game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
                 Color.BLUE
         ));
@@ -175,30 +175,39 @@ public class ControlsFragment extends Fragment {
                 try {
                     for (Scenario s : game.gameState.scenarioRegistry) {
                         game.gameState.history.visitedStories.add(s.name);
+                        game.gameState.activeSave.visitedStories.add(s.name);
                     }
                     for (CannonsScenario s : game.databaseManager.loadCannonsScenario()) {
                         game.gameState.history.visitedStories.add(s.name);
+                        game.gameState.activeSave.visitedStories.add(s.name);
                     }
                     for (GeneralsScenario s : game.databaseManager.loadGeneralsScenario()) {
                         game.gameState.history.visitedStories.add(s.name);
+                        game.gameState.activeSave.visitedStories.add(s.name);
                     }
                     for (HareScenario s : game.databaseManager.loadHareScenario()) {
                         game.gameState.history.visitedStories.add(s.name);
+                        game.gameState.activeSave.visitedStories.add(s.name);
                     }
                     for (PictureScenario s : game.databaseManager.loadPictureScenario()) {
                         game.gameState.history.visitedStories.add(s.name);
+                        game.gameState.activeSave.visitedStories.add(s.name);
                     }
                     for (HireScenario s : game.databaseManager.loadServantsHireScenario()) {
                         game.gameState.history.visitedStories.add(s.name);
+                        game.gameState.activeSave.visitedStories.add(s.name);
                     }
                     for (Timer2Scenario s : game.databaseManager.loadTimer2Scenario()) {
                         game.gameState.history.visitedStories.add(s.name);
+                        game.gameState.activeSave.visitedStories.add(s.name);
                     }
                     for (TimerScenario s : game.databaseManager.loadTimerScenario()) {
                         game.gameState.history.visitedStories.add(s.name);
+                        game.gameState.activeSave.visitedStories.add(s.name);
                     }
                     for (WauScenario s : game.databaseManager.loadWauwauScenario()) {
                         game.gameState.history.visitedStories.add(s.name);
+                        game.gameState.activeSave.visitedStories.add(s.name);
                     }
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -206,7 +215,7 @@ public class ControlsFragment extends Fragment {
             }
         });
 
-        final Label removeHistoryLbl = new Label("[x] Очистить историю", new Label.LabelStyle(
+        final Label removeHistoryLbl = new Label("[x] " + game.t("debug_screen.purge_history"), new Label.LabelStyle(
                 game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
                 Color.RED
         ));
@@ -242,7 +251,7 @@ public class ControlsFragment extends Fragment {
             }
         });
 
-        final Label removeAllLbl = new Label("[x] Удалить ВСЕ", new Label.LabelStyle(
+        final Label removeAllLbl = new Label("[+] " + game.t("debug_screen.purge_all"), new Label.LabelStyle(
                 game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
                 Color.RED
         ));
@@ -269,7 +278,7 @@ public class ControlsFragment extends Fragment {
             }
         });
 
-        final Label expLbl = new Label("[+] Скачать обновления", new Label.LabelStyle(
+        final Label expLbl = new Label("[+] " + game.t("debug_screen.updates"), new Label.LabelStyle(
                 game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
                 Color.BLUE
         ));
@@ -349,7 +358,7 @@ public class ControlsFragment extends Fragment {
 
         interactionContainer.clearChildren();
 
-        Label header = new Label("Фишки", new Label.LabelStyle(
+        Label header = new Label(game.t("debug_screen.interaction"), new Label.LabelStyle(
                 game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
                 Color.RED
         ));
@@ -415,7 +424,7 @@ public class ControlsFragment extends Fragment {
 
         inventoryContainer.clearChildren();
 
-        Label header = new Label("Инвентарь", new Label.LabelStyle(
+        Label header = new Label(game.t("debug_screen.inventory"), new Label.LabelStyle(
                 game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
                 Color.RED
         ));
@@ -431,10 +440,6 @@ public class ControlsFragment extends Fragment {
                 name = "[+] " + name;
             } else {
                 name = "[-] " + name;
-            }
-
-            if (inventory.isGlobal()) {
-                name += " (global)";
             }
 
             Label label = new Label(name, new Label.LabelStyle(
@@ -467,27 +472,27 @@ public class ControlsFragment extends Fragment {
 
         scenarioContainer.clearChildren();
 
-        Label header = new Label("Сценарий", new Label.LabelStyle(
+        Label header = new Label(game.t("debug_screen.scenario"), new Label.LabelStyle(
                 game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
                 Color.RED
         ));
         scenarioContainer.add(header).colspan(3).expandX().row();
 
-        Label part1 = new Label("Ч1", new Label.LabelStyle(
+        Label part1 = new Label("[1]", new Label.LabelStyle(
                 game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
                 Color.RED
         ));
         part1.setAlignment(Align.center);
         scenarioContainer.add(part1).pad(10).center().growX();
 
-        Label part2 = new Label("Ч2", new Label.LabelStyle(
+        Label part2 = new Label("[2]", new Label.LabelStyle(
                 game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
                 Color.RED
         ));
         part2.setAlignment(Align.center);
         scenarioContainer.add(part2).pad(10).center().growX();
 
-        Label part3 = new Label("Ч3", new Label.LabelStyle(
+        Label part3 = new Label("[3]", new Label.LabelStyle(
                 game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
                 Color.RED
         ));

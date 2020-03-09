@@ -133,7 +133,7 @@ public class TimerScenarioFragment extends ScenarioFragment {
                 }
             });
 
-            boolean isVisited = gameScreen.game.gameState.history.visitedStories.contains(decision.scenario);
+            boolean isVisited = gameScreen.game.gameState.activeSave.visitedStories.contains(decision.scenario);
             button.setVisited(isVisited);
 
             button.init();

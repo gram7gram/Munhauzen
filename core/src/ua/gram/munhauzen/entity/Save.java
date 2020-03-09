@@ -51,6 +51,12 @@ public class Save implements JsonEntry {
     @JsonProperty
     public ServantsState servantsInteractionState;
 
+    @JsonProperty
+    public HashSet<String> visitedStories;
+
+    @JsonProperty
+    public HashSet<String> visitedChapters;
+
     public Save() {
         this("active");
     }
@@ -61,12 +67,16 @@ public class Save implements JsonEntry {
         updatedAt = DateUtils.now();
         order = 0;
         inventory = new HashSet<>();
+        visitedStories = new HashSet<>();
+        visitedChapters = new HashSet<>();
         story = new Story();
         servantsInteractionState = new ServantsState();
     }
 
     public void reset() {
         inventory.clear();
+        visitedChapters.clear();
+        visitedStories.clear();
 
         updatedAt = DateUtils.now();
 

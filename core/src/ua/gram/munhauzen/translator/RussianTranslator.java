@@ -202,6 +202,18 @@ public class RussianTranslator implements Translator {
         map.put("error_screen.show_error", "Показать ошибку");
         map.put("error_screen.reason", "Причина");
 
+        map.put("debug_screen.enable_skip", "Вкл перемотку вперед");
+        map.put("debug_screen.open_fails", "Открыть все фейлы");
+        map.put("debug_screen.open_gallery", "Открыть всю галерею");
+        map.put("debug_screen.purge_history", "Очистить историю");
+        map.put("debug_screen.purge_all", "Удалить ВСЕ");
+        map.put("debug_screen.updates", "Скачать обновления");
+        map.put("debug_screen.start", "Начать");
+        map.put("debug_screen.menu", "Меню");
+        map.put("debug_screen.inventory", "Инвентарь");
+        map.put("debug_screen.scenario", "Сценарий");
+        map.put("debug_screen.interaction", "Фишки");
+
     }
 
     @Override

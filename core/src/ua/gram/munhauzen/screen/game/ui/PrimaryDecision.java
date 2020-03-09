@@ -63,7 +63,7 @@ public class PrimaryDecision extends Stack {
     }
 
     public void setVisited(boolean visited) {
-        this.visited = visited;
+//        this.visited = visited;
     }
 
     public void setOnClick(ClickListener onClick) {

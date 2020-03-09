@@ -60,8 +60,11 @@ public class ErrorMonitoring {
 
         if (e.getMessage() != null) {
             if (e.getMessage().contains("ENOSPC")) return;
+            if (e.getMessage().contains("ENOENT")) return;
             if (e.getMessage().contains("Couldn't load dependencies of asset")) return;
             if (e.getMessage().contains("Couldn't load file")) return;
+            if (e.getMessage().contains("Bad request")) return;
+            if (e.getMessage().contains("was not downloaded")) return;
         }
 
         if (captured.contains(e)) return;

@@ -28,7 +28,7 @@ public class PlatformParams implements JsonEntry {
     @JsonProperty
     public Release release = Release.PROD;
     @JsonProperty
-    public final int expansionVersion = 3;
+    public final int expansionVersion = 4;
     @JsonProperty
     public final int gameConfigVersion = 1;
     @JsonProperty

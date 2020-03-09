@@ -97,7 +97,7 @@ public class GameScenarioFragment extends ScenarioFragment {
                 }
             });
 
-            boolean isVisited = gameScreen.game.gameState.history.visitedStories.contains(scenario.name);
+            boolean isVisited = gameScreen.game.gameState.activeSave.visitedStories.contains(scenario.name);
             button.setVisited(isVisited);
 
             button.init();
