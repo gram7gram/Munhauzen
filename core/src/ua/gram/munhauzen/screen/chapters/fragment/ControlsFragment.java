@@ -16,6 +16,7 @@ import ua.gram.munhauzen.screen.ChaptersScreen;
 import ua.gram.munhauzen.screen.MenuScreen;
 import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.ui.FragmentRoot;
+import ua.gram.munhauzen.ui.SoundBtn;
 import ua.gram.munhauzen.utils.Log;
 
 public class ControlsFragment extends Fragment {
@@ -23,7 +24,6 @@ public class ControlsFragment extends Fragment {
     private final String tag = getClass().getSimpleName();
     private final ChaptersScreen screen;
     public FragmentRoot root;
-    Container<Table> menuContainer;
 
     public ControlsFragment(ChaptersScreen screen) {
         this.screen = screen;
@@ -33,18 +33,28 @@ public class ControlsFragment extends Fragment {
 
         Log.i(tag, "create");
 
+        SoundBtn soundBtn = new SoundBtn(screen);
+
         ImageButton menuBtn = getMenuBtn();
+
+        Table soundTable = new Table();
+        soundTable.add(soundBtn).size(MunhauzenGame.WORLD_WIDTH * .15f);
 
         Table menuTable = new Table();
         menuTable.add(menuBtn).width(MunhauzenGame.WORLD_WIDTH * .2f)
                 .height(MunhauzenGame.WORLD_WIDTH * .12f);
 
-        menuContainer = new Container<>(menuTable);
+        Container<Table> menuContainer = new Container<>(menuTable);
         menuContainer.align(Align.bottomLeft);
         menuContainer.pad(10);
 
+        Container<Table> soundContainer = new Container<>(soundTable);
+        soundContainer.align(Align.bottomRight);
+        soundContainer.pad(10);
+
         root = new FragmentRoot();
         root.addContainer(menuContainer);
+        root.addContainer(soundContainer);
 
         root.setName(tag);
     }

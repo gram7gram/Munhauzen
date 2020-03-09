@@ -161,7 +161,7 @@ public class ErrorScreen implements Screen {
                 .height(ButtonBuilder.BTN_PRIMARY_HEIGHT)
                 .row();
         table.add(errorBtn).padBottom(20).expandX()
-                .width(ButtonBuilder.BTN_PRIMARY_WIDTH)
+                .width(ButtonBuilder.BTN_PRIMARY_WIDTH * 1.5f)
                 .height(ButtonBuilder.BTN_PRIMARY_HEIGHT)
                 .row();
 

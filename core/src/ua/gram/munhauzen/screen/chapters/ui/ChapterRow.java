@@ -4,9 +4,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
@@ -36,8 +35,6 @@ public class ChapterRow extends Table {
         this.index = index;
         this.screen = screen;
         this.chapter = chapter;
-
-        iconSize = MunhauzenGame.WORLD_WIDTH * .12f;
 
         openedStyle = new Label.LabelStyle(
                 screen.game.fontProvider.getFont(FontProvider.h4),
@@ -72,7 +69,7 @@ public class ChapterRow extends Table {
 
                     screen.game.sfxService.onListItemClicked();
 
-//                    screen.navigateTo(new PaintingScreen(screen.game, paintingImage));
+                    screen.openChapterBanner(chapter);
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -96,16 +93,26 @@ public class ChapterRow extends Table {
 
         if (!isViewed) {
 
+            setTouchable(Touchable.disabled);
+
+            iconSize = MunhauzenGame.WORLD_WIDTH * .05f;
+
             title.setStyle(hiddenStyle);
             number.setStyle(hiddenStyle);
 
             setIconBackground(
-                    screen.assetManager.get("gallery/b_closed_0.png", Texture.class)
+                    screen.assetManager.get("gallery/b_closed_0.png", Texture.class),
+                    (int) (iconSize * .5f)
             );
         } else {
 
+            setTouchable(Touchable.enabled);
+
+            iconSize = MunhauzenGame.WORLD_WIDTH * .1f;
+
             setIconBackground(
-                    screen.assetManager.get(chapter.icon, Texture.class)
+                    screen.assetManager.get(chapter.icon, Texture.class),
+                    0
             );
         }
 
@@ -116,7 +123,7 @@ public class ChapterRow extends Table {
         getCell(title).width(lblWidth);
     }
 
-    public void setIconBackground(Texture texture) {
+    public void setIconBackground(Texture texture, int pad) {
 
         icon.setDrawable(new SpriteDrawable(new Sprite(texture)));
 
@@ -125,6 +132,7 @@ public class ChapterRow extends Table {
         float height = 1f * icon.getDrawable().getMinHeight() * scale;
 
         getCell(icon)
+                .pad(0, pad, 0, pad)
                 .width(width)
                 .height(height);
     }

@@ -448,6 +448,8 @@ public class StoryManager {
 
     public void reset() {
 
+        if (gameScreen == null) return;
+
         Story story = gameScreen.getStory();
         if (story == null || story.id == null) return;
 

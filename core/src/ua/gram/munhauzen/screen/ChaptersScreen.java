@@ -6,10 +6,12 @@ import com.badlogic.gdx.graphics.Texture;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.Chapter;
+import ua.gram.munhauzen.screen.chapters.fragment.BannerFragment;
 import ua.gram.munhauzen.screen.chapters.fragment.ChaptersFragment;
 import ua.gram.munhauzen.screen.chapters.fragment.ControlsFragment;
 import ua.gram.munhauzen.screen.chapters.ui.Layers;
 import ua.gram.munhauzen.service.AudioService;
+import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
@@ -20,6 +22,7 @@ public class ChaptersScreen extends AbstractScreen {
     public Layers layers;
     public ChaptersFragment fragment;
     public ControlsFragment controlsFragment;
+    public BannerFragment banner;
 
     public ChaptersScreen(MunhauzenGame game) {
         super(game);
@@ -37,12 +40,15 @@ public class ChaptersScreen extends AbstractScreen {
 
         ui.addActor(layers);
 
+        assetManager.load("ui/b_sound_on.png", Texture.class);
+        assetManager.load("ui/b_sound_off.png", Texture.class);
         assetManager.load("menu/b_menu.png", Texture.class);
         assetManager.load("ui/gv_paper_1.png", Texture.class);
         assetManager.load("ui/gv_paper_2.png", Texture.class);
         assetManager.load("ui/gv_paper_3.png", Texture.class);
         assetManager.load("saves/sv_baron.png", Texture.class);
         assetManager.load("gallery/b_closed_0.png", Texture.class);
+        assetManager.load("ui/banner_fond_0.png", Texture.class);
     }
 
     @Override
@@ -99,6 +105,8 @@ public class ChaptersScreen extends AbstractScreen {
     public void dispose() {
         super.dispose();
 
+        destroyBanners();
+
         if (fragment != null) {
             fragment.destroy();
             fragment = null;
@@ -117,6 +125,30 @@ public class ChaptersScreen extends AbstractScreen {
         if (layers != null) {
             layers.dispose();
             layers = null;
+        }
+    }
+
+    public void destroyBanners() {
+        if (banner != null) {
+            banner.destroy();
+            banner = null;
+        }
+    }
+
+    public void openChapterBanner(Chapter chapter) {
+        try {
+
+            destroyBanners();
+
+            banner = new BannerFragment(this);
+            banner.create(chapter);
+
+            layers.setBannerLayer(banner);
+
+            banner.fadeIn();
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
         }
     }
 }
