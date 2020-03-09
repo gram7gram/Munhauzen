@@ -514,7 +514,7 @@ public class GeneralsProgressBarFragment extends Fragment {
 
         if (story == null) return;
 
-        boolean hasVisitedBefore = MunhauzenGame.developmentSkipEnable || gameScreen.game.gameState.activeSave.visitedStories.contains(story.id);
+        boolean hasVisitedBefore = MunhauzenGame.developmentSkipEnable || gameScreen.game.gameState.history.visitedStories.contains(story.id);
 
         bar.setEnabled(hasVisitedBefore);
 

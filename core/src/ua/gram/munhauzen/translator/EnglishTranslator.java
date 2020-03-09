@@ -185,7 +185,8 @@ public class EnglishTranslator implements Translator {
         map.put("chapter_screen.title", "Chapters");
         map.put("chapter_banner.title", "Load selected chapter?");
         map.put("chapter_banner.content", "You will not loose current progress");
-        map.put("chapter_banner.btn", "Start");
+        map.put("chapter_banner.yes_btn", "Yes");
+        map.put("chapter_banner.no_btn", "No");
 
         map.put("debug_screen.enable_skip", "Enable skip scenario");
         map.put("debug_screen.open_fails", "Open all fails");

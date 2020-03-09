@@ -86,6 +86,7 @@ public class BannerFragment extends Fragment {
         ));
 
         screen.stopCurrentSfx();
+        screen.game.sfxService.onLoadOptionClicked();
     }
 
     public boolean canFadeOut() {
