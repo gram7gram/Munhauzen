@@ -26,6 +26,7 @@ import ua.gram.munhauzen.animation.LetterDAnimation;
 import ua.gram.munhauzen.animation.LetterEAnimation;
 import ua.gram.munhauzen.animation.LetterFAnimation;
 import ua.gram.munhauzen.animation.LetterGAnimation;
+import ua.gram.munhauzen.ui.ScenarioFragment;
 import ua.gram.munhauzen.ui.WrapLabel;
 import ua.gram.munhauzen.utils.ExpansionAssetManager;
 import ua.gram.munhauzen.utils.Log;
@@ -33,6 +34,7 @@ import ua.gram.munhauzen.utils.Log;
 public class PrimaryDecision extends Stack {
 
     final String tag = getClass().getSimpleName();
+    final ScenarioFragment fragment;
     final MunhauzenGame game;
     final ExpansionAssetManager assetManager;
 
@@ -46,8 +48,9 @@ public class PrimaryDecision extends Stack {
     final int headerSize, letterWidth = 180;
     public final int buttonSize;
 
-    public PrimaryDecision(final MunhauzenGame game, ExpansionAssetManager assetManager) {
-        this.game = game;
+    public PrimaryDecision(ScenarioFragment fragment, ExpansionAssetManager assetManager) {
+        this.fragment = fragment;
+        this.game = fragment.screen.game;
         this.assetManager = assetManager;
 
         headerSize = (int) Math.min(200, MunhauzenGame.WORLD_HEIGHT * .075f);
@@ -63,7 +66,7 @@ public class PrimaryDecision extends Stack {
     }
 
     public void setVisited(boolean visited) {
-//        this.visited = visited;
+        this.visited = visited;
     }
 
     public void setOnClick(ClickListener onClick) {
@@ -130,6 +133,8 @@ public class PrimaryDecision extends Stack {
 
                     if (letterInCenter != null)
                         letterInCenter.start();
+
+                    fragment.bgContainer.setVisible(false);
 
                     onClick.clicked(event, x, y);
                 } catch (Throwable e) {

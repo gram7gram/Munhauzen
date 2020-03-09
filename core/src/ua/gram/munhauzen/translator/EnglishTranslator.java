@@ -198,6 +198,8 @@ public class EnglishTranslator implements Translator {
         map.put("debug_screen.interaction", "Interactions");
         map.put("debug_screen.inventory", "Inventory");
         map.put("debug_screen.scenario", "Scenario");
+        map.put("debug_screen.open_scenario", "Open all scenario");
+        map.put("debug_screen.open_chapters", "Open all chapters");
 
     }
 

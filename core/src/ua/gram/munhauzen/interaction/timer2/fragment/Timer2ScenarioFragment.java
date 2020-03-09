@@ -111,7 +111,7 @@ public class Timer2ScenarioFragment extends ScenarioFragment {
 
             final int currentIndex = i;
 
-            PrimaryDecision button = new PrimaryDecision(interaction.gameScreen.game, interaction.assetManager);
+            PrimaryDecision button = new PrimaryDecision(this, interaction.assetManager);
             button.setText(text);
             button.setIndex(currentIndex);
             button.setAnimatedMap(animatedMap);
@@ -130,7 +130,7 @@ public class Timer2ScenarioFragment extends ScenarioFragment {
                 }
             });
 
-            boolean isVisited = gameScreen.game.gameState.activeSave.visitedStories.contains(decision.scenario);
+            boolean isVisited = screen.game.gameState.activeSave.visitedStories.contains(decision.scenario);
             button.setVisited(isVisited);
 
             button.init();

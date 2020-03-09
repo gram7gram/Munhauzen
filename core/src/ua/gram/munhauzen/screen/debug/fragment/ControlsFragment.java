@@ -19,6 +19,7 @@ import ua.gram.munhauzen.ButtonBuilder;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.AudioFail;
+import ua.gram.munhauzen.entity.Chapter;
 import ua.gram.munhauzen.entity.FailsState;
 import ua.gram.munhauzen.entity.GalleryState;
 import ua.gram.munhauzen.entity.GamePreferences;
@@ -134,6 +135,33 @@ public class ControlsFragment extends Fragment {
                         }
                     }
 
+                    game.databaseManager.persistSync(game.gameState);
+
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
+            }
+        });
+
+        final Label openChaptersLbl = new Label("[+] " + game.t("debug_screen.open_chapters"), new Label.LabelStyle(
+                game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
+                Color.BLUE
+        ));
+        openChaptersLbl.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                openChaptersLbl.setVisible(false);
+
+                try {
+                    for (Chapter c : game.gameState.chapterRegistry) {
+                        game.gameState.history.visitedChapters.add(c.name);
+                        game.gameState.activeSave.visitedChapters.add(c.name);
+                    }
+
+                    game.databaseManager.persistSync(game.gameState);
+
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -155,13 +183,34 @@ public class ControlsFragment extends Fragment {
                     for (AudioFail a : game.gameState.audioFailRegistry) {
                         game.achievementService.onFailOpened(a);
                     }
+
+                    game.databaseManager.persistSync(game.gameState);
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
             }
         });
 
-        final Label openScenarioLbl = new Label("[+] " + game.t("debug_screen.enable_skip"), new Label.LabelStyle(
+        final Label skipLbl = new Label("[+] " + game.t("debug_screen.enable_skip"), new Label.LabelStyle(
+                game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
+                Color.BLUE
+        ));
+        skipLbl.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                skipLbl.setVisible(false);
+
+                try {
+                    MunhauzenGame.developmentSkipEnable = true;
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
+            }
+        });
+
+        final Label openScenarioLbl = new Label("[+] " + game.t("debug_screen.open_scenario"), new Label.LabelStyle(
                 game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
                 Color.BLUE
         ));
@@ -209,6 +258,8 @@ public class ControlsFragment extends Fragment {
                         game.gameState.history.visitedStories.add(s.name);
                         game.gameState.activeSave.visitedStories.add(s.name);
                     }
+
+                    game.databaseManager.persistSync(game.gameState);
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -245,13 +296,15 @@ public class ControlsFragment extends Fragment {
                     game.gameState.history = new History();
                     game.gameState.setActiveSave(new Save());
 
+                    game.databaseManager.persistSync(game.gameState);
+
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
             }
         });
 
-        final Label removeAllLbl = new Label("[+] " + game.t("debug_screen.purge_all"), new Label.LabelStyle(
+        final Label removeAllLbl = new Label("[x] " + game.t("debug_screen.purge_all"), new Label.LabelStyle(
                 game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
                 Color.RED
         ));
@@ -308,11 +361,14 @@ public class ControlsFragment extends Fragment {
                 .colspan(2)
                 .padBottom(50).expandX().row();
 
+        container.add(expLbl).pad(10).left().expandX();
+        container.add(skipLbl).pad(10).left().expandX().row();
+
         container.add(openGalleryLbl).pad(10).left().expandX();
         container.add(openFailsLbl).pad(10).left().expandX().row();
 
-        container.add(expLbl).pad(10).left().expandX();
-        container.add(openScenarioLbl).pad(10).left().expandX().row();
+        container.add(openScenarioLbl).pad(10).left().expandX();
+        container.add(openChaptersLbl).pad(10).left().expandX().row();
 
         container.add(removeHistoryLbl).pad(10).left().expandX();
         container.add(removeAllLbl).pad(10).left().expandX().row();

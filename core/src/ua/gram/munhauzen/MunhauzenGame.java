@@ -34,6 +34,7 @@ public class MunhauzenGame extends Game {
     public static final int PROGRESS_BAR_FADE_OUT_DELAY = 5;
 
     public static String developmentScenario;
+    public static boolean developmentSkipEnable;
 
     // WAUWAU GENERAL HARE PICTURE SERVANTS TIMER
     // continue HORN BALLOONS CHAPTER

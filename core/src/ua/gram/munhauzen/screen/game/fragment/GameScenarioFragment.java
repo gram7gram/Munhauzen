@@ -42,30 +42,30 @@ public class GameScenarioFragment extends ScenarioFragment {
 
         Log.i(tag, "create x" + decisions.size());
 
-        gameScreen.showProgressBar();
+        screen.showProgressBar();
 
-        gameScreen.assetManager.load("GameScreen/an_cannons_sheet.png", Texture.class);
-        gameScreen.assetManager.load("GameScreen/an_cannons_left_sheet.png", Texture.class);
-        gameScreen.assetManager.load("GameScreen/b_star_game.png", Texture.class);
-        gameScreen.assetManager.load("GameScreen/b_tulip_1.png", Texture.class);
-        gameScreen.assetManager.load("GameScreen/b_decision_add_line.png", Texture.class);
-        gameScreen.assetManager.load("GameScreen/b_decision_first_line.png", Texture.class);
-        gameScreen.assetManager.load("GameScreen/b_decision_last_line.png", Texture.class);
+        screen.assetManager.load("GameScreen/an_cannons_sheet.png", Texture.class);
+        screen.assetManager.load("GameScreen/an_cannons_left_sheet.png", Texture.class);
+        screen.assetManager.load("GameScreen/b_star_game.png", Texture.class);
+        screen.assetManager.load("GameScreen/b_tulip_1.png", Texture.class);
+        screen.assetManager.load("GameScreen/b_decision_add_line.png", Texture.class);
+        screen.assetManager.load("GameScreen/b_decision_first_line.png", Texture.class);
+        screen.assetManager.load("GameScreen/b_decision_last_line.png", Texture.class);
 
         for (int i = 0; i < decisions.size(); i++) {
             String letterResource = animatedMap.get(i);
 
-            gameScreen.assetManager.load(letterResource, Texture.class);
+            screen.assetManager.load(letterResource, Texture.class);
         }
 
-        gameScreen.assetManager.finishLoading();
+        screen.assetManager.finishLoading();
 
-        Texture borders = gameScreen.assetManager.get("GameScreen/b_tulip_1.png", Texture.class);
-        Texture drawableTop = gameScreen.assetManager.get("GameScreen/b_star_game.png", Texture.class);
+        Texture borders = screen.assetManager.get("GameScreen/b_tulip_1.png", Texture.class);
+        Texture drawableTop = screen.assetManager.get("GameScreen/b_star_game.png", Texture.class);
 
         final Table buttons = new Table();
         buttons.add()
-                .height(gameScreen.progressBarFragment.getHeight() / 2 - 20)
+                .height(screen.progressBarFragment.getHeight() / 2 - 20)
                 .row();
 
         for (int i = 0; i < decisions.size(); i++) {
@@ -78,7 +78,7 @@ public class GameScenarioFragment extends ScenarioFragment {
 
             final int currentIndex = i;
 
-            PrimaryDecision button = new PrimaryDecision(gameScreen.game, gameScreen.assetManager);
+            PrimaryDecision button = new PrimaryDecision(this, screen.assetManager);
             button.setText(text);
             button.setIndex(currentIndex);
             button.setAnimatedMap(animatedMap);
@@ -97,7 +97,7 @@ public class GameScenarioFragment extends ScenarioFragment {
                 }
             });
 
-            boolean isVisited = gameScreen.game.gameState.activeSave.visitedStories.contains(scenario.name);
+            boolean isVisited = screen.game.gameState.activeSave.visitedStories.contains(scenario.name);
             button.setVisited(isVisited);
 
             button.init();
@@ -112,7 +112,7 @@ public class GameScenarioFragment extends ScenarioFragment {
         }
 
         buttons.add()
-                .height(gameScreen.progressBarFragment.getHeight() + 20)
+                .height(screen.progressBarFragment.getHeight() + 20)
                 .row();
 
         ScrollPane scrollPane = new ScrollPane(buttons);
@@ -179,7 +179,7 @@ public class GameScenarioFragment extends ScenarioFragment {
                 public void run() {
 
                     try {
-                        gameScreen.hideAndDestroyScenarioFragment();
+                        screen.hideAndDestroyScenarioFragment();
                     } catch (Throwable e) {
                         Log.e(tag, e);
                     }
@@ -188,11 +188,11 @@ public class GameScenarioFragment extends ScenarioFragment {
 
             fadeOutDecoration();
 
-            Story newStory = gameScreen.storyManager.create(decision.scenario);
+            Story newStory = screen.storyManager.create(decision.scenario);
 
-            gameScreen.setStory(newStory);
+            screen.setStory(newStory);
 
-            gameScreen.storyManager.startLoadingResources();
+            screen.storyManager.startLoadingResources();
 
             //let cannon animation complete...
             Timer.schedule(new Timer.Task() {
@@ -227,7 +227,7 @@ public class GameScenarioFragment extends ScenarioFragment {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            gameScreen.onCriticalError(e);
+            screen.onCriticalError(e);
         }
     }
 

@@ -198,6 +198,8 @@ public class RussianTranslator implements Translator {
         map.put("debug_screen.inventory", "Инвентарь");
         map.put("debug_screen.scenario", "Сценарий");
         map.put("debug_screen.interaction", "Фишки");
+        map.put("debug_screen.open_scenario", "Открыть все сценарии");
+        map.put("debug_screen.open_chapters", "Открыть все главы");
 
     }
 

@@ -8,6 +8,7 @@ import java.util.Comparator;
 import java.util.Set;
 
 import ua.gram.munhauzen.entity.Decision;
+import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.interaction.HareInteraction;
 import ua.gram.munhauzen.interaction.hare.fragment.HareScenarioFragment;
@@ -143,8 +144,15 @@ public class HareStoryManager {
         try {
             Log.i(tag, "onCompleted " + story.id);
 
-            gameScreen.game.gameState.history.visitedStories.add(story.id);
-            gameScreen.game.gameState.activeSave.visitedStories.add(story.id);
+            GameState gameState = gameScreen.game.gameState;
+
+            gameState.history.visitedStories.add(story.id);
+            gameState.activeSave.visitedStories.add(story.id);
+
+            for (HareStoryScenario storyScenario : story.scenarios) {
+                gameState.history.visitedStories.add(storyScenario.scenario.name);
+                gameState.activeSave.visitedStories.add(storyScenario.scenario.name);
+            }
 
             Set<String> inventory = gameScreen.game.inventoryService.getAllInventory();
 

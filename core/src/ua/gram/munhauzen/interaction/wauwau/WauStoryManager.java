@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import ua.gram.munhauzen.entity.Decision;
+import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.entity.StoryImage;
 import ua.gram.munhauzen.interaction.WauInteraction;
@@ -219,7 +220,15 @@ public class WauStoryManager {
 
             Log.i(tag, "onCompleted " + story.id);
 
-            gameScreen.game.gameState.history.visitedStories.add(story.id);
+            GameState gameState = gameScreen.game.gameState;
+
+            gameState.history.visitedStories.add(story.id);
+            gameState.activeSave.visitedStories.add(story.id);
+
+            for (WauStoryScenario storyScenario : story.scenarios) {
+                gameState.history.visitedStories.add(storyScenario.scenario.name);
+                gameState.activeSave.visitedStories.add(storyScenario.scenario.name);
+            }
 
             for (StoryAudio audio : story.currentScenario.scenario.audio) {
                 if (audio.player != null) {

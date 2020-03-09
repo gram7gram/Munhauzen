@@ -250,13 +250,23 @@ public class StoryManager {
 
             boolean isPurchased = gameScreen.checkExpansionIsPurchased();
 
-            gameScreen.game.gameState.history.visitedStories.add(story.id);
-
             displayCurrentImage();
 
-            gameScreen.game.gameState.menuState.isContinueEnabled = true;
+            GameState gameState = gameScreen.game.gameState;
+
+            gameState.menuState.isContinueEnabled = true;
+
+            gameState.history.visitedStories.add(story.id);
+            gameState.activeSave.visitedStories.add(story.id);
 
             for (StoryScenario storyScenario : story.scenarios) {
+
+                gameState.history.visitedStories.add(storyScenario.scenario.name);
+                gameState.activeSave.visitedStories.add(storyScenario.scenario.name);
+
+                gameState.history.visitedChapters.add(storyScenario.scenario.chapter);
+                gameState.activeSave.visitedChapters.add(storyScenario.scenario.chapter);
+
                 gameScreen.game.achievementService.onScenarioVisited(storyScenario.scenario);
             }
 

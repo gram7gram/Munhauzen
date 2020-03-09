@@ -18,7 +18,7 @@ public abstract class ScenarioFragment extends Fragment {
     public final String tag = getClass().getSimpleName();
     public final MunhauzenGame game;
 
-    public final GameScreen gameScreen;
+    public final GameScreen screen;
     public FitImage imgLeft, imgRight, imgTop;
     public Table decorLeft, decorRight, decorTop;
     public Table blocks;
@@ -29,9 +29,9 @@ public abstract class ScenarioFragment extends Fragment {
     public boolean isFadeIn;
     public boolean isFadeOut;
 
-    public ScenarioFragment(GameScreen gameScreen) {
-        this.game = gameScreen.game;
-        this.gameScreen = gameScreen;
+    public ScenarioFragment(GameScreen screen) {
+        this.game = screen.game;
+        this.screen = screen;
         buttonList = new ArrayList<>();
 
         animatedMap.put(0, "GameScreen/an_letter_A_sheet.png");
