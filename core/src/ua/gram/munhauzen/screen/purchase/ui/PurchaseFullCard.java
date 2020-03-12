@@ -12,6 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 
 import ua.gram.munhauzen.FontProvider;
+import ua.gram.munhauzen.entity.PurchaseState;
+import ua.gram.munhauzen.screen.LoadingScreen;
 import ua.gram.munhauzen.screen.PurchaseScreen;
 import ua.gram.munhauzen.ui.FixedImage;
 import ua.gram.munhauzen.utils.Log;
@@ -32,9 +34,16 @@ public class PurchaseFullCard extends Card {
 
                 try {
 
-                    Log.i(tag, "clicked on " + screen.game.params.appStoreSkuFull);
+                    String id = screen.game.params.appStoreSkuFull;
+                    Log.i(tag, "clicked on " + id);
 
-                    screen.game.params.iap.purchase(screen.game.params.appStoreSkuFull);
+                    PurchaseState state = screen.game.gameState.purchaseState;
+                    if (state.isPro) {
+                        screen.navigateTo(new LoadingScreen(screen.game));
+                        return;
+                    }
+
+                    screen.game.params.iap.purchase(id);
                 } catch (Throwable e) {
                     Log.e(tag, e);
 

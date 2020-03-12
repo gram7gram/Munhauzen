@@ -2,7 +2,6 @@ package ua.gram.munhauzen.screen.purchase.fragment;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -57,9 +56,9 @@ public class ListFragment extends Fragment {
         VerticalGroup list = new VerticalGroup();
         list.addActor(title);
         list.addActor(cardFree);
-        list.addActor(cardFull);
         list.addActor(cardPart1);
         list.addActor(cardPart2);
+        list.addActor(cardFull);
 
         Table content = new Table();
         content.setFillParent(true);
@@ -110,36 +109,39 @@ public class ListFragment extends Fragment {
 
                     if (cardFull.purchased) {
                         if (part1.isAvailable) {
-                            cardPart1.setTouchable(Touchable.disabled);
+//                            cardPart1.setTouchable(Touchable.disabled);
                             cardPart1.price.setText("");
                             cardPart1.setPurchased(true);
                             cardPart1.setEnabled(true);
                         }
 
                         if (part2.isAvailable) {
-                            cardPart2.setTouchable(Touchable.disabled);
+//                            cardPart2.setTouchable(Touchable.disabled);
                             cardPart2.price.setText("");
                             cardPart2.setPurchased(true);
                             cardPart2.setEnabled(true);
                         }
-                    }
+                    } else {
+                        if (cardPart2.purchased) {
+                            if (part1.isAvailable) {
+//                            cardPart1.setTouchable(Touchable.disabled);
+                                cardPart1.price.setText("");
+                                cardPart1.setPurchased(true);
+                                cardPart1.setEnabled(true);
+                            }
+                        }
 
-                    if (cardPart2.purchased) {
-                        if (part1.isAvailable) {
-                            cardPart1.setTouchable(Touchable.disabled);
-                            cardPart1.price.setText("");
-                            cardPart1.setPurchased(true);
-                            cardPart1.setEnabled(true);
+                        if (cardPart1.purchased && cardPart2.purchased) {
+                            if (full.isAvailable) {
+//                            cardFull.setTouchable(Touchable.disabled);
+                                cardFull.price.setText("");
+                                cardFull.setEnabled(true);
+                                cardFull.setPurchased(true);
+                            }
                         }
                     }
 
-                    if (cardPart1.purchased && cardPart2.purchased) {
-                        if (full.isAvailable) {
-                            cardFull.setTouchable(Touchable.disabled);
-                            cardFull.price.setText("");
-                            cardFull.setEnabled(true);
-                        }
-                    }
+
                 }
             }
 
