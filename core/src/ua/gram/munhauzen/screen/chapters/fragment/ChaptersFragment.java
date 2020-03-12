@@ -17,7 +17,6 @@ import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.Chapter;
 import ua.gram.munhauzen.screen.ChaptersScreen;
-import ua.gram.munhauzen.screen.GalleryScreen;
 import ua.gram.munhauzen.screen.chapters.ui.ChapterRow;
 import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.ui.FragmentRoot;

@@ -4,6 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 
+import java.util.Collections;
+import java.util.Comparator;
+
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.Chapter;
 import ua.gram.munhauzen.screen.chapters.fragment.BannerFragment;
@@ -65,6 +68,13 @@ public class ChaptersScreen extends AbstractScreen {
     @Override
     public void onResourcesLoaded() {
         super.onResourcesLoaded();
+
+        Collections.sort(game.gameState.chapterRegistry, new Comparator<Chapter>() {
+            @Override
+            public int compare(Chapter a, Chapter b) {
+                return Integer.compare(a.number, b.number);
+            }
+        });
 
         for (Chapter chapter : game.gameState.chapterRegistry) {
             if (game.gameState.history.visitedChapters.contains(chapter.name)) {

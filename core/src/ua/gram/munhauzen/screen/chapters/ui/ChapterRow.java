@@ -86,9 +86,6 @@ public class ChapterRow extends Table {
 
         String text = chapter.description;
 
-        title.setStyle(openedStyle);
-        number.setStyle(openedStyle);
-
         boolean isViewed = screen.game.gameState.history.visitedChapters.contains(chapter.name);
 
         if (!isViewed) {
@@ -109,6 +106,9 @@ public class ChapterRow extends Table {
             setTouchable(Touchable.enabled);
 
             iconSize = MunhauzenGame.WORLD_WIDTH * .1f;
+
+            title.setStyle(openedStyle);
+            number.setStyle(openedStyle);
 
             setIconBackground(
                     screen.assetManager.get(chapter.icon, Texture.class),
