@@ -7,7 +7,7 @@ const audioDir = "/Users/master/Projects/MunhauzenDocs/Elements/AUDIO_FINAL";
 
 const PARTS = 5;
 
-const VERSION = 5;
+const VERSION = 6;
 const LOCALE = 'en';
 
 const DLC = {
@@ -71,7 +71,7 @@ const EXPANSIONS = [
   'Part_2',
 ];
 
-const getDirs = source => fs.readdirSync(source).filter(dir => dir !== '.DS_Store')
+const getDirs = source => fs.readdirSync(source).filter(dir => dir !== '.DS_Store');
 
 const createDLC = async (DPI, EXP) => {
 
@@ -157,26 +157,26 @@ const createDLC = async (DPI, EXP) => {
     });
   });
 
-    dlcConfig.localeAssets.forEach(dir => {
-        const dpiDir = obbDir + dir + "/" + DPI;
+  dlcConfig.localeAssets.forEach(dir => {
+    const dpiDir = obbDir + dir + "/" + DPI;
 
-        getDirs(dpiDir).forEach(dir => {
+    getDirs(dpiDir).forEach(dir => {
 
-            const sourceDir = dpiDir + "/" + dir;
+      const sourceDir = dpiDir + "/" + dir;
 
-            getDirs(sourceDir).forEach(file => {
-              const outputDir = getTmpDir();
-              const destDir = outputDir + "/" + dir;
+      getDirs(sourceDir).forEach(file => {
+        const outputDir = getTmpDir();
+        const destDir = outputDir + "/" + dir;
 
-              fs.ensureDir(destDir, () => {
-              });
-
-              fs.copySync(sourceDir + "/" + file, destDir + "/" + file);
-
-              nextPart();
-            });
+        fs.ensureDir(destDir, () => {
         });
+
+        fs.copySync(sourceDir + "/" + file, destDir + "/" + file);
+
+        nextPart();
+      });
     });
+  });
 
   const completed = [];
 
@@ -260,7 +260,7 @@ const createDLC = async (DPI, EXP) => {
   fs.emptyDirSync(`${buildDir}/${VERSION_NAME}/`);
 
   for (let part = 1; part <= PARTS; part++) {
-    await createArchive(part)
+    await createArchive(part);
   }
 
   onComplete();
