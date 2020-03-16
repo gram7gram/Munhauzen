@@ -85,7 +85,7 @@ public class BannerFragment extends Fragment {
                 })
         ));
 
-        screen.stopCurrentSfx();
+        screen.game.stopAllAudio();
         screen.game.sfxService.onLoadOptionClicked();
     }
 

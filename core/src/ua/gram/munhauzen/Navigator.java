@@ -6,8 +6,8 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.entity.GameState;
+import ua.gram.munhauzen.screen.DebugScreen;
 import ua.gram.munhauzen.screen.LegalScreen;
-import ua.gram.munhauzen.screen.LogoScreen;
 import ua.gram.munhauzen.screen.MenuScreen;
 import ua.gram.munhauzen.screen.PurchaseScreen;
 import ua.gram.munhauzen.utils.Log;
@@ -22,7 +22,8 @@ public class Navigator {
     }
 
     public void openCurrentScreen() {
-        game.setScreen(new LogoScreen(game));
+        game.setScreen(new DebugScreen(game));
+//        game.setScreen(new LogoScreen(game));
     }
 
     public void onCriticalError(Throwable e) {
@@ -51,6 +52,12 @@ public class Navigator {
 
             try {
                 game.databaseManager.persistSync(game.gameState);
+            } catch (Throwable ignore) {
+            }
+
+            try {
+                if (game.backgroundSfxService != null)
+                    game.backgroundSfxService.stop();
             } catch (Throwable ignore) {
             }
 

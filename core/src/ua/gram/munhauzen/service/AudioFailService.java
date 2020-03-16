@@ -2,7 +2,6 @@ package ua.gram.munhauzen.service;
 
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.utils.Disposable;
 
 import java.util.HashMap;
 
@@ -15,12 +14,12 @@ import ua.gram.munhauzen.utils.ExpansionAssetManager;
 import ua.gram.munhauzen.utils.ExternalFiles;
 import ua.gram.munhauzen.utils.Log;
 
-public class AudioFailService implements Disposable {
+public class AudioFailService {
 
     private final String tag = getClass().getSimpleName();
     private final MunhauzenGame game;
-    public ExpansionAssetManager assetManager;
-    public final HashMap<String, StoryAudio> activeAudio;
+    final ExpansionAssetManager assetManager;
+    public final HashMap<String, Music> activeAudio;
 
     public AudioFailService(MunhauzenGame game) {
         this.game = game;
@@ -55,7 +54,7 @@ public class AudioFailService implements Disposable {
 
         item.player.play();
 
-        activeAudio.put(item.audio, item);
+        activeAudio.put(item.audio, item.player);
     }
 
     public void stop(StoryAudio storyAudio) {
@@ -96,13 +95,33 @@ public class AudioFailService implements Disposable {
         }
     }
 
+    public void stop(String resource, Music audio) {
+        try {
+
+            if (audio == null) return;
+
+            audio.stop();
+
+            if (assetManager.isLoaded(resource)) {
+                assetManager.unload(resource);
+            }
+
+            activeAudio.remove(resource);
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+    }
+
     public void stop() {
         try {
-            for (StoryAudio audio : activeAudio.values()) {
-                stop(audio);
+            for (String audio : activeAudio.keySet()) {
+                stop(audio, activeAudio.get(audio));
             }
 
             activeAudio.clear();
+
+            assetManager.clear();
 
         } catch (Throwable e) {
             Log.e(tag, e);
@@ -125,10 +144,10 @@ public class AudioFailService implements Disposable {
 
             int volume = GameState.isMute ? 0 : 1;
 
-            for (StoryAudio audio : activeAudio.values()) {
-                if (audio.player != null) {
-                    if (audio.player.getVolume() != volume) {
-                        audio.player.setVolume(volume);
+            for (Music audio : activeAudio.values()) {
+                if (audio != null) {
+                    if (audio.getVolume() != volume) {
+                        audio.setVolume(volume);
                     }
                 }
             }
@@ -146,13 +165,9 @@ public class AudioFailService implements Disposable {
         updateVolume();
     }
 
-    @Override
     public void dispose() {
         stop();
 
-        if (assetManager != null) {
-            assetManager.dispose();
-            assetManager = null;
-        }
+        assetManager.dispose();
     }
 }

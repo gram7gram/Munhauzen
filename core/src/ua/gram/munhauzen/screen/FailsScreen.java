@@ -14,6 +14,7 @@ import ua.gram.munhauzen.screen.fails.entity.GalleryFail;
 import ua.gram.munhauzen.screen.fails.fragment.ControlsFragment;
 import ua.gram.munhauzen.screen.fails.fragment.FailsFragment;
 import ua.gram.munhauzen.screen.fails.fragment.GoofsFragment;
+import ua.gram.munhauzen.screen.fails.ui.AudioRow;
 import ua.gram.munhauzen.screen.fails.ui.FailsLayers;
 import ua.gram.munhauzen.service.AudioFailService;
 import ua.gram.munhauzen.utils.Log;
@@ -134,7 +135,7 @@ public class FailsScreen extends AbstractScreen {
     public void onBackPressed() {
         super.onBackPressed();
 
-        stopCurrentSfx();
+        game.stopAllAudio();
 
         game.sfxService.onBackToMenuClicked();
 
@@ -168,9 +169,21 @@ public class FailsScreen extends AbstractScreen {
             audioService.stop(fail.storyAudio);
             fail.isPlaying = false;
         }
+
         for (GalleryFail fail : failsM) {
             audioService.stop(fail.storyAudio);
             fail.isPlaying = false;
+        }
+
+        if (!isDisposed) {
+
+            game.stopAllAudio();
+
+            audioService.stop();
+
+            for (AudioRow audioRow : failsFragment.audioRows) {
+                audioRow.init();
+            }
         }
     }
 

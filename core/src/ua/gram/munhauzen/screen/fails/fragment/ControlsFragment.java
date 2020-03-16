@@ -102,7 +102,7 @@ public class ControlsFragment extends Fragment {
 
                 try {
 
-                    screen.stopCurrentSfx();
+                    screen.game.stopAllAudio();
 
                     screen.game.sfxService.onBackToMenuClicked();
 

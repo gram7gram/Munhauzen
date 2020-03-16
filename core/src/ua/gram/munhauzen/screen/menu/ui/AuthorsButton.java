@@ -18,7 +18,7 @@ public class AuthorsButton extends MenuButton {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                screen.stopCurrentSfx();
+                screen.game.stopCurrentSfx();
 
                 screen.game.currentSfx = screen.game.sfxService.onMenuAuthorsClicked();
 

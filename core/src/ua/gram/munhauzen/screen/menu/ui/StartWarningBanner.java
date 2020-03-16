@@ -78,7 +78,7 @@ public class StartWarningBanner extends Banner {
 
                     yesBtn.setDisabled(true);
 
-                    screen.stopCurrentSfx();
+                    screen.game.stopCurrentSfx();
 
                     game.sfxService.onAnyBtnClicked();
 
@@ -110,7 +110,7 @@ public class StartWarningBanner extends Banner {
 
                     noBtn.setDisabled(true);
 
-                    screen.stopCurrentSfx();
+                    screen.game.stopCurrentSfx();
 
                     game.sfxService.onAnyBtnClicked();
 

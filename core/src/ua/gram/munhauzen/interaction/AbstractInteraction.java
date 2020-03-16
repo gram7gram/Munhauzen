@@ -27,6 +27,8 @@ public abstract class AbstractInteraction implements Disposable {
     public void start() {
         Log.i(tag, "start");
 
+//        gameScreen.audioService.stop();
+
         assetManager = new ExpansionAssetManager(gameScreen.game);
 
         GameState.unpause(tag);
@@ -43,6 +45,8 @@ public abstract class AbstractInteraction implements Disposable {
     public void dispose() {
         Log.i(tag, "dispose");
 
+//        gameScreen.audioService.stop();
+
         if (assetManager != null) {
             assetManager.dispose();
             assetManager = null;
@@ -52,4 +56,6 @@ public abstract class AbstractInteraction implements Disposable {
 
         GameState.unpause(tag);
     }
+
+    public abstract boolean isValid();
 }

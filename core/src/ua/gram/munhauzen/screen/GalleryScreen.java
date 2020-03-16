@@ -146,7 +146,7 @@ public class GalleryScreen extends AbstractScreen {
 
         beforeGalleryLeave();
 
-        stopCurrentSfx();
+        game.stopAllAudio();
 
         game.sfxService.onBackToMenuClicked();
 

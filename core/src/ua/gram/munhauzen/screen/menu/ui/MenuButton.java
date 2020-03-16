@@ -93,7 +93,7 @@ public abstract class MenuButton extends Stack {
 
                     screen.lockUI();
 
-                    screen.stopCurrentSfx();
+                    screen.game.stopCurrentSfx();
 
                     screen.game.sfxService.onAnyBtnClicked();
 

@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.FailsState;
+import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.screen.FailsScreen;
 import ua.gram.munhauzen.screen.fails.entity.GalleryFail;
 import ua.gram.munhauzen.screen.fails.ui.AudioRow;
@@ -40,6 +41,8 @@ public class FailsFragment extends Fragment {
     Image top, bottom;
     Table back;
     ImageButton failSourceBtn;
+    StoryAudio sfx;
+    public ArrayList<AudioRow> audioRows;
 
     public FailsFragment(FailsScreen screen) {
         this.screen = screen;
@@ -53,6 +56,8 @@ public class FailsFragment extends Fragment {
     public void create() {
 
         Log.i(tag, "create");
+
+        audioRows = new ArrayList<>();
 
         top = new Image();
         bottom = new Image();
@@ -178,8 +183,15 @@ public class FailsFragment extends Fragment {
 
         float width = MunhauzenGame.WORLD_WIDTH - 20 - rows.getPadLeft() - rows.getPadRight();
 
+        audioRows.clear();
+
         for (GalleryFail fail : fails) {
-            rows.add(new AudioRow(screen, fail, ++num, width))
+
+            AudioRow row = new AudioRow(screen, fail, ++num, width);
+
+            audioRows.add(row);
+
+            rows.add(row)
                     .padBottom(5)
                     .row();
         }
@@ -264,5 +276,15 @@ public class FailsFragment extends Fragment {
         });
 
         return btn;
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+
+        if (sfx != null) {
+            screen.game.sfxService.dispose(sfx);
+            sfx = null;
+        }
     }
 }

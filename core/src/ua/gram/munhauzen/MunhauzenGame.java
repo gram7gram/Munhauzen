@@ -30,7 +30,7 @@ public class MunhauzenGame extends Game {
     public static int WORLD_HEIGHT;
     public static boolean PAUSED = false;
 
-    public static final boolean DEBUG_UI = false;
+    public static final boolean DEBUG_UI = true;
     public static final int PROGRESS_BAR_FADE_OUT_DELAY = 5;
 
     public static String developmentScenario;
@@ -97,15 +97,6 @@ public class MunhauzenGame extends Game {
             backgroundSfxService = new BackgroundSfxService(this);
             databaseManager = new DatabaseManager(this);
             navigator = new Navigator(this);
-
-//            try {
-//
-//                String value = databaseManager.om.writeValueAsString(params);
-//                Log.i(tag, value);
-//
-//            } catch (Throwable ignore) {
-//
-//            }
 
             loadGameState();
             loadGlobalAssets();
@@ -287,13 +278,14 @@ public class MunhauzenGame extends Game {
     }
 
     public void stopCurrentSfx() {
+        if (sfxService == null) return;
+
         if (currentSfx != null) {
             sfxService.dispose(currentSfx);
-            sfxService.disposeInternal(currentSfx);
             currentSfx = null;
         }
 
-        sfxService.dispose();
+        sfxService.stop();
     }
 
     public void updateDpi() {
@@ -331,6 +323,19 @@ public class MunhauzenGame extends Game {
         } else {
             params.dpi = "mdpi";
             params.scaleFactor = 1;
+        }
+    }
+
+    public void stopAllAudio() {
+        try {
+
+            stopCurrentSfx();
+
+            if (backgroundSfxService != null)
+                backgroundSfxService.stop();
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
         }
     }
 }

@@ -80,7 +80,7 @@ public class ExitBanner extends Banner {
 
                     yesBtn.setDisabled(true);
 
-                    screen.stopCurrentSfx();
+                    screen.game.stopCurrentSfx();
                     StoryAudio audio = screen.game.currentSfx = game.sfxService.onExitYesClicked();
 
                     if (audio != null) {
@@ -112,7 +112,7 @@ public class ExitBanner extends Banner {
 
                     noBtn.setDisabled(true);
 
-                    screen.stopCurrentSfx();
+                    screen.game.stopCurrentSfx();
                     StoryAudio audio = screen.game.currentSfx = game.sfxService.onExitNoClicked();
 
                     if (audio != null) {

@@ -1,6 +1,7 @@
 package ua.gram.munhauzen.screen.fails.ui;
 
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -15,10 +16,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 
 import ua.gram.munhauzen.FontProvider;
+import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.AudioFail;
 import ua.gram.munhauzen.repository.AudioFailRepository;
 import ua.gram.munhauzen.screen.FailsScreen;
 import ua.gram.munhauzen.screen.fails.entity.GalleryFail;
+import ua.gram.munhauzen.utils.ExternalFiles;
 import ua.gram.munhauzen.utils.Log;
 
 public class AudioRow extends Table {
@@ -28,18 +31,24 @@ public class AudioRow extends Table {
     final GalleryFail fail;
     final int index;
     Label title, number;
-    Image lock, unlock, play;
-    float iconSize = 35;
+    Image icon;
+    float iconSize, width;
     Container<Image> iconContainer;
-    final Label.LabelStyle openedStyle, hiddenStyle;
+    final Label.LabelStyle openedStyle, hiddenStyle, errorStyle;
 
-    public AudioRow(final FailsScreen screen, final GalleryFail fail, int index, float width) {
+    public AudioRow(final FailsScreen screen, final GalleryFail fail, final int index, float width) {
 
         this.index = index;
+        this.width = width;
         this.screen = screen;
         this.fail = fail;
 
-        iconSize *= screen.game.params.scaleFactor;
+        iconSize = MunhauzenGame.WORLD_WIDTH * .05f;
+
+        errorStyle = new Label.LabelStyle(
+                screen.game.fontProvider.getFont(FontProvider.h4),
+                Color.RED
+        );
 
         openedStyle = new Label.LabelStyle(
                 screen.game.fontProvider.getFont(FontProvider.h4),
@@ -61,26 +70,14 @@ public class AudioRow extends Table {
         title.setWrap(true);
         title.setAlignment(Align.left);
 
-        play = new Image();
-        unlock = new Image();
+        icon = new Image();
 
-        lock = new Image();
-        lock.setRotation(-15);
-
-        float lblWidth = width - iconSize - number.getWidth() - 50;
-
-        iconContainer = new Container<>();
+        iconContainer = new Container<>(icon);
         iconContainer.align(Align.topLeft);
 
-        add(iconContainer)
-                .minWidth(iconSize).width(iconSize).maxWidth(iconSize)
-                .padRight(5)
-                .align(Align.topLeft);
-        add(number)
-                .align(Align.topLeft).padRight(5);
-        add(title)
-                .width(lblWidth)
-                .align(Align.topLeft).row();
+        add(iconContainer).align(Align.topLeft).padRight(5);
+        add(number).align(Align.topLeft).padRight(5);
+        add(title).align(Align.topLeft).row();
 
         addListener(new ClickListener() {
             @Override
@@ -89,25 +86,28 @@ public class AudioRow extends Table {
 
                 try {
 
+                    Log.i(tag, "clicked on " + fail.storyAudio.audio);
+
                     screen.stopAll();
 
                     screen.audioService.prepareAndPlay(fail.storyAudio);
 
-                    fail.isPlaying = true;
-                    fail.isListened = true;
+                    if (fail.storyAudio.player != null) {
+                        fail.isPlaying = true;
 
-                    if (fail.storyAudio.player != null)
                         fail.storyAudio.player.setOnCompletionListener(new Music.OnCompletionListener() {
                             @Override
                             public void onCompletion(Music music) {
-                                fail.isPlaying = false;
+                                screen.stopAll();
                             }
                         });
+                    }
+
+                    fail.isListened = true;
 
                     screen.game.gameState.failsState.listenedAudio.add(fail.storyAudio.audio);
 
-                    lock.remove();
-                    unlock.remove();
+                    init();
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -118,36 +118,18 @@ public class AudioRow extends Table {
         init();
     }
 
-    @Override
-    public void act(float delta) {
-        super.act(delta);
-
-        if (fail.isPlaying) {
-
-            if (!play.isVisible()) {
-                play.setVisible(true);
-
-                iconContainer.setActor(play);
-
-                setPlayBackground(
-                        screen.assetManager.get("ui/playbar_play.png", Texture.class)
-                );
-            }
-        } else {
-            play.setVisible(false);
-            play.remove();
-        }
-    }
-
     public void init() {
 
         AudioFail audioFail = AudioFailRepository.find(screen.game.gameState, fail.storyAudio.audio);
 
-        String text = audioFail.getDescription(screen.game.params.locale);
+        String text = audioFail.description;
 
         setTouchable(Touchable.enabled);
 
+        number.setStyle(openedStyle);
         title.setStyle(openedStyle);
+
+        icon.setVisible(true);
 
         if (!fail.isOpened) {
 
@@ -177,30 +159,44 @@ public class AudioRow extends Table {
 
             setTouchable(Touchable.disabled);
 
-            iconContainer.setActor(lock);
-
             setLockBackground(
                     screen.assetManager.get("gallery/b_closed_0.png", Texture.class)
             );
-        } else if (!fail.isListened) {
+        } else if (fail.isPlaying) {
 
-            iconContainer.setActor(unlock);
+            setPlayBackground(
+                    screen.assetManager.get("ui/playbar_play.png", Texture.class)
+            );
+        } else if (!fail.isListened) {
 
             setUnlockBackground(
                     screen.assetManager.get("gallery/b_opened_0.png", Texture.class)
             );
+        } else {
+            icon.setVisible(false);
+            getCell(iconContainer).size(iconSize);
         }
 
         title.setText(text);
+
+        float lblWidth = width - iconSize - number.getWidth() - 50;
+
+        getCell(title).width(lblWidth);
+
+        FileHandle file = ExternalFiles.getExpansionAudio(screen.game.params, audioFail);
+        if (!file.exists()) {
+            title.setStyle(errorStyle);
+            number.setStyle(errorStyle);
+        }
     }
 
     public void setLockBackground(Texture texture) {
 
-        lock.setDrawable(new SpriteDrawable(new Sprite(texture)));
+        icon.setDrawable(new SpriteDrawable(new Sprite(texture)));
 
         float width = iconSize;
-        float scale = 1f * width / lock.getDrawable().getMinWidth();
-        float height = 1f * lock.getDrawable().getMinHeight() * scale;
+        float scale = 1f * width / texture.getWidth();
+        float height = 1f * texture.getHeight() * scale;
 
         getCell(iconContainer)
                 .padTop(0)
@@ -210,11 +206,11 @@ public class AudioRow extends Table {
 
     public void setUnlockBackground(Texture texture) {
 
-        unlock.setDrawable(new SpriteDrawable(new Sprite(texture)));
+        icon.setDrawable(new SpriteDrawable(new Sprite(texture)));
 
         float width = iconSize;
-        float scale = 1f * width / unlock.getDrawable().getMinWidth();
-        float height = 1f * unlock.getDrawable().getMinHeight() * scale;
+        float scale = 1f * width / texture.getWidth();
+        float height = 1f * texture.getHeight() * scale;
 
         getCell(iconContainer)
                 .padTop(0)
@@ -223,11 +219,11 @@ public class AudioRow extends Table {
     }
 
     public void setPlayBackground(Texture texture) {
-        play.setDrawable(new SpriteDrawable(new Sprite(texture)));
+        icon.setDrawable(new SpriteDrawable(new Sprite(texture)));
 
         float width = iconSize;
-        float scale = 1f * width / play.getDrawable().getMinWidth();
-        float height = 1f * play.getDrawable().getMinHeight() * scale;
+        float scale = 1f * width / texture.getWidth();
+        float height = 1f * texture.getHeight() * scale;
 
         getCell(iconContainer)
                 .padTop(15)

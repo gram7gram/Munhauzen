@@ -36,7 +36,7 @@ public class StartButton extends MenuButton {
 
                             screen.game.databaseManager.persistSave(screen.game.gameState.activeSave);
 
-                            screen.stopCurrentSfx();
+                            screen.game.stopCurrentSfx();
                             screen.game.currentSfx = screen.game.sfxService.onMenuStartClicked();
 
                             screen.scaleAndNavigateTo(new GameScreen(screen.game));

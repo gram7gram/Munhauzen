@@ -81,7 +81,7 @@ public class SavesScreen extends AbstractScreen {
     public void onBackPressed() {
         super.onBackPressed();
 
-        stopCurrentSfx();
+        game.stopAllAudio();
 
         game.sfxService.onBackToMenuClicked();
 

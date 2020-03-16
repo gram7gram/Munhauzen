@@ -12,6 +12,7 @@ import ua.gram.munhauzen.ButtonBuilder;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.Chapter;
+import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.Scenario;
 import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.interaction.InteractionFactory;
@@ -54,8 +55,10 @@ public class LoadBanner extends Banner<ChaptersScreen> {
 
                 try {
 
+                    GameState state = screen.game.gameState;
+
                     Scenario match = null;
-                    for (Scenario scenario : screen.game.gameState.scenarioRegistry) {
+                    for (Scenario scenario : state.scenarioRegistry) {
                         if (InteractionFactory.CHAPTER.equals(scenario.interaction)) {
                             if (scenario.chapter.equals(chapter.name)) {
                                 match = scenario;
@@ -66,20 +69,45 @@ public class LoadBanner extends Banner<ChaptersScreen> {
 
                     if (match == null) return;
 
-                    screen.stopCurrentSfx();
+                    screen.game.stopAllAudio();
                     screen.game.sfxService.onLoadOptionYesClicked();
 
                     try {
-                        StoryManager storyManager = new StoryManager(null, screen.game.gameState);
+                        StoryManager storyManager = new StoryManager(null, state);
                         Story story = storyManager.create(match.name);
 
-                        screen.game.gameState.activeSave.story = story;
-                        screen.game.gameState.activeSave.chapter = chapter.name;
+                        state.activeSave.story = story;
+                        state.activeSave.chapter = chapter.name;
                     } catch (Throwable e) {
                         Log.e(tag, e);
                     }
 
-                    screen.game.databaseManager.persistSync(screen.game.gameState);
+                    try {
+                        String[] inventory = new String[]{
+                                "TEETH",
+                                "KOZ",
+                                "HALF_SLING",
+                                "STRAW",
+                                "BIRCH",
+                                "BALLOON",
+                                "LION_HANDS",
+                                "LION_PUNCH",
+                                "LION_HIT",
+                                "LION_SKY",
+                                "LION_SHOT",
+                                "CARROT",
+                                "WHIP",
+                                "LETTER"
+                        };
+
+                        for (String s : inventory) {
+                            state.activeSave.inventory.remove(s);
+                        }
+                    } catch (Throwable e) {
+                        Log.e(tag, e);
+                    }
+
+                    screen.game.databaseManager.persistSync(state);
 
                     screen.banner.fadeOut(new Runnable() {
                         @Override
@@ -101,7 +129,7 @@ public class LoadBanner extends Banner<ChaptersScreen> {
 
                 try {
 
-                    screen.stopCurrentSfx();
+                    screen.game.stopAllAudio();
                     screen.game.sfxService.onSaveOptionNoClicked();
 
                     screen.banner.fadeOut(new Runnable() {

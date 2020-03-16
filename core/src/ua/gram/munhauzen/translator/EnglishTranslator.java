@@ -189,18 +189,18 @@ public class EnglishTranslator implements Translator {
         map.put("chapter_banner.no_btn", "No");
 
         map.put("debug_screen.enable_skip", "Enable skip scenario");
-        map.put("debug_screen.open_fails", "Open all fails");
-        map.put("debug_screen.open_gallery", "Open all gallery");
+        map.put("debug_screen.open_fails", "Unlock all fails");
+        map.put("debug_screen.open_gallery", "Unlock all gallery");
         map.put("debug_screen.purge_history", "Reset history");
-        map.put("debug_screen.purge_all", "DELETE ALL");
+        map.put("debug_screen.purge_all", "DELETE EVERYTHING");
         map.put("debug_screen.updates", "Open updates");
         map.put("debug_screen.start", "Start");
         map.put("debug_screen.menu", "Menu");
         map.put("debug_screen.interaction", "Interactions");
         map.put("debug_screen.inventory", "Inventory");
         map.put("debug_screen.scenario", "Scenario");
-        map.put("debug_screen.open_scenario", "Open all scenario");
-        map.put("debug_screen.open_chapters", "Open all chapters");
+        map.put("debug_screen.open_scenario", "Unlock all scenario");
+        map.put("debug_screen.open_chapters", "Unlock all chapters");
 
     }
 

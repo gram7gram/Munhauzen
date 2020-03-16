@@ -307,12 +307,10 @@ public class CannonsStoryManager {
 
             GameState gameState = gameScreen.game.gameState;
 
-            gameState.history.visitedStories.add(story.id);
-            gameState.activeSave.visitedStories.add(story.id);
+            gameState.addVisitedScenario(story.id);
 
             for (CannonsStoryScenario storyScenario : story.scenarios) {
-                gameState.history.visitedStories.add(storyScenario.scenario.name);
-                gameState.activeSave.visitedStories.add(storyScenario.scenario.name);
+                gameState.addVisitedScenario(storyScenario.scenario.name);
             }
 
             for (StoryAudio audio : story.currentScenario.scenario.audio) {

@@ -12,13 +12,13 @@ public abstract class MenuFragment extends Fragment {
     }
 
     public void create() {
-        screen.stopCurrentSfx();
+        screen.game.stopCurrentSfx();
     }
 
     @Override
     public void dispose() {
         super.dispose();
 
-        screen.stopCurrentSfx();
+        screen.game.stopCurrentSfx();
     }
 }

@@ -34,6 +34,11 @@ public class GeneralsInteraction extends AbstractInteraction {
     }
 
     @Override
+    public boolean isValid() {
+        return storyManager != null && storyManager.story != null;
+    }
+
+    @Override
     public void start() {
         super.start();
 

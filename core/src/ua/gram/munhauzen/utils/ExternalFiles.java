@@ -73,7 +73,7 @@ public class ExternalFiles {
     }
 
     public static FileHandle getExpansionAudio(PlatformParams params, AudioFail audio) {
-        return Gdx.files.external(getExpansionDir(params).path() + "/" + audio.file);
+        return Gdx.files.external(getExpansionDir(params).path() + "/" + audio.file.replace(".mp3", ".aac"));
     }
 
     public static FileHandle getExpansionImage(PlatformParams params, Image image) {

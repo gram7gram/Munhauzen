@@ -103,7 +103,7 @@ public class ShareFragment extends Fragment {
                 })
         ));
 
-        screen.stopCurrentSfx();
+        screen.game.stopAllAudio();
 
         screen.game.currentSfx = screen.game.sfxService.onShareBannerShown();
     }

@@ -16,9 +16,9 @@ import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.interaction.ServantsInteraction;
 import ua.gram.munhauzen.interaction.servants.fragment.ServantsFireImageFragment;
 import ua.gram.munhauzen.screen.game.fragment.ControlsFragment;
+import ua.gram.munhauzen.screen.game.fragment.GameProgressBarFragment;
 import ua.gram.munhauzen.screen.game.fragment.GameScenarioFragment;
 import ua.gram.munhauzen.screen.game.fragment.ImageFragment;
-import ua.gram.munhauzen.screen.game.fragment.ProgressBarFragment;
 import ua.gram.munhauzen.screen.game.fragment.PurchaseFragment;
 import ua.gram.munhauzen.screen.game.fragment.VictoryFragment;
 import ua.gram.munhauzen.screen.game.listener.StageInputListener;
@@ -45,7 +45,7 @@ public class GameScreen implements Screen {
     public ExpansionAssetManager assetManager;
     public StoryManager storyManager;
     public GameScenarioFragment scenarioFragment;
-    public ProgressBarFragment progressBarFragment;
+    public GameProgressBarFragment progressBarFragment;
     public ImageFragment imageFragment;
     public ControlsFragment controlsFragment;
     public GameAudioService audioService;
@@ -92,8 +92,6 @@ public class GameScreen implements Screen {
 
         if (game.backgroundSfxService != null) {
             game.backgroundSfxService.stop();
-            game.backgroundSfxService.dispose();
-            game.backgroundSfxService = null;
         }
 
         GameState.isEndingReached = false;
@@ -104,7 +102,7 @@ public class GameScreen implements Screen {
         background = game.internalAssetManager.get("p0.jpg", Texture.class);
 
         assetManager = new ExpansionAssetManager(game);
-        progressBarFragment = new ProgressBarFragment(this);
+        progressBarFragment = new GameProgressBarFragment(this);
 
         audioService = new GameAudioService(this);
         imageService = new ExpansionImageService(this);

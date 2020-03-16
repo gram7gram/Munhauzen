@@ -199,7 +199,7 @@ public class ControlsFragment extends Fragment {
 
         Table startTable = new Table();
         startTable.add(startMessage)
-                .width(MunhauzenGame.WORLD_WIDTH * .75f)
+                .width(MunhauzenGame.WORLD_WIDTH * .9f)
                 .padBottom(10).row();
 //        startTable.add(qualityMessage)
 //                .width(MunhauzenGame.WORLD_WIDTH * .75f)
@@ -210,7 +210,7 @@ public class ControlsFragment extends Fragment {
 
         Table retryTable = new Table();
         retryTable.add(retryTitle)
-                .width(MunhauzenGame.WORLD_WIDTH * .75f)
+                .width(MunhauzenGame.WORLD_WIDTH * .9f)
                 .padBottom(10).row();
         retryTable.add(retryBtn)
                 .width(ButtonBuilder.BTN_PRIMARY_WIDTH)

@@ -77,7 +77,7 @@ public class ControlsFragment extends Fragment {
                 public void clicked(InputEvent event, float x, float y) {
                     super.clicked(event, x, y);
 
-                    screen.stopCurrentSfx();
+                    screen.game.stopAllAudio();
 
                     screen.navigateTo(new DebugScreen(screen.game));
                 }
@@ -510,7 +510,7 @@ public class ControlsFragment extends Fragment {
 
                 try {
 
-                    screen.stopCurrentSfx();
+                    screen.game.stopCurrentSfx();
 
                     screen.exitFragment = new ExitFragment(screen);
                     screen.exitFragment.create();

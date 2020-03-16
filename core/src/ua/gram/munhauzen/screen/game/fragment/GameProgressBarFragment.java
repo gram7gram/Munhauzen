@@ -1,52 +1,55 @@
-package ua.gram.munhauzen.interaction.picture.fragment;
+package ua.gram.munhauzen.screen.game.fragment;
 
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.GameState;
+import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.entity.StoryAudio;
-import ua.gram.munhauzen.interaction.PictureInteraction;
-import ua.gram.munhauzen.interaction.picture.PictureStory;
-import ua.gram.munhauzen.interaction.picture.PictureStoryScenario;
+import ua.gram.munhauzen.entity.StoryScenario;
+import ua.gram.munhauzen.interaction.ContinueInteraction;
+import ua.gram.munhauzen.interaction.DummyInteraction;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.screen.game.ui.StoryProgressBar;
 import ua.gram.munhauzen.utils.Log;
 
-/**
- * @author Gram <gram7gram@gmail.com>
- */
-public class PictureProgressBarFragment extends StoryProgressBar<PictureInteraction> {
+public class GameProgressBarFragment extends StoryProgressBar<DummyInteraction> {
 
-    public PictureProgressBarFragment(GameScreen gameScreen, PictureInteraction interaction) {
-        super(gameScreen, interaction);
+    public GameProgressBarFragment(GameScreen gameScreen) {
+        super(gameScreen);
     }
 
     @Override
     public void create() {
         super.create();
 
-        skipBackButton.addListener(new ClickListener() {
+        skipBackButton.addListener(new InputListener() {
 
             @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                super.enter(event, x, y, pointer, fromActor);
 
                 try {
-                    PictureStory story = interaction.storyManager.story;
+                    Story story = gameScreen.getStory();
+                    if (story == null) return;
                     if (story.currentScenario == null) return;
 
+                    StoryScenario skipTo;
                     if (story.currentScenario.previous != null) {
-                        story.progress = story.currentScenario.previous.startsAt;
+                        skipTo = story.currentScenario.previous;
                     } else {
-                        story.progress = story.currentScenario.startsAt;
+                        skipTo = story.currentScenario;
                     }
+
+                    Log.i(tag, "skipBackButton to " + skipTo.scenario.name + " at " + skipTo.startsAt + " ms");
+
+                    story.progress = skipTo.startsAt;
 
                     postProgressChanged();
 
@@ -61,24 +64,19 @@ public class PictureProgressBarFragment extends StoryProgressBar<PictureInteract
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 super.exit(event, x, y, pointer, toActor);
 
-                try {
-                    GameState.unpause(tag);
-
-                    startCurrentMusicIfPaused();
-                } catch (Throwable e) {
-                    Log.e(tag, e);
-                }
+                restartScenario();
             }
         });
 
-        skipForwardButton.addListener(new ClickListener() {
+        skipForwardButton.addListener(new InputListener() {
 
             @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                super.enter(event, x, y, pointer, fromActor);
 
                 try {
-                    PictureStory story = interaction.storyManager.story;
+                    Story story = gameScreen.getStory();
+                    if (story == null) return;
                     if (story.currentScenario == null) return;
 
                     if (story.currentScenario.next != null) {
@@ -100,19 +98,7 @@ public class PictureProgressBarFragment extends StoryProgressBar<PictureInteract
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 super.exit(event, x, y, pointer, toActor);
 
-                try {
-
-                    if (!interaction.isValid()) return;
-
-                    PictureStory story = interaction.storyManager.story;
-                    if (story == null || story.isCompleted) return;
-
-                    GameState.unpause(tag);
-
-                    startCurrentMusicIfPaused();
-                } catch (Throwable e) {
-                    Log.e(tag, e);
-                }
+                restartScenario();
             }
         });
 
@@ -121,24 +107,31 @@ public class PictureProgressBarFragment extends StoryProgressBar<PictureInteract
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 super.enter(event, x, y, pointer, fromActor);
-                try {
 
+                try {
                     Log.i(tag, "rewindBackButton enter");
 
                     gameScreen.audioService.pause();
 
                     GameState.pause(tag);
 
-                    if (interaction.scenarioFragment != null) {
-                        interaction.scenarioFragment.destroy();
-                        interaction.scenarioFragment = null;
-                    }
-
                     progressTask = Timer.schedule(new Timer.Task() {
                         @Override
                         public void run() {
                             try {
-                                PictureStory story = interaction.storyManager.story;
+                                Story story = gameScreen.getStory();
+                                if (story == null) return;
+
+                                //jump progress so that interaction does not start immediately
+                                //example - Continue interaction
+                                StoryScenario scenario = story.last();
+                                if (scenario != null) {
+                                    if (scenario.scenario.interaction != null) {
+                                        if (story.progress >= scenario.startsAt) {
+                                            story.progress = scenario.startsAt - 1;
+                                        }
+                                    }
+                                }
 
                                 story.progress -= story.totalDuration * 0.025f;
 
@@ -149,13 +142,13 @@ public class PictureProgressBarFragment extends StoryProgressBar<PictureInteract
                                 }
 
                                 postProgressChanged();
+
                             } catch (Throwable e) {
                                 Log.e(tag, e);
                             }
                         }
                     }, 0, 0.05f);
 
-//                    gameScreen.game.sfxService.onProgressScrollStart();
                     gameScreen.game.sfxService.onProgressScroll();
 
                 } catch (Throwable e) {
@@ -189,7 +182,8 @@ public class PictureProgressBarFragment extends StoryProgressBar<PictureInteract
                         @Override
                         public void run() {
                             try {
-                                PictureStory story = interaction.storyManager.story;
+                                Story story = gameScreen.getStory();
+                                if (story == null) return;
 
                                 story.progress += story.totalDuration * 0.025f;
 
@@ -210,7 +204,6 @@ public class PictureProgressBarFragment extends StoryProgressBar<PictureInteract
                         }
                     }, 0, 0.05f);
 
-//                    gameScreen.game.sfxService.onProgressScrollStart();
                     gameScreen.game.sfxService.onProgressScroll();
 
                 } catch (Throwable e) {
@@ -230,22 +223,16 @@ public class PictureProgressBarFragment extends StoryProgressBar<PictureInteract
         bar.addListener(new ActorGestureListener() {
 
             private void scrollTo(float percent) {
-
                 try {
                     gameScreen.audioService.pause();
 
-                    PictureStory story = interaction.storyManager.story;
+                    Story story = gameScreen.getStory();
 
-                    story.progress = story.totalDuration * percent;
+                    //do not scroll till the end
+                    story.progress = Math.min(story.totalDuration * .975f, story.totalDuration * percent);
 
                     postProgressChanged();
 
-                    if (!story.isCompleted) {
-                        if (interaction.scenarioFragment != null) {
-                            interaction.scenarioFragment.destroy();
-                            interaction.scenarioFragment = null;
-                        }
-                    }
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -255,23 +242,16 @@ public class PictureProgressBarFragment extends StoryProgressBar<PictureInteract
             public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchDown(event, x, y, pointer, button);
 
-                gameScreen.game.sfxService.onProgressSkip();
-
                 cancelFadeOut();
+
+                gameScreen.game.sfxService.onProgressSkip();
             }
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
 
-                try {
-                    GameState.unpause(tag);
-
-                    startCurrentMusicIfPaused();
-
-                } catch (Throwable e) {
-                    Log.e(tag, e);
-                }
+                restartScenario();
             }
 
             @Override
@@ -279,6 +259,7 @@ public class PictureProgressBarFragment extends StoryProgressBar<PictureInteract
                 super.tap(event, x, y, count, button);
 
                 try {
+
                     float totalLength = Math.max(1, bar.getWidth());
 
                     float percent = x / totalLength;
@@ -286,6 +267,7 @@ public class PictureProgressBarFragment extends StoryProgressBar<PictureInteract
                     GameState.pause(tag);
 
                     scrollTo(percent);
+
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -296,6 +278,7 @@ public class PictureProgressBarFragment extends StoryProgressBar<PictureInteract
                 super.pan(event, x, y, deltaX, deltaY);
 
                 try {
+
                     float totalLength = Math.max(1, bar.getWidth());
 
                     float percent = x / totalLength;
@@ -303,6 +286,7 @@ public class PictureProgressBarFragment extends StoryProgressBar<PictureInteract
                     GameState.pause(tag);
 
                     scrollTo(percent);
+
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -313,10 +297,17 @@ public class PictureProgressBarFragment extends StoryProgressBar<PictureInteract
     public void update() {
 
         if (!isMounted()) return;
+        if (!root.isVisible()) return;
 
-        if (!interaction.isValid()) return;
+        Story story = gameScreen.getStory();
+        if (story == null) return;
 
-        PictureStory story = interaction.storyManager.story;
+        boolean hasPrevious = false, hasNext = false;
+
+        if (story.currentScenario != null) {
+            hasPrevious = true;
+            hasNext = true;
+        }
 
         boolean hasVisitedBefore = MunhauzenGame.developmentSkipEnable || gameScreen.game.gameState.history.visitedStories.contains(story.id);
 
@@ -330,50 +321,62 @@ public class PictureProgressBarFragment extends StoryProgressBar<PictureInteract
             playButton.setVisible(GameState.isPaused);
         }
 
-        skipForwardButton.setDisabled(!hasVisitedBefore || story.isCompleted);
+        skipForwardButton.setDisabled(!hasVisitedBefore || story.isCompleted || !hasNext || story.isInteractionLocked());
         skipForwardButton.setTouchable(skipForwardButton.isDisabled() ? Touchable.disabled : Touchable.enabled);
 
-        skipBackButton.setDisabled(story.progress == 0);
+        skipBackButton.setDisabled(story.progress == 0 || !hasPrevious);
         skipBackButton.setTouchable(skipBackButton.isDisabled() ? Touchable.disabled : Touchable.enabled);
 
-        rewindForwardButton.setDisabled(!hasVisitedBefore || story.isCompleted);
+        rewindForwardButton.setDisabled(!hasVisitedBefore || story.isCompleted || story.isInteractionLocked());
         rewindForwardButton.setTouchable(rewindForwardButton.isDisabled() ? Touchable.disabled : Touchable.enabled);
 
         rewindBackButton.setDisabled(story.progress == 0);
         rewindBackButton.setTouchable(rewindBackButton.isDisabled() ? Touchable.disabled : Touchable.enabled);
 
-        bar.setRange(0, story.totalDuration);
+        bar.setRange(0, Math.max(10, story.totalDuration));
         bar.setValue(story.progress);
     }
 
-    @Override
+    public void destroyContinueInteraction() {
+        Story story = gameScreen.getStory();
+
+        if (story.currentInteraction != null) {
+            if (story.currentInteraction.interaction instanceof ContinueInteraction) {
+                gameScreen.interactionService.destroy();
+
+                story.currentInteraction = null;
+
+                gameScreen.restoreProgressBarIfDestroyed();
+            }
+
+            story.currentInteraction = null;
+        }
+    }
+
     public void startCurrentMusicIfPaused() {
 
-        if (!interaction.isValid()) return;
-
-        PictureStory story = interaction.storyManager.story;
+        Story story = gameScreen.getStory();
+        if (story == null) return;
         if (story.isCompleted) return;
 
-        for (PictureStoryScenario scenarioOption : story.scenarios) {
+        for (StoryScenario scenarioOption : story.scenarios) {
             if (scenarioOption != story.currentScenario) {
                 for (StoryAudio audio : scenarioOption.scenario.audio) {
-                    Music player = audio.player;
-                    if (player != null) {
+                    if (audio.player != null) {
                         audio.isActive = false;
-                        player.pause();
+                        audio.player.pause();
                     }
                 }
             } else {
                 for (StoryAudio audio : scenarioOption.scenario.audio) {
-                    Music player = audio.player;
-                    if (player != null) {
+                    if (audio.player != null) {
                         if (audio.isLocked) {
-                            if (!story.isCompleted && !audio.isActive) {
+                            if (!audio.isActive) {
                                 gameScreen.audioService.prepareAndPlay(audio);
                             }
                         } else {
                             audio.isActive = false;
-                            player.pause();
+                            audio.player.pause();
                         }
                     }
                 }
@@ -382,29 +385,54 @@ public class PictureProgressBarFragment extends StoryProgressBar<PictureInteract
     }
 
     @Override
+    public boolean canFadeOut() {
+        return super.canFadeOut() && gameScreen.scenarioFragment == null;
+    }
+
+    @Override
     public void postProgressChanged() {
         try {
-            PictureStory story = interaction.storyManager.story;
+            Story story = gameScreen.getStory();
+            if (story == null) return;
 
             boolean isCompletedBefore = story.isCompleted;
 
+            destroyContinueInteraction();
+
             story.update(story.progress, story.totalDuration);
 
-            if (story.isValid()) {
-                if (!isCompletedBefore && story.isCompleted) {
-                    if (interaction.scenarioFragment == null) {
-                        interaction.storyManager.onCompleted();
-                    }
+            if (!story.isCompleted) {
+                gameScreen.hideAndDestroyScenarioFragment();
+            }
 
+            if (!isCompletedBefore && story.isCompleted) {
+
+                if (canCompleteStory(story)) {
+                    gameScreen.storyManager.onCompleted();
                 }
             }
+        } catch (GdxRuntimeException e) {
+            Log.e(tag, e);
+
+            gameScreen.onCriticalError(e);
+
         } catch (Throwable e) {
             Log.e(tag, e);
         }
     }
 
-    @Override
-    public boolean canFadeOut() {
-        return super.canFadeOut() && interaction.scenarioFragment == null;
+    private boolean canCompleteStory(Story story) {
+        boolean isInteractionLocked = story.currentInteraction != null
+                && story.currentInteraction.isLocked;
+
+        if (isInteractionLocked) {
+            return false;
+        }
+
+        if (gameScreen.scenarioFragment == null) {
+            return true;
+        }
+
+        return !gameScreen.scenarioFragment.storyId.equals(story.id);
     }
 }

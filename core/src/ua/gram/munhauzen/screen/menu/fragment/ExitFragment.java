@@ -82,7 +82,7 @@ public class ExitFragment extends MenuFragment {
                 )
         ));
 
-        screen.stopCurrentSfx();
+        screen.game.stopCurrentSfx();
 
         screen.game.currentSfx = screen.game.sfxService.onExitClicked();
     }

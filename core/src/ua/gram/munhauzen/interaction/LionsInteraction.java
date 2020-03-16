@@ -18,6 +18,11 @@ public class LionsInteraction extends AbstractInteraction {
     }
 
     @Override
+    public boolean isValid() {
+        return true;
+    }
+
+    @Override
     public void start() {
         super.start();
 

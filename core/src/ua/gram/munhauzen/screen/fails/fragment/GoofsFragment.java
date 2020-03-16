@@ -98,7 +98,7 @@ public class GoofsFragment extends Fragment {
                 })
         ));
 
-        screen.stopCurrentSfx();
+        screen.game.stopAllAudio();
     }
 
     public boolean canFadeOut() {

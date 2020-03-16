@@ -198,7 +198,4 @@ public abstract class AbstractScreen implements Screen {
         game.navigator.navigateTo(screen);
     }
 
-    public void stopCurrentSfx() {
-        game.stopCurrentSfx();
-    }
 }

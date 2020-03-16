@@ -92,7 +92,7 @@ public class DemoFragment extends Fragment {
                 })
         ));
 
-        screen.stopCurrentSfx();
+        screen.game.stopAllAudio();
 
         screen.game.currentSfx = screen.game.sfxService.onDemoBannerShown();
     }

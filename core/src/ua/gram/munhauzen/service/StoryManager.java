@@ -75,7 +75,13 @@ public class StoryManager {
 
         Story story = gameScreen.getStory();
         if (story != null) {
-            story.init();
+            if (!story.isInit) {
+                float progressBefore = story.progress;
+
+                story.init();
+
+                story.update(progressBefore, story.totalDuration);
+            }
         }
 
         if (story == null || !story.isValid()) {
@@ -256,13 +262,11 @@ public class StoryManager {
 
             gameState.menuState.isContinueEnabled = true;
 
-            gameState.history.visitedStories.add(story.id);
-            gameState.activeSave.visitedStories.add(story.id);
+            gameState.addVisitedScenario(story.id);
 
             for (StoryScenario storyScenario : story.scenarios) {
 
-                gameState.history.visitedStories.add(storyScenario.scenario.name);
-                gameState.activeSave.visitedStories.add(storyScenario.scenario.name);
+                gameState.addVisitedScenario(storyScenario.scenario.name);
 
                 gameState.history.visitedChapters.add(storyScenario.scenario.chapter);
                 gameState.activeSave.visitedChapters.add(storyScenario.scenario.chapter);

@@ -90,7 +90,7 @@ public class GalleryBannerFragment extends Fragment {
                 })
         ));
 
-        screen.stopCurrentSfx();
+        screen.game.stopAllAudio();
     }
 
     public boolean canFadeOut() {

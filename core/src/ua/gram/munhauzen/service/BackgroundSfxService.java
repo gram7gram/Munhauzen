@@ -8,6 +8,7 @@ import ua.gram.munhauzen.entity.Audio;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.repository.AudioRepository;
+import ua.gram.munhauzen.utils.ExpansionAssetManager;
 import ua.gram.munhauzen.utils.Log;
 import ua.gram.munhauzen.utils.Random;
 
@@ -16,6 +17,7 @@ public class BackgroundSfxService {
     final String tag = getClass().getSimpleName();
     final MunhauzenGame game;
     StoryAudio activeAudio;
+    final ExpansionAssetManager expansionAssetManager;
     public boolean isPlaying;
 
     int index;
@@ -33,6 +35,7 @@ public class BackgroundSfxService {
     public BackgroundSfxService(MunhauzenGame game) {
         this.game = game;
         index = new Random().between(-1, sfx.length);
+        expansionAssetManager = new ExpansionAssetManager(game);
     }
 
     public void start() {
@@ -47,7 +50,7 @@ public class BackgroundSfxService {
         prepareAndPlay(sfx[index]);
     }
 
-    public void stop() {
+    public void fade() {
         Log.i(tag, "stop");
 
         isPlaying = false;
@@ -61,7 +64,7 @@ public class BackgroundSfxService {
             float progress = 0;
 
             private void complete() {
-                dispose();
+                stop();
                 cancel();
             }
 
@@ -94,7 +97,6 @@ public class BackgroundSfxService {
     private void prepareAndPlay(String sfx) {
 
         try {
-            if (game.expansionAssetManager == null) return;
             if (GameState.isMute) return;
 
             final Audio audio = AudioRepository.find(game.gameState, sfx);
@@ -110,15 +112,15 @@ public class BackgroundSfxService {
                 public void run() {
 
                     try {
-                        if (game.expansionAssetManager == null || activeAudio == null) {
+                        if (activeAudio == null) {
                             return;
                         }
 
-                        game.expansionAssetManager.load(audio.file, Music.class);
+                        expansionAssetManager.load(audio.file, Music.class);
 
-                        game.expansionAssetManager.finishLoading();
+                        expansionAssetManager.finishLoading();
 
-                        Music sound = game.expansionAssetManager.get(audio.file, Music.class);
+                        Music sound = expansionAssetManager.get(audio.file, Music.class);
                         sound.play();
 
                         activeAudio.player = sound;
@@ -127,7 +129,7 @@ public class BackgroundSfxService {
                             @Override
                             public void onCompletion(Music music) {
 
-                                dispose();
+                                stop();
 
                                 if (isPlaying) {
                                     start();
@@ -153,18 +155,29 @@ public class BackgroundSfxService {
     }
 
     public void update() {
+        expansionAssetManager.update();
+
         if (activeAudio != null && activeAudio.player != null && isPlaying) {
             activeAudio.player.setVolume(GameState.isMute ? 0 : 1);
         }
     }
 
-    public void dispose() {
-        Log.i(tag, "dispose");
+    public void stop() {
 
         if (activeAudio != null) {
             dispose(activeAudio);
             activeAudio = null;
         }
+
+        expansionAssetManager.clear();
+    }
+
+    public void dispose() {
+        Log.i(tag, "dispose");
+
+        stop();
+
+        expansionAssetManager.dispose();
     }
 
     public void dispose(StoryAudio storyAudio) {
@@ -174,8 +187,6 @@ public class BackgroundSfxService {
             storyAudio.player = null;
         }
 
-        if (game.expansionAssetManager != null) {
-            game.expansionAssetManager.unload(storyAudio.resource);
-        }
+        expansionAssetManager.unload(storyAudio.resource);
     }
 }

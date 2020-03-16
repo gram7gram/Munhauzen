@@ -105,7 +105,7 @@ public class ControlsFragment extends Fragment {
 
                 try {
 
-                    screen.stopCurrentSfx();
+                    screen.game.stopAllAudio();
 
                     screen.game.sfxService.onBackToMenuClicked();
 
@@ -223,40 +223,31 @@ public class ControlsFragment extends Fragment {
 
                 try {
                     for (Scenario s : game.gameState.scenarioRegistry) {
-                        game.gameState.history.visitedStories.add(s.name);
-                        game.gameState.activeSave.visitedStories.add(s.name);
+                        game.gameState.addVisitedScenario(s.name);
                     }
                     for (CannonsScenario s : game.databaseManager.loadCannonsScenario()) {
-                        game.gameState.history.visitedStories.add(s.name);
-                        game.gameState.activeSave.visitedStories.add(s.name);
+                        game.gameState.addVisitedScenario(s.name);
                     }
                     for (GeneralsScenario s : game.databaseManager.loadGeneralsScenario()) {
-                        game.gameState.history.visitedStories.add(s.name);
-                        game.gameState.activeSave.visitedStories.add(s.name);
+                        game.gameState.addVisitedScenario(s.name);
                     }
                     for (HareScenario s : game.databaseManager.loadHareScenario()) {
-                        game.gameState.history.visitedStories.add(s.name);
-                        game.gameState.activeSave.visitedStories.add(s.name);
+                        game.gameState.addVisitedScenario(s.name);
                     }
                     for (PictureScenario s : game.databaseManager.loadPictureScenario()) {
-                        game.gameState.history.visitedStories.add(s.name);
-                        game.gameState.activeSave.visitedStories.add(s.name);
+                        game.gameState.addVisitedScenario(s.name);
                     }
                     for (HireScenario s : game.databaseManager.loadServantsHireScenario()) {
-                        game.gameState.history.visitedStories.add(s.name);
-                        game.gameState.activeSave.visitedStories.add(s.name);
+                        game.gameState.addVisitedScenario(s.name);
                     }
                     for (Timer2Scenario s : game.databaseManager.loadTimer2Scenario()) {
-                        game.gameState.history.visitedStories.add(s.name);
-                        game.gameState.activeSave.visitedStories.add(s.name);
+                        game.gameState.addVisitedScenario(s.name);
                     }
                     for (TimerScenario s : game.databaseManager.loadTimerScenario()) {
-                        game.gameState.history.visitedStories.add(s.name);
-                        game.gameState.activeSave.visitedStories.add(s.name);
+                        game.gameState.addVisitedScenario(s.name);
                     }
                     for (WauScenario s : game.databaseManager.loadWauwauScenario()) {
-                        game.gameState.history.visitedStories.add(s.name);
-                        game.gameState.activeSave.visitedStories.add(s.name);
+                        game.gameState.addVisitedScenario(s.name);
                     }
 
                     game.databaseManager.persistSync(game.gameState);

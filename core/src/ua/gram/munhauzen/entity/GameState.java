@@ -81,4 +81,13 @@ public class GameState {
 
         return items;
     }
+
+    public void addVisitedScenario(String scenario) {
+        history.visitedStories.add(scenario);
+        activeSave.visitedStories.add(scenario);
+
+        if (scenario.equals("a61_bonus") || scenario.equals("a62_fin_chapter")) {
+            activeSave.inventory.remove("BIRCH");
+        }
+    }
 }

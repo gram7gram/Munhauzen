@@ -25,7 +25,7 @@ public class ShareSideButton extends AnimatedImage {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                screen.stopCurrentSfx();
+                screen.game.stopCurrentSfx();
 
                 screen.game.sfxService.onAnyBtnClicked();
 

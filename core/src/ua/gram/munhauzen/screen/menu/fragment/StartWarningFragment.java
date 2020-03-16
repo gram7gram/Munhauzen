@@ -86,7 +86,7 @@ public class StartWarningFragment extends MenuFragment {
                 )
         ));
 
-        screen.stopCurrentSfx();
+        screen.game.stopCurrentSfx();
     }
 
     public void fadeOut(Runnable task) {

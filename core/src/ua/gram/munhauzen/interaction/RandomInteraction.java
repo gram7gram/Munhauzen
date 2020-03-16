@@ -19,6 +19,11 @@ public class RandomInteraction extends AbstractInteraction {
     }
 
     @Override
+    public boolean isValid() {
+        return true;
+    }
+
+    @Override
     public void start() {
         super.start();
 

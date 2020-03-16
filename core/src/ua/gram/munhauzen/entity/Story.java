@@ -22,7 +22,7 @@ public class Story implements JsonEntry {
     @JsonIgnore
     public StoryInteraction currentInteraction;
     @JsonIgnore
-    private boolean isInit;
+    public boolean isInit;
 
     public Story() {
         scenarios = new ArrayList<>();

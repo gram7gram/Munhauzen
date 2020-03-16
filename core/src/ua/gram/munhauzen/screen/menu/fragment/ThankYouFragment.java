@@ -111,7 +111,7 @@ public class ThankYouFragment extends MenuFragment {
                 })
         ));
 
-        screen.stopCurrentSfx();
+        screen.game.stopCurrentSfx();
 
         screen.game.currentSfx = screen.game.sfxService.onThankYouBannerShown();
     }
@@ -172,10 +172,4 @@ public class ThankYouFragment extends MenuFragment {
         return root;
     }
 
-    @Override
-    public void dispose() {
-        super.dispose();
-
-        screen.stopCurrentSfx();
-    }
 }

@@ -205,12 +205,10 @@ public class TimerStoryManager {
 
             GameState gameState = gameScreen.game.gameState;
 
-            gameState.history.visitedStories.add(story.id);
-            gameState.activeSave.visitedStories.add(story.id);
+            gameState.addVisitedScenario(story.id);
 
             for (TimerStoryScenario storyScenario : story.scenarios) {
-                gameState.history.visitedStories.add(storyScenario.scenario.name);
-                gameState.activeSave.visitedStories.add(storyScenario.scenario.name);
+                gameState.addVisitedScenario(storyScenario.scenario.name);
             }
 
             Set<String> inventory = gameScreen.game.inventoryService.getAllInventory();

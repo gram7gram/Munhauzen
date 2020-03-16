@@ -99,7 +99,7 @@ public class ImageRow extends Stack {
 
     public void init() {
 
-        Cell iconCell = content.getCells().get(0);
+        Cell<?> iconCell = content.getCells().get(0);
         iconCell.clearActor();
 
         String text = paintingImage.image.description;
