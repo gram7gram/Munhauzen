@@ -101,6 +101,7 @@ public class LoadBanner extends Banner<ChaptersScreen> {
                         };
 
                         for (String s : inventory) {
+                            state.history.globalInventory.remove(s);
                             state.activeSave.inventory.remove(s);
                         }
                     } catch (Throwable e) {
@@ -108,6 +109,8 @@ public class LoadBanner extends Banner<ChaptersScreen> {
                     }
 
                     screen.game.databaseManager.persistSync(state);
+
+                    screen.game.databaseManager.loadExternal(state);
 
                     screen.banner.fadeOut(new Runnable() {
                         @Override

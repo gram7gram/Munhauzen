@@ -87,6 +87,7 @@ public class GameState {
         activeSave.visitedStories.add(scenario);
 
         if (scenario.equals("a61_bonus") || scenario.equals("a62_fin_chapter")) {
+            history.globalInventory.remove("BIRCH");
             activeSave.inventory.remove("BIRCH");
         }
     }

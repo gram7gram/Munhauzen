@@ -175,11 +175,11 @@ public class FailsScreen extends AbstractScreen {
             fail.isPlaying = false;
         }
 
+        audioService.stop();
+
         if (!isDisposed) {
 
             game.stopAllAudio();
-
-            audioService.stop();
 
             for (AudioRow audioRow : failsFragment.audioRows) {
                 audioRow.init();

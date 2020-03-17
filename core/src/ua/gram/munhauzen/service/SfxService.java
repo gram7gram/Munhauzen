@@ -277,15 +277,15 @@ public class SfxService {
     }
 
     public void onBackToMenuClicked() {
-        prepareAndPlay("sfx_button_back");
+        prepareAndPlayIndependant("sfx_button_back", true, false);
 
-        prepareAndPlay(MathUtils.random(new String[]{
+        prepareAndPlayIndependant(MathUtils.random(new String[]{
                 "sfx_menu_back_1",
                 "sfx_menu_back_2",
                 "sfx_menu_back_3",
                 "sfx_menu_back_4",
                 "sfx_menu_back_BD"
-        }));
+        }), true, false);
     }
 
     public void onOnePuzzleItemCombined() {

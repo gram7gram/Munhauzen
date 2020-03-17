@@ -427,5 +427,11 @@ public class ControlsFragment extends Fragment {
         GameState.isMute = !GameState.isMute;
 
         Log.i(tag, "Sound is " + (!GameState.isMute ? "ON" : "OFF"));
+
+        if (GameState.isMute) {
+            gameScreen.game.sfxService.onSoundDisabled();
+        } else {
+            gameScreen.game.sfxService.onSoundEnabled();
+        }
     }
 }
