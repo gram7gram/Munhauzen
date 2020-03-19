@@ -108,9 +108,7 @@ public class LoadBanner extends Banner<ChaptersScreen> {
                         Log.e(tag, e);
                     }
 
-                    screen.game.databaseManager.persistSync(state);
-
-                    screen.game.databaseManager.loadExternal(state);
+                    screen.game.syncState();
 
                     screen.banner.fadeOut(new Runnable() {
                         @Override

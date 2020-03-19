@@ -64,7 +64,7 @@ public class IAPObserver implements PurchaseObserver {
             game.gameState.purchaseState.products.add(part2);
             game.gameState.purchaseState.products.add(full);
 
-            game.databaseManager.persistSync(game.gameState);
+            game.syncState();
 
         } catch (Throwable e) {
             Log.e(tag, e);
@@ -102,7 +102,7 @@ public class IAPObserver implements PurchaseObserver {
 
             game.gameState.purchaseState.setPro(game.params);
 
-            game.databaseManager.persistSync(game.gameState);
+            game.syncState();
 
         } catch (Throwable e) {
             Log.e(tag, e);

@@ -135,7 +135,7 @@ public class ControlsFragment extends Fragment {
                         }
                     }
 
-                    game.databaseManager.persistSync(game.gameState);
+                    game.syncState();
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -160,7 +160,7 @@ public class ControlsFragment extends Fragment {
                         game.gameState.activeSave.visitedChapters.add(c.name);
                     }
 
-                    game.databaseManager.persistSync(game.gameState);
+                    game.syncState();
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -184,7 +184,7 @@ public class ControlsFragment extends Fragment {
                         game.achievementService.onFailOpened(a);
                     }
 
-                    game.databaseManager.persistSync(game.gameState);
+                    game.syncState();
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -250,7 +250,7 @@ public class ControlsFragment extends Fragment {
                         game.gameState.addVisitedScenario(s.name);
                     }
 
-                    game.databaseManager.persistSync(game.gameState);
+                    game.syncState();
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }
@@ -287,7 +287,9 @@ public class ControlsFragment extends Fragment {
                     game.gameState.history = new History();
                     game.gameState.setActiveSave(new Save());
 
-                    game.databaseManager.persistSync(game.gameState);
+                    game.syncState();
+
+                    createInventoryTable();
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -309,7 +311,9 @@ public class ControlsFragment extends Fragment {
 
                     GameState.clearTimer(tag);
 
-                    game.gameState = null;
+                    game.gameState = new GameState();
+
+                    game.syncState();
 
                     if (Gdx.files.external(game.params.storageDirectory).exists()) {
                         Gdx.files.external(game.params.storageDirectory).deleteDirectory();
@@ -385,8 +389,12 @@ public class ControlsFragment extends Fragment {
         createEndingsTable();
 
         Table container2 = new Table();
-        container2.add(inventoryContainer).top().expandX();
-        container2.add(scenarioContainer).top().expandX();
+        container2.add(inventoryContainer).pad(10).top().expandX();
+        container2.add(scenarioContainer).pad(10).top().expandX();
+
+        Table container3 = new Table();
+        container3.add(endingsContainer).pad(10).top().expandX();
+        container3.add(interactionContainer).pad(10).top().expandX();
 
         Table upContainer = new Table();
         upContainer.add(upButton).pad(10).align(Align.bottomRight).expand();
@@ -394,8 +402,7 @@ public class ControlsFragment extends Fragment {
         group = new VerticalGroup();
         group.pad(10);
         group.addActor(container);
-        group.addActor(endingsContainer);
-        group.addActor(interactionContainer);
+        group.addActor(container3);
         group.addActor(container2);
 
         scroll = new ScrollPane(group);
@@ -550,7 +557,7 @@ public class ControlsFragment extends Fragment {
                         game.achievementService.onInventoryAdded(inventory);
                     }
 
-                    game.databaseManager.persistSync(game.gameState);
+                    game.syncState();
 
                     createInventoryTable();
 

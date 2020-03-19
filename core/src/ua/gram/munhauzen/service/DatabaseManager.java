@@ -58,7 +58,7 @@ public class DatabaseManager {
         om = new ObjectMapper();
     }
 
-    public ExpansionResponse loadExpansionInfo() {
+    public synchronized ExpansionResponse loadExpansionInfo() {
 
         FileHandle file = ExternalFiles.getExpansionInfoFile(game.params);
         if (!file.exists()) return null;
@@ -72,7 +72,7 @@ public class DatabaseManager {
         return loadExpansionInfo(raw);
     }
 
-    public ExpansionResponse loadExpansionInfo(String raw) {
+    public synchronized ExpansionResponse loadExpansionInfo(String raw) {
 
         try {
 
@@ -96,9 +96,9 @@ public class DatabaseManager {
         throw new GdxRuntimeException("Invalid expansion info");
     }
 
-    public void loadExternal(GameState state) {
+    public synchronized void loadExternal(GameState state) {
 
-        Log.i(tag, "loadExternal");
+//        Log.i(tag, "loadExternal");
 
         try {
             state.history = loadHistory();
@@ -226,122 +226,7 @@ public class DatabaseManager {
         }
     }
 
-    public void persist(final GameState gameState) {
-
-        //Log.i(tag, "persist");
-
-        if (gameState == null) return;
-
-        if (gameState.purchaseState != null)
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        persistPurchaseState(gameState.purchaseState);
-                    } catch (Throwable e) {
-                        Log.e(tag, e);
-                    }
-                }
-            }).start();
-
-        if (gameState.preferences != null)
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        persistPreferences(gameState.preferences);
-                    } catch (Throwable e) {
-                        Log.e(tag, e);
-                    }
-                }
-            }).start();
-
-        if (gameState.history != null)
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        persistHistory(gameState.history);
-                    } catch (Throwable e) {
-                        Log.e(tag, e);
-                    }
-                }
-            }).start();
-
-        if (gameState.activeSave != null)
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        persistSave(gameState.activeSave);
-                    } catch (Throwable e) {
-                        Log.e(tag, e);
-                    }
-                }
-            }).start();
-
-        if (gameState.menuState != null)
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        persistMenuState(gameState.menuState);
-                    } catch (Throwable e) {
-                        Log.e(tag, e);
-                    }
-                }
-            }).start();
-
-        if (gameState.galleryState != null)
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        persistGalleryState(gameState.galleryState);
-                    } catch (Throwable e) {
-                        Log.e(tag, e);
-                    }
-                }
-            }).start();
-
-        if (gameState.failsState != null)
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        persistFailsState(gameState.failsState);
-                    } catch (Throwable e) {
-                        Log.e(tag, e);
-                    }
-                }
-            }).start();
-
-        if (gameState.expansionInfo != null)
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        persistExpansionInfo(gameState.expansionInfo);
-                    } catch (Throwable e) {
-                        Log.e(tag, e);
-                    }
-                }
-            }).start();
-
-        if (gameState.achievementState != null)
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        persistAchievementState(gameState.achievementState);
-                    } catch (Throwable e) {
-                        Log.e(tag, e);
-                    }
-                }
-            }).start();
-    }
-
-    public void persistSync(final GameState gameState) {
+    public synchronized void persistSync(final GameState gameState) {
 
         //Log.i(tag, "persist");
 
@@ -411,7 +296,7 @@ public class DatabaseManager {
             }
     }
 
-    public void persistExpansionInfo(ExpansionResponse state) throws IOException {
+    public synchronized void persistExpansionInfo(ExpansionResponse state) throws IOException {
 
         FileHandle file = ExternalFiles.getExpansionInfoFile(game.params);
 
@@ -419,7 +304,7 @@ public class DatabaseManager {
             om.writeValue(file.file(), state);
     }
 
-    public void persistAchievementState(AchievementState state) throws IOException {
+    public synchronized void persistAchievementState(AchievementState state) throws IOException {
 
         FileHandle file = ExternalFiles.getAchievementStateFile(game.params);
 
@@ -427,7 +312,7 @@ public class DatabaseManager {
             om.writeValue(file.file(), state);
     }
 
-    public void persistGalleryState(GalleryState state) throws IOException {
+    public synchronized void persistGalleryState(GalleryState state) throws IOException {
 
         FileHandle file = ExternalFiles.getGalleryStateFile(game.params);
 
@@ -435,39 +320,39 @@ public class DatabaseManager {
             om.writeValue(file.file(), state);
     }
 
-    public void persistMenuState(MenuState state) throws IOException {
+    public synchronized void persistMenuState(MenuState state) throws IOException {
         FileHandle file = ExternalFiles.getMenuStateFile(game.params);
 
         if (state != null)
             om.writeValue(file.file(), state);
     }
 
-    public void persistFailsState(FailsState state) throws IOException {
+    public synchronized void persistFailsState(FailsState state) throws IOException {
         FileHandle file = ExternalFiles.getFailsStateFile(game.params);
 
         if (state != null)
             om.writeValue(file.file(), state);
     }
 
-    public void persistHistory(History history) throws IOException {
+    public synchronized void persistHistory(History history) throws IOException {
         FileHandle file = ExternalFiles.getHistoryFile(game.params);
 
         om.writeValue(file.file(), history);
     }
 
-    public void persistPurchaseState(PurchaseState state) throws IOException {
+    public synchronized void persistPurchaseState(PurchaseState state) throws IOException {
         FileHandle file = ExternalFiles.getPurchaseStateFile(game.params);
 
         om.writeValue(file.file(), state);
     }
 
-    public void persistPreferences(GamePreferences state) throws IOException {
+    public synchronized void persistPreferences(GamePreferences state) throws IOException {
         FileHandle file = ExternalFiles.getGamePreferencesFile(game.params);
 
         om.writeValue(file.file(), state);
     }
 
-    public void persistSave(Save save) throws IOException {
+    public synchronized void persistSave(Save save) throws IOException {
         FileHandle file = ExternalFiles.getSaveFile(game.params, save.id);
 
         if (save.story != null) {
@@ -480,12 +365,14 @@ public class DatabaseManager {
         om.writeValue(file.file(), save);
     }
 
-    private History loadHistory() throws IOException {
+    private synchronized History loadHistory() throws IOException {
         FileHandle file = ExternalFiles.getHistoryFile(game.params);
 
         History state = null;
         if (file.exists()) {
             String content = file.readString("UTF-8");
+//            Log.e(tag, "history content\n" + content);
+
             if (content != null && !content.equals("")) {
                 state = om.readValue(content, History.class);
             } else {
@@ -500,7 +387,29 @@ public class DatabaseManager {
         return state;
     }
 
-    private MenuState loadMenuState() throws IOException {
+    private synchronized void loadActiveSave(GameState state) throws IOException {
+        Save save = null;
+
+        FileHandle file = ExternalFiles.getActiveSaveFile(game.params);
+        if (file.exists()) {
+            String content = file.readString("UTF-8");
+//            Log.e(tag, "save content\n" + content);
+
+            if (content != null && !content.equals("")) {
+                save = om.readValue(content, Save.class);
+            } else {
+                save = om.readValue(file.file(), Save.class);
+            }
+        }
+
+        if (save == null) {
+            save = new Save();
+        }
+
+        state.setActiveSave(save);
+    }
+
+    private synchronized MenuState loadMenuState() throws IOException {
 
         FileHandle file = ExternalFiles.getMenuStateFile(game.params);
 
@@ -521,7 +430,7 @@ public class DatabaseManager {
         return state;
     }
 
-    private FailsState loadFailsState() throws IOException {
+    private synchronized FailsState loadFailsState() throws IOException {
 
         FileHandle file = ExternalFiles.getFailsStateFile(game.params);
 
@@ -542,7 +451,7 @@ public class DatabaseManager {
         return state;
     }
 
-    private AchievementState loadAchievementState() throws IOException {
+    private synchronized AchievementState loadAchievementState() throws IOException {
 
         FileHandle file = ExternalFiles.getAchievementStateFile(game.params);
 
@@ -563,7 +472,7 @@ public class DatabaseManager {
         return state;
     }
 
-    private GalleryState loadGalleryState() throws IOException {
+    private synchronized GalleryState loadGalleryState() throws IOException {
 
         FileHandle file = ExternalFiles.getGalleryStateFile(game.params);
 
@@ -584,7 +493,7 @@ public class DatabaseManager {
         return state;
     }
 
-    private PurchaseState loadPurchaseState() throws IOException {
+    private synchronized PurchaseState loadPurchaseState() throws IOException {
 
         FileHandle file = ExternalFiles.getPurchaseStateFile(game.params);
 
@@ -605,7 +514,7 @@ public class DatabaseManager {
         return state;
     }
 
-    private GamePreferences loadPreferences() throws IOException {
+    private synchronized GamePreferences loadPreferences() throws IOException {
 
         FileHandle file = ExternalFiles.getGamePreferencesFile(game.params);
 
@@ -626,27 +535,7 @@ public class DatabaseManager {
         return state;
     }
 
-    private void loadActiveSave(GameState state) throws IOException {
-        Save save = null;
-
-        FileHandle file = ExternalFiles.getActiveSaveFile(game.params);
-        if (file.exists()) {
-            String content = file.readString("UTF-8");
-            if (content != null && !content.equals("")) {
-                save = om.readValue(content, Save.class);
-            } else {
-                save = om.readValue(file.file(), Save.class);
-            }
-        }
-
-        if (save == null) {
-            save = new Save();
-        }
-
-        state.setActiveSave(save);
-    }
-
-    public Save loadSave(String id) throws IOException {
+    public synchronized Save loadSave(String id) throws IOException {
 
         FileHandle file = ExternalFiles.getSaveFile(game.params, id);
 
@@ -668,7 +557,7 @@ public class DatabaseManager {
     }
 
     @SuppressWarnings("unchecked")
-    public ArrayList<TimerScenario> loadTimerScenario() {
+    public synchronized ArrayList<TimerScenario> loadTimerScenario() {
 
         FileHandle file = Files.getTimerScenarioFile();
         if (!file.exists()) return null;
@@ -684,7 +573,7 @@ public class DatabaseManager {
     }
 
     @SuppressWarnings("unchecked")
-    public ArrayList<Timer2Scenario> loadTimer2Scenario() {
+    public synchronized ArrayList<Timer2Scenario> loadTimer2Scenario() {
 
         FileHandle file = Files.getTimer2ScenarioFile();
         if (!file.exists()) return null;
@@ -700,7 +589,7 @@ public class DatabaseManager {
     }
 
     @SuppressWarnings("unchecked")
-    public ArrayList<GeneralsScenario> loadGeneralsScenario() {
+    public synchronized ArrayList<GeneralsScenario> loadGeneralsScenario() {
 
         FileHandle file = Files.getGeneralsScenarioFile();
         if (!file.exists()) return null;
@@ -716,7 +605,7 @@ public class DatabaseManager {
     }
 
     @SuppressWarnings("unchecked")
-    public ArrayList<WauScenario> loadWauwauScenario() {
+    public synchronized ArrayList<WauScenario> loadWauwauScenario() {
 
         FileHandle file = Files.getWauwauScenarioFile();
         if (!file.exists()) return null;
@@ -732,7 +621,7 @@ public class DatabaseManager {
     }
 
     @SuppressWarnings("unchecked")
-    public ArrayList<CannonsScenario> loadCannonsScenario() {
+    public synchronized ArrayList<CannonsScenario> loadCannonsScenario() {
 
         FileHandle file = Files.getCannonsScenarioFile();
         if (!file.exists()) return null;
@@ -748,7 +637,7 @@ public class DatabaseManager {
     }
 
     @SuppressWarnings("unchecked")
-    public ArrayList<HareScenario> loadHareScenario() {
+    public synchronized ArrayList<HareScenario> loadHareScenario() {
 
         FileHandle file = Files.getHareScenarioFile();
         if (!file.exists()) return null;
@@ -763,7 +652,7 @@ public class DatabaseManager {
     }
 
     @SuppressWarnings("unchecked")
-    public ArrayList<PictureScenario> loadPictureScenario() {
+    public synchronized ArrayList<PictureScenario> loadPictureScenario() {
 
         FileHandle file = Files.getPictureScenarioFile();
         if (!file.exists()) return null;
@@ -778,7 +667,7 @@ public class DatabaseManager {
     }
 
     @SuppressWarnings("unchecked")
-    public ArrayList<HireScenario> loadServantsHireScenario() {
+    public synchronized ArrayList<HireScenario> loadServantsHireScenario() {
 
         FileHandle file = Files.getServantsHireScenarioFile();
         if (!file.exists()) return null;
@@ -792,7 +681,7 @@ public class DatabaseManager {
     }
 
     @SuppressWarnings("unchecked")
-    private ArrayList<Scenario> loadExternalScenario() {
+    private synchronized ArrayList<Scenario> loadExternalScenario() {
 
         FileHandle file = ExternalFiles.getScenarioFile(game.params);
         if (!file.exists()) return null;
@@ -807,7 +696,7 @@ public class DatabaseManager {
     }
 
     @SuppressWarnings("unchecked")
-    private ArrayList<Chapter> loadExternalChapters() {
+    private synchronized ArrayList<Chapter> loadExternalChapters() {
 
         FileHandle file = ExternalFiles.getChaptersFile(game.params);
         if (!file.exists()) return null;
@@ -819,7 +708,7 @@ public class DatabaseManager {
     }
 
     @SuppressWarnings("unchecked")
-    private ArrayList<Image> loadExternalImages() {
+    private synchronized ArrayList<Image> loadExternalImages() {
 
         FileHandle file = ExternalFiles.getImagesFile(game.params);
         if (!file.exists()) return null;
@@ -831,7 +720,7 @@ public class DatabaseManager {
     }
 
     @SuppressWarnings("unchecked")
-    private ArrayList<Audio> loadExternalAudio() {
+    private synchronized ArrayList<Audio> loadExternalAudio() {
 
         FileHandle file = ExternalFiles.getAudioFile(game.params);
         if (!file.exists()) return null;
@@ -843,7 +732,7 @@ public class DatabaseManager {
     }
 
     @SuppressWarnings("unchecked")
-    private ArrayList<AudioFail> loadExternalAudioFails() {
+    private synchronized ArrayList<AudioFail> loadExternalAudioFails() {
 
         FileHandle file = ExternalFiles.getAudioFailsFile(game.params);
         if (!file.exists()) return null;
@@ -855,7 +744,7 @@ public class DatabaseManager {
     }
 
     @SuppressWarnings("unchecked")
-    private ArrayList<Inventory> loadExternalInventory() {
+    private synchronized ArrayList<Inventory> loadExternalInventory() {
 
         FileHandle file = ExternalFiles.getInventoryFile(game.params);
         if (!file.exists()) return null;

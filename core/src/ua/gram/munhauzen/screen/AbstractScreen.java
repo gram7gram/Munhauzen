@@ -58,7 +58,7 @@ public abstract class AbstractScreen implements Screen {
                 try {
 
                     if (game.databaseManager != null && game.gameState != null) {
-                        game.databaseManager.persist(game.gameState);
+                        game.databaseManager.persistSync(game.gameState);
                     }
 
                 } catch (Throwable e) {

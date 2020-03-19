@@ -65,6 +65,14 @@ public class MunhauzenGame extends Game {
         this.params = params;
     }
 
+    public void syncState() {
+
+        databaseManager.persistSync(gameState);
+
+        databaseManager.loadExternal(gameState);
+
+    }
+
     public String t(String key) {
         return params.translator.t(key);
     }

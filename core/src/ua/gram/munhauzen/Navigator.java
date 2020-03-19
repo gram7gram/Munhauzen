@@ -50,7 +50,7 @@ public class Navigator {
             Gdx.input.setInputProcessor(null);
 
             try {
-                game.databaseManager.persistSync(game.gameState);
+                game.syncState();
             } catch (Throwable ignore) {
             }
 
