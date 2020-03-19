@@ -188,6 +188,7 @@ public class RussianTranslator implements Translator {
         map.put("chapter_banner.yes_btn", "Да");
         map.put("chapter_banner.no_btn", "Нет");
 
+        map.put("debug_screen.endings", "Концовки");
         map.put("debug_screen.enable_skip", "Вкл перемотку вперед");
         map.put("debug_screen.open_fails", "Открыть все фейлы");
         map.put("debug_screen.open_gallery", "Открыть всю галерею");

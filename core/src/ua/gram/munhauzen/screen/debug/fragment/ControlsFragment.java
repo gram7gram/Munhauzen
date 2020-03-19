@@ -61,7 +61,7 @@ public class ControlsFragment extends Fragment {
     ScrollPane scroll;
     TextButton startButton;
     Label upButton;
-    Table inventoryContainer, scenarioContainer, interactionContainer;
+    Table inventoryContainer, scenarioContainer, interactionContainer, endingsContainer;
     VerticalGroup group;
     String currentSource = "scenario_1";
 
@@ -367,6 +367,9 @@ public class ControlsFragment extends Fragment {
         inventoryContainer = new Table();
         inventoryContainer.padBottom(80);
 
+        endingsContainer = new Table();
+        endingsContainer.padBottom(80);
+
         interactionContainer = new Table();
         interactionContainer.padBottom(80);
 
@@ -379,6 +382,8 @@ public class ControlsFragment extends Fragment {
 
         createInteractionTable();
 
+        createEndingsTable();
+
         Table container2 = new Table();
         container2.add(inventoryContainer).top().expandX();
         container2.add(scenarioContainer).top().expandX();
@@ -389,6 +394,7 @@ public class ControlsFragment extends Fragment {
         group = new VerticalGroup();
         group.pad(10);
         group.addActor(container);
+        group.addActor(endingsContainer);
         group.addActor(interactionContainer);
         group.addActor(container2);
 
@@ -399,6 +405,44 @@ public class ControlsFragment extends Fragment {
         root = new FragmentRoot();
         root.addContainer(scroll);
         root.addContainer(upContainer);
+    }
+
+    public void createEndingsTable() {
+
+        endingsContainer.clearChildren();
+
+        Label header = new Label(game.t("debug_screen.endings"), new Label.LabelStyle(
+                game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
+                Color.RED
+        ));
+        endingsContainer.add(header).expandX().row();
+
+
+        String text;
+
+        if (MunhauzenGame.developmentVictory) {
+            text = "[+] VICTORY";
+        } else {
+            text = "[-] VICTORY";
+        }
+
+        Label label = new Label(text, new Label.LabelStyle(
+                game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
+                Color.BLACK
+        ));
+
+        label.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                MunhauzenGame.developmentVictory = !MunhauzenGame.developmentVictory;
+
+                createEndingsTable();
+            }
+        });
+
+        endingsContainer.add(label).left().expandX().padBottom(5).row();
     }
 
     public void createInteractionTable() {
@@ -505,6 +549,8 @@ public class ControlsFragment extends Fragment {
 
                         game.achievementService.onInventoryAdded(inventory);
                     }
+
+                    game.databaseManager.persistSync(game.gameState);
 
                     createInventoryTable();
 

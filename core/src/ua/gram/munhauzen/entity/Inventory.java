@@ -25,8 +25,10 @@ public class Inventory extends Entity {
     public String description;
 
     public Inventory() {
-        relatedScenario = new ArrayList<>(2);
-        relatedInventory = new ArrayList<>(2);
+        if (relatedScenario == null)
+            relatedScenario = new ArrayList<>(2);
+        if (relatedInventory == null)
+            relatedInventory = new ArrayList<>(2);
     }
 
     @JsonIgnore

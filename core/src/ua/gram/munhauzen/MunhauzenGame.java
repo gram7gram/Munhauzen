@@ -35,6 +35,7 @@ public class MunhauzenGame extends Game {
 
     public static String developmentScenario;
     public static boolean developmentSkipEnable;
+    public static boolean developmentVictory;
 
     // WAUWAU GENERAL HARE PICTURE SERVANTS TIMER
     // continue HORN BALLOONS CHAPTER

@@ -76,7 +76,7 @@ public class StoryManager {
         Story story = gameScreen.getStory();
         if (story != null) {
             if (!story.isInit) {
-                float progressBefore = story.progress;
+                float progressBefore = Math.max(0, story.progress - 1500);
 
                 story.init();
 

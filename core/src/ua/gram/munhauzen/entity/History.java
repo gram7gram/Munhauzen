@@ -46,12 +46,18 @@ public class History implements JsonEntry {
     public HashSet<String> globalInventory;
 
     public History() {
-        globalInventory = new HashSet<>();
-        viewedImages = new HashSet<>();
-        listenedAudio = new HashSet<>();
-        openedFails = new HashSet<>();
-        visitedStories = new HashSet<>();
-        visitedChapters = new HashSet<>();
+        if (globalInventory == null)
+            globalInventory = new HashSet<>();
+        if (viewedImages == null)
+            viewedImages = new HashSet<>();
+        if (listenedAudio == null)
+            listenedAudio = new HashSet<>();
+        if (openedFails == null)
+            openedFails = new HashSet<>();
+        if (visitedStories == null)
+            visitedStories = new HashSet<>();
+        if (visitedChapters == null)
+            visitedChapters = new HashSet<>();
     }
 
 }

@@ -38,14 +38,17 @@ public class GameState {
     public PurchaseState purchaseState;
 
     public GameState() {
-        history = new History();
         scenarioRegistry = new ArrayList<>();
         audioRegistry = new ArrayList<>();
         imageRegistry = new ArrayList<>();
         audioFailRegistry = new ArrayList<>();
         inventoryRegistry = new ArrayList<>();
         chapterRegistry = new ArrayList<>();
-        setActiveSave(new Save());
+
+        if (history == null)
+            history = new History();
+        if (activeSave == null)
+            activeSave = new Save();
     }
 
     public void setActiveSave(Save save) {

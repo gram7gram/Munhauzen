@@ -16,7 +16,8 @@ public class FailsState implements JsonEntry {
     public boolean isGoofsBannerViewed;
 
     public FailsState() {
-        listenedAudio = new HashSet<>();
+        if (listenedAudio == null)
+            listenedAudio = new HashSet<>();
         isMunhauzen = true;
     }
 }

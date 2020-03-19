@@ -16,8 +16,10 @@ public class PurchaseState implements JsonEntry {
     public ArrayList<Product> products;
 
     public PurchaseState() {
-        purchases = new ArrayList<>();
-        products = new ArrayList<>();
+        if (purchases == null)
+            purchases = new ArrayList<>();
+        if (products == null)
+            products = new ArrayList<>();
     }
 
     public void setPro(PlatformParams params) {

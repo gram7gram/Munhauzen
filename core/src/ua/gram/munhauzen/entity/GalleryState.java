@@ -16,6 +16,7 @@ public class GalleryState implements JsonEntry {
     public boolean isGalleryBannerViewed;
 
     public GalleryState() {
-        visitedImages = new HashSet<>();
+        if (visitedImages == null)
+            visitedImages = new HashSet<>();
     }
 }

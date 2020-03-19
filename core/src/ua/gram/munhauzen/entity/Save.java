@@ -66,11 +66,17 @@ public class Save implements JsonEntry {
         this.id = id;
         updatedAt = DateUtils.now();
         order = 0;
-        inventory = new HashSet<>();
-        visitedStories = new HashSet<>();
-        visitedChapters = new HashSet<>();
-        story = new Story();
-        servantsInteractionState = new ServantsState();
+
+        if (inventory == null)
+            inventory = new HashSet<>();
+        if (visitedStories == null)
+            visitedStories = new HashSet<>();
+        if (visitedChapters == null)
+            visitedChapters = new HashSet<>();
+        if (story == null)
+            story = new Story();
+        if (servantsInteractionState == null)
+            servantsInteractionState = new ServantsState();
     }
 
     public void reset() {

@@ -154,7 +154,6 @@ public class GameScreen implements Screen {
 
         gameLayers.setBackgroundImageLayer(imageFragment);
         gameLayers.setProgressBarLayer(progressBarFragment);
-        gameLayers.setControlsLayer(controlsFragment);
 
         Gdx.input.setInputProcessor(ui);
 

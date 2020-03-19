@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
 
+import ua.gram.munhauzen.MunhauzenGame;
+
 public class Story implements JsonEntry {
 
     @JsonProperty
@@ -30,6 +32,12 @@ public class Story implements JsonEntry {
 
     @JsonIgnore
     public boolean isVictory() {
+
+        if (MunhauzenGame.developmentVictory) {
+            MunhauzenGame.developmentVictory = false;
+            return true;
+        }
+
         for (StoryScenario storyScenario : scenarios) {
             if (storyScenario.scenario.isVictory()) {
                 return true;
