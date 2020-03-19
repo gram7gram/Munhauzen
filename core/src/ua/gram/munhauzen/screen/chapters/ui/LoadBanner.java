@@ -88,7 +88,6 @@ public class LoadBanner extends Banner<ChaptersScreen> {
                                 "KOZ",
                                 "HALF_SLING",
                                 "STRAW",
-                                "BIRCH",
                                 "BALLOON",
                                 "LION_HANDS",
                                 "LION_PUNCH",

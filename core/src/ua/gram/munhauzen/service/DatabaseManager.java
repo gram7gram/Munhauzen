@@ -98,6 +98,13 @@ public class DatabaseManager {
 
     public synchronized void loadExternal(GameState state) {
 
+//        try {
+//            Log.i(tag, "STATE AFTER\n"
+//                    + om.writeValueAsString(game.inventoryService.getAllInventory()));
+//        } catch (JsonProcessingException e) {
+//            e.printStackTrace();
+//        }
+
 //        Log.i(tag, "loadExternal");
 
         try {
@@ -227,6 +234,13 @@ public class DatabaseManager {
     }
 
     public synchronized void persistSync(final GameState gameState) {
+
+//        try {
+//            Log.i(tag, "STATE BEFORE\n"
+//                    + om.writeValueAsString(game.inventoryService.getAllInventory()));
+//        } catch (JsonProcessingException e) {
+//            e.printStackTrace();
+//        }
 
         //Log.i(tag, "persist");
 

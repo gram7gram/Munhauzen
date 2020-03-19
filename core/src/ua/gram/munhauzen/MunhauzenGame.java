@@ -106,6 +106,8 @@ public class MunhauzenGame extends Game {
             backgroundSfxService = new BackgroundSfxService(this);
             databaseManager = new DatabaseManager(this);
             navigator = new Navigator(this);
+            inventoryService = new InventoryService(this);
+            achievementService = new AchievementService(this);
 
             loadGameState();
             loadGlobalAssets();
@@ -116,12 +118,9 @@ public class MunhauzenGame extends Game {
 
             internalAssetManager.finishLoading();
 
-            inventoryService = new InventoryService(gameState);
             buttonBuilder = new ButtonBuilder(this);
-            achievementService = new AchievementService(this);
 
             navigator.openCurrentScreen();
-
 
         } catch (Throwable e) {
             Log.e(tag, e);
