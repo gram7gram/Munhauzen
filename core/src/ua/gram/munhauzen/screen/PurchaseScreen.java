@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.pay.Offer;
 import com.badlogic.gdx.pay.OfferType;
 import com.badlogic.gdx.pay.PurchaseManagerConfig;
+import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.expansion.response.ExpansionResponse;
@@ -50,6 +51,7 @@ public class PurchaseScreen implements Screen {
         game.internalAssetManager.load("purchase/ok.png", Texture.class);
         game.internalAssetManager.load("purchase/off.png", Texture.class);
         game.internalAssetManager.load("purchase/b_menu.png", Texture.class);
+        game.internalAssetManager.load("purchase/restore.png", Texture.class);
 
         game.internalAssetManager.finishLoading();
 
@@ -67,7 +69,13 @@ public class PurchaseScreen implements Screen {
 
         ui.addActor(controlsFragment.getRoot());
 
+        controlsFragment.fadeIn();
         fragment.fadeIn();
+
+        restorePurchases();
+    }
+
+    public void restorePurchases() {
 
         PurchaseManagerConfig pmc = new PurchaseManagerConfig();
 
@@ -89,6 +97,12 @@ public class PurchaseScreen implements Screen {
             Log.e(tag, e);
         }
 
+        Timer.instance().scheduleTask(new Timer.Task() {
+            @Override
+            public void run() {
+                controlsFragment.fadeInRestore();
+            }
+        }, 1);
     }
 
     public void onPurchaseCompleted() {

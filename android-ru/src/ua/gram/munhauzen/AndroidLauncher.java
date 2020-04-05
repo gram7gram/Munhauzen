@@ -31,6 +31,7 @@ public class AndroidLauncher extends AndroidApplication {
         params.device.type = Device.Type.android;
         params.isTablet = isTablet(this);
         params.applicationId = BuildConfig.APPLICATION_ID;
+        params.tutorialLink = "https://youtu.be/6K__lu7QuLk";
         params.storageDirectory = ".Munchausen/ru.munchausen.fingertipsandcompany.any";
         params.versionCode = BuildConfig.VERSION_CODE;
         params.versionName = BuildConfig.VERSION_NAME;

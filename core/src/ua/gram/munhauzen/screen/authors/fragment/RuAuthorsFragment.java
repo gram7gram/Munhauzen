@@ -3,10 +3,10 @@ package ua.gram.munhauzen.screen.authors.fragment;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 
 import ua.gram.munhauzen.FontProvider;
@@ -14,6 +14,7 @@ import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.screen.AuthorsScreen;
 import ua.gram.munhauzen.screen.authors.ui.Portrait;
 import ua.gram.munhauzen.screen.authors.ui.Underline;
+import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
@@ -156,10 +157,16 @@ public class RuAuthorsFragment extends AuthorsFragment {
         Label link2 = new Label(screen.game.t("authors.link2"), linkStyle);
         link2.setWrap(true);
         link2.setAlignment(Align.center);
-        link2.addListener(new ChangeListener() {
+        link2.addListener(new ClickListener() {
             @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                Gdx.net.openURI("https://www.youtube.com/channel/UCNXSfJ-9LJmNTrCu39UUxVw");
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                try {
+                    Gdx.net.openURI("https://melvoice.com");
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
             }
         });
 

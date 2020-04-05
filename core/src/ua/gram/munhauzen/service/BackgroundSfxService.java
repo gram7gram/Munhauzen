@@ -34,7 +34,6 @@ public class BackgroundSfxService {
 
     public BackgroundSfxService(MunhauzenGame game) {
         this.game = game;
-        index = new Random().between(-1, sfx.length);
         expansionAssetManager = new ExpansionAssetManager(game);
     }
 
@@ -43,9 +42,7 @@ public class BackgroundSfxService {
 
         isPlaying = true;
 
-        ++index;
-
-        if (index >= sfx.length) index = 0;
+        index = new Random().between(0, sfx.length + 1);
 
         prepareAndPlay(sfx[index]);
     }

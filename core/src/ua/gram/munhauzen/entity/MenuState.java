@@ -8,6 +8,8 @@ public class MenuState implements JsonEntry {
     @JsonProperty
     public boolean isGreetingViewed;
     @JsonProperty
+    public boolean isTutorialViewed;
+    @JsonProperty
     public boolean isShareViewed;
     @JsonProperty
     public boolean showThankYouBanner;

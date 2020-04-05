@@ -55,6 +55,9 @@ public class PlatformParams implements JsonEntry {
     public float scaleFactor = 1;
 
     @JsonIgnore
+    public String tutorialLink;
+
+    @JsonIgnore
     public final String sentryDsn = "https://aaab9a00313c443498afb6184a21c867@sentry.io/1802514";
     @JsonIgnore
     public final String vkLink = "https://vk.com/fingertipsandcompany?z=photo491072996_456239025%2Fb76a7cd5942e3325a8";

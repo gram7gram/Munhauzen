@@ -20,6 +20,7 @@ import ua.gram.munhauzen.screen.menu.fragment.RateFragment;
 import ua.gram.munhauzen.screen.menu.fragment.ShareFragment;
 import ua.gram.munhauzen.screen.menu.fragment.StartWarningFragment;
 import ua.gram.munhauzen.screen.menu.fragment.ThankYouFragment;
+import ua.gram.munhauzen.screen.menu.fragment.TutorialFragment;
 import ua.gram.munhauzen.screen.menu.listenter.MenuStageListener;
 import ua.gram.munhauzen.screen.menu.ui.MenuLayers;
 import ua.gram.munhauzen.service.AudioService;
@@ -45,6 +46,7 @@ public class MenuScreen extends AbstractScreen {
     public ExitFragment exitFragment;
     public StartWarningFragment startWarningFragment;
     public ThankYouFragment thankYouFragment;
+    public TutorialFragment tutorialFragment;
 
     public MenuScreen(MunhauzenGame game) {
         super(game);
@@ -155,6 +157,7 @@ public class MenuScreen extends AbstractScreen {
     private void openBannerIfNeeded() {
         MenuState menuState = game.gameState.menuState;
         AchievementState achievementState = game.gameState.achievementState;
+        boolean isBannerActive = layers == null || layers.bannerLayer != null;
 
         if (menuState.isFirstMenuAfterGameStart) {
 
@@ -174,6 +177,14 @@ public class MenuScreen extends AbstractScreen {
 
         int openCount = menuState.openCount;
 
+        ++openCount;
+
+        if (openCount > 7) {
+            openCount = 0;
+        }
+
+        menuState.openCount = openCount;
+
         boolean canPlaySfx = true;
 
         if (menuState.showThankYouBanner) {
@@ -183,15 +194,12 @@ public class MenuScreen extends AbstractScreen {
 
             canPlaySfx = false;
 
-        } else {
+        } else if (!isBannerActive) {
 
-            boolean isGreetingViewed = menuState.isGreetingViewed;
-            boolean isShareViewed = menuState.isShareViewed;
-
-            boolean isBannerActive = layers == null || layers.bannerLayer != null;
-            boolean canOpenGreeting = !isBannerActive && !isGreetingViewed;
-            boolean canOpenShare = !isBannerActive && !isShareViewed && openCount % 5 == 0;
-            boolean canOpenVersion = !isBannerActive && openCount % 7 == 0;
+            boolean canOpenGreeting = !menuState.isGreetingViewed;
+            boolean canOpenTutorial = !menuState.isTutorialViewed;
+            boolean canOpenShare = !menuState.isShareViewed && openCount % 5 == 0;
+            boolean canOpenVersion = openCount % 7 == 0;
 
             if (canOpenGreeting) {
 
@@ -201,6 +209,16 @@ public class MenuScreen extends AbstractScreen {
                     @Override
                     public void run() {
                         openGreetingBanner();
+                    }
+                }, 2);
+            } else if (canOpenTutorial) {
+
+                canPlaySfx = false;
+
+                Timer.instance().scheduleTask(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        openTutorialBanner();
                     }
                 }, 2);
             } else if (canOpenShare) {
@@ -225,14 +243,6 @@ public class MenuScreen extends AbstractScreen {
                 }, 2);
             }
         }
-
-        ++openCount;
-
-        if (openCount > 7) {
-            openCount = 0;
-        }
-
-        menuState.openCount = openCount;
 
         if (canPlaySfx) {
             game.backgroundSfxService.start();
@@ -272,6 +282,10 @@ public class MenuScreen extends AbstractScreen {
             thankYouFragment.destroy();
             thankYouFragment = null;
         }
+        if (tutorialFragment != null) {
+            tutorialFragment.destroy();
+            tutorialFragment = null;
+        }
 
         if (!isDisposed) {
             if (game.backgroundSfxService != null) {
@@ -304,6 +318,25 @@ public class MenuScreen extends AbstractScreen {
             layers.setBannerLayer(thankYouFragment);
 
             thankYouFragment.fadeIn();
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+    }
+
+    private void openTutorialBanner() {
+        try {
+
+            if (layers == null || layers.bannerLayer != null) return;
+            if (isUILocked) return;
+
+            tutorialFragment = new TutorialFragment(MenuScreen.this);
+            tutorialFragment.create();
+
+            layers.setBannerLayer(tutorialFragment);
+
+            tutorialFragment.fadeIn();
+
+            game.gameState.menuState.isTutorialViewed = true;
         } catch (Throwable e) {
             Log.e(tag, e);
         }

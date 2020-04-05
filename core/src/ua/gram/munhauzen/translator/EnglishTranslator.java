@@ -161,6 +161,7 @@ public class EnglishTranslator implements Translator {
         map.put("version_screen.content", "Your app is not the latest version. Please, download the newer one");
         map.put("version_screen.ignore_btn", "Ignore");
         map.put("version_screen.confirm_btn", "Download");
+        map.put("purchase_screen.restore_btn", "Restore");
         map.put("purchase_screen.processing", "Processing...");
         map.put("purchase_screen.full_discount", "20% SALE");
         map.put("purchase_screen.title", "Purchase");
@@ -187,6 +188,10 @@ public class EnglishTranslator implements Translator {
         map.put("chapter_banner.content", "You will not loose current progress");
         map.put("chapter_banner.yes_btn", "Yes");
         map.put("chapter_banner.no_btn", "No");
+        map.put("tutorial_banner.title", "Video Tutorial");
+        map.put("tutorial_banner.content", "We recomend to watch Video Tutorial");
+        map.put("tutorial_banner.ok_btn", "YouTube");
+        map.put("tutorial_banner.skip_btn", "Skip");
 
         map.put("debug_screen.endings", "Endings");
         map.put("debug_screen.enable_skip", "Enable skip scenario");

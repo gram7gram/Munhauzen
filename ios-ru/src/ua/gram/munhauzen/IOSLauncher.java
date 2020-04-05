@@ -36,6 +36,7 @@ public class IOSLauncher extends IOSApplication.Delegate {
         params.device.type = isIpad() ? Device.Type.ipad : Device.Type.ios;
         params.isTablet = params.device.type == Device.Type.ipad;
         params.scaleFactor = getDeviceScaleFactor();
+        params.tutorialLink = "https://youtu.be/6K__lu7QuLk";
         params.storageDirectory = ".Munchausen/ru.munchausen.fingertipsandcompany.any";
         params.locale = "ru";
         params.appStoreSkuFull = "full_munchausen_audiobook_ru";

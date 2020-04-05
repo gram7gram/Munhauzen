@@ -28,7 +28,7 @@ import ua.gram.munhauzen.utils.Log;
  */
 public abstract class AuthorsFragment extends Fragment {
 
-    private final String tag = getClass().getSimpleName();
+    public final String tag = getClass().getSimpleName();
     public final AuthorsScreen screen;
     public FragmentRoot root;
     Image top, bottom;

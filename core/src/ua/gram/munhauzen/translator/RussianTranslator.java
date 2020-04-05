@@ -161,6 +161,7 @@ public class RussianTranslator implements Translator {
         map.put("version_screen.content", "Ваша игра не последней версии. Пожалуйста, скачайте новее");
         map.put("version_screen.ignore_btn", "Игнорировать");
         map.put("version_screen.confirm_btn", "Скачать");
+        map.put("purchase_screen.restore_btn", "Вернуть");
         map.put("purchase_screen.processing", "Обработка...");
         map.put("purchase_screen.full_discount", "20% СКИДКА");
         map.put("purchase_screen.title", "Покупки");
@@ -187,6 +188,10 @@ public class RussianTranslator implements Translator {
         map.put("chapter_banner.content", "Вы не потеряете текущий прогресс");
         map.put("chapter_banner.yes_btn", "Да");
         map.put("chapter_banner.no_btn", "Нет");
+        map.put("tutorial_banner.title", "Видеообучение");
+        map.put("tutorial_banner.content", "Мы рекомендуем посмотреть Видеообучение)");
+        map.put("tutorial_banner.ok_btn", "YouTube");
+        map.put("tutorial_banner.skip_btn", "Пропустить");
 
         map.put("debug_screen.endings", "Концовки");
         map.put("debug_screen.enable_skip", "Вкл перемотку вперед");
