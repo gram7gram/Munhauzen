@@ -187,49 +187,58 @@ public class DatabaseManager {
             state.failsState = new FailsState();
         }
 
-        if (state.expansionInfo == null) {
+        try {
             state.expansionInfo = loadExpansionInfo();
-
-            if (state.expansionInfo == null) {
-                Log.e(tag, "No expansion info. Load canceled");
-                return;
-            }
+        } catch (Throwable e) {
+            Log.e(tag, e);
         }
 
         try {
             state.imageRegistry = loadExternalImages();
         } catch (Throwable e) {
             Log.e(tag, e);
+
+            state.imageRegistry = new ArrayList<>();
         }
 
         try {
             state.audioRegistry = loadExternalAudio();
         } catch (Throwable e) {
             Log.e(tag, e);
+
+            state.audioRegistry = new ArrayList<>();
         }
 
         try {
             state.audioFailRegistry = loadExternalAudioFails();
         } catch (Throwable e) {
             Log.e(tag, e);
+
+            state.audioFailRegistry = new ArrayList<>();
         }
 
         try {
             state.inventoryRegistry = loadExternalInventory();
         } catch (Throwable e) {
             Log.e(tag, e);
+
+            state.inventoryRegistry = new ArrayList<>();
         }
 
         try {
             state.scenarioRegistry = loadExternalScenario();
         } catch (Throwable e) {
             Log.e(tag, e);
+
+            state.scenarioRegistry = new ArrayList<>();
         }
 
         try {
             state.chapterRegistry = loadExternalChapters();
         } catch (Throwable e) {
             Log.e(tag, e);
+
+            state.chapterRegistry = new ArrayList<>();
         }
     }
 
@@ -697,7 +706,7 @@ public class DatabaseManager {
     @SuppressWarnings("unchecked")
     private synchronized ArrayList<Scenario> loadExternalScenario() {
 
-        FileHandle file = ExternalFiles.getScenarioFile(game.params);
+        FileHandle file = Files.getScenarioFile();
         if (!file.exists()) return null;
 
         Json json = new Json(JsonWriter.OutputType.json);
@@ -712,7 +721,7 @@ public class DatabaseManager {
     @SuppressWarnings("unchecked")
     private synchronized ArrayList<Chapter> loadExternalChapters() {
 
-        FileHandle file = ExternalFiles.getChaptersFile(game.params);
+        FileHandle file = Files.getChaptersFile();
         if (!file.exists()) return null;
 
         Json json = new Json(JsonWriter.OutputType.json);
@@ -724,7 +733,7 @@ public class DatabaseManager {
     @SuppressWarnings("unchecked")
     private synchronized ArrayList<Image> loadExternalImages() {
 
-        FileHandle file = ExternalFiles.getImagesFile(game.params);
+        FileHandle file = Files.getImagesFile();
         if (!file.exists()) return null;
 
         Json json = new Json(JsonWriter.OutputType.json);
@@ -736,7 +745,7 @@ public class DatabaseManager {
     @SuppressWarnings("unchecked")
     private synchronized ArrayList<Audio> loadExternalAudio() {
 
-        FileHandle file = ExternalFiles.getAudioFile(game.params);
+        FileHandle file = Files.getAudioFile();
         if (!file.exists()) return null;
 
         Json json = new Json(JsonWriter.OutputType.json);
@@ -748,7 +757,7 @@ public class DatabaseManager {
     @SuppressWarnings("unchecked")
     private synchronized ArrayList<AudioFail> loadExternalAudioFails() {
 
-        FileHandle file = ExternalFiles.getAudioFailsFile(game.params);
+        FileHandle file = Files.getAudioFailsFile();
         if (!file.exists()) return null;
 
         Json json = new Json(JsonWriter.OutputType.json);
@@ -760,7 +769,7 @@ public class DatabaseManager {
     @SuppressWarnings("unchecked")
     private synchronized ArrayList<Inventory> loadExternalInventory() {
 
-        FileHandle file = ExternalFiles.getInventoryFile(game.params);
+        FileHandle file = Files.getInventoryFile();
         if (!file.exists()) return null;
 
         Json json = new Json(JsonWriter.OutputType.json);

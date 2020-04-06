@@ -40,16 +40,40 @@ public class Files {
         return getInternal("game/timer2-scenario.json");
     }
 
+    public static FileHandle getServantsHireScenarioFile() {
+        return getInternal("game/servants-hire-scenario.json");
+    }
+
+    public static FileHandle getImagesFile() {
+        return getInternal("images.json");
+    }
+
+    public static FileHandle getAudioFile() {
+        return getInternal("audio.json");
+    }
+
+    public static FileHandle getAudioFailsFile() {
+        return getInternal("audio-fails.json");
+    }
+
+    public static FileHandle getInventoryFile() {
+        return getInternal("inventory.json");
+    }
+
+    public static FileHandle getChaptersFile() {
+        return getInternal("chapters.json");
+    }
+
+    public static FileHandle getScenarioFile() {
+        return getInternal("scenario.json");
+    }
+
     private static FileHandle getInternal(String name) {
         FileHandle file = Gdx.files.internal(name);
         if (!file.exists()) {
             throw new GdxRuntimeException(name + " does not exist");
         }
         return file;
-    }
-
-    public static FileHandle getServantsHireScenarioFile() {
-        return getInternal("game/servants-hire-scenario.json");
     }
 
     public static void toFile(InputStream is, FileHandle file, FileWriter.ProgressListener listener) throws IOException {

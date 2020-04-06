@@ -93,15 +93,4 @@ public class PlatformParams implements JsonEntry {
 
         return host + "/expansions/" + locale + "-" + dpi + "-Part_demo-expansion.json";
     }
-
-    @JsonIgnore
-    public String getGameExportUrl() {
-
-        if ("en".equals(locale)) {
-            return "https://www.googleapis.com/drive/v3/files/1SQn0mec5b-x9BKGEJtOmvxnmGtw2qS5s?alt=media&key=AIzaSyD7dkdttQpRuVLP-UhYU9DEWI6duFCO0lY";
-        }
-
-        // ru
-        return "https://www.googleapis.com/drive/v3/files/1-JY9Z8_kRSnILVAUfF-N7tikYCD8woEi?alt=media&key=AIzaSyD7dkdttQpRuVLP-UhYU9DEWI6duFCO0lY";
-    }
 }

@@ -189,7 +189,7 @@ public class RussianTranslator implements Translator {
         map.put("chapter_banner.yes_btn", "Да");
         map.put("chapter_banner.no_btn", "Нет");
         map.put("tutorial_banner.title", "Видеообучение");
-        map.put("tutorial_banner.content", "Мы рекомендуем посмотреть Видеообучение)");
+        map.put("tutorial_banner.content", "Мы рекомендуем посмотреть Видеообучение");
         map.put("tutorial_banner.ok_btn", "YouTube");
         map.put("tutorial_banner.skip_btn", "Пропустить");
 

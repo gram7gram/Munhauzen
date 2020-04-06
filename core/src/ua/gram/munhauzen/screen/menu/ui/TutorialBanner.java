@@ -110,12 +110,13 @@ public class TutorialBanner extends Banner {
         Table buttons = new Table();
 
         buttons.add(getSecondaryBtn())
-                .width(ButtonBuilder.BTN_PRIMARY_SM_WIDTH)
+                .width(ButtonBuilder.BTN_PRIMARY_WIDTH)
                 .height(ButtonBuilder.BTN_PRIMARY_SM_HEIGHT)
                 .padBottom(10).row();
 
         content.add(columns).row();
-        content.add(img).center().size(img.width, img.height).pad(20, 0, 20, 0).row();
+        content.add(img).center().size(img.width, img.height)
+                .pad(20, 0, 20, 0).row();
         content.add(buttons).row();
 
         return content;

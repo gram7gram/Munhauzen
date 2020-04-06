@@ -7,9 +7,7 @@ import ua.gram.munhauzen.screen.loading.fragment.ControlsFragment;
 import ua.gram.munhauzen.screen.loading.fragment.ImageFragment;
 import ua.gram.munhauzen.screen.loading.ui.LoadingLayers;
 import ua.gram.munhauzen.service.ExpansionDownloadManager;
-import ua.gram.munhauzen.service.SilentConfigDownloadManager;
 import ua.gram.munhauzen.utils.InternalAssetManager;
-import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
@@ -65,17 +63,6 @@ public class LoadingScreen extends AbstractScreen {
     @Override
     public void onResourcesLoaded() {
         super.onResourcesLoaded();
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    new SilentConfigDownloadManager(game).start();
-                } catch (Throwable e) {
-                    Log.e(tag, e);
-                }
-            }
-        }).start();
 
         if (game.gameState.expansionInfo != null) {
             game.gameState.expansionInfo.isDownloadStarted = false;

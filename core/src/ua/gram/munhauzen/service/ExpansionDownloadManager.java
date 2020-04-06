@@ -276,7 +276,7 @@ public class ExpansionDownloadManager implements Disposable {
             id = part1Purchase.productId;
         }
 
-        String url = game.params.getExpansionUrl(id);
+        final String url = game.params.getExpansionUrl(id);
 
         Log.i(tag, "fetchExpansionInfo\nGET " + url);
 

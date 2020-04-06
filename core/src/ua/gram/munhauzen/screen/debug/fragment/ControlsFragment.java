@@ -683,8 +683,6 @@ public class ControlsFragment extends Fragment {
     }
 
     public void update() {
-        startButton.setDisabled(!ExternalFiles.getScenarioFile(game.params).exists());
-
         upButton.setVisible(scroll.getScrollY() > 0);
     }
 

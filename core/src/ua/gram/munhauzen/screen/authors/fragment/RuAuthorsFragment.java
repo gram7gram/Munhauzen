@@ -79,7 +79,7 @@ public class RuAuthorsFragment extends AuthorsFragment {
         Portrait img6 = new Portrait(
                 screen.assetManager.get("authors/author_6.png", Texture.class),
                 screen.game.t("authors.img_6_title"),
-                "https://thebaronmunchausen.com/ru",
+                "https://www.thebaronmunchausen.com/ru",
                 style
         );
         Portrait img7 = new Portrait(

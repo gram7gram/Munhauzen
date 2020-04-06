@@ -128,30 +128,6 @@ public class ExternalFiles {
         return getExternal(params, "save-active.old");
     }
 
-    public static FileHandle getImagesFile(PlatformParams params) {
-        return getExternal(params, "game/images.json");
-    }
-
-    public static FileHandle getAudioFile(PlatformParams params) {
-        return getExternal(params, "game/audio.json");
-    }
-
-    public static FileHandle getAudioFailsFile(PlatformParams params) {
-        return getExternal(params, "game/audio-fails.json");
-    }
-
-    public static FileHandle getInventoryFile(PlatformParams params) {
-        return getExternal(params, "game/inventory.json");
-    }
-
-    public static FileHandle getChaptersFile(PlatformParams params) {
-        return getExternal(params, "game/chapters.json");
-    }
-
-    public static FileHandle getScenarioFile(PlatformParams params) {
-        return getExternal(params, "game/scenario.json");
-    }
-
     public static FileHandle getExternal(PlatformParams params, String name) {
         return Gdx.files.external(params.storageDirectory + "/" + name);
     }
