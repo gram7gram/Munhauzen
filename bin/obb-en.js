@@ -7,7 +7,7 @@ const audioDir = "/Users/master/Projects/MunhauzenDocs/Elements/AUDIO_FINAL";
 
 const PARTS = 5;
 
-const VERSION = 7;
+const VERSION = 8;
 const LOCALE = 'en';
 
 const DLC = {
@@ -45,18 +45,70 @@ const DLC = {
       "/balloons" ]
   },
   Part_1: {
-    audio: [ "/Part_1" ],
-    images: [ "/Part_1" ],
-    localeAssets: [],
-    otherAssets: [],
-    interactions: []
+    audio: [ "/Part_demo", "/Fails_Eng", "/Sfx_Eng", "/Part_1" ],
+    images: [ "/Part_demo", "/Part_1" ],
+    localeAssets: [ "/Part_demo_Eng" ],
+    otherAssets: [
+      '/authors',
+      '/gallery',
+      '/menu',
+      '/GameScreen',
+      '/ui',
+      '/saves',
+      '/fails',
+      '/victory',
+    ],
+    interactions: [
+      "/timer",
+      "/timer2",
+      "/hare",
+      "/generals",
+      "/cannons",
+      "/wau",
+      "/picture",
+      "/servants",
+      "/lions",
+      "/date",
+      "/horn",
+      "/swamp",
+      "/slap",
+      "/puzzle",
+      "/continue",
+      "/chapter",
+      "/balloons" ]
   },
   Part_2: {
-    audio: [ "/Part_2" ],
-    images: [ "/Part_2" ],
-    localeAssets: [],
-    otherAssets: [],
-    interactions: []
+    audio: [ "/Part_demo", "/Fails_Eng", "/Sfx_Eng", "/Part_1", "/Part_2" ],
+    images: [ "/Part_demo", "/Part_1", "/Part_2" ],
+    localeAssets: [ "/Part_demo_Eng" ],
+    otherAssets: [
+      '/authors',
+      '/gallery',
+      '/menu',
+      '/GameScreen',
+      '/ui',
+      '/saves',
+      '/fails',
+      '/victory',
+    ],
+    interactions: [
+      "/timer",
+      "/timer2",
+      "/hare",
+      "/generals",
+      "/cannons",
+      "/wau",
+      "/picture",
+      "/servants",
+      "/lions",
+      "/date",
+      "/horn",
+      "/swamp",
+      "/slap",
+      "/puzzle",
+      "/continue",
+      "/chapter",
+      "/balloons" ]
   }
 };
 
@@ -79,7 +131,7 @@ const createDLC = async (DPI, EXP) => {
 
   const coreImagesDir = obbDir + "/" + EXP + "/" + DPI;
 
-  const VERSION_NAME = VERSION + "-" + LOCALE + "-" + DPI + "-" + EXP;
+  const VERSION_NAME = LOCALE + "-" + DPI + "-" + EXP;
 
   console.log(`=> Splitting expansion ${VERSION_NAME} in ${PARTS} parts`);
 
@@ -126,7 +178,7 @@ const createDLC = async (DPI, EXP) => {
   });
 
   dlcConfig.interactions.forEach(dir => {
-    const sourceDir = coreImagesDir + dir;
+    const sourceDir = obbDir + "/Part_demo/" + DPI + dir;
 
     getDirs(sourceDir).forEach(file => {
       const outputDir = getTmpDir();
@@ -142,7 +194,7 @@ const createDLC = async (DPI, EXP) => {
   });
 
   dlcConfig.otherAssets.forEach(dir => {
-    const sourceDir = coreImagesDir + dir;
+    const sourceDir = obbDir + "/Part_demo/" + DPI + dir;
 
     getDirs(sourceDir).forEach(file => {
       const outputDir = getTmpDir();
@@ -197,10 +249,7 @@ const createDLC = async (DPI, EXP) => {
       sizeMB: Number((totalSize / 1024 / 1024).toFixed(2)),
       parts: {
         count: completed.length,
-        items: completed.map(item => ({
-          ...item,
-          path: `/expansions/${VERSION_NAME}/part${item.part}.zip`
-        }))
+        items: completed
       }
     };
 
@@ -237,7 +286,8 @@ const createDLC = async (DPI, EXP) => {
             size,
             sizeMB: Number((size / 1024 / 1024).toFixed(2)),
             part,
-            checksum: ""
+            checksum: "",
+            url: "",
           });
 
           setTimeout(() => {

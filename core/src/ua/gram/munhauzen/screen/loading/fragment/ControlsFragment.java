@@ -183,27 +183,10 @@ public class ControlsFragment extends Fragment {
         retryTitle.setWrap(true);
         retryTitle.setAlignment(Align.center);
 
-//        String quality;
-//        if ("hdpi".equals(screen.game.params.dpi)) {
-//            quality = screen.game.t("loading.quality_high");
-//        } else {
-//            quality = screen.game.t("loading.quality_medium");
-//        }
-
-//        Label qualityMessage = new Label(screen.game.t("loading.quality_message") + ": " + quality, new Label.LabelStyle(
-//                screen.game.fontProvider.getFont(FontProvider.h4),
-//                Color.BLACK
-//        ));
-//        qualityMessage.setWrap(true);
-//        qualityMessage.setAlignment(Align.center);
-
         Table startTable = new Table();
         startTable.add(startMessage)
                 .width(MunhauzenGame.WORLD_WIDTH * .9f)
                 .padBottom(10).row();
-//        startTable.add(qualityMessage)
-//                .width(MunhauzenGame.WORLD_WIDTH * .75f)
-//                .padBottom(10).row();
         startTable.add(startBtn)
                 .width(ButtonBuilder.BTN_PRIMARY_WIDTH)
                 .height(ButtonBuilder.BTN_PRIMARY_HEIGHT);
@@ -360,7 +343,8 @@ public class ControlsFragment extends Fragment {
                 float sizeMb = (float) (expansionInfo.size / 1024f / 1024f);
 
                 subtitle.setText("v" + expansionInfo.version
-                        + " " + String.format(Locale.US, "%.2f", sizeMb) + "MB");
+                        + " " + String.format(Locale.US, "%.2f", sizeMb) + "MB"
+                        + " " + expansionInfo.dpi);
             }
 
         } catch (Throwable ignore) {

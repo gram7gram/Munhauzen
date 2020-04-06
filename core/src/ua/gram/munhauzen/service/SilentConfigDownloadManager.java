@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.expansion.ExtractGameConfigTask;
 import ua.gram.munhauzen.utils.ExternalFiles;
+import ua.gram.munhauzen.utils.FileWriter;
 import ua.gram.munhauzen.utils.Files;
 import ua.gram.munhauzen.utils.Log;
 
@@ -70,7 +71,12 @@ public class SilentConfigDownloadManager {
 
                     FileHandle output = ExternalFiles.getGameArchiveFile(game.params);
 
-                    Files.toFile(httpResponse.getResultAsStream(), output);
+                    Files.toFile(httpResponse.getResultAsStream(), output, new FileWriter.ProgressListener() {
+                        @Override
+                        public void onProgress(float downloaded, long elapsed, float speed) {
+
+                        }
+                    });
 
                     Log.i(tag, "downloaded");
 

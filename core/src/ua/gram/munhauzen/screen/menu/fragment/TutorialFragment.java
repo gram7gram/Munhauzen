@@ -27,6 +27,7 @@ public class TutorialFragment extends MenuFragment {
         super.create();
 
         screen.assetManager.load("ui/banner_fond_0.png", Texture.class);
+        screen.assetManager.load("menu/tutorial.jpg", Texture.class);
 
         screen.assetManager.finishLoading();
 

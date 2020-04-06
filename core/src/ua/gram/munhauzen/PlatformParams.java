@@ -28,7 +28,7 @@ public class PlatformParams implements JsonEntry {
     @JsonProperty
     public Release release = Release.PROD;
     @JsonProperty
-    public final int expansionVersion = 7;
+    public final int expansionVersion = 8;
     @JsonProperty
     public final int gameConfigVersion = 1;
     @JsonProperty
@@ -56,7 +56,6 @@ public class PlatformParams implements JsonEntry {
 
     @JsonIgnore
     public String tutorialLink;
-
     @JsonIgnore
     public final String sentryDsn = "https://aaab9a00313c443498afb6184a21c867@sentry.io/1802514";
     @JsonIgnore
@@ -80,11 +79,29 @@ public class PlatformParams implements JsonEntry {
 
     @JsonIgnore
     public String getExpansionUrl(String productId) {
-        return "https://api.thebaronmunchausen.com/api/v1/" + locale + "/expansions/" + expansionVersion + "/" + dpi + "?product=" + productId;
+        String host = "https://www.thebaronmunchausen.com";
+
+        if (appStoreSkuFull.equals(productId)) {
+            return host + "/expansions/" + locale + "-" + dpi + "-Part_2-expansion.json";
+        }
+        if (appStoreSkuPart2.equals(productId)) {
+            return host + "/expansions/" + locale + "-" + dpi + "-Part_2-expansion.json";
+        }
+        if (appStoreSkuPart1.equals(productId)) {
+            return host + "/expansions/" + locale + "-" + dpi + "-Part_1-expansion.json";
+        }
+
+        return host + "/expansions/" + locale + "-" + dpi + "-Part_demo-expansion.json";
     }
 
     @JsonIgnore
     public String getGameExportUrl() {
-        return "https://api.thebaronmunchausen.com/downloads/game-" + locale + "-" + gameConfigVersion + ".zip";
+
+        if ("en".equals(locale)) {
+            return "https://www.googleapis.com/drive/v3/files/1SQn0mec5b-x9BKGEJtOmvxnmGtw2qS5s?alt=media&key=AIzaSyD7dkdttQpRuVLP-UhYU9DEWI6duFCO0lY";
+        }
+
+        // ru
+        return "https://www.googleapis.com/drive/v3/files/1-JY9Z8_kRSnILVAUfF-N7tikYCD8woEi?alt=media&key=AIzaSyD7dkdttQpRuVLP-UhYU9DEWI6duFCO0lY";
     }
 }

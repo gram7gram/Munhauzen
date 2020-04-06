@@ -42,7 +42,7 @@ public class BackgroundSfxService {
 
         isPlaying = true;
 
-        index = new Random().between(0, sfx.length + 1);
+        index = new Random().between(0, sfx.length - 1);
 
         prepareAndPlay(sfx[index]);
     }

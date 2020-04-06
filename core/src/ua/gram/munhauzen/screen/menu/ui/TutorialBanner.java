@@ -14,6 +14,7 @@ import ua.gram.munhauzen.ButtonBuilder;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.screen.menu.fragment.TutorialFragment;
+import ua.gram.munhauzen.ui.FixedImage;
 import ua.gram.munhauzen.utils.Log;
 
 public class TutorialBanner extends Banner {
@@ -35,9 +36,10 @@ public class TutorialBanner extends Banner {
     Table createContent() {
 
         float minWidth = MunhauzenGame.WORLD_WIDTH * .9f;
+        float pad = MunhauzenGame.WORLD_WIDTH * .1f;
 
         Table content = new Table();
-        content.pad(20, MunhauzenGame.WORLD_WIDTH * .1f, 40, MunhauzenGame.WORLD_WIDTH * .1f);
+        content.pad(20, pad, 40, pad);
 
         float cellMinWidth = minWidth - content.getPadLeft() - content.getPadRight();
 
@@ -73,33 +75,10 @@ public class TutorialBanner extends Banner {
                     .row();
         }
 
-        Table columns = new Table();
+        Texture txt = screen.assetManager.get("menu/tutorial.jpg", Texture.class);
 
-        columns.add(rows)
-                .minWidth(cellMinWidth)
-                .center().row();
-
-        Table buttons = new Table();
-
-        buttons.add(getPrimaryBtn())
-                .width(ButtonBuilder.BTN_PRIMARY_WIDTH)
-                .height(ButtonBuilder.BTN_PRIMARY_HEIGHT)
-                .padBottom(40).row();
-
-        buttons.add(getSecondaryBtn())
-                .width(ButtonBuilder.BTN_PRIMARY_SM_WIDTH)
-                .height(ButtonBuilder.BTN_PRIMARY_SM_HEIGHT)
-                .padBottom(10).row();
-
-        content.add(columns).row();
-        content.add(buttons).row();
-
-        return content;
-    }
-
-    private Actor getPrimaryBtn() {
-
-        return screen.game.buttonBuilder.danger(screen.game.t("tutorial_banner.ok_btn"), new ClickListener() {
+        FixedImage img = new FixedImage(txt, cellMinWidth);
+        img.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
@@ -122,6 +101,24 @@ public class TutorialBanner extends Banner {
             }
         });
 
+        Table columns = new Table();
+
+        columns.add(rows)
+                .minWidth(cellMinWidth)
+                .center().row();
+
+        Table buttons = new Table();
+
+        buttons.add(getSecondaryBtn())
+                .width(ButtonBuilder.BTN_PRIMARY_SM_WIDTH)
+                .height(ButtonBuilder.BTN_PRIMARY_SM_HEIGHT)
+                .padBottom(10).row();
+
+        content.add(columns).row();
+        content.add(img).center().size(img.width, img.height).pad(20, 0, 20, 0).row();
+        content.add(buttons).row();
+
+        return content;
     }
 
     private Actor getSecondaryBtn() {

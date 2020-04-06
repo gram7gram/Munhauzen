@@ -15,7 +15,7 @@ import ua.gram.munhauzen.expansion.response.Part;
 public class ExternalFiles {
 
     public static FileHandle getExpansionPartFile(PlatformParams params, Part part) {
-        return getExternal(params, "part" + part.partKey + ".zip");
+        return getExternal(params, "part" + part.part + ".zip");
     }
 
     public static void updateNomedia(PlatformParams params) {

@@ -17,6 +17,7 @@ import ua.gram.munhauzen.expansion.response.ExpansionResponse;
 import ua.gram.munhauzen.expansion.response.Part;
 import ua.gram.munhauzen.screen.loading.fragment.ControlsFragment;
 import ua.gram.munhauzen.utils.ExternalFiles;
+import ua.gram.munhauzen.utils.FileWriter;
 import ua.gram.munhauzen.utils.Files;
 import ua.gram.munhauzen.utils.Log;
 
@@ -87,7 +88,7 @@ public class ExpansionDownloadManager implements Disposable {
             return;
         }
 
-        Log.i(tag, "fetchExpansionPart part#" + part.partKey + " " + part.url);
+        Log.i(tag, "fetchExpansionPart part#" + part.part + " " + part.url);
 
         final HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
 
@@ -116,11 +117,16 @@ public class ExpansionDownloadManager implements Disposable {
                         throw new GdxRuntimeException("Bad request");
                     }
 
-                    Files.toFile(httpResponse.getResultAsStream(), output);
+                    Files.toFile(httpResponse.getResultAsStream(), output, new FileWriter.ProgressListener() {
+                        @Override
+                        public void onProgress(float downloaded, long elapsed, float speed) {
+
+                        }
+                    });
 
                     part.isDownloaded = true;
 
-                    Log.i(tag, "fetchExpansionPart success part#" + part.partKey);
+                    Log.i(tag, "fetchExpansionPart success part#" + part.part);
 
                 } catch (Throwable e) {
 
@@ -171,7 +177,7 @@ public class ExpansionDownloadManager implements Disposable {
             return;
         }
 
-        Log.i(tag, "extractPart part#" + part.partKey);
+        Log.i(tag, "extractPart part#" + part.part);
 
         try {
 
@@ -201,7 +207,7 @@ public class ExpansionDownloadManager implements Disposable {
             return;
         }
 
-        Log.i(tag, "validateDownloadedPart part#" + part.partKey);
+        Log.i(tag, "validateDownloadedPart part#" + part.part);
 
         FileHandle expansionFile = ExternalFiles.getExpansionPartFile(game.params, part);
         if (!expansionFile.exists()) {
@@ -326,7 +332,7 @@ public class ExpansionDownloadManager implements Disposable {
                             serverPart.isExtractFailure = false;
 
                             for (Part localPart : expansionInfo.parts.items) {
-                                if (localPart.partKey.equals(serverPart.partKey) && localPart.checksum.equals(serverPart.checksum)) {
+                                if (localPart.part == serverPart.part && localPart.checksum.equals(serverPart.checksum)) {
 
                                     serverPart.isDownloaded = localPart.isDownloaded;
                                     serverPart.isExtracted = localPart.isExtracted;
@@ -343,7 +349,7 @@ public class ExpansionDownloadManager implements Disposable {
 
                             serverPart.isCompleted = serverPart.isDownloaded && serverPart.isExtracted;
 
-                            log += "\npart " + serverPart.partKey
+                            log += "\npart " + serverPart.part
                                     + " isCompleted " + (serverPart.isCompleted ? "+" : "-")
                                     + " isDownloaded " + (serverPart.isDownloaded ? "+" : "-")
                                     + " isExtracted " + (serverPart.isExtracted ? "+" : "-");

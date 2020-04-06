@@ -6,7 +6,6 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 
 /**
  * @author Gram <gram7gram@gmail.com>
@@ -53,19 +52,7 @@ public class Files {
         return getInternal("game/servants-hire-scenario.json");
     }
 
-    public static void toFile(InputStream is, FileHandle file) throws IOException {
-
-        file.parent().mkdirs();
-
-        OutputStream os = file.write(false);
-
-        byte[] bytes = new byte[1024];
-        int count;
-        while ((count = is.read(bytes, 0, bytes.length)) != -1) {
-            os.write(bytes, 0, count);
-        }
-
-        is.close();
-        os.close();
+    public static void toFile(InputStream is, FileHandle file, FileWriter.ProgressListener listener) throws IOException {
+        new FileWriter(listener).stream(is, file);
     }
 }
