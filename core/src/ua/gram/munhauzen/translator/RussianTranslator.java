@@ -34,7 +34,7 @@ public class RussianTranslator implements Translator {
         map.put("expansion_download.low_memory", "Нехватает памяти, пожалуйста освободите место");
         map.put("expansion_download.completed", "Все файлы были закачаны!");
         map.put("expansion_download.extracting_part", "Распаковка части __NUM__/__TOTAL__ ...");
-        map.put("expansion_download.downloading_part", "Скачивание части __NUM__/__TOTAL__ ...");
+        map.put("expansion_download.downloading_part", "Скачивание части __NUM__/__TOTAL__\n__SPEED__ мб/с");
         map.put("expansion_download.downloading_part_failed", "Скачивание части __NUM__ не успешно");
         map.put("expansion_download.extracting_part_failed", "Распаковка части __NUM__ не успешна");
         map.put("balloons_inter.retry_btn", "Повторить");

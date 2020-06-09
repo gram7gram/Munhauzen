@@ -34,7 +34,7 @@ public class EnglishTranslator implements Translator {
         map.put("expansion_download.low_memory", "Not enough memory. Please, free some space for the game");
         map.put("expansion_download.completed", "Resources are loaded!");
         map.put("expansion_download.extracting_part", "Extracting part __NUM__/__TOTAL__ ...");
-        map.put("expansion_download.downloading_part", "Downloading part __NUM__/__TOTAL__ ...");
+        map.put("expansion_download.downloading_part", "Downloading part __NUM__/__TOTAL__\n__SPEED__ mb/s");
         map.put("expansion_download.downloading_part_failed", "Downloading part __NUM__ has failed");
         map.put("expansion_download.extracting_part_failed", "Extracting part __NUM__ has failed");
         map.put("balloons_inter.retry_btn", "Retry");

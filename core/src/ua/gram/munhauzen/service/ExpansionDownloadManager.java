@@ -10,6 +10,8 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 
+import java.util.Locale;
+
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.Purchase;
 import ua.gram.munhauzen.expansion.ExtractExpansionPartTask;
@@ -120,7 +122,8 @@ public class ExpansionDownloadManager implements Disposable {
                     Files.toFile(httpResponse.getResultAsStream(), output, new FileWriter.ProgressListener() {
                         @Override
                         public void onProgress(float downloaded, long elapsed, float speed) {
-
+                            part.downloadedMB = downloaded;
+                            part.downloadSpeed = speed;
                         }
                     });
 
@@ -507,19 +510,30 @@ public class ExpansionDownloadManager implements Disposable {
         fragment.onExpansionDownloadComplete();
     }
 
-    private int getProgress() {
+    private float getProgress() {
         ExpansionResponse expansionInfo = game.gameState.expansionInfo;
 
-        if (expansionInfo == null) return 0;
+        if (expansionInfo.parts.count > 0 && expansionInfo.sizeMB > 0) {
 
-        float downloadedCount = 0, extractedCount = 0;
+            float progress = 0;
 
-        for (Part item : expansionInfo.parts.items) {
-            if (item.isDownloaded) ++downloadedCount;
-            if (item.isExtracted) ++extractedCount;
+            for (Part item : expansionInfo.parts.items) {
+
+                if (item.isExtracted) {
+                    progress += 100;
+                } else if (item.isDownloaded) {
+                    progress += 95;
+                } else {
+                    progress += 95 * (item.downloadedMB / expansionInfo.sizeMB) * expansionInfo.parts.count;
+                }
+            }
+
+            progress /= expansionInfo.parts.count;
+
+            return Math.max(0, Math.min(100, progress));
         }
 
-        return (int) ((downloadedCount / expansionInfo.parts.count + extractedCount / expansionInfo.parts.count) / 2 * 100);
+        return 0;
     }
 
     public void updateProgress() {
@@ -539,7 +553,8 @@ public class ExpansionDownloadManager implements Disposable {
                 if (item.isDownloading) {
                     progressText = game.t("expansion_download.downloading_part")
                             .replace("__NUM__", item.part + "")
-                            .replace("__TOTAL__", expansionInfo.parts.count + "");
+                            .replace("__TOTAL__", expansionInfo.parts.count + "")
+                            .replace("__SPEED__", item.downloadSpeed == 0 ? "-" : String.format(Locale.US, "%.2f", item.downloadSpeed));
                 }
 
                 if (item.isExtracting) {
@@ -565,7 +580,7 @@ public class ExpansionDownloadManager implements Disposable {
 
             }
 
-            fragment.progress.setText(Math.max(1, expansionInfo.progress) + "%");
+            fragment.progress.setText(String.format(Locale.US, "%.2f", expansionInfo.progress) + "%");
             fragment.progressMessage.setText(progressText);
 
             expansionInfo.isCompleted = areAllCompleted;

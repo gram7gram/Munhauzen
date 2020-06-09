@@ -1,5 +1,6 @@
 package ua.gram.munhauzen.expansion.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import ua.gram.munhauzen.entity.JsonEntry;
@@ -9,8 +10,8 @@ public class Part implements JsonEntry {
     @JsonProperty
     public String url, checksum;
 
-    @JsonProperty
-    public double size;
+    @JsonIgnore
+    public float downloadedMB, downloadSpeed;
 
     @JsonProperty
     public int part;

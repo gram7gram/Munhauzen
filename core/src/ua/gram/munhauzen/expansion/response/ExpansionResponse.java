@@ -14,7 +14,10 @@ public class ExpansionResponse implements JsonEntry {
     public String locale, dpi;
 
     @JsonProperty
-    public double size;
+    public long size;
+
+    @JsonProperty
+    public float sizeMB;
 
     @JsonProperty
     public PartContainer parts;
@@ -26,7 +29,7 @@ public class ExpansionResponse implements JsonEntry {
     public boolean isDownloadStarted;
 
     @JsonProperty
-    public int progress;
+    public float progress;
 
     @JsonIgnore
     public boolean isSameExpansion(ExpansionResponse expansion) {

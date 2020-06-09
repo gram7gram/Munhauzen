@@ -75,7 +75,7 @@ public class TutorialBanner extends Banner {
                     .row();
         }
 
-        Texture txt = screen.assetManager.get("menu/tutorial.jpg", Texture.class);
+        Texture txt = screen.assetManager.get("menu/tutorial.png", Texture.class);
 
         FixedImage img = new FixedImage(txt, cellMinWidth);
         img.addListener(new ClickListener() {
