@@ -19,10 +19,13 @@ public abstract class IconAnimation extends AnimatedImage {
     public void layout() {
         super.layout();
 
-        float scale = 1f * iconHeight / getCurrentDrawable().getMinHeight();
-        iconWidth = scale * getCurrentDrawable().getMinWidth();
+        try {
 
-        setSize(iconWidth, iconHeight);
+            float scale = 1f * iconHeight / getCurrentDrawable().getMinHeight();
+            iconWidth = scale * getCurrentDrawable().getMinWidth();
+
+            setSize(iconWidth, iconHeight);
+        } catch (Throwable ignore) {}
 
     }
 }

@@ -7,6 +7,8 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 import java.io.IOException;
 import java.io.InputStream;
 
+import ua.gram.munhauzen.PlatformParams;
+
 /**
  * @author Gram <gram7gram@gmail.com>
  */
@@ -66,6 +68,10 @@ public class Files {
 
     public static FileHandle getScenarioFile() {
         return getInternal("scenario.json");
+    }
+
+    public static FileHandle getExpansionConfigFile(PlatformParams params, String part) {
+        return getInternal(params.dpi + "-" + part + "-expansion.json");
     }
 
     private static FileHandle getInternal(String name) {

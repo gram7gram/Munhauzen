@@ -81,12 +81,15 @@ public class DatabaseManager {
                 ExpansionResponse result = om.readValue(raw, ExpansionResponse.class);
 
                 if (result != null) {
-                    if (result.version == game.params.expansionVersion) {
-                        return result;
-                    } else {
-                        Log.e(tag, "Obsolete expansion info v" + result.version);
-                        return null;
-                    }
+
+                    return result;
+
+//                    if (result.version == game.params.expansionVersion) {
+//                        return result;
+//                    } else {
+//                        Log.e(tag, "Obsolete expansion info v" + result.version);
+//                        return null;
+//                    }
                 }
             }
         } catch (Throwable e) {

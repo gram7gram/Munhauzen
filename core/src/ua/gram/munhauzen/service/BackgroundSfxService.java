@@ -154,8 +154,12 @@ public class BackgroundSfxService {
     public void update() {
         expansionAssetManager.update();
 
-        if (activeAudio != null && activeAudio.player != null && isPlaying) {
-            activeAudio.player.setVolume(GameState.isMute ? 0 : 1);
+        try {
+            if (activeAudio != null && activeAudio.player != null && isPlaying) {
+                activeAudio.player.setVolume(GameState.isMute ? 0 : 1);
+            }
+
+        } catch (Throwable ignore) {
         }
     }
 
@@ -172,18 +176,27 @@ public class BackgroundSfxService {
     public void dispose() {
         Log.i(tag, "dispose");
 
-        stop();
+        try {
 
-        expansionAssetManager.dispose();
+            stop();
+
+            expansionAssetManager.dispose();
+
+        } catch (Throwable ignore) {
+        }
     }
 
     public void dispose(StoryAudio storyAudio) {
 
-        if (storyAudio.player != null) {
-            storyAudio.player.stop();
-            storyAudio.player = null;
-        }
+        try {
+            if (storyAudio.player != null) {
+                storyAudio.player.stop();
+                storyAudio.player = null;
+            }
 
-        expansionAssetManager.unload(storyAudio.resource);
+            expansionAssetManager.unload(storyAudio.resource);
+
+        } catch (Throwable ignore) {
+        }
     }
 }

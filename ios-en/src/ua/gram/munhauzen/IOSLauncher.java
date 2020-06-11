@@ -45,7 +45,7 @@ public class IOSLauncher extends IOSApplication.Delegate {
         params.iap = new PurchaseManageriOSApple();
         params.translator = new EnglishTranslator();
         params.appStore = new AppleStore(params);
-        params.release = PlatformParams.Release.PROD;
+        params.release = PlatformParams.Release.TEST;
 
         final NSDictionary<NSString, ?> infoDictionary = NSBundle.getMainBundle().getInfoDictionary();
         final Set<NSString> keys = infoDictionary.keySet();

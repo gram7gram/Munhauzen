@@ -5,7 +5,6 @@ import com.badlogic.gdx.Net;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.net.HttpRequestBuilder;
 import com.badlogic.gdx.net.HttpStatus;
-import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
@@ -23,7 +22,7 @@ import ua.gram.munhauzen.utils.FileWriter;
 import ua.gram.munhauzen.utils.Files;
 import ua.gram.munhauzen.utils.Log;
 
-public class ExpansionDownloadManager implements Disposable {
+public class ExpansionDownloadManager {
 
     final String tag = getClass().getSimpleName();
     final MunhauzenGame game;
@@ -44,11 +43,154 @@ public class ExpansionDownloadManager implements Disposable {
     public void start() {
         Log.i(tag, "start");
 
-        cancel();
+        isCanceled = false;
 
         dispose();
 
         fetchExpansionInfo();
+    }
+
+    public void fetchExpansionInfo() {
+
+        if (game.gameState.purchaseState.purchases == null) {
+            onConnectionCanceled();
+            return;
+        }
+
+        Gdx.app.postRunnable(new Runnable() {
+            @Override
+            public void run() {
+                fragment.progress.setText("");
+                fragment.progressMessage.setText(game.t("expansion_download.started"));
+            }
+        });
+
+        Purchase part2Purchase = null, part1Purchase = null;
+
+        for (Purchase purchase : game.gameState.purchaseState.purchases) {
+//            if (purchase.productId.equals(game.params.appStoreSkuFull)) {
+//                fullPurchase = purchase;
+//            }
+
+            if (purchase.productId.equals(game.params.appStoreSkuPart2)) {
+                part2Purchase = purchase;
+            }
+
+            if (purchase.productId.equals(game.params.appStoreSkuPart1)) {
+                part1Purchase = purchase;
+            }
+        }
+
+        String id = "Part_demo";
+        if (game.gameState.purchaseState.isPro) {
+            id = "Part_2";
+        } else if (part2Purchase != null) {
+            id = "Part_2";
+        } else if (part1Purchase != null) {
+            id = "Part_1";
+        }
+
+        try {
+
+            FileHandle file = Files.getExpansionConfigFile(game.params, id);
+
+            String content = file.readString("UTF-8");
+
+            Log.i(tag, "fetchExpansionInfo:\n" + content);
+
+            ExpansionResponse serverExpansionInfo = game.databaseManager.loadExpansionInfo(content);
+            if (serverExpansionInfo == null) {
+                Gdx.app.postRunnable(new Runnable() {
+                    @Override
+                    public void run() {
+                        onBadResponse();
+                    }
+                });
+                return;
+            }
+
+            ExpansionResponse expansionInfo = game.gameState.expansionInfo;
+
+            if (expansionInfo != null && expansionInfo.isSameExpansion(serverExpansionInfo)) {
+
+                Log.i(tag, "Same expansion. Resuming download...");
+
+                String log = "Expansion state:";
+
+                for (Part serverPart : serverExpansionInfo.parts.items) {
+
+                    serverPart.isDownloaded = false;
+                    serverPart.isDownloadFailure = false;
+                    serverPart.isDownloading = false;
+
+                    serverPart.isExtracting = false;
+                    serverPart.isExtracted = false;
+                    serverPart.isExtractFailure = false;
+
+                    for (Part localPart : expansionInfo.parts.items) {
+                        if (localPart.part == serverPart.part && localPart.checksum.equals(serverPart.checksum)) {
+
+                            serverPart.isDownloaded = localPart.isDownloaded;
+                            serverPart.isExtracted = localPart.isExtracted;
+
+                            if (serverPart.isDownloaded && !serverPart.isExtracted) {
+                                if (!ExternalFiles.getExpansionPartFile(game.params, serverPart).exists()) {
+                                    serverPart.isDownloaded = false;
+                                }
+                            }
+
+                            break;
+                        }
+                    }
+
+                    serverPart.isCompleted = serverPart.isDownloaded && serverPart.isExtracted;
+
+                    log += "\npart " + serverPart.part
+                            + " isCompleted " + (serverPart.isCompleted ? "+" : "-")
+                            + " isDownloaded " + (serverPart.isDownloaded ? "+" : "-")
+                            + " isExtracted " + (serverPart.isExtracted ? "+" : "-");
+
+                }
+
+                Log.i(tag, log);
+
+            } else {
+
+                Log.e(tag, "New expansion. Removing previous expansion and starting download...");
+
+                final float sizeMb = (float) (serverExpansionInfo.size / 1024f / 1024f);
+
+                if (game.params.memoryUsage != null) {
+                    float memory = game.params.memoryUsage.megabytesAvailable();
+                    if (sizeMb > memory) {
+                        Gdx.app.postRunnable(new Runnable() {
+                            @Override
+                            public void run() {
+                                onLowMemory();
+                            }
+                        });
+                        return;
+                    }
+                }
+            }
+
+            game.gameState.expansionInfo = serverExpansionInfo;
+
+            game.gameState.expansionInfo.isDownloadStarted = true;
+
+            processAvailablePart();
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            Gdx.app.postRunnable(new Runnable() {
+                @Override
+                public void run() {
+                    onConnectionFailed();
+                }
+            });
+        }
+
     }
 
     private void processAvailablePart() {
@@ -90,7 +232,7 @@ public class ExpansionDownloadManager implements Disposable {
             return;
         }
 
-        Log.i(tag, "fetchExpansionPart part#" + part.part + " " + part.url);
+        String url = part.getUrl();
 
         final HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
 
@@ -100,9 +242,15 @@ public class ExpansionDownloadManager implements Disposable {
 
         httpRequest = requestBuilder.newRequest()
                 .method(Net.HttpMethods.GET)
-                .url(part.url)
-                .timeout(10000)
+                .url(url)
+                .timeout(5000)
                 .build();
+
+        part.retryCount += 1;
+
+        Log.i(tag, "fetchExpansionPart part#" + part.part
+                + "\nretry " + part.retryCount
+                + "\n" + url);
 
         Gdx.net.sendHttpRequest(httpRequest, new Net.HttpResponseListener() {
             @Override
@@ -116,8 +264,15 @@ public class ExpansionDownloadManager implements Disposable {
                     Log.e(tag, "fetchExpansionPart: " + code);
 
                     if (code != HttpStatus.SC_OK) {
-                        throw new GdxRuntimeException("Bad request");
+
+                        if (part.retryCount < 3) {
+                            fetchExpansionPart(part);
+                        } else {
+                            throw new GdxRuntimeException("Bad request");
+                        }
                     }
+
+                    part.retryCount = 0;
 
                     Files.toFile(httpResponse.getResultAsStream(), output, new FileWriter.ProgressListener() {
                         @Override
@@ -235,188 +390,6 @@ public class ExpansionDownloadManager implements Disposable {
         part.isExtracted = false;
 
         ExternalFiles.getExpansionPartFile(game.params, part).delete();
-    }
-
-    public void fetchExpansionInfo() {
-
-        if (game.gameState.purchaseState.purchases == null) {
-            onConnectionCanceled();
-            return;
-        }
-
-        final HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
-
-        Gdx.app.postRunnable(new Runnable() {
-            @Override
-            public void run() {
-                fragment.progress.setText("");
-                fragment.progressMessage.setText(game.t("expansion_download.started"));
-            }
-        });
-
-        Purchase fullPurchase = null, part2Purchase = null, part1Purchase = null;
-
-        for (Purchase purchase : game.gameState.purchaseState.purchases) {
-            if (purchase.productId.equals(game.params.appStoreSkuFull)) {
-                fullPurchase = purchase;
-            }
-
-            if (purchase.productId.equals(game.params.appStoreSkuPart2)) {
-                part2Purchase = purchase;
-            }
-
-            if (purchase.productId.equals(game.params.appStoreSkuPart1)) {
-                part1Purchase = purchase;
-            }
-        }
-
-        String id = "free";
-        if (fullPurchase != null) {
-            id = fullPurchase.productId;
-        } else if (part2Purchase != null) {
-            id = part2Purchase.productId;
-        } else if (part1Purchase != null) {
-            id = part1Purchase.productId;
-        }
-
-        final String url = game.params.getExpansionUrl(id);
-
-        Log.i(tag, "fetchExpansionInfo\nGET " + url);
-
-        httpRequest = requestBuilder.newRequest()
-                .method(Net.HttpMethods.GET)
-                .url(url)
-                .timeout(10000)
-                .build();
-
-        Gdx.net.sendHttpRequest(httpRequest, new Net.HttpResponseListener() {
-            @Override
-            public void handleHttpResponse(Net.HttpResponse httpResponse) {
-
-                try {
-
-                    String response = httpResponse.getResultAsString();
-
-                    int code = httpResponse.getStatus().getStatusCode();
-
-                    Log.e(tag, "fetchExpansionInfo:\n" + code + ": " + response);
-
-                    if (code != HttpStatus.SC_OK) {
-                        throw new GdxRuntimeException("Bad request");
-                    }
-
-                    ExpansionResponse serverExpansionInfo = game.databaseManager.loadExpansionInfo(response);
-                    if (serverExpansionInfo == null) {
-                        Gdx.app.postRunnable(new Runnable() {
-                            @Override
-                            public void run() {
-                                onBadResponse();
-                            }
-                        });
-                        return;
-                    }
-
-                    ExpansionResponse expansionInfo = game.gameState.expansionInfo;
-
-                    if (expansionInfo != null && expansionInfo.isSameExpansion(serverExpansionInfo)) {
-
-                        Log.i(tag, "Same expansion. Resuming download...");
-
-                        String log = "Expansion state:";
-
-                        for (Part serverPart : serverExpansionInfo.parts.items) {
-
-                            serverPart.isDownloaded = false;
-                            serverPart.isDownloadFailure = false;
-                            serverPart.isDownloading = false;
-
-                            serverPart.isExtracting = false;
-                            serverPart.isExtracted = false;
-                            serverPart.isExtractFailure = false;
-
-                            for (Part localPart : expansionInfo.parts.items) {
-                                if (localPart.part == serverPart.part && localPart.checksum.equals(serverPart.checksum)) {
-
-                                    serverPart.isDownloaded = localPart.isDownloaded;
-                                    serverPart.isExtracted = localPart.isExtracted;
-
-                                    if (serverPart.isDownloaded && !serverPart.isExtracted) {
-                                        if (!ExternalFiles.getExpansionPartFile(game.params, serverPart).exists()) {
-                                            serverPart.isDownloaded = false;
-                                        }
-                                    }
-
-                                    break;
-                                }
-                            }
-
-                            serverPart.isCompleted = serverPart.isDownloaded && serverPart.isExtracted;
-
-                            log += "\npart " + serverPart.part
-                                    + " isCompleted " + (serverPart.isCompleted ? "+" : "-")
-                                    + " isDownloaded " + (serverPart.isDownloaded ? "+" : "-")
-                                    + " isExtracted " + (serverPart.isExtracted ? "+" : "-");
-
-                        }
-
-                        Log.i(tag, log);
-
-                    } else {
-
-                        Log.e(tag, "New expansion. Removing previous expansion and starting download...");
-
-                        final float sizeMb = (float) (serverExpansionInfo.size / 1024f / 1024f);
-
-                        if (game.params.memoryUsage != null) {
-                            float memory = game.params.memoryUsage.megabytesAvailable();
-                            if (sizeMb > memory) {
-                                Gdx.app.postRunnable(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        onLowMemory();
-                                    }
-                                });
-                                return;
-                            }
-                        }
-                    }
-
-                    game.gameState.expansionInfo = serverExpansionInfo;
-
-                    game.gameState.expansionInfo.isDownloadStarted = true;
-
-                    processAvailablePart();
-
-                } catch (Throwable e) {
-                    failed(e);
-                }
-
-            }
-
-            @Override
-            public void failed(Throwable t) {
-                Log.e(tag, t);
-
-                Gdx.app.postRunnable(new Runnable() {
-                    @Override
-                    public void run() {
-                        onConnectionFailed();
-                    }
-                });
-            }
-
-            @Override
-            public void cancelled() {
-
-                Gdx.app.postRunnable(new Runnable() {
-                    @Override
-                    public void run() {
-                        onConnectionCanceled();
-                    }
-                });
-
-            }
-        });
     }
 
     private void onBadResponse() {
@@ -602,13 +575,11 @@ public class ExpansionDownloadManager implements Disposable {
     }
 
     private boolean isDisposed() {
-        return httpRequest == null || isCanceled;
+        return isCanceled;
     }
 
-    @Override
     public void dispose() {
         httpRequest = null;
-        isCanceled = false;
     }
 
 }

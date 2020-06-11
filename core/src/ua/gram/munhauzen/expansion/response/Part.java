@@ -36,4 +36,13 @@ public class Part implements JsonEntry {
 
     @JsonProperty
     public boolean isExtractFailure;
+
+    @JsonIgnore
+    public int retryCount;
+
+    @JsonIgnore
+    public String getUrl() {
+        return "https://www.googleapis.com/drive/v3/files/"
+                + url + "?alt=media&key=AIzaSyD7dkdttQpRuVLP-UhYU9DEWI6duFCO0lY";
+    }
 }

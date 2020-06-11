@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
 
+import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.PlatformParams;
 
 public class PurchaseState implements JsonEntry {
@@ -46,5 +47,7 @@ public class PurchaseState implements JsonEntry {
             isPro = hasFull || (hasPart1 && hasPart2);
 
         }
+
+        isPro = isPro || MunhauzenGame.developmentIsPro;
     }
 }

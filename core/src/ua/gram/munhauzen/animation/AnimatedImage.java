@@ -43,17 +43,20 @@ public abstract class AnimatedImage extends Image {
 
     public void animate(Texture walkSheet, int rows, int cols, int frameLimit, float speed) {
 
-        TextureRegion[][] tmp = TextureRegion.split(walkSheet,
-                walkSheet.getWidth() / cols,
-                walkSheet.getHeight() / rows);
-
         TextureRegionDrawable[] frames = new TextureRegionDrawable[frameLimit];
-        int index = -1;
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                index++;
-                if (index < frameLimit) {
-                    frames[index] = new TextureRegionDrawable(tmp[i][j]);
+
+        if (walkSheet != null) {
+            TextureRegion[][] tmp = TextureRegion.split(walkSheet,
+                    walkSheet.getWidth() / cols,
+                    walkSheet.getHeight() / rows);
+
+            int index = -1;
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < cols; j++) {
+                    index++;
+                    if (index < frameLimit) {
+                        frames[index] = new TextureRegionDrawable(tmp[i][j]);
+                    }
                 }
             }
         }

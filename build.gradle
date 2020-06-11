@@ -9,7 +9,7 @@ buildscript {
     }
     dependencies {
         //Needed for `apply plugin: "robovm"`
-        classpath "com.mobidevelop.robovm:robovm-gradle-plugin:2.3.9-SNAPSHOT"
+        classpath "com.mobidevelop.robovm:robovm-gradle-plugin:2.3.9"
         //Needed for `apply plugin: "android"`
         classpath 'com.android.tools.build:gradle:3.3.2'
     }

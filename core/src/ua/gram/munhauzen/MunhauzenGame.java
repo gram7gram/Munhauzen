@@ -32,9 +32,10 @@ public class MunhauzenGame extends Game {
 
     public static final boolean DEBUG_UI = false;
     public static final int PROGRESS_BAR_FADE_OUT_DELAY = 5;
+    public static final boolean developmentIsPro = false;
 
     public static String developmentScenario;
-    public static boolean developmentSkipEnable;
+    public static boolean developmentSkipEnable = true; //enabled by default even in production
     public static boolean developmentVictory;
 
     // WAUWAU GENERAL HARE PICTURE SERVANTS TIMER

@@ -7,7 +7,7 @@ const audioDir = "/Users/master/Projects/MunhauzenDocs/Elements/AUDIO_FINAL";
 
 const PARTS = 5;
 
-const VERSION = 8;
+const VERSION = 9;
 const LOCALE = 'en';
 
 const DLC = {

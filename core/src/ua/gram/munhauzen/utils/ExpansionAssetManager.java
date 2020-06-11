@@ -9,6 +9,7 @@ import ua.gram.munhauzen.MunhauzenGame;
 
 public class ExpansionAssetManager extends AssetManager {
 
+    final String tag = getClass().getSimpleName();
     final String prefix;
 
     public ExpansionAssetManager(MunhauzenGame game) {
@@ -62,7 +63,8 @@ public class ExpansionAssetManager extends AssetManager {
     public synchronized <T> void load(String fileName, Class<T> type) {
         try {
             super.load(getPath(fileName), type);
-        } catch (Throwable ignore) {
+        } catch (Throwable e) {
+            Log.e(tag, e);
         }
     }
 
