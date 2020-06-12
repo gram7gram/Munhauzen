@@ -23,16 +23,14 @@ public class ChapterRow extends Table {
     final String tag = getClass().getSimpleName();
     final ChaptersScreen screen;
     final Chapter chapter;
-    final int index;
     Label title, number;
     FitImage icon;
     float iconSize, width;
     final Label.LabelStyle openedStyle, hiddenStyle;
 
-    public ChapterRow(final ChaptersScreen screen, final Chapter chapter, int index, float width) {
+    public ChapterRow(final ChaptersScreen screen, final Chapter chapter, float width) {
 
         this.width = width;
-        this.index = index;
         this.screen = screen;
         this.chapter = chapter;
 
@@ -46,7 +44,9 @@ public class ChapterRow extends Table {
                 Color.GRAY
         );
 
-        number = new Label(index + ".", openedStyle);
+        String num = chapter.number < 1 ? "-" : chapter.number + ".";
+
+        number = new Label(num, openedStyle);
         number.setWrap(false);
         number.setAlignment(Align.left);
 

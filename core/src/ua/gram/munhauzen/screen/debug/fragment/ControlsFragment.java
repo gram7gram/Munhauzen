@@ -39,6 +39,7 @@ import ua.gram.munhauzen.interaction.servants.hire.HireScenario;
 import ua.gram.munhauzen.interaction.timer.TimerScenario;
 import ua.gram.munhauzen.interaction.timer2.Timer2Scenario;
 import ua.gram.munhauzen.interaction.wauwau.WauScenario;
+import ua.gram.munhauzen.screen.DebugAudioScreen;
 import ua.gram.munhauzen.screen.DebugScreen;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.screen.LoadingScreen;
@@ -191,7 +192,7 @@ public class ControlsFragment extends Fragment {
             }
         });
 
-        final Label skipLbl = new Label("[+] " + game.t("debug_screen.enable_skip"), new Label.LabelStyle(
+        final Label skipLbl = new Label("[+] " + game.t("debug_screen.open_audio_test"), new Label.LabelStyle(
                 game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
                 Color.BLUE
         ));
@@ -200,13 +201,7 @@ public class ControlsFragment extends Fragment {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                skipLbl.setVisible(false);
-
-                try {
-                    MunhauzenGame.developmentSkipEnable = true;
-                } catch (Throwable e) {
-                    Log.e(tag, e);
-                }
+                screen.navigateTo(new DebugAudioScreen(game));
             }
         });
 

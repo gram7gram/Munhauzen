@@ -1,5 +1,6 @@
 package ua.gram.munhauzen.screen.purchase.ui;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -13,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 
+import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.screen.PurchaseScreen;
 import ua.gram.munhauzen.ui.FixedImage;
@@ -106,7 +108,7 @@ public abstract class Card extends Stack {
                 try {
                     Log.i(tag, "listener2");
 
-                    price.setText(screen.game.t("purchase_screen.processing"));
+                    setPriceText(screen.game.t("purchase_screen.processing"));
 
                     if (purchased) {
                         event.cancel();
@@ -181,4 +183,28 @@ public abstract class Card extends Stack {
     public abstract Label[] createSentences();
 
     public abstract Texture getImage();
+
+    public Label.LabelStyle getPriceNumberStyle() {
+        return new Label.LabelStyle(
+                screen.game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.h3),
+                Color.BLACK
+        );
+    }
+
+    public Label.LabelStyle getPriceTextStyle() {
+        return new Label.LabelStyle(
+                screen.game.fontProvider.getFont(FontProvider.BuxtonSketch, FontProvider.h3),
+                Color.BLACK
+        );
+    }
+
+    public void setPriceNumber(String value) {
+        price.setStyle(getPriceNumberStyle());
+        price.setText(value);
+    }
+
+    public void setPriceText(String value) {
+        price.setStyle(getPriceTextStyle());
+        price.setText(value);
+    }
 }

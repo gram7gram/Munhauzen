@@ -194,7 +194,7 @@ public class EnglishTranslator implements Translator {
         map.put("tutorial_banner.skip_btn", "Skip");
 
         map.put("debug_screen.endings", "Endings");
-        map.put("debug_screen.enable_skip", "Enable skip scenario");
+        map.put("debug_screen.open_audio_test", "Open audio test");
         map.put("debug_screen.open_fails", "Unlock all fails");
         map.put("debug_screen.open_gallery", "Unlock all gallery");
         map.put("debug_screen.purge_history", "Reset history");

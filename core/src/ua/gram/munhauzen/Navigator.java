@@ -7,9 +7,11 @@ import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.screen.LegalScreen;
+import ua.gram.munhauzen.screen.LoadingScreen;
 import ua.gram.munhauzen.screen.LogoScreen;
 import ua.gram.munhauzen.screen.MenuScreen;
 import ua.gram.munhauzen.screen.PurchaseScreen;
+import ua.gram.munhauzen.service.ExpansionDownloadManager;
 import ua.gram.munhauzen.utils.Log;
 
 public class Navigator {
@@ -99,12 +101,17 @@ public class Navigator {
 
         try {
 
-            boolean isExpansionDownloaded = false;
-            boolean isLegalViewed = false;
-
             if (game.gameState == null) {
                 throw new GdxRuntimeException("No game state was loaded");
             }
+
+            boolean isLegalViewed = false;
+            boolean hasPurchases = game.gameState.purchaseState.purchases != null
+                    && !game.gameState.purchaseState.purchases.isEmpty();
+
+            ExpansionDownloadManager downloadManager = new ExpansionDownloadManager(game, null);
+
+            boolean needUpdates = downloadManager.shouldFetchExpansion();
 
             if (game.gameState.preferences != null) {
                 isLegalViewed = game.gameState.preferences.isLegalViewed;
@@ -114,14 +121,12 @@ public class Navigator {
                 game.gameState.menuState.isFirstMenuAfterGameStart = true;
             }
 
-            if (game.gameState.expansionInfo != null) {
-                isExpansionDownloaded = game.gameState.expansionInfo.isCompleted;
-            }
-
             if (!isLegalViewed) {
                 navigateTo(new LegalScreen(game));
-            } else if (!isExpansionDownloaded) {
+            } else if (!hasPurchases) {
                 navigateTo(new PurchaseScreen(game));
+            } else if (needUpdates) {
+                navigateTo(new LoadingScreen(game));
             } else {
                 navigateTo(new MenuScreen(game));
             }

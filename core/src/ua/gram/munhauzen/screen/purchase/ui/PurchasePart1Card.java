@@ -81,10 +81,7 @@ public class PurchasePart1Card extends Card {
 
     @Override
     public Label createPrice() {
-        return new Label("", new Label.LabelStyle(
-                screen.game.fontProvider.getFont(FontProvider.BuxtonSketch, FontProvider.h3),
-                Color.BLACK
-        ));
+        return new Label("", getPriceTextStyle());
     }
 
     @Override

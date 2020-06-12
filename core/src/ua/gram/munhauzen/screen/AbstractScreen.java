@@ -103,7 +103,10 @@ public abstract class AbstractScreen implements Screen {
 
         drawBackground();
 
-        assetManager.update();
+        try {
+            assetManager.update();
+        } catch (Throwable ignore) {
+        }
 
         if (!isLoaded) {
 

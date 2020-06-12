@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 
+import java.io.InputStream;
 import java.util.Locale;
 
 import ua.gram.munhauzen.MunhauzenGame;
@@ -128,7 +129,7 @@ public class ExpansionDownloadManager {
                     serverPart.isExtractFailure = false;
 
                     for (Part localPart : expansionInfo.parts.items) {
-                        if (localPart.part == serverPart.part && localPart.checksum.equals(serverPart.checksum)) {
+                        if (localPart.url.equals(serverPart.url)) {
 
                             serverPart.isDownloaded = localPart.isDownloaded;
                             serverPart.isExtracted = localPart.isExtracted;
@@ -156,7 +157,7 @@ public class ExpansionDownloadManager {
 
             } else {
 
-                Log.e(tag, "New expansion. Removing previous expansion and starting download...");
+                Log.e(tag, "New expansion");
 
                 final float sizeMb = (float) (serverExpansionInfo.size / 1024f / 1024f);
 
@@ -191,6 +192,110 @@ public class ExpansionDownloadManager {
             });
         }
 
+    }
+
+    public boolean shouldFetchExpansion() {
+
+        if (game.gameState.purchaseState.purchases == null) {
+            return false;
+        }
+
+        Purchase part2Purchase = null, part1Purchase = null;
+
+        for (Purchase purchase : game.gameState.purchaseState.purchases) {
+//            if (purchase.productId.equals(game.params.appStoreSkuFull)) {
+//                fullPurchase = purchase;
+//            }
+
+            if (purchase.productId.equals(game.params.appStoreSkuPart2)) {
+                part2Purchase = purchase;
+            }
+
+            if (purchase.productId.equals(game.params.appStoreSkuPart1)) {
+                part1Purchase = purchase;
+            }
+        }
+
+        String id = "Part_demo";
+        if (game.gameState.purchaseState.isPro) {
+            id = "Part_2";
+        } else if (part2Purchase != null) {
+            id = "Part_2";
+        } else if (part1Purchase != null) {
+            id = "Part_1";
+        }
+
+        try {
+
+            ExpansionResponse existingExpansion = game.gameState.expansionInfo;
+            if (existingExpansion == null) {
+                return true;
+            }
+
+            FileHandle file = Files.getExpansionConfigFile(game.params, id);
+
+            String content = file.readString("UTF-8");
+
+            Log.i(tag, "fetchExpansionInfo:\n" + content);
+
+            ExpansionResponse serverExpansionInfo = game.databaseManager.loadExpansionInfo(content);
+
+            if (!existingExpansion.isSameExpansion(serverExpansionInfo)) {
+                return true;
+            }
+
+            String log = "Expansion state:";
+
+            boolean hasIncomplete = false;
+
+            for (Part serverPart : serverExpansionInfo.parts.items) {
+
+                serverPart.isDownloaded = false;
+                serverPart.isDownloadFailure = false;
+                serverPart.isDownloading = false;
+
+                serverPart.isExtracting = false;
+                serverPart.isExtracted = false;
+                serverPart.isExtractFailure = false;
+
+                for (Part localPart : existingExpansion.parts.items) {
+                    if (localPart.url.equals(serverPart.url)) {
+
+                        serverPart.isDownloaded = localPart.isDownloaded;
+                        serverPart.isExtracted = localPart.isExtracted;
+
+                        if (serverPart.isDownloaded && !serverPart.isExtracted) {
+                            if (!ExternalFiles.getExpansionPartFile(game.params, serverPart).exists()) {
+                                serverPart.isDownloaded = false;
+                            }
+                        }
+
+                        break;
+                    }
+                }
+
+                serverPart.isCompleted = serverPart.isDownloaded && serverPart.isExtracted;
+
+                if (!serverPart.isCompleted) {
+                    hasIncomplete = true;
+                }
+
+                log += "\npart " + serverPart.part
+                        + " isCompleted " + (serverPart.isCompleted ? "+" : "-")
+                        + " isDownloaded " + (serverPart.isDownloaded ? "+" : "-")
+                        + " isExtracted " + (serverPart.isExtracted ? "+" : "-");
+
+            }
+
+            Log.i(tag, log);
+
+            return hasIncomplete;
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            return true;
+        }
     }
 
     private void processAvailablePart() {
@@ -263,10 +368,13 @@ public class ExpansionDownloadManager {
 
                     Log.e(tag, "fetchExpansionPart: " + code);
 
-                    if (code != HttpStatus.SC_OK) {
+                    InputStream stream = httpResponse.getResultAsStream();
+
+                    if (code != HttpStatus.SC_OK || stream == null) {
 
                         if (part.retryCount < 3) {
                             fetchExpansionPart(part);
+                            return;
                         } else {
                             throw new GdxRuntimeException("Bad request");
                         }
@@ -274,7 +382,7 @@ public class ExpansionDownloadManager {
 
                     part.retryCount = 0;
 
-                    Files.toFile(httpResponse.getResultAsStream(), output, new FileWriter.ProgressListener() {
+                    Files.toFile(stream, output, new FileWriter.ProgressListener() {
                         @Override
                         public void onProgress(float downloaded, long elapsed, float speed) {
                             part.downloadedMB = downloaded;
@@ -429,7 +537,7 @@ public class ExpansionDownloadManager {
         part.isExtracted = false;
         part.isExtractFailure = true;
 
-        fragment.retryTitle.setText(game.t("expansion_download.extract_failed") + part.part);
+        fragment.retryTitle.setText(game.t("expansion_download.extract_failed"));
         fragment.showRetry();
 
         dispose();

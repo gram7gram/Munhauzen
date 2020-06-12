@@ -180,7 +180,10 @@ public class GameScreen implements Screen {
 
         drawBackground();
 
-        assetManager.update();
+        try {
+            assetManager.update();
+        } catch (Throwable ignore) {
+        }
 
         if (!isLoaded) {
 

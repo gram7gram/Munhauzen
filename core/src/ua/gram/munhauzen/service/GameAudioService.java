@@ -887,7 +887,10 @@ public class GameAudioService implements Disposable {
     public void update() {
         if (assetManager == null) return;
 
-        assetManager.update();
+        try {
+            assetManager.update();
+        } catch (Throwable ignore) {
+        }
 
         updateVolume();
 

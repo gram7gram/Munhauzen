@@ -36,8 +36,11 @@ public abstract class AbstractInteraction implements Disposable {
     }
 
     public void update() {
-        if (assetManager != null) {
-            assetManager.update();
+        try {
+            if (assetManager != null) {
+                assetManager.update();
+            }
+        } catch (Throwable ignore) {
         }
     }
 

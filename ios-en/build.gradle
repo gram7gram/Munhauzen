@@ -14,6 +14,8 @@ createIPA.dependsOn build
 
 robovm {
 	archs = "thumbv7:arm64"
+
+	//uncomment for running on ios device
 //	iosSignIdentity = IOS_SIGN_IDENTITY_EN
 //	iosProvisioningProfile = IOS_PROVISIONING_PROFILE_EN
 }

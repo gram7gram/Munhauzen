@@ -109,29 +109,6 @@ public class AudioService implements Disposable {
         }
     }
 
-    public void playAudio(StoryAudio item) {
-
-        try {
-            if (item == null) return;
-            if (GameState.isPaused) return;
-
-            float delay = Math.max(0, (item.progress - item.startsAt) / 1000);
-
-            item.player.setPosition(delay);
-            item.player.setVolume(GameState.isMute ? 0 : 1);
-
-            Log.i(tag, "playAudio " + item.audio + " duration=" + (item.duration / 1000) + "s");
-
-            item.isActive = true;
-            item.player.play();
-
-            activeAudio.put(item.audio, item);
-
-        } catch (Throwable e) {
-            Log.e(tag, e);
-        }
-    }
-
     public void stop(StoryAudio storyAudio) {
         try {
 
@@ -242,7 +219,10 @@ public class AudioService implements Disposable {
 
         if (assetManager == null) return;
 
-        assetManager.update();
+        try {
+            assetManager.update();
+        } catch (Throwable ignore) {
+        }
 
         updateVolume();
     }

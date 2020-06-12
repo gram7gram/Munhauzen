@@ -58,10 +58,7 @@ public class FreeCard extends Card {
 
     @Override
     public Label createPrice() {
-        return new Label(screen.game.t("purchase_screen.free_price"), new Label.LabelStyle(
-                screen.game.fontProvider.getFont(FontProvider.BuxtonSketch, FontProvider.h3),
-                Color.BLACK
-        ));
+        return new Label(screen.game.t("purchase_screen.free_price"), getPriceTextStyle());
     }
 
     @Override

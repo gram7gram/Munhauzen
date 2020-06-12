@@ -62,15 +62,23 @@ public class FileWriter {
 
         Timer.instance().scheduleTask(task, 0, 1);
 
-        while ((count = is.read(bytes, 0, bytes.length)) != -1) {
-            os.write(bytes, 0, count);
+        try {
+            while ((count = is.read(bytes, 0, bytes.length)) != -1) {
+                os.write(bytes, 0, count);
 
-            totalRead += count;
+                totalRead += count;
+            }
+        } finally {
+
+            if (task != null)
+                task.cancel();
+
+            if (is != null)
+                is.close();
+
+            if (os != null)
+                os.close();
         }
 
-        task.cancel();
-
-        is.close();
-        os.close();
     }
 }

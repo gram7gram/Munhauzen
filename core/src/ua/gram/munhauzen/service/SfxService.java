@@ -332,11 +332,11 @@ public class SfxService {
                         Music sound = game.expansionAssetManager.get(audio.file, Music.class);
                         sound.setLooping(loop);
 
-                        final StoryAudio storyAudio = new StoryAudio();
-                        storyAudio.audio = sfx;
-                        storyAudio.duration = audio.duration;
-                        storyAudio.resource = audio.file;
-                        storyAudio.player = sound;
+//                        final StoryAudio storyAudio = new StoryAudio();
+//                        storyAudio.audio = sfx;
+//                        storyAudio.duration = audio.duration;
+//                        storyAudio.resource = audio.file;
+//                        storyAudio.player = sound;
 
                         sound.play();
 
@@ -382,12 +382,12 @@ public class SfxService {
 
                         storyAudio.player = sound;
 
-                        sound.setOnCompletionListener(new Music.OnCompletionListener() {
-                            @Override
-                            public void onCompletion(Music music) {
-                                dispose(storyAudio);
-                            }
-                        });
+//                        sound.setOnCompletionListener(new Music.OnCompletionListener() {
+//                            @Override
+//                            public void onCompletion(Music music) {
+//                                dispose(storyAudio);
+//                            }
+//                        });
 
                     } catch (Throwable ignore) {
                     }
@@ -455,12 +455,12 @@ public class SfxService {
             storyAudio.resource = file;
             storyAudio.player = sound;
 
-            sound.setOnCompletionListener(new Music.OnCompletionListener() {
-                @Override
-                public void onCompletion(Music music) {
-                    dispose(storyAudio);
-                }
-            });
+//            sound.setOnCompletionListener(new Music.OnCompletionListener() {
+//                @Override
+//                public void onCompletion(Music music) {
+//                    dispose(storyAudio);
+//                }
+//            });
 
             sound.play();
 
@@ -474,19 +474,29 @@ public class SfxService {
 
     public void update() {
 
-        internalAssetManager.update();
-        expansionAssetManager.update();
-
-        for (StoryAudio storyAudio : activeAudio) {
-            if (storyAudio.player != null) {
-                storyAudio.player.setVolume(GameState.isMute ? 0 : 1);
-            }
+        try {
+            internalAssetManager.update();
+        } catch (Throwable ignore) {
         }
 
-        if (game.currentSfx != null) {
-            if (game.currentSfx.player != null) {
-                game.currentSfx.player.setVolume(GameState.isMute ? 0 : 1);
+        try {
+            expansionAssetManager.update();
+        } catch (Throwable ignore) {
+        }
+
+        try {
+            for (StoryAudio storyAudio : activeAudio) {
+                if (storyAudio.player != null) {
+                    storyAudio.player.setVolume(GameState.isMute ? 0 : 1);
+                }
             }
+
+            if (game.currentSfx != null) {
+                if (game.currentSfx.player != null) {
+                    game.currentSfx.player.setVolume(GameState.isMute ? 0 : 1);
+                }
+            }
+        } catch (Throwable ignore) {
         }
     }
 

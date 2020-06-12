@@ -151,7 +151,10 @@ public abstract class ImageService implements Disposable {
 
         if (assetManager == null) return;
 
-        assetManager.update();
+        try {
+            assetManager.update();
+        } catch (Throwable ignore) {
+        }
 
         Story story = gameScreen.getStory();
         if (story != null) {

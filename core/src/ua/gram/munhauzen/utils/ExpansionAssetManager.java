@@ -19,6 +19,17 @@ public class ExpansionAssetManager extends AssetManager {
     }
 
     @Override
+    public synchronized boolean update() {
+        try {
+            return super.update();
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            throw e;
+        }
+    }
+
+    @Override
     public synchronized <T> T get(String fileName, Class<T> type) {
         try {
             return super.get(getPath(fileName), type);

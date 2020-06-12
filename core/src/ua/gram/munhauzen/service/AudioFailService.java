@@ -160,7 +160,10 @@ public class AudioFailService {
 
         if (assetManager == null) return;
 
-        assetManager.update();
+        try {
+            assetManager.update();
+        } catch (Throwable ignore) {
+        }
 
         updateVolume();
     }

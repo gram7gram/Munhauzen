@@ -152,7 +152,11 @@ public class BackgroundSfxService {
     }
 
     public void update() {
-        expansionAssetManager.update();
+
+        try {
+            expansionAssetManager.update();
+        } catch (Throwable ignore) {
+        }
 
         try {
             if (activeAudio != null && activeAudio.player != null && isPlaying) {

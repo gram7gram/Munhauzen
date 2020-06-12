@@ -32,16 +32,16 @@ public class MunhauzenGame extends Game {
 
     public static final boolean DEBUG_UI = false;
     public static final int PROGRESS_BAR_FADE_OUT_DELAY = 5;
-    public static final boolean developmentIsPro = false;
 
-    public static String developmentScenario;
-    public static boolean developmentSkipEnable = true; //enabled by default even in production
-    public static boolean developmentVictory;
+    public static final boolean developmentIsPro = false;
+    public static final boolean developmentSkipEnable = true; //enabled by default even in production
 
     // WAUWAU GENERAL HARE PICTURE SERVANTS TIMER
     // continue HORN BALLOONS CHAPTER
     // DATE LIONS SLAP PUZZLE SWAMP
     public static String developmentInteraction;
+    public static String developmentScenario;
+    public static boolean developmentVictory;
 
     private final String tag = getClass().getSimpleName();
 

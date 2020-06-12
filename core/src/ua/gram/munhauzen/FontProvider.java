@@ -19,10 +19,11 @@ public class FontProvider implements Disposable {
 
     public final static String star1 = "\u231B", star2 = "\u2726", star3 = "\u2727", star4 = "\u272F";
 
-    final String alphabet = "\u00001234567890'\"-=+?!@#$%&*(){}[].,:;/_><…–"
+    final String alphabet = "\u00001234567890'\"-=+?!@#%&*(){}[].,:;/_><…–"
             + "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
             + "АаБбВвГгДдЕеЭэЖжЗзИиЙйЫыКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчЩщШшЮюЯяЬьЪъЁё"
             + "АаБбВвГгДдЕеЄєЖжЗзИиЙйІіЇїКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчЩщШшЮюЯяЬь"
+            + "$€£₽₴₺¥฿"
             + " "
             + star4 + star3 + star2 + star1;
 

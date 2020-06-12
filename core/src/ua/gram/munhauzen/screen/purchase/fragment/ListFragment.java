@@ -72,11 +72,11 @@ public class ListFragment extends Fragment {
 
         root.setVisible(false);
 
-        cardFull.price.setText(screen.game.t("purchase_screen.unavailable"));
+        cardFull.setPriceText(screen.game.t("purchase_screen.unavailable"));
         cardFull.setEnabled(false);
-        cardPart1.price.setText(screen.game.t("purchase_screen.unavailable"));
+        cardPart1.setPriceText(screen.game.t("purchase_screen.unavailable"));
         cardPart1.setEnabled(false);
-        cardPart2.price.setText(screen.game.t("purchase_screen.unavailable"));
+        cardPart2.setPriceText(screen.game.t("purchase_screen.unavailable"));
         cardPart2.setEnabled(false);
     }
 
@@ -110,14 +110,14 @@ public class ListFragment extends Fragment {
                     if (cardFull.purchased) {
                         if (part1.isAvailable) {
 //                            cardPart1.setTouchable(Touchable.disabled);
-                            cardPart1.price.setText("");
+                            cardPart1.setPriceText("");
                             cardPart1.setPurchased(true);
                             cardPart1.setEnabled(true);
                         }
 
                         if (part2.isAvailable) {
 //                            cardPart2.setTouchable(Touchable.disabled);
-                            cardPart2.price.setText("");
+                            cardPart2.setPriceText("");
                             cardPart2.setPurchased(true);
                             cardPart2.setEnabled(true);
                         }
@@ -125,7 +125,7 @@ public class ListFragment extends Fragment {
                         if (cardPart2.purchased) {
                             if (part1.isAvailable) {
 //                            cardPart1.setTouchable(Touchable.disabled);
-                                cardPart1.price.setText("");
+                                cardPart1.setPriceText("");
                                 cardPart1.setPurchased(true);
                                 cardPart1.setEnabled(true);
                             }
@@ -134,7 +134,7 @@ public class ListFragment extends Fragment {
                         if (cardPart1.purchased && cardPart2.purchased) {
                             if (full.isAvailable) {
 //                            cardFull.setTouchable(Touchable.disabled);
-                                cardFull.price.setText("");
+                                cardFull.setPriceText("");
                                 cardFull.setEnabled(true);
                                 cardFull.setPurchased(true);
                             }
@@ -152,7 +152,7 @@ public class ListFragment extends Fragment {
         PurchaseState state = screen.game.gameState.purchaseState;
 
         if (!product.isAvailable) {
-            cardPart1.price.setText(screen.game.t("purchase_screen.unavailable"));
+            cardPart1.setPriceText(screen.game.t("purchase_screen.unavailable"));
             cardPart1.setEnabled(false);
         } else {
 
@@ -171,9 +171,9 @@ public class ListFragment extends Fragment {
             cardPart1.setPurchased(isPurchased);
 
             if (cardPart1.purchased) {
-                cardPart1.price.setText(screen.game.t("purchase_screen.download"));
+                cardPart1.setPriceText(screen.game.t("purchase_screen.download"));
             } else {
-                cardPart1.price.setText(product.localPricing);
+                cardPart1.setPriceNumber(product.localPricing);
             }
         }
     }
@@ -182,7 +182,7 @@ public class ListFragment extends Fragment {
         PurchaseState state = screen.game.gameState.purchaseState;
 
         if (!product.isAvailable) {
-            cardPart2.price.setText(screen.game.t("purchase_screen.unavailable"));
+            cardPart2.setPriceText(screen.game.t("purchase_screen.unavailable"));
             cardPart2.setEnabled(false);
         } else {
 
@@ -203,9 +203,9 @@ public class ListFragment extends Fragment {
             cardPart2.setPurchased(isPart2Purchased);
 
             if (cardPart2.purchased) {
-                cardPart2.price.setText(screen.game.t("purchase_screen.download"));
+                cardPart2.setPriceText(screen.game.t("purchase_screen.download"));
             } else {
-                cardPart2.price.setText(product.localPricing);
+                cardPart2.setPriceNumber(product.localPricing);
             }
         }
     }
@@ -214,7 +214,7 @@ public class ListFragment extends Fragment {
         PurchaseState state = screen.game.gameState.purchaseState;
 
         if (!product.isAvailable) {
-            cardFull.price.setText(screen.game.t("purchase_screen.unavailable"));
+            cardFull.setPriceText(screen.game.t("purchase_screen.unavailable"));
             cardFull.setEnabled(false);
         } else {
 
@@ -233,9 +233,9 @@ public class ListFragment extends Fragment {
             cardFull.setPurchased(isPurchased);
 
             if (cardFull.purchased) {
-                cardFull.price.setText(screen.game.t("purchase_screen.download"));
+                cardFull.setPriceText(screen.game.t("purchase_screen.download"));
             } else {
-                cardFull.price.setText(product.localPricing);
+                cardFull.setPriceNumber(product.localPricing);
             }
         }
     }

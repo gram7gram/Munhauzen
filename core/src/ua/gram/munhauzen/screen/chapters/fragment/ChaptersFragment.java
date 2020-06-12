@@ -165,12 +165,10 @@ public class ChaptersFragment extends Fragment {
             rows.pad(10, 180, 10, 180);
         }
 
-        int num = 0;
-
         float width = MunhauzenGame.WORLD_WIDTH - 20 - rows.getPadLeft() - rows.getPadRight();
 
         for (Chapter chapter : screen.game.gameState.chapterRegistry) {
-            rows.add(new ChapterRow(screen, chapter, ++num, width))
+            rows.add(new ChapterRow(screen, chapter, width))
                     .padBottom(5)
                     .row();
         }
