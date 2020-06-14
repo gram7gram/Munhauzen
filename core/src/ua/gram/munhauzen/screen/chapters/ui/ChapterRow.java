@@ -44,9 +44,7 @@ public class ChapterRow extends Table {
                 Color.GRAY
         );
 
-        String num = chapter.number < 1 ? "-" : chapter.number + ".";
-
-        number = new Label(num, openedStyle);
+        number = new Label(chapter.number + ".", openedStyle);
         number.setWrap(false);
         number.setAlignment(Align.left);
 

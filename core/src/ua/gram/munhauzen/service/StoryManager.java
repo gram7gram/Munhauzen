@@ -48,17 +48,17 @@ public class StoryManager {
 
         story.init();
 
-        String log = "create `" + story.id + "` x" + story.scenarios.size() + "\r\n";
+        String log = "create `" + story.id + "` x" + story.scenarios.size() + "\n";
 
         for (StoryScenario storyScenario : story.scenarios) {
-            log += storyScenario.startsAt + "-" + storyScenario.finishesAt + " " + storyScenario.scenario.name + "\r\n";
+            log += storyScenario.startsAt + "-" + storyScenario.finishesAt + " " + storyScenario.scenario.name + "\n";
 
             for (StoryAudio item : storyScenario.scenario.audio) {
-                log += " - audio " + item.audio + " " + item.startsAt + "-" + item.finishesAt + "\r\n";
+                log += " - audio " + item.audio + " " + item.startsAt + "-" + item.finishesAt + "\n";
             }
 
             for (StoryImage item : storyScenario.scenario.images) {
-                log += " - image " + item.image + " " + item.startsAt + "-" + item.finishesAt + "\r\n";
+                log += " - image " + item.image + " " + item.startsAt + "-" + item.finishesAt + "\n";
             }
         }
 

@@ -30,12 +30,12 @@ public class Navigator {
     public void onCriticalError(Throwable e) {
         Timer.instance().stop();
 
-        game.onCriticalError(e);
-
         try {
             game.getScreen().dispose();
         } catch (Throwable ignore) {
         }
+
+        game.onCriticalError(e);
     }
 
     public void navigateTo(Screen screen) {

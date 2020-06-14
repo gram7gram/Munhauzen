@@ -48,7 +48,7 @@ public class AchievementService {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            game.onCriticalError(e);
+            game.navigator.onCriticalError(e);
         }
     }
 
@@ -143,7 +143,7 @@ public class AchievementService {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            game.onCriticalError(e);
+            game.navigator.onCriticalError(e);
         }
     }
 

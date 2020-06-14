@@ -2,6 +2,7 @@ package ua.gram.munhauzen.screen;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.screen.debug.fragment.AudioFragment;
+import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
@@ -18,12 +19,19 @@ public class DebugAudioScreen extends AbstractScreen {
     protected void onResourcesLoaded() {
         super.onResourcesLoaded();
 
-        fragment = new AudioFragment(this);
-        fragment.create();
+        try {
 
-        ui.addActor(fragment.getRoot());
+            fragment = new AudioFragment(this);
+            fragment.create();
 
-        fragment.startTesting();
+            ui.addActor(fragment.getRoot());
+
+            fragment.startTesting();
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            onCriticalError(e);
+        }
     }
 
     @Override

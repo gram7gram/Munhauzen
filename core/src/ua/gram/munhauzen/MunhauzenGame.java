@@ -126,7 +126,7 @@ public class MunhauzenGame extends Game {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            onCriticalError(e);
+            navigator.onCriticalError(e);
         }
     }
 
@@ -147,7 +147,7 @@ public class MunhauzenGame extends Game {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            onCriticalError(e);
+            navigator.onCriticalError(e);
         }
     }
 
@@ -225,7 +225,7 @@ public class MunhauzenGame extends Game {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            onCriticalError(e);
+            navigator.onCriticalError(e);
         }
     }
 
@@ -272,6 +272,7 @@ public class MunhauzenGame extends Game {
     }
 
     public void onCriticalError(Throwable e) {
+        Log.e(tag, "onCriticalError");
 
         try {
             if (databaseManager != null && gameState != null) {

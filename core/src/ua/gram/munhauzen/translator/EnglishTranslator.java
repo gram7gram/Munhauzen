@@ -93,7 +93,7 @@ public class EnglishTranslator implements Translator {
         map.put("thank_you_banner.title", "Thank you for purchasing the full version!"
                 + "\nOur bow!"
                 + "\nPlease, rate out application and leave a positive review");
-        map.put("logo.title", "creative studio\n\"Fingertips and Company\"\npresents");
+        map.put("logo.title", "creative studio\n\"FingerTipsAndCompany\"\npresents");
         map.put("authors.share_title", "Share the game with your friends!");
         map.put("authors.rate_title", "Please, rate the app!");
         map.put("authors.title", "Creators");

@@ -9,9 +9,6 @@ import ua.gram.munhauzen.entity.AudioFail;
 import ua.gram.munhauzen.entity.Image;
 import ua.gram.munhauzen.expansion.response.Part;
 
-/**
- * @author Gram <gram7gram@gmail.com>
- */
 public class ExternalFiles {
 
     public static FileHandle getExpansionPartFile(PlatformParams params, Part part) {
@@ -82,10 +79,6 @@ public class ExternalFiles {
 
     public static FileHandle getExpansionFile(PlatformParams params, String file) {
         return Gdx.files.external(getExpansionDir(params).path() + "/" + file);
-    }
-
-    public static FileHandle getGameArchiveFile(PlatformParams params) {
-        return getExternal(params, "game-" + params.locale + "-" + params.gameConfigVersion + ".zip");
     }
 
     public static FileHandle getHistoryFile(PlatformParams params) {

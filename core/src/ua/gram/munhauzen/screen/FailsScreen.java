@@ -65,33 +65,40 @@ public class FailsScreen extends AbstractScreen {
     public void onResourcesLoaded() {
         super.onResourcesLoaded();
 
-        createFails();
+        try {
 
-        controlsFragment = new ControlsFragment(this);
-        controlsFragment.create();
+            createFails();
 
-        layers.setControlsLayer(controlsFragment);
+            controlsFragment = new ControlsFragment(this);
+            controlsFragment.create();
 
-        controlsFragment.fadeIn();
+            layers.setControlsLayer(controlsFragment);
 
-        failsFragment = new FailsFragment(this);
-        failsFragment.create();
+            controlsFragment.fadeIn();
 
-        layers.setContentLayer(failsFragment);
+            failsFragment = new FailsFragment(this);
+            failsFragment.create();
 
-        failsFragment.fadeIn();
+            layers.setContentLayer(failsFragment);
 
-        if (game.gameState.failsState != null) {
-            if (!game.gameState.failsState.isGoofsBannerViewed) {
-                game.gameState.failsState.isGoofsBannerViewed = true;
+            failsFragment.fadeIn();
 
-                Timer.instance().scheduleTask(new Timer.Task() {
-                    @Override
-                    public void run() {
-                        openGoofsBanner();
-                    }
-                }, .5f);
+            if (game.gameState.failsState != null) {
+                if (!game.gameState.failsState.isGoofsBannerViewed) {
+                    game.gameState.failsState.isGoofsBannerViewed = true;
+
+                    Timer.instance().scheduleTask(new Timer.Task() {
+                        @Override
+                        public void run() {
+                            openGoofsBanner();
+                        }
+                    }, .5f);
+                }
             }
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            onCriticalError(e);
         }
     }
 

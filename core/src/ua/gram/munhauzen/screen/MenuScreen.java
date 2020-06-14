@@ -137,6 +137,8 @@ public class MenuScreen extends AbstractScreen {
 
         } catch (Throwable e) {
             Log.e(tag, e);
+
+            onCriticalError(e);
         }
     }
 
@@ -418,28 +420,36 @@ public class MenuScreen extends AbstractScreen {
     @Override
     public void renderAfterLoaded(float delta) {
 
-        if (greetingFragment != null) {
-            greetingFragment.update();
-        }
+        try {
 
-        if (shareFragment != null) {
-            shareFragment.update();
-        }
+            if (greetingFragment != null) {
+                greetingFragment.update();
+            }
 
-        if (rateFragment != null) {
-            rateFragment.update();
-        }
+            if (shareFragment != null) {
+                shareFragment.update();
+            }
 
-        if (controlsFragment != null) {
-            controlsFragment.update();
-        }
+            if (rateFragment != null) {
+                rateFragment.update();
+            }
 
-        if (exitFragment != null) {
-            exitFragment.update();
-        }
+            if (controlsFragment != null) {
+                controlsFragment.update();
+            }
 
-        if (isZoomStarted) {
-            game.camera.zoom -= .4f * delta;
+            if (exitFragment != null) {
+                exitFragment.update();
+            }
+
+            if (isZoomStarted) {
+                game.camera.zoom -= .4f * delta;
+            }
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            onCriticalError(e);
         }
     }
 

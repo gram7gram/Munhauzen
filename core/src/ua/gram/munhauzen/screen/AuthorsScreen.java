@@ -89,31 +89,38 @@ public class AuthorsScreen extends AbstractScreen {
     public void onResourcesLoaded() {
         super.onResourcesLoaded();
 
-        layers = new AuthorsLayers();
+        try {
 
-        ui.addActor(layers);
+            layers = new AuthorsLayers();
 
-        controlsFragment = new ControlsFragment(this);
-        controlsFragment.create();
+            ui.addActor(layers);
 
-        layers.setControlsLayer(controlsFragment);
+            controlsFragment = new ControlsFragment(this);
+            controlsFragment.create();
 
-        controlsFragment.fadeIn();
+            layers.setControlsLayer(controlsFragment);
 
-        switch (game.params.locale) {
-            case "ru":
-                authorsFragment = new RuAuthorsFragment(this);
-                break;
-            case "en":
-                authorsFragment = new EnAuthorsFragment(this);
-                break;
+            controlsFragment.fadeIn();
+
+            switch (game.params.locale) {
+                case "ru":
+                    authorsFragment = new RuAuthorsFragment(this);
+                    break;
+                case "en":
+                    authorsFragment = new EnAuthorsFragment(this);
+                    break;
+            }
+
+            authorsFragment.create();
+
+            layers.setContentLayer(authorsFragment);
+
+            authorsFragment.fadeIn();
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            onCriticalError(e);
         }
-
-        authorsFragment.create();
-
-        layers.setContentLayer(authorsFragment);
-
-        authorsFragment.fadeIn();
     }
 
     @Override

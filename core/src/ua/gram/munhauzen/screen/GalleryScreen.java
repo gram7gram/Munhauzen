@@ -59,31 +59,38 @@ public class GalleryScreen extends AbstractScreen {
     public void onResourcesLoaded() {
         super.onResourcesLoaded();
 
-        createPaintings();
+        try {
 
-        controlsFragment = new ControlsFragment(this);
-        controlsFragment.create();
+            createPaintings();
 
-        layers.setControlsLayer(controlsFragment);
+            controlsFragment = new ControlsFragment(this);
+            controlsFragment.create();
 
-        galleryFragment = new GalleryFragment(this);
-        galleryFragment.create();
+            layers.setControlsLayer(controlsFragment);
 
-        layers.setContentLayer(galleryFragment);
+            galleryFragment = new GalleryFragment(this);
+            galleryFragment.create();
 
-        galleryFragment.fadeIn();
+            layers.setContentLayer(galleryFragment);
 
-        if (game.gameState.galleryState != null) {
-            if (!game.gameState.galleryState.isGalleryBannerViewed) {
-                game.gameState.galleryState.isGalleryBannerViewed = true;
+            galleryFragment.fadeIn();
 
-                Timer.instance().scheduleTask(new Timer.Task() {
-                    @Override
-                    public void run() {
-                        openGalleryBanner();
-                    }
-                }, .5f);
+            if (game.gameState.galleryState != null) {
+                if (!game.gameState.galleryState.isGalleryBannerViewed) {
+                    game.gameState.galleryState.isGalleryBannerViewed = true;
+
+                    Timer.instance().scheduleTask(new Timer.Task() {
+                        @Override
+                        public void run() {
+                            openGalleryBanner();
+                        }
+                    }, .5f);
+                }
             }
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            onCriticalError(e);
         }
     }
 

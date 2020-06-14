@@ -8,6 +8,7 @@ import ua.gram.munhauzen.screen.loading.fragment.ImageFragment;
 import ua.gram.munhauzen.screen.loading.ui.LoadingLayers;
 import ua.gram.munhauzen.service.ExpansionDownloadManager;
 import ua.gram.munhauzen.utils.InternalAssetManager;
+import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
@@ -64,21 +65,31 @@ public class LoadingScreen extends AbstractScreen {
     public void onResourcesLoaded() {
         super.onResourcesLoaded();
 
-        if (game.gameState.expansionInfo != null) {
-            game.gameState.expansionInfo.isDownloadStarted = false;
+        try {
+
+            if (game.gameState.expansionInfo != null) {
+                game.gameState.expansionInfo.isDownloadStarted = false;
+            }
+
+            controlsFragment = new ControlsFragment(this);
+            controlsFragment.create();
+
+            layers.setControlsLayer(controlsFragment);
+
+            imageFragment = new ImageFragment(this);
+            imageFragment.create();
+
+            layers.setContentLayer(imageFragment);
+
+            expansionDownloader = new ExpansionDownloadManager(game, controlsFragment);
+
+            expansionDownloader.fetchExpansionToDownload();
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            onCriticalError(e);
         }
-
-        controlsFragment = new ControlsFragment(this);
-        controlsFragment.create();
-
-        layers.setControlsLayer(controlsFragment);
-
-        imageFragment = new ImageFragment(this);
-        imageFragment.create();
-
-        layers.setContentLayer(imageFragment);
-
-        expansionDownloader = new ExpansionDownloadManager(game, controlsFragment);
     }
 
     @Override

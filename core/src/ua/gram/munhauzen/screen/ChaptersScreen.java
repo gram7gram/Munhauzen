@@ -69,32 +69,38 @@ public class ChaptersScreen extends AbstractScreen {
     public void onResourcesLoaded() {
         super.onResourcesLoaded();
 
-        Collections.sort(game.gameState.chapterRegistry, new Comparator<Chapter>() {
-            @Override
-            public int compare(Chapter a, Chapter b) {
-                return Integer.compare(a.number, b.number);
-            }
-        });
+        try {
+            Collections.sort(game.gameState.chapterRegistry, new Comparator<Chapter>() {
+                @Override
+                public int compare(Chapter a, Chapter b) {
+                    return Integer.compare(a.number, b.number);
+                }
+            });
 
-        for (Chapter chapter : game.gameState.chapterRegistry) {
-            if (game.gameState.history.visitedChapters.contains(chapter.name)) {
-                assetManager.load(chapter.icon, Texture.class);
+            for (Chapter chapter : game.gameState.chapterRegistry) {
+                if (game.gameState.history.visitedChapters.contains(chapter.name)) {
+                    assetManager.load(chapter.icon, Texture.class);
+                }
             }
+
+            assetManager.finishLoading();
+
+            controlsFragment = new ControlsFragment(this);
+            controlsFragment.create();
+
+            layers.setControlsLayer(controlsFragment);
+
+            fragment = new ChaptersFragment(this);
+            fragment.create();
+
+            layers.setContentLayer(fragment);
+
+            fragment.fadeIn();
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            onCriticalError(e);
         }
-
-        assetManager.finishLoading();
-
-        controlsFragment = new ControlsFragment(this);
-        controlsFragment.create();
-
-        layers.setControlsLayer(controlsFragment);
-
-        fragment = new ChaptersFragment(this);
-        fragment.create();
-
-        layers.setContentLayer(fragment);
-
-        fragment.fadeIn();
     }
 
     @Override

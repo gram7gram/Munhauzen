@@ -62,19 +62,26 @@ public class PaintingScreen extends AbstractScreen {
     public void onResourcesLoaded() {
         super.onResourcesLoaded();
 
-        paintingFragment = new PaintingFragment(this);
-        paintingFragment.create(paintingImage);
+        try {
 
-        layers.setContentLayer(paintingFragment);
+            paintingFragment = new PaintingFragment(this);
+            paintingFragment.create(paintingImage);
 
-        paintingFragment.fadeIn();
+            layers.setContentLayer(paintingFragment);
 
-        controlsFragment = new ControlsFragment(this);
-        controlsFragment.create();
+            paintingFragment.fadeIn();
 
-        layers.setControlsLayer(controlsFragment);
+            controlsFragment = new ControlsFragment(this);
+            controlsFragment.create();
 
-        game.gameState.galleryState.visitedImages.add(paintingImage.image.name);
+            layers.setControlsLayer(controlsFragment);
+
+            game.gameState.galleryState.visitedImages.add(paintingImage.image.name);
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            onCriticalError(e);
+        }
     }
 
     @Override

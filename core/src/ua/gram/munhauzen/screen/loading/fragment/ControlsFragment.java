@@ -328,23 +328,26 @@ public class ControlsFragment extends Fragment {
     public void update() {
         try {
 
-            ExpansionResponse expansionInfo = screen.game.gameState.expansionInfo;
+            if (screen.expansionDownloader != null) {
 
-            if (expansionInfo == null) {
-                subtitle.setText("");
-                menuBtn.setVisible(false);
-                return;
-            }
+                ExpansionResponse expansionInfo = screen.expansionDownloader.expansionToDownload;
 
-            menuBtn.setVisible(expansionInfo.isCompleted);
+                if (expansionInfo == null) {
+                    subtitle.setText("");
+                    menuBtn.setVisible(false);
+                    return;
+                }
 
-            if (expansionInfo.version > 0) {
+                menuBtn.setVisible(expansionInfo.isCompleted);
 
-                float sizeMb = (float) (expansionInfo.size / 1024f / 1024f);
+                if (expansionInfo.version > 0) {
 
-                subtitle.setText("v" + expansionInfo.version
-                        + " " + String.format(Locale.US, "%.2f", sizeMb) + "MB"
-                        + " " + expansionInfo.dpi);
+                    float sizeMb = (float) (expansionInfo.size / 1024f / 1024f);
+
+                    subtitle.setText("v" + expansionInfo.version
+                            + " " + String.format(Locale.US, "%.2f", sizeMb) + "MB"
+                            + " " + expansionInfo.dpi);
+                }
             }
 
         } catch (Throwable ignore) {

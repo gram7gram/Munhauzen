@@ -2,6 +2,7 @@ package ua.gram.munhauzen.screen;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.screen.debug.fragment.ControlsFragment;
+import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
@@ -18,10 +19,16 @@ public class DebugScreen extends AbstractScreen {
     protected void onResourcesLoaded() {
         super.onResourcesLoaded();
 
-        controlsFragment = new ControlsFragment(this);
-        controlsFragment.create();
+        try {
+            controlsFragment = new ControlsFragment(this);
+            controlsFragment.create();
 
-        ui.addActor(controlsFragment.getRoot());
+            ui.addActor(controlsFragment.getRoot());
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            onCriticalError(e);
+        }
     }
 
     @Override

@@ -93,7 +93,7 @@ public class RussianTranslator implements Translator {
         map.put("thank_you_banner.title", "Спасибо за покупку полной версии аудиокниги!"
                 + "\nПоклон!"
                 + "\nПожалуйста, оцените наше приложение и оставьте отзыв");
-        map.put("logo.title", "творческая студия\n\"Fingertips and Company\"\nпредставляет");
+        map.put("logo.title", "творческая студия\n\"FingerTipsAndCompany\"\nпредставляет");
         map.put("authors.share_title", "Делитесь игрой с друзьями!");
         map.put("authors.rate_title", "Пожалуйста, оцените приложение!");
         map.put("authors.title", "Авторы");

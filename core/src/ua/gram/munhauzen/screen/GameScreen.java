@@ -138,28 +138,35 @@ public class GameScreen implements Screen {
 
         Log.i(tag, "onResourcesLoaded");
 
-        isLoaded = true;
+        try {
 
-        gameLayers = new GameLayers(this);
+            isLoaded = true;
 
-        ui.addActor(gameLayers);
+            gameLayers = new GameLayers(this);
 
-        progressBarFragment.create();
+            ui.addActor(gameLayers);
 
-        controlsFragment = new ControlsFragment(this);
-        controlsFragment.create();
+            progressBarFragment.create();
 
-        imageFragment = new ImageFragment(this);
-        imageFragment.create();
+            controlsFragment = new ControlsFragment(this);
+            controlsFragment.create();
 
-        gameLayers.setBackgroundImageLayer(imageFragment);
-        gameLayers.setProgressBarLayer(progressBarFragment);
+            imageFragment = new ImageFragment(this);
+            imageFragment.create();
 
-        Gdx.input.setInputProcessor(ui);
+            gameLayers.setBackgroundImageLayer(imageFragment);
+            gameLayers.setProgressBarLayer(progressBarFragment);
 
-        storyManager.resume();
+            Gdx.input.setInputProcessor(ui);
 
-        ui.addListener(stageInputListener);
+            storyManager.resume();
+
+            ui.addListener(stageInputListener);
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            onCriticalError(e);
+        }
     }
 
     @Override

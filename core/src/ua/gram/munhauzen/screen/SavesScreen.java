@@ -92,23 +92,30 @@ public class SavesScreen extends AbstractScreen {
     public void onResourcesLoaded() {
         super.onResourcesLoaded();
 
-        layers = new SavesLayers();
+        try {
 
-        ui.addActor(layers);
+            layers = new SavesLayers();
 
-        controlsFragment = new ControlsFragment(this);
-        controlsFragment.create();
+            ui.addActor(layers);
 
-        layers.setControlsLayer(controlsFragment);
+            controlsFragment = new ControlsFragment(this);
+            controlsFragment.create();
 
-        controlsFragment.fadeIn();
+            layers.setControlsLayer(controlsFragment);
 
-        savesFragment = new SavesFragment(this);
-        savesFragment.create();
+            controlsFragment.fadeIn();
 
-        layers.setContentLayer(savesFragment);
+            savesFragment = new SavesFragment(this);
+            savesFragment.create();
 
-        savesFragment.fadeIn();
+            layers.setContentLayer(savesFragment);
+
+            savesFragment.fadeIn();
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            onCriticalError(e);
+        }
     }
 
     public void recreateSaves() {
