@@ -20,11 +20,14 @@ import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.entity.GameState;
+import ua.gram.munhauzen.entity.Save;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.screen.MenuScreen;
 import ua.gram.munhauzen.screen.game.ui.BackgroundImage;
 import ua.gram.munhauzen.screen.game.ui.VictoryGroup;
+import ua.gram.munhauzen.service.StoryManager;
 import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.utils.Log;
@@ -267,14 +270,34 @@ public class VictoryFragment extends Fragment {
     }
 
     private void onComplete() {
+
+        GameState state = screen.game.gameState;
+
         try {
+            state.menuState.showThankYouBanner = true;
+            state.menuState.isContinueEnabled = false;
 
-            screen.game.gameState.menuState.showThankYouBanner = true;
-            screen.game.gameState.menuState.isContinueEnabled = false;
-            screen.getActiveSave().reset();
+            StoryManager storyManager = new StoryManager(null, screen.game.gameState);
 
+            Save save = new Save();
+
+            save.story = storyManager.getDefaultStory();
+            save.story.init();
+
+            state.activeSave = save;
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+
+        try {
+            screen.game.databaseManager.persistSync(state);
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+
+        try {
             screen.navigateTo(new MenuScreen(screen.game));
-
         } catch (Throwable e) {
             Log.e(tag, e);
         }

@@ -44,6 +44,7 @@ import ua.gram.munhauzen.screen.DebugScreen;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.screen.LoadingScreen;
 import ua.gram.munhauzen.screen.MenuScreen;
+import ua.gram.munhauzen.service.StoryManager;
 import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.ui.PrimaryButton;
@@ -280,7 +281,16 @@ public class ControlsFragment extends Fragment {
                     ExternalFiles.getFailsStateFile(game.params).delete();
 
                     game.gameState.history = new History();
-                    game.gameState.setActiveSave(new Save());
+
+                    StoryManager storyManager = new StoryManager(null, screen.game.gameState);
+
+                    Save save = new Save();
+
+                    save.story = storyManager.getDefaultStory();
+
+                    save.story.init();
+
+                    game.gameState.setActiveSave(save);
 
                     game.syncState();
 

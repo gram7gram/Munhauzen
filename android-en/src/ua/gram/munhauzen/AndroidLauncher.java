@@ -31,7 +31,6 @@ public class AndroidLauncher extends AndroidApplication {
         params.device.type = Device.Type.android;
         params.isTablet = isTablet(this);
         params.applicationId = BuildConfig.APPLICATION_ID;
-        params.tutorialLink = "https://youtu.be/xg25QCxlvXM";
         params.storageDirectory = ".Munchausen/en.munchausen.fingertipsandcompany.any";
         params.versionCode = BuildConfig.VERSION_CODE;
         params.versionName = BuildConfig.VERSION_NAME;
@@ -43,6 +42,12 @@ public class AndroidLauncher extends AndroidApplication {
         params.translator = new EnglishTranslator();
         params.memoryUsage = new AndroidMemoryUsage();
         params.appStore = new GooglePlay(params);
+
+        params.tutorialLink = "https://youtu.be/xg25QCxlvXM";
+        params.fbLink = "https://www.facebook.com/101729401434875/photos/a.101737761434039/147391586868656/?type=3&xts%5B0%5D=68.ARAk1b34nsmLEQ-Qy1jLGgf5M_OS4Eu2bfkwpEyLcDot-rTuQV1p9diUrSyXxTr7FnK5gVC4KP-wxRZK1Ri6Hom0bEoHHn1ECJU8sqPo_tMbqy4LQv1NHNWSvTpnBVQ4DJGkLFyArtPSoRZPc4pp8XDLMNmtr7wN2Q-w4E2m77vbOrD8CyvHVRMs_zTnZbT9qIX3xJbNv4fqabs9CLQIYnK6hMLvkWUe8u1n32gShORJs1cc_sbj9kbDOxFOghMGyBJq9DCTVWxrdyvukwxeVeMCBXdk8f2N5acc-_jUiXeMpT5EBx_GBMEGIl7h_P0mdMUaDECe_LujIqs5uHausB8&tn=-R";
+        params.instaLink = "https://www.instagram.com/p/CBdGkEWnj3A/?utm_source=ig_web_copy_link";
+        params.twLink = "https://twitter.com/Finger_Tips_C/status/1272495846488264709?s=20";
+        params.vkLink = "https://vk.com/wall374290107_10";
 
         if (BuildConfig.BUILD_TYPE.equals("staging")) {
             params.release = PlatformParams.Release.TEST;

@@ -331,8 +331,9 @@ public class ControlsFragment extends Fragment {
             if (screen.expansionDownloader != null) {
 
                 ExpansionResponse expansionInfo = screen.expansionDownloader.expansionToDownload;
+                String part = screen.expansionDownloader.expansionPart;
 
-                if (expansionInfo == null) {
+                if (expansionInfo == null || part == null) {
                     subtitle.setText("");
                     menuBtn.setVisible(false);
                     return;
@@ -342,11 +343,12 @@ public class ControlsFragment extends Fragment {
 
                 if (expansionInfo.version > 0) {
 
-                    float sizeMb = (float) (expansionInfo.size / 1024f / 1024f);
+                    float sizeMb = expansionInfo.size / 1024f / 1024f;
 
-                    subtitle.setText("v" + expansionInfo.version
+                    subtitle.setText(part
+                            + " " + expansionInfo.dpi
                             + " " + String.format(Locale.US, "%.2f", sizeMb) + "MB"
-                            + " " + expansionInfo.dpi);
+                            + " v" + expansionInfo.version);
                 }
             }
 

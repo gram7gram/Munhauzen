@@ -65,6 +65,8 @@ public class ErrorMonitoring {
             if (e.getMessage().contains("Couldn't load file")) return;
             if (e.getMessage().contains("Bad request")) return;
             if (e.getMessage().contains("was not downloaded")) return;
+            if (e.getMessage().contains("Error opening music file")) return;
+            if (e.getMessage().contains("Error writing file")) return;
         }
 
         if (captured.contains(e)) return;

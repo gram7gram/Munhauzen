@@ -31,7 +31,8 @@ public class ExpansionDownloadManager {
     final ControlsFragment fragment;
     public Net.HttpRequest httpRequest;
     private boolean isCanceled;
-   public ExpansionResponse expansionToDownload;
+    public ExpansionResponse expansionToDownload;
+    public String expansionPart;
 
     final Json json;
 
@@ -58,13 +59,13 @@ public class ExpansionDownloadManager {
     public void fetchExpansionToDownload() {
         try {
 
-            String id = getExpansionPart();
+            expansionPart = getExpansionPart();
 
-            FileHandle file = Files.getExpansionConfigFile(game.params, id);
+            FileHandle file = Files.getExpansionConfigFile(game.params, expansionPart);
 
             String content = file.readString("UTF-8");
 
-            Log.i(tag, "fetchExpansionInfo:\n" + content);
+            Log.i(tag, "fetchExpansionToDownload:\n" + content);
 
             expansionToDownload = game.databaseManager.loadExpansionInfo(content);
 
@@ -161,7 +162,7 @@ public class ExpansionDownloadManager {
 
                 Log.e(tag, "New expansion");
 
-                final float sizeMb = (float) (expansionToDownload.size / 1024f / 1024f);
+                final float sizeMb = expansionToDownload.size / 1024f / 1024f;
 
                 if (game.params.memoryUsage != null) {
                     float memory = game.params.memoryUsage.megabytesAvailable();

@@ -57,13 +57,13 @@ public class PlatformParams implements JsonEntry {
     @JsonIgnore
     public final String sentryDsn = "https://aaab9a00313c443498afb6184a21c867@sentry.io/1802514";
     @JsonIgnore
-    public final String vkLink = "https://vk.com/fingertipsandcompany?z=photo491072996_456239025%2Fb76a7cd5942e3325a8";
+    public String vkLink;
     @JsonIgnore
-    public final String instaLink = "https://www.instagram.com/p/Bj2-Y58gPRR/";
+    public String instaLink;
     @JsonIgnore
-    public final String twLink = "https://twitter.com/Finger_Tips_C/status/1005920810295611393";
+    public String twLink;
     @JsonIgnore
-    public final String fbLink = "https://www.facebook.com/photo.php?fbid=233858484056409&set=gm.253300848748389&type=3&theater&ifg=1";
+    public String fbLink;
 
     @JsonIgnore
     public boolean isProduction() {

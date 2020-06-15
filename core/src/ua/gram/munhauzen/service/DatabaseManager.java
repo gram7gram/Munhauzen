@@ -26,6 +26,7 @@ import ua.gram.munhauzen.entity.MenuState;
 import ua.gram.munhauzen.entity.PurchaseState;
 import ua.gram.munhauzen.entity.Save;
 import ua.gram.munhauzen.entity.Scenario;
+import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.entity.StoryImage;
 import ua.gram.munhauzen.entity.StoryScenario;
@@ -249,8 +250,8 @@ public class DatabaseManager {
 
 //        try {
 //            Log.i(tag, "STATE BEFORE\n"
-//                    + om.writeValueAsString(game.inventoryService.getAllInventory()));
-//        } catch (JsonProcessingException e) {
+//                    + om.writeValueAsString(gameState.activeSave.story));
+//        } catch (Throwable e) {
 //            e.printStackTrace();
 //        }
 
@@ -386,9 +387,18 @@ public class DatabaseManager {
             if (storyScenario != null) {
                 save.chapter = storyScenario.scenario.chapter;
             }
+
+            persistStory(save.story);
         }
 
         om.writeValue(file.file(), save);
+    }
+
+    public synchronized void persistStory(Story story) throws IOException {
+        FileHandle file = ExternalFiles.getStoryFile(game.params);
+
+        if (story.isValid())
+            om.writeValue(file.file(), story);
     }
 
     private synchronized History loadHistory() throws IOException {
@@ -433,6 +443,25 @@ public class DatabaseManager {
         }
 
         state.setActiveSave(save);
+
+        loadActiveStory(save);
+    }
+
+    private synchronized void loadActiveStory(Save save) throws IOException {
+        Story story = null;
+
+        FileHandle file = ExternalFiles.getStoryFile(game.params);
+        if (file.exists()) {
+            String content = file.readString("UTF-8");
+
+            if (content != null && !content.equals("")) {
+                story = om.readValue(content, Story.class);
+            } else {
+                story = om.readValue(file.file(), Story.class);
+            }
+        }
+
+        save.story = story;
     }
 
     private synchronized MenuState loadMenuState() throws IOException {

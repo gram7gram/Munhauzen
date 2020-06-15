@@ -55,12 +55,16 @@ public class ImageFragment extends Fragment {
         Timer.instance().postTask(new Timer.Task() {
             @Override
             public void run() {
-                displayImages();
+                try {
+                    displayImages();
+                } catch (Throwable ignore) {}
             }
         });
     }
 
     private void displayImages() {
+
+        if (screen.assetManager == null) return;
 
         DecorationAnimation[] animations = {
                 new Axe(backgroundImage, "menu/an_axe_sheet_3x3.png"),
@@ -103,7 +107,9 @@ public class ImageFragment extends Fragment {
                         Timer.instance().scheduleTask(new Timer.Task() {
                             @Override
                             public void run() {
-                                decoration.start();
+                                try {
+                                    decoration.start();
+                                } catch (Throwable ignore) {}
                             }
                         }, delay, interval);
                     } else {
@@ -111,9 +117,7 @@ public class ImageFragment extends Fragment {
                     }
 
                     decorations.addActor(decoration);
-                } catch (Throwable e) {
-                    Log.e(tag, e);
-                }
+                } catch (Throwable ignore) {}
             }
         }
 

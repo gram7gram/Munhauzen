@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.GdxRuntimeException;
+import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.GameState;
@@ -57,6 +58,7 @@ public class GameScreen implements Screen {
     public StageInputListener stageInputListener;
     public VictoryFragment victoryFragment;
     public PurchaseFragment purchaseFragment;
+    Timer.Task persistTask;
 
     public GameScreen(MunhauzenGame game) {
         this.game = game;
@@ -132,6 +134,22 @@ public class GameScreen implements Screen {
         assetManager.load("ui/elements_player_fond_3.png", Texture.class);
         assetManager.load("ui/player_progress_bar_progress.9.jpg", Texture.class);
         assetManager.load("ui/player_progress_bar_knob.png", Texture.class);
+
+        persistTask = new Timer.Task() {
+            @Override
+            public void run() {
+                try {
+
+                    if (game.databaseManager != null && game.gameState != null) {
+                        game.databaseManager.persistSync(game.gameState);
+                    }
+
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                    cancel();
+                }
+            }
+        };
     }
 
     private void onResourcesLoaded() {
@@ -176,94 +194,123 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(235 / 255f, 232 / 255f, 112 / 255f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-
-        if (ui == null) return;
-
-        checkBackPressed();
-
-        if (assetManager == null) return;
-
-        drawBackground();
 
         try {
-            assetManager.update();
-        } catch (Throwable ignore) {
-        }
+            Gdx.gl.glClearColor(235 / 255f, 232 / 255f, 112 / 255f, 1);
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
-        if (!isLoaded) {
+            if (ui == null) return;
 
-            if (assetManager.isFinished()) {
-                onResourcesLoaded();
+            checkBackPressed();
+
+            if (assetManager == null) return;
+
+            drawBackground();
+
+            try {
+                assetManager.update();
+            } catch (Throwable ignore) {
             }
-            return;
-        }
 
-        if (imageService != null) {
-            imageService.update();
-        }
+            if (!isLoaded) {
 
-        if (imageFragment != null) {
-            imageFragment.update();
-        }
-
-        if (audioService != null) {
-            audioService.update();
-        }
-
-        if (interactionService != null) {
-            interactionService.update();
-        }
-
-        Story story = getStory();
-        if (story != null) {
-
-            boolean isInteractionLocked = story.isInteractionLocked();
-
-            if (!isInteractionLocked && !story.isCompleted) {
-
-                removePurchaseFragment();
-
-                if (!GameState.isPaused) {
-                    storyManager.update(
-                            story.progress + (delta * 1000),
-                            story.totalDuration
-                    );
+                if (assetManager.isFinished()) {
+                    try {
+                        onResourcesLoaded();
+                    } catch (Throwable ignore) {
+                    }
                 }
+                return;
+            }
 
-                storyManager.startLoadingImages();
+            try {
+                if (persistTask != null && !persistTask.isScheduled()) {
+                    Timer.instance().scheduleTask(persistTask, 1, 1);
+                }
+            } catch (Throwable ignore) {
+            }
 
-                if (!GameState.isPaused) {
+            if (imageService != null) {
+                imageService.update();
+            }
 
-                    if (story.isValid()) {
+            if (imageFragment != null) {
+                imageFragment.update();
+            }
 
-                        game.achievementService.onScenarioVisited(story.currentScenario.scenario);
+            if (audioService != null) {
+                audioService.update();
+            }
 
-                        if (story.isCompleted || MunhauzenGame.developmentInteraction != null) {
+            if (interactionService != null) {
+                interactionService.update();
+            }
 
-                            storyManager.onCompleted();
+            try {
+                if (storyManager != null) {
+                    Story story = getStory();
+                    if (story != null) {
 
-                        } else {
-                            storyManager.startLoadingAudio();
+                        boolean isInteractionLocked = story.isInteractionLocked();
+
+                        if (!isInteractionLocked && !story.isCompleted) {
+
+                            removePurchaseFragment();
+
+                            if (!GameState.isPaused) {
+                                storyManager.update(
+                                        story.progress + (delta * 1000),
+                                        story.totalDuration
+                                );
+                            }
+
+                            storyManager.startLoadingImages();
+
+                            if (!GameState.isPaused) {
+
+                                if (story.isValid()) {
+
+                                    if (game.achievementService != null)
+                                        game.achievementService.onScenarioVisited(story.currentScenario.scenario);
+
+                                    if (story.isCompleted || MunhauzenGame.developmentInteraction != null) {
+
+                                        storyManager.onCompleted();
+
+                                    } else {
+                                        storyManager.startLoadingAudio();
+                                    }
+                                }
+                            }
+                        }
+
+                        if (progressBarFragment != null) {
+                            progressBarFragment.update();
+                        } else if (!isInteractionLocked) {
+                            restoreProgressBarIfDestroyed();
                         }
                     }
                 }
+            } catch (Throwable ignore) {
             }
 
-            if (progressBarFragment != null) {
-                progressBarFragment.update();
-            } else if (!isInteractionLocked) {
-                restoreProgressBarIfDestroyed();
+            try {
+                if (victoryFragment != null) {
+                    victoryFragment.update();
+                }
+            } catch (Throwable ignore) {
             }
-        }
 
-        if (victoryFragment != null) {
-            victoryFragment.update();
-        }
+            try {
+                if (ui != null) {
+                    ui.act(delta);
+                    ui.draw();
+                }
+            } catch (Throwable ignore) {
+            }
 
-        ui.act(delta);
-        ui.draw();
+        } catch (Throwable ignore) {
+        }
 
     }
 
@@ -394,6 +441,11 @@ public class GameScreen implements Screen {
         }
 
         isLoaded = false;
+
+        if (persistTask != null) {
+            persistTask.cancel();
+            persistTask = null;
+        }
 
         if (progressBarFragment != null) {
             progressBarFragment.dispose();

@@ -81,8 +81,7 @@ public class BackgroundSfxService {
                     } else {
                         complete();
                     }
-                } catch (Throwable e) {
-                    Log.e(tag, e);
+                } catch (Throwable ignore) {
                     complete();
                 }
 
@@ -109,7 +108,7 @@ public class BackgroundSfxService {
                 public void run() {
 
                     try {
-                        if (activeAudio == null) {
+                        if (activeAudio == null || expansionAssetManager == null) {
                             return;
                         }
 
@@ -118,6 +117,9 @@ public class BackgroundSfxService {
                         expansionAssetManager.finishLoading();
 
                         Music sound = expansionAssetManager.get(audio.file, Music.class);
+
+                        if (sound == null) return;
+
                         sound.play();
 
                         activeAudio.player = sound;
@@ -134,19 +136,13 @@ public class BackgroundSfxService {
                             }
                         });
 
-                    } catch (Throwable e) {
-                        Log.e(tag, e);
-
-                        //game.onCriticalError(e);
+                    } catch (Throwable ignore) {
                     }
 
                 }
             }).start();
 
-        } catch (Throwable e) {
-            Log.e(tag, e);
-
-            //game.onCriticalError(e);
+        } catch (Throwable ignore) {
         }
 
     }

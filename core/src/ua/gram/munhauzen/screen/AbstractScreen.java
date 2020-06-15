@@ -74,10 +74,6 @@ public abstract class AbstractScreen implements Screen {
         Log.i(tag, "onResourcesLoaded");
 
         isLoaded = true;
-
-        if (persistTask != null && !persistTask.isScheduled()) {
-            Timer.instance().scheduleTask(persistTask, 5, 5);
-        }
     }
 
     @Override
@@ -114,6 +110,14 @@ public abstract class AbstractScreen implements Screen {
                 onResourcesLoaded();
             }
             return;
+        }
+
+        try {
+            if (persistTask != null && !persistTask.isScheduled()) {
+                Timer.instance().scheduleTask(persistTask, 1, 5);
+            }
+        } catch (Throwable e) {
+            Log.e(tag, e);
         }
 
         renderAfterLoaded(delta);

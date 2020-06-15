@@ -1,5 +1,6 @@
 package ua.gram.munhauzen.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.HashSet;
@@ -38,11 +39,6 @@ public class Save implements JsonEntry {
     @JsonProperty
     public int order;
     /**
-     * Information about current story
-     */
-    @JsonProperty
-    public Story story;
-    /**
      * Obtained items on current iteration
      */
     @JsonProperty
@@ -56,6 +52,12 @@ public class Save implements JsonEntry {
 
     @JsonProperty
     public HashSet<String> visitedChapters;
+
+    /**
+     * Information about current story
+     */
+    @JsonIgnore
+    public Story story;
 
     public Save() {
         this("active");
@@ -78,16 +80,16 @@ public class Save implements JsonEntry {
         if (servantsInteractionState == null)
             servantsInteractionState = new ServantsState();
     }
-
-    public void reset() {
-        inventory.clear();
-        visitedChapters.clear();
-        visitedStories.clear();
-
-        updatedAt = DateUtils.now();
-
-        story = new Story();
-        servantsInteractionState = new ServantsState();
-    }
+//
+//    public void reset() {
+//        inventory.clear();
+//        visitedChapters.clear();
+//        visitedStories.clear();
+//
+//        updatedAt = DateUtils.now();
+//
+//        story = new Story();
+//        servantsInteractionState = new ServantsState();
+//    }
 
 }

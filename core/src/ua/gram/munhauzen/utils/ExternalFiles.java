@@ -117,6 +117,10 @@ public class ExternalFiles {
         return getExternal(params, "save-active.json");
     }
 
+    public static FileHandle getStoryFile(PlatformParams params) {
+        return getExternal(params, "story.json");
+    }
+
     public static FileHandle getActiveSaveBackupFile(PlatformParams params) {
         return getExternal(params, "save-active.old");
     }

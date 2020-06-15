@@ -126,6 +126,13 @@ public class MenuScreen extends AbstractScreen {
 
             layers.setControlsLayer(controlsFragment);
 
+            //MENU HACK START
+            controlsFragment = new ControlsFragment(this);
+            controlsFragment.create();
+
+            layers.setControlsLayer(controlsFragment);
+            //MENU HACK END
+
             imageFragment = new ImageFragment(this);
             imageFragment.create();
 
@@ -133,7 +140,10 @@ public class MenuScreen extends AbstractScreen {
 
             ui.addListener(new MenuStageListener(this));
 
-            openBannerIfNeeded();
+            try {
+                openBannerIfNeeded();
+            } catch (Throwable ignore) {
+            }
 
         } catch (Throwable e) {
             Log.e(tag, e);
@@ -143,6 +153,17 @@ public class MenuScreen extends AbstractScreen {
     }
 
     private void openBannerIfNeeded() {
+
+        if (game.gameState == null) return;
+
+        if (game.gameState.menuState == null) {
+            game.gameState.menuState = new MenuState();
+        }
+
+        if (game.gameState.achievementState == null) {
+            game.gameState.achievementState = new AchievementState();
+        }
+
         MenuState menuState = game.gameState.menuState;
         AchievementState achievementState = game.gameState.achievementState;
         boolean isBannerActive = layers == null || layers.bannerLayer != null;
@@ -233,7 +254,8 @@ public class MenuScreen extends AbstractScreen {
         }
 
         if (canPlaySfx) {
-            game.backgroundSfxService.start();
+            if (game.backgroundSfxService != null)
+                game.backgroundSfxService.start();
         }
     }
 

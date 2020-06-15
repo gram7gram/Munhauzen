@@ -87,14 +87,20 @@ public class StoryManager {
         if (story == null || !story.isValid()) {
             Log.e(tag, "Story is not valid. Resetting");
 
-            Scenario start = ScenarioRepository.findBegin(gameState);
+            Story newStory = getDefaultStory();
 
-            Story newStory = create(start.name);
+            newStory.init();
 
             gameScreen.setStory(newStory);
         }
 
         Log.i(tag, "resume " + gameScreen.getStory().id);
+    }
+
+    public Story getDefaultStory() {
+        Scenario start = ScenarioRepository.findBegin(gameState);
+
+        return create(start.name);
     }
 
     private void findNext(Scenario from, Story story) {

@@ -10,6 +10,7 @@ import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.screen.MenuScreen;
 import ua.gram.munhauzen.screen.menu.animation.CrownAnimation;
 import ua.gram.munhauzen.screen.menu.animation.IconAnimation;
+import ua.gram.munhauzen.service.StoryManager;
 import ua.gram.munhauzen.utils.ExternalFiles;
 import ua.gram.munhauzen.utils.Log;
 
@@ -32,9 +33,16 @@ public class StartButton extends MenuButton {
                         try {
                             ExternalFiles.createActiveSaveBackup(screen.game.params);
 
-                            screen.game.gameState.setActiveSave(new Save());
+                            StoryManager storyManager = new StoryManager(null, screen.game.gameState);
 
-                            screen.game.databaseManager.persistSave(screen.game.gameState.activeSave);
+                            Save save = new Save();
+
+                            save.story = storyManager.getDefaultStory();
+                            save.story.init();
+
+                            screen.game.gameState.setActiveSave(save);
+
+                            screen.game.databaseManager.persistSave(save);
 
                             screen.game.stopCurrentSfx();
                             screen.game.currentSfx = screen.game.sfxService.onMenuStartClicked();

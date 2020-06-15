@@ -245,10 +245,7 @@ public class SfxService {
     }
 
     public StoryAudio onExitNoClicked() {
-        return prepareAndPlay(MathUtils.random(new String[]{
-                "sfx_menu_stay_1", "sfx_menu_stay_2",
-                "sfx_menu_stay_3", "sfx_menu_stay_4"
-        }));
+        return prepareAndPlay("sfx_menu_save_no");
     }
 
     public StoryAudio onMenuGalleryClicked() {
@@ -382,12 +379,12 @@ public class SfxService {
 
                         storyAudio.player = sound;
 
-//                        sound.setOnCompletionListener(new Music.OnCompletionListener() {
-//                            @Override
-//                            public void onCompletion(Music music) {
-//                                dispose(storyAudio);
-//                            }
-//                        });
+                        sound.setOnCompletionListener(new Music.OnCompletionListener() {
+                            @Override
+                            public void onCompletion(Music music) {
+                                dispose(storyAudio);
+                            }
+                        });
 
                     } catch (Throwable ignore) {
                     }
@@ -397,10 +394,7 @@ public class SfxService {
 
             return storyAudio;
 
-        } catch (Throwable e) {
-            Log.e(tag, e);
-
-            //game.onCriticalError(e);
+        } catch (Throwable ignore) {
         }
 
         return null;
@@ -455,12 +449,12 @@ public class SfxService {
             storyAudio.resource = file;
             storyAudio.player = sound;
 
-//            sound.setOnCompletionListener(new Music.OnCompletionListener() {
-//                @Override
-//                public void onCompletion(Music music) {
-//                    dispose(storyAudio);
-//                }
-//            });
+            sound.setOnCompletionListener(new Music.OnCompletionListener() {
+                @Override
+                public void onCompletion(Music music) {
+                    dispose(storyAudio);
+                }
+            });
 
             sound.play();
 
@@ -503,21 +497,29 @@ public class SfxService {
     public void stop() {
         Log.e(tag, "stop");
 
-        for (StoryAudio storyAudio : activeAudio) {
-            dispose(storyAudio);
-        }
-        activeAudio.clear();
+        try {
+
+            for (StoryAudio storyAudio : activeAudio) {
+                dispose(storyAudio);
+            }
+            activeAudio.clear();
 
 //        internalAssetManager.clear();
-        expansionAssetManager.clear();
+            expansionAssetManager.clear();
+        } catch (Throwable ignore) {
+        }
     }
 
     public void dispose() {
         Log.e(tag, "dispose");
-        stop();
+        try {
+            stop();
 
-        internalAssetManager.dispose();
-        expansionAssetManager.dispose();
+            internalAssetManager.dispose();
+            expansionAssetManager.dispose();
+
+        } catch (Throwable ignore) {
+        }
     }
 
     public void dispose(StoryAudio storyAudio) {
