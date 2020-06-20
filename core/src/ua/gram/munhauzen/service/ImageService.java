@@ -23,9 +23,6 @@ import ua.gram.munhauzen.screen.game.transition.NormalTransition;
 import ua.gram.munhauzen.screen.game.transition.Transition;
 import ua.gram.munhauzen.utils.Log;
 
-/**
- * @author Gram <gram7gram@gmail.com>
- */
 public abstract class ImageService implements Disposable {
 
     protected final String tag = getClass().getSimpleName();
@@ -44,131 +41,151 @@ public abstract class ImageService implements Disposable {
 
     public void prepareAndDisplay(StoryImage item) {
 
-        String resource = getResource(item);
-        if (resource == null) return;
+        try {
 
-        item.resource = resource;
+            String resource = getResource(item);
+            if (resource == null) return;
 
-        if (item.isPrepared && item.drawable != null) {
-            onPrepared(item);
-            return;
-        }
+            item.resource = resource;
 
-        if (!assetManager.isLoaded(resource, Texture.class)) {
-            assetManager.load(resource, Texture.class);
-
-            assetManager.finishLoading();
-        }
-
-        item.isPreparing = false;
-        item.isPrepared = true;
-        item.prepareCompletedAt = new Date();
-
-        item.drawable = new SpriteDrawable(new Sprite(
-                assetManager.get(resource, Texture.class)
-        ));
-
-        onPrepared(item);
-    }
-
-    public void prepare(StoryImage item, Timer.Task onComplete) {
-        if (item.isPrepared && item.drawable != null) {
-            if (item.isLocked && !item.isActive) {
-                Timer.post(onComplete);
+            if (item.isPrepared && item.drawable != null) {
+                onPrepared(item);
+                return;
             }
-            return;
-        }
 
-        String resource = getResource(item);
-        if (resource == null) return;
-
-        item.resource = resource;
-
-        boolean isLoaded = assetManager.isLoaded(resource, Texture.class);
-
-        if (!isLoaded) {
-            if (!item.isPreparing) {
-
-                item.isPreparing = true;
-                item.prepareStartedAt = new Date();
-
+            if (!assetManager.isLoaded(resource, Texture.class)) {
                 assetManager.load(resource, Texture.class);
-            }
 
-        } else {
+                assetManager.finishLoading();
+            }
 
             item.isPreparing = false;
             item.isPrepared = true;
             item.prepareCompletedAt = new Date();
 
-            item.drawable = new SpriteDrawable(new Sprite(assetManager.get(resource, Texture.class)));
+            item.drawable = new SpriteDrawable(new Sprite(
+                    assetManager.get(resource, Texture.class)
+            ));
 
-            Timer.post(onComplete);
+            onPrepared(item);
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+    }
+
+    public void prepare(StoryImage item, Timer.Task onComplete) {
+        try {
+            if (item.isPrepared && item.drawable != null) {
+                if (item.isLocked && !item.isActive) {
+                    Timer.post(onComplete);
+                }
+                return;
+            }
+
+            String resource = getResource(item);
+            if (resource == null) return;
+
+            item.resource = resource;
+
+            boolean isLoaded = assetManager.isLoaded(resource, Texture.class);
+
+            if (!isLoaded) {
+                if (!item.isPreparing) {
+
+                    item.isPreparing = true;
+                    item.prepareStartedAt = new Date();
+
+                    assetManager.load(resource, Texture.class);
+                }
+
+            } else {
+
+                item.isPreparing = false;
+                item.isPrepared = true;
+                item.prepareCompletedAt = new Date();
+
+                item.drawable = new SpriteDrawable(new Sprite(assetManager.get(resource, Texture.class)));
+
+                Timer.post(onComplete);
+            }
+        } catch (Throwable ignore) {
         }
     }
 
     public void onPrepared(StoryImage item) {
 
-        if (item.isActive) return;
+        try {
+            if (item.isActive) return;
 
-        Log.i(tag, "onPrepared " + item.resource);
+            Log.i(tag, "onPrepared " + item.resource);
 
-        Story story = gameScreen.getStory();
-        if (story != null) {
-            for (StoryScenario scenarioOption : story.scenarios) {
-                for (StoryImage image : scenarioOption.scenario.images) {
-                    image.isActive = false;
+            Story story = gameScreen.getStory();
+            if (story != null) {
+                for (StoryScenario scenarioOption : story.scenarios) {
+                    for (StoryImage image : scenarioOption.scenario.images) {
+                        image.isActive = false;
+                    }
                 }
             }
+
+            saveCurrentBackground(item);
+
+            displayImage(item);
+        } catch (Throwable ignore) {
         }
-
-        saveCurrentBackground(item);
-
-        displayImage(item);
     }
 
     protected void displayImage(final StoryImage item) {
 
-        if (transition != null) {
-            if (transition.isLocked) return;
+        try {
+            if (transition != null) {
+                if (transition.isLocked) return;
+            }
+
+            Log.i(tag, "displayImage " + item.resource);
+
+
+            gameScreen.showImageFragment();
+
+            if (Scenario.FADE_IN.equals(item.transition)) {
+                transition = new FadeTransition(gameScreen);
+            } else {
+                transition = new NormalTransition(gameScreen);
+            }
+
+            transition.prepare(item);
+
+        } catch (Throwable ignore) {
         }
-
-        Log.i(tag, "displayImage " + item.resource);
-
-
-        gameScreen.showImageFragment();
-
-        if (Scenario.FADE_IN.equals(item.transition)) {
-            transition = new FadeTransition(gameScreen);
-        } else {
-            transition = new NormalTransition(gameScreen);
-        }
-
-        transition.prepare(item);
     }
 
     public void update() {
 
-        if (assetManager == null) return;
-
         try {
-            assetManager.update();
-        } catch (Throwable ignore) {
-        }
 
-        Story story = gameScreen.getStory();
-        if (story != null) {
-            for (StoryScenario scenario : story.scenarios) {
-                if (scenario.startsAt < story.progress) {
-                    if (scenario.scenario.images != null) {
-                        for (StoryImage storyImage : scenario.scenario.images) {
-                            if (storyImage.startsAt <= story.progress) {
-                                saveCurrentBackground(storyImage);
+            if (assetManager == null) return;
+
+            try {
+                assetManager.update();
+            } catch (Throwable ignore) {
+            }
+
+            Story story = gameScreen.getStory();
+            if (story != null) {
+                for (StoryScenario scenario : story.scenarios) {
+                    if (scenario.startsAt < story.progress) {
+                        if (scenario.scenario.images != null) {
+                            for (StoryImage storyImage : scenario.scenario.images) {
+                                if (storyImage.startsAt <= story.progress) {
+                                    saveCurrentBackground(storyImage);
+                                }
                             }
                         }
                     }
                 }
             }
+
+        } catch (Throwable ignore) {
         }
     }
 
@@ -186,14 +203,18 @@ public abstract class ImageService implements Disposable {
     @Override
     public void dispose() {
 
-        Story story = gameScreen.getStory();
-        if (story != null) {
-            dispose(story, true);
-        }
+        try {
+            Story story = gameScreen.getStory();
+            if (story != null) {
+                dispose(story, true);
+            }
 
-        if (assetManager != null) {
-            assetManager.dispose();
-            assetManager = null;
+            if (assetManager != null) {
+                assetManager.dispose();
+                assetManager = null;
+            }
+
+        } catch (Throwable ignore) {
         }
     }
 

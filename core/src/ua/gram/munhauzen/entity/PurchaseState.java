@@ -12,6 +12,8 @@ public class PurchaseState implements JsonEntry {
     @JsonProperty
     public boolean isPro;
     @JsonProperty
+    public boolean isVersionSelected;
+    @JsonProperty
     public ArrayList<Purchase> purchases;
     @JsonProperty
     public ArrayList<Product> products;

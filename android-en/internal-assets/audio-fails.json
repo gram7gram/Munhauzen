@@ -1,6 +1,5 @@
 [
   {
-    "_id": "5e820e6e3c4c91905a02aa8d",
     "name": "sfail_open_1",
     "__v": 0,
     "audio": "sfail_open_1",
@@ -15,7 +14,6 @@
     "duration": 2299
   },
   {
-    "_id": "5e820e6e3c4c91905a02a929",
     "name": "sfail_interactions",
     "__v": 0,
     "audio": "sfail_interactions",
@@ -30,7 +28,6 @@
     "duration": 8313
   },
   {
-    "_id": "5e820e6d3c4c91905a02a514",
     "name": "sfx_logo_fail",
     "__v": 0,
     "audio": "sfx_logo",
@@ -45,7 +42,6 @@
     "duration": 40031
   },
   {
-    "_id": "5e820e6e3c4c91905a02aa50",
     "name": "sfx_menu_hello",
     "__v": 0,
     "audio": "sfx_menu_hello",
@@ -60,7 +56,6 @@
     "duration": 13677
   },
   {
-    "_id": "5e820e6e3c4c91905a02ab49",
     "name": "s11_b_fail_1",
     "__v": 0,
     "audio": "s11_b",
@@ -75,7 +70,6 @@
     "duration": 5805
   },
   {
-    "_id": "5e820e6e3c4c91905a02aa91",
     "name": "s13_d_fail_1",
     "__v": 0,
     "audio": "s13_d",
@@ -90,7 +84,6 @@
     "duration": 4992
   },
   {
-    "_id": "5e820e6e3c4c91905a02a92e",
     "name": "s21_2_d_fail_1",
     "__v": 0,
     "audio": "s21_2_d",
@@ -105,7 +98,6 @@
     "duration": 2995
   },
   {
-    "_id": "5e820e6d3c4c91905a02a530",
     "name": "s22_fail_1",
     "__v": 0,
     "audio": "s22",
@@ -120,7 +112,6 @@
     "duration": 10867
   },
   {
-    "_id": "5e820e6e3c4c91905a02aa52",
     "name": "s23_b_fail_1",
     "__v": 0,
     "audio": "s23_b",
@@ -135,7 +126,6 @@
     "duration": 38383
   },
   {
-    "_id": "5e820e6e3c4c91905a02ab4b",
     "name": "s2_2_c_fail_1",
     "__v": 0,
     "audio": "s2_2_c",
@@ -150,7 +140,6 @@
     "duration": 11633
   },
   {
-    "_id": "5e820e6e3c4c91905a02aaa9",
     "name": "s39_0_fail_2",
     "__v": 0,
     "audio": "s39_0",
@@ -165,7 +154,6 @@
     "duration": 8615
   },
   {
-    "_id": "5e820e6e3c4c91905a02a93a",
     "name": "s39_a_fail_1",
     "__v": 0,
     "audio": "s39_a",
@@ -180,7 +168,6 @@
     "duration": 21362
   },
   {
-    "_id": "5e820e6d3c4c91905a02a543",
     "name": "s3_0_fail_4",
     "__v": 0,
     "audio": "s3_0",
@@ -195,7 +182,6 @@
     "duration": 14814
   },
   {
-    "_id": "5e820e6e3c4c91905a02aa54",
     "name": "s3_0_fail_5",
     "__v": 0,
     "audio": "s3_0",
@@ -210,7 +196,6 @@
     "duration": 14768
   },
   {
-    "_id": "5e820e6e3c4c91905a02ab4d",
     "name": "s3_0_fail_6",
     "__v": 0,
     "audio": "s3_0",
@@ -225,7 +210,6 @@
     "duration": 11029
   },
   {
-    "_id": "5e820e6e3c4c91905a02aaad",
     "name": "s40_c_fail_2",
     "__v": 0,
     "audio": "s40_c",
@@ -240,7 +224,6 @@
     "duration": 37895
   },
   {
-    "_id": "5e820e6e3c4c91905a02a940",
     "name": "s53_c_fail_1",
     "__v": 0,
     "audio": "s53_c",
@@ -255,7 +238,6 @@
     "duration": 7639
   },
   {
-    "_id": "5e820e6d3c4c91905a02a551",
     "name": "s54_b_fail_1",
     "__v": 0,
     "audio": "s54_b",
@@ -270,7 +252,6 @@
     "duration": 11285
   },
   {
-    "_id": "5e820e6e3c4c91905a02aa56",
     "name": "s54_d_fail_1",
     "__v": 0,
     "audio": "s54_d",
@@ -285,7 +266,6 @@
     "duration": 30650
   },
   {
-    "_id": "5e820e6e3c4c91905a02ab4f",
     "name": "s6_a_fail_1",
     "__v": 0,
     "audio": "s6_a",
@@ -300,7 +280,6 @@
     "duration": 13444
   },
   {
-    "_id": "5e820e6e3c4c91905a02aab0",
     "name": "s6_e_fail_1",
     "__v": 0,
     "audio": "s6_e",
@@ -315,7 +294,6 @@
     "duration": 13584
   },
   {
-    "_id": "5e820e6e3c4c91905a02a945",
     "name": "s7_1_d_fail_1",
     "__v": 0,
     "audio": "s7_1_d",
@@ -330,7 +308,6 @@
     "duration": 7686
   },
   {
-    "_id": "5e820e6d3c4c91905a02a55b",
     "name": "s8_d_fail_1",
     "__v": 0,
     "audio": "s8_d",
@@ -345,7 +322,6 @@
     "duration": 31254
   },
   {
-    "_id": "5e820e6e3c4c91905a02aa58",
     "name": "sbrougham_c_fail_1",
     "__v": 0,
     "audio": "sbrougham_c",
@@ -360,7 +336,6 @@
     "duration": 16393
   },
   {
-    "_id": "5e820e6e3c4c91905a02ab51",
     "name": "scanal_1_fail_2",
     "__v": 0,
     "audio": "scanal_1",
@@ -375,7 +350,6 @@
     "duration": 14002
   },
   {
-    "_id": "5e820e6e3c4c91905a02aab2",
     "name": "scanal_2_2_b_fail_1",
     "__v": 0,
     "audio": "scanal_2_2_b",
@@ -390,7 +364,6 @@
     "duration": 21618
   },
   {
-    "_id": "5e820e6e3c4c91905a02a94d",
     "name": "scannon_cont_fail_4",
     "__v": 0,
     "audio": "scannon_cont",
@@ -405,7 +378,6 @@
     "duration": 9474
   },
   {
-    "_id": "5e820e6d3c4c91905a02a56d",
     "name": "scannon_cont_fail_5",
     "__v": 0,
     "audio": "scannon_cont",
@@ -420,7 +392,6 @@
     "duration": 58491
   },
   {
-    "_id": "5e820e6e3c4c91905a02aa5a",
     "name": "scannon_cont_fail_6",
     "__v": 0,
     "audio": "scannon_cont",
@@ -435,7 +406,6 @@
     "duration": 22965
   },
   {
-    "_id": "5e820e6e3c4c91905a02ab53",
     "name": "scannon_cont_fail_7",
     "__v": 0,
     "audio": "scannon_cont",
@@ -450,7 +420,6 @@
     "duration": 91371
   },
   {
-    "_id": "5e820e6e3c4c91905a02aab4",
     "name": "scannon_fail_1",
     "__v": 0,
     "audio": "scannon",
@@ -465,7 +434,6 @@
     "duration": 18715
   },
   {
-    "_id": "5e820e6e3c4c91905a02a955",
     "name": "sfx_fail_1",
     "__v": 0,
     "audio": "sfx",
@@ -480,7 +448,6 @@
     "duration": 8313
   },
   {
-    "_id": "5e820e6d3c4c91905a02a57e",
     "name": "sfx_menu_win_all_fail_1",
     "__v": 0,
     "audio": "sfx_menu_win_all",
@@ -495,7 +462,6 @@
     "duration": 15790
   },
   {
-    "_id": "5e820e6e3c4c91905a02aa5c",
     "name": "sintro_2_fail_1",
     "__v": 0,
     "audio": "sintro_2",
@@ -510,7 +476,6 @@
     "duration": 35085
   },
   {
-    "_id": "5e820e6e3c4c91905a02ab55",
     "name": "sisland_fail_5",
     "__v": 0,
     "audio": "sisland",
@@ -525,7 +490,6 @@
     "duration": 21595
   },
   {
-    "_id": "5e820e6e3c4c91905a02aab6",
     "name": "slions_d_fail_1",
     "__v": 0,
     "audio": "slions_d",
@@ -540,7 +504,6 @@
     "duration": 5666
   },
   {
-    "_id": "5e820e6e3c4c91905a02a95d",
     "name": "slions_fail_1",
     "__v": 0,
     "audio": "slions",
@@ -555,7 +518,6 @@
     "duration": 34133
   },
   {
-    "_id": "5e820e6d3c4c91905a02a58c",
     "name": "slions_fail_2",
     "__v": 0,
     "audio": "slions",
@@ -570,7 +532,6 @@
     "duration": 21223
   },
   {
-    "_id": "5e820e6e3c4c91905a02aa5e",
     "name": "smoon_c_b_fail_1",
     "__v": 0,
     "audio": "smoon_c_b",
@@ -585,7 +546,6 @@
     "duration": 26680
   },
   {
-    "_id": "5e820e6e3c4c91905a02ab57",
     "name": "snephew_fail_1",
     "__v": 0,
     "audio": "snephew",
@@ -600,7 +560,6 @@
     "duration": 18715
   },
   {
-    "_id": "5e820e6e3c4c91905a02aab8",
     "name": "ssling_c_fail_2",
     "__v": 0,
     "audio": "ssling_c",
@@ -615,7 +574,6 @@
     "duration": 51688
   },
   {
-    "_id": "5e820e6e3c4c91905a02a963",
     "name": "ssling_fail_1",
     "__v": 0,
     "audio": "ssling",
@@ -630,7 +588,6 @@
     "duration": 14838
   },
   {
-    "_id": "5e820e6d3c4c91905a02a598",
     "name": "stample_c_fail_1",
     "__v": 0,
     "audio": "stample_c",
@@ -645,7 +602,6 @@
     "duration": 39033
   },
   {
-    "_id": "5e820e6e3c4c91905a02aa60",
     "name": "swau_2_d_fail_1",
     "__v": 0,
     "audio": "swau_2_d",
@@ -660,7 +616,6 @@
     "duration": 22965
   },
   {
-    "_id": "5e820e6e3c4c91905a02ab59",
     "name": "swau_d_5_fail_1",
     "__v": 0,
     "audio": "swau_d_5",
@@ -675,7 +630,6 @@
     "duration": 7059
   },
   {
-    "_id": "5e820e6e3c4c91905a02aaba",
     "name": "sbonus_Shura",
     "__v": 0,
     "audio": "sbonus_Shura",
@@ -690,7 +644,6 @@
     "duration": 4690
   },
   {
-    "_id": "5e820e6e3c4c91905a02a968",
     "name": "scrystals",
     "__v": 0,
     "audio": "scrystals",
@@ -705,7 +658,6 @@
     "duration": 6177
   },
   {
-    "_id": "5e820e6d3c4c91905a02a5a3",
     "name": "shaha_fail",
     "__v": 0,
     "audio": "shaha",
@@ -720,7 +672,6 @@
     "duration": 7848
   },
   {
-    "_id": "5e820e6e3c4c91905a02aa62",
     "name": "speter",
     "__v": 0,
     "audio": "speter",
@@ -735,7 +686,6 @@
     "duration": 7988
   },
   {
-    "_id": "5e820e6e3c4c91905a02ab5b",
     "name": "speter_fail_2",
     "__v": 0,
     "audio": "speter",
@@ -750,7 +700,6 @@
     "duration": 12655
   },
   {
-    "_id": "5e820e6e3c4c91905a02aabc",
     "name": "s11_e_fail_2",
     "__v": 0,
     "audio": "s11_e",
@@ -765,7 +714,6 @@
     "duration": 6478
   },
   {
-    "_id": "5e820e6e3c4c91905a02a96d",
     "name": "s11_e_fail_3",
     "__v": 0,
     "audio": "s11_e",
@@ -780,7 +728,6 @@
     "duration": 12423
   },
   {
-    "_id": "5e820e6d3c4c91905a02a5b2",
     "name": "s12_d_fail_1",
     "__v": 0,
     "audio": "s12_d",
@@ -795,7 +742,6 @@
     "duration": 7198
   },
   {
-    "_id": "5e820e6e3c4c91905a02aa64",
     "name": "s13_d_fail_2",
     "__v": 0,
     "audio": "s13_d",
@@ -810,7 +756,6 @@
     "duration": 4992
   },
   {
-    "_id": "5e820e6e3c4c91905a02ab5d",
     "name": "s14_c_fail_1",
     "__v": 0,
     "audio": "s14_c",
@@ -825,7 +770,6 @@
     "duration": 5480
   },
   {
-    "_id": "5e820e6e3c4c91905a02aabe",
     "name": "s16_b_fail_1",
     "__v": 0,
     "audio": "s16_b",
@@ -840,7 +784,6 @@
     "duration": 13653
   },
   {
-    "_id": "5e820e6e3c4c91905a02a974",
     "name": "s17_a_fail_1",
     "__v": 0,
     "audio": "s17_a",
@@ -855,7 +798,6 @@
     "duration": 3994
   },
   {
-    "_id": "5e820e6d3c4c91905a02a5be",
     "name": "s32_a_fail_1",
     "__v": 0,
     "audio": "s32_a",
@@ -870,7 +812,6 @@
     "duration": 2159
   },
   {
-    "_id": "5e820e6e3c4c91905a02aa66",
     "name": "s18_c_fail_1",
     "__v": 0,
     "audio": "s18_c",
@@ -885,7 +826,6 @@
     "duration": 4458
   },
   {
-    "_id": "5e820e6e3c4c91905a02ab5f",
     "name": "s22_c_fail_1",
     "__v": 0,
     "audio": "s22_c",
@@ -900,7 +840,6 @@
     "duration": 22384
   },
   {
-    "_id": "5e820e6e3c4c91905a02aac0",
     "name": "s23_a_fail_1",
     "__v": 0,
     "audio": "s23_a",
@@ -915,7 +854,6 @@
     "duration": 7593
   },
   {
-    "_id": "5e820e6e3c4c91905a02a97a",
     "name": "s23_c_fail_1",
     "__v": 0,
     "audio": "s23_c",
@@ -930,7 +868,6 @@
     "duration": 7059
   },
   {
-    "_id": "5e820e6d3c4c91905a02a5c7",
     "name": "s24_a_fail_1",
     "__v": 0,
     "audio": "s24_a",
@@ -945,7 +882,6 @@
     "duration": 5248
   },
   {
-    "_id": "5e820e6e3c4c91905a02aa68",
     "name": "s25_c_fail_1",
     "__v": 0,
     "audio": "s25_c",
@@ -960,7 +896,6 @@
     "duration": 4319
   },
   {
-    "_id": "5e820e6e3c4c91905a02ab61",
     "name": "s25_c_fail_2",
     "__v": 0,
     "audio": "s25_c",
@@ -975,7 +910,6 @@
     "duration": 3320
   },
   {
-    "_id": "5e820e6e3c4c91905a02aac2",
     "name": "s28_b_fail_1",
     "__v": 0,
     "audio": "s28_b",
@@ -990,7 +924,6 @@
     "duration": 13793
   },
   {
-    "_id": "5e820e6e3c4c91905a02a97d",
     "name": "sisland_cont_fail_4",
     "__v": 0,
     "audio": "sisland_cont",
@@ -1005,7 +938,6 @@
     "duration": 10867
   },
   {
-    "_id": "5e820e6d3c4c91905a02a5cd",
     "name": "s32_e_fail_1",
     "__v": 0,
     "audio": "s32_e",
@@ -1020,7 +952,6 @@
     "duration": 6803
   },
   {
-    "_id": "5e820e6e3c4c91905a02aa6a",
     "name": "s35_e_fail_1",
     "__v": 0,
     "audio": "s35_e",
@@ -1035,7 +966,6 @@
     "duration": 5526
   },
   {
-    "_id": "5e820e6e3c4c91905a02ab63",
     "name": "s36_d_fail_1",
     "__v": 0,
     "audio": "s36_d",
@@ -1050,7 +980,6 @@
     "duration": 4551
   },
   {
-    "_id": "5e820e6e3c4c91905a02aac4",
     "name": "s36_d_fail_2",
     "__v": 0,
     "audio": "s36_d",
@@ -1065,7 +994,6 @@
     "duration": 3971
   },
   {
-    "_id": "5e820e6e3c4c91905a02a980",
     "name": "s38_e_fail_1",
     "__v": 0,
     "audio": "s38_e",
@@ -1080,7 +1008,6 @@
     "duration": 8777
   },
   {
-    "_id": "5e820e6d3c4c91905a02a5d7",
     "name": "s38_e_fail_2",
     "__v": 0,
     "audio": "s38_e",
@@ -1095,7 +1022,6 @@
     "duration": 8290
   },
   {
-    "_id": "5e820e6e3c4c91905a02aa6c",
     "name": "s51_a_fail_1",
     "__v": 0,
     "audio": "s51_a",
@@ -1110,7 +1036,6 @@
     "duration": 19714
   },
   {
-    "_id": "5e820e6e3c4c91905a02ab65",
     "name": "s51_b_fail_1",
     "__v": 0,
     "audio": "s51_b",
@@ -1125,7 +1050,6 @@
     "duration": 2206
   },
   {
-    "_id": "5e820e6e3c4c91905a02aac6",
     "name": "s51_b_fail_10",
     "__v": 0,
     "audio": "s51_b",
@@ -1140,7 +1064,6 @@
     "duration": 3785
   },
   {
-    "_id": "5e820e6e3c4c91905a02a985",
     "name": "s51_b_fail_2",
     "__v": 0,
     "audio": "s51_b",
@@ -1155,7 +1078,6 @@
     "duration": 2159
   },
   {
-    "_id": "5e820e6d3c4c91905a02a5e1",
     "name": "s51_b_fail_3",
     "__v": 0,
     "audio": "s51_b",
@@ -1170,7 +1092,6 @@
     "duration": 2577
   },
   {
-    "_id": "5e820e6e3c4c91905a02aa6e",
     "name": "s51_b_fail_4",
     "__v": 0,
     "audio": "s51_b",
@@ -1185,7 +1106,6 @@
     "duration": 2531
   },
   {
-    "_id": "5e820e6e3c4c91905a02ab67",
     "name": "s51_b_fail_5",
     "__v": 0,
     "audio": "s51_b",
@@ -1200,7 +1120,6 @@
     "duration": 3228
   },
   {
-    "_id": "5e820e6e3c4c91905a02aac8",
     "name": "s51_b_fail_6",
     "__v": 0,
     "audio": "s51_b",
@@ -1215,7 +1134,6 @@
     "duration": 2694
   },
   {
-    "_id": "5e820e6e3c4c91905a02a989",
     "name": "s51_b_fail_7",
     "__v": 0,
     "audio": "s51_b",
@@ -1230,7 +1148,6 @@
     "duration": 2972
   },
   {
-    "_id": "5e820e6d3c4c91905a02a5e7",
     "name": "s51_b_fail_8",
     "__v": 0,
     "audio": "s51_b",
@@ -1245,7 +1162,6 @@
     "duration": 3019
   },
   {
-    "_id": "5e820e6e3c4c91905a02aa70",
     "name": "s51_b_fail_9",
     "__v": 0,
     "audio": "s51_b",
@@ -1260,7 +1176,6 @@
     "duration": 2577
   },
   {
-    "_id": "5e820e6e3c4c91905a02ab69",
     "name": "s54_a_fail_1",
     "__v": 0,
     "audio": "s54_a",
@@ -1275,7 +1190,6 @@
     "duration": 7175
   },
   {
-    "_id": "5e820e6e3c4c91905a02aaca",
     "name": "s54_e_fail_1",
     "__v": 0,
     "audio": "s54_e",
@@ -1290,7 +1204,6 @@
     "duration": 2879
   },
   {
-    "_id": "5e820e6e3c4c91905a02a98c",
     "name": "s6_d_fail_1",
     "__v": 0,
     "audio": "s6_d",
@@ -1305,7 +1218,6 @@
     "duration": 13700
   },
   {
-    "_id": "5e820e6d3c4c91905a02a5f0",
     "name": "s7_1_d_fail_2",
     "__v": 0,
     "audio": "s7_1_d",
@@ -1320,7 +1232,6 @@
     "duration": 7686
   },
   {
-    "_id": "5e820e6e3c4c91905a02aa72",
     "name": "s7_a_fail_1",
     "__v": 0,
     "audio": "s7_a",
@@ -1335,7 +1246,6 @@
     "duration": 7059
   },
   {
-    "_id": "5e820e6e3c4c91905a02ab6b",
     "name": "s7_b_fail_1",
     "__v": 0,
     "audio": "s7_b",
@@ -1350,7 +1260,6 @@
     "duration": 9683
   },
   {
-    "_id": "5e820e6e3c4c91905a02aacc",
     "name": "s7_c_fail_2",
     "__v": 0,
     "audio": "s7_c",
@@ -1365,7 +1274,6 @@
     "duration": 5294
   },
   {
-    "_id": "5e820e6e3c4c91905a02a990",
     "name": "sboat_ruin_2_c_fail_1",
     "__v": 0,
     "audio": "sboat_ruin_2_c",
@@ -1380,7 +1288,6 @@
     "duration": 2647
   },
   {
-    "_id": "5e820e6d3c4c91905a02a600",
     "name": "sboat_ruin_2_c_fail_2",
     "__v": 0,
     "audio": "sboat_ruin_2_c",
@@ -1395,7 +1302,6 @@
     "duration": 2299
   },
   {
-    "_id": "5e820e6e3c4c91905a02aa74",
     "name": "scannon_a_fail_1",
     "__v": 0,
     "audio": "scannon_a",
@@ -1410,7 +1316,6 @@
     "duration": 4574
   },
   {
-    "_id": "5e820e6e3c4c91905a02ab6d",
     "name": "snile_a_fail_2",
     "__v": 0,
     "audio": "snile_a",
@@ -1425,7 +1330,6 @@
     "duration": 4737
   },
   {
-    "_id": "5e820e6e3c4c91905a02aace",
     "name": "sprisoners_b_fail_2",
     "__v": 0,
     "audio": "sprisoners_b",
@@ -1440,7 +1344,6 @@
     "duration": 4110
   },
   {
-    "_id": "5e820e6e3c4c91905a02a996",
     "name": "strue_hahaha",
     "__v": 0,
     "audio": "strue_hahaha",
@@ -1455,7 +1358,6 @@
     "duration": 9636
   },
   {
-    "_id": "5e820e6d3c4c91905a02a607",
     "name": "scanal_1_cont_fail_1",
     "__v": 0,
     "audio": "scanal_1_cont",
@@ -1470,7 +1372,6 @@
     "duration": 22872
   },
   {
-    "_id": "5e820e6e3c4c91905a02aa76",
     "name": "scanal_1_fail_1",
     "__v": 0,
     "audio": "scanal_1",
@@ -1485,7 +1386,6 @@
     "duration": 9497
   },
   {
-    "_id": "5e820e6e3c4c91905a02ab6f",
     "name": "scanal_2_2_a_fail_1",
     "__v": 0,
     "audio": "scanal_2_2_a",
@@ -1500,7 +1400,6 @@
     "duration": 16649
   },
   {
-    "_id": "5e820e6e3c4c91905a02aad0",
     "name": "scanal_2_2_c_fail_1",
     "__v": 0,
     "audio": "scanal_2_2_c",
@@ -1515,7 +1414,6 @@
     "duration": 30441
   },
   {
-    "_id": "5e820e6e3c4c91905a02a99c",
     "name": "s10_0_fail_1",
     "__v": 0,
     "audio": "s10_0",
@@ -1530,7 +1428,6 @@
     "duration": 5410
   },
   {
-    "_id": "5e820e6d3c4c91905a02a614",
     "name": "scanal_2_2_c_fail_2",
     "__v": 0,
     "audio": "scanal_2_2_c",
@@ -1545,7 +1442,6 @@
     "duration": 57098
   },
   {
-    "_id": "5e820e6e3c4c91905a02aa78",
     "name": "s11_e_fail_1",
     "__v": 0,
     "audio": "s11_e",
@@ -1560,7 +1456,6 @@
     "duration": 8057
   },
   {
-    "_id": "5e820e6e3c4c91905a02ab71",
     "name": "s13_a_c_fail_1",
     "__v": 0,
     "audio": "s13_a_c",
@@ -1575,7 +1470,6 @@
     "duration": 8173
   },
   {
-    "_id": "5e820e6e3c4c91905a02aad2",
     "name": "s13_a_d_fail_1",
     "__v": 0,
     "audio": "s13_a_d",
@@ -1590,7 +1484,6 @@
     "duration": 15511
   },
   {
-    "_id": "5e820e6e3c4c91905a02a99f",
     "name": "s13_a_fail_1",
     "__v": 0,
     "audio": "s13_a",
@@ -1605,7 +1498,6 @@
     "duration": 7988
   },
   {
-    "_id": "5e820e6d3c4c91905a02a61b",
     "name": "s1_b_fail_1",
     "__v": 0,
     "audio": "s1_b",
@@ -1620,7 +1512,6 @@
     "duration": 18158
   },
   {
-    "_id": "5e820e6e3c4c91905a02aa7a",
     "name": "s1_fail_1",
     "__v": 0,
     "audio": "s1",
@@ -1635,7 +1526,6 @@
     "duration": 5851
   },
   {
-    "_id": "5e820e6e3c4c91905a02ab73",
     "name": "s1_intro_fail_1",
     "__v": 0,
     "audio": "s1_intro",
@@ -1650,7 +1540,6 @@
     "duration": 5294
   },
   {
-    "_id": "5e820e6e3c4c91905a02aad4",
     "name": "s20_0",
     "__v": 0,
     "audio": "s20_0",
@@ -1665,7 +1554,6 @@
     "duration": 74931
   },
   {
-    "_id": "5e820e6e3c4c91905a02a9a5",
     "name": "s21_0_fail_1",
     "__v": 0,
     "audio": "s21_0",
@@ -1680,7 +1568,6 @@
     "duration": 11076
   },
   {
-    "_id": "5e820e6d3c4c91905a02a625",
     "name": "s21_0_fail_2",
     "__v": 0,
     "audio": "s21_0",
@@ -1695,7 +1582,6 @@
     "duration": 27144
   },
   {
-    "_id": "5e820e6e3c4c91905a02aa7c",
     "name": "s21_1_d_fail_1",
     "__v": 0,
     "audio": "s21_1_d",
@@ -1710,7 +1596,6 @@
     "duration": 10728
   },
   {
-    "_id": "5e820e6e3c4c91905a02ab75",
     "name": "s22_b_fail_1",
     "__v": 0,
     "audio": "s22_b",
@@ -1725,7 +1610,6 @@
     "duration": 8638
   },
   {
-    "_id": "5e820e6e3c4c91905a02aad7",
     "name": "s22_d_fail_1",
     "__v": 0,
     "audio": "s22_d",
@@ -1740,7 +1624,6 @@
     "duration": 17369
   },
   {
-    "_id": "5e820e6e3c4c91905a02a9a8",
     "name": "s21_0_fail_3",
     "__v": 0,
     "audio": "s21_0",
@@ -1755,7 +1638,6 @@
     "duration": 14303
   },
   {
-    "_id": "5e820e6d3c4c91905a02a62b",
     "name": "s23_d_fail_1",
     "__v": 0,
     "audio": "s23_d",
@@ -1770,7 +1652,6 @@
     "duration": 19156
   },
   {
-    "_id": "5e820e6e3c4c91905a02aa7e",
     "name": "s26_fail_1",
     "__v": 0,
     "audio": "s26",
@@ -1785,7 +1666,6 @@
     "duration": 10031
   },
   {
-    "_id": "5e820e6e3c4c91905a02ab77",
     "name": "s27_a_fail_1",
     "__v": 0,
     "audio": "s27_a",
@@ -1800,7 +1680,6 @@
     "duration": 23591
   },
   {
-    "_id": "5e820e6e3c4c91905a02aadb",
     "name": "s27_a_fail_2",
     "__v": 0,
     "audio": "s27_a",
@@ -1815,7 +1694,6 @@
     "duration": 19900
   },
   {
-    "_id": "5e820e6e3c4c91905a02a9ac",
     "name": "s27_d_fail_1",
     "__v": 0,
     "audio": "s27_d",
@@ -1830,7 +1708,6 @@
     "duration": 14745
   },
   {
-    "_id": "5e820e6d3c4c91905a02a633",
     "name": "s28_d_fail_1",
     "__v": 0,
     "audio": "s28_d",
@@ -1845,7 +1722,6 @@
     "duration": 24915
   },
   {
-    "_id": "5e820e6e3c4c91905a02aa80",
     "name": "s32_b_fail_1",
     "__v": 0,
     "audio": "s32_b",
@@ -1860,7 +1736,6 @@
     "duration": 3228
   },
   {
-    "_id": "5e820e6e3c4c91905a02ab79",
     "name": "s35_0_fail_1",
     "__v": 0,
     "audio": "s35_0",
@@ -1875,7 +1750,6 @@
     "duration": 13096
   },
   {
-    "_id": "5e820e6e3c4c91905a02aadd",
     "name": "s35_3miss_fail_1",
     "__v": 0,
     "audio": "s35_3miss",
@@ -1890,7 +1764,6 @@
     "duration": 9915
   },
   {
-    "_id": "5e820e6e3c4c91905a02a9b0",
     "name": "s38_f_fail_1",
     "__v": 0,
     "audio": "s38_f",
@@ -1905,7 +1778,6 @@
     "duration": 4667
   },
   {
-    "_id": "5e820e6d3c4c91905a02a641",
     "name": "s39_0_fail_1",
     "__v": 0,
     "audio": "s39_0",
@@ -1920,7 +1792,6 @@
     "duration": 6432
   },
   {
-    "_id": "5e820e6e3c4c91905a02aa83",
     "name": "s39_b_fail_1",
     "__v": 0,
     "audio": "s39_b",
@@ -1935,7 +1806,6 @@
     "duration": 27910
   },
   {
-    "_id": "5e820e6e3c4c91905a02ab7b",
     "name": "s3_0_fail_1",
     "__v": 0,
     "audio": "s3_0",
@@ -1950,7 +1820,6 @@
     "duration": 13955
   },
   {
-    "_id": "5e820e6e3c4c91905a02aae0",
     "name": "s3_0_fail_2",
     "__v": 0,
     "audio": "s3_0",
@@ -1965,7 +1834,6 @@
     "duration": 6478
   },
   {
-    "_id": "5e820e6e3c4c91905a02a9b5",
     "name": "s3_0_fail_3",
     "__v": 0,
     "audio": "s3_0",
@@ -1980,7 +1848,6 @@
     "duration": 15581
   },
   {
-    "_id": "5e820e6d3c4c91905a02a64e",
     "name": "s3_d_fail_1",
     "__v": 0,
     "audio": "s3_d",
@@ -1995,7 +1862,6 @@
     "duration": 14629
   },
   {
-    "_id": "5e820e6e3c4c91905a02aa85",
     "name": "s40_c_fail_1",
     "__v": 0,
     "audio": "s40_c",
@@ -2010,7 +1876,6 @@
     "duration": 15673
   },
   {
-    "_id": "5e820e6e3c4c91905a02ab7d",
     "name": "s40_d_fail_1",
     "__v": 0,
     "audio": "s40_d",
@@ -2025,7 +1890,6 @@
     "duration": 14954
   },
   {
-    "_id": "5e820e6e3c4c91905a02aae2",
     "name": "s41_2_fail_1",
     "__v": 0,
     "audio": "s41_2",
@@ -2040,7 +1904,6 @@
     "duration": 10008
   },
   {
-    "_id": "5e820e6e3c4c91905a02a9be",
     "name": "s41_2_fail_2",
     "__v": 0,
     "audio": "s41_2",
@@ -2055,7 +1918,6 @@
     "duration": 13862
   },
   {
-    "_id": "5e820e6d3c4c91905a02a655",
     "name": "s41_6_a_fail_1",
     "__v": 0,
     "audio": "s41_6_a",
@@ -2070,7 +1932,6 @@
     "duration": 13630
   },
   {
-    "_id": "5e820e6e3c4c91905a02aa89",
     "name": "s41_6_b_fail_1",
     "__v": 0,
     "audio": "s41_6_b",
@@ -2085,7 +1946,6 @@
     "duration": 5619
   },
   {
-    "_id": "5e820e6e3c4c91905a02ab7f",
     "name": "s41_6_fail_1",
     "__v": 0,
     "audio": "s41_6",
@@ -2100,7 +1960,6 @@
     "duration": 17856
   },
   {
-    "_id": "5e820e6e3c4c91905a02aae4",
     "name": "s41_8_a_fail_1",
     "__v": 0,
     "audio": "s41_8_a",
@@ -2115,7 +1974,6 @@
     "duration": 22616
   },
   {
-    "_id": "5e820e6e3c4c91905a02a9c4",
     "name": "s41_too_much_1_fail_1",
     "__v": 0,
     "audio": "s41_too_much_1",
@@ -2130,7 +1988,6 @@
     "duration": 12841
   },
   {
-    "_id": "5e820e6d3c4c91905a02a65d",
     "name": "s45_joker_2_fail_1",
     "__v": 0,
     "audio": "s45_joker_2",
@@ -2145,7 +2002,6 @@
     "duration": 11424
   },
   {
-    "_id": "5e820e6e3c4c91905a02aa8b",
     "name": "s48_change_fail_1",
     "__v": 0,
     "audio": "s48_change",
@@ -2160,7 +2016,6 @@
     "duration": 16649
   },
   {
-    "_id": "5e820e6e3c4c91905a02ab81",
     "name": "s48_cont_fail_1",
     "__v": 0,
     "audio": "s48_cont",
@@ -2175,7 +2030,6 @@
     "duration": 30348
   },
   {
-    "_id": "5e820e6e3c4c91905a02aae6",
     "name": "s48_eater_2_fail_1",
     "__v": 0,
     "audio": "s48_eater_2",
@@ -2190,7 +2044,6 @@
     "duration": 15952
   },
   {
-    "_id": "5e820e6e3c4c91905a02a9ca",
     "name": "s49_nothing_fail_1",
     "__v": 0,
     "audio": "s49_nothing",
@@ -2205,7 +2058,6 @@
     "duration": 15952
   },
   {
-    "_id": "5e820e6d3c4c91905a02a668",
     "name": "s51_e_fail_1",
     "__v": 0,
     "audio": "s51_e",
@@ -2220,7 +2072,6 @@
     "duration": 15650
   },
   {
-    "_id": "5e820e6e3c4c91905a02aa8f",
     "name": "s51_e_fail_2",
     "__v": 0,
     "audio": "s51_e",
@@ -2235,7 +2086,6 @@
     "duration": 8661
   },
   {
-    "_id": "5e820e6e3c4c91905a02ab83",
     "name": "s55_c_fail_1",
     "__v": 0,
     "audio": "s55_c",
@@ -2250,7 +2100,6 @@
     "duration": 14257
   },
   {
-    "_id": "5e820e6e3c4c91905a02aae8",
     "name": "s55_c_fail_2",
     "__v": 0,
     "audio": "s55_c",
@@ -2265,7 +2114,6 @@
     "duration": 14675
   },
   {
-    "_id": "5e820e6e3c4c91905a02a9d0",
     "name": "s56_0_fail_1",
     "__v": 0,
     "audio": "s56_0",
@@ -2280,7 +2128,6 @@
     "duration": 10263
   },
   {
-    "_id": "5e820e6d3c4c91905a02a673",
     "name": "s57_0_fail_1",
     "__v": 0,
     "audio": "s57_0",
@@ -2295,7 +2142,6 @@
     "duration": 29814
   },
   {
-    "_id": "5e820e6e3c4c91905a02aa92",
     "name": "s57_0_fail_2",
     "__v": 0,
     "audio": "s57_0",
@@ -2310,7 +2156,6 @@
     "duration": 34296
   },
   {
-    "_id": "5e820e6e3c4c91905a02ab85",
     "name": "s57_0_fail_3",
     "__v": 0,
     "audio": "s57_0",
@@ -2325,7 +2170,6 @@
     "duration": 27864
   },
   {
-    "_id": "5e820e6e3c4c91905a02aaea",
     "name": "s57_0_fail_4",
     "__v": 0,
     "audio": "s57_0",
@@ -2340,7 +2184,6 @@
     "duration": 20178
   },
   {
-    "_id": "5e820e6e3c4c91905a02a9d4",
     "name": "s58_0_fail_1",
     "__v": 0,
     "audio": "s58_0",
@@ -2355,7 +2198,6 @@
     "duration": 16254
   },
   {
-    "_id": "5e820e6d3c4c91905a02a679",
     "name": "s60_c_fail_1",
     "__v": 0,
     "audio": "s60_c",
@@ -2370,7 +2212,6 @@
     "duration": 13026
   },
   {
-    "_id": "5e820e6e3c4c91905a02aa94",
     "name": "s7_2_b_fail_1",
     "__v": 0,
     "audio": "s7_2_b",
@@ -2385,7 +2226,6 @@
     "duration": 11169
   },
   {
-    "_id": "5e820e6e3c4c91905a02ab87",
     "name": "s7_c_fail_1",
     "__v": 0,
     "audio": "s7_c",
@@ -2400,7 +2240,6 @@
     "duration": 21989
   },
   {
-    "_id": "5e820e6e3c4c91905a02aaec",
     "name": "sballoon_a_b_fail_1",
     "__v": 0,
     "audio": "sballoon_a_b",
@@ -2415,7 +2254,6 @@
     "duration": 19714
   },
   {
-    "_id": "5e820e6e3c4c91905a02a9db",
     "name": "sballoon_cont_fail_",
     "__v": 0,
     "audio": "sballoon_cont",
@@ -2430,7 +2268,6 @@
     "duration": 35248
   },
   {
-    "_id": "5e820e6d3c4c91905a02a681",
     "name": "sballoon_fail_1",
     "__v": 0,
     "audio": "sballoon",
@@ -2445,7 +2282,6 @@
     "duration": 7198
   },
   {
-    "_id": "5e820e6e3c4c91905a02aa96",
     "name": "sbear_fail_1",
     "__v": 0,
     "audio": "sbear",
@@ -2460,7 +2296,6 @@
     "duration": 27260
   },
   {
-    "_id": "5e820e6e3c4c91905a02ab89",
     "name": "sboy_b_fail_1",
     "__v": 0,
     "audio": "sboy_b",
@@ -2475,7 +2310,6 @@
     "duration": 6757
   },
   {
-    "_id": "5e820e6e3c4c91905a02aaee",
     "name": "sbrougham_fail_1",
     "__v": 0,
     "audio": "sbrougham",
@@ -2490,7 +2324,6 @@
     "duration": 15372
   },
   {
-    "_id": "5e820e6e3c4c91905a02a9e3",
     "name": "sbrougham_fail_2",
     "__v": 0,
     "audio": "sbrougham",
@@ -2505,7 +2338,6 @@
     "duration": 17067
   },
   {
-    "_id": "5e820e6d3c4c91905a02a688",
     "name": "scannon_c_fail_1",
     "__v": 0,
     "audio": "scannon_c",
@@ -2520,7 +2352,6 @@
     "duration": 19667
   },
   {
-    "_id": "5e820e6e3c4c91905a02aa98",
     "name": "scannon_cont_fail_1",
     "__v": 0,
     "audio": "scannon_cont",
@@ -2535,7 +2366,6 @@
     "duration": 61324
   },
   {
-    "_id": "5e820e6e3c4c91905a02ab8b",
     "name": "scannon_cont_fail_2",
     "__v": 0,
     "audio": "scannon_cont",
@@ -2550,7 +2380,6 @@
     "duration": 22616
   },
   {
-    "_id": "5e820e6e3c4c91905a02aaf0",
     "name": "scannon_cont_fail_3",
     "__v": 0,
     "audio": "scannon_cont",
@@ -2565,7 +2394,6 @@
     "duration": 7686
   },
   {
-    "_id": "5e820e6e3c4c91905a02a9ec",
     "name": "sdog_fail_1",
     "__v": 0,
     "audio": "sdog",
@@ -2580,7 +2408,6 @@
     "duration": 4156
   },
   {
-    "_id": "5e820e6d3c4c91905a02a690",
     "name": "sgener_c_fail_1",
     "__v": 0,
     "audio": "sgener_c",
@@ -2595,7 +2422,6 @@
     "duration": 21827
   },
   {
-    "_id": "5e820e6e3c4c91905a02aa9a",
     "name": "sgener_d_fail_1",
     "__v": 0,
     "audio": "sgener_d",
@@ -2610,7 +2436,6 @@
     "duration": 22547
   },
   {
-    "_id": "5e820e6e3c4c91905a02ab8d",
     "name": "sgener_fail_1",
     "__v": 0,
     "audio": "sgener",
@@ -2625,7 +2450,6 @@
     "duration": 21409
   },
   {
-    "_id": "5e820e6e3c4c91905a02aaf2",
     "name": "sisland_cont_fail_1",
     "__v": 0,
     "audio": "sisland_cont",
@@ -2640,7 +2464,6 @@
     "duration": 5851
   },
   {
-    "_id": "5e820e6e3c4c91905a02a9f2",
     "name": "sisland_cont_fail_2",
     "__v": 0,
     "audio": "sisland_cont",
@@ -2655,7 +2478,6 @@
     "duration": 13909
   },
   {
-    "_id": "5e820e6d3c4c91905a02a6a0",
     "name": "sisland_cont_fail_3",
     "__v": 0,
     "audio": "sisland_cont",
@@ -2670,7 +2492,6 @@
     "duration": 6014
   },
   {
-    "_id": "5e820e6e3c4c91905a02aa9c",
     "name": "sisland_fail_1",
     "__v": 0,
     "audio": "sisland",
@@ -2685,7 +2506,6 @@
     "duration": 9938
   },
   {
-    "_id": "5e820e6e3c4c91905a02ab8f",
     "name": "sisland_fail_2",
     "__v": 0,
     "audio": "sisland",
@@ -2700,7 +2520,6 @@
     "duration": 22175
   },
   {
-    "_id": "5e820e6e3c4c91905a02aaf4",
     "name": "sisland_fail_3",
     "__v": 0,
     "audio": "sisland",
@@ -2715,7 +2534,6 @@
     "duration": 22709
   },
   {
-    "_id": "5e820e6e3c4c91905a02a9f9",
     "name": "sisland_fail_4",
     "__v": 0,
     "audio": "sisland",
@@ -2730,7 +2548,6 @@
     "duration": 20852
   },
   {
-    "_id": "5e820e6d3c4c91905a02a6a7",
     "name": "slions_attack_loose_fail_1",
     "__v": 0,
     "audio": "slions_attack_loose",
@@ -2745,7 +2562,6 @@
     "duration": 23847
   },
   {
-    "_id": "5e820e6e3c4c91905a02aa9e",
     "name": "slions_c_fail_1",
     "__v": 0,
     "audio": "slions_c",
@@ -2760,7 +2576,6 @@
     "duration": 12585
   },
   {
-    "_id": "5e820e6e3c4c91905a02ab91",
     "name": "slions_d_fail_2",
     "__v": 0,
     "audio": "slions_d",
@@ -2775,7 +2590,6 @@
     "duration": 5666
   },
   {
-    "_id": "5e820e6e3c4c91905a02aaf7",
     "name": "smarriage_a_b_fail_1",
     "__v": 0,
     "audio": "smarriage_a_b",
@@ -2790,7 +2604,6 @@
     "duration": 11865
   },
   {
-    "_id": "5e820e6e3c4c91905a02a9fd",
     "name": "smarriage_c_fail_1",
     "__v": 0,
     "audio": "smarriage_c",
@@ -2805,7 +2618,6 @@
     "duration": 15372
   },
   {
-    "_id": "5e820e6d3c4c91905a02a6ad",
     "name": "smoon_b_fail_1",
     "__v": 0,
     "audio": "smoon_b",
@@ -2820,7 +2632,6 @@
     "duration": 89792
   },
   {
-    "_id": "5e820e6e3c4c91905a02aaa0",
     "name": "smoon_c_b_fail_2",
     "__v": 0,
     "audio": "smoon_c_b",
@@ -2835,7 +2646,6 @@
     "duration": 26680
   },
   {
-    "_id": "5e820e6e3c4c91905a02ab93",
     "name": "smoon_e_fail_1",
     "__v": 0,
     "audio": "smoon_e",
@@ -2850,7 +2660,6 @@
     "duration": 11656
   },
   {
-    "_id": "5e820e6e3c4c91905a02aafa",
     "name": "smoon_e_fail_2",
     "__v": 0,
     "audio": "smoon_e",
@@ -2865,7 +2674,6 @@
     "duration": 8777
   },
   {
-    "_id": "5e820e6e3c4c91905a02aa04",
     "name": "smoon_fail_1",
     "__v": 0,
     "audio": "smoon",
@@ -2880,7 +2688,6 @@
     "duration": 13166
   },
   {
-    "_id": "5e820e6d3c4c91905a02a6b9",
     "name": "snephew_b_fail_1",
     "__v": 0,
     "audio": "snephew_b",
@@ -2895,7 +2702,6 @@
     "duration": 22361
   },
   {
-    "_id": "5e820e6e3c4c91905a02aaa2",
     "name": "snile_a_fail_1",
     "__v": 0,
     "audio": "snile_a",
@@ -2910,7 +2716,6 @@
     "duration": 8940
   },
   {
-    "_id": "5e820e6e3c4c91905a02ab95",
     "name": "snile_fail_1",
     "__v": 0,
     "audio": "snile",
@@ -2925,7 +2730,6 @@
     "duration": 10101
   },
   {
-    "_id": "5e820e6e3c4c91905a02aafe",
     "name": "sprisoners_d_fail_1",
     "__v": 0,
     "audio": "sprisoners_d",
@@ -2940,7 +2744,6 @@
     "duration": 30859
   },
   {
-    "_id": "5e820e6e3c4c91905a02aa08",
     "name": "ssandstorm_b_fail_1",
     "__v": 0,
     "audio": "ssandstorm_b",
@@ -2955,7 +2758,6 @@
     "duration": 10797
   },
   {
-    "_id": "5e820e6d3c4c91905a02a6bf",
     "name": "ssandstorm_b_fail_2",
     "__v": 0,
     "audio": "ssandstorm_b",
@@ -2970,7 +2772,6 @@
     "duration": 7848
   },
   {
-    "_id": "5e820e6e3c4c91905a02aaa4",
     "name": "ssandstorm_c_fail_1",
     "__v": 0,
     "audio": "ssandstorm_c",
@@ -2985,7 +2786,6 @@
     "duration": 27818
   },
   {
-    "_id": "5e820e6e3c4c91905a02ab97",
     "name": "ssling_b_cont_fail_1",
     "__v": 0,
     "audio": "ssling_b_cont",
@@ -3000,7 +2800,6 @@
     "duration": 17578
   },
   {
-    "_id": "5e820e6e3c4c91905a02ab01",
     "name": "ssling_c_fail_1",
     "__v": 0,
     "audio": "ssling_c",
@@ -3015,7 +2814,6 @@
     "duration": 16997
   },
   {
-    "_id": "5e820e6e3c4c91905a02aa0c",
     "name": "stample_2_all_true_fail_1",
     "__v": 0,
     "audio": "stample_2_all_true",
@@ -3030,7 +2828,6 @@
     "duration": 38150
   },
   {
-    "_id": "5e820e6d3c4c91905a02a6c5",
     "name": "stample_3_c_fail_1",
     "__v": 0,
     "audio": "stample_3_c",
@@ -3045,7 +2842,6 @@
     "duration": 17206
   },
   {
-    "_id": "5e820e6e3c4c91905a02aaa7",
     "name": "stample_5_fail_1",
     "__v": 0,
     "audio": "stample_5",
@@ -3060,7 +2856,6 @@
     "duration": 13026
   },
   {
-    "_id": "5e820e6e3c4c91905a02ab99",
     "name": "stample_5_fail_2",
     "__v": 0,
     "audio": "stample_5",
@@ -3075,7 +2870,6 @@
     "duration": 19435
   },
   {
-    "_id": "5e820e6e3c4c91905a02ab04",
     "name": "styran_a_fail_1",
     "__v": 0,
     "audio": "styran_a",
@@ -3090,7 +2884,6 @@
     "duration": 19435
   },
   {
-    "_id": "5e820e6e3c4c91905a02aa0e",
     "name": "styran_a_fail_2",
     "__v": 0,
     "audio": "styran_a",
@@ -3105,7 +2898,6 @@
     "duration": 9822
   },
   {
-    "_id": "5e820e6d3c4c91905a02a6ce",
     "name": "styran_fail_1",
     "__v": 0,
     "audio": "styran",
@@ -3120,7 +2912,6 @@
     "duration": 13677
   },
   {
-    "_id": "5e820e6e3c4c91905a02aaab",
     "name": "svarvars_b_fail_1",
     "__v": 0,
     "audio": "svarvars_b",
@@ -3135,7 +2926,6 @@
     "duration": 29884
   },
   {
-    "_id": "5e820e6e3c4c91905a02ab9b",
     "name": "svolcano_b_fail_1",
     "__v": 0,
     "audio": "svolcano_b",
@@ -3150,7 +2940,6 @@
     "duration": 23963
   },
   {
-    "_id": "5e820e6e3c4c91905a02ab08",
     "name": "svolcano_b_fail_2",
     "__v": 0,
     "audio": "svolcano_b",
@@ -3165,7 +2954,6 @@
     "duration": 15464
   },
   {
-    "_id": "5e820e6e3c4c91905a02aa13",
     "name": "svolcano_fail_1",
     "__v": 0,
     "audio": "svolcano",
@@ -3180,7 +2968,6 @@
     "duration": 48599
   },
   {
-    "_id": "5e820e6d3c4c91905a02a6da",
     "name": "sworm_b_fail_1",
     "__v": 0,
     "audio": "sworm_b",
@@ -3195,7 +2982,6 @@
     "duration": 36061
   },
   {
-    "_id": "5e820e6e3c4c91905a02aaaf",
     "name": "sworm_fail_1",
     "__v": 0,
     "audio": "sworm",
@@ -3210,7 +2996,6 @@
     "duration": 15975
   },
   {
-    "_id": "5e820e6e3c4c91905a02ab9d",
     "name": "sworm_fail_2",
     "__v": 0,
     "audio": "sworm",

@@ -173,7 +173,7 @@ public class StoryManager {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            gameScreen.onCriticalError(e);
+//            gameScreen.onCriticalError(e);
         }
     }
 
@@ -199,7 +199,7 @@ public class StoryManager {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            gameScreen.onCriticalError(e);
+//            gameScreen.onCriticalError(e);
         }
     }
 
@@ -222,7 +222,7 @@ public class StoryManager {
                         } catch (Throwable e) {
                             Log.e(tag, e);
 
-                            gameScreen.onCriticalError(e);
+//                            gameScreen.onCriticalError(e);
                         }
                     }
                 });
@@ -240,7 +240,7 @@ public class StoryManager {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            gameScreen.onCriticalError(e);
+//            gameScreen.onCriticalError(e);
         }
     }
 
@@ -323,7 +323,7 @@ public class StoryManager {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            gameScreen.onCriticalError(e);
+//            gameScreen.onCriticalError(e);
         }
 
     }
@@ -352,14 +352,14 @@ public class StoryManager {
                     } catch (Throwable e) {
                         Log.e(tag, e);
 
-                        gameScreen.onCriticalError(e);
+//                        gameScreen.onCriticalError(e);
                     }
                 }
             }, .4f);
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            gameScreen.onCriticalError(e);
+//            gameScreen.onCriticalError(e);
         }
     }
 
@@ -394,14 +394,14 @@ public class StoryManager {
                     } catch (Throwable e) {
                         Log.e(tag, e);
 
-                        gameScreen.onCriticalError(e);
+//                        gameScreen.onCriticalError(e);
                     }
                 }
             }, .4f);
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            gameScreen.onCriticalError(e);
+//            gameScreen.onCriticalError(e);
         }
     }
 
@@ -462,7 +462,7 @@ public class StoryManager {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            gameScreen.onCriticalError(e);
+//            gameScreen.onCriticalError(e);
         }
     }
 

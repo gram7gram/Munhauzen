@@ -32,11 +32,13 @@ const start = async () => {
 
             if (!match) throw new Error(`No source match for audio ${audio.name}`)
 
-            const metadata = await musicData.parseFile(match + "/" + name, { duration: true })
+//            const metadata = await musicData.parseFile(match + "/" + name, { duration: true })
+//
+//            const duration = Number((metadata.format.duration * 1000).toFixed(0));
+//
+//            audio.duration = duration
 
-            const duration = Number((metadata.format.duration * 1000).toFixed(0));
-
-            audio.duration = duration
+            delete audio._id
         }
 
         fs.writeFileSync(json, JSON.stringify(audios, null, 2));

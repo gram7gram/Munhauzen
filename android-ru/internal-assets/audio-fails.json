@@ -1,6 +1,5 @@
 [
   {
-    "_id": "5ee10ed82e12cb4da2407d34",
     "name": "bonus_1",
     "__v": 0,
     "audio": "bonus_1",
@@ -11,11 +10,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": true,
     "locale": "ru",
-    "order": 0,
-    "duration": 2647
+    "order": 0
   },
   {
-    "_id": "5ee10ed72e12cb4da2407c90",
     "name": "crystal",
     "__v": 0,
     "audio": "crystal",
@@ -26,11 +23,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": true,
     "locale": "ru",
-    "order": 1,
-    "duration": 11169
+    "order": 1
   },
   {
-    "_id": "5ee10ed72e12cb4da2407aff",
     "name": "sbuy",
     "__v": 0,
     "audio": "sbuy",
@@ -41,11 +36,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": true,
     "locale": "ru",
-    "order": 2,
-    "duration": 9729
+    "order": 2
   },
   {
-    "_id": "5ee10ed82e12cb4da2407dcf",
     "name": "sfail_book",
     "__v": 0,
     "audio": "sfail_book",
@@ -56,11 +49,9 @@
     "isFailOpenedOnComplete": true,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 3,
-    "duration": 9265
+    "order": 3
   },
   {
-    "_id": "5ee10ed72e12cb4da2407b82",
     "name": "sfail_chuvstva",
     "__v": 0,
     "audio": "sfail_chuvstva",
@@ -71,11 +62,9 @@
     "isFailOpenedOnComplete": true,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 4,
-    "duration": 8731
+    "order": 4
   },
   {
-    "_id": "5ee10ed82e12cb4da2407d3c",
     "name": "sinteractive",
     "__v": 0,
     "audio": "sinteractive",
@@ -86,11 +75,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": true,
     "locale": "ru",
-    "order": 5,
-    "duration": 17229
+    "order": 5
   },
   {
-    "_id": "5ee10ed72e12cb4da2407c99",
     "name": "slike",
     "__v": 0,
     "audio": "slike",
@@ -101,11 +88,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": true,
     "locale": "ru",
-    "order": 6,
-    "duration": 4017
+    "order": 6
   },
   {
-    "_id": "5ee10ed72e12cb4da2407b05",
     "name": "sopened_fail_1",
     "__v": 0,
     "audio": "sopened",
@@ -116,11 +101,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": true,
     "locale": "ru",
-    "order": 7,
-    "duration": 7686
+    "order": 7
   },
   {
-    "_id": "5ee10ed82e12cb4da2407dd1",
     "name": "sopened_fail_2",
     "__v": 0,
     "audio": "sopened",
@@ -131,11 +114,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": true,
     "locale": "ru",
-    "order": 8,
-    "duration": 9288
+    "order": 8
   },
   {
-    "_id": "5ee10ed72e12cb4da2407b88",
     "name": "sopened_fail_3",
     "__v": 0,
     "audio": "sopened",
@@ -146,11 +127,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": true,
     "locale": "ru",
-    "order": 9,
-    "duration": 47345
+    "order": 9
   },
   {
-    "_id": "5ee10ed82e12cb4da2407d40",
     "name": "sopened_fail_4",
     "__v": 0,
     "audio": "sopened",
@@ -161,11 +140,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": true,
     "locale": "ru",
-    "order": 10,
-    "duration": 3738
+    "order": 10
   },
   {
-    "_id": "5ee10ed72e12cb4da2407c9d",
     "name": "sopened_fail_5",
     "__v": 0,
     "audio": "sopened",
@@ -176,11 +153,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": true,
     "locale": "ru",
-    "order": 11,
-    "duration": 7755
+    "order": 11
   },
   {
-    "_id": "5ee10ed72e12cb4da2407b08",
     "name": "sopened_fail_6",
     "__v": 0,
     "audio": "sopened",
@@ -191,11 +166,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": true,
     "locale": "ru",
-    "order": 12,
-    "duration": 5596
+    "order": 12
   },
   {
-    "_id": "5ee10ed82e12cb4da2407dd4",
     "name": "sopened_fail_7",
     "__v": 0,
     "audio": "sopened",
@@ -206,11 +179,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": true,
     "locale": "ru",
-    "order": 13,
-    "duration": 31231
+    "order": 13
   },
   {
-    "_id": "5ee10ed72e12cb4da2407b8e",
     "name": "swishes",
     "__v": 0,
     "audio": "swishes",
@@ -221,11 +192,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": true,
     "locale": "ru",
-    "order": 14,
-    "duration": 3947
+    "order": 14
   },
   {
-    "_id": "5ee10ed82e12cb4da2407d48",
     "name": "s1_intro_0",
     "__v": 0,
     "audio": "s1_intro_0",
@@ -236,11 +205,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 15,
-    "duration": 13073
+    "order": 15
   },
   {
-    "_id": "5ee10ed72e12cb4da2407ca2",
     "name": "s1_intro_0_bonus_1",
     "__v": 0,
     "audio": "s1_intro_0_bonus_1",
@@ -251,11 +218,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 16,
-    "duration": 26471
+    "order": 16
   },
   {
-    "_id": "5ee10ed72e12cb4da2407b0f",
     "name": "s1_intro_0_fail_2",
     "__v": 0,
     "audio": "s1_intro_0",
@@ -266,11 +231,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 17,
-    "duration": 5875
+    "order": 17
   },
   {
-    "_id": "5ee10ed82e12cb4da2407dd8",
     "name": "s1_intro_0_fail_3",
     "__v": 0,
     "audio": "s1_intro_0",
@@ -281,11 +244,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 18,
-    "duration": 12980
+    "order": 18
   },
   {
-    "_id": "5ee10ed72e12cb4da2407b93",
     "name": "s1_intro_0_fail_4",
     "__v": 0,
     "audio": "s1_intro_0",
@@ -296,11 +257,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 19,
-    "duration": 5526
+    "order": 19
   },
   {
-    "_id": "5ee10ed82e12cb4da2407d50",
     "name": "s1_intro_0_fail_5",
     "__v": 0,
     "audio": "s1_intro_0",
@@ -311,11 +270,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 20,
-    "duration": 12260
+    "order": 20
   },
   {
-    "_id": "5ee10ed72e12cb4da2407ca7",
     "name": "s1_0_fail_1",
     "__v": 0,
     "audio": "s1_0",
@@ -326,11 +283,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 21,
-    "duration": 20828
+    "order": 21
   },
   {
-    "_id": "5ee10ed72e12cb4da2407b14",
     "name": "s1_0_fail_2",
     "__v": 0,
     "audio": "s1_0",
@@ -341,11 +296,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 22,
-    "duration": 6060
+    "order": 22
   },
   {
-    "_id": "5ee10ed82e12cb4da2407ddc",
     "name": "s1_0_fail_3",
     "__v": 0,
     "audio": "s1_0",
@@ -356,11 +309,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 23,
-    "duration": 10960
+    "order": 23
   },
   {
-    "_id": "5ee10ed72e12cb4da2407b9a",
     "name": "s1_0_fail_4",
     "__v": 0,
     "audio": "s1_0",
@@ -371,26 +322,22 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 24,
-    "duration": 8638
+    "order": 24
   },
   {
-    "_id": "5ee10ed82e12cb4da2407d54",
     "name": "s1_0_fail_5",
     "__v": 0,
     "audio": "s1_0",
-    "description": "зауснул или уснул",
+    "description": "заснул или уснул",
     "file": "audio/s1_0_fail_5.aac",
     "isFailDaughter": false,
     "isFailMunhauzen": true,
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 25,
-    "duration": 12190
+    "order": 25
   },
   {
-    "_id": "5ee10ed72e12cb4da2407cac",
     "name": "s1_c_fail_1",
     "__v": 0,
     "audio": "s1_c",
@@ -401,11 +348,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 26,
-    "duration": 7500
+    "order": 26
   },
   {
-    "_id": "5ee10ed72e12cb4da2407b1b",
     "name": "s2_0_fail_1",
     "__v": 0,
     "audio": "s2_0",
@@ -416,11 +361,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 27,
-    "duration": 41866
+    "order": 27
   },
   {
-    "_id": "5ee10ed82e12cb4da2407de0",
     "name": "s2_2_0_fail_1",
     "__v": 0,
     "audio": "s2_2_0",
@@ -431,11 +374,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 28,
-    "duration": 8057
+    "order": 28
   },
   {
-    "_id": "5ee10ed72e12cb4da2407ba0",
     "name": "s2_2_0_fail_2",
     "__v": 0,
     "audio": "s2_2_0",
@@ -446,11 +387,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 29,
-    "duration": 9590
+    "order": 29
   },
   {
-    "_id": "5ee10ed82e12cb4da2407d5c",
     "name": "s2_2_0_fail_3",
     "__v": 0,
     "audio": "s2_2_0",
@@ -461,11 +400,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 30,
-    "duration": 2786
+    "order": 30
   },
   {
-    "_id": "5ee10ed72e12cb4da2407cb1",
     "name": "s2_2_0_fail_4",
     "__v": 0,
     "audio": "s2_2_0",
@@ -476,11 +413,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 31,
-    "duration": 8591
+    "order": 31
   },
   {
-    "_id": "5ee10ed72e12cb4da2407b1e",
     "name": "s2_2_d_fail_1",
     "__v": 0,
     "audio": "s2_2_d",
@@ -491,11 +426,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 32,
-    "duration": 7268
+    "order": 32
   },
   {
-    "_id": "5ee10ed82e12cb4da2407de3",
     "name": "s2_d_fail_1",
     "__v": 0,
     "audio": "s2_d",
@@ -506,11 +439,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 33,
-    "duration": 19900
+    "order": 33
   },
   {
-    "_id": "5ee10ed72e12cb4da2407ba6",
     "name": "s2_d_fail_2",
     "__v": 0,
     "audio": "s2_d",
@@ -521,11 +452,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 34,
-    "duration": 10495
+    "order": 34
   },
   {
-    "_id": "5ee10ed82e12cb4da2407d60",
     "name": "s2_d_fail_3",
     "__v": 0,
     "audio": "s2_d",
@@ -536,11 +465,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 35,
-    "duration": 8197
+    "order": 35
   },
   {
-    "_id": "5ee10ed72e12cb4da2407cb7",
     "name": "s2_d_fail_4",
     "__v": 0,
     "audio": "s2_d",
@@ -551,11 +478,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 36,
-    "duration": 10612
+    "order": 36
   },
   {
-    "_id": "5ee10ed72e12cb4da2407b23",
     "name": "s2_d_fail_5",
     "__v": 0,
     "audio": "s2_d",
@@ -566,11 +491,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 37,
-    "duration": 11076
+    "order": 37
   },
   {
-    "_id": "5ee10ed82e12cb4da2407de6",
     "name": "s2_d_fail_6",
     "__v": 0,
     "audio": "s2_d",
@@ -581,11 +504,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 38,
-    "duration": 5944
+    "order": 38
   },
   {
-    "_id": "5ee10ed72e12cb4da2407bac",
     "name": "s2_d_fail_7",
     "__v": 0,
     "audio": "s2_d",
@@ -596,11 +517,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 39,
-    "duration": 8638
+    "order": 39
   },
   {
-    "_id": "5ee10ed82e12cb4da2407d68",
     "name": "s3_0_fail_1",
     "__v": 0,
     "audio": "s3_0",
@@ -611,11 +530,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 40,
-    "duration": 11006
+    "order": 40
   },
   {
-    "_id": "5ee10ed72e12cb4da2407cbd",
     "name": "s_shoot_fail_1",
     "__v": 0,
     "audio": "s_shoot",
@@ -626,11 +543,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 41,
-    "duration": 15023
+    "order": 41
   },
   {
-    "_id": "5ee10ed72e12cb4da2407b28",
     "name": "s3_a_fail_1",
     "__v": 0,
     "audio": "s3_a",
@@ -641,11 +556,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 42,
-    "duration": 6014
+    "order": 42
   },
   {
-    "_id": "5ee10ed82e12cb4da2407dea",
     "name": "s3_b_fail_1",
     "__v": 0,
     "audio": "s3_b",
@@ -656,11 +569,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 43,
-    "duration": 10844
+    "order": 43
   },
   {
-    "_id": "5ee10ed72e12cb4da2407bb2",
     "name": "s3_d_fail_1",
     "__v": 0,
     "audio": "s3_d",
@@ -671,11 +582,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 44,
-    "duration": 13769
+    "order": 44
   },
   {
-    "_id": "5ee10ed82e12cb4da2407d6e",
     "name": "s4_d_fail_1",
     "__v": 0,
     "audio": "s4_d",
@@ -686,11 +595,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 45,
-    "duration": 14327
+    "order": 45
   },
   {
-    "_id": "5ee10ed72e12cb4da2407cc1",
     "name": "s4_d_fail_2",
     "__v": 0,
     "audio": "s4_d",
@@ -701,11 +608,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 46,
-    "duration": 23986
+    "order": 46
   },
   {
-    "_id": "5ee10ed72e12cb4da2407b2f",
     "name": "s6_a_fail_1",
     "__v": 0,
     "audio": "s6_a",
@@ -716,11 +621,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 47,
-    "duration": 7872
+    "order": 47
   },
   {
-    "_id": "5ee10ed82e12cb4da2407dee",
     "name": "s6_a_fail_2",
     "__v": 0,
     "audio": "s6_a",
@@ -731,11 +634,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 48,
-    "duration": 3738
+    "order": 48
   },
   {
-    "_id": "5ee10ed72e12cb4da2407bba",
     "name": "s6_a_fail_3",
     "__v": 0,
     "audio": "s6_a",
@@ -746,11 +647,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 49,
-    "duration": 5991
+    "order": 49
   },
   {
-    "_id": "5ee10ed82e12cb4da2407d72",
     "name": "s6_c_bonus",
     "__v": 0,
     "audio": "s6_c_bonus",
@@ -761,11 +660,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 50,
-    "duration": 7407
+    "order": 50
   },
   {
-    "_id": "5ee10ed72e12cb4da2407cc7",
     "name": "s7_0_fail_1",
     "__v": 0,
     "audio": "s7_0",
@@ -776,11 +673,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 51,
-    "duration": 38058
+    "order": 51
   },
   {
-    "_id": "5ee10ed72e12cb4da2407b32",
     "name": "s7_a_fail_1",
     "__v": 0,
     "audio": "s7_a",
@@ -791,11 +686,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 52,
-    "duration": 7129
+    "order": 52
   },
   {
-    "_id": "5ee10ed82e12cb4da2407df2",
     "name": "s7_a_fail_2",
     "__v": 0,
     "audio": "s7_a",
@@ -806,11 +699,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 53,
-    "duration": 17392
+    "order": 53
   },
   {
-    "_id": "5ee10ed72e12cb4da2407bbe",
     "name": "s7_d_fail_1",
     "__v": 0,
     "audio": "s7_d",
@@ -821,11 +712,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 54,
-    "duration": 5875
+    "order": 54
   },
   {
-    "_id": "5ee10ed82e12cb4da2407d78",
     "name": "s7_1_d_fail_1",
     "__v": 0,
     "audio": "s7_1_d",
@@ -836,11 +725,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 55,
-    "duration": 7755
+    "order": 55
   },
   {
-    "_id": "5ee10ed72e12cb4da2407ccb",
     "name": "s7_1_fail_1",
     "__v": 0,
     "audio": "s7_1",
@@ -851,11 +738,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 56,
-    "duration": 28259
+    "order": 56
   },
   {
-    "_id": "5ee10ed72e12cb4da2407b38",
     "name": "s7_2_0_fail_1",
     "__v": 0,
     "audio": "s7_2_0",
@@ -866,11 +751,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 57,
-    "duration": 26865
+    "order": 57
   },
   {
-    "_id": "5ee10ed82e12cb4da2407df6",
     "name": "s7_2_0_fail_2",
     "__v": 0,
     "audio": "s7_2_0",
@@ -881,11 +764,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 58,
-    "duration": 10449
+    "order": 58
   },
   {
-    "_id": "5ee10ed72e12cb4da2407bc6",
     "name": "s7_2_b_fail_1",
     "__v": 0,
     "audio": "s7_2_b",
@@ -896,11 +777,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 59,
-    "duration": 9868
+    "order": 59
   },
   {
-    "_id": "5ee10ed82e12cb4da2407d7c",
     "name": "s7_2_b_fail_2",
     "__v": 0,
     "audio": "s7_2_b",
@@ -911,11 +790,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 60,
-    "duration": 3901
+    "order": 60
   },
   {
-    "_id": "5ee10ed72e12cb4da2407ccf",
     "name": "s7_3_0_fail_1",
     "__v": 0,
     "audio": "s7_3_0",
@@ -926,11 +803,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 61,
-    "duration": 21200
+    "order": 61
   },
   {
-    "_id": "5ee10ed72e12cb4da2407b3c",
     "name": "s7_3_0_fail_2",
     "__v": 0,
     "audio": "s7_3_0",
@@ -941,11 +816,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 62,
-    "duration": 27400
+    "order": 62
   },
   {
-    "_id": "5ee10ed82e12cb4da2407dfa",
     "name": "s7_4_0_fail_1",
     "__v": 0,
     "audio": "s7_4_0",
@@ -956,11 +829,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 63,
-    "duration": 11703
+    "order": 63
   },
   {
-    "_id": "5ee10ed72e12cb4da2407bca",
     "name": "s8_d_fail_1",
     "__v": 0,
     "audio": "s8_d",
@@ -971,11 +842,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 64,
-    "duration": 21386
+    "order": 64
   },
   {
-    "_id": "5ee10ed82e12cb4da2407d82",
     "name": "s10_a_fail_1",
     "__v": 0,
     "audio": "s10_a",
@@ -986,11 +855,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 65,
-    "duration": 11378
+    "order": 65
   },
   {
-    "_id": "5ee10ed72e12cb4da2407cd3",
     "name": "s12_d_fail_1",
     "__v": 0,
     "audio": "s12_d",
@@ -1001,11 +868,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 66,
-    "duration": 19064
+    "order": 66
   },
   {
-    "_id": "5ee10ed72e12cb4da2407b41",
     "name": "s13_ac_fail_1",
     "__v": 0,
     "audio": "s13_ac",
@@ -1016,11 +881,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 67,
-    "duration": 13421
+    "order": 67
   },
   {
-    "_id": "5ee10ed82e12cb4da2407dfe",
     "name": "s13_ac_fail_2",
     "__v": 0,
     "audio": "s13_ac",
@@ -1031,11 +894,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 68,
-    "duration": 6548
+    "order": 68
   },
   {
-    "_id": "5ee10ed72e12cb4da2407bd2",
     "name": "sbear_fail_1",
     "__v": 0,
     "audio": "sbear",
@@ -1046,11 +907,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 69,
-    "duration": 18042
+    "order": 69
   },
   {
-    "_id": "5ee10ed82e12cb4da2407d86",
     "name": "sbear_fail_2",
     "__v": 0,
     "audio": "sbear",
@@ -1061,11 +920,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 70,
-    "duration": 81757
+    "order": 70
   },
   {
-    "_id": "5ee10ed72e12cb4da2407cd7",
     "name": "sbear_fail_3",
     "__v": 0,
     "audio": "sbear",
@@ -1076,11 +933,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 71,
-    "duration": 6548
+    "order": 71
   },
   {
-    "_id": "5ee10ed72e12cb4da2407b48",
     "name": "sbear_fail_4",
     "__v": 0,
     "audio": "sbear",
@@ -1091,11 +946,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 72,
-    "duration": 10983
+    "order": 72
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e02",
     "name": "s15_1_a_crow_fail_1",
     "__v": 0,
     "audio": "s15_1_a_crow",
@@ -1106,11 +959,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 73,
-    "duration": 17415
+    "order": 73
   },
   {
-    "_id": "5ee10ed72e12cb4da2407bda",
     "name": "s15_1_a_crow_fail_2",
     "__v": 0,
     "audio": "s15_1_a_crow",
@@ -1121,11 +972,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 74,
-    "duration": 19249
+    "order": 74
   },
   {
-    "_id": "5ee10ed82e12cb4da2407d8a",
     "name": "s15_1_d_fail_1",
     "__v": 0,
     "audio": "s15_1_d",
@@ -1136,11 +985,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 75,
-    "duration": 4667
+    "order": 75
   },
   {
-    "_id": "5ee10ed72e12cb4da2407cdb",
     "name": "s15_1_d_fail_2",
     "__v": 0,
     "audio": "s15_1_d",
@@ -1151,11 +998,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 76,
-    "duration": 8638
+    "order": 76
   },
   {
-    "_id": "5ee10ed72e12cb4da2407b4d",
     "name": "s15_c_fail_1",
     "__v": 0,
     "audio": "s15_c",
@@ -1166,11 +1011,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 77,
-    "duration": 9543
+    "order": 77
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e06",
     "name": "s15_shot_crow_fail_1",
     "__v": 0,
     "audio": "s15_shot_crow",
@@ -1181,11 +1024,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 78,
-    "duration": 8568
+    "order": 78
   },
   {
-    "_id": "5ee10ed72e12cb4da2407bde",
     "name": "s15_shot_crow_fail_2",
     "__v": 0,
     "audio": "s15_shot_crow",
@@ -1196,11 +1037,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 79,
-    "duration": 10867
+    "order": 79
   },
   {
-    "_id": "5ee10ed82e12cb4da2407d8e",
     "name": "ssling_fail_1",
     "__v": 0,
     "audio": "ssling",
@@ -1211,11 +1050,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 80,
-    "duration": 3622
+    "order": 80
   },
   {
-    "_id": "5ee10ed82e12cb4da2407cdf",
     "name": "ssling_fail_2",
     "__v": 0,
     "audio": "ssling",
@@ -1226,11 +1063,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 81,
-    "duration": 6060
+    "order": 81
   },
   {
-    "_id": "5ee10ed72e12cb4da2407b52",
     "name": "ssling_a_fail_1",
     "__v": 0,
     "audio": "ssling_a",
@@ -1241,11 +1076,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 82,
-    "duration": 8638
+    "order": 82
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e0a",
     "name": "ssling_b_fail_1",
     "__v": 0,
     "audio": "ssling_b",
@@ -1256,11 +1089,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 83,
-    "duration": 13259
+    "order": 83
   },
   {
-    "_id": "5ee10ed72e12cb4da2407be2",
     "name": "ssling_b_fail_2",
     "__v": 0,
     "audio": "ssling_b",
@@ -1271,11 +1102,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 84,
-    "duration": 8173
+    "order": 84
   },
   {
-    "_id": "5ee10ed82e12cb4da2407d92",
     "name": "ssling_b_fail_3",
     "__v": 0,
     "audio": "ssling_b",
@@ -1286,11 +1115,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 85,
-    "duration": 21804
+    "order": 85
   },
   {
-    "_id": "5ee10ed82e12cb4da2407ce3",
     "name": "ssling_b_fail_4",
     "__v": 0,
     "audio": "ssling_b",
@@ -1301,11 +1128,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 86,
-    "duration": 11285
+    "order": 86
   },
   {
-    "_id": "5ee10ed72e12cb4da2407b59",
     "name": "ssling_d_fail_1",
     "__v": 0,
     "audio": "ssling_d",
@@ -1316,11 +1141,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 87,
-    "duration": 3831
+    "order": 87
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e0e",
     "name": "s19_b_fail_1",
     "__v": 0,
     "audio": "s19_b",
@@ -1331,11 +1154,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 88,
-    "duration": 2229
+    "order": 88
   },
   {
-    "_id": "5ee10ed72e12cb4da2407bea",
     "name": "s19_c_fail_1",
     "__v": 0,
     "audio": "s19_c",
@@ -1346,11 +1167,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 89,
-    "duration": 4458
+    "order": 89
   },
   {
-    "_id": "5ee10ed82e12cb4da2407d96",
     "name": "s19_d_fail_1",
     "__v": 0,
     "audio": "s19_d",
@@ -1361,11 +1180,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 90,
-    "duration": 8150
+    "order": 90
   },
   {
-    "_id": "5ee10ed82e12cb4da2407ce7",
     "name": "s20_a_fail_1",
     "__v": 0,
     "audio": "s20_a",
@@ -1376,11 +1193,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 91,
-    "duration": 10890
+    "order": 91
   },
   {
-    "_id": "5ee10ed72e12cb4da2407b5e",
     "name": "s21_0_b_fail_1",
     "__v": 0,
     "audio": "s21_0_b",
@@ -1391,11 +1206,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 92,
-    "duration": 11889
+    "order": 92
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e12",
     "name": "s21_0_d_fail_1",
     "__v": 0,
     "audio": "s21_0_d",
@@ -1406,11 +1219,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 93,
-    "duration": 26006
+    "order": 93
   },
   {
-    "_id": "5ee10ed72e12cb4da2407bf0",
     "name": "s21_0_fail_1",
     "__v": 0,
     "audio": "s21_0",
@@ -1421,11 +1232,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 94,
-    "duration": 13653
+    "order": 94
   },
   {
-    "_id": "5ee10ed82e12cb4da2407d9a",
     "name": "s21_0_fail_2",
     "__v": 0,
     "audio": "s21_0",
@@ -1436,11 +1245,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 95,
-    "duration": 21711
+    "order": 95
   },
   {
-    "_id": "5ee10ed82e12cb4da2407ceb",
     "name": "s21_0_fail_3",
     "__v": 0,
     "audio": "s21_0",
@@ -1451,11 +1258,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 96,
-    "duration": 9056
+    "order": 96
   },
   {
-    "_id": "5ee10ed72e12cb4da2407b63",
     "name": "s21_1_a_fail_1",
     "__v": 0,
     "audio": "s21_1_a",
@@ -1466,11 +1271,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 97,
-    "duration": 8081
+    "order": 97
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e16",
     "name": "s21_1_c_fail_1",
     "__v": 0,
     "audio": "s21_1_c",
@@ -1481,11 +1284,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 98,
-    "duration": 6455
+    "order": 98
   },
   {
-    "_id": "5ee10ed72e12cb4da2407bf8",
     "name": "s21_1_c_fail_2",
     "__v": 0,
     "audio": "s21_1_c",
@@ -1496,11 +1297,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 99,
-    "duration": 13305
+    "order": 99
   },
   {
-    "_id": "5ee10ed82e12cb4da2407d9e",
     "name": "s21_1_d_fail_1",
     "__v": 0,
     "audio": "s21_1_d",
@@ -1511,11 +1310,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 100,
-    "duration": 5712
+    "order": 100
   },
   {
-    "_id": "5ee10ed82e12cb4da2407cef",
     "name": "s21_1_d_fail_2",
     "__v": 0,
     "audio": "s21_1_d",
@@ -1526,11 +1323,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 101,
-    "duration": 14884
+    "order": 101
   },
   {
-    "_id": "5ee10ed72e12cb4da2407b68",
     "name": "s21_1_d_fail_3",
     "__v": 0,
     "audio": "s21_1_d",
@@ -1541,11 +1336,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 102,
-    "duration": 12910
+    "order": 102
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e1a",
     "name": "s21_1_d_fail_4",
     "__v": 0,
     "audio": "s21_1_d",
@@ -1556,11 +1349,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 103,
-    "duration": 12585
+    "order": 103
   },
   {
-    "_id": "5ee10ed72e12cb4da2407bfc",
     "name": "s21_2_a_fail_1",
     "__v": 0,
     "audio": "s21_2_a",
@@ -1571,11 +1362,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 104,
-    "duration": 14745
+    "order": 104
   },
   {
-    "_id": "5ee10ed82e12cb4da2407dd2",
     "name": "s21_2_d_fail_1",
     "__v": 0,
     "audio": "s21_2_d",
@@ -1586,11 +1375,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 105,
-    "duration": 2786
+    "order": 105
   },
   {
-    "_id": "5ee10ed82e12cb4da2407cf1",
     "name": "s21_cont_fail_1",
     "__v": 0,
     "audio": "s21_cont",
@@ -1601,11 +1388,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 106,
-    "duration": 4319
+    "order": 106
   },
   {
-    "_id": "5ee10ed72e12cb4da2407b6c",
     "name": "s21_fin_fail_1",
     "__v": 0,
     "audio": "s21_fin",
@@ -1616,11 +1401,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 107,
-    "duration": 7245
+    "order": 107
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e1e",
     "name": "s22_a_fail_1",
     "__v": 0,
     "audio": "s22_a",
@@ -1631,11 +1414,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 108,
-    "duration": 10844
+    "order": 108
   },
   {
-    "_id": "5ee10ed72e12cb4da2407c02",
     "name": "s22_b_fail_1",
     "__v": 0,
     "audio": "s22_b",
@@ -1646,11 +1427,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 109,
-    "duration": 9172
+    "order": 109
   },
   {
-    "_id": "5ee10ed82e12cb4da2407dd6",
     "name": "s22_b_fail_2",
     "__v": 0,
     "audio": "s22_b",
@@ -1661,11 +1440,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 110,
-    "duration": 7338
+    "order": 110
   },
   {
-    "_id": "5ee10ed82e12cb4da2407cf4",
     "name": "s22_c_fail_1",
     "__v": 0,
     "audio": "s22_c",
@@ -1676,11 +1453,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 111,
-    "duration": 7291
+    "order": 111
   },
   {
-    "_id": "5ee10ed72e12cb4da2407b72",
     "name": "s23_b_fail_1",
     "__v": 0,
     "audio": "s23_b",
@@ -1691,11 +1466,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 112,
-    "duration": 5666
+    "order": 112
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e22",
     "name": "s23_d_fail_1",
     "__v": 0,
     "audio": "s23_d",
@@ -1706,11 +1479,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 113,
-    "duration": 10194
+    "order": 113
   },
   {
-    "_id": "5ee10ed72e12cb4da2407c08",
     "name": "sisland_cont_fail_1",
     "__v": 0,
     "audio": "sisland_cont",
@@ -1721,11 +1492,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 114,
-    "duration": 23150
+    "order": 114
   },
   {
-    "_id": "5ee10ed82e12cb4da2407dda",
     "name": "sisland_cont_fail_2",
     "__v": 0,
     "audio": "sisland_cont",
@@ -1736,11 +1505,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 115,
-    "duration": 82431
+    "order": 115
   },
   {
-    "_id": "5ee10ed82e12cb4da2407cf7",
     "name": "sisland_cont_fail_3",
     "__v": 0,
     "audio": "sisland_cont",
@@ -1751,11 +1518,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 116,
-    "duration": 10054
+    "order": 116
   },
   {
-    "_id": "5ee10ed72e12cb4da2407b76",
     "name": "sisland_cont_fail_4",
     "__v": 0,
     "audio": "sisland_cont",
@@ -1766,11 +1531,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 117,
-    "duration": 22175
+    "order": 117
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e26",
     "name": "sisland_fail_1",
     "__v": 0,
     "audio": "sisland",
@@ -1781,11 +1544,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 118,
-    "duration": 8359
+    "order": 118
   },
   {
-    "_id": "5ee10ed72e12cb4da2407c12",
     "name": "sisland_fail_2",
     "__v": 0,
     "audio": "sisland",
@@ -1796,11 +1557,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 119,
-    "duration": 10495
+    "order": 119
   },
   {
-    "_id": "5ee10ed82e12cb4da2407dde",
     "name": "sisland_fail_3",
     "__v": 0,
     "audio": "sisland",
@@ -1811,11 +1570,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 120,
-    "duration": 20828
+    "order": 120
   },
   {
-    "_id": "5ee10ed82e12cb4da2407cfb",
     "name": "sisland_fail_4",
     "__v": 0,
     "audio": "sisland",
@@ -1826,11 +1583,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 121,
-    "duration": 13955
+    "order": 121
   },
   {
-    "_id": "5ee10ed72e12cb4da2407b7c",
     "name": "sboy_fail_1",
     "__v": 0,
     "audio": "sboy",
@@ -1841,11 +1596,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 122,
-    "duration": 3135
+    "order": 122
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e2a",
     "name": "sboy_fail_2",
     "__v": 0,
     "audio": "sboy",
@@ -1856,11 +1609,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 123,
-    "duration": 20689
+    "order": 123
   },
   {
-    "_id": "5ee10ed72e12cb4da2407c16",
     "name": "sboy_b_fail_1",
     "__v": 0,
     "audio": "sboy_b",
@@ -1871,11 +1622,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 124,
-    "duration": 29884
+    "order": 124
   },
   {
-    "_id": "5ee10ed82e12cb4da2407de4",
     "name": "sboy_b_fail_2",
     "__v": 0,
     "audio": "sboy_b",
@@ -1886,11 +1635,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 125,
-    "duration": 17183
+    "order": 125
   },
   {
-    "_id": "5ee10ed82e12cb4da2407cff",
     "name": "smarriage_fail_1",
     "__v": 0,
     "audio": "smarriage",
@@ -1901,11 +1648,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 126,
-    "duration": 10519
+    "order": 126
   },
   {
-    "_id": "5ee10ed72e12cb4da2407b80",
     "name": "smarriage_a_a_fail_1",
     "__v": 0,
     "audio": "smarriage_a_a",
@@ -1916,11 +1661,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 127,
-    "duration": 10519
+    "order": 127
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e2e",
     "name": "smarriage_a_a_fail_2",
     "__v": 0,
     "audio": "smarriage_a_a",
@@ -1931,11 +1674,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 128,
-    "duration": 17903
+    "order": 128
   },
   {
-    "_id": "5ee10ed72e12cb4da2407c1e",
     "name": "smarriage_a_a_fail_3",
     "__v": 0,
     "audio": "smarriage_a_a",
@@ -1946,11 +1687,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 129,
-    "duration": 6664
+    "order": 129
   },
   {
-    "_id": "5ee10ed82e12cb4da2407de8",
     "name": "smarriage_a_a_fail_4",
     "__v": 0,
     "audio": "smarriage_a_a",
@@ -1961,11 +1700,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 130,
-    "duration": 17856
+    "order": 130
   },
   {
-    "_id": "5ee10ed82e12cb4da2407d01",
     "name": "smarriage_a_a_fail_5",
     "__v": 0,
     "audio": "smarriage_a_a",
@@ -1976,11 +1713,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 131,
-    "duration": 5851
+    "order": 131
   },
   {
-    "_id": "5ee10ed72e12cb4da2407b84",
     "name": "smarriage_c_fail_1",
     "__v": 0,
     "audio": "smarriage_c",
@@ -1991,11 +1726,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 132,
-    "duration": 7338
+    "order": 132
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e32",
     "name": "sbrougham_fail_1",
     "__v": 0,
     "audio": "sbrougham",
@@ -2006,11 +1739,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 133,
-    "duration": 5271
+    "order": 133
   },
   {
-    "_id": "5ee10ed72e12cb4da2407c22",
     "name": "sbrougham_fail_2",
     "__v": 0,
     "audio": "sbrougham",
@@ -2021,11 +1752,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 134,
-    "duration": 122694
+    "order": 134
   },
   {
-    "_id": "5ee10ed82e12cb4da2407dec",
     "name": "sbrougham_d_fail_1",
     "__v": 0,
     "audio": "sbrougham_d",
@@ -2036,11 +1765,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 135,
-    "duration": 20132
+    "order": 135
   },
   {
-    "_id": "5ee10ed82e12cb4da2407d05",
     "name": "s24_0_fail_1",
     "__v": 0,
     "audio": "s24_0",
@@ -2051,11 +1778,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 136,
-    "duration": 9265
+    "order": 136
   },
   {
-    "_id": "5ee10ed72e12cb4da2407b8c",
     "name": "s24_a_fail_1",
     "__v": 0,
     "audio": "s24_a",
@@ -2066,11 +1791,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 137,
-    "duration": 20341
+    "order": 137
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e36",
     "name": "s24_c_fail_1",
     "__v": 0,
     "audio": "s24_c",
@@ -2081,11 +1804,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 138,
-    "duration": 8313
+    "order": 138
   },
   {
-    "_id": "5ee10ed72e12cb4da2407c2a",
     "name": "s24_d_fail_1",
     "__v": 0,
     "audio": "s24_d",
@@ -2096,11 +1817,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 139,
-    "duration": 6780
+    "order": 139
   },
   {
-    "_id": "5ee10ed82e12cb4da2407df0",
     "name": "s25_c_fail_1",
     "__v": 0,
     "audio": "s25_c",
@@ -2111,11 +1830,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 140,
-    "duration": 9868
+    "order": 140
   },
   {
-    "_id": "5ee10ed82e12cb4da2407d09",
     "name": "s25_c_fail_2",
     "__v": 0,
     "audio": "s25_c",
@@ -2126,11 +1843,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 141,
-    "duration": 3158
+    "order": 141
   },
   {
-    "_id": "5ee10ed72e12cb4da2407b94",
     "name": "s28_a_fail_1",
     "__v": 0,
     "audio": "s28_a",
@@ -2141,11 +1856,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 142,
-    "duration": 7059
+    "order": 142
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e3a",
     "name": "sballoon_a_fail_1",
     "__v": 0,
     "audio": "sballoon_a",
@@ -2156,11 +1869,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 143,
-    "duration": 15627
+    "order": 143
   },
   {
-    "_id": "5ee10ed72e12cb4da2407c32",
     "name": "sballoon_a_b_fail_1",
     "__v": 0,
     "audio": "sballoon_a_b",
@@ -2171,11 +1882,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 144,
-    "duration": 7268
+    "order": 144
   },
   {
-    "_id": "5ee10ed82e12cb4da2407df4",
     "name": "scannon_fail_2",
     "__v": 0,
     "audio": "scannon",
@@ -2186,11 +1895,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 145,
-    "duration": 6246
+    "order": 145
   },
   {
-    "_id": "5ee10ed82e12cb4da2407d0b",
     "name": "scannon_fail_3",
     "__v": 0,
     "audio": "scannon",
@@ -2201,11 +1908,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 146,
-    "duration": 5735
+    "order": 146
   },
   {
-    "_id": "5ee10ed72e12cb4da2407b98",
     "name": "scannon_a_fail",
     "__v": 0,
     "audio": "scannon_a",
@@ -2216,11 +1921,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 147,
-    "duration": 2926
+    "order": 147
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e3e",
     "name": "scannon_cont_fail_1",
     "__v": 0,
     "audio": "scannon_cont",
@@ -2231,11 +1934,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 148,
-    "duration": 11703
+    "order": 148
   },
   {
-    "_id": "5ee10ed72e12cb4da2407c36",
     "name": "scannon_d_fail_1",
     "__v": 0,
     "audio": "scannon_d",
@@ -2246,11 +1947,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 149,
-    "duration": 8568
+    "order": 149
   },
   {
-    "_id": "5ee10ed82e12cb4da2407df8",
     "name": "s32_0_fail_1",
     "__v": 0,
     "audio": "s32_0",
@@ -2261,11 +1960,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 150,
-    "duration": 9590
+    "order": 150
   },
   {
-    "_id": "5ee10ed82e12cb4da2407d0f",
     "name": "s32_d_fail_1",
     "__v": 0,
     "audio": "s32_d",
@@ -2276,11 +1973,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 151,
-    "duration": 13491
+    "order": 151
   },
   {
-    "_id": "5ee10ed72e12cb4da2407b9e",
     "name": "s33_d_fail_1",
     "__v": 0,
     "audio": "s33_d",
@@ -2291,11 +1986,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 152,
-    "duration": 9520
+    "order": 152
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e42",
     "name": "s33_fin_fail_1",
     "__v": 0,
     "audio": "s33_fin",
@@ -2306,11 +1999,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 153,
-    "duration": 7059
+    "order": 153
   },
   {
-    "_id": "5ee10ed72e12cb4da2407c3e",
     "name": "stample_a_fail_1",
     "__v": 0,
     "audio": "stample_a",
@@ -2321,11 +2012,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 154,
-    "duration": 51688
+    "order": 154
   },
   {
-    "_id": "5ee10ed82e12cb4da2407dfc",
     "name": "stample_a_fail_2",
     "__v": 0,
     "audio": "stample_a",
@@ -2336,11 +2025,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 155,
-    "duration": 5341
+    "order": 155
   },
   {
-    "_id": "5ee10ed82e12cb4da2407d11",
     "name": "stample_a_fail_3",
     "__v": 0,
     "audio": "stample_a",
@@ -2351,11 +2038,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 156,
-    "duration": 38243
+    "order": 156
   },
   {
-    "_id": "5ee10ed72e12cb4da2407ba4",
     "name": "stample_a_fail_4",
     "__v": 0,
     "audio": "stample_a",
@@ -2366,11 +2051,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 157,
-    "duration": 6502
+    "order": 157
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e46",
     "name": "stample_b_fail_1",
     "__v": 0,
     "audio": "stample_b",
@@ -2381,11 +2064,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 158,
-    "duration": 859
+    "order": 158
   },
   {
-    "_id": "5ee10ed72e12cb4da2407c42",
     "name": "stample_b_fail_2",
     "__v": 0,
     "audio": "stample_b",
@@ -2396,11 +2077,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 159,
-    "duration": 8336
+    "order": 159
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e00",
     "name": "stample_b_fail_3",
     "__v": 0,
     "audio": "stample_b",
@@ -2411,11 +2090,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 160,
-    "duration": 25194
+    "order": 160
   },
   {
-    "_id": "5ee10ed82e12cb4da2407d15",
     "name": "stample_c_fail_1",
     "__v": 0,
     "audio": "stample_c",
@@ -2426,11 +2103,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 161,
-    "duration": 15488
+    "order": 161
   },
   {
-    "_id": "5ee10ed72e12cb4da2407ba8",
     "name": "stample_d_fail_1",
     "__v": 0,
     "audio": "stample_d",
@@ -2441,11 +2116,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 162,
-    "duration": 9149
+    "order": 162
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e4a",
     "name": "stample_2_all_true_fail_1",
     "__v": 0,
     "audio": "stample_2_all_true",
@@ -2456,11 +2129,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 163,
-    "duration": 6385
+    "order": 163
   },
   {
-    "_id": "5ee10ed72e12cb4da2407c4a",
     "name": "stample_2_c_fail_1",
     "__v": 0,
     "audio": "stample_2_c",
@@ -2471,11 +2142,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 164,
-    "duration": 11610
+    "order": 164
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e04",
     "name": "stample_4_a_fail_1",
     "__v": 0,
     "audio": "stample_4_a",
@@ -2486,11 +2155,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 165,
-    "duration": 10681
+    "order": 165
   },
   {
-    "_id": "5ee10ed82e12cb4da2407d17",
     "name": "stample_4_b_fail_1",
     "__v": 0,
     "audio": "stample_4_b",
@@ -2501,11 +2168,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 166,
-    "duration": 9009
+    "order": 166
   },
   {
-    "_id": "5ee10ed72e12cb4da2407bb0",
     "name": "stample_4_b_fail_2",
     "__v": 0,
     "audio": "stample_4_b",
@@ -2516,11 +2181,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 167,
-    "duration": 43491
+    "order": 167
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e4e",
     "name": "stample_4_b_fail_3",
     "__v": 0,
     "audio": "stample_4_b",
@@ -2531,11 +2194,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 168,
-    "duration": 6455
+    "order": 168
   },
   {
-    "_id": "5ee10ed72e12cb4da2407c4e",
     "name": "stample_5_fail_1",
     "__v": 0,
     "audio": "stample_5",
@@ -2546,11 +2207,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 169,
-    "duration": 19342
+    "order": 169
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e08",
     "name": "s34_0_fail_1",
     "__v": 0,
     "audio": "s34_0",
@@ -2561,11 +2220,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 170,
-    "duration": 14164
+    "order": 170
   },
   {
-    "_id": "5ee10ed82e12cb4da2407d1b",
     "name": "s34_0_fail_2",
     "__v": 0,
     "audio": "s34_0",
@@ -2576,11 +2233,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 171,
-    "duration": 7175
+    "order": 171
   },
   {
-    "_id": "5ee10ed72e12cb4da2407bb4",
     "name": "s34_0_fail_3",
     "__v": 0,
     "audio": "s34_0",
@@ -2591,11 +2246,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 172,
-    "duration": 18112
+    "order": 172
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e52",
     "name": "s34_a_fail_1",
     "__v": 0,
     "audio": "s34_a",
@@ -2606,11 +2259,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 173,
-    "duration": 26610
+    "order": 173
   },
   {
-    "_id": "5ee10ed72e12cb4da2407c54",
     "name": "s34_a_fail_2",
     "__v": 0,
     "audio": "s34_a",
@@ -2621,11 +2272,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 174,
-    "duration": 15256
+    "order": 174
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e0c",
     "name": "s34_a_fail_3",
     "__v": 0,
     "audio": "s34_a",
@@ -2636,11 +2285,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 175,
-    "duration": 24729
+    "order": 175
   },
   {
-    "_id": "5ee10ed82e12cb4da2407d1f",
     "name": "s34_a_fail_4",
     "__v": 0,
     "audio": "s34_a",
@@ -2651,11 +2298,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 176,
-    "duration": 26633
+    "order": 176
   },
   {
-    "_id": "5ee10ed72e12cb4da2407bbc",
     "name": "s34_a_fail_5",
     "__v": 0,
     "audio": "s34_a",
@@ -2666,11 +2311,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 177,
-    "duration": 33088
+    "order": 177
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e56",
     "name": "s35_a_fail_1",
     "__v": 0,
     "audio": "s35_a",
@@ -2681,11 +2324,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 178,
-    "duration": 18971
+    "order": 178
   },
   {
-    "_id": "5ee10ed72e12cb4da2407c58",
     "name": "s35_b_fail_1",
     "__v": 0,
     "audio": "s35_b",
@@ -2696,11 +2337,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 179,
-    "duration": 9590
+    "order": 179
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e10",
     "name": "s35_b_fail_2",
     "__v": 0,
     "audio": "s35_b",
@@ -2711,11 +2350,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 180,
-    "duration": 21293
+    "order": 180
   },
   {
-    "_id": "5ee10ed82e12cb4da2407d22",
     "name": "s35_c_fail_1",
     "__v": 0,
     "audio": "s35_c",
@@ -2726,11 +2363,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 181,
-    "duration": 6269
+    "order": 181
   },
   {
-    "_id": "5ee10ed72e12cb4da2407bc0",
     "name": "s35_c_fail_2",
     "__v": 0,
     "audio": "s35_c",
@@ -2741,11 +2376,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 182,
-    "duration": 18460
+    "order": 182
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e5a",
     "name": "s35_d_fail_1",
     "__v": 0,
     "audio": "s35_d",
@@ -2756,11 +2389,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 183,
-    "duration": 6571
+    "order": 183
   },
   {
-    "_id": "5ee10ed72e12cb4da2407c5c",
     "name": "s35_e_fail_1",
     "__v": 0,
     "audio": "s35_e",
@@ -2771,11 +2402,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 184,
-    "duration": 18971
+    "order": 184
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e14",
     "name": "s35_e_fail_2",
     "__v": 0,
     "audio": "s35_e",
@@ -2786,11 +2415,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 185,
-    "duration": 4946
+    "order": 185
   },
   {
-    "_id": "5ee10ed82e12cb4da2407d26",
     "name": "s35_what_fail_1",
     "__v": 0,
     "audio": "s35_what",
@@ -2801,11 +2428,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 186,
-    "duration": 10008
+    "order": 186
   },
   {
-    "_id": "5ee10ed72e12cb4da2407bc8",
     "name": "s36_e_fail_1",
     "__v": 0,
     "audio": "s36_e",
@@ -2816,11 +2441,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 187,
-    "duration": 16811
+    "order": 187
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e5e",
     "name": "s36_e_fail_2",
     "__v": 0,
     "audio": "s36_e",
@@ -2831,11 +2454,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 188,
-    "duration": 40054
+    "order": 188
   },
   {
-    "_id": "5ee10ed72e12cb4da2407c60",
     "name": "svarvars_fail_1",
     "__v": 0,
     "audio": "svarvars",
@@ -2846,11 +2467,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 189,
-    "duration": 8754
+    "order": 189
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e18",
     "name": "svarvars_d_all_fail_1",
     "__v": 0,
     "audio": "svarvars_d_all",
@@ -2861,11 +2480,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 190,
-    "duration": 19365
+    "order": 190
   },
   {
-    "_id": "5ee10ed82e12cb4da2407d2a",
     "name": "svarvars_d_all_fail_2",
     "__v": 0,
     "audio": "svarvars_d_all",
@@ -2876,11 +2493,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 191,
-    "duration": 26146
+    "order": 191
   },
   {
-    "_id": "5ee10ed72e12cb4da2407bcc",
     "name": "svarvars_d_all_fail_3",
     "__v": 0,
     "audio": "svarvars_d_all",
@@ -2891,11 +2506,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 192,
-    "duration": 3460
+    "order": 192
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e62",
     "name": "svarvars_d_all_fail_4",
     "__v": 0,
     "audio": "svarvars_d_all",
@@ -2906,11 +2519,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 193,
-    "duration": 52616
+    "order": 193
   },
   {
-    "_id": "5ee10ed72e12cb4da2407c64",
     "name": "svarvars_d_all_fail_5",
     "__v": 0,
     "audio": "svarvars_d_all",
@@ -2921,11 +2532,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 194,
-    "duration": 13398
+    "order": 194
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e1c",
     "name": "svarvars_d_all_fail_6",
     "__v": 0,
     "audio": "svarvars_d_all",
@@ -2936,11 +2545,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 195,
-    "duration": 42423
+    "order": 195
   },
   {
-    "_id": "5ee10ed82e12cb4da2407d2e",
     "name": "svarvars_d_all_fail_7",
     "__v": 0,
     "audio": "svarvars_d_all",
@@ -2951,11 +2558,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 196,
-    "duration": 9242
+    "order": 196
   },
   {
-    "_id": "5ee10ed72e12cb4da2407bd4",
     "name": "sbridge_0_fail_1",
     "__v": 0,
     "audio": "sbridge_0",
@@ -2966,11 +2571,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 197,
-    "duration": 7546
+    "order": 197
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e66",
     "name": "swau_fail_1",
     "__v": 0,
     "audio": "swau",
@@ -2981,11 +2584,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 198,
-    "duration": 1440
+    "order": 198
   },
   {
-    "_id": "5ee10ed72e12cb4da2407c67",
     "name": "swau_fail_2",
     "__v": 0,
     "audio": "swau",
@@ -2996,11 +2597,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 199,
-    "duration": 18739
+    "order": 199
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e20",
     "name": "swau_d_fail_1",
     "__v": 0,
     "audio": "swau_d",
@@ -3011,11 +2610,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 200,
-    "duration": 19156
+    "order": 200
   },
   {
-    "_id": "5ee10ed82e12cb4da2407d32",
     "name": "swau_2_a_fail_1",
     "__v": 0,
     "audio": "swau_2_a",
@@ -3026,11 +2623,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 201,
-    "duration": 10495
+    "order": 201
   },
   {
-    "_id": "5ee10ed72e12cb4da2407bd8",
     "name": "swau_2_c_fail_1",
     "__v": 0,
     "audio": "swau_2_c",
@@ -3041,11 +2636,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 202,
-    "duration": 10170
+    "order": 202
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e6a",
     "name": "swau_2_c_fail_2",
     "__v": 0,
     "audio": "swau_2_c",
@@ -3056,11 +2649,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 203,
-    "duration": 2090
+    "order": 203
   },
   {
-    "_id": "5ee10ed72e12cb4da2407c6b",
     "name": "swau_2_d_fail_1",
     "__v": 0,
     "audio": "swau_2_d",
@@ -3071,11 +2662,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 204,
-    "duration": 9752
+    "order": 204
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e24",
     "name": "swau_2_d_fail_2",
     "__v": 0,
     "audio": "swau_2_d",
@@ -3086,11 +2675,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 205,
-    "duration": 10495
+    "order": 205
   },
   {
-    "_id": "5ee10ed82e12cb4da2407d36",
     "name": "swau_2_d_fail_4",
     "__v": 0,
     "audio": "swau_2_d",
@@ -3101,11 +2688,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 206,
-    "duration": 52454
+    "order": 206
   },
   {
-    "_id": "5ee10ed72e12cb4da2407be0",
     "name": "swau_3_a_fail_1",
     "__v": 0,
     "audio": "swau_3_a",
@@ -3116,11 +2701,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 207,
-    "duration": 29745
+    "order": 207
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e6e",
     "name": "scanal_2_a_fail_1",
     "__v": 0,
     "audio": "scanal_2_a",
@@ -3131,11 +2714,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 208,
-    "duration": 52082
+    "order": 208
   },
   {
-    "_id": "5ee10ed72e12cb4da2407c6f",
     "name": "scanal_2_c_fail_1",
     "__v": 0,
     "audio": "scanal_2_c",
@@ -3146,11 +2727,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 209,
-    "duration": 10867
+    "order": 209
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e28",
     "name": "scanal_2_c_fail_2",
     "__v": 0,
     "audio": "scanal_2_c",
@@ -3161,11 +2740,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 210,
-    "duration": 8452
+    "order": 210
   },
   {
-    "_id": "5ee10ed82e12cb4da2407d3a",
     "name": "scanal_2_c_fail_3",
     "__v": 0,
     "audio": "scanal_2_c",
@@ -3176,11 +2753,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 211,
-    "duration": 3437
+    "order": 211
   },
   {
-    "_id": "5ee10ed72e12cb4da2407be6",
     "name": "scanal_2_c_fail_4",
     "__v": 0,
     "audio": "scanal_2_c",
@@ -3191,11 +2766,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 212,
-    "duration": 84660
+    "order": 212
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e72",
     "name": "scanal_2_d_fail_1",
     "__v": 0,
     "audio": "scanal_2_d",
@@ -3206,11 +2779,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 213,
-    "duration": 54590
+    "order": 213
   },
   {
-    "_id": "5ee10ed72e12cb4da2407c73",
     "name": "scanal_2_d_fail_2",
     "__v": 0,
     "audio": "scanal_2_d",
@@ -3221,11 +2792,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 214,
-    "duration": 11076
+    "order": 214
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e2c",
     "name": "styran_a_fail_1",
     "__v": 0,
     "audio": "styran_a",
@@ -3236,11 +2805,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 215,
-    "duration": 114730
+    "order": 215
   },
   {
-    "_id": "5ee10ed82e12cb4da2407d3e",
     "name": "styran_b_fail_1",
     "__v": 0,
     "audio": "styran_b",
@@ -3251,11 +2818,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 216,
-    "duration": 26958
+    "order": 216
   },
   {
-    "_id": "5ee10ed72e12cb4da2407bec",
     "name": "styran_b_fail_2",
     "__v": 0,
     "audio": "styran_b",
@@ -3266,11 +2831,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 217,
-    "duration": 2485
+    "order": 217
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e74",
     "name": "slions_b_fail_1",
     "__v": 0,
     "audio": "slions_b",
@@ -3281,11 +2844,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 218,
-    "duration": 5039
+    "order": 218
   },
   {
-    "_id": "5ee10ed72e12cb4da2407c77",
     "name": "ssandstorm_b_fail_1",
     "__v": 0,
     "audio": "ssandstorm_b",
@@ -3296,11 +2857,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 219,
-    "duration": 3065
+    "order": 219
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e30",
     "name": "ssandstorm_b_fail_2",
     "__v": 0,
     "audio": "ssandstorm_b",
@@ -3311,11 +2870,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 220,
-    "duration": 8591
+    "order": 220
   },
   {
-    "_id": "5ee10ed82e12cb4da2407d42",
     "name": "ssandstorm_c_fail_1",
     "__v": 0,
     "audio": "ssandstorm_c",
@@ -3326,11 +2883,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 221,
-    "duration": 13119
+    "order": 221
   },
   {
-    "_id": "5ee10ed72e12cb4da2407bf2",
     "name": "ssandstorm_c_fail_2",
     "__v": 0,
     "audio": "ssandstorm_c",
@@ -3341,11 +2896,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 222,
-    "duration": 18692
+    "order": 222
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e76",
     "name": "ssandstorm_c_fail_3",
     "__v": 0,
     "audio": "ssandstorm_c",
@@ -3356,11 +2909,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 223,
-    "duration": 14373
+    "order": 223
   },
   {
-    "_id": "5ee10ed72e12cb4da2407c7b",
     "name": "ssandstorm_c_fail_4",
     "__v": 0,
     "audio": "ssandstorm_c",
@@ -3371,11 +2922,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 224,
-    "duration": 8777
+    "order": 224
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e34",
     "name": "smoon_fail_1",
     "__v": 0,
     "audio": "smoon",
@@ -3386,11 +2935,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 225,
-    "duration": 55124
+    "order": 225
   },
   {
-    "_id": "5ee10ed82e12cb4da2407d46",
     "name": "smoon_a_fail_1",
     "__v": 0,
     "audio": "smoon_a",
@@ -3401,11 +2948,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 226,
-    "duration": 6827
+    "order": 226
   },
   {
-    "_id": "5ee10ed72e12cb4da2407bf6",
     "name": "smoon_a_fail_2",
     "__v": 0,
     "audio": "smoon_a",
@@ -3416,11 +2961,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 227,
-    "duration": 12794
+    "order": 227
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e78",
     "name": "smoon_c_b_fail_1",
     "__v": 0,
     "audio": "smoon_c_b",
@@ -3431,11 +2974,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 228,
-    "duration": 5224
+    "order": 228
   },
   {
-    "_id": "5ee10ed72e12cb4da2407c80",
     "name": "smoon_d_fail_1",
     "__v": 0,
     "audio": "smoon_d",
@@ -3446,11 +2987,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 229,
-    "duration": 16997
+    "order": 229
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e38",
     "name": "smoon_d_fail_2",
     "__v": 0,
     "audio": "smoon_d",
@@ -3461,11 +3000,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 230,
-    "duration": 6409
+    "order": 230
   },
   {
-    "_id": "5ee10ed82e12cb4da2407d4a",
     "name": "smoon_e_fail_1",
     "__v": 0,
     "audio": "smoon_e",
@@ -3476,11 +3013,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 231,
-    "duration": 6571
+    "order": 231
   },
   {
-    "_id": "5ee10ed72e12cb4da2407c00",
     "name": "s38_0_fail_bonus",
     "__v": 0,
     "audio": "s38_0",
@@ -3491,11 +3026,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 232,
-    "duration": 159057
+    "order": 232
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e7a",
     "name": "s38_d_fail_1",
     "__v": 0,
     "audio": "s38_d",
@@ -3506,11 +3039,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 233,
-    "duration": 11517
+    "order": 233
   },
   {
-    "_id": "5ee10ed72e12cb4da2407c83",
     "name": "s39_0_fail_1",
     "__v": 0,
     "audio": "s39_0",
@@ -3521,11 +3052,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 234,
-    "duration": 5364
+    "order": 234
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e3c",
     "name": "s39_a_fail_1",
     "__v": 0,
     "audio": "s39_a",
@@ -3536,11 +3065,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 235,
-    "duration": 7895
+    "order": 235
   },
   {
-    "_id": "5ee10ed82e12cb4da2407d4e",
     "name": "s39_a_fail_2",
     "__v": 0,
     "audio": "s39_a",
@@ -3551,11 +3078,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 236,
-    "duration": 69428
+    "order": 236
   },
   {
-    "_id": "5ee10ed72e12cb4da2407c04",
     "name": "s39_d_cont_fail_1",
     "__v": 0,
     "audio": "s39_d_cont",
@@ -3566,11 +3091,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 237,
-    "duration": 34040
+    "order": 237
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e7c",
     "name": "s40_a_fail_1",
     "__v": 0,
     "audio": "s40_a",
@@ -3581,11 +3104,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 238,
-    "duration": 14373
+    "order": 238
   },
   {
-    "_id": "5ee10ed72e12cb4da2407c89",
     "name": "s40_c_fail_1",
     "__v": 0,
     "audio": "s40_c",
@@ -3596,11 +3117,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 239,
-    "duration": 20852
+    "order": 239
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e40",
     "name": "s41_e_fail_1",
     "__v": 0,
     "audio": "s41_e",
@@ -3611,11 +3130,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 240,
-    "duration": 46417
+    "order": 240
   },
   {
-    "_id": "5ee10ed82e12cb4da2407d52",
     "name": "snile_fail_1",
     "__v": 0,
     "audio": "snile",
@@ -3626,11 +3143,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 241,
-    "duration": 13189
+    "order": 241
   },
   {
-    "_id": "5ee10ed72e12cb4da2407c0a",
     "name": "snile_a_fail_1",
     "__v": 0,
     "audio": "snile_a",
@@ -3641,11 +3156,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 242,
-    "duration": 13050
+    "order": 242
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e7e",
     "name": "snile_d_fail_1",
     "__v": 0,
     "audio": "snile_d",
@@ -3656,11 +3169,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 243,
-    "duration": 34714
+    "order": 243
   },
   {
-    "_id": "5ee10ed72e12cb4da2407c8d",
     "name": "s41_8_fail_1",
     "__v": 0,
     "audio": "s41_8",
@@ -3671,11 +3182,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 244,
-    "duration": 18274
+    "order": 244
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e44",
     "name": "s41_9_fail_1",
     "__v": 0,
     "audio": "s41_9",
@@ -3686,11 +3195,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 245,
-    "duration": 79714
+    "order": 245
   },
   {
-    "_id": "5ee10ed82e12cb4da2407d56",
     "name": "s41_10_fail_1",
     "__v": 0,
     "audio": "s41_10",
@@ -3701,11 +3208,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 246,
-    "duration": 10913
+    "order": 246
   },
   {
-    "_id": "5ee10ed72e12cb4da2407c10",
     "name": "s45_hand_2_fail_1",
     "__v": 0,
     "audio": "s45_hand_2",
@@ -3716,11 +3221,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 247,
-    "duration": 5735
+    "order": 247
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e80",
     "name": "s45_hand_fail_1",
     "__v": 0,
     "audio": "s45_hand",
@@ -3731,11 +3234,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 248,
-    "duration": 2856
+    "order": 248
   },
   {
-    "_id": "5ee10ed72e12cb4da2407c92",
     "name": "s49_fail_1",
     "__v": 0,
     "audio": "s49",
@@ -3746,11 +3247,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 249,
-    "duration": 9822
+    "order": 249
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e48",
     "name": "s49_fail_2",
     "__v": 0,
     "audio": "s49",
@@ -3761,11 +3260,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 250,
-    "duration": 10681
+    "order": 250
   },
   {
-    "_id": "5ee10ed82e12cb4da2407d5a",
     "name": "s50_0_fail_1",
     "__v": 0,
     "audio": "s50_0",
@@ -3776,11 +3273,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 251,
-    "duration": 3135
+    "order": 251
   },
   {
-    "_id": "5ee10ed72e12cb4da2407c14",
     "name": "s50_nose_fail_1",
     "__v": 0,
     "audio": "s50_nose",
@@ -3791,11 +3286,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 252,
-    "duration": 2485
+    "order": 252
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e82",
     "name": "s50_nose_fail_2",
     "__v": 0,
     "audio": "s50_nose",
@@ -3806,11 +3299,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 253,
-    "duration": 10704
+    "order": 253
   },
   {
-    "_id": "5ee10ed72e12cb4da2407c95",
     "name": "s51_d_fail_1",
     "__v": 0,
     "audio": "s51_d",
@@ -3821,11 +3312,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 254,
-    "duration": 3135
+    "order": 254
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e4c",
     "name": "s51_e_fail_1",
     "__v": 0,
     "audio": "s51_e",
@@ -3836,11 +3325,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 255,
-    "duration": 2972
+    "order": 255
   },
   {
-    "_id": "5ee10ed82e12cb4da2407d5e",
     "name": "s53_a_fail_1",
     "__v": 0,
     "audio": "s53_a",
@@ -3851,11 +3338,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 256,
-    "duration": 4203
+    "order": 256
   },
   {
-    "_id": "5ee10ed72e12cb4da2407c1c",
     "name": "snephew_fail_1",
     "__v": 0,
     "audio": "snephew",
@@ -3866,11 +3351,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 257,
-    "duration": 3901
+    "order": 257
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e84",
     "name": "snephew_c_fail_1",
     "__v": 0,
     "audio": "snephew_c",
@@ -3881,11 +3364,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 258,
-    "duration": 13073
+    "order": 258
   },
   {
-    "_id": "5ee10ed72e12cb4da2407c9b",
     "name": "s55_0_fail_1",
     "__v": 0,
     "audio": "s55_0",
@@ -3896,11 +3377,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 259,
-    "duration": 13050
+    "order": 259
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e50",
     "name": "s55_a_fail_1",
     "__v": 0,
     "audio": "s55_a",
@@ -3911,11 +3390,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 260,
-    "duration": 2740
+    "order": 260
   },
   {
-    "_id": "5ee10ed82e12cb4da2407d62",
     "name": "s56_0_fail_1",
     "__v": 0,
     "audio": "s56_0",
@@ -3926,11 +3403,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 261,
-    "duration": 10612
+    "order": 261
   },
   {
-    "_id": "5ee10ed72e12cb4da2407c20",
     "name": "samerica_fail_1",
     "__v": 0,
     "audio": "samerica",
@@ -3941,11 +3416,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 262,
-    "duration": 9590
+    "order": 262
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e86",
     "name": "samerica_cont_fail_1",
     "__v": 0,
     "audio": "samerica_cont",
@@ -3956,11 +3429,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 263,
-    "duration": 13607
+    "order": 263
   },
   {
-    "_id": "5ee10ed72e12cb4da2407c9f",
     "name": "samerica_cont_fail_2",
     "__v": 0,
     "audio": "samerica_cont",
@@ -3971,11 +3442,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 264,
-    "duration": 5108
+    "order": 264
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e54",
     "name": "samerica_cont_fail_3",
     "__v": 0,
     "audio": "samerica_cont",
@@ -3986,11 +3455,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 265,
-    "duration": 7663
+    "order": 265
   },
   {
-    "_id": "5ee10ed82e12cb4da2407d66",
     "name": "sgener_fail_2",
     "__v": 0,
     "audio": "sgener",
@@ -4001,11 +3468,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 266,
-    "duration": 21664
+    "order": 266
   },
   {
-    "_id": "5ee10ed72e12cb4da2407c28",
     "name": "sgener_fail_1",
     "__v": 0,
     "audio": "sgener",
@@ -4016,11 +3481,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 267,
-    "duration": 9079
+    "order": 267
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e88",
     "name": "sgener_b_fail_1",
     "__v": 0,
     "audio": "sgener_b",
@@ -4031,11 +3494,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 268,
-    "duration": 10867
+    "order": 268
   },
   {
-    "_id": "5ee10ed72e12cb4da2407ca5",
     "name": "sgener_b_fail_2",
     "__v": 0,
     "audio": "sgener_b",
@@ -4046,11 +3507,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 269,
-    "duration": 18669
+    "order": 269
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e58",
     "name": "sgener_d_fail_1",
     "__v": 0,
     "audio": "sgener_d",
@@ -4061,11 +3520,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 270,
-    "duration": 15743
+    "order": 270
   },
   {
-    "_id": "5ee10ed82e12cb4da2407d6a",
     "name": "sdog_fail_1",
     "__v": 0,
     "audio": "sdog",
@@ -4076,11 +3533,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 271,
-    "duration": 19830
+    "order": 271
   },
   {
-    "_id": "5ee10ed72e12cb4da2407c2c",
     "name": "sboat_ruin_b_fail_1",
     "__v": 0,
     "audio": "sboat_ruin_b",
@@ -4091,11 +3546,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 272,
-    "duration": 9915
+    "order": 272
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e8a",
     "name": "sboat_ruin_2_c_fail_1",
     "__v": 0,
     "audio": "sboat_ruin_2_c",
@@ -4106,11 +3559,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 273,
-    "duration": 14141
+    "order": 273
   },
   {
-    "_id": "5ee10ed72e12cb4da2407caa",
     "name": "sworm_fail_1",
     "__v": 0,
     "audio": "sworm",
@@ -4121,11 +3572,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 274,
-    "duration": 37314
+    "order": 274
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e5c",
     "name": "sworm_fail_2",
     "__v": 0,
     "audio": "sworm",
@@ -4136,11 +3585,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 275,
-    "duration": 31417
+    "order": 275
   },
   {
-    "_id": "5ee10ed82e12cb4da2407d70",
     "name": "sworm_a_cont_fail_1",
     "__v": 0,
     "audio": "sworm_a_cont",
@@ -4151,11 +3598,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 276,
-    "duration": 30047
+    "order": 276
   },
   {
-    "_id": "5ee10ed72e12cb4da2407c34",
     "name": "sworm_a_fail_1",
     "__v": 0,
     "audio": "sworm_a",
@@ -4166,11 +3611,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 277,
-    "duration": 6989
+    "order": 277
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e8c",
     "name": "sworm_b_fail_1",
     "__v": 0,
     "audio": "sworm_b",
@@ -4181,11 +3624,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 278,
-    "duration": 5735
+    "order": 278
   },
   {
-    "_id": "5ee10ed72e12cb4da2407cae",
     "name": "sworm_b_fail_2",
     "__v": 0,
     "audio": "sworm_b",
@@ -4196,11 +3637,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 279,
-    "duration": 14977
+    "order": 279
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e60",
     "name": "sworm_d_fail_1",
     "__v": 0,
     "audio": "sworm_d",
@@ -4211,11 +3650,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 280,
-    "duration": 2717
+    "order": 280
   },
   {
-    "_id": "5ee10ed82e12cb4da2407d74",
     "name": "s57_0_fail_1",
     "__v": 0,
     "audio": "s57_0",
@@ -4226,11 +3663,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 281,
-    "duration": 10101
+    "order": 281
   },
   {
-    "_id": "5ee10ed72e12cb4da2407c38",
     "name": "s57_0_fail_2",
     "__v": 0,
     "audio": "s57_0",
@@ -4241,11 +3676,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 282,
-    "duration": 2972
+    "order": 282
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e8e",
     "name": "s57_0_fail_3",
     "__v": 0,
     "audio": "s57_0",
@@ -4256,11 +3689,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 283,
-    "duration": 1788
+    "order": 283
   },
   {
-    "_id": "5ee10ed72e12cb4da2407cb5",
     "name": "svolcano_b_fail_1",
     "__v": 0,
     "audio": "svolcano_b",
@@ -4271,11 +3702,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 284,
-    "duration": 24172
+    "order": 284
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e64",
     "name": "svolcano_b_fail_2",
     "__v": 0,
     "audio": "svolcano_b",
@@ -4286,11 +3715,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 285,
-    "duration": 2531
+    "order": 285
   },
   {
-    "_id": "5ee10ed82e12cb4da2407d7a",
     "name": "svolcano_b_b_fail_1",
     "__v": 0,
     "audio": "svolcano_b_b",
@@ -4301,11 +3728,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 286,
-    "duration": 8452
+    "order": 286
   },
   {
-    "_id": "5ee10ed72e12cb4da2407c40",
     "name": "svolcano_b_b_fail_2",
     "__v": 0,
     "audio": "svolcano_b_b",
@@ -4316,11 +3741,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 287,
-    "duration": 6037
+    "order": 287
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e90",
     "name": "s58_0_fail_2",
     "__v": 0,
     "audio": "s58_0",
@@ -4331,11 +3754,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 288,
-    "duration": 9497
+    "order": 288
   },
   {
-    "_id": "5ee10ed72e12cb4da2407cb9",
     "name": "s58_0_fail_3",
     "__v": 0,
     "audio": "s58_0",
@@ -4346,11 +3767,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 289,
-    "duration": 4598
+    "order": 289
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e68",
     "name": "s60_a_fail_1",
     "__v": 0,
     "audio": "s60_a",
@@ -4361,11 +3780,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 290,
-    "duration": 24497
+    "order": 290
   },
   {
-    "_id": "5ee10ed82e12cb4da2407d7e",
     "name": "s60_a_fail_2",
     "__v": 0,
     "audio": "s60_a",
@@ -4376,11 +3793,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 291,
-    "duration": 50155
+    "order": 291
   },
   {
-    "_id": "5ee10ed72e12cb4da2407c48",
     "name": "s60_b_fail_1",
     "__v": 0,
     "audio": "s60_b",
@@ -4391,11 +3806,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 292,
-    "duration": 9056
+    "order": 292
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e92",
     "name": "s60_d_fail_1",
     "__v": 0,
     "audio": "s60_d",
@@ -4406,11 +3819,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 293,
-    "duration": 4969
+    "order": 293
   },
   {
-    "_id": "5ee10ed72e12cb4da2407cbf",
     "name": "s61_bonus_fail_1",
     "__v": 0,
     "audio": "s61_bonus",
@@ -4421,11 +3832,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 294,
-    "duration": 10077
+    "order": 294
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e6c",
     "name": "s61_shoot",
     "__v": 0,
     "audio": "s61_shoot",
@@ -4436,11 +3845,9 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 295,
-    "duration": 25797
+    "order": 295
   },
   {
-    "_id": "5ee10ed82e12cb4da2407d84",
     "name": "sclosed_fail_1",
     "__v": 0,
     "audio": "sclosed",
@@ -4451,11 +3858,9 @@
     "isFailOpenedOnComplete": true,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 296,
-    "duration": 10031
+    "order": 296
   },
   {
-    "_id": "5ee10ed72e12cb4da2407c4c",
     "name": "sclosed_fail_2",
     "__v": 0,
     "audio": "sclosed",
@@ -4466,11 +3871,9 @@
     "isFailOpenedOnComplete": true,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 297,
-    "duration": 2601
+    "order": 297
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e94",
     "name": "sclosed_fail_3",
     "__v": 0,
     "audio": "sclosed",
@@ -4481,11 +3884,9 @@
     "isFailOpenedOnComplete": true,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 298,
-    "duration": 7221
+    "order": 298
   },
   {
-    "_id": "5ee10ed72e12cb4da2407cc3",
     "name": "sclosed_fail_4",
     "__v": 0,
     "audio": "sclosed",
@@ -4496,11 +3897,9 @@
     "isFailOpenedOnComplete": true,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 299,
-    "duration": 5271
+    "order": 299
   },
   {
-    "_id": "5ee10ed82e12cb4da2407e70",
     "name": "sclosed_fail_5",
     "__v": 0,
     "audio": "sclosed",
@@ -4511,7 +3910,6 @@
     "isFailOpenedOnComplete": true,
     "isFailOpenedOnStart": false,
     "locale": "ru",
-    "order": 300,
-    "duration": 30372
+    "order": 300
   }
 ]

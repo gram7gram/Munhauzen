@@ -110,6 +110,8 @@ public abstract class Card extends Stack {
 
                     setPriceText(screen.game.t("purchase_screen.processing"));
 
+                    screen.game.gameState.purchaseState.isVersionSelected = true;
+
                     if (purchased) {
                         event.cancel();
 
@@ -186,7 +188,7 @@ public abstract class Card extends Stack {
 
     public Label.LabelStyle getPriceNumberStyle() {
         return new Label.LabelStyle(
-                screen.game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.h3),
+                screen.game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.h4),
                 Color.BLACK
         );
     }

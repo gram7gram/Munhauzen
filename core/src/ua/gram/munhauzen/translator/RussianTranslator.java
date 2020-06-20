@@ -19,7 +19,7 @@ public class RussianTranslator implements Translator {
         map.put("loading.menu_btn", "Главное меню");
         map.put("loading.download_btn", "Скачать");
         map.put("loading.title", "Загрузка ресурсов");
-        map.put("loading.message", "Сейчас начнеться скачивание необходимых файлов для игры. Пожалуйста, не прерывайте Wi-Fi соединения и дождитесь загрузки.");
+        map.put("loading.message", "Сейчас начнётся скачивание необходимых файлов для игры. Пожалуйста, не прерывайте Wi-Fi соединения и дождитесь загрузки.");
         map.put("loading.quality_message", "Рекомендуемое качество текстур");
         map.put("loading.quality_high", "Высокое");
         map.put("loading.quality_medium", "Среднее");

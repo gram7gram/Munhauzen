@@ -106,12 +106,15 @@ public class Navigator {
             }
 
             boolean isLegalViewed = false;
-            boolean hasPurchases = game.gameState.purchaseState.purchases != null
-                    && !game.gameState.purchaseState.purchases.isEmpty();
+            boolean hasPurchases = false;
 
             ExpansionDownloadManager downloadManager = new ExpansionDownloadManager(game, null);
 
             boolean needUpdates = downloadManager.shouldFetchExpansion();
+
+            if (game.gameState.purchaseState != null) {
+                hasPurchases = game.gameState.purchaseState.isVersionSelected;
+            }
 
             if (game.gameState.preferences != null) {
                 isLegalViewed = game.gameState.preferences.isLegalViewed;

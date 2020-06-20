@@ -5,7 +5,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
-import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.MunhauzenGame;
@@ -411,10 +410,6 @@ public class GameProgressBarFragment extends StoryProgressBar<DummyInteraction> 
                     gameScreen.storyManager.onCompleted();
                 }
             }
-        } catch (GdxRuntimeException e) {
-            Log.e(tag, e);
-
-            gameScreen.onCriticalError(e);
 
         } catch (Throwable e) {
             Log.e(tag, e);
