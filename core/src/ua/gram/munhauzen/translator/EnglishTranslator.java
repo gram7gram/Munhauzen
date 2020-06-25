@@ -208,6 +208,31 @@ public class EnglishTranslator implements Translator {
         map.put("debug_screen.open_scenario", "Unlock all scenario");
         map.put("debug_screen.open_chapters", "Unlock all chapters");
 
+        map.put("adult_gate_screen.incorrect_title", "Incorrect, try again?");
+        map.put("adult_gate_screen.incorrect_yes", "Yes");
+        map.put("adult_gate_screen.incorrect_no", "No");
+
+        map.put("adult_gate_screen.title", "Adult verification");
+        map.put("adult_gate_screen.q1a1", "a) 16");
+        map.put("adult_gate_screen.q1a2", "b) -5");
+        map.put("adult_gate_screen.q1a3", "c) 4");
+        map.put("adult_gate_screen.q1a4", "d) 10");
+
+        map.put("adult_gate_screen.q2a1", "a) 25");
+        map.put("adult_gate_screen.q2a2", "b) -13");
+        map.put("adult_gate_screen.q2a3", "c) 5");
+        map.put("adult_gate_screen.q2a4", "d) 9");
+
+        map.put("adult_gate_screen.q3a1", "a) 36");
+        map.put("adult_gate_screen.q3a2", "b) 0");
+        map.put("adult_gate_screen.q3a3", "c) 6");
+        map.put("adult_gate_screen.q3a4", "d) -7");
+
+        map.put("adult_gate_screen.q4a1", "a) 81");
+        map.put("adult_gate_screen.q4a2", "b) 7");
+        map.put("adult_gate_screen.q4a3", "c) 9");
+        map.put("adult_gate_screen.q4a4", "d) -10");
+
     }
 
     @Override

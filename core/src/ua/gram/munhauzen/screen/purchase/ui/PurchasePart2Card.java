@@ -10,7 +10,6 @@ import com.badlogic.gdx.utils.Align;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.entity.Purchase;
 import ua.gram.munhauzen.entity.PurchaseState;
-import ua.gram.munhauzen.screen.LoadingScreen;
 import ua.gram.munhauzen.screen.PurchaseScreen;
 import ua.gram.munhauzen.utils.Log;
 
@@ -25,7 +24,7 @@ public class PurchasePart2Card extends Card {
                 super.clicked(event, x, y);
 
                 try {
-                    String id = screen.game.params.appStoreSkuPart2;
+                    final String id = screen.game.params.appStoreSkuPart2;
                     Log.i(tag, "clicked on " + id);
 
                     PurchaseState state = screen.game.gameState.purchaseState;
@@ -33,8 +32,7 @@ public class PurchasePart2Card extends Card {
 
                         for (Purchase purchase : state.purchases) {
                             if (purchase.productId.equals(id)) {
-
-                                screen.navigateTo(new LoadingScreen(screen.game));
+                                screen.onPurchaseCompleted();
                                 return;
 
                             }
@@ -42,8 +40,12 @@ public class PurchasePart2Card extends Card {
 
                     }
 
-                    screen.game.params.iap.purchase(id);
-                } catch (Throwable e) {
+                    screen.openAdultGateBanner(new Runnable() {
+                        @Override
+                        public void run() {
+                            screen.game.params.iap.purchase(id);
+                        }
+                    });                } catch (Throwable e) {
                     Log.e(tag, e);
 
                     screen.onCriticalError(e);

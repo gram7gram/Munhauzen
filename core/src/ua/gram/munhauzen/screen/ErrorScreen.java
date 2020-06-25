@@ -1,7 +1,6 @@
 package ua.gram.munhauzen.screen;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -28,16 +27,15 @@ import ua.gram.munhauzen.utils.ColorUtils;
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class ErrorScreen implements Screen {
+public class ErrorScreen extends MunhauzenScreen {
 
-    private final MunhauzenGame game;
     private MunhauzenStage ui;
     final Throwable e;
     Container<Table> titleContainer;
     ScrollPane errorContainer;
 
     public ErrorScreen(MunhauzenGame game, Throwable e) {
-        this.game = game;
+        super(game);
         this.e = e;
     }
 

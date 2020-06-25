@@ -34,13 +34,8 @@ import ua.gram.munhauzen.utils.DateUtils;
 import ua.gram.munhauzen.utils.ExpansionAssetManager;
 import ua.gram.munhauzen.utils.Log;
 
-/**
- * @author Gram <gram7gram@gmail.com>
- */
-public class GameScreen implements Screen {
+public class GameScreen extends MunhauzenScreen {
 
-    private final String tag = getClass().getSimpleName();
-    public final MunhauzenGame game;
     public MunhauzenStage ui;
     public GameLayers gameLayers;
     public ExpansionAssetManager assetManager;
@@ -61,7 +56,7 @@ public class GameScreen implements Screen {
     Timer.Task persistTask;
 
     public GameScreen(MunhauzenGame game) {
-        this.game = game;
+        super(game);
     }
 
     public Story getStory() {

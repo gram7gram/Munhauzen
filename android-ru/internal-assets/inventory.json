@@ -1,1 +1,636 @@
-[{"_id":"5eeb9ed42e12cb4da242b039","name":"AXE","__v":0,"isMenu":true,"locale":"ru","relatedScenario":["a29_d"]},{"_id":"5eeb9ed42e12cb4da242b027","name":"BADGE","__v":0,"isMenu":true,"locale":"ru","relatedScenario":["asling_b"]},{"_id":"5eeb9ed42e12cb4da242af6d","isMenu":true,"name":"BALLOON","__v":0,"locale":"ru","relatedScenario":["aballoon_a_a"]},{"_id":"5eeb9ed42e12cb4da242b243","name":"BEAR","__v":0,"isMenu":true,"locale":"ru","relatedScenario":["a15_shot","a15_bomb","a15_shot_craw","a15_bomb_crow"]},{"_id":"5eeb9ed42e12cb4da242b217","isMenu":true,"name":"BIRCH","__v":0,"locale":"ru","relatedScenario":["a25_b"]},{"_id":"5eeb9ed42e12cb4da242af89","isMenu":true,"name":"BLOWER","__v":0,"locale":"ru"},{"_id":"5eeb9ed42e12cb4da242af59","name":"BOMB","__v":0,"isMenu":true,"locale":"ru","relatedScenario":["aprisoners_c"]},{"_id":"5eeb9ed42e12cb4da242af6b","name":"BOOKS","__v":0,"isMenu":true,"locale":"ru","relatedScenario":["acanal_2_2_c"]},{"_id":"5eeb9ed42e12cb4da242af63","isMenu":true,"name":"BURN_WORM","__v":0,"locale":"ru","relatedScenario":["aworm_a"]},{"_id":"5eeb9ed42e12cb4da242af61","name":"CANNON","__v":0,"isMenu":true,"locale":"ru","relatedScenario":["acannon_d"]},{"_id":"5eeb9ed42e12cb4da242b228","isMenu":true,"name":"CARPETENER","__v":0,"locale":"ru"},{"_id":"5eeb9ed42e12cb4da242af37","isMenu":true,"name":"CARROT","__v":0,"locale":"ru","relatedScenario":["avarvars_a"]},{"_id":"5eeb9ed42e12cb4da242af23","isMenu":true,"name":"CLOCKS","__v":0,"locale":"ru"},{"_id":"5eeb9ed42e12cb4da242b041","name":"CROW","__v":0,"isMenu":true,"locale":"ru","relatedScenario":["a15_1_interaction"]},{"_id":"5eeb9ed42e12cb4da242afab","name":"DOG","__v":0,"isMenu":true,"locale":"ru","relatedScenario":["a19_b"]},{"_id":"5eeb9ed42e12cb4da242af4f","name":"EAGLES","__v":0,"isMenu":true,"locale":"ru","relatedScenario":["atample_5"]},{"_id":"5eeb9ed42e12cb4da242af27","isMenu":true,"name":"EAT_WORM","__v":0,"locale":"ru","relatedScenario":["aworm_d"]},{"_id":"5eeb9ed42e12cb4da242afe6","isMenu":true,"name":"EPYDEMY","__v":0,"locale":"ru","relatedScenario":[]},{"_id":"5eeb9ed42e12cb4da242af1e","isMenu":true,"name":"FISHING_ROD","__v":0,"locale":"ru"},{"_id":"5eeb9ed42e12cb4da242af2b","isMenu":true,"name":"FLOOD_WORM","__v":0,"locale":"ru","relatedScenario":["aworm_c"]},{"_id":"5eeb9ed42e12cb4da242b01f","isMenu":true,"name":"GIGANT","__v":0,"locale":"ru"},{"_id":"5eeb9ed42e12cb4da242afdc","isMenu":true,"name":"HALF_SLING","__v":0,"locale":"ru","relatedScenario":["asling_c"]},{"_id":"5eeb9ed42e12cb4da242b031","name":"HORNS","__v":0,"isMenu":true,"locale":"ru","relatedScenario":["a13_a"]},{"_id":"5eeb9ed42e12cb4da242af52","name":"HORSE","__v":0,"isMenu":true,"locale":"ru","relatedScenario":["a20_c"]},{"_id":"5eeb9ed42e12cb4da242b007","isMenu":true,"name":"IWAU_D_1","__v":0,"locale":"ru","relatedScenario":["awau_d_1"]},{"_id":"5eeb9ed42e12cb4da242af3b","isMenu":true,"name":"IWAU_D_2","__v":0,"locale":"ru","relatedScenario":["awau_d_2"]},{"_id":"5eeb9ed42e12cb4da242af3d","isMenu":true,"name":"IWAU_D_3","__v":0,"locale":"ru","relatedScenario":["awau_d_3"]},{"_id":"5eeb9ed42e12cb4da242af83","isMenu":true,"name":"IWAU_D_4","__v":0,"locale":"ru","relatedScenario":["awau_d_4"]},{"_id":"5eeb9ed42e12cb4da242b222","isMenu":true,"name":"IWAU_D_5","__v":0,"locale":"ru","relatedScenario":["awau_d_5"]},{"_id":"5eeb9ed42e12cb4da242af4d","isMenu":true,"name":"JOKER","__v":0,"locale":"ru"},{"_id":"5eeb9ed42e12cb4da242af92","isMenu":true,"name":"JUMPER","__v":0,"locale":"ru"},{"_id":"5eeb9ed42e12cb4da242afd3","isMenu":true,"name":"KOZ","__v":0,"locale":"ru","relatedScenario":["a15_d"]},{"_id":"5eeb9ed42e12cb4da242affd","isMenu":true,"name":"LETTER","__v":0,"locale":"ru","relatedScenario":["avarvars_d"]},{"_id":"5eeb9ed42e12cb4da242af31","isMenu":true,"name":"LION_HANDS","__v":0,"locale":"ru","relatedScenario":["a35_a"]},{"_id":"5eeb9ed42e12cb4da242aff3","isMenu":true,"name":"LION_HIT","__v":0,"locale":"ru","relatedScenario":["a35_c"]},{"_id":"5eeb9ed42e12cb4da242af2d","isMenu":true,"name":"LION_PUNCH","__v":0,"locale":"ru","relatedScenario":["a35_b"]},{"_id":"5eeb9ed42e12cb4da242af79","isMenu":true,"name":"LION_SHOT","__v":0,"locale":"ru","relatedScenario":["a35_e"]},{"_id":"5eeb9ed42e12cb4da242b21e","isMenu":true,"name":"LION_SKY","__v":0,"locale":"ru","relatedScenario":["a35_d"]},{"_id":"5eeb9ed42e12cb4da242af3f","isMenu":true,"name":"LISTENER","__v":0,"locale":"ru"},{"_id":"5eeb9ed42e12cb4da242b231","isMenu":true,"name":"N_WAUWAU","__v":0,"locale":"ru","relatedScenario":["awau_2_a"]},{"_id":"5eeb9ed42e12cb4da242af5f","name":"PAINTING","__v":0,"isMenu":true,"locale":"ru","relatedScenario":["a8_a"]},{"_id":"5eeb9ed42e12cb4da242b23c","name":"RIFLE","__v":0,"isMenu":true,"locale":"ru","relatedScenario":["a7_c"]},{"_id":"5eeb9ed42e12cb4da242af9f","name":"RING","__v":0,"isMenu":true,"locale":"ru","relatedScenario":["a41_story_win"]},{"_id":"5eeb9ed42e12cb4da242b22c","isMenu":true,"name":"RUNNER","__v":0,"locale":"ru"},{"_id":"5eeb9ed42e12cb4da242b238","name":"SABRE","__v":0,"isMenu":true,"locale":"ru","relatedScenario":["atyran_b"]},{"_id":"5eeb9ed42e12cb4da242af58","name":"SCHEME","__v":0,"isMenu":true,"locale":"ru","relatedScenario":["sboat_ruin_2_b"]},{"_id":"5eeb9ed42e12cb4da242af45","isMenu":true,"name":"SHOOTER","__v":0,"locale":"ru"},{"_id":"5eeb9ed42e12cb4da242b210","isMenu":true,"name":"STRAW","__v":0,"locale":"ru","relatedScenario":["a21_dod"]},{"_id":"5eeb9ed42e12cb4da242b248","name":"ST_BALLOON","__v":0,"description":"Да! Воздушный шар, и его хозяин спасены твоим выстрелом!","isStatue":true,"locale":"ru","relatedInventory":[],"relatedScenario":["aballoon_a"],"statueImage":"gallery/st_balloon.png"},{"_id":"5eeb9ed42e12cb4da242afb9","name":"ST_CROCODILE","__v":0,"description":"Крокодил был хитрым, но ты - хитрей!","isStatue":true,"locale":"ru","relatedInventory":[],"relatedScenario":["anile_d_d"],"statueImage":"gallery/st_crocodile.png"},{"_id":"5eeb9ed42e12cb4da242af72","name":"ST_CUBIC","__v":0,"description":"Ага! Все вещички из сумки пригодились","isStatue":true,"locale":"ru","relatedInventory":["CROW","BOMB","FISHING_ROD","CLOCKS"],"relatedScenario":[],"statueImage":"gallery/st_cubic.png"},{"_id":"5eeb9ed42e12cb4da242af67","name":"ST_JINNA","__v":0,"description":"Да, дамы и господа, я вам говорю: \"Джинна невиданной красоты!\"","isStatue":true,"locale":"ru","relatedInventory":[],"relatedScenario":["amarriage_a_a"],"statueImage":"gallery/st_jinna.png"},{"_id":"5eeb9ed42e12cb4da242b04b","name":"ST_KING","__v":0,"description":"Так ты и стал королём…","isStatue":true,"locale":"ru","relatedInventory":[],"relatedScenario":["a34_a"],"statueImage":"gallery/st_king.png"},{"_id":"5eeb9ed42e12cb4da242b24e","name":"ST_LION","__v":0,"description":"Царь зверей пал в бою с тобой!","isStatue":true,"locale":"ru","relatedInventory":[],"relatedScenario":["alion_attack_win"],"statueImage":"gallery/st_lion.png"},{"_id":"5eeb9ed42e12cb4da242afc1","name":"ST_LUCKY_1","__v":0,"description":"Ты везунчик, великий везунчик!","isStatue":true,"locale":"ru","relatedInventory":[],"relatedScenario":["a61_shoot"],"statueImage":"gallery/st_lucky.png"},{"_id":"5eeb9ed42e12cb4da242af7d","name":"ST_LUCKY_2","__v":0,"description":"Ты везунчик, великий везунчик!","isStatue":true,"locale":"ru","relatedInventory":[],"relatedScenario":["a_shoot"],"statueImage":"gallery/st_lucky.png"},{"_id":"5eeb9ed42e12cb4da242af75","name":"ST_NEMO","__v":0,"description":"За поправку от Немо","isStatue":true,"locale":"ru","relatedInventory":[],"relatedScenario":["a39_a"],"statueImage":"gallery/st_nemo.png"},{"_id":"5eeb9ed42e12cb4da242b054","name":"ST_PIFAGOR","__v":0,"description":"Переверни мир","isStatue":true,"locale":"ru","relatedInventory":[],"relatedScenario":["aboat_ruin_d"],"statueImage":"gallery/st_pifagor.png"},{"_id":"5eeb9ed42e12cb4da242b253","name":"ST_PONY","__v":0,"description":"Да, пони! Лучший выбор для использования чудодейной помадки","isStatue":true,"locale":"ru","relatedInventory":[],"relatedScenario":["anephew_e"],"statueImage":"gallery/st_pony.png"},{"_id":"5eeb9ed42e12cb4da242afcd","name":"ST_TREE","__v":0,"description":"Вот тебе берёзка и пригодилась, вот так","isStatue":true,"locale":"ru","relatedInventory":[],"relatedScenario":["a61_bonus"],"statueImage":"gallery/st_tree.png"},{"_id":"5eeb9ed42e12cb4da242af85","name":"ST_WAUWAU","__v":0,"description":"За твое упорство при поимке Ваувау","isStatue":true,"locale":"ru","relatedInventory":[],"relatedScenario":["awau_2_a_win"],"statueImage":"gallery/st_wauwau.png"},{"_id":"5eeb9ed42e12cb4da242af7b","name":"ST_WIN","__v":0,"description":"Победа! ","isStatue":true,"locale":"ru","relatedInventory":[],"relatedScenario":["a61_d"],"statueImage":"gallery/st_win.png"},{"_id":"5eeb9ed42e12cb4da242b061","name":"ST_WORM","__v":0,"description":"То была страшная епидемия железного червя!","isStatue":true,"locale":"ru","relatedInventory":[],"relatedScenario":["aworm_d_cont"],"statueImage":"gallery/st_worm.png"},{"_id":"5eeb9ed42e12cb4da242af1f","isMenu":true,"name":"TEETH","__v":0,"locale":"ru","relatedScenario":["a15_c"]},{"_id":"5eeb9ed42e12cb4da242af47","isMenu":true,"name":"USURER","__v":0,"locale":"ru"},{"_id":"5eeb9ed42e12cb4da242b011","isMenu":true,"name":"VASILIY","__v":0,"locale":"ru"},{"_id":"5eeb9ed42e12cb4da242af33","isMenu":true,"name":"WHIP","__v":0,"locale":"ru","relatedScenario":["avarvars_b"]},{"_id":"5eeb9ed42e12cb4da242af98","isMenu":true,"name":"WIN","__v":0,"locale":"ru","relatedScenario":["a62_fin"]},{"_id":"5eeb9ed42e12cb4da242afaf","name":"WORM","__v":0,"isMenu":true,"locale":"ru","relatedScenario":["aworm_b"]}]
+[
+  {
+    "name": "AXE",
+    "__v": 0,
+    "isMenu": true,
+    "locale": "ru",
+    "relatedScenario": [
+      "a29_d"
+    ]
+  },
+  {
+    "name": "BADGE",
+    "__v": 0,
+    "isMenu": true,
+    "locale": "ru",
+    "relatedScenario": [
+      "asling_b"
+    ]
+  },
+  {
+    "isMenu": true,
+    "name": "BALLOON",
+    "__v": 0,
+    "locale": "ru",
+    "relatedScenario": [
+      "aballoon_a_a"
+    ]
+  },
+  {
+    "name": "BEAR",
+    "__v": 0,
+    "isMenu": true,
+    "locale": "ru",
+    "relatedScenario": [
+      "a15_shot",
+      "a15_bomb",
+      "a15_shot_craw",
+      "a15_bomb_crow"
+    ]
+  },
+  {
+    "isMenu": true,
+    "name": "BIRCH",
+    "__v": 0,
+    "locale": "ru",
+    "relatedScenario": [
+      "a25_b"
+    ]
+  },
+  {
+    "isMenu": true,
+    "name": "BLOWER",
+    "__v": 0,
+    "locale": "ru"
+  },
+  {
+    "isMenu": true,
+    "name": "BOMB",
+    "__v": 0,
+    "locale": "ru",
+    "relatedScenario": [
+      "aprisoners_c"
+    ]
+  },
+  {
+    "name": "BOOKS",
+    "__v": 0,
+    "isMenu": true,
+    "locale": "ru",
+    "relatedScenario": [
+      "acanal_2_2_c"
+    ]
+  },
+  {
+    "isMenu": true,
+    "name": "BURN_WORM",
+    "__v": 0,
+    "locale": "ru",
+    "relatedScenario": [
+      "aworm_a"
+    ]
+  },
+  {
+    "name": "CANNON",
+    "__v": 0,
+    "isMenu": true,
+    "locale": "ru",
+    "relatedScenario": [
+      "acannon_d"
+    ]
+  },
+  {
+    "isMenu": true,
+    "name": "CARPETENER",
+    "__v": 0,
+    "locale": "ru"
+  },
+  {
+    "isMenu": true,
+    "name": "CARROT",
+    "__v": 0,
+    "locale": "ru",
+    "relatedScenario": [
+      "avarvars_a"
+    ]
+  },
+  {
+    "isMenu": true,
+    "name": "CLOCKS",
+    "__v": 0,
+    "locale": "ru"
+  },
+  {
+    "isMenu": true,
+    "name": "CROW",
+    "__v": 0,
+    "locale": "ru",
+    "relatedScenario": [
+      "a15_1_interaction"
+    ]
+  },
+  {
+    "name": "DOG",
+    "__v": 0,
+    "isMenu": true,
+    "locale": "ru",
+    "relatedScenario": [
+      "a19_b"
+    ]
+  },
+  {
+    "name": "EAGLES",
+    "__v": 0,
+    "isMenu": true,
+    "locale": "ru",
+    "relatedScenario": [
+      "atample"
+    ]
+  },
+  {
+    "isMenu": true,
+    "name": "EAT_WORM",
+    "__v": 0,
+    "locale": "ru",
+    "relatedScenario": [
+      "aworm_d"
+    ]
+  },
+  {
+    "isMenu": true,
+    "name": "EPYDEMY",
+    "__v": 0,
+    "locale": "ru",
+    "relatedScenario": []
+  },
+  {
+    "isMenu": true,
+    "name": "FISHING_ROD",
+    "__v": 0,
+    "locale": "ru"
+  },
+  {
+    "isMenu": true,
+    "name": "FLOOD_WORM",
+    "__v": 0,
+    "locale": "ru",
+    "relatedScenario": [
+      "aworm_c"
+    ]
+  },
+  {
+    "isMenu": true,
+    "name": "GIGANT",
+    "__v": 0,
+    "locale": "ru"
+  },
+  {
+    "isMenu": true,
+    "name": "HALF_SLING",
+    "__v": 0,
+    "locale": "ru",
+    "relatedScenario": [
+      "asling_c"
+    ]
+  },
+  {
+    "name": "HORNS",
+    "__v": 0,
+    "isMenu": true,
+    "locale": "ru",
+    "relatedScenario": [
+      "a13_a"
+    ]
+  },
+  {
+    "name": "HORSE",
+    "__v": 0,
+    "isMenu": true,
+    "locale": "ru",
+    "relatedScenario": [
+      "a20_c"
+    ]
+  },
+  {
+    "isMenu": true,
+    "name": "IWAU_D_1",
+    "__v": 0,
+    "locale": "ru",
+    "relatedScenario": [
+      "awau_d_1"
+    ]
+  },
+  {
+    "isMenu": true,
+    "name": "IWAU_D_2",
+    "__v": 0,
+    "locale": "ru",
+    "relatedScenario": [
+      "awau_d_2"
+    ]
+  },
+  {
+    "isMenu": true,
+    "name": "IWAU_D_3",
+    "__v": 0,
+    "locale": "ru",
+    "relatedScenario": [
+      "awau_d_3"
+    ]
+  },
+  {
+    "isMenu": true,
+    "name": "IWAU_D_4",
+    "__v": 0,
+    "locale": "ru",
+    "relatedScenario": [
+      "awau_d_4"
+    ]
+  },
+  {
+    "isMenu": true,
+    "name": "IWAU_D_5",
+    "__v": 0,
+    "locale": "ru",
+    "relatedScenario": [
+      "awau_d_5"
+    ]
+  },
+  {
+    "isMenu": true,
+    "name": "JOKER",
+    "__v": 0,
+    "locale": "ru"
+  },
+  {
+    "isMenu": true,
+    "name": "JUMPER",
+    "__v": 0,
+    "locale": "ru"
+  },
+  {
+    "isMenu": true,
+    "name": "KOZ",
+    "__v": 0,
+    "locale": "ru",
+    "relatedScenario": [
+      "a15_d"
+    ]
+  },
+  {
+    "isMenu": true,
+    "name": "LETTER",
+    "__v": 0,
+    "locale": "ru",
+    "relatedScenario": [
+      "avarvars_d"
+    ]
+  },
+  {
+    "isMenu": true,
+    "name": "LION_HANDS",
+    "__v": 0,
+    "locale": "ru",
+    "relatedScenario": [
+      "a35_a"
+    ]
+  },
+  {
+    "isMenu": true,
+    "name": "LION_HIT",
+    "__v": 0,
+    "locale": "ru",
+    "relatedScenario": [
+      "a35_c"
+    ]
+  },
+  {
+    "isMenu": true,
+    "name": "LION_PUNCH",
+    "__v": 0,
+    "locale": "ru",
+    "relatedScenario": [
+      "a35_b"
+    ]
+  },
+  {
+    "isMenu": true,
+    "name": "LION_SHOT",
+    "__v": 0,
+    "locale": "ru",
+    "relatedScenario": [
+      "a35_e"
+    ]
+  },
+  {
+    "isMenu": true,
+    "name": "LION_SKY",
+    "__v": 0,
+    "locale": "ru",
+    "relatedScenario": [
+      "a35_d"
+    ]
+  },
+  {
+    "isMenu": true,
+    "name": "LISTENER",
+    "__v": 0,
+    "locale": "ru"
+  },
+  {
+    "isMenu": true,
+    "name": "N_WAUWAU",
+    "__v": 0,
+    "locale": "ru",
+    "relatedScenario": [
+      "awau_2_a"
+    ]
+  },
+  {
+    "name": "PAINTING",
+    "__v": 0,
+    "isMenu": true,
+    "locale": "ru",
+    "relatedScenario": [
+      "a8_a"
+    ]
+  },
+  {
+    "name": "RIFLE",
+    "__v": 0,
+    "isMenu": true,
+    "locale": "ru",
+    "relatedScenario": [
+      "a7_c"
+    ]
+  },
+  {
+    "name": "RING",
+    "__v": 0,
+    "isMenu": true,
+    "locale": "ru",
+    "relatedScenario": [
+      "a41_story_win"
+    ]
+  },
+  {
+    "isMenu": true,
+    "name": "RUNNER",
+    "__v": 0,
+    "locale": "ru"
+  },
+  {
+    "name": "SABRE",
+    "__v": 0,
+    "isMenu": true,
+    "locale": "ru",
+    "relatedScenario": [
+      "atyran_b"
+    ]
+  },
+  {
+    "name": "SCHEME",
+    "__v": 0,
+    "isMenu": true,
+    "locale": "ru",
+    "relatedScenario": [
+      "sboat_ruin_2_b"
+    ]
+  },
+  {
+    "isMenu": true,
+    "name": "SHOOTER",
+    "__v": 0,
+    "locale": "ru"
+  },
+  {
+    "isMenu": true,
+    "name": "STRAW",
+    "__v": 0,
+    "locale": "ru",
+    "relatedScenario": [
+      "a21_dod"
+    ]
+  },
+  {
+    "name": "ST_BALLOON",
+    "__v": 0,
+    "description": "Да! Воздушный шар, и его хозяин спасены твоим выстрелом!",
+    "isStatue": true,
+    "locale": "ru",
+    "relatedInventory": [],
+    "relatedScenario": [
+      "aballoon_a"
+    ],
+    "statueImage": "gallery/st_balloon.png"
+  },
+  {
+    "name": "ST_CROCODILE",
+    "__v": 0,
+    "description": "Крокодил был хитрым, но ты - хитрей!",
+    "isStatue": true,
+    "locale": "ru",
+    "relatedInventory": [],
+    "relatedScenario": [
+      "anile_d_d"
+    ],
+    "statueImage": "gallery/st_crocodile.png"
+  },
+  {
+    "name": "ST_CUBIC",
+    "__v": 0,
+    "description": "Ага! Все вещички из сумки пригодились",
+    "isStatue": true,
+    "locale": "ru",
+    "relatedInventory": [
+      "CROW",
+      "BOMB",
+      "FISHING_ROD",
+      "CLOCKS"
+    ],
+    "relatedScenario": [],
+    "statueImage": "gallery/st_cubic.png"
+  },
+  {
+    "name": "ST_JINNA",
+    "__v": 0,
+    "description": "Да, дамы и господа, я вам говорю: \"Джинна невиданной красоты!\"",
+    "isStatue": true,
+    "locale": "ru",
+    "relatedInventory": [],
+    "relatedScenario": [
+      "amarriage_a_a"
+    ],
+    "statueImage": "gallery/st_jinna.png"
+  },
+  {
+    "name": "ST_KING",
+    "__v": 0,
+    "description": "Так ты и стал королём…",
+    "isStatue": true,
+    "locale": "ru",
+    "relatedInventory": [],
+    "relatedScenario": [
+      "a34_a"
+    ],
+    "statueImage": "gallery/st_king.png"
+  },
+  {
+    "name": "ST_LION",
+    "__v": 0,
+    "description": "Царь зверей пал в бою с тобой!",
+    "isStatue": true,
+    "locale": "ru",
+    "relatedInventory": [],
+    "relatedScenario": [
+      "alion_attack_win"
+    ],
+    "statueImage": "gallery/st_lion.png"
+  },
+  {
+    "name": "ST_LUCKY_1",
+    "__v": 0,
+    "description": "Ты везунчик, великий везунчик!",
+    "isStatue": true,
+    "locale": "ru",
+    "relatedInventory": [],
+    "relatedScenario": [
+      "a61_shoot"
+    ],
+    "statueImage": "gallery/st_lucky.png"
+  },
+  {
+    "name": "ST_LUCKY_2",
+    "__v": 0,
+    "description": "Ты везунчик, великий везунчик!",
+    "isStatue": true,
+    "locale": "ru",
+    "relatedInventory": [],
+    "relatedScenario": [
+      "a_shoot"
+    ],
+    "statueImage": "gallery/st_lucky.png"
+  },
+  {
+    "name": "ST_NEMO",
+    "__v": 0,
+    "description": "За поправку от Немо",
+    "isStatue": true,
+    "locale": "ru",
+    "relatedInventory": [],
+    "relatedScenario": [
+      "a39_a"
+    ],
+    "statueImage": "gallery/st_nemo.png"
+  },
+  {
+    "name": "ST_PIFAGOR",
+    "__v": 0,
+    "description": "Переверни мир",
+    "isStatue": true,
+    "locale": "ru",
+    "relatedInventory": [],
+    "relatedScenario": [
+      "aboat_ruin_d"
+    ],
+    "statueImage": "gallery/st_pifagor.png"
+  },
+  {
+    "name": "ST_PONY",
+    "__v": 0,
+    "description": "Да, пони! Лучший выбор для использования чудодейной помадки",
+    "isStatue": true,
+    "locale": "ru",
+    "relatedInventory": [],
+    "relatedScenario": [
+      "anephew_e"
+    ],
+    "statueImage": "gallery/st_pony.png"
+  },
+  {
+    "name": "ST_TREE",
+    "__v": 0,
+    "description": "Вот тебе берёзка и пригодилась, вот так",
+    "isStatue": true,
+    "locale": "ru",
+    "relatedInventory": [],
+    "relatedScenario": [
+      "a61_bonus"
+    ],
+    "statueImage": "gallery/st_tree.png"
+  },
+  {
+    "name": "ST_WAUWAU",
+    "__v": 0,
+    "description": "За твое упорство при поимке Ваувау",
+    "isStatue": true,
+    "locale": "ru",
+    "relatedInventory": [],
+    "relatedScenario": [
+      "awau_2_a_win"
+    ],
+    "statueImage": "gallery/st_wauwau.png"
+  },
+  {
+    "name": "ST_WIN",
+    "__v": 0,
+    "description": "Победа! ",
+    "isStatue": true,
+    "locale": "ru",
+    "relatedInventory": [],
+    "relatedScenario": [
+      "a61_d"
+    ],
+    "statueImage": "gallery/st_win.png"
+  },
+  {
+    "name": "ST_WORM",
+    "__v": 0,
+    "description": "То была страшная епидемия железного червя!",
+    "isStatue": true,
+    "locale": "ru",
+    "relatedInventory": [],
+    "relatedScenario": [
+      "aworm_d_cont"
+    ],
+    "statueImage": "gallery/st_worm.png"
+  },
+  {
+    "isMenu": true,
+    "name": "TEETH",
+    "__v": 0,
+    "locale": "ru",
+    "relatedScenario": [
+      "a15_c"
+    ]
+  },
+  {
+    "isMenu": true,
+    "name": "USURER",
+    "__v": 0,
+    "locale": "ru"
+  },
+  {
+    "isMenu": true,
+    "name": "VASILIY",
+    "__v": 0,
+    "locale": "ru"
+  },
+  {
+    "isMenu": true,
+    "name": "WHIP",
+    "__v": 0,
+    "locale": "ru",
+    "relatedScenario": [
+      "avarvars_b"
+    ]
+  },
+  {
+    "isMenu": true,
+    "name": "WIN",
+    "__v": 0,
+    "locale": "ru",
+    "relatedScenario": [
+      "a62_fin"
+    ]
+  },
+  {
+    "name": "WORM",
+    "__v": 0,
+    "isMenu": true,
+    "locale": "ru",
+    "relatedScenario": [
+      "aworm_b"
+    ]
+  }
+]

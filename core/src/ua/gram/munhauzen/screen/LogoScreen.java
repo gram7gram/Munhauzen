@@ -1,7 +1,6 @@
 package ua.gram.munhauzen.screen;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -20,14 +19,13 @@ import ua.gram.munhauzen.ui.MunhauzenStage;
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class LogoScreen implements Screen {
+public class LogoScreen extends MunhauzenScreen {
 
-    private final MunhauzenGame game;
     private Texture background;
     private MunhauzenStage ui;
 
     public LogoScreen(MunhauzenGame game) {
-        this.game = game;
+        super(game);
     }
 
     @Override

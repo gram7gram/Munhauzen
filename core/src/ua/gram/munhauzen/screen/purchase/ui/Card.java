@@ -106,11 +106,8 @@ public abstract class Card extends Stack {
                 super.clicked(event, x, y);
 
                 try {
-                    Log.i(tag, "listener2");
 
                     setPriceText(screen.game.t("purchase_screen.processing"));
-
-                    screen.game.gameState.purchaseState.isVersionSelected = true;
 
                     if (purchased) {
                         event.cancel();

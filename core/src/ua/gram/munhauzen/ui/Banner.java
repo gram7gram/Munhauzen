@@ -7,9 +7,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 import ua.gram.munhauzen.MunhauzenGame;
-import ua.gram.munhauzen.screen.AbstractScreen;
+import ua.gram.munhauzen.screen.MunhauzenScreen;
 
-public abstract class Banner<S extends AbstractScreen> extends Group {
+public abstract class Banner<S extends MunhauzenScreen> extends Group {
 
     public final String tag = getClass().getSimpleName();
     public final MunhauzenGame game;

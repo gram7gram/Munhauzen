@@ -13,27 +13,29 @@ import com.badlogic.gdx.utils.Timer;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.expansion.response.ExpansionResponse;
 import ua.gram.munhauzen.screen.purchase.IAPObserver;
+import ua.gram.munhauzen.screen.purchase.fragment.AdultGateFragment;
 import ua.gram.munhauzen.screen.purchase.fragment.ControlsFragment;
 import ua.gram.munhauzen.screen.purchase.fragment.ListFragment;
+import ua.gram.munhauzen.screen.purchase.ui.Layers;
 import ua.gram.munhauzen.ui.MunhauzenStage;
 import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class PurchaseScreen implements Screen {
+public class PurchaseScreen extends MunhauzenScreen {
 
-    public final String tag = getClass().getSimpleName();
-    public final MunhauzenGame game;
     public MunhauzenStage ui;
     public Texture background;
     public ListFragment fragment;
+    public AdultGateFragment banner;
+    public Layers layers;
     public boolean isBackPressed;
     ControlsFragment controlsFragment;
     IAPObserver observer;
 
     public PurchaseScreen(MunhauzenGame game) {
-        this.game = game;
+        super(game);
     }
 
     @Override
@@ -41,6 +43,8 @@ public class PurchaseScreen implements Screen {
 
         ui = new MunhauzenStage(game);
         observer = new IAPObserver(this);
+
+        layers = new Layers();
 
         game.internalAssetManager.load("bg4.jpg", Texture.class);
         game.internalAssetManager.load("bg3.png", Texture.class);
@@ -52,6 +56,8 @@ public class PurchaseScreen implements Screen {
         game.internalAssetManager.load("purchase/off.png", Texture.class);
         game.internalAssetManager.load("purchase/b_menu.png", Texture.class);
         game.internalAssetManager.load("purchase/restore.png", Texture.class);
+        game.internalAssetManager.load("purchase/adult.png", Texture.class);
+        game.internalAssetManager.load("ui/banner_fond_1.png", Texture.class);
 
         game.internalAssetManager.finishLoading();
 
@@ -62,15 +68,16 @@ public class PurchaseScreen implements Screen {
         fragment = new ListFragment(this);
         fragment.create();
 
-        ui.addActor(fragment.getRoot());
-
         controlsFragment = new ControlsFragment(PurchaseScreen.this);
         controlsFragment.create();
 
-        ui.addActor(controlsFragment.getRoot());
-
         controlsFragment.fadeIn();
         fragment.fadeIn();
+
+        layers.setControlsLayer(controlsFragment);
+        layers.setContentLayer(fragment);
+
+        ui.addActor(layers);
 
         restorePurchases();
     }
@@ -105,12 +112,40 @@ public class PurchaseScreen implements Screen {
         }, 1);
     }
 
+    public void openAdultGateBanner(Runnable task) {
+        try {
+
+            destroyBanners();
+
+            if (!game.params.isAdultGateEnabled) {
+                if (task != null) {
+                    task.run();
+                }
+                return;
+            }
+
+            banner = new AdultGateFragment(this);
+            banner.create(task);
+
+            layers.setBannerLayer(banner);
+
+            banner.fadeIn();
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+    }
+
     public void onPurchaseCompleted() {
+        Log.e(tag, "onPurchaseCompleted");
+
         try {
             if (game.gameState.expansionInfo == null) {
                 game.gameState.expansionInfo = new ExpansionResponse();
             }
 
+
+            game.gameState.purchaseState.isVersionSelected = true;
             game.gameState.expansionInfo.isCompleted = false;
             game.gameState.expansionInfo.isDownloadStarted = false;
 
@@ -197,6 +232,9 @@ public class PurchaseScreen implements Screen {
 
     @Override
     public void dispose() {
+
+        destroyBanners();
+
         if (ui != null) {
             ui.dispose();
         }
@@ -210,6 +248,13 @@ public class PurchaseScreen implements Screen {
         game.internalAssetManager.unload("purchase/b_menu.png");
         game.internalAssetManager.unload("purchase/ok.png");
         game.internalAssetManager.unload("purchase/off.png");
+        game.internalAssetManager.unload("purchase/restore.png");
+        game.internalAssetManager.unload("purchase/adult.png");
+        game.internalAssetManager.unload("ui/banner_fond_1.png");
+        game.internalAssetManager.unload("purchase/PG_1.png");
+        game.internalAssetManager.unload("purchase/PG_2.png");
+        game.internalAssetManager.unload("purchase/PG_3.png");
+        game.internalAssetManager.unload("purchase/PG_4.png");
     }
 
     public void onCriticalError(Throwable e) {
@@ -217,7 +262,13 @@ public class PurchaseScreen implements Screen {
     }
 
     public void navigateTo(Screen screen) {
-
         game.navigator.navigateTo(screen);
+    }
+
+    public void destroyBanners() {
+        if (banner != null) {
+            banner.destroy();
+            banner = null;
+        }
     }
 }

@@ -17,10 +17,8 @@ import ua.gram.munhauzen.utils.Log;
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public abstract class AbstractScreen implements Screen {
+public abstract class AbstractScreen extends MunhauzenScreen {
 
-    protected final String tag = getClass().getSimpleName();
-    public final MunhauzenGame game;
     public MunhauzenStage ui;
     public AssetManager assetManager;
     protected Texture background;
@@ -29,7 +27,7 @@ public abstract class AbstractScreen implements Screen {
     Timer.Task persistTask;
 
     public AbstractScreen(MunhauzenGame game) {
-        this.game = game;
+        super(game);
     }
 
     @Override

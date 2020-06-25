@@ -28,9 +28,11 @@ public class PlatformParams implements JsonEntry {
     @JsonProperty
     public Release release = Release.PROD;
     @JsonProperty
-    public final int expansionVersion = 10;
+    public final int expansionVersion = 11;
     @JsonProperty
     public int width, height;
+    @JsonProperty
+    public final boolean isAdultGateEnabled = true;
     @JsonProperty
     public boolean isTablet;
     @JsonProperty

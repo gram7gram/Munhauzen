@@ -24,7 +24,15 @@ public class FreeCard extends Card {
 
                 Log.i(tag, "clicked on free");
 
-                screen.navigateTo(new LoadingScreen(screen.game));
+                try {
+                    screen.game.gameState.purchaseState.isVersionSelected = true;
+
+                    screen.navigateTo(new LoadingScreen(screen.game));
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+
+                    screen.onCriticalError(e);
+                }
             }
         });
     }

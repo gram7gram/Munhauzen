@@ -13,7 +13,6 @@ import com.badlogic.gdx.utils.Align;
 
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.entity.PurchaseState;
-import ua.gram.munhauzen.screen.LoadingScreen;
 import ua.gram.munhauzen.screen.PurchaseScreen;
 import ua.gram.munhauzen.ui.FixedImage;
 import ua.gram.munhauzen.utils.Log;
@@ -34,16 +33,21 @@ public class PurchaseFullCard extends Card {
 
                 try {
 
-                    String id = screen.game.params.appStoreSkuFull;
+                    final String id = screen.game.params.appStoreSkuFull;
                     Log.i(tag, "clicked on " + id);
 
                     PurchaseState state = screen.game.gameState.purchaseState;
                     if (state.isPro) {
-                        screen.navigateTo(new LoadingScreen(screen.game));
+                        screen.onPurchaseCompleted();
                         return;
                     }
 
-                    screen.game.params.iap.purchase(id);
+                    screen.openAdultGateBanner(new Runnable() {
+                        @Override
+                        public void run() {
+                            screen.game.params.iap.purchase(id);
+                        }
+                    });
                 } catch (Throwable e) {
                     Log.e(tag, e);
 

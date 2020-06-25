@@ -10,8 +10,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": true,
     "locale": "en",
-    "order": 0,
-    "duration": 2299
+    "order": 0
   },
   {
     "name": "sfail_interactions",
@@ -24,8 +23,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": true,
     "locale": "en",
-    "order": 1,
-    "duration": 8313
+    "order": 1
   },
   {
     "name": "sfx_logo_fail",
@@ -38,8 +36,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": true,
     "locale": "en",
-    "order": 2,
-    "duration": 40031
+    "order": 2
   },
   {
     "name": "sfx_menu_hello",
@@ -52,8 +49,7 @@
     "isFailOpenedOnComplete": true,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 3,
-    "duration": 13677
+    "order": 3
   },
   {
     "name": "s11_b_fail_1",
@@ -66,8 +62,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 4,
-    "duration": 5805
+    "order": 4
   },
   {
     "name": "s13_d_fail_1",
@@ -80,8 +75,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 5,
-    "duration": 4992
+    "order": 5
   },
   {
     "name": "s21_2_d_fail_1",
@@ -94,8 +88,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 6,
-    "duration": 2995
+    "order": 6
   },
   {
     "name": "s22_fail_1",
@@ -108,8 +101,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 7,
-    "duration": 10867
+    "order": 7
   },
   {
     "name": "s23_b_fail_1",
@@ -122,8 +114,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 8,
-    "duration": 38383
+    "order": 8
   },
   {
     "name": "s2_2_c_fail_1",
@@ -136,8 +127,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 9,
-    "duration": 11633
+    "order": 9
   },
   {
     "name": "s39_0_fail_2",
@@ -150,8 +140,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 10,
-    "duration": 8615
+    "order": 10
   },
   {
     "name": "s39_a_fail_1",
@@ -164,8 +153,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 11,
-    "duration": 21362
+    "order": 11
   },
   {
     "name": "s3_0_fail_4",
@@ -178,8 +166,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 12,
-    "duration": 14814
+    "order": 12
   },
   {
     "name": "s3_0_fail_5",
@@ -192,8 +179,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 13,
-    "duration": 14768
+    "order": 13
   },
   {
     "name": "s3_0_fail_6",
@@ -206,8 +192,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 14,
-    "duration": 11029
+    "order": 14
   },
   {
     "name": "s40_c_fail_2",
@@ -220,8 +205,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 15,
-    "duration": 37895
+    "order": 15
   },
   {
     "name": "s53_c_fail_1",
@@ -234,8 +218,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 16,
-    "duration": 7639
+    "order": 16
   },
   {
     "name": "s54_b_fail_1",
@@ -248,8 +231,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 17,
-    "duration": 11285
+    "order": 17
   },
   {
     "name": "s54_d_fail_1",
@@ -262,8 +244,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 18,
-    "duration": 30650
+    "order": 18
   },
   {
     "name": "s6_a_fail_1",
@@ -276,8 +257,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 19,
-    "duration": 13444
+    "order": 19
   },
   {
     "name": "s6_e_fail_1",
@@ -290,8 +270,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 20,
-    "duration": 13584
+    "order": 20
   },
   {
     "name": "s7_1_d_fail_1",
@@ -304,8 +283,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 21,
-    "duration": 7686
+    "order": 21
   },
   {
     "name": "s8_d_fail_1",
@@ -318,8 +296,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 22,
-    "duration": 31254
+    "order": 22
   },
   {
     "name": "sbrougham_c_fail_1",
@@ -332,8 +309,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 23,
-    "duration": 16393
+    "order": 23
   },
   {
     "name": "scanal_1_fail_2",
@@ -346,8 +322,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 24,
-    "duration": 14002
+    "order": 24
   },
   {
     "name": "scanal_2_2_b_fail_1",
@@ -360,8 +335,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 25,
-    "duration": 21618
+    "order": 25
   },
   {
     "name": "scannon_cont_fail_4",
@@ -374,8 +348,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 26,
-    "duration": 9474
+    "order": 26
   },
   {
     "name": "scannon_cont_fail_5",
@@ -388,8 +361,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 27,
-    "duration": 58491
+    "order": 27
   },
   {
     "name": "scannon_cont_fail_6",
@@ -402,8 +374,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 28,
-    "duration": 22965
+    "order": 28
   },
   {
     "name": "scannon_cont_fail_7",
@@ -416,8 +387,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 29,
-    "duration": 91371
+    "order": 29
   },
   {
     "name": "scannon_fail_1",
@@ -430,8 +400,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 30,
-    "duration": 18715
+    "order": 30
   },
   {
     "name": "sfx_fail_1",
@@ -444,8 +413,7 @@
     "isFailOpenedOnComplete": true,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 31,
-    "duration": 8313
+    "order": 31
   },
   {
     "name": "sfx_menu_win_all_fail_1",
@@ -458,8 +426,7 @@
     "isFailOpenedOnComplete": true,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 32,
-    "duration": 15790
+    "order": 32
   },
   {
     "name": "sintro_2_fail_1",
@@ -472,8 +439,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": true,
     "locale": "en",
-    "order": 33,
-    "duration": 35085
+    "order": 33
   },
   {
     "name": "sisland_fail_5",
@@ -486,8 +452,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 34,
-    "duration": 21595
+    "order": 34
   },
   {
     "name": "slions_d_fail_1",
@@ -500,8 +465,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 35,
-    "duration": 5666
+    "order": 35
   },
   {
     "name": "slions_fail_1",
@@ -514,8 +478,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 36,
-    "duration": 34133
+    "order": 36
   },
   {
     "name": "slions_fail_2",
@@ -528,8 +491,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 37,
-    "duration": 21223
+    "order": 37
   },
   {
     "name": "smoon_c_b_fail_1",
@@ -542,8 +504,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 38,
-    "duration": 26680
+    "order": 38
   },
   {
     "name": "snephew_fail_1",
@@ -556,8 +517,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 39,
-    "duration": 18715
+    "order": 39
   },
   {
     "name": "ssling_c_fail_2",
@@ -570,8 +530,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 40,
-    "duration": 51688
+    "order": 40
   },
   {
     "name": "ssling_fail_1",
@@ -584,8 +543,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 41,
-    "duration": 14838
+    "order": 41
   },
   {
     "name": "stample_c_fail_1",
@@ -598,8 +556,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 42,
-    "duration": 39033
+    "order": 42
   },
   {
     "name": "swau_2_d_fail_1",
@@ -612,8 +569,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 43,
-    "duration": 22965
+    "order": 43
   },
   {
     "name": "swau_d_5_fail_1",
@@ -626,8 +582,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 44,
-    "duration": 7059
+    "order": 44
   },
   {
     "name": "sbonus_Shura",
@@ -640,8 +595,7 @@
     "isFailOpenedOnComplete": true,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 45,
-    "duration": 4690
+    "order": 45
   },
   {
     "name": "scrystals",
@@ -654,8 +608,7 @@
     "isFailOpenedOnComplete": true,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 46,
-    "duration": 6177
+    "order": 46
   },
   {
     "name": "shaha_fail",
@@ -668,8 +621,7 @@
     "isFailOpenedOnComplete": true,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 47,
-    "duration": 7848
+    "order": 47
   },
   {
     "name": "speter",
@@ -682,8 +634,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": true,
     "locale": "en",
-    "order": 48,
-    "duration": 7988
+    "order": 48
   },
   {
     "name": "speter_fail_2",
@@ -696,8 +647,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": true,
     "locale": "en",
-    "order": 49,
-    "duration": 12655
+    "order": 49
   },
   {
     "name": "s11_e_fail_2",
@@ -710,8 +660,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 50,
-    "duration": 6478
+    "order": 50
   },
   {
     "name": "s11_e_fail_3",
@@ -724,8 +673,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 51,
-    "duration": 12423
+    "order": 51
   },
   {
     "name": "s12_d_fail_1",
@@ -738,8 +686,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 52,
-    "duration": 7198
+    "order": 52
   },
   {
     "name": "s13_d_fail_2",
@@ -752,8 +699,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 53,
-    "duration": 4992
+    "order": 53
   },
   {
     "name": "s14_c_fail_1",
@@ -766,8 +712,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 54,
-    "duration": 5480
+    "order": 54
   },
   {
     "name": "s16_b_fail_1",
@@ -780,8 +725,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 55,
-    "duration": 13653
+    "order": 55
   },
   {
     "name": "s17_a_fail_1",
@@ -794,8 +738,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 56,
-    "duration": 3994
+    "order": 56
   },
   {
     "name": "s32_a_fail_1",
@@ -808,8 +751,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 57,
-    "duration": 2159
+    "order": 57
   },
   {
     "name": "s18_c_fail_1",
@@ -822,8 +764,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 58,
-    "duration": 4458
+    "order": 58
   },
   {
     "name": "s22_c_fail_1",
@@ -836,8 +777,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 59,
-    "duration": 22384
+    "order": 59
   },
   {
     "name": "s23_a_fail_1",
@@ -850,8 +790,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 60,
-    "duration": 7593
+    "order": 60
   },
   {
     "name": "s23_c_fail_1",
@@ -864,8 +803,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 61,
-    "duration": 7059
+    "order": 61
   },
   {
     "name": "s24_a_fail_1",
@@ -878,8 +816,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 62,
-    "duration": 5248
+    "order": 62
   },
   {
     "name": "s25_c_fail_1",
@@ -892,8 +829,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 63,
-    "duration": 4319
+    "order": 63
   },
   {
     "name": "s25_c_fail_2",
@@ -906,8 +842,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 64,
-    "duration": 3320
+    "order": 64
   },
   {
     "name": "s28_b_fail_1",
@@ -920,8 +855,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 65,
-    "duration": 13793
+    "order": 65
   },
   {
     "name": "sisland_cont_fail_4",
@@ -934,8 +868,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 66,
-    "duration": 10867
+    "order": 66
   },
   {
     "name": "s32_e_fail_1",
@@ -948,8 +881,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 67,
-    "duration": 6803
+    "order": 67
   },
   {
     "name": "s35_e_fail_1",
@@ -962,8 +894,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 68,
-    "duration": 5526
+    "order": 68
   },
   {
     "name": "s36_d_fail_1",
@@ -976,8 +907,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 69,
-    "duration": 4551
+    "order": 69
   },
   {
     "name": "s36_d_fail_2",
@@ -990,8 +920,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 70,
-    "duration": 3971
+    "order": 70
   },
   {
     "name": "s38_e_fail_1",
@@ -1004,8 +933,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 71,
-    "duration": 8777
+    "order": 71
   },
   {
     "name": "s38_e_fail_2",
@@ -1018,8 +946,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 72,
-    "duration": 8290
+    "order": 72
   },
   {
     "name": "s51_a_fail_1",
@@ -1032,8 +959,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 73,
-    "duration": 19714
+    "order": 73
   },
   {
     "name": "s51_b_fail_1",
@@ -1046,8 +972,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 74,
-    "duration": 2206
+    "order": 74
   },
   {
     "name": "s51_b_fail_10",
@@ -1060,8 +985,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 75,
-    "duration": 3785
+    "order": 75
   },
   {
     "name": "s51_b_fail_2",
@@ -1074,8 +998,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 76,
-    "duration": 2159
+    "order": 76
   },
   {
     "name": "s51_b_fail_3",
@@ -1088,8 +1011,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 77,
-    "duration": 2577
+    "order": 77
   },
   {
     "name": "s51_b_fail_4",
@@ -1102,8 +1024,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 78,
-    "duration": 2531
+    "order": 78
   },
   {
     "name": "s51_b_fail_5",
@@ -1116,8 +1037,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 79,
-    "duration": 3228
+    "order": 79
   },
   {
     "name": "s51_b_fail_6",
@@ -1130,8 +1050,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 80,
-    "duration": 2694
+    "order": 80
   },
   {
     "name": "s51_b_fail_7",
@@ -1144,8 +1063,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 81,
-    "duration": 2972
+    "order": 81
   },
   {
     "name": "s51_b_fail_8",
@@ -1158,8 +1076,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 82,
-    "duration": 3019
+    "order": 82
   },
   {
     "name": "s51_b_fail_9",
@@ -1172,8 +1089,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 83,
-    "duration": 2577
+    "order": 83
   },
   {
     "name": "s54_a_fail_1",
@@ -1186,8 +1102,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 84,
-    "duration": 7175
+    "order": 84
   },
   {
     "name": "s54_e_fail_1",
@@ -1200,8 +1115,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 85,
-    "duration": 2879
+    "order": 85
   },
   {
     "name": "s6_d_fail_1",
@@ -1214,8 +1128,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 86,
-    "duration": 13700
+    "order": 86
   },
   {
     "name": "s7_1_d_fail_2",
@@ -1228,8 +1141,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 87,
-    "duration": 7686
+    "order": 87
   },
   {
     "name": "s7_a_fail_1",
@@ -1242,8 +1154,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 88,
-    "duration": 7059
+    "order": 88
   },
   {
     "name": "s7_b_fail_1",
@@ -1256,8 +1167,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 89,
-    "duration": 9683
+    "order": 89
   },
   {
     "name": "s7_c_fail_2",
@@ -1270,8 +1180,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 90,
-    "duration": 5294
+    "order": 90
   },
   {
     "name": "sboat_ruin_2_c_fail_1",
@@ -1284,8 +1193,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 91,
-    "duration": 2647
+    "order": 91
   },
   {
     "name": "sboat_ruin_2_c_fail_2",
@@ -1298,8 +1206,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 92,
-    "duration": 2299
+    "order": 92
   },
   {
     "name": "scannon_a_fail_1",
@@ -1312,8 +1219,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 93,
-    "duration": 4574
+    "order": 93
   },
   {
     "name": "snile_a_fail_2",
@@ -1326,8 +1232,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 94,
-    "duration": 4737
+    "order": 94
   },
   {
     "name": "sprisoners_b_fail_2",
@@ -1340,8 +1245,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 95,
-    "duration": 4110
+    "order": 95
   },
   {
     "name": "strue_hahaha",
@@ -1354,8 +1258,7 @@
     "isFailOpenedOnComplete": true,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 96,
-    "duration": 9636
+    "order": 96
   },
   {
     "name": "scanal_1_cont_fail_1",
@@ -1368,8 +1271,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 97,
-    "duration": 22872
+    "order": 97
   },
   {
     "name": "scanal_1_fail_1",
@@ -1382,8 +1284,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 98,
-    "duration": 9497
+    "order": 98
   },
   {
     "name": "scanal_2_2_a_fail_1",
@@ -1396,8 +1297,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 99,
-    "duration": 16649
+    "order": 99
   },
   {
     "name": "scanal_2_2_c_fail_1",
@@ -1410,8 +1310,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 100,
-    "duration": 30441
+    "order": 100
   },
   {
     "name": "s10_0_fail_1",
@@ -1424,8 +1323,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 101,
-    "duration": 5410
+    "order": 101
   },
   {
     "name": "scanal_2_2_c_fail_2",
@@ -1438,8 +1336,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 102,
-    "duration": 57098
+    "order": 102
   },
   {
     "name": "s11_e_fail_1",
@@ -1452,8 +1349,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 103,
-    "duration": 8057
+    "order": 103
   },
   {
     "name": "s13_a_c_fail_1",
@@ -1466,8 +1362,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 104,
-    "duration": 8173
+    "order": 104
   },
   {
     "name": "s13_a_d_fail_1",
@@ -1480,8 +1375,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 105,
-    "duration": 15511
+    "order": 105
   },
   {
     "name": "s13_a_fail_1",
@@ -1494,8 +1388,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 106,
-    "duration": 7988
+    "order": 106
   },
   {
     "name": "s1_b_fail_1",
@@ -1508,8 +1401,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 107,
-    "duration": 18158
+    "order": 107
   },
   {
     "name": "s1_fail_1",
@@ -1522,8 +1414,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 108,
-    "duration": 5851
+    "order": 108
   },
   {
     "name": "s1_intro_fail_1",
@@ -1536,8 +1427,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 109,
-    "duration": 5294
+    "order": 109
   },
   {
     "name": "s20_0",
@@ -1550,8 +1440,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 110,
-    "duration": 74931
+    "order": 110
   },
   {
     "name": "s21_0_fail_1",
@@ -1564,8 +1453,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 111,
-    "duration": 11076
+    "order": 111
   },
   {
     "name": "s21_0_fail_2",
@@ -1578,8 +1466,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 112,
-    "duration": 27144
+    "order": 112
   },
   {
     "name": "s21_1_d_fail_1",
@@ -1592,8 +1479,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 113,
-    "duration": 10728
+    "order": 113
   },
   {
     "name": "s22_b_fail_1",
@@ -1606,8 +1492,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 114,
-    "duration": 8638
+    "order": 114
   },
   {
     "name": "s22_d_fail_1",
@@ -1620,8 +1505,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 115,
-    "duration": 17369
+    "order": 115
   },
   {
     "name": "s21_0_fail_3",
@@ -1634,8 +1518,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 116,
-    "duration": 14303
+    "order": 116
   },
   {
     "name": "s23_d_fail_1",
@@ -1648,8 +1531,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 117,
-    "duration": 19156
+    "order": 117
   },
   {
     "name": "s26_fail_1",
@@ -1662,8 +1544,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 118,
-    "duration": 10031
+    "order": 118
   },
   {
     "name": "s27_a_fail_1",
@@ -1676,8 +1557,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 119,
-    "duration": 23591
+    "order": 119
   },
   {
     "name": "s27_a_fail_2",
@@ -1690,8 +1570,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 120,
-    "duration": 19900
+    "order": 120
   },
   {
     "name": "s27_d_fail_1",
@@ -1704,8 +1583,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 121,
-    "duration": 14745
+    "order": 121
   },
   {
     "name": "s28_d_fail_1",
@@ -1718,8 +1596,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 122,
-    "duration": 24915
+    "order": 122
   },
   {
     "name": "s32_b_fail_1",
@@ -1732,8 +1609,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 123,
-    "duration": 3228
+    "order": 123
   },
   {
     "name": "s35_0_fail_1",
@@ -1746,8 +1622,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 124,
-    "duration": 13096
+    "order": 124
   },
   {
     "name": "s35_3miss_fail_1",
@@ -1760,8 +1635,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 125,
-    "duration": 9915
+    "order": 125
   },
   {
     "name": "s38_f_fail_1",
@@ -1774,8 +1648,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 126,
-    "duration": 4667
+    "order": 126
   },
   {
     "name": "s39_0_fail_1",
@@ -1788,8 +1661,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 127,
-    "duration": 6432
+    "order": 127
   },
   {
     "name": "s39_b_fail_1",
@@ -1802,8 +1674,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 128,
-    "duration": 27910
+    "order": 128
   },
   {
     "name": "s3_0_fail_1",
@@ -1816,8 +1687,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 129,
-    "duration": 13955
+    "order": 129
   },
   {
     "name": "s3_0_fail_2",
@@ -1830,8 +1700,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 130,
-    "duration": 6478
+    "order": 130
   },
   {
     "name": "s3_0_fail_3",
@@ -1844,8 +1713,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 131,
-    "duration": 15581
+    "order": 131
   },
   {
     "name": "s3_d_fail_1",
@@ -1858,8 +1726,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 132,
-    "duration": 14629
+    "order": 132
   },
   {
     "name": "s40_c_fail_1",
@@ -1872,8 +1739,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 133,
-    "duration": 15673
+    "order": 133
   },
   {
     "name": "s40_d_fail_1",
@@ -1886,8 +1752,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 134,
-    "duration": 14954
+    "order": 134
   },
   {
     "name": "s41_2_fail_1",
@@ -1900,8 +1765,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 135,
-    "duration": 10008
+    "order": 135
   },
   {
     "name": "s41_2_fail_2",
@@ -1914,8 +1778,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 136,
-    "duration": 13862
+    "order": 136
   },
   {
     "name": "s41_6_a_fail_1",
@@ -1928,8 +1791,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 137,
-    "duration": 13630
+    "order": 137
   },
   {
     "name": "s41_6_b_fail_1",
@@ -1942,8 +1804,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 138,
-    "duration": 5619
+    "order": 138
   },
   {
     "name": "s41_6_fail_1",
@@ -1956,8 +1817,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 139,
-    "duration": 17856
+    "order": 139
   },
   {
     "name": "s41_8_a_fail_1",
@@ -1970,8 +1830,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 140,
-    "duration": 22616
+    "order": 140
   },
   {
     "name": "s41_too_much_1_fail_1",
@@ -1984,8 +1843,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 141,
-    "duration": 12841
+    "order": 141
   },
   {
     "name": "s45_joker_2_fail_1",
@@ -1998,8 +1856,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 142,
-    "duration": 11424
+    "order": 142
   },
   {
     "name": "s48_change_fail_1",
@@ -2012,8 +1869,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 143,
-    "duration": 16649
+    "order": 143
   },
   {
     "name": "s48_cont_fail_1",
@@ -2026,8 +1882,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 144,
-    "duration": 30348
+    "order": 144
   },
   {
     "name": "s48_eater_2_fail_1",
@@ -2040,8 +1895,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 145,
-    "duration": 15952
+    "order": 145
   },
   {
     "name": "s49_nothing_fail_1",
@@ -2054,8 +1908,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 146,
-    "duration": 15952
+    "order": 146
   },
   {
     "name": "s51_e_fail_1",
@@ -2068,8 +1921,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 147,
-    "duration": 15650
+    "order": 147
   },
   {
     "name": "s51_e_fail_2",
@@ -2082,8 +1934,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 148,
-    "duration": 8661
+    "order": 148
   },
   {
     "name": "s55_c_fail_1",
@@ -2096,8 +1947,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 149,
-    "duration": 14257
+    "order": 149
   },
   {
     "name": "s55_c_fail_2",
@@ -2110,8 +1960,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 150,
-    "duration": 14675
+    "order": 150
   },
   {
     "name": "s56_0_fail_1",
@@ -2124,8 +1973,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 151,
-    "duration": 10263
+    "order": 151
   },
   {
     "name": "s57_0_fail_1",
@@ -2138,8 +1986,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 152,
-    "duration": 29814
+    "order": 152
   },
   {
     "name": "s57_0_fail_2",
@@ -2152,8 +1999,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 153,
-    "duration": 34296
+    "order": 153
   },
   {
     "name": "s57_0_fail_3",
@@ -2166,8 +2012,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 154,
-    "duration": 27864
+    "order": 154
   },
   {
     "name": "s57_0_fail_4",
@@ -2180,8 +2025,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 155,
-    "duration": 20178
+    "order": 155
   },
   {
     "name": "s58_0_fail_1",
@@ -2194,8 +2038,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 156,
-    "duration": 16254
+    "order": 156
   },
   {
     "name": "s60_c_fail_1",
@@ -2208,8 +2051,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 157,
-    "duration": 13026
+    "order": 157
   },
   {
     "name": "s7_2_b_fail_1",
@@ -2222,8 +2064,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 158,
-    "duration": 11169
+    "order": 158
   },
   {
     "name": "s7_c_fail_1",
@@ -2236,8 +2077,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 159,
-    "duration": 21989
+    "order": 159
   },
   {
     "name": "sballoon_a_b_fail_1",
@@ -2250,8 +2090,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 160,
-    "duration": 19714
+    "order": 160
   },
   {
     "name": "sballoon_cont_fail_",
@@ -2264,8 +2103,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 161,
-    "duration": 35248
+    "order": 161
   },
   {
     "name": "sballoon_fail_1",
@@ -2278,8 +2116,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 162,
-    "duration": 7198
+    "order": 162
   },
   {
     "name": "sbear_fail_1",
@@ -2292,8 +2129,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 163,
-    "duration": 27260
+    "order": 163
   },
   {
     "name": "sboy_b_fail_1",
@@ -2306,8 +2142,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 164,
-    "duration": 6757
+    "order": 164
   },
   {
     "name": "sbrougham_fail_1",
@@ -2320,8 +2155,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 165,
-    "duration": 15372
+    "order": 165
   },
   {
     "name": "sbrougham_fail_2",
@@ -2334,8 +2168,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 166,
-    "duration": 17067
+    "order": 166
   },
   {
     "name": "scannon_c_fail_1",
@@ -2348,8 +2181,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 167,
-    "duration": 19667
+    "order": 167
   },
   {
     "name": "scannon_cont_fail_1",
@@ -2362,8 +2194,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 168,
-    "duration": 61324
+    "order": 168
   },
   {
     "name": "scannon_cont_fail_2",
@@ -2376,8 +2207,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 169,
-    "duration": 22616
+    "order": 169
   },
   {
     "name": "scannon_cont_fail_3",
@@ -2390,8 +2220,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 170,
-    "duration": 7686
+    "order": 170
   },
   {
     "name": "sdog_fail_1",
@@ -2404,8 +2233,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 171,
-    "duration": 4156
+    "order": 171
   },
   {
     "name": "sgener_c_fail_1",
@@ -2418,8 +2246,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 172,
-    "duration": 21827
+    "order": 172
   },
   {
     "name": "sgener_d_fail_1",
@@ -2432,8 +2259,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 173,
-    "duration": 22547
+    "order": 173
   },
   {
     "name": "sgener_fail_1",
@@ -2446,8 +2272,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 174,
-    "duration": 21409
+    "order": 174
   },
   {
     "name": "sisland_cont_fail_1",
@@ -2460,8 +2285,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 175,
-    "duration": 5851
+    "order": 175
   },
   {
     "name": "sisland_cont_fail_2",
@@ -2474,8 +2298,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 176,
-    "duration": 13909
+    "order": 176
   },
   {
     "name": "sisland_cont_fail_3",
@@ -2488,8 +2311,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 177,
-    "duration": 6014
+    "order": 177
   },
   {
     "name": "sisland_fail_1",
@@ -2502,8 +2324,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 178,
-    "duration": 9938
+    "order": 178
   },
   {
     "name": "sisland_fail_2",
@@ -2516,8 +2337,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 179,
-    "duration": 22175
+    "order": 179
   },
   {
     "name": "sisland_fail_3",
@@ -2530,8 +2350,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 180,
-    "duration": 22709
+    "order": 180
   },
   {
     "name": "sisland_fail_4",
@@ -2544,8 +2363,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 181,
-    "duration": 20852
+    "order": 181
   },
   {
     "name": "slions_attack_loose_fail_1",
@@ -2558,8 +2376,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 182,
-    "duration": 23847
+    "order": 182
   },
   {
     "name": "slions_c_fail_1",
@@ -2572,8 +2389,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 183,
-    "duration": 12585
+    "order": 183
   },
   {
     "name": "slions_d_fail_2",
@@ -2586,8 +2402,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 184,
-    "duration": 5666
+    "order": 184
   },
   {
     "name": "smarriage_a_b_fail_1",
@@ -2600,8 +2415,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 185,
-    "duration": 11865
+    "order": 185
   },
   {
     "name": "smarriage_c_fail_1",
@@ -2614,8 +2428,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 186,
-    "duration": 15372
+    "order": 186
   },
   {
     "name": "smoon_b_fail_1",
@@ -2628,8 +2441,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 187,
-    "duration": 89792
+    "order": 187
   },
   {
     "name": "smoon_c_b_fail_2",
@@ -2642,8 +2454,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 188,
-    "duration": 26680
+    "order": 188
   },
   {
     "name": "smoon_e_fail_1",
@@ -2656,8 +2467,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 189,
-    "duration": 11656
+    "order": 189
   },
   {
     "name": "smoon_e_fail_2",
@@ -2670,8 +2480,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 190,
-    "duration": 8777
+    "order": 190
   },
   {
     "name": "smoon_fail_1",
@@ -2684,8 +2493,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 191,
-    "duration": 13166
+    "order": 191
   },
   {
     "name": "snephew_b_fail_1",
@@ -2698,8 +2506,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 192,
-    "duration": 22361
+    "order": 192
   },
   {
     "name": "snile_a_fail_1",
@@ -2712,8 +2519,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 193,
-    "duration": 8940
+    "order": 193
   },
   {
     "name": "snile_fail_1",
@@ -2726,8 +2532,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 194,
-    "duration": 10101
+    "order": 194
   },
   {
     "name": "sprisoners_d_fail_1",
@@ -2740,8 +2545,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 195,
-    "duration": 30859
+    "order": 195
   },
   {
     "name": "ssandstorm_b_fail_1",
@@ -2754,8 +2558,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 196,
-    "duration": 10797
+    "order": 196
   },
   {
     "name": "ssandstorm_b_fail_2",
@@ -2768,8 +2571,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 197,
-    "duration": 7848
+    "order": 197
   },
   {
     "name": "ssandstorm_c_fail_1",
@@ -2782,8 +2584,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 198,
-    "duration": 27818
+    "order": 198
   },
   {
     "name": "ssling_b_cont_fail_1",
@@ -2796,8 +2597,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 199,
-    "duration": 17578
+    "order": 199
   },
   {
     "name": "ssling_c_fail_1",
@@ -2810,8 +2610,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 200,
-    "duration": 16997
+    "order": 200
   },
   {
     "name": "stample_2_all_true_fail_1",
@@ -2824,8 +2623,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 201,
-    "duration": 38150
+    "order": 201
   },
   {
     "name": "stample_3_c_fail_1",
@@ -2838,8 +2636,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 202,
-    "duration": 17206
+    "order": 202
   },
   {
     "name": "stample_5_fail_1",
@@ -2852,8 +2649,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 203,
-    "duration": 13026
+    "order": 203
   },
   {
     "name": "stample_5_fail_2",
@@ -2866,8 +2662,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 204,
-    "duration": 19435
+    "order": 204
   },
   {
     "name": "styran_a_fail_1",
@@ -2880,8 +2675,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 205,
-    "duration": 19435
+    "order": 205
   },
   {
     "name": "styran_a_fail_2",
@@ -2894,8 +2688,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 206,
-    "duration": 9822
+    "order": 206
   },
   {
     "name": "styran_fail_1",
@@ -2908,8 +2701,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 207,
-    "duration": 13677
+    "order": 207
   },
   {
     "name": "svarvars_b_fail_1",
@@ -2922,8 +2714,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 208,
-    "duration": 29884
+    "order": 208
   },
   {
     "name": "svolcano_b_fail_1",
@@ -2936,8 +2727,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 209,
-    "duration": 23963
+    "order": 209
   },
   {
     "name": "svolcano_b_fail_2",
@@ -2950,8 +2740,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 210,
-    "duration": 15464
+    "order": 210
   },
   {
     "name": "svolcano_fail_1",
@@ -2964,8 +2753,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 211,
-    "duration": 48599
+    "order": 211
   },
   {
     "name": "sworm_b_fail_1",
@@ -2978,8 +2766,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 212,
-    "duration": 36061
+    "order": 212
   },
   {
     "name": "sworm_fail_1",
@@ -2992,8 +2779,7 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 213,
-    "duration": 15975
+    "order": 213
   },
   {
     "name": "sworm_fail_2",
@@ -3006,7 +2792,6 @@
     "isFailOpenedOnComplete": false,
     "isFailOpenedOnStart": false,
     "locale": "en",
-    "order": 214,
-    "duration": 19156
+    "order": 214
   }
 ]

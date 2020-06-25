@@ -208,6 +208,30 @@ public class RussianTranslator implements Translator {
         map.put("debug_screen.open_scenario", "Открыть все сценарии");
         map.put("debug_screen.open_chapters", "Открыть все главы");
 
+        map.put("adult_gate_screen.incorrect_title", "Не правильно, повторить?");
+        map.put("adult_gate_screen.incorrect_yes", "Да");
+        map.put("adult_gate_screen.incorrect_no", "Нет");
+
+        map.put("adult_gate_screen.title", "Родительский контроль");
+        map.put("adult_gate_screen.q1a1", "а) 16");
+        map.put("adult_gate_screen.q1a2", "б) -5");
+        map.put("adult_gate_screen.q1a3", "в) 4");
+        map.put("adult_gate_screen.q1a4", "г) 10");
+
+        map.put("adult_gate_screen.q2a1", "а) 25");
+        map.put("adult_gate_screen.q2a2", "б) -13");
+        map.put("adult_gate_screen.q2a3", "в) 5");
+        map.put("adult_gate_screen.q2a4", "г) 9");
+
+        map.put("adult_gate_screen.q3a1", "а) 36");
+        map.put("adult_gate_screen.q3a2", "б) 0");
+        map.put("adult_gate_screen.q3a3", "в) 6");
+        map.put("adult_gate_screen.q3a4", "г) -7");
+
+        map.put("adult_gate_screen.q4a1", "а) 81");
+        map.put("adult_gate_screen.q4a2", "б) 7");
+        map.put("adult_gate_screen.q4a3", "в) 9");
+        map.put("adult_gate_screen.q4a4", "г) -10");
     }
 
     @Override

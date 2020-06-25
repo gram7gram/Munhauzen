@@ -23,16 +23,14 @@ import ua.gram.munhauzen.utils.Log;
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class LegalScreen implements Screen {
+public class LegalScreen extends MunhauzenScreen {
 
-    private final String tag = getClass().getSimpleName();
-    private final MunhauzenGame game;
     private Texture background;
     private MunhauzenStage ui;
     public boolean isBackPressed;
 
     public LegalScreen(MunhauzenGame game) {
-        this.game = game;
+        super(game);
     }
 
     @Override
