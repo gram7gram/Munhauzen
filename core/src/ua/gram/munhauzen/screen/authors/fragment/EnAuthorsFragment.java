@@ -163,7 +163,7 @@ public class EnAuthorsFragment extends AuthorsFragment {
                 super.clicked(event, x, y);
 
                 try {
-                    Gdx.net.openURI("https://melvoice.com");
+                    Gdx.net.openURI("https://www.youtube.com/channel/UCNXSfJ-9LJmNTrCu39UUxVw");
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }

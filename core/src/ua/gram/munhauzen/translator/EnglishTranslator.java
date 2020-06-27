@@ -19,7 +19,7 @@ public class EnglishTranslator implements Translator {
         map.put("loading.menu_btn", "Main menu");
         map.put("loading.download_btn", "Download");
         map.put("loading.title", "Downloading resources");
-        map.put("loading.message", "The game will now start downloading the resources. Please, do not interrupt the Wi-Fi connection and wait for the download.");
+        map.put("loading.message", "The game will now start downloading the resources. Please, do not interrupt the Internet connection and wait for the download.");
         map.put("loading.quality_message", "Recommended texture quality");
         map.put("loading.quality_high", "High");
         map.put("loading.quality_medium", "Medium");

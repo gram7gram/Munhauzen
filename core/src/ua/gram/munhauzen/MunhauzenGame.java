@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import ua.gram.munhauzen.entity.Device;
 import ua.gram.munhauzen.entity.GameState;
+import ua.gram.munhauzen.entity.Purchase;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.screen.ErrorScreen;
 import ua.gram.munhauzen.service.AchievementService;
@@ -64,6 +65,32 @@ public class MunhauzenGame extends Game {
 
     public MunhauzenGame(PlatformParams params) {
         this.params = params;
+    }
+
+    public String getExpansionPart() {
+        Purchase part2Purchase = null, part1Purchase = null;
+
+        for (Purchase purchase : gameState.purchaseState.purchases) {
+
+            if (purchase.productId.equals(params.appStoreSkuPart2)) {
+                part2Purchase = purchase;
+            }
+
+            if (purchase.productId.equals(params.appStoreSkuPart1)) {
+                part1Purchase = purchase;
+            }
+        }
+
+        String id = "Part_demo";
+        if (gameState.purchaseState.isPro) {
+            id = "Part_2";
+        } else if (part2Purchase != null) {
+            id = "Part_2";
+        } else if (part1Purchase != null) {
+            id = "Part_1";
+        }
+
+        return id;
     }
 
     public void syncState() {

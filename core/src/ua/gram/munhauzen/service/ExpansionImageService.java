@@ -3,7 +3,6 @@ package ua.gram.munhauzen.service;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.ExternalFileHandleResolver;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import ua.gram.munhauzen.entity.Image;
 import ua.gram.munhauzen.entity.StoryImage;
@@ -33,7 +32,7 @@ public class ExpansionImageService extends ImageService {
 
         FileHandle file = ExternalFiles.getExpansionImage(gameScreen.game.params, image);
         if (!file.exists()) {
-            throw new GdxRuntimeException("Image file does not exist " + image.name + " at " + file.path());
+            return null;
         }
 
         return file.path();

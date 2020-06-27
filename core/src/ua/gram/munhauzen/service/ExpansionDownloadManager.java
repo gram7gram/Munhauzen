@@ -14,7 +14,6 @@ import java.io.InputStream;
 import java.util.Locale;
 
 import ua.gram.munhauzen.MunhauzenGame;
-import ua.gram.munhauzen.entity.Purchase;
 import ua.gram.munhauzen.expansion.ExtractExpansionPartTask;
 import ua.gram.munhauzen.expansion.response.ExpansionResponse;
 import ua.gram.munhauzen.expansion.response.Part;
@@ -59,7 +58,7 @@ public class ExpansionDownloadManager {
     public void fetchExpansionToDownload() {
         try {
 
-            expansionPart = getExpansionPart();
+            expansionPart = game.getExpansionPart();
 
             FileHandle file = Files.getExpansionConfigFile(game.params, expansionPart);
 
@@ -195,32 +194,6 @@ public class ExpansionDownloadManager {
             });
         }
 
-    }
-
-    private String getExpansionPart() {
-        Purchase part2Purchase = null, part1Purchase = null;
-
-        for (Purchase purchase : game.gameState.purchaseState.purchases) {
-
-            if (purchase.productId.equals(game.params.appStoreSkuPart2)) {
-                part2Purchase = purchase;
-            }
-
-            if (purchase.productId.equals(game.params.appStoreSkuPart1)) {
-                part1Purchase = purchase;
-            }
-        }
-
-        String id = "Part_demo";
-        if (game.gameState.purchaseState.isPro) {
-            id = "Part_2";
-        } else if (part2Purchase != null) {
-            id = "Part_2";
-        } else if (part1Purchase != null) {
-            id = "Part_1";
-        }
-
-        return id;
     }
 
     public boolean shouldFetchExpansion() {

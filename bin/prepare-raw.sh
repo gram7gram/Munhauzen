@@ -15,7 +15,7 @@ function prepare() {
 
     mkdir -p $outputDir
 
-    rm -f $outputDir/*
+#    rm -f $outputDir/*
 
     cd $inputDir
 
