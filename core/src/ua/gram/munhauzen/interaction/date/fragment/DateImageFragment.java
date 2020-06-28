@@ -293,15 +293,29 @@ public class DateImageFragment extends InteractionFragment {
 
                     try {
 
-                        completeDialog.create();
+                        interaction.playFailEnd();
 
-                        dialogContainer.clearChildren();
-                        dialogContainer.add(completeDialog.getRoot());
+                        failedTask = Timer.instance().scheduleTask(new Timer.Task() {
+                            @Override
+                            public void run() {
+
+                                try {
+
+                                    completeDialog.create();
+
+                                    dialogContainer.clearChildren();
+                                    dialogContainer.add(completeDialog.getRoot());
+                                } catch (Throwable e) {
+                                    Log.e(tag, e);
+                                }
+                            }
+                        }, interaction.storyAudio.duration / 1000f);
                     } catch (Throwable e) {
                         Log.e(tag, e);
                     }
                 }
             }, interaction.storyAudio.duration / 1000f);
+
 
         } catch (Throwable e) {
             Log.e(tag, e);

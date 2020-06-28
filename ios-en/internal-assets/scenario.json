@@ -3560,21 +3560,34 @@
     "name": "a18_0",
     "__v": 0,
     "action": "GOTO",
-    "audio": [],
+    "audio": [
+      {
+        "audio": "s18_0",
+        "duration": 25500
+      }
+    ],
     "chapter": "a18",
     "decisions": [
       {
         "inventoryRequired": [],
         "inventoryAbsent": [],
         "order": 0,
-        "scenario": "a18_d_continue"
+        "scenario": "a18_interaction"
       }
     ],
     "expansion": "Part_1",
     "images": [
       {
-        "image": "p0",
-        "duration": 600
+        "image": "p1_intro_4",
+        "duration": 5000
+      },
+      {
+        "image": "p1_intro_3",
+        "duration": 9000
+      },
+      {
+        "image": "p23_d",
+        "duration": 11500
       }
     ],
     "interaction": "HARE",
@@ -3693,6 +3706,32 @@
     "expansion": "Part_1",
     "images": [],
     "interaction": "CONTINUE",
+    "locale": "en",
+    "source": "scenario_1",
+    "text": ""
+  },
+  {
+    "name": "a18_interaction",
+    "__v": 0,
+    "action": "GOTO",
+    "audio": [],
+    "chapter": "a18",
+    "decisions": [
+      {
+        "inventoryRequired": [],
+        "inventoryAbsent": [],
+        "order": 0,
+        "scenario": "a18_d_continue"
+      }
+    ],
+    "expansion": "Part_demo",
+    "images": [
+      {
+        "image": "Last",
+        "duration": 600
+      }
+    ],
+    "interaction": "HARE",
     "locale": "en",
     "source": "scenario_1",
     "text": ""

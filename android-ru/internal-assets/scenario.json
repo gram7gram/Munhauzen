@@ -3560,21 +3560,34 @@
     "name": "a18_0",
     "__v": 0,
     "action": "GOTO",
-    "audio": [],
+    "audio": [
+      {
+        "audio": "s18_0",
+        "duration": 23500
+      }
+    ],
     "chapter": "a18",
     "decisions": [
       {
         "inventoryRequired": [],
         "inventoryAbsent": [],
         "order": 0,
-        "scenario": "a18_d_continue"
+        "scenario": "a18_interaction"
       }
     ],
     "expansion": "Part_1",
     "images": [
       {
-        "image": "p0",
-        "duration": 600
+        "image": "p1_intro_4",
+        "duration": 4000
+      },
+      {
+        "image": "p1_intro_3",
+        "duration": 8000
+      },
+      {
+        "image": "p23_d",
+        "duration": 11500
       }
     ],
     "interaction": "HARE",
@@ -3693,6 +3706,32 @@
     "expansion": "Part_1",
     "images": [],
     "interaction": "CONTINUE",
+    "locale": "ru",
+    "source": "scenario_1",
+    "text": ""
+  },
+  {
+    "name": "a18_interaction",
+    "__v": 0,
+    "action": "GOTO",
+    "audio": [],
+    "chapter": "a18",
+    "decisions": [
+      {
+        "inventoryRequired": [],
+        "inventoryAbsent": [],
+        "order": 0,
+        "scenario": "a18_d_continue"
+      }
+    ],
+    "expansion": "Part_demo",
+    "images": [
+      {
+        "image": "Last",
+        "duration": 600
+      }
+    ],
+    "interaction": "HARE",
     "locale": "ru",
     "source": "scenario_1",
     "text": ""
@@ -31085,10 +31124,10 @@
         "scenario": "avolcano_continue"
       }
     ],
-    "expansion": "Part_2",
+    "expansion": "Part_demo",
     "images": [],
     "locale": "ru",
-    "source": "scenario_3",
+    "source": "scenario_1",
     "text": "Ушёл прочь"
   },
   {
@@ -31179,10 +31218,10 @@
         "scenario": "avolcano_b_proxy"
       }
     ],
-    "expansion": "Part_2",
+    "expansion": "Part_demo",
     "images": [],
     "locale": "ru",
-    "source": "scenario_3",
+    "source": "scenario_1",
     "text": "Не вошёл"
   },
   {
@@ -31237,10 +31276,10 @@
         "scenario": "avolcano_continue"
       }
     ],
-    "expansion": "Part_2",
+    "expansion": "Part_demo",
     "images": [],
     "locale": "ru",
-    "source": "scenario_3",
+    "source": "scenario_1",
     "text": "Вошёл"
   },
   {
@@ -31263,10 +31302,10 @@
         "scenario": "avolcano_b_b"
       }
     ],
-    "expansion": "Part_2",
+    "expansion": "Part_demo",
     "images": [],
     "locale": "ru",
-    "source": "scenario_3",
+    "source": "scenario_1",
     "text": "Прыгнул вниз"
   },
   {
@@ -31309,11 +31348,11 @@
         "scenario": "avolcano"
       }
     ],
-    "expansion": "Part_2",
+    "expansion": "Part_demo",
     "images": [],
     "interaction": "CHAPTER",
     "locale": "ru",
-    "source": "scenario_3",
+    "source": "scenario_1",
     "text": "Путешествие через центр Земли"
   },
   {
@@ -31378,10 +31417,10 @@
         "scenario": "avolcano_b"
       }
     ],
-    "expansion": "Part_2",
+    "expansion": "Part_demo",
     "images": [],
     "locale": "ru",
-    "source": "scenario_3",
+    "source": "scenario_1",
     "text": "Путешествие через центр Земли"
   },
   {

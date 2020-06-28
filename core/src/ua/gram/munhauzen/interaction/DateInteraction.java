@@ -199,6 +199,21 @@ public class DateInteraction extends AbstractInteraction {
         }
     }
 
+    public void playFailEnd() {
+        try {
+            stopAudio();
+            storyAudio = new StoryAudio();
+            storyAudio.audio = "smoon_incorrect";
+
+            gameScreen.audioService.prepareAndPlay(storyAudio);
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            gameScreen.onCriticalError(e);
+        }
+    }
+
     private void stopAudio() {
         if (storyAudio != null) {
             gameScreen.audioService.stop(storyAudio);
