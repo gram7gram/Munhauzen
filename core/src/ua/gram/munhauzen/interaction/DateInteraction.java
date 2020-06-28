@@ -16,7 +16,7 @@ public class DateInteraction extends AbstractInteraction {
 
     boolean isLoaded;
     public DateImageFragment imageFragment;
-    StoryAudio winAudio;
+    public StoryAudio storyAudio;
 
     public DateInteraction(GameScreen gameScreen) {
         super(gameScreen);
@@ -86,7 +86,7 @@ public class DateInteraction extends AbstractInteraction {
                         gameScreen.onCriticalError(e);
                     }
                 }
-            }, winAudio.duration / 1000f);
+            }, storyAudio.duration / 1000f);
 
         } catch (Throwable e) {
             Log.e(tag, e);
@@ -134,17 +134,18 @@ public class DateInteraction extends AbstractInteraction {
             imageFragment.update();
         }
 
-        if (winAudio != null) {
-            gameScreen.audioService.updateVolume(winAudio);
+        if (storyAudio != null) {
+            gameScreen.audioService.updateVolume(storyAudio);
         }
     }
 
-    private void playWin() {
+    public void playFailA() {
         try {
-            winAudio = new StoryAudio();
-            winAudio.audio = "sfx_inter_date";
+            stopAudio();
+            storyAudio = new StoryAudio();
+            storyAudio.audio = "smoon_date_a";
 
-            gameScreen.audioService.prepareAndPlay(winAudio);
+            gameScreen.audioService.prepareAndPlay(storyAudio);
 
         } catch (Throwable e) {
             Log.e(tag, e);
@@ -153,20 +154,69 @@ public class DateInteraction extends AbstractInteraction {
         }
     }
 
+    private void playWin() {
+        try {
+            stopAudio();
+            storyAudio = new StoryAudio();
+            storyAudio.audio = "smoon_date_b";
+
+            gameScreen.audioService.prepareAndPlay(storyAudio);
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            gameScreen.onCriticalError(e);
+        }
+    }
+
+    public void playFailC() {
+        try {
+            stopAudio();
+            storyAudio = new StoryAudio();
+            storyAudio.audio = "smoon_date_c";
+
+            gameScreen.audioService.prepareAndPlay(storyAudio);
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            gameScreen.onCriticalError(e);
+        }
+    }
+
+    public void playFailD() {
+        try {
+            stopAudio();
+            storyAudio = new StoryAudio();
+            storyAudio.audio = "smoon_date_d";
+
+            gameScreen.audioService.prepareAndPlay(storyAudio);
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            gameScreen.onCriticalError(e);
+        }
+    }
+
+    private void stopAudio() {
+        if (storyAudio != null) {
+            gameScreen.audioService.stop(storyAudio);
+            storyAudio = null;
+        }
+    }
+
     @Override
     public void dispose() {
         super.dispose();
+
+        stopAudio();
 
         isLoaded = false;
 
         if (imageFragment != null) {
             imageFragment.dispose();
             imageFragment = null;
-        }
-
-        if (winAudio != null) {
-            gameScreen.audioService.stop(winAudio);
-            winAudio = null;
         }
 
     }

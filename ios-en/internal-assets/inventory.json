@@ -54,9 +54,9 @@
     "locale": "en"
   },
   {
-    "isMenu": true,
     "name": "BOMB",
     "__v": 0,
+    "isMenu": true,
     "locale": "en",
     "relatedScenario": [
       "aprisoners_c"
@@ -111,9 +111,9 @@
     "locale": "en"
   },
   {
-    "isMenu": true,
     "name": "CROW",
     "__v": 0,
+    "isMenu": true,
     "locale": "en",
     "relatedScenario": [
       "a15_1_interaction"
@@ -134,7 +134,7 @@
     "isMenu": true,
     "locale": "en",
     "relatedScenario": [
-      "atample"
+      "atample_5"
     ]
   },
   {

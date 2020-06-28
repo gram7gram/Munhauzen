@@ -5,7 +5,7 @@
   "size": 409646625,
   "sizeMB": 390.67,
   "parts": {
-    "count": 5,
+    "count": 6,
     "items": [
       {
         "size": 77822010,
@@ -41,6 +41,14 @@
         "part": 5,
         "checksum": "",
         "url": "14fXsgYqIkKggJuq4RJ9aP_oIOJjalNB3"
+      },
+      {
+        "patch": true,
+        "size": 100000,
+        "sizeMB": 1,
+        "part": 6,
+        "checksum": "",
+        "url": "1P0I7Drn6PNiehkJ-h0u8rZlQjGrEb6Vp"
       }
     ]
   }

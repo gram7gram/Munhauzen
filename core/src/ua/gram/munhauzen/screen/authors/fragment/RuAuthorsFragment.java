@@ -45,6 +45,7 @@ public class RuAuthorsFragment extends AuthorsFragment {
         );
 
         Portrait img1 = new Portrait(
+                screen,
                 screen.assetManager.get("authors/author_1.png", Texture.class),
                 screen.game.t("authors.img_1_title"),
                 "https://uk.wikipedia.org/wiki/%D0%A0%D1%83%D0%B4%D0%BE%D0%BB%D1%8C%D1%84_%D0%95%D1%80%D1%96%D1%85_%D0%A0%D0%B0%D1%81%D0%BF%D0%B5",
@@ -52,37 +53,44 @@ public class RuAuthorsFragment extends AuthorsFragment {
         );
 
         Portrait img2 = new Portrait(
+                screen,
                 screen.assetManager.get("authors/author_2.png", Texture.class),
                 screen.game.t("authors.img_2_title"),
                 "https://www.youtube.com/channel/UC_GO6yOVtXVBIgfztM-FzBQ",
                 style
         );
 
-        Portrait img3 = new Portrait(
+        Portrait portrait = new Portrait(
+                screen,
                 screen.assetManager.get("authors/author_3_2.png", Texture.class),
                 screen.game.t("authors.img_3_title"),
                 "https://www.facebook.com/profile.php?id=100001717704341",
                 style
         );
+        Portrait img3 = portrait;
         Portrait img4 = new Portrait(
+                screen,
                 screen.assetManager.get("authors/author_4_2.png", Texture.class),
                 screen.game.t("authors.img_4_title"),
                 null,
                 style
         );
         Portrait img5 = new Portrait(
+                screen,
                 screen.assetManager.get("authors/author_5.png", Texture.class),
                 screen.game.t("authors.img_5_title"),
                 "https://www.linkedin.com/in/gram7gram",
                 style
         );
         Portrait img6 = new Portrait(
+                screen,
                 screen.assetManager.get("authors/author_6.png", Texture.class),
                 screen.game.t("authors.img_6_title"),
                 "https://www.thebaronmunchausen.com/ru",
                 style
         );
         Portrait img7 = new Portrait(
+                screen,
                 screen.assetManager.get("authors/Author_7.png", Texture.class),
                 screen.game.t("authors.img_7_title"),
                 "https://t.me/workalone000",
@@ -163,7 +171,17 @@ public class RuAuthorsFragment extends AuthorsFragment {
                 super.clicked(event, x, y);
 
                 try {
-                    Gdx.net.openURI("https://www.youtube.com/channel/UCNXSfJ-9LJmNTrCu39UUxVw");
+
+                    screen.openAdultGateBanner(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                Gdx.net.openURI("https://www.youtube.com/channel/UCNXSfJ-9LJmNTrCu39UUxVw");
+                            } catch (Throwable e) {
+                                Log.e(tag, e);
+                            }
+                        }
+                    });
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }

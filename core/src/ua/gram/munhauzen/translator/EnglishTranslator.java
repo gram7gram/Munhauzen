@@ -213,6 +213,7 @@ public class EnglishTranslator implements Translator {
         map.put("adult_gate_screen.incorrect_no", "No");
 
         map.put("adult_gate_screen.title", "Adult verification");
+        map.put("adult_gate_screen.subtitle", "You are seing this message due to book being published in category \"For children\"");
         map.put("adult_gate_screen.q1a1", "a) 16");
         map.put("adult_gate_screen.q1a2", "b) -5");
         map.put("adult_gate_screen.q1a3", "c) 4");

@@ -45,6 +45,7 @@ public class EnAuthorsFragment extends AuthorsFragment {
         );
 
         Portrait img1 = new Portrait(
+                screen,
                 screen.assetManager.get("authors/author_1.png", Texture.class),
                 screen.game.t("authors.img_1_title"),
                 "https://en.wikipedia.org/wiki/Rudolf_Erich_Raspe",
@@ -52,6 +53,7 @@ public class EnAuthorsFragment extends AuthorsFragment {
         );
 
         Portrait img2 = new Portrait(
+                screen,
                 screen.assetManager.get("authors/author_2.png", Texture.class),
                 screen.game.t("authors.img_2_title"),
                 "https://www.youtube.com/channel/UC_GO6yOVtXVBIgfztM-FzBQ",
@@ -59,30 +61,35 @@ public class EnAuthorsFragment extends AuthorsFragment {
         );
 
         Portrait img3 = new Portrait(
+                screen,
                 screen.assetManager.get("authors/author_3_1.png", Texture.class),
                 screen.game.t("authors.img_3_title"),
                 null,
                 style
         );
         Portrait img4 = new Portrait(
+                screen,
                 screen.assetManager.get("authors/author_4_1.png", Texture.class),
                 screen.game.t("authors.img_4_title"),
                 null,
                 style
         );
         Portrait img5 = new Portrait(
+                screen,
                 screen.assetManager.get("authors/author_5.png", Texture.class),
                 screen.game.t("authors.img_5_title"),
                 "https://www.linkedin.com/in/gram7gram",
                 style
         );
         Portrait img6 = new Portrait(
+                screen,
                 screen.assetManager.get("authors/author_6.png", Texture.class),
                 screen.game.t("authors.img_6_title"),
                 "https://www.thebaronmunchausen.com",
                 style
         );
         Portrait img7 = new Portrait(
+                screen,
                 screen.assetManager.get("authors/Author_7.png", Texture.class),
                 screen.game.t("authors.img_7_title"),
                 "https://t.me/workalone000",
@@ -163,7 +170,17 @@ public class EnAuthorsFragment extends AuthorsFragment {
                 super.clicked(event, x, y);
 
                 try {
-                    Gdx.net.openURI("https://www.youtube.com/channel/UCNXSfJ-9LJmNTrCu39UUxVw");
+
+                    screen.openAdultGateBanner(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                Gdx.net.openURI("https://www.youtube.com/channel/UCNXSfJ-9LJmNTrCu39UUxVw");
+                            } catch (Throwable e) {
+                                Log.e(tag, e);
+                            }
+                        }
+                    });
                 } catch (Throwable e) {
                     Log.e(tag, e);
                 }

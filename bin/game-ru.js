@@ -28,6 +28,24 @@ const start = async () => {
         for (const item of items) {
 
             delete item._id
+
+            if (item.audio) {
+                    for (const i of item.audio) {
+                        delete i._id
+                    }
+            }
+
+            if (item.images) {
+                    for (const i of item.images) {
+                        delete i._id
+                    }
+            }
+
+            if (item.decisions) {
+                    for (const i of item.decisions) {
+                        delete i._id
+                    }
+            }
         }
 
         fs.writeFileSync(json, JSON.stringify(items, null, 2));

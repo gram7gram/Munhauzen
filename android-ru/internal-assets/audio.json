@@ -497,10 +497,17 @@
     "locale": "ru"
   },
   {
-    "name": "s18",
+    "name": "s18_0",
     "__v": 0,
-    "duration": 41285,
-    "file": "audio/s18.aac",
+    "duration": 23500,
+    "file": "audio/s18_0.aac",
+    "locale": "ru"
+  },
+  {
+    "name": "s18_1",
+    "__v": 0,
+    "duration": 18500,
+    "file": "audio/s18_1.aac",
     "locale": "ru"
   },
   {

@@ -10,13 +10,16 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 
 import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.screen.MunhauzenScreen;
+import ua.gram.munhauzen.utils.Log;
 
 public class Portrait extends Table {
 
+    final String tag = getClass().getSimpleName();
     Image image;
     Label title;
 
-    public Portrait(Texture texture, String text, final String link, Label.LabelStyle style) {
+    public Portrait(final MunhauzenScreen screen, Texture texture, String text, final String link, Label.LabelStyle style) {
 
         float width = MunhauzenGame.WORLD_WIDTH * .3f;
 
@@ -44,13 +47,23 @@ public class Portrait extends Table {
                 public void clicked(InputEvent event, float x, float y) {
                     super.clicked(event, x, y);
 
-                    Gdx.net.openURI(link);
+                    try {
+
+                        screen.openAdultGateBanner(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+
+                                    Gdx.net.openURI(link);
+                                } catch (Throwable e) {
+                                    Log.e(tag, e);
+                                }
+                            }
+                        });
+                    } catch (Throwable e) {
+                        Log.e(tag, e);
+                    }
                 }
             });
-    }
-
-    @Override
-    public void act(float delta) {
-        super.act(delta);
     }
 }

@@ -13,10 +13,10 @@ import com.badlogic.gdx.utils.Timer;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.expansion.response.ExpansionResponse;
 import ua.gram.munhauzen.screen.purchase.IAPObserver;
-import ua.gram.munhauzen.screen.purchase.fragment.AdultGateFragment;
 import ua.gram.munhauzen.screen.purchase.fragment.ControlsFragment;
 import ua.gram.munhauzen.screen.purchase.fragment.ListFragment;
 import ua.gram.munhauzen.screen.purchase.ui.Layers;
+import ua.gram.munhauzen.ui.AdultGateFragment;
 import ua.gram.munhauzen.ui.MunhauzenStage;
 import ua.gram.munhauzen.utils.Log;
 
@@ -28,7 +28,7 @@ public class PurchaseScreen extends MunhauzenScreen {
     public MunhauzenStage ui;
     public Texture background;
     public ListFragment fragment;
-    public AdultGateFragment banner;
+    public AdultGateFragment adultGateFragment;
     public Layers layers;
     public boolean isBackPressed;
     ControlsFragment controlsFragment;
@@ -56,8 +56,6 @@ public class PurchaseScreen extends MunhauzenScreen {
         game.internalAssetManager.load("purchase/off.png", Texture.class);
         game.internalAssetManager.load("purchase/b_menu.png", Texture.class);
         game.internalAssetManager.load("purchase/restore.png", Texture.class);
-        game.internalAssetManager.load("purchase/adult.png", Texture.class);
-        game.internalAssetManager.load("ui/banner_fond_1.png", Texture.class);
 
         game.internalAssetManager.finishLoading();
 
@@ -110,30 +108,6 @@ public class PurchaseScreen extends MunhauzenScreen {
                 controlsFragment.fadeInRestore();
             }
         }, 1);
-    }
-
-    public void openAdultGateBanner(Runnable task) {
-        try {
-
-            destroyBanners();
-
-            if (!game.params.isAdultGateEnabled) {
-                if (task != null) {
-                    task.run();
-                }
-                return;
-            }
-
-            banner = new AdultGateFragment(this);
-            banner.create(task);
-
-            layers.setBannerLayer(banner);
-
-            banner.fadeIn();
-
-        } catch (Throwable e) {
-            Log.e(tag, e);
-        }
     }
 
     public void onPurchaseCompleted() {
@@ -249,12 +223,6 @@ public class PurchaseScreen extends MunhauzenScreen {
         game.internalAssetManager.unload("purchase/ok.png");
         game.internalAssetManager.unload("purchase/off.png");
         game.internalAssetManager.unload("purchase/restore.png");
-        game.internalAssetManager.unload("purchase/adult.png");
-        game.internalAssetManager.unload("ui/banner_fond_1.png");
-        game.internalAssetManager.unload("purchase/PG_1.png");
-        game.internalAssetManager.unload("purchase/PG_2.png");
-        game.internalAssetManager.unload("purchase/PG_3.png");
-        game.internalAssetManager.unload("purchase/PG_4.png");
     }
 
     public void onCriticalError(Throwable e) {
@@ -265,10 +233,37 @@ public class PurchaseScreen extends MunhauzenScreen {
         game.navigator.navigateTo(screen);
     }
 
+    public void openAdultGateBanner(Runnable task) {
+        super.openAdultGateBanner(task);
+
+        try {
+
+            destroyBanners();
+
+            if (!game.params.isAdultGateEnabled) {
+                if (task != null) {
+                    task.run();
+                }
+                return;
+            }
+
+            adultGateFragment = new AdultGateFragment(this);
+            adultGateFragment.create(task);
+
+            layers.setBannerLayer(adultGateFragment);
+
+            adultGateFragment.fadeIn();
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+    }
+
+    @Override
     public void destroyBanners() {
-        if (banner != null) {
-            banner.destroy();
-            banner = null;
+        if (adultGateFragment != null) {
+            adultGateFragment.destroy();
+            adultGateFragment = null;
         }
     }
 }

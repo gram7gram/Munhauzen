@@ -172,16 +172,17 @@ public class ShareFragment extends MenuFragment {
         fadeOut(new Runnable() {
             @Override
             public void run() {
-                screen.destroyBanners();
+                screen.openAdultGateBanner(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Gdx.net.openURI(url);
+                        } catch (Throwable e) {
+                            Log.e(tag, e);
+                        }
+                    }
+                });
             }
         });
-
-        try {
-            Gdx.net.openURI(url);
-
-        } catch (Throwable e) {
-            Log.e(tag, e);
-        }
-
     }
 }

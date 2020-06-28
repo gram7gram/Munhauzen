@@ -1,4 +1,4 @@
-package ua.gram.munhauzen.screen.purchase.ui;
+package ua.gram.munhauzen.ui;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -11,15 +11,17 @@ import com.badlogic.gdx.utils.Align;
 import ua.gram.munhauzen.ButtonBuilder;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
-import ua.gram.munhauzen.screen.PurchaseScreen;
-import ua.gram.munhauzen.ui.Banner;
-import ua.gram.munhauzen.ui.PrimaryButton;
+import ua.gram.munhauzen.screen.MunhauzenScreen;
 import ua.gram.munhauzen.utils.Log;
 
-public class IncorrectBanner extends Banner<PurchaseScreen> {
+public class AdultIncorrectBanner extends Banner<MunhauzenScreen> {
 
-    public IncorrectBanner(PurchaseScreen screen) {
-        super(screen);
+    final AdultGateFragment fragment;
+
+    public AdultIncorrectBanner(AdultGateFragment fragment) {
+        super(fragment.screen);
+
+        this.fragment = fragment;
     }
 
     @Override
@@ -44,7 +46,7 @@ public class IncorrectBanner extends Banner<PurchaseScreen> {
 
                 try {
 
-                    screen.openAdultGateBanner(screen.banner.banner.task);
+                    screen.openAdultGateBanner(fragment.banner.task);
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -59,7 +61,7 @@ public class IncorrectBanner extends Banner<PurchaseScreen> {
 
                 try {
 
-                    screen.banner.fadeOut(new Runnable() {
+                    fragment.fadeOut(new Runnable() {
                         @Override
                         public void run() {
                             screen.destroyBanners();

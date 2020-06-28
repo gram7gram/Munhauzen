@@ -1,4 +1,4 @@
-package ua.gram.munhauzen.screen.purchase.fragment;
+package ua.gram.munhauzen.ui;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -8,17 +8,13 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-import ua.gram.munhauzen.screen.PurchaseScreen;
-import ua.gram.munhauzen.screen.purchase.ui.AdultGateBanner;
-import ua.gram.munhauzen.screen.purchase.ui.IncorrectBanner;
-import ua.gram.munhauzen.ui.Fragment;
-import ua.gram.munhauzen.ui.FragmentRoot;
+import ua.gram.munhauzen.screen.MunhauzenScreen;
 import ua.gram.munhauzen.utils.Log;
 import ua.gram.munhauzen.utils.MathUtils;
 
 public class AdultGateFragment extends Fragment {
 
-    public final PurchaseScreen screen;
+    public final MunhauzenScreen screen;
     FragmentRoot root;
     public boolean isFadeIn;
     public boolean isFadeOut;
@@ -26,9 +22,9 @@ public class AdultGateFragment extends Fragment {
     final Integer[] questions = {1, 2, 3, 4};
     public final int question;
     public AdultGateBanner banner;
-    public IncorrectBanner incorrectBanner;
+    public AdultIncorrectBanner incorrectBanner;
 
-    public AdultGateFragment(PurchaseScreen screen) {
+    public AdultGateFragment(MunhauzenScreen screen) {
         this.screen = screen;
 
         question = MathUtils.random(questions);
@@ -38,8 +34,11 @@ public class AdultGateFragment extends Fragment {
 
         loadQuestionTexture();
 
-        banner = new AdultGateBanner(screen, task);
-        incorrectBanner = new IncorrectBanner(screen);
+        banner = new AdultGateBanner(this, task);
+        banner.create();
+
+        incorrectBanner = new AdultIncorrectBanner(this);
+        incorrectBanner.create();
 
         Container<?> c = new Container<>();
         c.setTouchable(Touchable.enabled);
@@ -82,6 +81,12 @@ public class AdultGateFragment extends Fragment {
     }
 
     public void loadQuestionTexture() {
+        screen.game.internalAssetManager.load("purchase/adult.png", Texture.class);
+        screen.game.internalAssetManager.load("ui/banner_fond_1.png", Texture.class);
+        screen.game.internalAssetManager.load("purchase/PG_1.png", Texture.class);
+        screen.game.internalAssetManager.load("purchase/PG_2.png", Texture.class);
+        screen.game.internalAssetManager.load("purchase/PG_3.png", Texture.class);
+        screen.game.internalAssetManager.load("purchase/PG_4.png", Texture.class);
 
         switch (question) {
             case 1:

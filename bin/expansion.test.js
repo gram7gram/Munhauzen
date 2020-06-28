@@ -94,7 +94,7 @@ const testLinks = file => {
 
     json.version = 12
 
-    if (!json.parts || !json.parts.items || json.parts.items.length !== 5) {
+    if (!json.parts || !json.parts.items || json.parts.items.length < 5) {
         throw new Error(`Invalid part count in file: ${file}`)
     }
 
@@ -107,7 +107,7 @@ const testLinks = file => {
 //              item.url = ''
 
         if (item.url.length !== 33) {
-            throw new Error(`Invalid url in part #${item.part} ${dpi}-${part}-expansion.json`)
+            throw new Error(`Invalid url in part #${item.part} ${file}: ${item.url.length}`)
         }
     }
 

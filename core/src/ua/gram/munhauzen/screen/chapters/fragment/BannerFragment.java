@@ -28,6 +28,7 @@ public class BannerFragment extends Fragment {
     public void create(Chapter chapter) {
 
         LoadBanner banner = new LoadBanner(screen, chapter);
+        banner.create();
 
         Container<?> c = new Container<>();
         c.setTouchable(Touchable.enabled);

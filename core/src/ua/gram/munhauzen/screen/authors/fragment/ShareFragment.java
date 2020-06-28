@@ -173,16 +173,23 @@ public class ShareFragment extends Fragment {
         fadeOut(new Runnable() {
             @Override
             public void run() {
-                screen.destroyBanners();
+                try {
+
+                    screen.openAdultGateBanner(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                Gdx.net.openURI(url);
+                            } catch (Throwable e) {
+                                Log.e(tag, e);
+                            }
+                        }
+                    });
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
             }
         });
-
-        try {
-            Gdx.net.openURI(url);
-
-        } catch (Throwable e) {
-            Log.e(tag, e);
-        }
 
     }
 }

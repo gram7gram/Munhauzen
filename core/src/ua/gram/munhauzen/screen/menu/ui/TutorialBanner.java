@@ -84,7 +84,8 @@ public class TutorialBanner extends Banner {
                 super.clicked(event, x, y);
 
                 try {
-                    fragment.fadeOut(new Runnable() {
+
+                    screen.openAdultGateBanner(new Runnable() {
                         @Override
                         public void run() {
                             try {

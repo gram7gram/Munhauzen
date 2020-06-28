@@ -24,6 +24,7 @@ import ua.gram.munhauzen.screen.menu.fragment.TutorialFragment;
 import ua.gram.munhauzen.screen.menu.listenter.MenuStageListener;
 import ua.gram.munhauzen.screen.menu.ui.MenuLayers;
 import ua.gram.munhauzen.service.AudioService;
+import ua.gram.munhauzen.ui.AdultGateFragment;
 import ua.gram.munhauzen.utils.Log;
 
 /**
@@ -46,6 +47,7 @@ public class MenuScreen extends AbstractScreen {
     public StartWarningFragment startWarningFragment;
     public ThankYouFragment thankYouFragment;
     public TutorialFragment tutorialFragment;
+    public AdultGateFragment adultGateFragment;
 
     public MenuScreen(MunhauzenGame game) {
         super(game);
@@ -296,6 +298,10 @@ public class MenuScreen extends AbstractScreen {
             tutorialFragment.destroy();
             tutorialFragment = null;
         }
+        if (adultGateFragment != null) {
+            adultGateFragment.destroy();
+            adultGateFragment = null;
+        }
 
         if (!isDisposed) {
             if (game.backgroundSfxService != null) {
@@ -411,6 +417,32 @@ public class MenuScreen extends AbstractScreen {
 
                 demoFragment.fadeIn();
             }
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+    }
+
+    public void openAdultGateBanner(Runnable task) {
+        super.openAdultGateBanner(task);
+
+        try {
+
+            destroyBanners();
+
+            if (!game.params.isAdultGateEnabled) {
+                if (task != null) {
+                    task.run();
+                }
+                return;
+            }
+
+            adultGateFragment = new AdultGateFragment(this);
+            adultGateFragment.create(task);
+
+            layers.setBannerLayer(adultGateFragment);
+
+            adultGateFragment.fadeIn();
 
         } catch (Throwable e) {
             Log.e(tag, e);

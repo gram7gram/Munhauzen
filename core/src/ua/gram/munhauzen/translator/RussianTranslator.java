@@ -213,6 +213,7 @@ public class RussianTranslator implements Translator {
         map.put("adult_gate_screen.incorrect_no", "Нет");
 
         map.put("adult_gate_screen.title", "Родительский контроль");
+        map.put("adult_gate_screen.subtitle", "Вы видите это сообщение так как книга опубликована в разделе \"Для детей\"");
         map.put("adult_gate_screen.q1a1", "а) 16");
         map.put("adult_gate_screen.q1a2", "б) -5");
         map.put("adult_gate_screen.q1a3", "в) 4");

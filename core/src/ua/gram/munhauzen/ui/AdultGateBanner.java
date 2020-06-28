@@ -1,4 +1,4 @@
-package ua.gram.munhauzen.screen.purchase.ui;
+package ua.gram.munhauzen.ui;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -11,19 +11,18 @@ import com.badlogic.gdx.utils.Align;
 import ua.gram.munhauzen.ButtonBuilder;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
-import ua.gram.munhauzen.screen.PurchaseScreen;
-import ua.gram.munhauzen.ui.Banner;
-import ua.gram.munhauzen.ui.FixedImage;
-import ua.gram.munhauzen.ui.PrimaryButton;
+import ua.gram.munhauzen.screen.MunhauzenScreen;
 import ua.gram.munhauzen.utils.Log;
 
-public class AdultGateBanner extends Banner<PurchaseScreen> {
+public class AdultGateBanner extends Banner<MunhauzenScreen> {
 
+    final AdultGateFragment fragment;
     final Runnable task;
 
-    public AdultGateBanner(PurchaseScreen screen, Runnable task) {
-        super(screen);
+    public AdultGateBanner(AdultGateFragment fragment, Runnable task) {
+        super(fragment.screen);
 
+        this.fragment = fragment;
         this.task = task;
     }
 
@@ -40,8 +39,8 @@ public class AdultGateBanner extends Banner<PurchaseScreen> {
         Table content = new Table();
         content.pad(20, MunhauzenGame.WORLD_WIDTH * .1f, 40, MunhauzenGame.WORLD_WIDTH * .1f);
 
-        FixedImage adultImg = new FixedImage(screen.game.internalAssetManager.get("purchase/adult.png", Texture.class), minWidth * .3f);
-        FixedImage questionImg = new FixedImage(screen.banner.getQuestionTexture(), minWidth * .3f);
+        FixedImage adultImg = new FixedImage(screen.game.internalAssetManager.get("purchase/adult.png", Texture.class), minWidth * .25f);
+        FixedImage questionImg = new FixedImage(fragment.getQuestionTexture(), minWidth * .3f);
 
         float cellMinWidth = minWidth - content.getPadLeft() - content.getPadRight();
 
@@ -52,7 +51,7 @@ public class AdultGateBanner extends Banner<PurchaseScreen> {
 
                 try {
 
-                    screen.banner.fadeOut(new Runnable() {
+                    fragment.fadeOut(new Runnable() {
                         @Override
                         public void run() {
                             screen.destroyBanners();
@@ -75,7 +74,7 @@ public class AdultGateBanner extends Banner<PurchaseScreen> {
 
                 try {
 
-                    screen.banner.showError();
+                    fragment.showError();
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -84,20 +83,27 @@ public class AdultGateBanner extends Banner<PurchaseScreen> {
         };
 
         PrimaryButton option1 = screen.game.buttonBuilder.danger(screen.game.t("adult_gate_screen.q"
-                + screen.banner.question + "a1"), incorrectListener);
+                + fragment.question + "a1"), incorrectListener);
         PrimaryButton option2 = screen.game.buttonBuilder.danger(screen.game.t("adult_gate_screen.q"
-                + screen.banner.question + "a2"), incorrectListener);
+                + fragment.question + "a2"), incorrectListener);
         PrimaryButton option3 = screen.game.buttonBuilder.danger(screen.game.t("adult_gate_screen.q"
-                + screen.banner.question + "a3"), correctListener);
+                + fragment.question + "a3"), correctListener);
         PrimaryButton option4 = screen.game.buttonBuilder.danger(screen.game.t("adult_gate_screen.q"
-                + screen.banner.question + "a4"), incorrectListener);
+                + fragment.question + "a4"), incorrectListener);
 
         Label title = new Label(screen.game.t("adult_gate_screen.title"), new Label.LabelStyle(
-                screen.game.fontProvider.getFont(FontProvider.h2),
+                screen.game.fontProvider.getFont(FontProvider.h3),
                 Color.BLACK
         ));
         title.setAlignment(Align.center);
         title.setWrap(true);
+
+        Label subtitle = new Label(screen.game.t("adult_gate_screen.subtitle"), new Label.LabelStyle(
+                screen.game.fontProvider.getFont(FontProvider.p),
+                Color.BLACK
+        ));
+        subtitle.setAlignment(Align.center);
+        subtitle.setWrap(true);
 
         Table columns = new Table();
 
@@ -108,7 +114,12 @@ public class AdultGateBanner extends Banner<PurchaseScreen> {
 
         columns.add(title)
                 .minWidth(cellMinWidth)
-                .padBottom(10)
+                .padBottom(5)
+                .center().row();
+
+        columns.add(subtitle)
+                .minWidth(cellMinWidth)
+                .padBottom(5)
                 .center().row();
 
         columns.add(questionImg)

@@ -3,6 +3,7 @@ package ua.gram.munhauzen.screen;
 import com.badlogic.gdx.Screen;
 
 import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
@@ -16,4 +17,12 @@ public abstract class MunhauzenScreen implements Screen {
         this.game = game;
     }
 
+    public void openAdultGateBanner(Runnable task) {
+        Log.i(tag, "openAdultGateBanner");
+
+    }
+
+    public void destroyBanners() {
+
+    }
 }

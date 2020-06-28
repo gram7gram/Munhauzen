@@ -22,14 +22,17 @@ public abstract class Banner<S extends MunhauzenScreen> extends Group {
         this.screen = screen;
         this.game = screen.game;
 
+        setTouchable(Touchable.childrenOnly);
+    }
+
+    public void create() {
         content = createContent();
 
         back = new Image(getBackgroundTexture());
 
+        clearChildren();
         addActor(back);
         addActor(content);
-
-        setTouchable(Touchable.childrenOnly);
     }
 
     public abstract Texture getBackgroundTexture();
