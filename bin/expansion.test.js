@@ -98,6 +98,8 @@ const testLinks = file => {
         throw new Error(`Invalid part count in file: ${file}`)
     }
 
+    json.parts.count = json.parts.items.length
+
     for (const item of json.parts.items) {
 
         item.url = item.url
