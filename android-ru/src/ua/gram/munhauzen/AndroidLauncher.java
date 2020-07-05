@@ -9,6 +9,8 @@ import android.support.annotation.Nullable;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.badlogic.gdx.pay.android.googlebilling.PurchaseManagerGoogleBilling;
+import com.yandex.metrica.YandexMetrica;
+import com.yandex.metrica.YandexMetricaConfig;
 
 import ru.munchausen.fingertipsandcompany.full.BuildConfig;
 import ua.gram.munhauzen.entity.Device;
@@ -19,6 +21,14 @@ public class AndroidLauncher extends AndroidApplication {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        try {
+            YandexMetrica.activate(getApplicationContext(),
+                    YandexMetricaConfig.newConfigBuilder("7b7577d5-a605-465d-8fc7-f4d802d016a9").build());
+            YandexMetrica.enableActivityAutoTracking(getApplication());
+        } catch (Throwable ignore) {
+
+        }
 
         AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 

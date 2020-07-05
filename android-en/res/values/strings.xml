@@ -2,5 +2,6 @@
 <resources>
 
     <string name="app_name">Oh, that Munchausen</string>
+    <string name="facebook_app_id">2655426424676188</string>
 
 </resources>
