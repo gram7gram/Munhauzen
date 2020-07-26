@@ -33,6 +33,7 @@ public class GalleryBannerFragment extends Fragment {
         screen.assetManager.finishLoading();
 
         GalleryBanner banner = new GalleryBanner(this);
+        banner.create();
 
         Container<?> c = new Container<>();
         c.setTouchable(Touchable.enabled);

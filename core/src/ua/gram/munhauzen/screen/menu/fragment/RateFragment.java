@@ -32,6 +32,7 @@ public class RateFragment extends MenuFragment {
         screen.assetManager.finishLoading();
 
         RateBanner banner = new RateBanner(this);
+        banner.create();
 
         Container<?> c = new Container<>();
         c.setTouchable(Touchable.enabled);

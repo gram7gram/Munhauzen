@@ -14,11 +14,13 @@ import ua.gram.munhauzen.ButtonBuilder;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.StoryAudio;
+import ua.gram.munhauzen.screen.MenuScreen;
 import ua.gram.munhauzen.screen.menu.fragment.ExitFragment;
+import ua.gram.munhauzen.ui.Banner;
 import ua.gram.munhauzen.ui.PrimaryButton;
 import ua.gram.munhauzen.utils.Log;
 
-public class ExitBanner extends Banner {
+public class ExitBanner extends Banner<MenuScreen> {
 
     final ExitFragment fragment;
     PrimaryButton yesBtn, noBtn;
@@ -30,12 +32,12 @@ public class ExitBanner extends Banner {
     }
 
     @Override
-    Texture getBackgroundTexture() {
+    public Texture getBackgroundTexture() {
         return screen.assetManager.get("ui/banner_fond_3.png", Texture.class);
     }
 
     @Override
-    Table createContent() {
+    public Table createContent() {
 
         float minWidth = MunhauzenGame.WORLD_WIDTH * .7f;
 

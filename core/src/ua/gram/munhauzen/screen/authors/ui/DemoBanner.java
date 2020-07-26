@@ -12,11 +12,13 @@ import com.badlogic.gdx.utils.Align;
 import ua.gram.munhauzen.ButtonBuilder;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.screen.AuthorsScreen;
 import ua.gram.munhauzen.screen.authors.fragment.DemoFragment;
+import ua.gram.munhauzen.ui.Banner;
 import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.utils.Log;
 
-public class DemoBanner extends Banner {
+public class DemoBanner extends Banner<AuthorsScreen> {
 
     final DemoFragment fragment;
 
@@ -27,12 +29,12 @@ public class DemoBanner extends Banner {
     }
 
     @Override
-    Texture getBackgroundTexture() {
+    public Texture getBackgroundTexture() {
         return screen.assetManager.get("ui/banner_fond_1.png", Texture.class);
     }
 
     @Override
-    Table createContent() {
+    public Table createContent() {
 
         float minWidth = MunhauzenGame.WORLD_WIDTH * .7f;
 

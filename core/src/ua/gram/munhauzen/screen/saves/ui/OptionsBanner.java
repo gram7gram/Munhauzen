@@ -12,14 +12,16 @@ import ua.gram.munhauzen.ButtonBuilder;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.GameState;
+import ua.gram.munhauzen.screen.SavesScreen;
 import ua.gram.munhauzen.screen.saves.fragment.OptionsFragment;
+import ua.gram.munhauzen.ui.Banner;
 import ua.gram.munhauzen.ui.PrimaryButton;
 import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class OptionsBanner extends Banner {
+public class OptionsBanner extends Banner<SavesScreen> {
 
     private final String tag = getClass().getSimpleName();
     public final OptionsFragment fragment;
@@ -42,12 +44,12 @@ public class OptionsBanner extends Banner {
     }
 
     @Override
-    Texture getBackgroundTexture() {
+    public Texture getBackgroundTexture() {
         return screen.assetManager.get("ui/banner_fond_3.png", Texture.class);
     }
 
     @Override
-    Table createContent() {
+    public Table createContent() {
 
         Log.i(tag, "create");
 

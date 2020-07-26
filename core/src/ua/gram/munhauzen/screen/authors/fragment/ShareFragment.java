@@ -40,6 +40,7 @@ public class ShareFragment extends Fragment {
         screen.assetManager.finishLoading();
 
         ShareBanner banner = new ShareBanner(this);
+        banner.create();
 
         Pixmap px = new Pixmap(1, 1, Pixmap.Format.RGBA4444);
         px.setColor(Color.BLACK.r, Color.BLACK.g, Color.BLACK.b, .3f);

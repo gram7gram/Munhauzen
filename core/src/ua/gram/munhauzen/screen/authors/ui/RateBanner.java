@@ -12,23 +12,29 @@ import com.badlogic.gdx.utils.Align;
 import ua.gram.munhauzen.ButtonBuilder;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.screen.AuthorsScreen;
 import ua.gram.munhauzen.screen.authors.fragment.RateFragment;
+import ua.gram.munhauzen.ui.Banner;
 import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.utils.Log;
 
-public class RateBanner extends Banner {
+public class RateBanner extends Banner<AuthorsScreen> {
+
+    final RateFragment fragment;
 
     public RateBanner(RateFragment fragment) {
         super(fragment.screen);
+
+        this.fragment = fragment;
     }
 
     @Override
-    Texture getBackgroundTexture() {
+    public Texture getBackgroundTexture() {
         return screen.assetManager.get("ui/banner_fond_1.png", Texture.class);
     }
 
     @Override
-    Table createContent() {
+    public Table createContent() {
 
         float minWidth = MunhauzenGame.WORLD_WIDTH * .7f;
 
@@ -90,7 +96,24 @@ public class RateBanner extends Banner {
                 super.clicked(event, x, y);
 
                 try {
-                    screen.game.params.appStore.openRateUrl();
+
+                    fragment.fadeOut(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                screen.openAdultGateBanner(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        screen.game.params.appStore.openRateUrl();
+                                    }
+                                });
+
+                            } catch (Throwable e) {
+                                Log.e(tag, e);
+                            }
+
+                        }
+                    });
 
                 } catch (Throwable e) {
                     Log.e(tag, e);

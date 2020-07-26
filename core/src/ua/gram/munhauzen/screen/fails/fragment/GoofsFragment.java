@@ -41,6 +41,7 @@ public class GoofsFragment extends Fragment {
         screen.assetManager.finishLoading();
 
         GoofsBanner banner = new GoofsBanner(this);
+        banner.create();
 
         Container<?> c = new Container<>();
         c.setTouchable(Touchable.enabled);

@@ -32,6 +32,7 @@ public class TutorialFragment extends MenuFragment {
         screen.assetManager.finishLoading();
 
         TutorialBanner banner = new TutorialBanner(this);
+        banner.create();
 
         Container<?> c = new Container<>();
         c.setTouchable(Touchable.enabled);

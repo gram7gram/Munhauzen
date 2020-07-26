@@ -70,6 +70,6 @@ const parse = function (file) {
 }
 
 
-parse('/Users/master/Projects/MunhauzenDocs/IOS Task/Scenario Pictures Audio Inventory CHapters Chronicl inte.xlsx')
+parse('/Users/master/Projects/MunhauzenDocs/IOS Task/РАЗРАБОТКА/Scenario Pictures Audio Inventory CHapters Chronicl inte new Demo.xlsx')
 
 

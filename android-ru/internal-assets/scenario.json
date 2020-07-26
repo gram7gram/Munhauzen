@@ -211,7 +211,7 @@
     ],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Связал назад порваный узел"
+    "text": "Связал назад порванный узел"
   },
   {
     "name": "a10_b_proxy",
@@ -231,7 +231,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Связал назад порваный узел"
+    "text": "Связал назад порванный узел"
   },
   {
     "name": "a10_c",
@@ -358,7 +358,7 @@
     ],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Привязал Дианку до кончика хвостика"
+    "text": "Привязал Дианку за кончик хвостика"
   },
   {
     "name": "a10_d_proxy",
@@ -378,7 +378,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Привязал Дианку до кончика хвостика"
+    "text": "Привязал Дианку за кончик хвостика"
   },
   {
     "name": "a11_0",
@@ -708,7 +708,7 @@
     ],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Схватил кабана за икла"
+    "text": "Схватил кабана за клыки"
   },
   {
     "name": "a11_d_proxy",
@@ -728,7 +728,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Схватил кабана за икла"
+    "text": "Схватил кабана за клыки"
   },
   {
     "name": "a11_e",
@@ -856,7 +856,7 @@
     ],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Начал забивать кабана камнем еще глубже в дерево"
+    "text": "Вбил кабана еще глубже в дерево"
   },
   {
     "name": "a12_a_continue",
@@ -923,7 +923,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Начал забивать кабана камнем еще глубже в дерево"
+    "text": "Вбил кабана еще глубже в дерево"
   },
   {
     "name": "a12_b",
@@ -1382,7 +1382,7 @@
     ],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Пришел лесоруб, срубил дерево и ты взял ружье"
+    "text": "Пришел лесоруб, срубил дерево, а ты взял ружье"
   },
   {
     "name": "a13_a_b_proxy",
@@ -1402,7 +1402,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Пришел лесоруб, срубил дерево и ты взял ружье"
+    "text": "Пришел лесоруб, срубил дерево, а ты взял ружье"
   },
   {
     "name": "a13_a_c",
@@ -1432,7 +1432,7 @@
     ],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Землетрясение вскинул ружье"
+    "text": "Землетрясение скинуло ружье"
   },
   {
     "name": "a13_a_c_proxy",
@@ -1452,7 +1452,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Землетрясение вскинул ружье"
+    "text": "Землетрясение скинуло ружье"
   },
   {
     "name": "a13_a_d",
@@ -1570,7 +1570,7 @@
     ],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Свистнулы что есть силы"
+    "text": "Свистнул что есть силы"
   },
   {
     "name": "a13_b_proxy",
@@ -1590,7 +1590,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Свистнулы что есть силы"
+    "text": "Свистнул что есть силы"
   },
   {
     "name": "a13_c",
@@ -1891,7 +1891,7 @@
     ],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Волк на изнанку"
+    "text": "Волк наизнанку"
   },
   {
     "name": "a14_0_proxy",
@@ -1929,7 +1929,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Волк на изнанку"
+    "text": "Волк наизнанку"
   },
   {
     "name": "a14_a",
@@ -2195,7 +2195,7 @@
     "interaction": "CHAPTER",
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Волк на изнанку"
+    "text": "Волк наизнанку"
   },
   {
     "name": "a14_chapter_proxy",
@@ -2216,7 +2216,7 @@
     "interaction": "CHAPTER",
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Волк на изнанку"
+    "text": "Волк наизнанку"
   },
   {
     "name": "a14_d",
@@ -2262,7 +2262,7 @@
         "scenario": "a14_all"
       }
     ],
-    "expansion": "Part_1",
+    "expansion": "Part_demo",
     "images": [],
     "locale": "ru",
     "source": "scenario_1",
@@ -2671,7 +2671,7 @@
     ],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Резко схватиться рукой и видернуть"
+    "text": "Резко схватить рукой и выдернуть"
   },
   {
     "name": "a15_d_continue",
@@ -2765,7 +2765,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Резко схватиться рукой и видернуть"
+    "text": "Резко схватить рукой и выдернуть"
   },
   {
     "name": "a15_shoot",
@@ -3606,7 +3606,7 @@
         "inventoryRequired": [],
         "inventoryAbsent": [],
         "order": 0,
-        "scenario": "a18_d_continue"
+        "scenario": "a18_interaction"
       }
     ],
     "expansion": "Part_1",
@@ -3731,6 +3731,27 @@
         "duration": 600
       }
     ],
+    "interaction": "HARE",
+    "locale": "ru",
+    "source": "scenario_1",
+    "text": ""
+  },
+  {
+    "name": "a18_interaction_proxy",
+    "__v": 0,
+    "action": "GOTO",
+    "audio": [],
+    "chapter": "a18",
+    "decisions": [
+      {
+        "inventoryRequired": [],
+        "inventoryAbsent": [],
+        "order": 0,
+        "scenario": "a18_d_continue"
+      }
+    ],
+    "expansion": "Part_demo",
+    "images": [],
     "interaction": "HARE",
     "locale": "ru",
     "source": "scenario_1",
@@ -3972,7 +3993,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Сшить из нее куртку"
+    "text": "Сшить куртку"
   },
   {
     "name": "a19_c",
@@ -5362,7 +5383,7 @@
     ],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Использовала по-больше яиц"
+    "text": "Использовала побольше яиц"
   },
   {
     "name": "a21_0_c_proxy",
@@ -5382,7 +5403,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Использовала по-больше яиц"
+    "text": "Использовала побольше яиц"
   },
   {
     "name": "a21_0_d",
@@ -6020,7 +6041,7 @@
     ],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Набил лошадь соломой, смазал дёгтем, и склеил"
+    "text": "Набил лошадь соломой, смазал дёгтем и склеил"
   },
   {
     "name": "a21_2_d_proxy",
@@ -6040,7 +6061,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Набил лошадь соломой, смазал дёгтем, и склеил"
+    "text": "Набил лошадь соломой, смазал дёгтем и склеил"
   },
   {
     "name": "a21_chapter",
@@ -6355,7 +6376,7 @@
     ],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Залез в пушечное дуло"
+    "text": "Залез в пушечный ствол"
   },
   {
     "name": "a22_a_proxy",
@@ -6375,7 +6396,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Залез в пушечное дуло"
+    "text": "Залез в пушечный ствол"
   },
   {
     "name": "a22_b",
@@ -6881,7 +6902,7 @@
     ],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Бросил ядро ​​изо всех сил вперед - в врагов"
+    "text": "Бросил ядро ​​изо всех сил вперед, на врагов"
   },
   {
     "name": "a23_d_proxy",
@@ -6901,7 +6922,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Бросил ядро ??изо всех сил вперед - в врагов"
+    "text": "Бросил ядро изо всех сил вперед, на врагов"
   },
   {
     "name": "a24_0",
@@ -7771,7 +7792,7 @@
         "scenario": "a26_d"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "locale": "ru",
     "source": "scenario_2",
@@ -7821,7 +7842,7 @@
         "scenario": "a26_0_proxy"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "locale": "ru",
     "source": "scenario_2",
@@ -7871,7 +7892,7 @@
         "scenario": "a26_0_proxy"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "locale": "ru",
     "source": "scenario_2",
@@ -7905,7 +7926,7 @@
     ],
     "locale": "ru",
     "source": "scenario_2",
-    "text": "Подпрыгнуть и схватить месяц рукой"
+    "text": "Подпрыгнуть и схватить Месяц рукой"
   },
   {
     "name": "a26_c_proxy",
@@ -7921,11 +7942,11 @@
         "scenario": "a26_0_proxy"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "locale": "ru",
     "source": "scenario_2",
-    "text": "Подпрыгнуть и схватить месяц рукой"
+    "text": "Подпрыгнуть и схватить Месяц рукой"
   },
   {
     "name": "a26_chapter",
@@ -7967,7 +7988,7 @@
         "scenario": "a26_0"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "interaction": "CHAPTER",
     "locale": "ru",
@@ -8010,7 +8031,7 @@
     ],
     "locale": "ru",
     "source": "scenario_2",
-    "text": "Посадить турецкий боб"
+    "text": "Посадить турецкие бобы"
   },
   {
     "name": "a26_d_proxy",
@@ -8026,11 +8047,11 @@
         "scenario": "a27"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "locale": "ru",
     "source": "scenario_2",
-    "text": "Посадить турецкий боб"
+    "text": "Посадить турецкие бобы"
   },
   {
     "name": "a27",
@@ -8120,7 +8141,7 @@
         "scenario": "a27_proxy"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "locale": "ru",
     "source": "scenario_2",
@@ -8154,7 +8175,7 @@
     ],
     "locale": "ru",
     "source": "scenario_2",
-    "text": "Спустился кратером в середину Луны"
+    "text": "Спустился через кратер в центр Луны"
   },
   {
     "name": "a27_b_proxy",
@@ -8170,11 +8191,11 @@
         "scenario": "a27_proxy"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "locale": "ru",
     "source": "scenario_2",
-    "text": "Спустился кратером в середину Луны"
+    "text": "Спустился через кратер в центр Луны"
   },
   {
     "name": "a27_c",
@@ -8204,7 +8225,7 @@
     ],
     "locale": "ru",
     "source": "scenario_2",
-    "text": "Начал Бросать в Землю камни"
+    "text": "Начал бросать в Землю камушки"
   },
   {
     "name": "a27_c_proxy",
@@ -8220,11 +8241,11 @@
         "scenario": "a27_proxy"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "locale": "ru",
     "source": "scenario_2",
-    "text": "Начал Бросать в Землю камни"
+    "text": "Начал бросать в Землю камушки"
   },
   {
     "name": "a27_d",
@@ -8274,7 +8295,7 @@
         "scenario": "a28"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "locale": "ru",
     "source": "scenario_2",
@@ -8308,7 +8329,7 @@
     ],
     "locale": "ru",
     "source": "scenario_2",
-    "text": "Дождался молодого месяца, перевернул его и отправился на Землю"
+    "text": "Дождался молодого Месяца, перевернул его и отправился на Землю"
   },
   {
     "name": "a27_e_proxy",
@@ -8324,11 +8345,11 @@
         "scenario": "a27_proxy"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "locale": "ru",
     "source": "scenario_2",
-    "text": "Дождался молодого месяца, перевернул его и отправился на Землю"
+    "text": "Дождался молодого Месяца, перевернул его и отправился на Землю"
   },
   {
     "name": "a27_proxy",
@@ -8368,7 +8389,7 @@
         "scenario": "a27_d"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "locale": "ru",
     "source": "scenario_2",
@@ -8460,7 +8481,7 @@
         "scenario": "a29"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "locale": "ru",
     "source": "scenario_2",
@@ -8510,7 +8531,7 @@
         "scenario": "a28_proxy"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "locale": "ru",
     "source": "scenario_2",
@@ -8560,7 +8581,7 @@
         "scenario": "a28_proxy"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "locale": "ru",
     "source": "scenario_2",
@@ -8610,7 +8631,7 @@
         "scenario": "a28_proxy"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "locale": "ru",
     "source": "scenario_2",
@@ -8648,7 +8669,7 @@
         "scenario": "a28_a"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "locale": "ru",
     "source": "scenario_2",
@@ -8736,7 +8757,7 @@
         "scenario": "a29_proxy"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "locale": "ru",
     "source": "scenario_2",
@@ -8811,7 +8832,7 @@
         "scenario": "aballoon_chapter"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "interaction": "CONTINUE",
     "locale": "ru",
@@ -8832,7 +8853,7 @@
         "scenario": "a29_b_continue"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "locale": "ru",
     "source": "scenario_2",
@@ -8882,7 +8903,7 @@
         "scenario": "a29_proxy"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "locale": "ru",
     "source": "scenario_2",
@@ -8932,7 +8953,7 @@
         "scenario": "a29_proxy"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "locale": "ru",
     "source": "scenario_2",
@@ -8970,7 +8991,7 @@
         "scenario": "a29_b"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "locale": "ru",
     "source": "scenario_2",
@@ -9268,7 +9289,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Покинул лошадь"
+    "text": "Набросил шубу на волка"
   },
   {
     "name": "a2_b",
@@ -9341,7 +9362,7 @@
         "inventoryRequired": [],
         "inventoryAbsent": [],
         "order": 0,
-        "scenario": "a7_1_chapter"
+        "scenario": "a8_chapter"
       }
     ],
     "expansion": "Part_demo",
@@ -9566,7 +9587,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Набросил шубу на волка"
+    "text": "Покинул лошадь"
   },
   {
     "name": "a2_ending",
@@ -9753,7 +9774,7 @@
     "interaction": "CHAPTER",
     "locale": "ru",
     "source": "scenario_2",
-    "text": "Лошади под мышками, карета на плечах"
+    "text": "Лошади подмышками, карета на плечах"
   },
   {
     "name": "a32_0_chapter_proxy",
@@ -9774,7 +9795,7 @@
     "interaction": "CHAPTER",
     "locale": "ru",
     "source": "scenario_2",
-    "text": "Лошади под мышками, карета на плечах"
+    "text": "Лошади подмышками, карета на плечах"
   },
   {
     "name": "a32_0_continue",
@@ -11573,7 +11594,7 @@
     ],
     "locale": "ru",
     "source": "scenario_2",
-    "text": "Начал командную работу по выгребанию воды ведром"
+    "text": "Начал командную работу по вычерпыванию  воды ведром"
   },
   {
     "name": "a38_e_proxy",
@@ -11593,7 +11614,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_2",
-    "text": "Начал командную работу по выгребанию воды ведром"
+    "text": "Начал командную работу по вычерпыванию  воды ведром"
   },
   {
     "name": "a38_f",
@@ -11873,7 +11894,7 @@
     ],
     "locale": "ru",
     "source": "scenario_2",
-    "text": "Замахал руками, и полетел"
+    "text": "Замахал руками - и полетел"
   },
   {
     "name": "a39_b_proxy",
@@ -11893,7 +11914,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_2",
-    "text": "Замахал руками, и полетел"
+    "text": "Замахал руками - и полетел"
   },
   {
     "name": "a39_c",
@@ -11923,7 +11944,7 @@
     ],
     "locale": "ru",
     "source": "scenario_2",
-    "text": "Скорчил страшную лыбу"
+    "text": "Скорчил страшную рожу"
   },
   {
     "name": "a39_c_proxy",
@@ -11943,7 +11964,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_2",
-    "text": "Скорчил страшную лыбу"
+    "text": "Скорчил страшную рожу"
   },
   {
     "name": "a39_d",
@@ -12362,7 +12383,7 @@
     ],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Сбегал по кремень"
+    "text": "Сбегал за кремнем"
   },
   {
     "name": "a3_d_proxy",
@@ -12382,7 +12403,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Сбегал по кремень"
+    "text": "Сбегал за кремнем"
   },
   {
     "name": "a40",
@@ -13015,28 +13036,7 @@
         "inventoryRequired": [],
         "inventoryAbsent": [],
         "order": 0,
-        "scenario": "a26_chapter"
-      }
-    ],
-    "expansion": "Part_2",
-    "images": [],
-    "interaction": "CONTINUE",
-    "locale": "ru",
-    "source": "scenario_2",
-    "text": "Empty"
-  },
-  {
-    "name": "a41_continue_proxy",
-    "__v": 0,
-    "action": "GOTO",
-    "audio": [],
-    "chapter": "a39",
-    "decisions": [
-      {
-        "inventoryRequired": [],
-        "inventoryAbsent": [],
-        "order": 0,
-        "scenario": "a26_chapter"
+        "scenario": "a41_chapter"
       }
     ],
     "expansion": "Part_2",
@@ -14865,7 +14865,7 @@
     ],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Сделал удочку на сале"
+    "text": "Повесил сало на крючок удочки"
   },
   {
     "name": "a4_a_proxy",
@@ -14885,7 +14885,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Сделал удочку на сале"
+    "text": "Повесил сало на крючок удочки"
   },
   {
     "name": "a4_b",
@@ -14965,7 +14965,7 @@
     ],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Покрякал как уточка"
+    "text": "Покрякал, как уточка"
   },
   {
     "name": "a4_c_proxy",
@@ -14985,7 +14985,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Покрякал как уточка"
+    "text": "Покрякал, как уточка"
   },
   {
     "name": "a4_chapter",
@@ -15968,7 +15968,7 @@
     ],
     "locale": "ru",
     "source": "scenario_3",
-    "text": "Закопал в тайном месте среди лагеря"
+    "text": "Закопал в тайном месте посреди лагеря"
   },
   {
     "name": "a53_d_proxy",
@@ -15988,7 +15988,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_3",
-    "text": "Закопал в тайном месте среди лагеря"
+    "text": "Закопал в тайном месте посреди лагеря"
   },
   {
     "name": "a53_proxy",
@@ -16904,7 +16904,7 @@
         "inventoryRequired": [],
         "inventoryAbsent": [],
         "order": 0,
-        "scenario": "a58_0_chapter"
+        "scenario": "avolcano_chapter"
       }
     ],
     "expansion": "Part_2",
@@ -17346,7 +17346,7 @@
     ],
     "locale": "ru",
     "source": "scenario_3",
-    "text": "Проштурмувать проход"
+    "text": "Штурмовать проход"
   },
   {
     "name": "a60_b_proxy",
@@ -17366,7 +17366,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_3",
-    "text": "Проштурмувать проход"
+    "text": "Штурмовать проход"
   },
   {
     "name": "a60_c",
@@ -18137,26 +18137,6 @@
     "text": "Конец"
   },
   {
-    "name": "a62_fin_proxy",
-    "__v": 0,
-    "action": "GOTO",
-    "audio": [],
-    "chapter": "athe_end",
-    "decisions": [
-      {
-        "inventoryRequired": [],
-        "inventoryAbsent": [],
-        "order": 0,
-        "scenario": "aVictory"
-      }
-    ],
-    "expansion": "Part_2",
-    "images": [],
-    "locale": "ru",
-    "source": "scenario_3",
-    "text": "Конец"
-  },
-  {
     "name": "a6_a",
     "__v": 0,
     "action": "GOTO",
@@ -18184,7 +18164,7 @@
     ],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Сложил несколько уток в свою охотничую сумку"
+    "text": "Сложил несколько уток в свою охотничью сумку"
   },
   {
     "name": "a6_a_continue",
@@ -18223,7 +18203,7 @@
         "inventoryRequired": [],
         "inventoryAbsent": [],
         "order": 0,
-        "scenario": "avolcano_chapter"
+        "scenario": "asandstorm_chapter"
       }
     ],
     "expansion": "Part_demo",
@@ -18251,7 +18231,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Сложил несколько уток в свою охотничую сумку"
+    "text": "Сложил несколько уток в свою охотничью сумку"
   },
   {
     "name": "a6_b",
@@ -18711,7 +18691,7 @@
     ],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Начал жанглировать"
+    "text": "Начал жонглировать"
   },
   {
     "name": "a7_1_b_proxy",
@@ -18731,7 +18711,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Начал жанглировать"
+    "text": "Начал жонглировать"
   },
   {
     "name": "a7_1_c",
@@ -18761,7 +18741,7 @@
     ],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Выстучал ними барабанную дробь"
+    "text": "Выбил ними барабанную дробь"
   },
   {
     "name": "a7_1_c_proxy",
@@ -18781,7 +18761,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Выстучал ними барабанную дробь"
+    "text": "Выбил ними барабанную дробь"
   },
   {
     "name": "a7_1_chapter",
@@ -19318,7 +19298,7 @@
         "inventoryRequired": [],
         "inventoryAbsent": [],
         "order": 0,
-        "scenario": "asandstorm_chapter"
+        "scenario": "amoon_chapter"
       }
     ],
     "expansion": "Part_demo",
@@ -19566,7 +19546,7 @@
         "inventoryRequired": [],
         "inventoryAbsent": [],
         "order": 0,
-        "scenario": "a7_1_chapter"
+        "scenario": "a14_chapter"
       }
     ],
     "expansion": "Part_1",
@@ -20033,10 +20013,10 @@
         "inventoryRequired": [],
         "inventoryAbsent": [],
         "order": 0,
-        "scenario": "a10_chapter"
+        "scenario": "a7_1_chapter"
       }
     ],
-    "expansion": "Part_1",
+    "expansion": "Part_demo",
     "images": [],
     "interaction": "CONTINUE",
     "locale": "ru",
@@ -20057,7 +20037,7 @@
         "scenario": "a8_a_continue"
       }
     ],
-    "expansion": "Part_1",
+    "expansion": "Part_demo",
     "images": [],
     "locale": "ru",
     "source": "scenario_1",
@@ -20107,7 +20087,7 @@
         "scenario": "a8_proxy"
       }
     ],
-    "expansion": "Part_1",
+    "expansion": "Part_demo",
     "images": [],
     "locale": "ru",
     "source": "scenario_1",
@@ -20157,7 +20137,7 @@
         "scenario": "a8_proxy"
       }
     ],
-    "expansion": "Part_1",
+    "expansion": "Part_demo",
     "images": [],
     "locale": "ru",
     "source": "scenario_1",
@@ -20203,7 +20183,7 @@
         "scenario": "a8"
       }
     ],
-    "expansion": "Part_1",
+    "expansion": "Part_demo",
     "images": [],
     "interaction": "CHAPTER",
     "locale": "ru",
@@ -20254,7 +20234,7 @@
         "scenario": "a8_proxy"
       }
     ],
-    "expansion": "Part_1",
+    "expansion": "Part_demo",
     "images": [],
     "locale": "ru",
     "source": "scenario_1",
@@ -20292,7 +20272,7 @@
         "scenario": "a8_a"
       }
     ],
-    "expansion": "Part_1",
+    "expansion": "Part_demo",
     "images": [],
     "locale": "ru",
     "source": "scenario_1",
@@ -20366,7 +20346,7 @@
     ],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Не выстрелело"
+    "text": "Не выстрелило"
   },
   {
     "name": "a_shoot_no_proxy",
@@ -20386,7 +20366,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Не выстрелело"
+    "text": "Не выстрелило"
   },
   {
     "name": "a_shoot_proxy",
@@ -20745,7 +20725,7 @@
     ],
     "locale": "ru",
     "source": "scenario_2",
-    "text": "Выстрелил  с мушкета"
+    "text": "Выстрелил из мушкета"
   },
   {
     "name": "aballoon_a_a",
@@ -20791,7 +20771,7 @@
         "scenario": "aballoon_a_proxy"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "locale": "ru",
     "source": "scenario_2",
@@ -20841,7 +20821,7 @@
         "scenario": "aballoon_continue"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "locale": "ru",
     "source": "scenario_2",
@@ -20891,7 +20871,7 @@
         "scenario": "aballoon_a_proxy"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "locale": "ru",
     "source": "scenario_2",
@@ -20923,11 +20903,11 @@
         "scenario": "aballoon_a_c"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "locale": "ru",
     "source": "scenario_2",
-    "text": "Выстрелил  с мушкета"
+    "text": "Выстрелил из мушкета"
   },
   {
     "name": "aballoon_b",
@@ -21019,7 +20999,7 @@
         "scenario": "aballoon"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "interaction": "CHAPTER",
     "locale": "ru",
@@ -21088,7 +21068,7 @@
         "scenario": "aballoon_b"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "locale": "ru",
     "source": "scenario_2",
@@ -21123,7 +21103,7 @@
     ],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Второе дело с медведем"
+    "text": "Вторая встреча с медведем"
   },
   {
     "name": "abear_chapter",
@@ -21149,7 +21129,7 @@
     "interaction": "CHAPTER",
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Второе дело с медведем"
+    "text": "Вторая встреча с медведем"
   },
   {
     "name": "abear_chapter_proxy",
@@ -21170,7 +21150,7 @@
     "interaction": "CHAPTER",
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Второе дело с медведем"
+    "text": "Вторая встреча с медведем"
   },
   {
     "name": "abear_continue",
@@ -21284,7 +21264,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Второе дело с медведем"
+    "text": "Вторая встреча с медведем"
   },
   {
     "name": "aboat_ruin",
@@ -21337,7 +21317,7 @@
     ],
     "locale": "ru",
     "source": "scenario_3",
-    "text": "Поднятие Королевского Джорджа"
+    "text": "Поднятие Ройял Джорджа"
   },
   {
     "name": "aboat_ruin_2_a",
@@ -21517,7 +21497,7 @@
     ],
     "locale": "ru",
     "source": "scenario_3",
-    "text": "Мороженным горохом охладил шар"
+    "text": "Охладил ядро замороженым горохом "
   },
   {
     "name": "aboat_ruin_2_d_proxy",
@@ -21537,7 +21517,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_3",
-    "text": "Мороженным горохом охладил шар"
+    "text": "Охладил ядро замороженым горохом "
   },
   {
     "name": "aboat_ruin_a",
@@ -21677,7 +21657,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_3",
-    "text": "Начал прыгать с бубном, проговаривая Гууууу!\""
+    "text": "Начал прыгать с бубном, проговаривая \"Гууууу!\""
   },
   {
     "name": "aboat_ruin_c",
@@ -21707,7 +21687,7 @@
     ],
     "locale": "ru",
     "source": "scenario_3",
-    "text": "Вытащил за водоросл"
+    "text": "Вытащил за водоросли"
   },
   {
     "name": "aboat_ruin_c_proxy",
@@ -21727,7 +21707,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_3",
-    "text": "Вытащил за водоросл"
+    "text": "Вытащил за водоросли"
   },
   {
     "name": "aboat_ruin_chapter",
@@ -21753,7 +21733,7 @@
     "interaction": "CHAPTER",
     "locale": "ru",
     "source": "scenario_3",
-    "text": "Поднятие Королевского Джорджа"
+    "text": "Поднятие Ройял Джорджа"
   },
   {
     "name": "aboat_ruin_chapter_proxy",
@@ -21774,7 +21754,7 @@
     "interaction": "CHAPTER",
     "locale": "ru",
     "source": "scenario_3",
-    "text": "Поднятие Королевского Джорджа"
+    "text": "Поднятие Ройял Джорджа"
   },
   {
     "name": "aboat_ruin_continue",
@@ -21904,7 +21884,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_3",
-    "text": "Поднятие Королевского Джорджа"
+    "text": "Поднятие Ройял Джорджа"
   },
   {
     "name": "aboy",
@@ -22037,7 +22017,7 @@
     ],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "посадив малого себе на спину"
+    "text": "посадив дитя себе на спину"
   },
   {
     "name": "aboy_b_continue",
@@ -22104,7 +22084,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "посадив малого себе на спину"
+    "text": "посадив дитя себе на спину"
   },
   {
     "name": "aboy_c",
@@ -22231,7 +22211,7 @@
     ],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "проведя лоторею"
+    "text": "проведя лотерею"
   },
   {
     "name": "aboy_d_proxy",
@@ -22251,7 +22231,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "проведя лоторею"
+    "text": "проведя лотерею"
   },
   {
     "name": "aboy_proxy",
@@ -22444,7 +22424,7 @@
     ],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "В карету на вылет и неверующий Василий"
+    "text": "В карету навылет и неверующий Василий"
   },
   {
     "name": "abrougham_a",
@@ -22517,7 +22497,7 @@
         "inventoryRequired": [],
         "inventoryAbsent": [],
         "order": 0,
-        "scenario": "a8_chapter"
+        "scenario": "a10_chapter"
       }
     ],
     "expansion": "Part_1",
@@ -22671,7 +22651,7 @@
     "interaction": "CHAPTER",
     "locale": "ru",
     "source": "scenario_1",
-    "text": "В карету на вылет и неверующий Василий"
+    "text": "В карету навылет и неверующий Василий"
   },
   {
     "name": "abrougham_chapter_proxy",
@@ -22692,7 +22672,7 @@
     "interaction": "CHAPTER",
     "locale": "ru",
     "source": "scenario_1",
-    "text": "В карету на вылет и неверующий Василий"
+    "text": "В карету навылет и неверующий Василий"
   },
   {
     "name": "abrougham_d",
@@ -22780,7 +22760,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "В карету на вылет и неверующий Василий"
+    "text": "В карету навылет и неверующий Василий"
   },
   {
     "name": "acanal_1",
@@ -23317,7 +23297,7 @@
     ],
     "locale": "ru",
     "source": "scenario_2",
-    "text": "Встретился с советом гильдий"
+    "text": "Встретился с Советом гильдий"
   },
   {
     "name": "acanal_2_2_b_proxy",
@@ -23337,7 +23317,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_2",
-    "text": "Встретился с советом гильдий"
+    "text": "Встретился с Советом гильдий"
   },
   {
     "name": "acanal_2_2_c",
@@ -23371,7 +23351,7 @@
     ],
     "locale": "ru",
     "source": "scenario_2",
-    "text": "Устроил встречу с её величеством"
+    "text": "Устроил встречу с Её Величеством"
   },
   {
     "name": "acanal_2_2_c_proxy",
@@ -23391,7 +23371,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_2",
-    "text": "Устроил встречу с её величеством"
+    "text": "Устроил встречу с Её Величеством"
   },
   {
     "name": "acanal_2_2_chapter",
@@ -24139,7 +24119,7 @@
     ],
     "locale": "ru",
     "source": "scenario_3",
-    "text": "Чуйка псины Дианы"
+    "text": "Прекрасное чутье псины Дианы"
   },
   {
     "name": "adog_chapter",
@@ -24165,7 +24145,7 @@
     "interaction": "CHAPTER",
     "locale": "ru",
     "source": "scenario_3",
-    "text": "Чуйка псины Дианы"
+    "text": "Прекрасное чутье псины Дианы"
   },
   {
     "name": "adog_chapter_proxy",
@@ -24186,7 +24166,7 @@
     "interaction": "CHAPTER",
     "locale": "ru",
     "source": "scenario_3",
-    "text": "Чуйка псины Дианы"
+    "text": "Прекрасное чутье псины Дианы"
   },
   {
     "name": "adog_continue",
@@ -24248,7 +24228,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_3",
-    "text": "Чуйка псины Дианы"
+    "text": "Прекрасное чутье псины Дианы"
   },
   {
     "name": "agener",
@@ -24957,7 +24937,7 @@
     ],
     "locale": "ru",
     "source": "scenario_2",
-    "text": "Вызвал короля зверей на поединок"
+    "text": "Вызвал Короля зверей на поединок"
   },
   {
     "name": "alions_a_proxy",
@@ -24977,7 +24957,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_2",
-    "text": "Вызвал короля зверей на поединок"
+    "text": "Вызвал Короля зверей на поединок"
   },
   {
     "name": "alions_attack_early",
@@ -25462,7 +25442,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_2",
-    "text": "дать подсказку"
+    "text": "\"Дать подсказку\""
   },
   {
     "name": "alions_d_proxy",
@@ -26148,7 +26128,7 @@
     ],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Переговорил с плотныком"
+    "text": "Переговорил с плотником"
   },
   {
     "name": "amoon_a_proxy",
@@ -26168,7 +26148,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Переговорил с плотныком"
+    "text": "Переговорил с плотником"
   },
   {
     "name": "amoon_b",
@@ -26868,7 +26848,7 @@
     ],
     "locale": "ru",
     "source": "scenario_3",
-    "text": "на место над верхньой губой"
+    "text": "на место над верхней губой"
   },
   {
     "name": "anephew_b_proxy",
@@ -26888,7 +26868,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_3",
-    "text": "на место над верхньой губой"
+    "text": "на место над верхней губой"
   },
   {
     "name": "anephew_c",
@@ -28218,7 +28198,7 @@
         "inventoryRequired": [],
         "inventoryAbsent": [],
         "order": 0,
-        "scenario": "amoon_chapter"
+        "scenario": "a2_chapter"
       }
     ],
     "expansion": "Part_demo",
@@ -28407,7 +28387,7 @@
     ],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Испугал резким хлопоком ремня"
+    "text": "Испугал резким хлопком ремня"
   },
   {
     "name": "asling_a_proxy",
@@ -28427,7 +28407,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Испугал резким хлопоком ремня"
+    "text": "Испугал резким хлопком ремня"
   },
   {
     "name": "asling_b",
@@ -28467,7 +28447,7 @@
     ],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Швырнул ремнем камень"
+    "text": "Швырнул камень с помощью ремня "
   },
   {
     "name": "asling_b_cont",
@@ -28598,7 +28578,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_1",
-    "text": "Швырнул ремнем камень"
+    "text": "Швырнул камень с помощью ремня "
   },
   {
     "name": "asling_c",
@@ -29080,7 +29060,7 @@
     ],
     "locale": "ru",
     "source": "scenario_2",
-    "text": "Дал предупредительный выстрел"
+    "text": "Сделал предупредительный выстрел"
   },
   {
     "name": "atample_2_b_proxy",
@@ -29100,7 +29080,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_2",
-    "text": "Дал предупредительный выстрел"
+    "text": "Сделал предупредительный выстрел"
   },
   {
     "name": "atample_2_c",
@@ -29138,7 +29118,7 @@
     ],
     "locale": "ru",
     "source": "scenario_2",
-    "text": "Что есть духу свитстнул, зовя орлов на помощь"
+    "text": "Что есть духу свистнул, зовя орлов на помощь"
   },
   {
     "name": "atample_2_c_proxy",
@@ -29158,7 +29138,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_2",
-    "text": "Что есть духу свитстнул, зовя орлов на помощь"
+    "text": "Что есть духу свистнул, зовя орлов на помощь"
   },
   {
     "name": "atample_2_d",
@@ -29798,7 +29778,7 @@
     ],
     "locale": "ru",
     "source": "scenario_2",
-    "text": "Связал орлов вместе в единое целой"
+    "text": "Связал орлов вместе в единое целое"
   },
   {
     "name": "atample_4_d_proxy",
@@ -29818,7 +29798,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_2",
-    "text": "Связал орлов вместе в единое целой"
+    "text": "Связал орлов вместе в единое целое"
   },
   {
     "name": "atample_4_proxy",
@@ -29886,7 +29866,7 @@
     ],
     "locale": "ru",
     "source": "scenario_2",
-    "text": "Песня Мюнхаузена"
+    "text": "Песня Мюнхгаузена"
   },
   {
     "name": "atample_5_continue",
@@ -29948,7 +29928,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_2",
-    "text": "Песня Мюнхаузена"
+    "text": "Песня Мюнхгаузена"
   },
   {
     "name": "atample_a",
@@ -30428,7 +30408,7 @@
     ],
     "locale": "ru",
     "source": "scenario_2",
-    "text": "Сыграл в камень ножницы бумага"
+    "text": "Сыграл в \"камень-ножницы-бумага\""
   },
   {
     "name": "atyran_c_proxy",
@@ -30448,7 +30428,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_2",
-    "text": "Сыграл в камень ножницы бумага"
+    "text": "Сыграл в \"камень-ножницы-бумага\""
   },
   {
     "name": "atyran_chapter",
@@ -31124,10 +31104,10 @@
         "scenario": "avolcano_continue"
       }
     ],
-    "expansion": "Part_demo",
+    "expansion": "Part_2",
     "images": [],
     "locale": "ru",
-    "source": "scenario_1",
+    "source": "scenario_3",
     "text": "Ушёл прочь"
   },
   {
@@ -31218,10 +31198,10 @@
         "scenario": "avolcano_b_proxy"
       }
     ],
-    "expansion": "Part_demo",
+    "expansion": "Part_2",
     "images": [],
     "locale": "ru",
-    "source": "scenario_1",
+    "source": "scenario_3",
     "text": "Не вошёл"
   },
   {
@@ -31276,10 +31256,10 @@
         "scenario": "avolcano_continue"
       }
     ],
-    "expansion": "Part_demo",
+    "expansion": "Part_2",
     "images": [],
     "locale": "ru",
-    "source": "scenario_1",
+    "source": "scenario_3",
     "text": "Вошёл"
   },
   {
@@ -31302,10 +31282,10 @@
         "scenario": "avolcano_b_b"
       }
     ],
-    "expansion": "Part_demo",
+    "expansion": "Part_2",
     "images": [],
     "locale": "ru",
-    "source": "scenario_1",
+    "source": "scenario_3",
     "text": "Прыгнул вниз"
   },
   {
@@ -31348,11 +31328,11 @@
         "scenario": "avolcano"
       }
     ],
-    "expansion": "Part_demo",
+    "expansion": "Part_2",
     "images": [],
     "interaction": "CHAPTER",
     "locale": "ru",
-    "source": "scenario_1",
+    "source": "scenario_3",
     "text": "Путешествие через центр Земли"
   },
   {
@@ -31387,14 +31367,14 @@
         "inventoryRequired": [],
         "inventoryAbsent": [],
         "order": 0,
-        "scenario": "a2_chapter"
+        "scenario": "a58_0_chapter"
       }
     ],
-    "expansion": "Part_demo",
+    "expansion": "Part_2",
     "images": [],
     "interaction": "CONTINUE",
     "locale": "ru",
-    "source": "scenario_1",
+    "source": "scenario_3",
     "text": "Empty"
   },
   {
@@ -31417,10 +31397,10 @@
         "scenario": "avolcano_b"
       }
     ],
-    "expansion": "Part_demo",
+    "expansion": "Part_2",
     "images": [],
     "locale": "ru",
-    "source": "scenario_1",
+    "source": "scenario_3",
     "text": "Путешествие через центр Земли"
   },
   {
@@ -32157,7 +32137,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_2",
-    "text": "помощь слушателей"
+    "text": "\"помощь слушателей\""
   },
   {
     "name": "awau_d_2",
@@ -32207,7 +32187,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_2",
-    "text": "помощь слушателей"
+    "text": "\"помощь слушателей\""
   },
   {
     "name": "awau_d_3",
@@ -32257,7 +32237,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_2",
-    "text": "помощь слушателей"
+    "text": "\"помощь слушателей\""
   },
   {
     "name": "awau_d_4",
@@ -32307,7 +32287,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_2",
-    "text": "помощь слушателей"
+    "text": "\"помощь слушателей\""
   },
   {
     "name": "awau_d_5",
@@ -32357,7 +32337,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_2",
-    "text": "помощь слушателей"
+    "text": "\"помощь слушателей\""
   },
   {
     "name": "awau_d_proxy",
@@ -32407,12 +32387,12 @@
         "scenario": "awau_d_1"
       }
     ],
-    "expansion": "Part_demo",
+    "expansion": "Part_2",
     "images": [],
     "interaction": "PART_2",
     "locale": "ru",
     "source": "scenario_2",
-    "text": "помощь слушателей"
+    "text": "\"помощь слушателей\""
   },
   {
     "name": "awau_proxy",

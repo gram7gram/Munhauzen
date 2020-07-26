@@ -40,8 +40,9 @@ public class ExitFragment extends MenuFragment {
         Log.i(tag, "create");
 
         ExitBanner banner = new ExitBanner(this);
+        banner.create();
 
-        Container container = new Container();
+        Container<?> container = new Container<>();
         container.setTouchable(Touchable.enabled);
 
         container.addListener(new ClickListener() {

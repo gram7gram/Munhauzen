@@ -12,12 +12,14 @@ import com.badlogic.gdx.utils.Align;
 import ua.gram.munhauzen.ButtonBuilder;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.screen.MenuScreen;
 import ua.gram.munhauzen.screen.PurchaseScreen;
 import ua.gram.munhauzen.screen.menu.fragment.ProFragment;
+import ua.gram.munhauzen.ui.Banner;
 import ua.gram.munhauzen.ui.FitImage;
 import ua.gram.munhauzen.utils.Log;
 
-public class ProBanner extends Banner {
+public class ProBanner extends Banner<MenuScreen> {
 
     final ProFragment fragment;
 
@@ -28,12 +30,12 @@ public class ProBanner extends Banner {
     }
 
     @Override
-    Texture getBackgroundTexture() {
+    public Texture getBackgroundTexture() {
         return screen.assetManager.get("ui/banner_fond_1.png", Texture.class);
     }
 
     @Override
-    Table createContent() {
+    public Table createContent() {
 
         float minWidth = MunhauzenGame.WORLD_WIDTH * .7f;
 

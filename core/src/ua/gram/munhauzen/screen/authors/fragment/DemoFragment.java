@@ -34,6 +34,7 @@ public class DemoFragment extends Fragment {
         screen.assetManager.finishLoading();
 
         DemoBanner banner = new DemoBanner(this);
+        banner.create();
 
         Container<?> c = new Container<>();
         c.setTouchable(Touchable.enabled);

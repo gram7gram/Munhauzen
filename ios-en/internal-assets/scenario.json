@@ -2262,7 +2262,7 @@
         "scenario": "a14_all"
       }
     ],
-    "expansion": "Part_1",
+    "expansion": "Part_demo",
     "images": [],
     "locale": "en",
     "source": "scenario_1",
@@ -3606,7 +3606,7 @@
         "inventoryRequired": [],
         "inventoryAbsent": [],
         "order": 0,
-        "scenario": "a18_d_continue"
+        "scenario": "a18_interaction"
       }
     ],
     "expansion": "Part_1",
@@ -3731,6 +3731,27 @@
         "duration": 600
       }
     ],
+    "interaction": "HARE",
+    "locale": "en",
+    "source": "scenario_1",
+    "text": ""
+  },
+  {
+    "name": "a18_interaction_proxy",
+    "__v": 0,
+    "action": "GOTO",
+    "audio": [],
+    "chapter": "a18",
+    "decisions": [
+      {
+        "inventoryRequired": [],
+        "inventoryAbsent": [],
+        "order": 0,
+        "scenario": "a18_d_continue"
+      }
+    ],
+    "expansion": "Part_demo",
+    "images": [],
     "interaction": "HARE",
     "locale": "en",
     "source": "scenario_1",
@@ -3972,7 +3993,7 @@
     "images": [],
     "locale": "en",
     "source": "scenario_1",
-    "text": "to sew a waistcoat from she"
+    "text": "to sew a waistcoat"
   },
   {
     "name": "a19_c",
@@ -7771,7 +7792,7 @@
         "scenario": "a26_d"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "locale": "en",
     "source": "scenario_2",
@@ -7821,7 +7842,7 @@
         "scenario": "a26_0_proxy"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "locale": "en",
     "source": "scenario_2",
@@ -7871,7 +7892,7 @@
         "scenario": "a26_0_proxy"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "locale": "en",
     "source": "scenario_2",
@@ -7921,7 +7942,7 @@
         "scenario": "a26_0_proxy"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "locale": "en",
     "source": "scenario_2",
@@ -7967,7 +7988,7 @@
         "scenario": "a26_0"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "interaction": "CHAPTER",
     "locale": "en",
@@ -8026,7 +8047,7 @@
         "scenario": "a27"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "locale": "en",
     "source": "scenario_2",
@@ -8120,7 +8141,7 @@
         "scenario": "a27_proxy"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "locale": "en",
     "source": "scenario_2",
@@ -8170,7 +8191,7 @@
         "scenario": "a27_proxy"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "locale": "en",
     "source": "scenario_2",
@@ -8220,7 +8241,7 @@
         "scenario": "a27_proxy"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "locale": "en",
     "source": "scenario_2",
@@ -8274,7 +8295,7 @@
         "scenario": "a28"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "locale": "en",
     "source": "scenario_2",
@@ -8324,7 +8345,7 @@
         "scenario": "a27_proxy"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "locale": "en",
     "source": "scenario_2",
@@ -8368,7 +8389,7 @@
         "scenario": "a27_d"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "locale": "en",
     "source": "scenario_2",
@@ -8460,7 +8481,7 @@
         "scenario": "a29"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "locale": "en",
     "source": "scenario_2",
@@ -8510,7 +8531,7 @@
         "scenario": "a28_proxy"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "locale": "en",
     "source": "scenario_2",
@@ -8560,7 +8581,7 @@
         "scenario": "a28_proxy"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "locale": "en",
     "source": "scenario_2",
@@ -8610,7 +8631,7 @@
         "scenario": "a28_proxy"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "locale": "en",
     "source": "scenario_2",
@@ -8648,7 +8669,7 @@
         "scenario": "a28_a"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "locale": "en",
     "source": "scenario_2",
@@ -8736,7 +8757,7 @@
         "scenario": "a29_proxy"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "locale": "en",
     "source": "scenario_2",
@@ -8811,7 +8832,7 @@
         "scenario": "aballoon_chapter"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "interaction": "CONTINUE",
     "locale": "en",
@@ -8832,7 +8853,7 @@
         "scenario": "a29_b_continue"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "locale": "en",
     "source": "scenario_2",
@@ -8882,7 +8903,7 @@
         "scenario": "a29_proxy"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "locale": "en",
     "source": "scenario_2",
@@ -8932,7 +8953,7 @@
         "scenario": "a29_proxy"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "locale": "en",
     "source": "scenario_2",
@@ -8970,7 +8991,7 @@
         "scenario": "a29_b"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "locale": "en",
     "source": "scenario_2",
@@ -9341,7 +9362,7 @@
         "inventoryRequired": [],
         "inventoryAbsent": [],
         "order": 0,
-        "scenario": "a7_1_chapter"
+        "scenario": "a8_chapter"
       }
     ],
     "expansion": "Part_demo",
@@ -13015,28 +13036,7 @@
         "inventoryRequired": [],
         "inventoryAbsent": [],
         "order": 0,
-        "scenario": "a26_chapter"
-      }
-    ],
-    "expansion": "Part_2",
-    "images": [],
-    "interaction": "CONTINUE",
-    "locale": "en",
-    "source": "scenario_2",
-    "text": "Empty"
-  },
-  {
-    "name": "a41_continue_proxy",
-    "__v": 0,
-    "action": "GOTO",
-    "audio": [],
-    "chapter": "a39",
-    "decisions": [
-      {
-        "inventoryRequired": [],
-        "inventoryAbsent": [],
-        "order": 0,
-        "scenario": "a26_chapter"
+        "scenario": "a41_chapter"
       }
     ],
     "expansion": "Part_2",
@@ -16904,7 +16904,7 @@
         "inventoryRequired": [],
         "inventoryAbsent": [],
         "order": 0,
-        "scenario": "a58_0_chapter"
+        "scenario": "avolcano_chapter"
       }
     ],
     "expansion": "Part_2",
@@ -18137,26 +18137,6 @@
     "text": "The End"
   },
   {
-    "name": "a62_fin_proxy",
-    "__v": 0,
-    "action": "GOTO",
-    "audio": [],
-    "chapter": "athe_end",
-    "decisions": [
-      {
-        "inventoryRequired": [],
-        "inventoryAbsent": [],
-        "order": 0,
-        "scenario": "aVictory"
-      }
-    ],
-    "expansion": "Part_2",
-    "images": [],
-    "locale": "en",
-    "source": "scenario_3",
-    "text": "The End"
-  },
-  {
     "name": "a6_a",
     "__v": 0,
     "action": "GOTO",
@@ -18223,7 +18203,7 @@
         "inventoryRequired": [],
         "inventoryAbsent": [],
         "order": 0,
-        "scenario": "avolcano_chapter"
+        "scenario": "asandstorm_chapter"
       }
     ],
     "expansion": "Part_demo",
@@ -19318,7 +19298,7 @@
         "inventoryRequired": [],
         "inventoryAbsent": [],
         "order": 0,
-        "scenario": "asandstorm_chapter"
+        "scenario": "amoon_chapter"
       }
     ],
     "expansion": "Part_demo",
@@ -19566,7 +19546,7 @@
         "inventoryRequired": [],
         "inventoryAbsent": [],
         "order": 0,
-        "scenario": "a7_1_chapter"
+        "scenario": "a14_chapter"
       }
     ],
     "expansion": "Part_1",
@@ -20033,10 +20013,10 @@
         "inventoryRequired": [],
         "inventoryAbsent": [],
         "order": 0,
-        "scenario": "a10_chapter"
+        "scenario": "a7_1_chapter"
       }
     ],
-    "expansion": "Part_1",
+    "expansion": "Part_demo",
     "images": [],
     "interaction": "CONTINUE",
     "locale": "en",
@@ -20057,7 +20037,7 @@
         "scenario": "a8_a_continue"
       }
     ],
-    "expansion": "Part_1",
+    "expansion": "Part_demo",
     "images": [],
     "locale": "en",
     "source": "scenario_1",
@@ -20107,7 +20087,7 @@
         "scenario": "a8_proxy"
       }
     ],
-    "expansion": "Part_1",
+    "expansion": "Part_demo",
     "images": [],
     "locale": "en",
     "source": "scenario_1",
@@ -20157,7 +20137,7 @@
         "scenario": "a8_proxy"
       }
     ],
-    "expansion": "Part_1",
+    "expansion": "Part_demo",
     "images": [],
     "locale": "en",
     "source": "scenario_1",
@@ -20203,7 +20183,7 @@
         "scenario": "a8"
       }
     ],
-    "expansion": "Part_1",
+    "expansion": "Part_demo",
     "images": [],
     "interaction": "CHAPTER",
     "locale": "en",
@@ -20254,7 +20234,7 @@
         "scenario": "a8_proxy"
       }
     ],
-    "expansion": "Part_1",
+    "expansion": "Part_demo",
     "images": [],
     "locale": "en",
     "source": "scenario_1",
@@ -20292,7 +20272,7 @@
         "scenario": "a8_a"
       }
     ],
-    "expansion": "Part_1",
+    "expansion": "Part_demo",
     "images": [],
     "locale": "en",
     "source": "scenario_1",
@@ -20791,7 +20771,7 @@
         "scenario": "aballoon_a_proxy"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "locale": "en",
     "source": "scenario_2",
@@ -20841,7 +20821,7 @@
         "scenario": "aballoon_continue"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "locale": "en",
     "source": "scenario_2",
@@ -20891,7 +20871,7 @@
         "scenario": "aballoon_a_proxy"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "locale": "en",
     "source": "scenario_2",
@@ -20923,7 +20903,7 @@
         "scenario": "aballoon_a_c"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "locale": "en",
     "source": "scenario_2",
@@ -21019,7 +20999,7 @@
         "scenario": "aballoon"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "interaction": "CHAPTER",
     "locale": "en",
@@ -21088,7 +21068,7 @@
         "scenario": "aballoon_b"
       }
     ],
-    "expansion": "part_2",
+    "expansion": "Part_1",
     "images": [],
     "locale": "en",
     "source": "scenario_2",
@@ -22517,7 +22497,7 @@
         "inventoryRequired": [],
         "inventoryAbsent": [],
         "order": 0,
-        "scenario": "a8_chapter"
+        "scenario": "a10_chapter"
       }
     ],
     "expansion": "Part_1",
@@ -28218,7 +28198,7 @@
         "inventoryRequired": [],
         "inventoryAbsent": [],
         "order": 0,
-        "scenario": "amoon_chapter"
+        "scenario": "a2_chapter"
       }
     ],
     "expansion": "Part_demo",
@@ -31387,14 +31367,14 @@
         "inventoryRequired": [],
         "inventoryAbsent": [],
         "order": 0,
-        "scenario": "a2_chapter"
+        "scenario": "a58_0_chapter"
       }
     ],
-    "expansion": "Part_demo",
+    "expansion": "Part_2",
     "images": [],
     "interaction": "CONTINUE",
     "locale": "en",
-    "source": "scenario_1",
+    "source": "scenario_3",
     "text": "Empty"
   },
   {
@@ -32407,7 +32387,7 @@
         "scenario": "awau_d_1"
       }
     ],
-    "expansion": "Part_demo",
+    "expansion": "Part_2",
     "images": [],
     "interaction": "PART_2",
     "locale": "en",

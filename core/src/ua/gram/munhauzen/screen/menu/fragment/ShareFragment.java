@@ -39,6 +39,7 @@ public class ShareFragment extends MenuFragment {
         screen.assetManager.finishLoading();
 
         ShareBanner banner = new ShareBanner(this);
+        banner.create();
 
         Pixmap px = new Pixmap(1, 1, Pixmap.Format.RGBA4444);
         px.setColor(Color.BLACK.r, Color.BLACK.g, Color.BLACK.b, .3f);
@@ -172,16 +173,21 @@ public class ShareFragment extends MenuFragment {
         fadeOut(new Runnable() {
             @Override
             public void run() {
-                screen.openAdultGateBanner(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Gdx.net.openURI(url);
-                        } catch (Throwable e) {
-                            Log.e(tag, e);
+                try {
+                    screen.openAdultGateBanner(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                Gdx.net.openURI(url);
+                            } catch (Throwable e) {
+                                Log.e(tag, e);
+                            }
                         }
-                    }
-                });
+                    });
+
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
             }
         });
     }

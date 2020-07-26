@@ -35,6 +35,7 @@ public class ProFragment extends Fragment {
         screen.assetManager.finishLoading();
 
         ProBanner banner = new ProBanner(this);
+        banner.create();
 
         Pixmap px = new Pixmap(1, 1, Pixmap.Format.RGBA4444);
         px.setColor(Color.BLACK.r, Color.BLACK.g, Color.BLACK.b, .3f);
@@ -74,12 +75,20 @@ public class ProFragment extends Fragment {
 
             root.setTouchable(Touchable.disabled);
 
-            screen.game.params.appStore.openRateUrl();
-
             fadeOut(new Runnable() {
                 @Override
                 public void run() {
-                    screen.destroyBanners();
+                    screen.openAdultGateBanner(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            try {
+                                screen.game.params.appStore.openRateUrl();
+                            } catch (Throwable e) {
+                                Log.e(tag, e);
+                            }
+                        }
+                    });
                 }
             });
 

@@ -49,8 +49,11 @@ public class OptionsFragment extends Fragment {
         Log.i(tag, "create");
 
         banner = new OptionsBanner(this);
+        banner.create();
         saveOptionBanner = new SaveOptionBanner(this);
+        saveOptionBanner.create();
         loadOptionBanner = new LoadOptionBanner(this);
+        loadOptionBanner.create();
 
         Container<?> c = new Container<>();
         c.setTouchable(Touchable.enabled);

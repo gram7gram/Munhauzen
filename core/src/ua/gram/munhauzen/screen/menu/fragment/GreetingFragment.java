@@ -32,6 +32,7 @@ public class GreetingFragment extends MenuFragment {
         screen.assetManager.finishLoading();
 
         GreetingBanner banner = new GreetingBanner(this);
+        banner.create();
 
         Container<?> c = new Container<>();
         c.setTouchable(Touchable.enabled);

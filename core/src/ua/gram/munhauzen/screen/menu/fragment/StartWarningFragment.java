@@ -44,8 +44,9 @@ public class StartWarningFragment extends MenuFragment {
         Log.i(tag, "create");
 
         StartWarningBanner banner = new StartWarningBanner(this);
+        banner.create();
 
-        Container container = new Container();
+        Container<?> container = new Container<>();
         container.setTouchable(Touchable.enabled);
 
         container.addListener(new ClickListener() {
