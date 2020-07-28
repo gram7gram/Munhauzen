@@ -20925,7 +20925,7 @@
         "inventoryRequired": [],
         "inventoryAbsent": [],
         "order": 0,
-        "scenario": "aballoon_continue"
+        "scenario": "aballoon_a_proxy"
       }
     ],
     "expansion": "Part_1",
@@ -32389,7 +32389,6 @@
     ],
     "expansion": "Part_2",
     "images": [],
-    "interaction": "PART_2",
     "locale": "en",
     "source": "scenario_2",
     "text": "\"help from the listeners\""

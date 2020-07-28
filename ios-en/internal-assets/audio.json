@@ -3488,7 +3488,7 @@
   {
     "name": "sfx_button_off",
     "__v": 0,
-    "duration": 340,
+    "duration": 496,
     "file": "audio/sfx_button_off.aac",
     "locale": "en"
   },
@@ -3497,6 +3497,13 @@
     "__v": 0,
     "duration": 1000,
     "file": "audio/sfx_cannon.aac",
+    "locale": "en"
+  },
+  {
+    "name": "sfx_fanfare",
+    "__v": 0,
+    "duration": 2000,
+    "file": "audio/sfx_fanfare.aac",
     "locale": "en"
   },
   {
@@ -3649,7 +3656,7 @@
   {
     "name": "sfx_inter_puzzle_one_3",
     "__v": 0,
-    "duration": 673,
+    "duration": 731,
     "file": "audio/sfx_inter_puzzle_one_3.aac",
     "locale": "en"
   },
@@ -3663,7 +3670,7 @@
   {
     "name": "sfx_inter_puzzle_three_2",
     "__v": 0,
-    "duration": 1045,
+    "duration": 985,
     "file": "audio/sfx_inter_puzzle_three_2.aac",
     "locale": "en"
   },

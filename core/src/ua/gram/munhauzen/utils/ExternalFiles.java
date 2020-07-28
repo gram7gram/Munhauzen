@@ -46,6 +46,8 @@ public class ExternalFiles {
                     "expansion/timer",
                     "expansion/timer2",
                     "expansion/wau",
+
+                    "expansion/statues",
             };
             for (String dir : dirs) {
                 getExternal(params, dir).mkdirs();

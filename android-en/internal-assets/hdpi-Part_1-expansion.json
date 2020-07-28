@@ -1,11 +1,11 @@
 {
-  "version": 12,
+  "version": 13,
   "locale": "en",
   "dpi": "hdpi",
   "size": 284952977,
   "sizeMB": 271.75,
   "parts": {
-    "count": 7,
+    "count": 5,
     "items": [
       {
         "size": 58088707,
@@ -41,22 +41,6 @@
         "part": 5,
         "checksum": "",
         "url": "1VUjMGvJ5xfFzgwzeGsoY0i2BALSNg4L2"
-      },
-      {
-        "patch": true,
-        "size": 100000,
-        "sizeMB": 1,
-        "part": 6,
-        "checksum": "",
-        "url": "1OwQPN-PQ5TqpWiKI_583CngE0mkSVY3z"
-      },
-      {
-        "patch": true,
-        "size": 100000,
-        "sizeMB": 1,
-        "part": 7,
-        "checksum": "",
-        "url": "1O__Ibw5HaEDrWudo_VMSVBkAk-Oa6EEF"
       }
     ]
   }

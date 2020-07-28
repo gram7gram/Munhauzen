@@ -1,6 +1,7 @@
 package ua.gram.munhauzen.service;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.Audio;
@@ -29,7 +30,15 @@ public class AchievementService {
 
             Log.i(tag, "onInventoryAdded " + inventory.name);
 
-            game.inventoryService.addInventory(inventory);
+            boolean isAdded = game.inventoryService.addInventory(inventory);
+            if (isAdded && inventory.isStatue) {
+                if (game.gameState.achievementState.achievementsToDisplay == null) {
+                    game.gameState.achievementState.achievementsToDisplay = new Stack<>();
+                }
+                game.gameState.achievementState.achievementsToDisplay.push(inventory.name);
+            } else {
+                Log.e(tag, "no added " + inventory.name);
+            }
 
             for (Image img : game.gameState.imageRegistry) {
                 if (img.isStatue()) {

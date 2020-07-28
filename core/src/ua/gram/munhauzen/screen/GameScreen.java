@@ -11,11 +11,14 @@ import com.badlogic.gdx.utils.Timer;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.Image;
+import ua.gram.munhauzen.entity.Inventory;
 import ua.gram.munhauzen.entity.Save;
 import ua.gram.munhauzen.entity.Scenario;
 import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.interaction.ServantsInteraction;
 import ua.gram.munhauzen.interaction.servants.fragment.ServantsFireImageFragment;
+import ua.gram.munhauzen.repository.InventoryRepository;
+import ua.gram.munhauzen.screen.game.fragment.AchievementFragment;
 import ua.gram.munhauzen.screen.game.fragment.ControlsFragment;
 import ua.gram.munhauzen.screen.game.fragment.GameProgressBarFragment;
 import ua.gram.munhauzen.screen.game.fragment.GameScenarioFragment;
@@ -53,6 +56,7 @@ public class GameScreen extends MunhauzenScreen {
     public StageInputListener stageInputListener;
     public VictoryFragment victoryFragment;
     public PurchaseFragment purchaseFragment;
+    public AchievementFragment achievementFragment;
     Timer.Task persistTask;
 
     public GameScreen(MunhauzenGame game) {
@@ -297,6 +301,15 @@ public class GameScreen extends MunhauzenScreen {
             }
 
             try {
+                if (game.gameState.achievementState.achievementsToDisplay != null) {
+                    if (!game.gameState.achievementState.achievementsToDisplay.isEmpty()) {
+                        createAchievementFragment();
+                    }
+                }
+            } catch (Throwable ignore) {
+            }
+
+            try {
                 if (ui != null) {
                     ui.act(delta);
                     ui.draw();
@@ -318,13 +331,35 @@ public class GameScreen extends MunhauzenScreen {
 
             isPurchased = purchaseManager.isExpansionPurchased(story.currentScenario.scenario.expansion);
 
-//            if (story.id.equals("a7_3_0")) {
-//                isPurchased = false;
-//            }
-
         }
 
         return isPurchased;
+    }
+
+    public void createAchievementFragment() {
+        if (achievementFragment == null) {
+
+            String name = game.gameState.achievementState.achievementsToDisplay.pop();
+
+            Inventory inventory = InventoryRepository.find(game.gameState, name);
+
+            Log.i(tag, "createAchievementFragment: " + inventory.name);
+
+            achievementFragment = new AchievementFragment(this);
+            achievementFragment.create(inventory);
+
+            gameLayers.setAchievementLayer(achievementFragment);
+
+            achievementFragment.fadeIn();
+        }
+    }
+
+    public void removeAchievementFragment() {
+        if (achievementFragment != null) {
+            achievementFragment.dispose();
+            gameLayers.setAchievementLayer(null);
+            achievementFragment = null;
+        }
     }
 
     public void createPurchaseFragment(Scenario scenario) {
@@ -465,6 +500,11 @@ public class GameScreen extends MunhauzenScreen {
         if (purchaseFragment != null) {
             purchaseFragment.destroy();
             purchaseFragment = null;
+        }
+
+        if (achievementFragment != null) {
+            achievementFragment.destroy();
+            achievementFragment = null;
         }
 
         if (gameLayers != null) {
@@ -609,5 +649,9 @@ public class GameScreen extends MunhauzenScreen {
 
     public void navigateTo(Screen screen) {
         game.navigator.navigateTo(screen);
+    }
+
+    public void onInventoryAdded(Inventory inventory) {
+        game.achievementService.onInventoryAdded(inventory);
     }
 }

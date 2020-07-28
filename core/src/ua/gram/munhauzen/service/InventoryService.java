@@ -21,33 +21,37 @@ public class InventoryService {
         this.game = game;
     }
 
-    public void addGlobalInventory(Inventory inventory) {
+    public boolean addGlobalInventory(Inventory inventory) {
 
-        if (isInInventory(inventory)) return;
+        if (isInInventory(inventory)) return false;
 
         if (!inventory.isGlobal()) {
             throw new GdxRuntimeException("Inventory " + inventory.name + " is not global");
         }
 
         game.gameState.history.globalInventory.add(inventory.name);
+
+        return true;
     }
 
-    public void addSaveInventory(Inventory inventory) {
+    public boolean addSaveInventory(Inventory inventory) {
 
-        if (isInInventory(inventory)) return;
+        if (isInInventory(inventory)) return false;
 
         if (inventory.isGlobal()) {
             throw new GdxRuntimeException("Inventory " + inventory.name + " is global");
         }
 
         game.gameState.activeSave.inventory.add(inventory.name);
+
+        return true;
     }
 
-    public void addInventory(Inventory item) {
+    public boolean addInventory(Inventory item) {
         if (item.isGlobal()) {
-            addGlobalInventory(item);
+            return addGlobalInventory(item);
         } else {
-            addSaveInventory(item);
+            return addSaveInventory(item);
         }
     }
 

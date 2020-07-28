@@ -3500,6 +3500,13 @@
     "locale": "ru"
   },
   {
+    "name": "sfx_fanfare",
+    "__v": 0,
+    "duration": 2000,
+    "file": "audio/sfx_fanfare.aac",
+    "locale": "ru"
+  },
+  {
     "name": "sfx_inter_balloons_one_1",
     "__v": 0,
     "duration": 673,

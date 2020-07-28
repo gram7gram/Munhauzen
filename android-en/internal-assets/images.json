@@ -70,7 +70,9 @@
     "description": "Grabbed a pistol and fired!",
     "file": "images/p1_d.jpg",
     "locale": "en",
-    "order": 8
+    "order": 8,
+    "relatedStatue": "ST_CHAPTER",
+    "type": "statue"
   },
   {
     "name": "p1_d_bonus",
@@ -236,7 +238,9 @@
     "description": "I went for a walk with my wife",
     "file": "images/p7_2_0.jpg",
     "locale": "en",
-    "order": 28
+    "order": 28,
+    "relatedStatue": "ST_GENTLE",
+    "type": "statue"
   },
   {
     "name": "p7_2_b_1",
@@ -276,7 +280,9 @@
     "description": "Look, rusty spots!",
     "file": "images/pmoon.jpg",
     "locale": "en",
-    "order": 33
+    "order": 33,
+    "relatedStatue": "ST_PERSONS",
+    "type": "statue"
   },
   {
     "name": "pmoon_a_win",
@@ -292,7 +298,9 @@
     "description": "... and I see: a young deer is right in front of me",
     "file": "images/p13_0.jpg",
     "locale": "en",
-    "order": 35
+    "order": 35,
+    "relatedStatue": "ST_PROBLEM",
+    "type": "statue"
   },
   {
     "name": "p13_d",
@@ -333,7 +341,9 @@
     "description": "Once, my father was attacked by a wild angry seahorse",
     "file": "images/psling_1.jpg",
     "locale": "en",
-    "order": 40
+    "order": 40,
+    "relatedStatue": "ST_REPEAT",
+    "type": "statue"
   },
   {
     "name": "psling_b",
@@ -430,7 +440,9 @@
     "description": "You can see that there used to be two rows of eleven buttons each on my waistcoat, and that now only three are left! Do you believe me now?",
     "file": "images/p19_b.jpg",
     "locale": "en",
-    "order": 51
+    "order": 51,
+    "relatedStatue": "ST_CHAPTERSECRET",
+    "type": "statue"
   },
   {
     "name": "p20_1",
@@ -514,7 +526,9 @@
     "description": "I waited for the cannon to fire and then jumped right on the cannonball",
     "file": "images/p22_d.jpg",
     "locale": "en",
-    "order": 61
+    "order": 61,
+    "relatedStatue": "ST_CANNONBALL",
+    "type": "statue"
   },
   {
     "name": "p22_d_2",
@@ -689,7 +703,9 @@
     "description": "I gave him such a slap in the face that there was a ringing sound",
     "file": "images/pbrougham_a.jpg",
     "locale": "en",
-    "order": 82
+    "order": 82,
+    "relatedStatue": "ST_EAR",
+    "type": "statue"
   },
   {
     "name": "p10_0",
@@ -753,7 +769,9 @@
     "description": "But how can I go back now? Will I always stay on this terrible moon?",
     "file": "images/p27_1.jpg",
     "locale": "en",
-    "order": 90
+    "order": 90,
+    "relatedStatue": "ST_FIRST",
+    "type": "statue"
   },
   {
     "name": "p27_d",
@@ -769,7 +787,9 @@
     "description": "How do I get out?",
     "file": "images/p28_a.jpg",
     "locale": "en",
-    "order": 92
+    "order": 92,
+    "relatedStatue": "ST_AXE",
+    "type": "statue"
   },
   {
     "name": "p29_2",
@@ -804,7 +824,9 @@
     "description": "And we were rising higher and higher with a colossal speed!",
     "file": "images/pballoon_a_2.jpg",
     "locale": "en",
-    "order": 96
+    "order": 96,
+    "relatedStatue": "ST_DEJAVU",
+    "type": "statue"
   },
   {
     "name": "pcannon",
@@ -927,7 +949,9 @@
     "description": "I cheered up and sang a song that I had learned as I was a child",
     "file": "images/ptample_5.jpg",
     "locale": "en",
-    "order": 111
+    "order": 111,
+    "relatedStatue": "ST_SONG",
+    "type": "statue"
   },
   {
     "name": "p34_0",
@@ -1004,7 +1028,9 @@
     "description": "I wanted to help these barbarians stop eating raw meat and drinking kava",
     "file": "images/pvarvars.jpg",
     "locale": "en",
-    "order": 120
+    "order": 120,
+    "relatedStatue": "ST_LETTER",
+    "type": "statue"
   },
   {
     "name": "pvarvars_d_all_1",
@@ -1259,7 +1285,9 @@
     "description": "They were even more surprised surprised when I jumped out of the fish's mouth and greeted them with a kind bow",
     "file": "images/p41_d.jpg",
     "locale": "en",
-    "order": 150
+    "order": 150,
+    "relatedStatue": "ST_VERSE",
+    "type": "statue"
   },
   {
     "name": "p41_d_bonus_1",
@@ -1427,7 +1455,9 @@
     "description": "It was a great victory!",
     "file": "images/p41_win.jpg",
     "locale": "en",
-    "order": 170
+    "order": 170,
+    "relatedStatue": "ST_DANGER",
+    "type": "statue"
   },
   {
     "name": "p41_story_bonus_1",
@@ -1607,7 +1637,9 @@
     "description": "Prince of the Station",
     "file": "images/pamerica_5.jpg",
     "locale": "en",
-    "order": 192
+    "order": 192,
+    "relatedStatue": "ST_SLAP",
+    "type": "statue"
   },
   {
     "name": "pamerica_3",
@@ -1722,6 +1754,7 @@
     "locale": "en",
     "order": 205,
     "relatedScenario": "p57_0",
+    "relatedStatue": "TRUE",
     "type": "color"
   },
   {

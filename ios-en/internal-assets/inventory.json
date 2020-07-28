@@ -1,5 +1,32 @@
 [
   {
+    "isMenu": true,
+    "name": "AGRONOM",
+    "__v": 0,
+    "locale": "en",
+    "relatedScenario": [
+      "amoon_e"
+    ]
+  },
+  {
+    "isMenu": true,
+    "name": "ASTROLOG",
+    "__v": 0,
+    "locale": "en",
+    "relatedScenario": [
+      "amoon_b"
+    ]
+  },
+  {
+    "isMenu": true,
+    "name": "ASTRONOM",
+    "__v": 0,
+    "locale": "en",
+    "relatedScenario": [
+      "amoon_d"
+    ]
+  },
+  {
     "name": "AXE",
     "__v": 0,
     "isMenu": true,
@@ -54,9 +81,9 @@
     "locale": "en"
   },
   {
+    "isMenu": true,
     "name": "BOMB",
     "__v": 0,
-    "isMenu": true,
     "locale": "en",
     "relatedScenario": [
       "aprisoners_c"
@@ -91,6 +118,15 @@
   },
   {
     "isMenu": true,
+    "name": "CARPENETER",
+    "__v": 0,
+    "locale": "en",
+    "relatedScenario": [
+      "amoon_a"
+    ]
+  },
+  {
+    "isMenu": true,
     "name": "CARPETENER",
     "__v": 0,
     "locale": "en"
@@ -102,6 +138,15 @@
     "locale": "en",
     "relatedScenario": [
       "avarvars_a"
+    ]
+  },
+  {
+    "isMenu": true,
+    "name": "CHEMISTER",
+    "__v": 0,
+    "locale": "en",
+    "relatedScenario": [
+      "amoon_c"
     ]
   },
   {
@@ -120,6 +165,42 @@
     ]
   },
   {
+    "isMenu": true,
+    "name": "DEJAVU_A",
+    "__v": 0,
+    "locale": "en",
+    "relatedScenario": [
+      "aballoon_a_a"
+    ]
+  },
+  {
+    "isMenu": true,
+    "name": "DEJAVU_B",
+    "__v": 0,
+    "locale": "en",
+    "relatedScenario": [
+      "aballoon_a_b"
+    ]
+  },
+  {
+    "isMenu": true,
+    "name": "DEJAVU_C",
+    "__v": 0,
+    "locale": "en",
+    "relatedScenario": [
+      "aballoon_a_c"
+    ]
+  },
+  {
+    "isMenu": true,
+    "name": "DEJAVU_D",
+    "__v": 0,
+    "locale": "en",
+    "relatedScenario": [
+      "aballoon_a_d"
+    ]
+  },
+  {
     "name": "DOG",
     "__v": 0,
     "isMenu": true,
@@ -134,7 +215,7 @@
     "isMenu": true,
     "locale": "en",
     "relatedScenario": [
-      "atample_5"
+      "atample"
     ]
   },
   {
@@ -403,6 +484,18 @@
     ]
   },
   {
+    "name": "ST_AXE",
+    "__v": 0,
+    "description": "Got your axe from the Moon back!",
+    "isStatue": true,
+    "locale": "en",
+    "relatedInventory": [],
+    "relatedScenario": [
+      "a29_b"
+    ],
+    "statueImage": "statues/st_axe.png"
+  },
+  {
     "name": "ST_BALLOON",
     "__v": 0,
     "description": "Yes! The air balloon and its owner are saved by your shot!",
@@ -412,7 +505,43 @@
     "relatedScenario": [
       "aballoon_a"
     ],
-    "statueImage": "gallery/st_balloon.png"
+    "statueImage": "statues/st_balloon.png"
+  },
+  {
+    "name": "ST_CANNONBALL",
+    "__v": 0,
+    "description": "The most famous story of Munchausen!",
+    "isStatue": true,
+    "locale": "en",
+    "relatedInventory": [],
+    "relatedScenario": [
+      "a22"
+    ],
+    "statueImage": "statues/st_cannonball.png"
+  },
+  {
+    "name": "ST_CHAPTER",
+    "__v": 0,
+    "description": "Finsihed chapter one!",
+    "isStatue": true,
+    "locale": "en",
+    "relatedInventory": [],
+    "relatedScenario": [
+      "a1_intro_continue"
+    ],
+    "statueImage": "statues/st_chapter.png"
+  },
+  {
+    "name": "ST_CHAPTERSECRET",
+    "__v": 0,
+    "description": "The secret bonus chapter!",
+    "isStatue": true,
+    "locale": "en",
+    "relatedInventory": [],
+    "relatedScenario": [
+      "a2_2"
+    ],
+    "statueImage": "statues/st_chaptersecret.png"
   },
   {
     "name": "ST_CROCODILE",
@@ -424,7 +553,7 @@
     "relatedScenario": [
       "anile_d_d"
     ],
-    "statueImage": "gallery/st_crocodile.png"
+    "statueImage": "statues/st_crocodile.png"
   },
   {
     "name": "ST_CUBIC",
@@ -439,7 +568,82 @@
       "CLOCKS"
     ],
     "relatedScenario": [],
-    "statueImage": "gallery/st_cubic.png"
+    "statueImage": "statues/st_cubic.png"
+  },
+  {
+    "name": "ST_DANGER",
+    "__v": 0,
+    "description": "It was my most dangerous adventure!",
+    "isStatue": true,
+    "locale": "en",
+    "relatedInventory": [],
+    "relatedScenario": [
+      "a41_story_win"
+    ],
+    "statueImage": "statues/st_danger.png"
+  },
+  {
+    "name": "ST_DEJAVU",
+    "__v": 0,
+    "description": "Full DeJaVu",
+    "isStatue": true,
+    "locale": "en",
+    "relatedInventory": [
+      "DEJAVU_A",
+      "DEJAVU_B",
+      "DEJAVU_C",
+      "DEJAVU_D"
+    ],
+    "relatedScenario": [],
+    "statueImage": "statues/st_dejavu.png"
+  },
+  {
+    "name": "ST_DIRT",
+    "__v": 0,
+    "description": "Tarnished the moon with ink!",
+    "isStatue": true,
+    "locale": "en",
+    "relatedInventory": [],
+    "relatedScenario": [
+      "amoon_c_b"
+    ],
+    "statueImage": "statues/st_dirt.png"
+  },
+  {
+    "name": "ST_EAR",
+    "__v": 0,
+    "description": "Shouted to Vasiliy's heart's content!",
+    "isStatue": true,
+    "locale": "en",
+    "relatedInventory": [],
+    "relatedScenario": [
+      "abrougham_b"
+    ],
+    "statueImage": "statues/st_ear.png"
+  },
+  {
+    "name": "ST_FIRST",
+    "__v": 0,
+    "description": "The first person on the Moon!",
+    "isStatue": true,
+    "locale": "en",
+    "relatedInventory": [],
+    "relatedScenario": [
+      "a26_d"
+    ],
+    "statueImage": "statues/st_first.png"
+  },
+  {
+    "name": "ST_GENTLE",
+    "__v": 0,
+    "description": "Acted like a gentleman!",
+    "isStatue": true,
+    "locale": "en",
+    "relatedInventory": [],
+    "relatedScenario": [
+      "a7_2_a"
+    ],
+    "statueImage": "statues/st_gentle.png"
   },
   {
     "name": "ST_JINNA",
@@ -451,7 +655,7 @@
     "relatedScenario": [
       "amarriage_a_a"
     ],
-    "statueImage": "gallery/st_jinna.png"
+    "statueImage": "statues/st_jinna.png"
   },
   {
     "name": "ST_KING",
@@ -463,7 +667,19 @@
     "relatedScenario": [
       "a34_a"
     ],
-    "statueImage": "gallery/st_king.png"
+    "statueImage": "statues/st_king.png"
+  },
+  {
+    "name": "ST_LETTER",
+    "__v": 0,
+    "description": "Yes! Now is the time to write letter to a friend!",
+    "isStatue": true,
+    "locale": "en",
+    "relatedInventory": [],
+    "relatedScenario": [
+      "avarvars_d"
+    ],
+    "statueImage": "statues/st_letter.png"
   },
   {
     "name": "ST_LION",
@@ -475,7 +691,7 @@
     "relatedScenario": [
       "alion_attack_win"
     ],
-    "statueImage": "gallery/st_lion.png"
+    "statueImage": "statues/st_lion.png"
   },
   {
     "name": "ST_LUCKY_1",
@@ -487,7 +703,7 @@
     "relatedScenario": [
       "a61_shoot"
     ],
-    "statueImage": "gallery/st_lucky.png"
+    "statueImage": "statues/st_lucky.png"
   },
   {
     "name": "ST_LUCKY_2",
@@ -499,7 +715,19 @@
     "relatedScenario": [
       "a_shoot"
     ],
-    "statueImage": "gallery/st_lucky.png"
+    "statueImage": "statues/st_lucky.png"
+  },
+  {
+    "name": "ST_MOON",
+    "__v": 0,
+    "description": "Have been on the Moon second time!",
+    "isStatue": true,
+    "locale": "en",
+    "relatedInventory": [],
+    "relatedScenario": [
+      "a57"
+    ],
+    "statueImage": "statues/st_moon.png"
   },
   {
     "name": "ST_NEMO",
@@ -511,7 +739,23 @@
     "relatedScenario": [
       "a39_a"
     ],
-    "statueImage": "gallery/st_nemo.png"
+    "statueImage": "statues/st_nemo.png"
+  },
+  {
+    "name": "ST_PERSONS",
+    "__v": 0,
+    "description": "Listned to all sultan's advisers!",
+    "isStatue": true,
+    "locale": "en",
+    "relatedInventory": [
+      "AGRONOM",
+      "ASTRONOM",
+      "CHEMISTER",
+      "ASTROLOG",
+      "CARPENETER"
+    ],
+    "relatedScenario": [],
+    "statueImage": "statues/st_persons.png"
   },
   {
     "name": "ST_PIFAGOR",
@@ -523,7 +767,7 @@
     "relatedScenario": [
       "aboat_ruin_d"
     ],
-    "statueImage": "gallery/st_pifagor.png"
+    "statueImage": "statues/st_pifagor.png"
   },
   {
     "name": "ST_PONY",
@@ -535,19 +779,79 @@
     "relatedScenario": [
       "anephew_e"
     ],
-    "statueImage": "gallery/st_pony.png"
+    "statueImage": "statues/st_pony.png"
+  },
+  {
+    "name": "ST_PROBLEM",
+    "__v": 0,
+    "description": "Found bonus adventure to your's cost",
+    "isStatue": true,
+    "locale": "en",
+    "relatedInventory": [],
+    "relatedScenario": [
+      "a13_a"
+    ],
+    "statueImage": "statues/st_problem.png"
+  },
+  {
+    "name": "ST_REPEAT",
+    "__v": 0,
+    "description": "The story repeates with the half of the sling!",
+    "isStatue": true,
+    "locale": "en",
+    "relatedInventory": [],
+    "relatedScenario": [
+      "asling_c"
+    ],
+    "statueImage": "statues/st_repeat.png"
+  },
+  {
+    "name": "ST_SLAP",
+    "__v": 0,
+    "description": "Slapped the face of the wrong station master!",
+    "isStatue": true,
+    "locale": "en",
+    "relatedInventory": [],
+    "relatedScenario": [
+      "aamerica_cont"
+    ],
+    "statueImage": "statues/st_slap.png"
+  },
+  {
+    "name": "ST_SONG",
+    "__v": 0,
+    "description": "The song of Munchausen!",
+    "isStatue": true,
+    "locale": "en",
+    "relatedInventory": [],
+    "relatedScenario": [
+      "atample_5"
+    ],
+    "statueImage": "statues/st_song.png"
   },
   {
     "name": "ST_TREE",
     "__v": 0,
-    "description": "That's how the birch stood me in good stead",
+    "description": "Here it is! Bonus ending!",
     "isStatue": true,
     "locale": "en",
     "relatedInventory": [],
     "relatedScenario": [
       "a61_bonus"
     ],
-    "statueImage": "gallery/st_tree.png"
+    "statueImage": "statues/st_tree.png"
+  },
+  {
+    "name": "ST_VERSE",
+    "__v": 0,
+    "description": "Oh, Munchausen reads any verse so expressively",
+    "isStatue": true,
+    "locale": "en",
+    "relatedInventory": [],
+    "relatedScenario": [
+      "a41_a"
+    ],
+    "statueImage": "statues/st_verse.png"
   },
   {
     "name": "ST_WAUWAU",
@@ -559,7 +863,7 @@
     "relatedScenario": [
       "awau_2_a_win"
     ],
-    "statueImage": "gallery/st_wauwau.png"
+    "statueImage": "statues/st_wauwau.png"
   },
   {
     "name": "ST_WIN",
@@ -571,7 +875,7 @@
     "relatedScenario": [
       "a61_d"
     ],
-    "statueImage": "gallery/st_win.png"
+    "statueImage": "statues/st_win.png"
   },
   {
     "name": "ST_WORM",
@@ -583,7 +887,7 @@
     "relatedScenario": [
       "aworm_d_cont"
     ],
-    "statueImage": "gallery/st_worm.png"
+    "statueImage": "statues/st_worm.png"
   },
   {
     "isMenu": true,

@@ -238,13 +238,13 @@ public class CannonsScenarioFragment extends ScenarioFragment {
 
             switch (decision.scenario) {
                 case "aworm_a":
-                    interaction.gameScreen.game.achievementService.onInventoryAdded(burnWorm);
+                    interaction.gameScreen.onInventoryAdded(burnWorm);
                     break;
                 case "aworm_d":
-                    interaction.gameScreen.game.achievementService.onInventoryAdded(floodWorm);
+                    interaction.gameScreen.onInventoryAdded(floodWorm);
                     break;
                 case "aworm_c":
-                    interaction.gameScreen.game.achievementService.onInventoryAdded(eatWorm);
+                    interaction.gameScreen.onInventoryAdded(eatWorm);
                     break;
             }
 

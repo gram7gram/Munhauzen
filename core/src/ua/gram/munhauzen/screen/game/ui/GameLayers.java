@@ -18,7 +18,7 @@ public class GameLayers extends Stack implements Disposable {
     public ImageFragment backgroundLayer;
     public Fragment controlsLayer, interactionLayer,
             storyDecisionsLayer, progressBarLayer, interactionProgressBarLayer,
-            purchaseLayer;
+            purchaseLayer, achievementLayer;
 
     public GameLayers(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
@@ -74,6 +74,13 @@ public class GameLayers extends Stack implements Disposable {
             addActor(createDummy("interactionProgressBarLayer"));
         }
 
+        if (achievementLayer != null) {
+            achievementLayer.getRoot().setTouchable(Touchable.childrenOnly);
+            addActor(achievementLayer.getRoot());
+        } else {
+            addActor(createDummy("achievementLayer"));
+        }
+
         if (controlsLayer != null) {
             controlsLayer.getRoot().setTouchable(Touchable.childrenOnly);
             addActor(controlsLayer.getRoot());
@@ -81,6 +88,16 @@ public class GameLayers extends Stack implements Disposable {
             addActor(createDummy("controlsLayer"));
         }
 
+    }
+
+    public void setAchievementLayer(Fragment actor) {
+        if (achievementLayer != null) {
+            removeActor(achievementLayer.getRoot());
+            achievementLayer.destroy();
+        }
+        achievementLayer = actor;
+
+        update();
     }
 
     public void setPurchaseLayer(Fragment actor) {
@@ -188,6 +205,10 @@ public class GameLayers extends Stack implements Disposable {
         if (purchaseLayer != null) {
             purchaseLayer.destroy();
             purchaseLayer = null;
+        }
+        if (achievementLayer != null) {
+            achievementLayer.destroy();
+            achievementLayer = null;
         }
     }
 }

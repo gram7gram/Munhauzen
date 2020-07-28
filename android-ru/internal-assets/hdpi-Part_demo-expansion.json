@@ -1,5 +1,5 @@
 {
-  "version": 12,
+  "version": 13,
   "locale": "ru",
   "dpi": "hdpi",
   "size": 148453595,
@@ -41,14 +41,6 @@
         "part": 5,
         "checksum": "",
         "url": "134qTQi95H-8aUY1Qh6bliLXvLhrojzs4"
-      },
-      {
-        "patch": true,
-        "size": 100000,
-        "sizeMB": 1,
-        "part": 7,
-        "checksum": "",
-        "url": "1O__Ibw5HaEDrWudo_VMSVBkAk-Oa6EEF"
       }
     ]
   }

@@ -565,4 +565,8 @@ public class SfxService {
     public void onSaveOptionNoClicked() {
         prepareAndPlay("sfx_menu_save_no");
     }
+
+    public void onAchievementUnlocked() {
+        prepareAndPlay("sfx_fanfare");
+    }
 }

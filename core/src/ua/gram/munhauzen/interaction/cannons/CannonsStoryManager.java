@@ -52,7 +52,7 @@ public class CannonsStoryManager {
             if (hasEatWorm) ++wormCount;
 
             if (wormCount == 3) {
-                interaction.gameScreen.game.achievementService.onInventoryAdded(epydemy);
+                interaction.gameScreen.onInventoryAdded(epydemy);
             }
 
         } catch (Throwable e) {

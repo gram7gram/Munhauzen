@@ -400,7 +400,7 @@ public class PuzzleDecisionManager {
                         if (!hasBomb)
                             hasBomb = item.equals("BOMB");
 
-                        interaction.gameScreen.game.achievementService.onInventoryAdded(inventory);
+                        interaction.gameScreen.onInventoryAdded(inventory);
                     }
 
                 } catch (Throwable e) {

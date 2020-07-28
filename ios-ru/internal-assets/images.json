@@ -70,7 +70,9 @@
     "description": "Схватил пистолет и выстрелил!",
     "file": "images/p1_d.jpg",
     "locale": "ru",
-    "order": 8
+    "order": 8,
+    "relatedStatue": "ST_CHAPTER",
+    "type": "statue"
   },
   {
     "name": "p1_d_bonus",
@@ -236,7 +238,9 @@
     "description": "Отправился я со своей женой на прогулку",
     "file": "images/p7_2_0.jpg",
     "locale": "ru",
-    "order": 28
+    "order": 28,
+    "relatedStatue": "ST_GENTLE",
+    "type": "statue"
   },
   {
     "name": "p7_2_b_1",
@@ -276,7 +280,9 @@
     "description": "Взгляни, ржавые пятна!",
     "file": "images/pmoon.jpg",
     "locale": "ru",
-    "order": 33
+    "order": 33,
+    "relatedStatue": "ST_PERSONS",
+    "type": "statue"
   },
   {
     "name": "pmoon_a_win",
@@ -292,7 +298,9 @@
     "description": "… и вижу: прямо предо мной молодой олень",
     "file": "images/p13_0.jpg",
     "locale": "ru",
-    "order": 35
+    "order": 35,
+    "relatedStatue": "ST_PROBLEM",
+    "type": "statue"
   },
   {
     "name": "p13_d",
@@ -333,7 +341,9 @@
     "description": "Как то на моего отца напал дикий разъяренный морской конёк",
     "file": "images/psling_1.jpg",
     "locale": "ru",
-    "order": 40
+    "order": 40,
+    "relatedStatue": "ST_REPEAT",
+    "type": "statue"
   },
   {
     "name": "psling_b",
@@ -430,7 +440,9 @@
     "description": "Но посмотрите сюда, и вы убедитесь, что я рассказываю вам чистейшую правду: разве вы не видите своими глазами, что теперь на моей куртке осталось всего две пуговицы?",
     "file": "images/p19_b.jpg",
     "locale": "ru",
-    "order": 51
+    "order": 51,
+    "relatedStatue": "ST_CHAPTERSECRET",
+    "type": "statue"
   },
   {
     "name": "p20_1",
@@ -514,7 +526,9 @@
     "description": "Я подождал, когда пушка выстрелит и тут же запрыгнул на ядро",
     "file": "images/p22_d.jpg",
     "locale": "ru",
-    "order": 61
+    "order": 61,
+    "relatedStatue": "ST_CANNONBALL",
+    "type": "statue"
   },
   {
     "name": "p22_d_2",
@@ -689,7 +703,9 @@
     "description": "Я дал ему такую оплеуху, что только звон прокатил",
     "file": "images/pbrougham_a.jpg",
     "locale": "ru",
-    "order": 82
+    "order": 82,
+    "relatedStatue": "ST_EAR",
+    "type": "statue"
   },
   {
     "name": "p10_0",
@@ -753,7 +769,9 @@
     "description": "Но как же мне теперь вернуться назад? Неужели я вечно так и останусь на этой противной Луне?",
     "file": "images/p27_1.jpg",
     "locale": "ru",
-    "order": 90
+    "order": 90,
+    "relatedStatue": "ST_FIRST",
+    "type": "statue"
   },
   {
     "name": "p27_d",
@@ -769,7 +787,9 @@
     "description": "Как же мне выбраться?",
     "file": "images/p28_a.jpg",
     "locale": "ru",
-    "order": 92
+    "order": 92,
+    "relatedStatue": "ST_AXE",
+    "type": "statue"
   },
   {
     "name": "p29_2",
@@ -804,7 +824,9 @@
     "description": "И мы поднимались выше и выше с колоссальной скоростью!",
     "file": "images/pballoon_a_2.jpg",
     "locale": "ru",
-    "order": 96
+    "order": 96,
+    "relatedStatue": "ST_DEJAVU",
+    "type": "statue"
   },
   {
     "name": "pcannon",
@@ -927,7 +949,9 @@
     "description": "Я развеселился и запел песенку, которую выучил в детстве",
     "file": "images/ptample_5.jpg",
     "locale": "ru",
-    "order": 111
+    "order": 111,
+    "relatedStatue": "ST_SONG",
+    "type": "statue"
   },
   {
     "name": "p34_0",
@@ -1004,7 +1028,9 @@
     "description": "Я хотел помочь этим варварам оставить обычай есть сырое мясо и пить кофе",
     "file": "images/pvarvars.jpg",
     "locale": "ru",
-    "order": 120
+    "order": 120,
+    "relatedStatue": "ST_LETTER",
+    "type": "statue"
   },
   {
     "name": "pvarvars_d_all_1",
@@ -1259,7 +1285,9 @@
     "description": "Они еще более удивились, когда из рыбины выпрыгнул я, целый и невредимый",
     "file": "images/p41_d.jpg",
     "locale": "ru",
-    "order": 150
+    "order": 150,
+    "relatedStatue": "ST_VERSE",
+    "type": "statue"
   },
   {
     "name": "p41_d_bonus_1",
@@ -1427,7 +1455,9 @@
     "description": "Это была великая победа!",
     "file": "images/p41_win.jpg",
     "locale": "ru",
-    "order": 170
+    "order": 170,
+    "relatedStatue": "ST_DANGER",
+    "type": "statue"
   },
   {
     "name": "p41_story_bonus_1",
@@ -1607,7 +1637,9 @@
     "description": "Принц Станции",
     "file": "images/pamerica_5.jpg",
     "locale": "ru",
-    "order": 192
+    "order": 192,
+    "relatedStatue": "ST_SLAP",
+    "type": "statue"
   },
   {
     "name": "pamerica_3",
@@ -1722,6 +1754,7 @@
     "locale": "ru",
     "order": 205,
     "relatedScenario": "p57_0",
+    "relatedStatue": "TRUE",
     "type": "color"
   },
   {

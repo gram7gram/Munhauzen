@@ -29,6 +29,10 @@ const start = async () => {
 
             delete item._id
 
+            if (item.statueImage) {
+                item.statueImage = item.statueImage.replace('gallery/', 'statues/')
+            }
+
             if (item.audio) {
                     for (const i of item.audio) {
                         delete i._id
