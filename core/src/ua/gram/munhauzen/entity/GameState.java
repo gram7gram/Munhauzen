@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.ArrayList;
 
 import ua.gram.munhauzen.expansion.response.ExpansionResponse;
+import ua.gram.munhauzen.repository.ScenarioRepository;
+import ua.gram.munhauzen.service.AchievementService;
 import ua.gram.munhauzen.utils.Log;
 
 /**
@@ -86,8 +88,23 @@ public class GameState {
     }
 
     public void addVisitedScenario(String scenario) {
-        history.visitedStories.add(scenario);
         activeSave.visitedStories.add(scenario);
+
+        if (!history.visitedStories.contains(scenario)) {
+            history.visitedStories.add(scenario);
+
+            try {
+                Scenario match = ScenarioRepository.find(this, scenario);
+
+                if (match.isVictory()) {
+                    achievementState.points += AchievementService.VICTORY_POINTS;
+                } else {
+                    achievementState.points += AchievementService.SCENARIO_POINTS;
+                }
+
+            } catch (Throwable ignore) {
+            }
+        }
 
         if (scenario.equals("a61_bonus") || scenario.equals("a62_fin_chapter")) {
             history.globalInventory.remove("BIRCH");

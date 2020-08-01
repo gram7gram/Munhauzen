@@ -1,6 +1,7 @@
 package ua.gram.munhauzen.ui;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 
@@ -13,15 +14,13 @@ public class FixedImage extends Image {
     }
 
     public FixedImage(Texture texture, float width) {
-        this(texture, width, texture.getHeight() * (width / texture.getWidth()));
+        this();
+
+        setBackground(texture, width);
     }
 
-    public FixedImage(Texture texture, float width, float height) {
-        super(texture);
-        this.width = width;
-        this.height = height;
-
-        setSize(width, height);
+    public void setBackground(Texture texture, float width) {
+        setBackground(new SpriteDrawable(new Sprite(texture)), width);
     }
 
     public void setBackground(SpriteDrawable drawable, float width) {
@@ -29,6 +28,15 @@ public class FixedImage extends Image {
 
         this.width = width;
         this.height = drawable.getMinHeight() * (width / drawable.getMinWidth());
+
+        setSize(width, height);
+
+        layout();
+    }
+
+    @Override
+    public void layout() {
+        super.layout();
 
         setSize(width, height);
     }

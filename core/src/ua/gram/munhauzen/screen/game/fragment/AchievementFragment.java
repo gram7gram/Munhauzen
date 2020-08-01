@@ -21,6 +21,7 @@ public class AchievementFragment extends Fragment {
     public final GameScreen screen;
     public FragmentRoot root;
     public boolean isFadeIn, isFadeOut;
+    AchievementPopup banner;
 
     public AchievementFragment(GameScreen screen) {
         this.screen = screen;
@@ -37,7 +38,7 @@ public class AchievementFragment extends Fragment {
         Container<?> backdrop = new Container<>();
         backdrop.setTouchable(Touchable.enabled);
 
-        AchievementPopup banner = new AchievementPopup(screen);
+        banner = new AchievementPopup(screen);
         banner.create(inventory);
 
         root = new FragmentRoot();
@@ -71,24 +72,19 @@ public class AchievementFragment extends Fragment {
     public void fadeIn() {
 
         if (!isMounted()) return;
-        if (isFadeIn) return;
-
-        isFadeOut = false;
-        isFadeIn = true;
 
         Log.i(tag, "fadeIn");
 
         root.setVisible(true);
 
-        root.clearActions();
+        banner.animate();
+
         root.addAction(Actions.sequence(
-                Actions.alpha(0),
-                Actions.alpha(1, .3f),
+                Actions.delay(2),
                 Actions.run(new Runnable() {
                     @Override
                     public void run() {
-                        isFadeIn = false;
-                        isFadeOut = false;
+                        fadeOut();
                     }
                 })
         ));

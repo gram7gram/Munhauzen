@@ -13,5 +13,7 @@ public class AchievementState implements JsonEntry {
     @JsonProperty
     public boolean areAllMenuInventoryUnlocked;
     @JsonProperty
+    public int points;
+    @JsonProperty
     public Stack<String> achievementsToDisplay;
 }

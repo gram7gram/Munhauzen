@@ -10,11 +10,13 @@ import ua.gram.munhauzen.entity.AchievementState;
 import ua.gram.munhauzen.entity.AudioFail;
 import ua.gram.munhauzen.entity.Image;
 import ua.gram.munhauzen.entity.MenuState;
+import ua.gram.munhauzen.screen.menu.fragment.AchievementFragment;
 import ua.gram.munhauzen.screen.menu.fragment.ControlsFragment;
 import ua.gram.munhauzen.screen.menu.fragment.DemoFragment;
 import ua.gram.munhauzen.screen.menu.fragment.ExitFragment;
 import ua.gram.munhauzen.screen.menu.fragment.GreetingFragment;
 import ua.gram.munhauzen.screen.menu.fragment.ImageFragment;
+import ua.gram.munhauzen.screen.menu.fragment.LogoFragment;
 import ua.gram.munhauzen.screen.menu.fragment.ProFragment;
 import ua.gram.munhauzen.screen.menu.fragment.RateFragment;
 import ua.gram.munhauzen.screen.menu.fragment.ShareFragment;
@@ -27,14 +29,13 @@ import ua.gram.munhauzen.service.AudioService;
 import ua.gram.munhauzen.ui.AdultGateFragment;
 import ua.gram.munhauzen.utils.Log;
 
-/**
- * @author Gram <gram7gram@gmail.com>
- */
 public class MenuScreen extends AbstractScreen {
 
     public MenuLayers layers;
     public ImageFragment imageFragment;
     public ControlsFragment controlsFragment;
+    public LogoFragment logoFragment;
+    public AchievementFragment achievementFragment;
     public AudioService audioService;
     public boolean isUILocked, isZoomStarted;
 
@@ -82,6 +83,8 @@ public class MenuScreen extends AbstractScreen {
         assetManager.load("menu/b_demo_version_an_sheet.png", Texture.class);
 
         assetManager.load("menu/menu_logo.png", Texture.class);
+        assetManager.load("menu/progress_color.png", Texture.class);
+        assetManager.load("menu/progress_black.png", Texture.class);
 
     }
 
@@ -91,31 +94,31 @@ public class MenuScreen extends AbstractScreen {
 
         try {
 
-            if (game.gameState != null) {
-                for (AudioFail fail : game.gameState.audioFailRegistry) {
-                    if (fail.isFailOpenedOnStart) {
-                        game.gameState.history.openedFails.add(fail.name);
-                    }
+            game.achievementService.updateTotalPoints();
+
+            for (AudioFail fail : game.gameState.audioFailRegistry) {
+                if (fail.isFailOpenedOnStart) {
+                    game.achievementService.onFailOpened(fail);
                 }
+            }
 
-                for (Image image : game.gameState.getGalleryImages()) {
+            for (Image image : game.gameState.getGalleryImages()) {
 
-                    boolean isOpened = game.gameState.history.viewedImages.contains(image.name);
-                    boolean isViewed = game.gameState.galleryState.visitedImages.contains(image.name);
-                    if (isOpened && !isViewed) {
-                        game.gameState.galleryState.hasUpdates = true;
-                        break;
-                    }
+                boolean isOpened = game.gameState.history.viewedImages.contains(image.name);
+                boolean isViewed = game.gameState.galleryState.visitedImages.contains(image.name);
+                if (isOpened && !isViewed) {
+                    game.gameState.galleryState.hasUpdates = true;
+                    break;
                 }
+            }
 
-                for (AudioFail fail : game.gameState.audioFailRegistry) {
+            for (AudioFail fail : game.gameState.audioFailRegistry) {
 
-                    boolean isOpened = game.gameState.history.openedFails.contains(fail.name);
-                    boolean isViewed = game.gameState.failsState.listenedAudio.contains(fail.name);
-                    if (isOpened && !isViewed) {
-                        game.gameState.failsState.hasUpdates = true;
-                        break;
-                    }
+                boolean isOpened = game.gameState.history.openedFails.contains(fail.name);
+                boolean isViewed = game.gameState.failsState.listenedAudio.contains(fail.name);
+                if (isOpened && !isViewed) {
+                    game.gameState.failsState.hasUpdates = true;
+                    break;
                 }
             }
 
@@ -128,17 +131,20 @@ public class MenuScreen extends AbstractScreen {
 
             layers.setControlsLayer(controlsFragment);
 
-            //MENU HACK START
-            controlsFragment = new ControlsFragment(this);
-            controlsFragment.create();
-
-            layers.setControlsLayer(controlsFragment);
-            //MENU HACK END
-
             imageFragment = new ImageFragment(this);
             imageFragment.create();
 
             layers.setBackgroundLayer(imageFragment);
+
+            logoFragment = new LogoFragment(this);
+            logoFragment.create();
+
+            layers.setLogoLayer(logoFragment);
+
+            achievementFragment = new AchievementFragment(this);
+            achievementFragment.create();
+
+            layers.setAchievementLayer(achievementFragment);
 
             ui.addListener(new MenuStageListener(this));
 
@@ -494,6 +500,10 @@ public class MenuScreen extends AbstractScreen {
 
             if (exitFragment != null) {
                 exitFragment.update();
+            }
+
+            if (achievementFragment != null) {
+                achievementFragment.update();
             }
 
             if (isZoomStarted) {

@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -19,7 +18,6 @@ import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.MenuState;
-import ua.gram.munhauzen.screen.DebugScreen;
 import ua.gram.munhauzen.screen.MenuScreen;
 import ua.gram.munhauzen.screen.menu.ui.AuthorsButton;
 import ua.gram.munhauzen.screen.menu.ui.ChaptersButton;
@@ -47,11 +45,10 @@ public class ControlsFragment extends Fragment {
     private final MenuScreen screen;
     public FragmentRoot root;
     public MenuButton startButton, continueButton, chaptersButton, galleryButton, goofsButton, authorsButton;
-    Table btnTable, sideTable, logoTable;
-    Container<Table> sideContainer, exitContainer, titleContainer;
+    Table btnTable, sideTable;
+    Container<Table> sideContainer, exitContainer;
     Timer.Task fadeTask;
     public boolean isFadeIn, isFadeOut, isVisible;
-    Image logo;
 
     public ControlsFragment(MenuScreen screen) {
         this.screen = screen;
@@ -69,20 +66,6 @@ public class ControlsFragment extends Fragment {
         galleryButton = new GalleryButton(screen);
         goofsButton = new GoofsButton(screen);
         authorsButton = new AuthorsButton(screen);
-
-        logo = new Image();
-        if (!screen.game.params.isProduction()) {
-            logo.addListener(new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    super.clicked(event, x, y);
-
-                    screen.game.stopAllAudio();
-
-                    screen.navigateTo(new DebugScreen(screen.game));
-                }
-            });
-        }
 
         btnTable = new Table();
         btnTable.padTop(50);
@@ -174,10 +157,6 @@ public class ControlsFragment extends Fragment {
         Table exitTable = new Table();
         exitTable.add(exitBtn).expandX().right().width(iconSize2 / 2f).height(iconSize2).row();
 
-        logoTable = new Table();
-        logoTable.setTouchable(Touchable.childrenOnly);
-        logoTable.add(logo).expandX().center().row();
-
         sideContainer = new Container<>(sideTable);
         sideContainer.setTouchable(Touchable.childrenOnly);
         sideContainer.align(Align.bottomLeft);
@@ -188,19 +167,13 @@ public class ControlsFragment extends Fragment {
         exitContainer.align(Align.bottomRight);
         exitContainer.pad(10);
 
-        titleContainer = new Container<>(logoTable);
-        titleContainer.setTouchable(Touchable.childrenOnly);
-        titleContainer.align(Align.top);
-        titleContainer.pad(30, 10, 10, 10);
-
-        Container<Table> btnContainer = new Container<>(btnTable);
+        Container<?> btnContainer = new Container<>(btnTable);
         btnContainer.setTouchable(Touchable.childrenOnly);
         btnContainer.align(Align.center);
         btnContainer.pad(10);
 
         root = new FragmentRoot();
         root.setTouchable(Touchable.childrenOnly);
-        root.addContainer(titleContainer);
         root.addContainer(btnContainer);
         root.addContainer(sideContainer);
         root.addContainer(exitContainer);
@@ -211,10 +184,6 @@ public class ControlsFragment extends Fragment {
 
         root.setVisible(false);
         isVisible = false;
-
-        setLogoDrawable(new SpriteDrawable(new Sprite(
-                screen.assetManager.get("menu/menu_logo.png", Texture.class)
-        )));
 
         Timer.instance().scheduleTask(new Timer.Task() {
             @Override
@@ -238,16 +207,8 @@ public class ControlsFragment extends Fragment {
 
         float delay = 0;
 
-        titleContainer.addAction(Actions.sequence(
-                Actions.visible(false),
-                Actions.moveBy(0, -20),
-                Actions.alpha(0),
-                Actions.parallel(
-                        Actions.visible(true),
-                        Actions.moveBy(0, 20, .3f),
-                        Actions.alpha(1, .3f)
-                )
-        ));
+        screen.logoFragment.fadeInFancy();
+        screen.achievementFragment.fadeInFancy();
 
         delay += .3f;
 
@@ -312,13 +273,8 @@ public class ControlsFragment extends Fragment {
         isFadeIn = false;
         isFadeOut = true;
 
-        titleContainer.addAction(Actions.sequence(
-                Actions.parallel(
-                        Actions.moveBy(0, -20, .2f),
-                        Actions.alpha(0, .2f)
-                ),
-                Actions.visible(false)
-        ));
+        screen.logoFragment.fadeOutFancy();
+        screen.achievementFragment.fadeOutFancy();
 
         float delay = 0;
 
@@ -478,19 +434,6 @@ public class ControlsFragment extends Fragment {
             fadeTask.cancel();
             fadeTask = null;
         }
-    }
-
-    public void setLogoDrawable(SpriteDrawable drawable) {
-
-        logo.setDrawable(drawable);
-
-        float width = MunhauzenGame.WORLD_WIDTH * .9f;
-        float scale = 1f * width / drawable.getMinWidth();
-        float height = 1f * drawable.getMinHeight() * scale;
-
-        logoTable.getCell(logo)
-                .width(width)
-                .height(height);
     }
 
     private ImageButton getExitBtn() {

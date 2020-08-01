@@ -35,7 +35,7 @@ public class FontProvider implements Disposable {
             DroidSansMono = "DroidSansMono.ttf";
 
     public static final int
-            hd = 164,
+            hd = 160,
             h1 = 80,
             h2 = 60,
             h3 = 50,

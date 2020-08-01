@@ -195,6 +195,7 @@ public class EnglishTranslator implements Translator {
 
         map.put("debug_screen.endings", "Endings");
         map.put("debug_screen.open_audio_test", "Open audio test");
+        map.put("debug_screen.open_statues", "Unlock statues");
         map.put("debug_screen.open_fails", "Unlock all fails");
         map.put("debug_screen.open_gallery", "Unlock all gallery");
         map.put("debug_screen.purge_history", "Reset history");
@@ -233,6 +234,8 @@ public class EnglishTranslator implements Translator {
         map.put("adult_gate_screen.q4a2", "b) 7");
         map.put("adult_gate_screen.q4a3", "c) 9");
         map.put("adult_gate_screen.q4a4", "d) -10");
+
+        map.put("menu_achievement.progress", "Progress");
 
     }
 

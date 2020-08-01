@@ -1,5 +1,6 @@
 package ua.gram.munhauzen.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -15,5 +16,10 @@ public class Chapter extends Entity {
     public String chapterAudio;
     @JsonProperty
     public String description;
+
+    @JsonIgnore
+    public boolean isSpecialAchievement() {
+        return 17 == number;
+    }
 
 }

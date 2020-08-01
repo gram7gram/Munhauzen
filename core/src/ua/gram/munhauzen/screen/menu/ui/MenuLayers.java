@@ -14,7 +14,7 @@ import ua.gram.munhauzen.utils.Log;
 public class MenuLayers extends Stack implements Disposable {
 
     final String tag = getClass().getSimpleName();
-    public Fragment backgroundLayer, controlsLayer, bannerLayer;
+    public Fragment backgroundLayer, controlsLayer, bannerLayer, logoLayer, achievementLayer;
 
     public MenuLayers() {
 
@@ -35,6 +35,18 @@ public class MenuLayers extends Stack implements Disposable {
             addActor(createDummy("backgroundLayer"));
         }
 
+        if (logoLayer != null) {
+            addActor(logoLayer.getRoot());
+        } else {
+            addActor(createDummy("logoLayer"));
+        }
+
+        if (achievementLayer != null) {
+            addActor(achievementLayer.getRoot());
+        } else {
+            addActor(createDummy("achievementLayer"));
+        }
+
         if (controlsLayer != null) {
             addActor(controlsLayer.getRoot());
         } else {
@@ -47,6 +59,26 @@ public class MenuLayers extends Stack implements Disposable {
             addActor(createDummy("bannerLayer"));
         }
 
+    }
+
+    public void setAchievementLayer(Fragment actor) {
+        if (achievementLayer != null) {
+            removeActor(achievementLayer.getRoot());
+            achievementLayer.destroy();
+        }
+        achievementLayer = actor;
+
+        update();
+    }
+
+    public void setLogoLayer(Fragment actor) {
+        if (logoLayer != null) {
+            removeActor(logoLayer.getRoot());
+            logoLayer.destroy();
+        }
+        logoLayer = actor;
+
+        update();
     }
 
     public void setBackgroundLayer(Fragment actor) {
@@ -100,9 +132,19 @@ public class MenuLayers extends Stack implements Disposable {
             backgroundLayer = null;
         }
 
+        if (achievementLayer != null) {
+            achievementLayer.destroy();
+            achievementLayer = null;
+        }
+
         if (bannerLayer != null) {
             bannerLayer.destroy();
             bannerLayer = null;
+        }
+
+        if (logoLayer != null) {
+            logoLayer.destroy();
+            logoLayer = null;
         }
     }
 }

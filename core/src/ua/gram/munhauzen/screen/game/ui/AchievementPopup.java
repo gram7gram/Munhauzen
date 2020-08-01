@@ -1,5 +1,6 @@
 package ua.gram.munhauzen.screen.game.ui;
 
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.utils.Align;
 
@@ -8,6 +9,7 @@ import ua.gram.munhauzen.screen.GameScreen;
 
 public class AchievementPopup extends Container<Statue> {
 
+    Statue statue;
     final GameScreen screen;
 
     public AchievementPopup(GameScreen screen) {
@@ -15,11 +17,22 @@ public class AchievementPopup extends Container<Statue> {
     }
 
     public void create(Inventory inventory) {
-        Statue statue = new Statue(screen, inventory);
+        statue = new Statue(screen, inventory);
 
         setFillParent(true);
         align(Align.bottomLeft);
 
         setActor(statue);
+    }
+
+    public void animate() {
+        statue.addAction(Actions.sequence(
+                Actions.alpha(0),
+                Actions.moveTo(0, -statue.height),
+                Actions.parallel(
+                        Actions.moveTo(0, 0, .3f),
+                        Actions.alpha(1, .15f)
+                )
+        ));
     }
 }

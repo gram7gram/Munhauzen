@@ -6,6 +6,7 @@ import java.util.Stack;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.Audio;
 import ua.gram.munhauzen.entity.AudioFail;
+import ua.gram.munhauzen.entity.Chapter;
 import ua.gram.munhauzen.entity.Image;
 import ua.gram.munhauzen.entity.Inventory;
 import ua.gram.munhauzen.entity.Scenario;
@@ -18,6 +19,13 @@ public class AchievementService {
 
     final String tag = getClass().getSimpleName();
     final MunhauzenGame game;
+
+    public static final int STATUE_POINTS = 3;
+    public static final int SCENARIO_POINTS = 3;
+    public static final int SPECIAL_SCENARIO_POINTS = 10;
+    public static final int IMAGE_POINTS = 1;
+    public static final int FAIL_POINTS = 1;
+    public static final int VICTORY_POINTS = 10;
 
     public AchievementService(MunhauzenGame game) {
         this.game = game;
@@ -36,8 +44,9 @@ public class AchievementService {
                     game.gameState.achievementState.achievementsToDisplay = new Stack<>();
                 }
                 game.gameState.achievementState.achievementsToDisplay.push(inventory.name);
-            } else {
-                Log.e(tag, "no added " + inventory.name);
+
+                game.gameState.achievementState.points += STATUE_POINTS;
+
             }
 
             for (Image img : game.gameState.imageRegistry) {
@@ -120,6 +129,8 @@ public class AchievementService {
     public void onScenarioVisited(Scenario scenario) {
 
         try {
+            game.gameState.addVisitedScenario(scenario.name);
+
             Inventory inventory = InventoryRepository.findByScenario(game.gameState, scenario.name);
             if (inventory != null) {
                 if (!game.inventoryService.isInInventory(inventory)) {
@@ -131,12 +142,8 @@ public class AchievementService {
 
                 if (img.isBonus()) {
                     if (scenario.name.equals(img.relatedScenario)) {
-
-                        if (!game.gameState.history.viewedImages.contains(img.name)) {
-
-                            Log.e(tag, "onScenarioVisited adds bonus " + img.name);
-                            onImageViewed(img);
-                        }
+                        Log.e(tag, "onScenarioVisited adds bonus " + img.name);
+                        onImageViewed(img);
                     }
                 }
             }
@@ -152,7 +159,7 @@ public class AchievementService {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            game.navigator.onCriticalError(e);
+            //game.navigator.onCriticalError(e);
         }
     }
 
@@ -167,6 +174,7 @@ public class AchievementService {
         Log.i(tag, "onImageViewed " + name);
 
         game.gameState.history.viewedImages.add(name);
+        game.gameState.achievementState.points += IMAGE_POINTS;
 
         if (!game.gameState.achievementState.areAllImagesUnlocked) {
 
@@ -205,19 +213,18 @@ public class AchievementService {
 
         for (AudioFail audioFail : game.gameState.audioFailRegistry) {
             if (audioFail.audio.equals(name)) {
+                Log.e(tag, "onAudioListened adds fail " + audioFail.name);
 
-                if (!game.gameState.history.openedFails.contains(name)) {
-
-                    Log.e(tag, "onAudioListened adds fail " + audioFail.name);
-
-                    onFailOpened(audioFail);
-                }
+                onFailOpened(audioFail);
             }
         }
     }
 
     public void onFailOpened(AudioFail fail) {
+        if (game.gameState.history.openedFails.contains(fail.name)) return;
+
         game.gameState.history.openedFails.add(fail.name);
+        game.gameState.achievementState.points += FAIL_POINTS;
 
         if (!game.gameState.achievementState.areAllGoofsUnlocked) {
 
@@ -234,7 +241,7 @@ public class AchievementService {
             if (hasAll) {
                 for (AudioFail a : game.gameState.audioFailRegistry) {
                     if (a.isFailOpenedOnComplete) {
-                        game.gameState.history.openedFails.add(a.name);
+                        game.achievementService.onFailOpened(a);
                     }
                 }
 
@@ -247,5 +254,54 @@ public class AchievementService {
                 }
             }
         }
+    }
+
+    public void onChapterOpened(Chapter chapter) {
+        game.gameState.activeSave.visitedChapters.add(chapter.name);
+
+        if (!game.gameState.history.visitedChapters.contains(chapter.name)) {
+            game.gameState.history.visitedChapters.add(chapter.name);
+
+            if (chapter.isSpecialAchievement()) {
+                game.gameState.achievementState.points += AchievementService.SPECIAL_SCENARIO_POINTS;
+            }
+        }
+
+    }
+
+    public void updateTotalPoints() {
+        int points = 0;
+
+        for (Object a : game.gameState.audioFailRegistry) {
+            points += AchievementService.FAIL_POINTS;
+        }
+
+        for (Object a : game.gameState.imageRegistry) {
+            points += AchievementService.IMAGE_POINTS;
+        }
+
+        for (Inventory a : game.gameState.inventoryRegistry) {
+            if (a.isStatue) {
+                points += AchievementService.STATUE_POINTS;
+            }
+        }
+
+        for (Chapter a : game.gameState.chapterRegistry) {
+            if (a.isSpecialAchievement()) {
+                points += AchievementService.SPECIAL_SCENARIO_POINTS;
+            }
+        }
+
+        for (Scenario a : game.gameState.scenarioRegistry) {
+            if (a.isVictory()) {
+                points += AchievementService.VICTORY_POINTS;
+            } else {
+                points += AchievementService.SCENARIO_POINTS;
+            }
+        }
+
+        game.params.achievementPoints = points;
+
+        Log.i(tag, "Total points: " + points + " user: " + game.gameState.achievementState.points);
     }
 }

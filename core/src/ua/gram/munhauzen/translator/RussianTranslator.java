@@ -195,6 +195,7 @@ public class RussianTranslator implements Translator {
 
         map.put("debug_screen.endings", "Концовки");
         map.put("debug_screen.open_audio_test", "Открыть тест аудио");
+        map.put("debug_screen.open_statues", "Открыть статуетки");
         map.put("debug_screen.open_fails", "Открыть все фейлы");
         map.put("debug_screen.open_gallery", "Открыть всю галерею");
         map.put("debug_screen.purge_history", "Очистить историю");
@@ -233,6 +234,8 @@ public class RussianTranslator implements Translator {
         map.put("adult_gate_screen.q4a2", "б) 7");
         map.put("adult_gate_screen.q4a3", "в) 9");
         map.put("adult_gate_screen.q4a4", "г) -10");
+
+        map.put("menu_achievement.progress", "Прогрес");
     }
 
     @Override

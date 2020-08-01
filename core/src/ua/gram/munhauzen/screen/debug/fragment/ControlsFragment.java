@@ -18,6 +18,7 @@ import java.util.HashSet;
 import ua.gram.munhauzen.ButtonBuilder;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.entity.AchievementState;
 import ua.gram.munhauzen.entity.AudioFail;
 import ua.gram.munhauzen.entity.Chapter;
 import ua.gram.munhauzen.entity.FailsState;
@@ -132,9 +133,7 @@ public class ControlsFragment extends Fragment {
 
                 try {
                     for (Image image : game.gameState.imageRegistry) {
-                        if (!image.isHiddenFromGallery) {
-                            game.achievementService.onImageViewed(image);
-                        }
+                        game.achievementService.onImageViewed(image);
                     }
 
                     game.syncState();
@@ -158,8 +157,7 @@ public class ControlsFragment extends Fragment {
 
                 try {
                     for (Chapter c : game.gameState.chapterRegistry) {
-                        game.gameState.history.visitedChapters.add(c.name);
-                        game.gameState.activeSave.visitedChapters.add(c.name);
+                        game.achievementService.onChapterOpened(c);
                     }
 
                     game.syncState();
@@ -184,6 +182,31 @@ public class ControlsFragment extends Fragment {
                 try {
                     for (AudioFail a : game.gameState.audioFailRegistry) {
                         game.achievementService.onFailOpened(a);
+                    }
+
+                    game.syncState();
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
+            }
+        });
+
+        final Label openStatueLbl = new Label("[+] " + game.t("debug_screen.open_statues"), new Label.LabelStyle(
+                game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
+                Color.BLUE
+        ));
+        openStatueLbl.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                openStatueLbl.setVisible(false);
+
+                try {
+                    for (Inventory a : game.gameState.inventoryRegistry) {
+                        if (a.isStatue) {
+                            game.achievementService.onInventoryAdded(a);
+                        }
                     }
 
                     game.syncState();
@@ -219,8 +242,9 @@ public class ControlsFragment extends Fragment {
 
                 try {
                     for (Scenario s : game.gameState.scenarioRegistry) {
-                        game.gameState.addVisitedScenario(s.name);
+                        game.achievementService.onScenarioVisited(s);
                     }
+
                     for (CannonsScenario s : game.databaseManager.loadCannonsScenario()) {
                         game.gameState.addVisitedScenario(s.name);
                     }
@@ -269,6 +293,8 @@ public class ControlsFragment extends Fragment {
                     game.gameState.galleryState = new GalleryState();
                     game.gameState.failsState = new FailsState();
                     game.gameState.preferences = new GamePreferences();
+                    game.gameState.history = new History();
+                    game.gameState.achievementState = new AchievementState();
 
                     for (String save : new String[]{"1", "2", "3", "4"}) {
                         ExternalFiles.getSaveFile(game.params, save).delete();
@@ -279,8 +305,7 @@ public class ControlsFragment extends Fragment {
                     ExternalFiles.getGalleryStateFile(game.params).delete();
                     ExternalFiles.getGamePreferencesFile(game.params).delete();
                     ExternalFiles.getFailsStateFile(game.params).delete();
-
-                    game.gameState.history = new History();
+                    ExternalFiles.getAchievementStateFile(game.params).delete();
 
                     StoryManager storyManager = new StoryManager(null, screen.game.gameState);
 
@@ -369,6 +394,11 @@ public class ControlsFragment extends Fragment {
 
         container.add(openScenarioLbl).pad(10).left().expandX();
         container.add(openChaptersLbl).pad(10).left().expandX().row();
+
+        container.add(openStatueLbl).pad(10).left().expandX();
+        container.add().pad(10).left().expandX().row();
+
+        container.add().colspan(2).pad(50).left().expandX().row();
 
         container.add(removeHistoryLbl).pad(10).left().expandX();
         container.add(removeAllLbl).pad(10).left().expandX().row();

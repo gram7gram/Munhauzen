@@ -17,6 +17,9 @@ public class Statue extends Group {
     public final Image item, statue;
     final StarsAnimation stars;
     float statueWidth, statueHeight;
+    float itemWidth, itemHeight;
+
+    public float height;
 
     public Statue(GameScreen screen, Inventory inventory) {
 
@@ -40,6 +43,7 @@ public class Statue extends Group {
 
         setStarsBackground();
 
+        height = statueHeight + itemHeight;
 
         stars.start();
     }
@@ -81,11 +85,11 @@ public class Statue extends Group {
 
         item.setDrawable(drawable);
 
-        float width = statueWidth;
-        float scale = 1f * width / drawable.getMinWidth();
-        float height = 1f * drawable.getMinHeight() * scale;
+        itemWidth = statueWidth;
+        float scale = 1f * itemWidth / drawable.getMinWidth();
+        itemHeight = 1f * drawable.getMinHeight() * scale;
 
-        item.setSize(width, height);
+        item.setSize(itemWidth, itemHeight);
 
     }
 

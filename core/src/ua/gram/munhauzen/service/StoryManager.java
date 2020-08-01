@@ -10,6 +10,7 @@ import java.util.Comparator;
 import java.util.Set;
 
 import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.entity.Chapter;
 import ua.gram.munhauzen.entity.Decision;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.Scenario;
@@ -17,6 +18,7 @@ import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.entity.StoryImage;
 import ua.gram.munhauzen.entity.StoryScenario;
+import ua.gram.munhauzen.repository.ChapterRepository;
 import ua.gram.munhauzen.repository.ScenarioRepository;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.screen.MenuScreen;
@@ -274,9 +276,9 @@ public class StoryManager {
 
                 gameState.addVisitedScenario(storyScenario.scenario.name);
 
-                gameState.history.visitedChapters.add(storyScenario.scenario.chapter);
-                gameState.activeSave.visitedChapters.add(storyScenario.scenario.chapter);
+                Chapter chapter = ChapterRepository.find(gameState, storyScenario.scenario.chapter);
 
+                gameScreen.game.achievementService.onChapterOpened(chapter);
                 gameScreen.game.achievementService.onScenarioVisited(storyScenario.scenario);
             }
 

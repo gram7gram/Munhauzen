@@ -114,12 +114,12 @@ const DLC = {
 
 const DPIs = [
   'mdpi',
-  'hdpi'
+//  'hdpi'
 ];
 
 const EXPANSIONS = [
-  'Part_demo',
-  'Part_1',
+//  'Part_demo',
+//  'Part_1',
   'Part_2',
 ];
 
