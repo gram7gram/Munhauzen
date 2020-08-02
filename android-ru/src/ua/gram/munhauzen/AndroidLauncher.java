@@ -58,6 +58,7 @@ public class AndroidLauncher extends AndroidApplication {
         params.instaLink = "https://www.instagram.com/p/CBdHK7BnYHK/?utm_source=ig_web_copy_link";
         params.twLink = "https://twitter.com/Finger_Tips_C/status/1272495967951097856?s=20";
         params.vkLink = "https://vk.com/wall374290107_9";
+        params.statueLink = "https://youtu.be/nxOFXw5Efzo";
 
         if (BuildConfig.BUILD_TYPE.equals("staging")) {
             params.release = PlatformParams.Release.TEST;

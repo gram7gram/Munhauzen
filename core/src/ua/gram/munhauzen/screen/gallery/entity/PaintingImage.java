@@ -10,7 +10,15 @@ public class PaintingImage {
     public PaintingImage next, prev;
     public boolean isOpened, isViewed;
 
+    public boolean isStatue() {
+        return statueResource != null;
+    }
+
     public boolean canDisplayStatueItem() {
-        return isOpened && statueResource != null;
+        return isOpened && isStatue();
+    }
+
+    public boolean canOpenLink() {
+        return inventory != null && "ST_SONG".equals(inventory.name);
     }
 }

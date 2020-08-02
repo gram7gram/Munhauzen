@@ -51,6 +51,7 @@ public class IOSLauncher extends IOSApplication.Delegate {
         params.instaLink = "https://www.instagram.com/p/CBdGkEWnj3A/?utm_source=ig_web_copy_link";
         params.twLink = "https://twitter.com/Finger_Tips_C/status/1272495846488264709?s=20";
         params.vkLink = "https://vk.com/wall374290107_10";
+        params.statueLink = "https://youtu.be/a_8EMz8gKAE";
 
         final NSDictionary<NSString, ?> infoDictionary = NSBundle.getMainBundle().getInfoDictionary();
         final Set<NSString> keys = infoDictionary.keySet();

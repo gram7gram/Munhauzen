@@ -134,24 +134,28 @@ public class ImageRow extends Stack {
 
             iconCell.setActor(lock);
 
-            setLockBackground(
-                    screen.assetManager.get("gallery/b_closed_0.png", Texture.class)
-            );
+            updateLockBackground();
+
         } else if (!paintingImage.isViewed) {
 
             iconCell.setActor(unlock);
 
-            setUnlockBackground(
-                    screen.assetManager.get("gallery/b_opened_0.png", Texture.class)
-            );
+            updateUnlockBackground();
         }
 
         title.setText(text);
     }
 
-    public void setLockBackground(Texture texture) {
+    public void updateLockBackground() {
 
-        lock.setDrawable(new SpriteDrawable(new Sprite(texture)));
+        Texture txt;
+        if (!paintingImage.isStatue()) {
+            txt = screen.assetManager.get("gallery/b_closed_0.png", Texture.class);
+        } else {
+            txt = screen.assetManager.get("gallery/b_star_black.png", Texture.class);
+        }
+
+        lock.setDrawable(new SpriteDrawable(new Sprite(txt)));
 
         float width = iconSize;
         float scale = 1f * width / lock.getDrawable().getMinWidth();
@@ -162,9 +166,15 @@ public class ImageRow extends Stack {
                 .height(height);
     }
 
-    public void setUnlockBackground(Texture texture) {
+    public void updateUnlockBackground() {
+        Texture txt;
+        if (!paintingImage.isStatue()) {
+            txt = screen.assetManager.get("gallery/b_opened_0.png", Texture.class);
+        } else {
+            txt = screen.assetManager.get("gallery/b_star_color.png", Texture.class);
+        }
 
-        unlock.setDrawable(new SpriteDrawable(new Sprite(texture)));
+        unlock.setDrawable(new SpriteDrawable(new Sprite(txt)));
 
         float width = iconSize;
         float scale = 1f * width / unlock.getDrawable().getMinWidth();

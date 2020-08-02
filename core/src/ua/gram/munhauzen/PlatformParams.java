@@ -40,6 +40,7 @@ public class PlatformParams implements JsonEntry {
     public String instaLink;
     public String twLink;
     public String fbLink;
+    public String statueLink;
 
     public int achievementPoints = 1;
 

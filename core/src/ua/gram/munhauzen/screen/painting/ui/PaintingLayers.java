@@ -14,7 +14,7 @@ import ua.gram.munhauzen.utils.Log;
 public class PaintingLayers extends Stack implements Disposable {
 
     final String tag = getClass().getSimpleName();
-    public Fragment contentLayer, controlsLayer, fullscreenLayer;
+    public Fragment contentLayer, controlsLayer, fullscreenLayer, bannerLayer;
 
     public PaintingLayers() {
         setFillParent(true);
@@ -46,6 +46,22 @@ public class PaintingLayers extends Stack implements Disposable {
             addActor(createDummy("fullscreenLayer"));
         }
 
+        if (bannerLayer != null) {
+            addActor(bannerLayer.getRoot());
+        } else {
+            addActor(createDummy("bannerLayer"));
+        }
+
+    }
+
+    public void setBannerLayer(Fragment actor) {
+        if (bannerLayer != null) {
+            removeActor(bannerLayer.getRoot());
+            bannerLayer.destroy();
+        }
+        bannerLayer = actor;
+
+        update();
     }
 
     public void setContentLayer(Fragment actor) {
@@ -102,6 +118,11 @@ public class PaintingLayers extends Stack implements Disposable {
         if (fullscreenLayer != null) {
             fullscreenLayer.destroy();
             fullscreenLayer = null;
+        }
+
+        if (bannerLayer != null) {
+            bannerLayer.destroy();
+            bannerLayer = null;
         }
     }
 }

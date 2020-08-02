@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.GalleryState;
 import ua.gram.munhauzen.entity.Image;
+import ua.gram.munhauzen.entity.Inventory;
 import ua.gram.munhauzen.screen.gallery.entity.PaintingImage;
 import ua.gram.munhauzen.screen.gallery.fragment.ControlsFragment;
 import ua.gram.munhauzen.screen.gallery.fragment.GalleryBannerFragment;
@@ -47,6 +48,8 @@ public class GalleryScreen extends AbstractScreen {
         assetManager.load("gallery/gv_painting.png", Texture.class);
         assetManager.load("gallery/b_closed_0.png", Texture.class);
         assetManager.load("gallery/b_opened_0.png", Texture.class);
+        assetManager.load("gallery/b_star_black.png", Texture.class);
+        assetManager.load("gallery/b_star_color.png", Texture.class);
 
         assetManager.load("ui/banner_fond_3.png", Texture.class);
 
@@ -106,6 +109,16 @@ public class GalleryScreen extends AbstractScreen {
 
             painting.isOpened = game.gameState.history.viewedImages.contains(image.name);
             painting.isViewed = game.gameState.galleryState.visitedImages.contains(image.name);
+
+            if (painting.image.relatedStatue != null) {
+                for (Inventory item : game.gameState.inventoryRegistry) {
+                    if (item.name.equals(painting.image.relatedStatue)) {
+                        painting.inventory = item;
+                        painting.statueResource = item.statueImage;
+                        break;
+                    }
+                }
+            }
         }
 
         int size = paintings.size();

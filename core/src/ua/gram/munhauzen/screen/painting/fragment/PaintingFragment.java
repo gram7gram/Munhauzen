@@ -5,7 +5,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
-import ua.gram.munhauzen.entity.Inventory;
 import ua.gram.munhauzen.screen.PaintingScreen;
 import ua.gram.munhauzen.screen.gallery.entity.PaintingImage;
 import ua.gram.munhauzen.screen.painting.ui.BonusNotice;
@@ -111,14 +110,6 @@ public class PaintingFragment extends Fragment {
         loadFrame();
 
         if (paintingImage.image.isStatue()) {
-
-            for (Inventory item : screen.game.gameState.inventoryRegistry) {
-                if (item.name.equals(paintingImage.image.relatedStatue)) {
-                    paintingImage.inventory = item;
-                    paintingImage.statueResource = item.statueImage;
-                    break;
-                }
-            }
 
             if (paintingImage.canDisplayStatueItem()) {
                 assetManager.load(paintingImage.statueResource, Texture.class);

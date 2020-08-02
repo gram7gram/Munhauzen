@@ -44,7 +44,7 @@ public class StatueBanner extends Group {
         lbl.setAlignment(Align.center);
 
         lblTable = new Table();
-        lblTable.pad(20, 0, 20, 80);
+        lblTable.pad(20, 0, 20, 120);
         lblTable.add(lbl).top().grow();
 
         setBackground(

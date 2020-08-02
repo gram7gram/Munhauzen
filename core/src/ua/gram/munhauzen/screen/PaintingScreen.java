@@ -12,6 +12,7 @@ import ua.gram.munhauzen.screen.painting.fragment.ControlsFragment;
 import ua.gram.munhauzen.screen.painting.fragment.FullscreenFragment;
 import ua.gram.munhauzen.screen.painting.fragment.PaintingFragment;
 import ua.gram.munhauzen.screen.painting.ui.PaintingLayers;
+import ua.gram.munhauzen.ui.AdultGateFragment;
 import ua.gram.munhauzen.utils.Log;
 
 /**
@@ -23,6 +24,7 @@ public class PaintingScreen extends AbstractScreen {
     public PaintingFragment paintingFragment;
     public ControlsFragment controlsFragment;
     public FullscreenFragment fullscreenFragment;
+    public AdultGateFragment adultGateFragment;
 
     public PaintingImage paintingImage;
 
@@ -215,9 +217,47 @@ public class PaintingScreen extends AbstractScreen {
         }
     }
 
+    public void openAdultGateBanner(Runnable task) {
+        super.openAdultGateBanner(task);
+
+        try {
+
+            destroyBanners();
+
+            if (!game.params.isAdultGateEnabled) {
+                if (task != null) {
+                    task.run();
+                }
+                return;
+            }
+
+            adultGateFragment = new AdultGateFragment(this);
+            adultGateFragment.create(task);
+
+            layers.setBannerLayer(adultGateFragment);
+
+            adultGateFragment.fadeIn();
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+    }
+
+    @Override
+    public void destroyBanners() {
+        super.destroyBanners();
+
+        if (adultGateFragment != null) {
+            adultGateFragment.destroy();
+            adultGateFragment = null;
+        }
+    }
+
     @Override
     public void dispose() {
         super.dispose();
+
+        destroyBanners();
 
         if (layers != null) {
             layers.dispose();

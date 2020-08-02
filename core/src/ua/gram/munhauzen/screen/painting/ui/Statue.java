@@ -1,5 +1,6 @@
 package ua.gram.munhauzen.screen.painting.ui;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -19,7 +20,7 @@ public class Statue extends Group {
     float statueWidth, statueHeight;
     StatueBanner statueBanner;
 
-    public Statue(PaintingScreen screen) {
+    public Statue(final PaintingScreen screen) {
         super();
 
         this.screen = screen;
@@ -36,6 +37,35 @@ public class Statue extends Group {
                 screen.paintingFragment.assetManager.get("gallery/gv2_statue.png", Texture.class)
         );
 
+        item.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                if (statueBanner.isVisible()) {
+                    statueBanner.fadeOut();
+                } else {
+                    statueBanner.fadeIn();
+                }
+            }
+        });
+
+        if (img.canOpenLink()) {
+            statueBanner.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    super.clicked(event, x, y);
+
+                    screen.openAdultGateBanner(new Runnable() {
+                        @Override
+                        public void run() {
+                            Gdx.net.openURI(screen.game.params.statueLink);
+                        }
+                    });
+                }
+            });
+        }
+
         if (img.canDisplayStatueItem()) {
 
             addActor(statueBanner);
@@ -44,19 +74,6 @@ public class Statue extends Group {
             setItemBackground(
                     screen.paintingFragment.assetManager.get(img.statueResource, Texture.class)
             );
-
-            item.addListener(new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    super.clicked(event, x, y);
-
-                    if (statueBanner.isVisible()) {
-                        statueBanner.fadeOut();
-                    } else {
-                        statueBanner.fadeIn();
-                    }
-                }
-            });
         }
     }
 
