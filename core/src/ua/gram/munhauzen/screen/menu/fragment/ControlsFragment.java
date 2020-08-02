@@ -333,6 +333,9 @@ public class ControlsFragment extends Fragment {
         isFadeIn = false;
         isFadeOut = true;
 
+        screen.logoFragment.fadeOutFancy();
+        screen.achievementFragment.fadeOutFancy();
+
         sideContainer.addAction(Actions.sequence(
                 Actions.parallel(
                         Actions.moveBy(-20, 0, .3f),
@@ -372,6 +375,9 @@ public class ControlsFragment extends Fragment {
         isVisible = false;
         isFadeIn = true;
         isFadeOut = false;
+
+        screen.logoFragment.fadeInFancy();
+        screen.achievementFragment.fadeInFancy();
 
         sideContainer.addAction(Actions.sequence(
                 Actions.moveBy(-20, 0),

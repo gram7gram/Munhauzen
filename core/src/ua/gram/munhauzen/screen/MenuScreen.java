@@ -5,11 +5,15 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Timer;
 
+import java.util.Stack;
+
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.AchievementState;
 import ua.gram.munhauzen.entity.AudioFail;
 import ua.gram.munhauzen.entity.Image;
+import ua.gram.munhauzen.entity.Inventory;
 import ua.gram.munhauzen.entity.MenuState;
+import ua.gram.munhauzen.repository.InventoryRepository;
 import ua.gram.munhauzen.screen.menu.fragment.AchievementFragment;
 import ua.gram.munhauzen.screen.menu.fragment.ControlsFragment;
 import ua.gram.munhauzen.screen.menu.fragment.DemoFragment;
@@ -17,6 +21,7 @@ import ua.gram.munhauzen.screen.menu.fragment.ExitFragment;
 import ua.gram.munhauzen.screen.menu.fragment.GreetingFragment;
 import ua.gram.munhauzen.screen.menu.fragment.ImageFragment;
 import ua.gram.munhauzen.screen.menu.fragment.LogoFragment;
+import ua.gram.munhauzen.screen.menu.fragment.NewAchievementFragment;
 import ua.gram.munhauzen.screen.menu.fragment.ProFragment;
 import ua.gram.munhauzen.screen.menu.fragment.RateFragment;
 import ua.gram.munhauzen.screen.menu.fragment.ShareFragment;
@@ -49,6 +54,7 @@ public class MenuScreen extends AbstractScreen {
     public ThankYouFragment thankYouFragment;
     public TutorialFragment tutorialFragment;
     public AdultGateFragment adultGateFragment;
+    public NewAchievementFragment newAchievementFragment;
 
     public MenuScreen(MunhauzenGame game) {
         super(game);
@@ -258,6 +264,14 @@ public class MenuScreen extends AbstractScreen {
                         openVersionBanner();
                     }
                 }, 2);
+            } else {
+
+                Timer.instance().scheduleTask(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        createNewAchievementFragment();
+                    }
+                }, 2);
             }
         }
 
@@ -315,6 +329,38 @@ public class MenuScreen extends AbstractScreen {
                     game.backgroundSfxService.start();
                 }
             }
+        }
+    }
+
+    public void createNewAchievementFragment() {
+        try {
+            if (game.gameState.menuState.achievementsToDisplay == null) {
+                game.gameState.menuState.achievementsToDisplay = new Stack<>();
+            }
+
+            if (!game.gameState.menuState.achievementsToDisplay.isEmpty()) {
+
+                if (newAchievementFragment == null) {
+
+                    destroyBanners();
+
+                    String name = game.gameState.menuState.achievementsToDisplay.pop();
+
+                    Inventory inventory = InventoryRepository.find(game.gameState, name);
+
+                    Log.i(tag, "createAchievementFragment: " + inventory.name);
+
+                    newAchievementFragment = new NewAchievementFragment(this);
+                    newAchievementFragment.create(inventory);
+
+                    layers.setBannerLayer(newAchievementFragment);
+
+                    newAchievementFragment.fadeIn();
+                }
+            }
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
         }
     }
 

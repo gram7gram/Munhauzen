@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.Timer;
 
+import java.util.Stack;
+
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.Image;
@@ -300,14 +302,7 @@ public class GameScreen extends MunhauzenScreen {
             } catch (Throwable ignore) {
             }
 
-            try {
-                if (game.gameState.achievementState.achievementsToDisplay != null) {
-                    if (!game.gameState.achievementState.achievementsToDisplay.isEmpty()) {
-                        createAchievementFragment();
-                    }
-                }
-            } catch (Throwable ignore) {
-            }
+            createAchievementFragment();
 
             try {
                 if (ui != null) {
@@ -337,20 +332,30 @@ public class GameScreen extends MunhauzenScreen {
     }
 
     public void createAchievementFragment() {
-        if (achievementFragment == null) {
+        try {
+            if (game.gameState.achievementState.achievementsToDisplay == null) {
+                game.gameState.achievementState.achievementsToDisplay = new Stack<>();
+            }
 
-            String name = game.gameState.achievementState.achievementsToDisplay.pop();
+            if (!game.gameState.achievementState.achievementsToDisplay.isEmpty()) {
+                if (achievementFragment == null) {
 
-            Inventory inventory = InventoryRepository.find(game.gameState, name);
+                    String name = game.gameState.achievementState.achievementsToDisplay.pop();
 
-            Log.i(tag, "createAchievementFragment: " + inventory.name);
+                    Inventory inventory = InventoryRepository.find(game.gameState, name);
 
-            achievementFragment = new AchievementFragment(this);
-            achievementFragment.create(inventory);
+                    Log.i(tag, "createAchievementFragment: " + inventory.name);
 
-            gameLayers.setAchievementLayer(achievementFragment);
+                    achievementFragment = new AchievementFragment(this);
+                    achievementFragment.create(inventory);
 
-            achievementFragment.fadeIn();
+                    gameLayers.setAchievementLayer(achievementFragment);
+
+                    achievementFragment.fadeIn();
+                }
+            }
+
+        } catch (Throwable ignore) {
         }
     }
 

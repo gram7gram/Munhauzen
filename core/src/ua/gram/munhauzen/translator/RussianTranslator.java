@@ -236,6 +236,9 @@ public class RussianTranslator implements Translator {
         map.put("adult_gate_screen.q4a4", "г) -10");
 
         map.put("menu_achievement.progress", "Прогрес");
+        map.put("menu_achievement_banner.title", "Новый трофей открыт в гостиной!\nПоздравляем");
+        map.put("menu_achievement_banner.btn", "Ура! Ура!");
+
     }
 
     @Override

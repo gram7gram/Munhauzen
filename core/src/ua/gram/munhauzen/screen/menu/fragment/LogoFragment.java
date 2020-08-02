@@ -77,11 +77,11 @@ public class LogoFragment extends Fragment {
 
         root.addAction(Actions.sequence(
                 Actions.visible(false),
-                Actions.moveBy(0, -20),
+                Actions.moveBy(0, 20),
                 Actions.alpha(0),
                 Actions.parallel(
                         Actions.visible(true),
-                        Actions.moveBy(0, 20, .3f),
+                        Actions.moveBy(0, -20, .3f),
                         Actions.alpha(1, .3f)
                 )
         ));
@@ -93,10 +93,11 @@ public class LogoFragment extends Fragment {
         root.addAction(Actions.sequence(
                 Actions.visible(true),
                 Actions.parallel(
-                        Actions.moveBy(0, -20, .2f),
+                        Actions.moveBy(0, 20, .2f),
                         Actions.alpha(0, .2f)
                 ),
-                Actions.visible(false)
+                Actions.visible(false),
+                Actions.moveBy(0, -20)
         ));
 
     }

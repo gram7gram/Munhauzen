@@ -2,6 +2,8 @@ package ua.gram.munhauzen.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.Stack;
+
 public class MenuState implements JsonEntry {
     @JsonProperty
     public int openCount;
@@ -17,4 +19,6 @@ public class MenuState implements JsonEntry {
     public boolean isContinueEnabled;
     @JsonProperty
     public boolean isFirstMenuAfterGameStart = true;
+    @JsonProperty
+    public Stack<String> achievementsToDisplay;
 }

@@ -39,13 +39,23 @@ public class AchievementService {
             Log.i(tag, "onInventoryAdded " + inventory.name);
 
             boolean isAdded = game.inventoryService.addInventory(inventory);
-            if (isAdded && inventory.isStatue) {
-                if (game.gameState.achievementState.achievementsToDisplay == null) {
-                    game.gameState.achievementState.achievementsToDisplay = new Stack<>();
-                }
-                game.gameState.achievementState.achievementsToDisplay.push(inventory.name);
+            if (isAdded) {
 
-                game.gameState.achievementState.points += STATUE_POINTS;
+                if (inventory.isMenu) {
+                    if (game.gameState.menuState.achievementsToDisplay == null) {
+                        game.gameState.menuState.achievementsToDisplay = new Stack<>();
+                    }
+                    game.gameState.menuState.achievementsToDisplay.push(inventory.name);
+                }
+
+                if (inventory.isStatue) {
+                    if (game.gameState.achievementState.achievementsToDisplay == null) {
+                        game.gameState.achievementState.achievementsToDisplay = new Stack<>();
+                    }
+                    game.gameState.achievementState.achievementsToDisplay.push(inventory.name);
+
+                    game.gameState.achievementState.points += STATUE_POINTS;
+                }
 
             }
 

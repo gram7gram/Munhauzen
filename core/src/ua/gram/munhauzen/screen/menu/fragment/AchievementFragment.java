@@ -109,7 +109,8 @@ public class AchievementFragment extends Fragment {
                         Actions.moveBy(0, -20, .2f),
                         Actions.alpha(0, .2f)
                 ),
-                Actions.visible(false)
+                Actions.visible(false),
+                Actions.moveBy(0, 20)
         ));
 
     }

@@ -236,6 +236,8 @@ public class EnglishTranslator implements Translator {
         map.put("adult_gate_screen.q4a4", "d) -10");
 
         map.put("menu_achievement.progress", "Progress");
+        map.put("menu_achievement_banner.title", "A new trophy is opened in hall!\nCongratulations!");
+        map.put("menu_achievement_banner.btn", "Hooray!");
 
     }
 
