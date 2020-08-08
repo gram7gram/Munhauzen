@@ -527,7 +527,7 @@
     "locale": "en",
     "relatedInventory": [],
     "relatedScenario": [
-      "a1_intro_continue"
+      "a1_d_continue"
     ],
     "statueImage": "statues/st_chapter.png"
   },
