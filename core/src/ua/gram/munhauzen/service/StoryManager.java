@@ -86,7 +86,7 @@ public class StoryManager {
             }
         }
 
-        if (story == null || !story.isValid()) {
+        if (MunhauzenGame.developmentScenario != null || story == null || !story.isValid()) {
             Log.e(tag, "Story is not valid. Resetting");
 
             Story newStory = getDefaultStory();
@@ -101,6 +101,8 @@ public class StoryManager {
 
     public Story getDefaultStory() {
         Scenario start = ScenarioRepository.findBegin(gameState);
+
+        MunhauzenGame.developmentScenario = null;
 
         return create(start.name);
     }
@@ -276,10 +278,12 @@ public class StoryManager {
 
                 gameState.addVisitedScenario(storyScenario.scenario.name);
 
-                Chapter chapter = ChapterRepository.find(gameState, storyScenario.scenario.chapter);
+                try {
+                    Chapter chapter = ChapterRepository.find(gameState, storyScenario.scenario.chapter);
 
-                gameScreen.game.achievementService.onChapterOpened(chapter);
-                gameScreen.game.achievementService.onScenarioVisited(storyScenario.scenario);
+                    gameScreen.game.achievementService.onChapterOpened(chapter);
+                    gameScreen.game.achievementService.onScenarioVisited(storyScenario.scenario);
+                } catch (Throwable ignore) {}
             }
 
             for (StoryAudio audio : story.currentScenario.scenario.audio) {
