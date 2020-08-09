@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.badlogic.gdx.pay.android.googlebilling.PurchaseManagerGoogleBilling;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.yandex.metrica.YandexMetrica;
 import com.yandex.metrica.YandexMetricaConfig;
 
@@ -29,6 +30,8 @@ public class AndroidLauncher extends AndroidApplication {
         } catch (Throwable ignore) {
 
         }
+
+        FirebaseMessaging.getInstance().subscribeToTopic("android-en");
 
         AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 
