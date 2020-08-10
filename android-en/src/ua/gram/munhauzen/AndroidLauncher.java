@@ -1,27 +1,68 @@
 package ua.gram.munhauzen;
 
+import android.Manifest;
+import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.pay.android.googlebilling.PurchaseManagerGoogleBilling;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.yandex.metrica.YandexMetrica;
 import com.yandex.metrica.YandexMetricaConfig;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.security.Permission;
+import java.util.Calendar;
+import java.util.Objects;
+
 import en.munchausen.fingertipsandcompany.full.BuildConfig;
 import ua.gram.munhauzen.entity.Device;
+import ua.gram.munhauzen.entity.History;
 import ua.gram.munhauzen.translator.EnglishTranslator;
+import ua.gram.munhauzen.utils.ExternalFiles;
 
 public class AndroidLauncher extends AndroidApplication {
+
+    private static final int READ_EXTERNAL_STORAGE = 0X01;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        PermissionManager.grant(this, PermissionManager.PERMISSIONS);
+
+        if (ContextCompat.checkSelfPermission(AndroidLauncher.this,Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+            startAlarm();
+        }
+
+        System.out.println("FCM TOKEN---->" + FirebaseInstanceId.getInstance().getToken());
+
 
         try {
             YandexMetrica.activate(getApplicationContext(),
@@ -31,6 +72,7 @@ public class AndroidLauncher extends AndroidApplication {
 
         }
 
+        FirebaseMessaging.getInstance().subscribeToTopic("updates");
         FirebaseMessaging.getInstance().subscribeToTopic("android-en");
 
         AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
@@ -71,10 +113,130 @@ public class AndroidLauncher extends AndroidApplication {
             params.release = PlatformParams.Release.DEV;
         }
 
-        PermissionManager.grant(this, PermissionManager.PERMISSIONS);
+
 
         initialize(new MunhauzenGame(params), config);
     }
+
+    private String readChapterJsonFile() {
+        String json = null;
+        try {
+            InputStream is = getAssets().open("chapters.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, StandardCharsets.UTF_8);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return json;
+
+    }
+
+
+
+    private String readHistoryJsonFile() {
+        try {
+            String dfdlk = ".Munchausen/en.munchausen.fingertipsandcompany.any/history.json";
+
+            System.out.println("Filedir----->" + getApplicationContext().getFilesDir());
+            System.out.println("ExtFilesdir-->" + getExternalFilesDir(""));
+            System.out.println("ExternalStorageDirectory--->" + Environment.getExternalStorageDirectory());
+
+
+            //File file = new File(getExternalFilesDir("").toString(), "my.json");
+            File file = new File(Environment.getExternalStorageDirectory() + "/.Munchausen/en.munchausen.fingertipsandcompany.any", "history.json");
+            FileReader fileReader = new FileReader(file);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            StringBuilder stringBuilder = new StringBuilder();
+            String line = bufferedReader.readLine();
+            while (line != null) {
+                stringBuilder.append(line).append("\n");
+                line = bufferedReader.readLine();
+            }
+            bufferedReader.close();
+// This responce will have Json Format String
+            String responce = stringBuilder.toString();
+            System.out.println("Readed Json--->" + responce);
+            return responce;
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        //System.out.println("filepath--->" + getApplicationContext().getFilesDir());
+        return null;
+
+    }
+
+    private void startAlarm() {
+
+        String historyJson = readHistoryJsonFile();
+
+        String chapterJson = readChapterJsonFile();
+//        chapterJson = chapterJson.replace("\n", "");
+//        chapterJson = chapterJson.replace("\r", "");
+//        chapterJson = chapterJson.replace(" ", "");
+
+        System.out.println("CHapetr---Jston---->" + chapterJson);
+
+        try {
+            JSONObject history = new JSONObject(historyJson);
+
+            JSONArray visitedChapters = history.getJSONArray("visitedChapters");
+            String[] visitedChaptersArray=new String[visitedChapters.length()];
+
+            int index=0;
+            JSONObject selectedJsonObject=null;
+            JSONArray chapters = new JSONArray(chapterJson);
+            for(int i=0;i<visitedChapters.length();i++){
+                for(int j=0;j<chapters.length();j++){
+                    if(visitedChapters.getString(i).equals(chapters.getJSONObject(j).getString("name"))){
+                        JSONObject jsonObject = chapters.getJSONObject(j);
+                        if(index<jsonObject.getInt("number")) {
+                            index = jsonObject.getInt("number");
+                            selectedJsonObject=jsonObject;
+                        }
+                    }
+
+                }
+            }
+
+            if (selectedJsonObject == null){
+                return;
+            }
+            String iconPath=selectedJsonObject.getString("icon");
+            String description=selectedJsonObject.getString("description");
+
+
+            System.out.println("SELECTED_JSONOBJECT"+selectedJsonObject.getString("icon"));
+
+            SharedPreferencesHelper.setIcon(this,iconPath);
+            SharedPreferencesHelper.setDescription(this, description);
+
+
+
+
+
+            System.out.println("String0--->" + visitedChapters.getString(0));
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.SECOND, 30);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, AlertReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
+        if (alarmManager != null) {
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
+        }
+    }
+
 
     public boolean isTablet(Context context) {
         boolean xlarge = ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == 4);
@@ -93,4 +255,22 @@ public class AndroidLauncher extends AndroidApplication {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         super.startActivity(intent, options);
     }
+
+    @Override
+    protected void onDestroy() {
+        if (ContextCompat.checkSelfPermission(AndroidLauncher.this,Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+            startAlarm();
+        }
+        super.onDestroy();
+
+    }
+
+    @Override
+    protected void onStop() {
+        if (ContextCompat.checkSelfPermission(AndroidLauncher.this,Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+            startAlarm();
+        }
+        super.onStop();
+    }
+
 }
