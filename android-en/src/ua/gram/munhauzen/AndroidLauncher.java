@@ -216,9 +216,9 @@ public class AndroidLauncher extends AndroidApplication {
         });
 
 
-        if (ContextCompat.checkSelfPermission(AndroidLauncher.this,Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+/*        if (ContextCompat.checkSelfPermission(AndroidLauncher.this,Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
             startAlarm();
-        }
+        }*/
     }
 
 
