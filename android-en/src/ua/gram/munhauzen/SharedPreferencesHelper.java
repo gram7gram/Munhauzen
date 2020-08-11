@@ -11,6 +11,8 @@ import android.preference.PreferenceManager;
 public class SharedPreferencesHelper {
 
     private static final String KEY_TIME = "key_time";
+    private static final String KEY_SAVE_ICON = "key_save_icon";
+    private static final String KEY_SAVE_DESCRIPTION = "key_save_description";
 
     private  static SharedPreferences sharedPreferences;
 
@@ -42,6 +44,26 @@ public class SharedPreferencesHelper {
     public static String getDescription(Context context){
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         return sharedPreferences.getString("CHAPTER_DESCRIPTION_VALUE", "");
+    }
+
+    public static void setLastVisitedIcon(Context context, String icon){
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        sharedPreferences.edit().putString(KEY_SAVE_ICON, icon).apply();
+    }
+
+    public static String getLastVisitedIcon(Context context){
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPreferences.getString(KEY_SAVE_ICON, "");
+    }
+
+    public static void setLastVisitedDescription(Context context, String icon){
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        sharedPreferences.edit().putString(KEY_SAVE_DESCRIPTION, icon).apply();
+    }
+
+    public static String getLastVisitedDescription(Context context){
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPreferences.getString(KEY_SAVE_DESCRIPTION, "");
     }
 
 }

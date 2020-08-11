@@ -118,62 +118,11 @@ public class AndroidLauncher extends AndroidApplication {
         initialize(new MunhauzenGame(params), config);
     }
 
-    private String readChapterJsonFile() {
-        String json = null;
-        try {
-            InputStream is = getAssets().open("chapters.json");
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            json = new String(buffer, StandardCharsets.UTF_8);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-        return json;
-
-    }
-
-
-
-    private String readHistoryJsonFile() {
-        try {
-            String dfdlk = ".Munchausen/en.munchausen.fingertipsandcompany.any/history.json";
-
-            System.out.println("Filedir----->" + getApplicationContext().getFilesDir());
-            System.out.println("ExtFilesdir-->" + getExternalFilesDir(""));
-            System.out.println("ExternalStorageDirectory--->" + Environment.getExternalStorageDirectory());
-
-
-            //File file = new File(getExternalFilesDir("").toString(), "my.json");
-            File file = new File(Environment.getExternalStorageDirectory() + "/.Munchausen/en.munchausen.fingertipsandcompany.any", "history.json");
-            FileReader fileReader = new FileReader(file);
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-            StringBuilder stringBuilder = new StringBuilder();
-            String line = bufferedReader.readLine();
-            while (line != null) {
-                stringBuilder.append(line).append("\n");
-                line = bufferedReader.readLine();
-            }
-            bufferedReader.close();
-// This responce will have Json Format String
-            String responce = stringBuilder.toString();
-            System.out.println("Readed Json--->" + responce);
-            return responce;
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
-        //System.out.println("filepath--->" + getApplicationContext().getFilesDir());
-        return null;
-
-    }
 
     private void startAlarm() {
 
         String historyJson = readHistoryJsonFile();
+        String saveJson = readSaveJsonFile();
 
         String chapterJson = readChapterJsonFile();
 //        chapterJson = chapterJson.replace("\n", "");
@@ -181,6 +130,51 @@ public class AndroidLauncher extends AndroidApplication {
 //        chapterJson = chapterJson.replace(" ", "");
 
         System.out.println("CHapetr---Jston---->" + chapterJson);
+
+
+        try {
+            JSONObject saveJsonObject = new JSONObject(saveJson);
+
+            String lastChapter = saveJsonObject.getString("chapter");
+
+            System.out.println("Last Visited CHapter=---->" + lastChapter);
+
+            int index=0;
+            JSONObject selectedJsonObject=null;
+            JSONArray chapters = new JSONArray(chapterJson);
+                for(int j=0;j<chapters.length();j++){
+                    if(lastChapter.equals(chapters.getJSONObject(j).getString("name"))){
+                        JSONObject jsonObject = chapters.getJSONObject(j);
+
+                            index = jsonObject.getInt("number");
+                            selectedJsonObject=jsonObject;
+                            break;
+                    }
+
+                }
+
+
+            if (selectedJsonObject == null){
+                return;
+            }
+            String iconPath=selectedJsonObject.getString("icon");
+            String description=selectedJsonObject.getString("description");
+
+
+            System.out.println("SELECTED_JSONOBJECT"+selectedJsonObject.getString("icon"));
+
+            SharedPreferencesHelper.setLastVisitedIcon(this,iconPath);
+            SharedPreferencesHelper.setLastVisitedDescription(this, description);
+
+
+
+
+
+            System.out.println("LastChapterString--->" + lastChapter);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         try {
             JSONObject history = new JSONObject(historyJson);
@@ -236,6 +230,88 @@ public class AndroidLauncher extends AndroidApplication {
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
         }
     }
+
+    private String readChapterJsonFile() {
+        String json = null;
+        try {
+            InputStream is = getAssets().open("chapters.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, StandardCharsets.UTF_8);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return json;
+
+    }
+
+
+
+    private String readHistoryJsonFile() {
+        try {
+            String dfdlk = ".Munchausen/en.munchausen.fingertipsandcompany.any/history.json";
+
+            System.out.println("Filedir----->" + getApplicationContext().getFilesDir());
+            System.out.println("ExtFilesdir-->" + getExternalFilesDir(""));
+            System.out.println("ExternalStorageDirectory--->" + Environment.getExternalStorageDirectory());
+
+
+            //File file = new File(getExternalFilesDir("").toString(), "my.json");
+            File file = new File(Environment.getExternalStorageDirectory() + "/.Munchausen/en.munchausen.fingertipsandcompany.any", "history.json");
+            FileReader fileReader = new FileReader(file);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            StringBuilder stringBuilder = new StringBuilder();
+            String line = bufferedReader.readLine();
+            while (line != null) {
+                stringBuilder.append(line).append("\n");
+                line = bufferedReader.readLine();
+            }
+            bufferedReader.close();
+// This responce will have Json Format String
+            String responce = stringBuilder.toString();
+            System.out.println("Readed Json--->" + responce);
+            return responce;
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        //System.out.println("filepath--->" + getApplicationContext().getFilesDir());
+        return null;
+
+    }
+
+
+    private String readSaveJsonFile() {
+        try {
+
+            File file = new File(Environment.getExternalStorageDirectory() + "/.Munchausen/en.munchausen.fingertipsandcompany.any", "save-active.json");
+            FileReader fileReader = new FileReader(file);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            StringBuilder stringBuilder = new StringBuilder();
+            String line = bufferedReader.readLine();
+            while (line != null) {
+                stringBuilder.append(line).append("\n");
+                line = bufferedReader.readLine();
+            }
+            bufferedReader.close();
+// This responce will have Json Format String
+            String responce = stringBuilder.toString();
+            System.out.println("Readed Json--->" + responce);
+            return responce;
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        //System.out.println("filepath--->" + getApplicationContext().getFilesDir());
+        return null;
+
+    }
+
 
 
     public boolean isTablet(Context context) {
