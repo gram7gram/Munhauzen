@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -21,6 +22,11 @@ import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.pay.android.googlebilling.PurchaseManagerGoogleBilling;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.yandex.metrica.YandexMetrica;
@@ -37,7 +43,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.security.Permission;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Objects;
 
 import en.munchausen.fingertipsandcompany.full.BuildConfig;
@@ -45,6 +53,8 @@ import ua.gram.munhauzen.entity.Device;
 import ua.gram.munhauzen.entity.History;
 import ua.gram.munhauzen.translator.EnglishTranslator;
 import ua.gram.munhauzen.utils.ExternalFiles;
+
+import static android.content.ContentValues.TAG;
 
 public class AndroidLauncher extends AndroidApplication {
 
@@ -57,9 +67,7 @@ public class AndroidLauncher extends AndroidApplication {
 
         PermissionManager.grant(this, PermissionManager.PERMISSIONS);
 
-        if (ContextCompat.checkSelfPermission(AndroidLauncher.this,Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
-            startAlarm();
-        }
+
 
         System.out.println("FCM TOKEN---->" + FirebaseInstanceId.getInstance().getToken());
 
@@ -116,6 +124,101 @@ public class AndroidLauncher extends AndroidApplication {
 
 
         initialize(new MunhauzenGame(params), config);
+
+
+        // Write a message to the database
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("hours_notification");
+
+
+        // Read  Notification time from the database
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                try {
+                    Integer value = dataSnapshot.getValue(Integer.class);
+                    Log.d(TAG, "Value is: " + value);
+                    System.out.println("Value---->" + value);
+                    SharedPreferencesHelper.setNotification1Time(getApplicationContext(), value);
+                    System.out.println("NotificationValue--->"+ SharedPreferencesHelper.getNotification1Time(getApplicationContext()) );
+                }catch (Exception ex){
+                    ex.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+
+
+            }
+        });
+
+        // Read Notification title from the database
+
+        DatabaseReference myRef1 = database.getReference("title_notification");
+
+        myRef1.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                try {
+                    String value = dataSnapshot.getValue(String.class);
+                    Log.d(TAG, "Value is: " + value);
+                    System.out.println("Value---->" + value);
+                    SharedPreferencesHelper.setKeyNotification1Title(getApplicationContext(), value);
+                    System.out.println("NotificationTitle--->"+ SharedPreferencesHelper.getKeyNotification1Title(getApplicationContext()) );
+                }catch (Exception ex){
+                    ex.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+
+
+            }
+        });
+
+        // Read Notification message from the database
+
+        DatabaseReference myRef2 = database.getReference("message_notification");
+
+        myRef2.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                try {
+                    String value = dataSnapshot.getValue(String.class);
+                    Log.d(TAG, "Value is: " + value);
+                    System.out.println("Value---->" + value);
+                    SharedPreferencesHelper.setKeyNotification1Message(getApplicationContext(), value);
+                    System.out.println("NotificationMessage--->"+ SharedPreferencesHelper.getKeyNotification1Message(getApplicationContext()) );
+                }catch (Exception ex){
+                    ex.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+
+
+            }
+        });
+
+
+        if (ContextCompat.checkSelfPermission(AndroidLauncher.this,Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+            startAlarm();
+        }
     }
 
 
@@ -221,7 +324,22 @@ public class AndroidLauncher extends AndroidApplication {
         }
 
         Calendar c = Calendar.getInstance();
-        c.add(Calendar.SECOND, 30);
+        c.add(Calendar.SECOND, SharedPreferencesHelper.getNotification1Time(this));
+
+        System.out.println("SetAlarmAfterSeconds--->" + SharedPreferencesHelper.getNotification1Time(this));
+        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("ALARM_SET_AFTER_SECONDS",SharedPreferencesHelper.getNotification1Time(this).toString() ).apply();
+
+        String format = "";
+        try {
+            SimpleDateFormat s = new SimpleDateFormat("hhmmss");
+            format = s.format(new Date());
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("ALARM_SET_TIME", format ).apply();
+
+
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, AlertReceiver.class);

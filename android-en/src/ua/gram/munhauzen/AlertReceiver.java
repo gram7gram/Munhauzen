@@ -10,7 +10,7 @@ public class AlertReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        NotificationHelper.displayInternalNotification(getApplicationContext(), "Last Visited Chapter","Continue listening from Chapter: "+ SharedPreferencesHelper.getLastVisitedDescription(getApplicationContext()), SharedPreferencesHelper.getLastVisitedIcon(getApplicationContext()));
+        NotificationHelper.displayInternalNotification(getApplicationContext(), SharedPreferencesHelper.getKeyNotification1Title(getApplicationContext()),SharedPreferencesHelper.getKeyNotification1Message(getApplicationContext())+ SharedPreferencesHelper.getLastVisitedDescription(getApplicationContext()), SharedPreferencesHelper.getLastVisitedIcon(getApplicationContext()));
 
     }
 }
