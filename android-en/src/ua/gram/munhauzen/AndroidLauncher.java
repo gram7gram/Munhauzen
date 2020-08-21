@@ -264,11 +264,13 @@ public class AndroidLauncher extends AndroidApplication {
             String iconPath=selectedJsonObject.getString("icon");
             String description=selectedJsonObject.getString("description");
 
+            int chapterNo = selectedJsonObject.getInt("number");
+
 
             System.out.println("SELECTED_JSONOBJECT"+selectedJsonObject.getString("icon"));
 
             SharedPreferencesHelper.setLastVisitedIcon(this,iconPath);
-            SharedPreferencesHelper.setLastVisitedDescription(this, description);
+            SharedPreferencesHelper.setLastVisitedDescription(this, "Chapter " + chapterNo + ". " + description);
 
 
 
