@@ -7,6 +7,7 @@ import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.interaction.chapter.fragment.ChapterImageFragment;
 import ua.gram.munhauzen.repository.ChapterRepository;
 import ua.gram.munhauzen.screen.GameScreen;
+import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
@@ -58,6 +59,31 @@ public class ChapterInteraction extends AbstractInteraction {
         imageFragment.create(chapter);
 
         gameScreen.gameLayers.setInteractionLayer(imageFragment);
+    }
+
+    public void onComplete() {
+        try {
+
+            Story story = gameScreen.getStory();
+            if (story != null) {
+
+//                if (chapter.number > gameScreen.game.gameState.purchaseState.maxChapter) {
+                if (true) {
+                    gameScreen.createPurchaseFragment(story.currentScenario.scenario);
+                    return;
+                }
+            }
+
+//            gameScreen.interactionService.complete();
+//
+//            gameScreen.interactionService.findStoryAfterInteraction();
+//
+//            gameScreen.restoreProgressBarIfDestroyed();
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            gameScreen.onCriticalError(e);
+        }
     }
 
     @Override

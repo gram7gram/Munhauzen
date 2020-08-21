@@ -15,8 +15,11 @@ import ua.gram.munhauzen.utils.Log;
 public class FreeCard extends Card {
 
     public FreeCard(final PurchaseScreen screen) {
-        super(screen);
+        super(screen, null);
 
+        build();
+
+        clearListeners();
         onClick(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

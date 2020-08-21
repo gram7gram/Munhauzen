@@ -14,6 +14,10 @@ public class PurchaseState implements JsonEntry {
     @JsonProperty
     public boolean isVersionSelected;
     @JsonProperty
+    public int maxChapter;
+    @JsonProperty
+    public String currentExpansionVersion;
+    @JsonProperty
     public ArrayList<Purchase> purchases;
     @JsonProperty
     public ArrayList<Product> products;
@@ -33,6 +37,10 @@ public class PurchaseState implements JsonEntry {
             boolean hasFull = false, hasPart1 = false, hasPart2 = false;
 
             for (Purchase purchase : purchases) {
+                if (purchase.productId.equals(params.appStoreSkuFullThanks)) {
+                    hasFull = true;
+                }
+
                 if (purchase.productId.equals(params.appStoreSkuFull)) {
                     hasFull = true;
                 }

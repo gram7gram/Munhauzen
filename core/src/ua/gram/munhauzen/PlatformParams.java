@@ -28,7 +28,9 @@ public class PlatformParams implements JsonEntry {
     public String dpi = "mdpi";
     public String locale;
     public String versionName;
-    public String appStoreSkuFull, appStoreSkuPart1, appStoreSkuPart2;
+    public String appStoreSkuFull,
+            appStoreSkuPart1, appStoreSkuPart2,
+            appStoreSku1Chapter, appStoreSku3Chapter, appStoreSku5Chapter, appStoreSku10Chapter, appStoreSkuThanks, appStoreSkuFullThanks;
     public int versionCode;
     public String applicationId;
     public String storageDirectory;

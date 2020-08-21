@@ -52,6 +52,12 @@ public class PurchaseScreen extends MunhauzenScreen {
         game.internalAssetManager.load("purchase/part1.png", Texture.class);
         game.internalAssetManager.load("purchase/part2.png", Texture.class);
         game.internalAssetManager.load("purchase/free.png", Texture.class);
+        game.internalAssetManager.load("purchase/chap1.png", Texture.class);
+        game.internalAssetManager.load("purchase/chap3.png", Texture.class);
+        game.internalAssetManager.load("purchase/chap5.png", Texture.class);
+        game.internalAssetManager.load("purchase/chap10.png", Texture.class);
+        game.internalAssetManager.load("purchase/thx.png", Texture.class);
+        game.internalAssetManager.load("purchase/full_thx.png", Texture.class);
         game.internalAssetManager.load("purchase/ok.png", Texture.class);
         game.internalAssetManager.load("purchase/off.png", Texture.class);
         game.internalAssetManager.load("purchase/b_menu.png", Texture.class);
@@ -95,6 +101,30 @@ public class PurchaseScreen extends MunhauzenScreen {
         pmc.addOffer(new Offer()
                 .setType(OfferType.ENTITLEMENT)
                 .setIdentifier(game.params.appStoreSkuPart2));
+
+        pmc.addOffer(new Offer()
+                .setType(OfferType.CONSUMABLE)
+                .setIdentifier(game.params.appStoreSku1Chapter));
+
+        pmc.addOffer(new Offer()
+                .setType(OfferType.CONSUMABLE)
+                .setIdentifier(game.params.appStoreSku3Chapter));
+
+        pmc.addOffer(new Offer()
+                .setType(OfferType.CONSUMABLE)
+                .setIdentifier(game.params.appStoreSku5Chapter));
+
+        pmc.addOffer(new Offer()
+                .setType(OfferType.CONSUMABLE)
+                .setIdentifier(game.params.appStoreSku10Chapter));
+
+        pmc.addOffer(new Offer()
+                .setType(OfferType.ENTITLEMENT)
+                .setIdentifier(game.params.appStoreSkuThanks));
+
+        pmc.addOffer(new Offer()
+                .setType(OfferType.ENTITLEMENT)
+                .setIdentifier(game.params.appStoreSkuFullThanks));
 
         try {
             game.params.iap.install(observer, pmc, true);

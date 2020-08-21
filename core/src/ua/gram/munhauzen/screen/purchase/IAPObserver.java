@@ -10,9 +10,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.entity.Chapter;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.Product;
 import ua.gram.munhauzen.entity.Purchase;
+import ua.gram.munhauzen.entity.Scenario;
+import ua.gram.munhauzen.repository.ChapterRepository;
 import ua.gram.munhauzen.screen.PurchaseScreen;
 import ua.gram.munhauzen.utils.Log;
 
@@ -27,6 +30,72 @@ public class IAPObserver implements PurchaseObserver {
         this.game = screen.game;
     }
 
+    public void purchaseSuccess() {
+        int demoEndsAtChapter = 0, part1EndsAtChapter = 0, maxChapter = 0;
+
+        for (Scenario scenario : game.gameState.scenarioRegistry) {
+            if (scenario.chapter == null) continue;
+
+            try {
+                Chapter chapter = ChapterRepository.find(game.gameState, scenario.chapter);
+                if ("Part_demo".equals(scenario.expansion)) {
+                    if (chapter.number > demoEndsAtChapter) {
+                        demoEndsAtChapter = chapter.number;
+                    }
+                }
+
+                if ("Part_1".equals(scenario.expansion)) {
+                    if (chapter.number > part1EndsAtChapter) {
+                        part1EndsAtChapter = chapter.number;
+                    }
+                }
+
+                if (chapter.number > maxChapter) {
+                    maxChapter = chapter.number;
+                }
+            } catch (Throwable ignore) {
+            }
+        }
+
+        int availableChapter = 0;
+        String expansionVersion;
+
+        for (Purchase purchase : game.gameState.purchaseState.purchases) {
+
+            if (game.params.appStoreSku1Chapter.equals(purchase.productId)) {
+                availableChapter += 1;
+            }
+
+            if (game.params.appStoreSku3Chapter.equals(purchase.productId)) {
+                availableChapter += 3;
+            }
+
+            if (game.params.appStoreSku5Chapter.equals(purchase.productId)) {
+                availableChapter += 5;
+            }
+
+            if (game.params.appStoreSku10Chapter.equals(purchase.productId)) {
+                availableChapter += 10;
+            }
+        }
+
+        if (availableChapter > part1EndsAtChapter) {
+            expansionVersion = "Part_2";
+        } else if (demoEndsAtChapter < availableChapter && availableChapter <= part1EndsAtChapter) {
+            expansionVersion = "Part_1";
+        } else {
+            expansionVersion = "Part_demo";
+        }
+
+        game.gameState.purchaseState.setPro(game.params);
+
+        if (game.gameState.purchaseState.isPro) {
+            availableChapter = maxChapter;
+        }
+
+        game.gameState.purchaseState.maxChapter = availableChapter;
+        game.gameState.purchaseState.currentExpansionVersion = expansionVersion;
+    }
 
     @Override
     public void handleInstall() {
@@ -100,7 +169,7 @@ public class IAPObserver implements PurchaseObserver {
                 game.gameState.purchaseState.purchases.add(p);
             }
 
-            game.gameState.purchaseState.setPro(game.params);
+            purchaseSuccess();
 
             game.syncState();
 
@@ -133,16 +202,15 @@ public class IAPObserver implements PurchaseObserver {
 
             game.gameState.purchaseState.purchases.add(p);
 
-            game.gameState.purchaseState.setPro(game.params);
+            purchaseSuccess();
 
             game.stopCurrentSfx();
-            if (game.gameState.purchaseState.purchases.size() > 0) {
-                game.currentSfx = game.sfxService.onPurchaseSuccess();
-            }
+            game.currentSfx = game.sfxService.onPurchaseSuccess();
+
+            Gdx.input.setInputProcessor(null);
+            GameState.clearTimer(tag);
 
             if (game.currentSfx != null) {
-                Gdx.input.setInputProcessor(null);
-                GameState.clearTimer(tag);
                 Timer.instance().scheduleTask(new Timer.Task() {
                     @Override
                     public void run() {
