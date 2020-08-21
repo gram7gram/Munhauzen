@@ -9,7 +9,7 @@ buildscript {
     }
     dependencies {
         //Needed for `apply plugin: "robovm"`
-        classpath "com.mobidevelop.robovm:robovm-gradle-plugin:2.3.9"
+        classpath "com.mobidevelop.robovm:robovm-gradle-plugin:2.3.10-SNAPSHOT"
         //Needed for `apply plugin: "android"`
         classpath 'com.android.tools.build:gradle:3.3.2'
         classpath 'com.google.gms:google-services:4.3.3'
@@ -22,7 +22,7 @@ allprojects {
     ext {
         appName = "Munchausen"
         gdxVersion = '1.9.10'
-        roboVMVersion = '2.3.8'
+        roboVMVersion = '2.3.10-SNAPSHOT'
         gdxPayVersion = '1.1.0'
     }
 
@@ -72,6 +72,8 @@ project(":ios-en") {
         api "com.mobidevelop.robovm:robovm-cocoatouch:$roboVMVersion"
         api "com.badlogicgames.gdx:gdx-backend-robovm:$gdxVersion"
         api "com.badlogicgames.gdxpay:gdx-pay-iosrobovm-apple:${gdxPayVersion}"
+
+
     }
 }
 

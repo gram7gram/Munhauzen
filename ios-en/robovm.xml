@@ -16,6 +16,9 @@
       </includes>
       <skipPngCrush>true</skipPngCrush>
     </resource>
+    <resource>
+      <directory>data</directory>
+    </resource>
   </resources>
   <forceLinkClasses>
     <pattern>com.badlogic.gdx.scenes.scene2d.ui.*</pattern>
@@ -35,6 +38,10 @@
   <libs>
       <lib>z</lib>   
   </libs>
+  <frameworkPaths>
+    <path variant="device" >arm_libs</path>
+    <path variant="simulator" >sim_libs</path>
+  </frameworkPaths>
   <frameworks>
     <framework>UIKit</framework>
     <framework>OpenGLES</framework>
@@ -43,5 +50,6 @@
     <framework>OpenAL</framework>
     <framework>AudioToolbox</framework>
     <framework>AVFoundation</framework>
+    <framework>Storekit</framework>
   </frameworks>
 </config>

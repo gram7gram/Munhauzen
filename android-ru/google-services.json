@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "811410083672",
+    "firebase_url": "https://oh-that-munchausen.firebaseio.com",
+    "project_id": "oh-that-munchausen",
+    "storage_bucket": "oh-that-munchausen.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:811410083672:android:460ce7c790c8237a631f2d",
+        "android_client_info": {
+          "package_name": "en.munchausen.fingertipsandcompany.full"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "811410083672-a0ohneqs65f36h8nu2gn54sk3mm9dd9f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBFbr4i32n6sQhrj6fyef3xrMUPXuhH7U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "811410083672-a0ohneqs65f36h8nu2gn54sk3mm9dd9f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:811410083672:android:6571360dfba6070c631f2d",
+        "android_client_info": {
+          "package_name": "ru.munchausen.fingertipsandcompany.full"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "811410083672-a0ohneqs65f36h8nu2gn54sk3mm9dd9f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBFbr4i32n6sQhrj6fyef3xrMUPXuhH7U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "811410083672-a0ohneqs65f36h8nu2gn54sk3mm9dd9f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

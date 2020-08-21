@@ -19,6 +19,7 @@ import ua.gram.munhauzen.service.DatabaseManager;
 import ua.gram.munhauzen.service.InventoryService;
 import ua.gram.munhauzen.service.SfxService;
 import ua.gram.munhauzen.ui.GameViewport;
+import ua.gram.munhauzen.utils.AlarmInterface;
 import ua.gram.munhauzen.utils.ErrorMonitoring;
 import ua.gram.munhauzen.utils.ExpansionAssetManager;
 import ua.gram.munhauzen.utils.ExternalFiles;
@@ -63,8 +64,18 @@ public class MunhauzenGame extends Game {
     public StoryAudio currentSfx;
     public Navigator navigator;
 
+    public static AlarmInterface alarmInterface;
+
+    // This is the notificatino handler
+    public NotificationHandler notificationHandler;
+
     public MunhauzenGame(PlatformParams params) {
         this.params = params;
+    }
+
+    public MunhauzenGame(PlatformParams params, AlarmInterface alarmInterface) {
+        this.params = params;
+        MunhauzenGame.alarmInterface = alarmInterface;
     }
 
     public String getExpansionPart() {
@@ -116,6 +127,8 @@ public class MunhauzenGame extends Game {
     @Override
     public void create() {
         Log.i(tag, "create");
+
+
 
         try {
 
@@ -176,6 +189,13 @@ public class MunhauzenGame extends Game {
 
             navigator.onCriticalError(e);
         }
+
+        // This is just an example but you
+        // can now send notifications in your project
+//        if(Gdx.input.justTouched())
+
+
+
     }
 
     @Override
@@ -374,5 +394,10 @@ public class MunhauzenGame extends Game {
         } catch (Throwable e) {
             Log.e(tag, e);
         }
+    }
+
+    // This is the method we created to set the notifications handler
+    public void setNotificationHandler(NotificationHandler handler) {
+        this.notificationHandler = handler;
     }
 }

@@ -81,6 +81,7 @@ public class AndroidLauncher extends AndroidApplication {
         }
 
         FirebaseMessaging.getInstance().subscribeToTopic("updates");
+        FirebaseMessaging.getInstance().subscribeToTopic("android-all");
         FirebaseMessaging.getInstance().subscribeToTopic("android-en");
 
         AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
@@ -128,7 +129,7 @@ public class AndroidLauncher extends AndroidApplication {
 
         // Write a message to the database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("hours_notification");
+        DatabaseReference myRef = database.getReference("en_hours_notification");
 
 
         // Read  Notification time from the database
@@ -159,7 +160,7 @@ public class AndroidLauncher extends AndroidApplication {
 
         // Read Notification title from the database
 
-        DatabaseReference myRef1 = database.getReference("title_notification");
+        DatabaseReference myRef1 = database.getReference("en_title_notification");
 
         myRef1.addValueEventListener(new ValueEventListener() {
             @Override
@@ -188,7 +189,7 @@ public class AndroidLauncher extends AndroidApplication {
 
         // Read Notification message from the database
 
-        DatabaseReference myRef2 = database.getReference("message_notification");
+        DatabaseReference myRef2 = database.getReference("en_message_notification");
 
         myRef2.addValueEventListener(new ValueEventListener() {
             @Override
@@ -279,7 +280,7 @@ public class AndroidLauncher extends AndroidApplication {
             e.printStackTrace();
         }
 
-        try {
+     /*   try {
             JSONObject history = new JSONObject(historyJson);
 
             JSONArray visitedChapters = history.getJSONArray("visitedChapters");
@@ -321,7 +322,7 @@ public class AndroidLauncher extends AndroidApplication {
 
         } catch (JSONException e) {
             e.printStackTrace();
-        }
+        }*/
 
         Calendar c = Calendar.getInstance();
         c.add(Calendar.SECOND, SharedPreferencesHelper.getNotification1Time(this));

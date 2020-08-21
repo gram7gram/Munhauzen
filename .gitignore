@@ -15,7 +15,7 @@ obb/build
 obb/*.zip
 
 ## Robovm
-/ios/robovm-build/
+/ios-*/robovm-build/
 
 ## Android
 /android-*/libs/armeabi/

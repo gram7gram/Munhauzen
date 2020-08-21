@@ -79,6 +79,7 @@ public class Files {
         if (!file.exists()) {
             throw new GdxRuntimeException(name + " does not exist");
         }
+        System.out.println("File Path ---- : "+file.file().getAbsolutePath());
         return file;
     }
 

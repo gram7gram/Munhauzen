@@ -1,5 +1,6 @@
 package ua.gram.munhauzen;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.utils.GdxRuntimeException;
@@ -82,6 +83,8 @@ public class Navigator {
 
         Gdx.input.setInputProcessor(null);
 
+
+
         try {
             if (game.params.iap != null)
                 game.params.iap.dispose();
@@ -92,6 +95,10 @@ public class Navigator {
         try {
             game.databaseManager.persistSync(game.gameState);
         } catch (Throwable ignore) {
+        }
+
+        if (Gdx.app.getType() == Application.ApplicationType.iOS){
+            MunhauzenGame.alarmInterface.startAlarm();
         }
 
         Gdx.app.exit();
