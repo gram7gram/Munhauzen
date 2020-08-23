@@ -30,7 +30,7 @@ public abstract class EntitlementCard extends PurchaseCard {
                     screen.openAdultGateBanner(new Runnable() {
                         @Override
                         public void run() {
-                            screen.game.params.iap.purchase(productId);
+                            screen.game.purchaseManager.purchase(productId);
                         }
                     });
                 } catch (Throwable e) {

@@ -10,13 +10,13 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import ua.gram.munhauzen.entity.Device;
 import ua.gram.munhauzen.entity.GameState;
-import ua.gram.munhauzen.entity.Purchase;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.screen.ErrorScreen;
 import ua.gram.munhauzen.service.AchievementService;
 import ua.gram.munhauzen.service.BackgroundSfxService;
 import ua.gram.munhauzen.service.DatabaseManager;
 import ua.gram.munhauzen.service.InventoryService;
+import ua.gram.munhauzen.service.PurchaseManager;
 import ua.gram.munhauzen.service.SfxService;
 import ua.gram.munhauzen.ui.GameViewport;
 import ua.gram.munhauzen.utils.ErrorMonitoring;
@@ -34,6 +34,7 @@ public class MunhauzenGame extends Game {
     public static final boolean DEBUG_UI = false;
     public static final int PROGRESS_BAR_FADE_OUT_DELAY = 5;
 
+    public static final boolean developmentSimulatePurchase = false;
     public static final boolean developmentIsPro = false;
     public static final boolean developmentSkipEnable = true; //enabled by default even in production
 
@@ -47,6 +48,7 @@ public class MunhauzenGame extends Game {
     private final String tag = getClass().getSimpleName();
 
     public final PlatformParams params;
+    public PurchaseManager purchaseManager;
     public DatabaseManager databaseManager;
     public GameState gameState;
     public SpriteBatch batch;
@@ -65,32 +67,6 @@ public class MunhauzenGame extends Game {
 
     public MunhauzenGame(PlatformParams params) {
         this.params = params;
-    }
-
-    public String getExpansionPart() {
-        Purchase part2Purchase = null, part1Purchase = null;
-
-        for (Purchase purchase : gameState.purchaseState.purchases) {
-
-            if (purchase.productId.equals(params.appStoreSkuPart2)) {
-                part2Purchase = purchase;
-            }
-
-            if (purchase.productId.equals(params.appStoreSkuPart1)) {
-                part1Purchase = purchase;
-            }
-        }
-
-        String id = "Part_demo";
-        if (gameState.purchaseState.isPro) {
-            id = "Part_2";
-        } else if (part2Purchase != null) {
-            id = "Part_2";
-        } else if (part1Purchase != null) {
-            id = "Part_1";
-        }
-
-        return id;
     }
 
     public void syncState() {
@@ -136,6 +112,7 @@ public class MunhauzenGame extends Game {
             navigator = new Navigator(this);
             inventoryService = new InventoryService(this);
             achievementService = new AchievementService(this);
+            purchaseManager = new PurchaseManager(this);
 
             loadGameState();
             loadGlobalAssets();
@@ -229,6 +206,7 @@ public class MunhauzenGame extends Game {
             buttonBuilder = null;
             achievementService = null;
             inventoryService = null;
+            purchaseManager = null;
 
             gameState = null;
 

@@ -105,6 +105,8 @@ public class Navigator {
                 throw new GdxRuntimeException("No game state was loaded");
             }
 
+            game.purchaseManager.updatePurchaseState();
+
             boolean isLegalViewed = false;
             boolean hasPurchases = false;
 
@@ -113,7 +115,7 @@ public class Navigator {
             boolean needUpdates = downloadManager.shouldFetchExpansion();
 
             if (game.gameState.purchaseState != null) {
-                hasPurchases = game.gameState.purchaseState.isVersionSelected;
+                hasPurchases = game.purchaseManager.hasPurchases() || game.gameState.purchaseState.isVersionSelected;
             }
 
             if (game.gameState.preferences != null) {

@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 
 import ua.gram.munhauzen.FontProvider;
+import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.Product;
 import ua.gram.munhauzen.entity.PurchaseState;
 import ua.gram.munhauzen.screen.PurchaseScreen;
@@ -51,9 +52,11 @@ public abstract class PurchaseCard extends Card {
             }
         }
 
-        setEnabled(false);
-        setPriceText(screen.game.t("purchase_screen.unavailable"));
+        if (!MunhauzenGame.developmentSimulatePurchase) {
+            setEnabled(false);
+        }
 
+        setPriceText(screen.game.t("purchase_screen.unavailable"));
     }
 
     @Override

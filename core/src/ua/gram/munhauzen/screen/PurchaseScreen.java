@@ -5,9 +5,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.pay.Offer;
-import com.badlogic.gdx.pay.OfferType;
-import com.badlogic.gdx.pay.PurchaseManagerConfig;
 import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.MunhauzenGame;
@@ -32,7 +29,7 @@ public class PurchaseScreen extends MunhauzenScreen {
     public Layers layers;
     public boolean isBackPressed;
     ControlsFragment controlsFragment;
-    IAPObserver observer;
+    public IAPObserver observer;
 
     public PurchaseScreen(MunhauzenGame game) {
         super(game);
@@ -88,49 +85,7 @@ public class PurchaseScreen extends MunhauzenScreen {
 
     public void restorePurchases() {
 
-        PurchaseManagerConfig pmc = new PurchaseManagerConfig();
-
-        pmc.addOffer(new Offer()
-                .setType(OfferType.ENTITLEMENT)
-                .setIdentifier(game.params.appStoreSkuFull));
-
-        pmc.addOffer(new Offer()
-                .setType(OfferType.ENTITLEMENT)
-                .setIdentifier(game.params.appStoreSkuPart1));
-
-        pmc.addOffer(new Offer()
-                .setType(OfferType.ENTITLEMENT)
-                .setIdentifier(game.params.appStoreSkuPart2));
-
-        pmc.addOffer(new Offer()
-                .setType(OfferType.CONSUMABLE)
-                .setIdentifier(game.params.appStoreSku1Chapter));
-
-        pmc.addOffer(new Offer()
-                .setType(OfferType.CONSUMABLE)
-                .setIdentifier(game.params.appStoreSku3Chapter));
-
-        pmc.addOffer(new Offer()
-                .setType(OfferType.CONSUMABLE)
-                .setIdentifier(game.params.appStoreSku5Chapter));
-
-        pmc.addOffer(new Offer()
-                .setType(OfferType.CONSUMABLE)
-                .setIdentifier(game.params.appStoreSku10Chapter));
-
-        pmc.addOffer(new Offer()
-                .setType(OfferType.ENTITLEMENT)
-                .setIdentifier(game.params.appStoreSkuThanks));
-
-        pmc.addOffer(new Offer()
-                .setType(OfferType.ENTITLEMENT)
-                .setIdentifier(game.params.appStoreSkuFullThanks));
-
-        try {
-            game.params.iap.install(observer, pmc, true);
-        } catch (Throwable e) {
-            Log.e(tag, e);
-        }
+        game.purchaseManager.start(observer);
 
         Timer.instance().scheduleTask(new Timer.Task() {
             @Override

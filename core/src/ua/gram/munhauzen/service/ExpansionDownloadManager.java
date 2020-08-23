@@ -58,7 +58,7 @@ public class ExpansionDownloadManager {
     public void fetchExpansionToDownload() {
         try {
 
-            expansionPart = game.getExpansionPart();
+            expansionPart = game.gameState.purchaseState.currentExpansionVersion;
 
             FileHandle file = Files.getExpansionConfigFile(game.params, expansionPart);
 
@@ -198,7 +198,7 @@ public class ExpansionDownloadManager {
 
     public boolean shouldFetchExpansion() {
 
-        if (game.gameState.purchaseState.purchases == null) {
+        if (!game.purchaseManager.hasPurchases()) {
             return false;
         }
 

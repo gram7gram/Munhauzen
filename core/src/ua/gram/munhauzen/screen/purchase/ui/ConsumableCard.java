@@ -23,7 +23,7 @@ public abstract class ConsumableCard extends PurchaseCard {
                     screen.openAdultGateBanner(new Runnable() {
                         @Override
                         public void run() {
-                            screen.game.params.iap.purchase(productId);
+                            screen.game.purchaseManager.purchase(productId);
                         }
                     });
                 } catch (Throwable e) {
@@ -33,5 +33,13 @@ public abstract class ConsumableCard extends PurchaseCard {
                 }
             }
         });
+    }
+
+    @Override
+    public void act(float delta) {
+
+        purchased = false;
+
+        super.act(delta);
     }
 }
