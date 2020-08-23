@@ -251,6 +251,10 @@ public class EnglishTranslator implements Translator {
         map.put("menu_achievement_banner.title", "A new trophy is opened in hall!\nCongratulations!");
         map.put("menu_achievement_banner.btn", "Hooray!");
 
+        map.put("promo_banner.btn", "Have promocode?");
+        map.put("promo_banner.ok_btn", "Activate");
+        map.put("promo_banner.title", "Enter promocode");
+
     }
 
     @Override

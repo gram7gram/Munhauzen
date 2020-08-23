@@ -21,12 +21,16 @@ public class PurchaseState implements JsonEntry {
     public ArrayList<Purchase> purchases;
     @JsonProperty
     public ArrayList<Product> products;
+    @JsonProperty
+    public ArrayList<String> promocodes;
 
     public PurchaseState() {
         if (purchases == null)
             purchases = new ArrayList<>();
         if (products == null)
             products = new ArrayList<>();
+        if (promocodes == null)
+            promocodes = new ArrayList<>();
     }
 
     public void setPro(PlatformParams params) {

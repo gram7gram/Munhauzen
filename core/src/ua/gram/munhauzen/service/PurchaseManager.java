@@ -124,6 +124,15 @@ public class PurchaseManager {
         int purchasedChapters = 0;
         String expansionVersion;
 
+        for (String code : gameState.purchaseState.promocodes) {
+            if (game.params.promocode1.equals(code)) {
+                purchasedChapters += 3;
+            }
+            if (game.params.promocode2.equals(code)) {
+                purchasedChapters += 5;
+            }
+        }
+
         for (Purchase purchase : gameState.purchaseState.purchases) {
 
             if (game.params.appStoreSku1Chapter.equals(purchase.productId)) {

@@ -2,10 +2,13 @@ package ua.gram.munhauzen.screen.purchase.fragment;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 
 import ua.gram.munhauzen.FontProvider;
@@ -24,6 +27,7 @@ import ua.gram.munhauzen.screen.purchase.ui.PurchasePart2Card;
 import ua.gram.munhauzen.screen.purchase.ui.PurchaseThanksCard;
 import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.ui.FragmentRoot;
+import ua.gram.munhauzen.ui.PrimaryButton;
 import ua.gram.munhauzen.ui.VerticalScrollPane;
 import ua.gram.munhauzen.utils.Log;
 
@@ -62,8 +66,22 @@ public class ListFragment extends Fragment {
 
         cardFree.setPurchased(true);
 
+        PrimaryButton promo = screen.game.buttonBuilder.primary(screen.game.t("promo_banner.btn"), new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                screen.openPromoBanner();
+            }
+        });
+
+        Container<?> promoContainer = new Container<>(promo);
+        promoContainer.pad(10, 0, 10, 0);
+        promoContainer.align(Align.center);
+
         VerticalGroup list = new VerticalGroup();
         list.addActor(title);
+        list.addActor(promoContainer);
         list.addActor(cardFree);
         list.addActor(chap1);
         list.addActor(chap3);

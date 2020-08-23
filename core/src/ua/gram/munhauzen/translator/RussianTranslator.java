@@ -250,6 +250,10 @@ public class RussianTranslator implements Translator {
         map.put("menu_achievement_banner.title", "Новый трофей открыт в гостиной!\nПоздравляем");
         map.put("menu_achievement_banner.btn", "Ура! Ура!");
 
+        map.put("promo_banner.btn", "Есть промокод?");
+        map.put("promo_banner.ok_btn", "Активировать");
+        map.put("promo_banner.title", "Введите промокод");
+
     }
 
     @Override

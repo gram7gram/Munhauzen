@@ -12,6 +12,7 @@ import ua.gram.munhauzen.expansion.response.ExpansionResponse;
 import ua.gram.munhauzen.screen.purchase.IAPObserver;
 import ua.gram.munhauzen.screen.purchase.fragment.ControlsFragment;
 import ua.gram.munhauzen.screen.purchase.fragment.ListFragment;
+import ua.gram.munhauzen.screen.purchase.fragment.PromoFragment;
 import ua.gram.munhauzen.screen.purchase.ui.Layers;
 import ua.gram.munhauzen.ui.AdultGateFragment;
 import ua.gram.munhauzen.ui.MunhauzenStage;
@@ -26,6 +27,7 @@ public class PurchaseScreen extends MunhauzenScreen {
     public Texture background;
     public ListFragment fragment;
     public AdultGateFragment adultGateFragment;
+    public PromoFragment promoFragment;
     public Layers layers;
     public boolean isBackPressed;
     ControlsFragment controlsFragment;
@@ -110,7 +112,8 @@ public class PurchaseScreen extends MunhauzenScreen {
 
             game.databaseManager.persistSync(game.gameState);
 
-            navigateTo(new LoadingScreen(game));
+            game.navigator.openNextPage();
+
         } catch (Throwable e) {
             Log.e(tag, e);
 
@@ -244,11 +247,34 @@ public class PurchaseScreen extends MunhauzenScreen {
         }
     }
 
+    public void openPromoBanner() {
+
+        try {
+
+            destroyBanners();
+
+            promoFragment = new PromoFragment(this);
+            promoFragment.create();
+
+            layers.setBannerLayer(promoFragment);
+
+            promoFragment.fadeIn();
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+    }
+
     @Override
     public void destroyBanners() {
         if (adultGateFragment != null) {
             adultGateFragment.destroy();
             adultGateFragment = null;
         }
+        if (promoFragment != null) {
+            promoFragment.destroy();
+            promoFragment = null;
+        }
     }
+
 }

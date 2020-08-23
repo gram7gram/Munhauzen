@@ -44,6 +44,9 @@ public class PlatformParams implements JsonEntry {
     public String fbLink;
     public String statueLink;
 
+    public final String promocode1 = "KPI";
+    public final String promocode2 = "Moustache";
+
     public int achievementPoints = 1;
 
     public boolean isProduction() {
