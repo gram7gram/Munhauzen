@@ -16,6 +16,24 @@ robovm {
 	archs = "thumbv7:arm64"
 
 	//uncomment for running on ios device
-//	iosSignIdentity = IOS_SIGN_IDENTITY_RU
-//	iosProvisioningProfile = IOS_PROVISIONING_PROFILE_RU
+//	iosSignIdentity = IOS_SIGN_IDENTITY_EN
+//	iosProvisioningProfile = IOS_PROVISIONING_PROFILE_EN
+}
+
+
+ext {
+	roboVMVersion = "2.3.10-SNAPSHOT"
+	altpodsVersion = "1.9.0-SNAPSHOT"
+	robopodsVersion = "2.2.3-SNAPSHOT"
+}
+
+
+dependencies {
+	implementation "io.github.dkimitsa.robovm:robopods-firebase-messaging-ios:$altpodsVersion"
+	implementation "io.github.dkimitsa.robovm:robopods-firebase-core-ios:$altpodsVersion"
+	implementation "io.github.dkimitsa.robovm:robopods-firebase-analytics-ios:$altpodsVersion"
+	implementation "io.github.dkimitsa.robovm:robopods-firebase-database-ios:$altpodsVersion"
+
+//	compile "com.mobidevelop.robovm:robopods-firebase-ios-messaging:$robopodsVersion"
+//	implementation "pl.mk5.gdx-fireapp:gdx-fireapp-ios-moe:2.1.7"
 }

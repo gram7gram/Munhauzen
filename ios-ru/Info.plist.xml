@@ -2,6 +2,10 @@
     "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
     <dict>
+        <key>NSAppTransportSecurity</key>
+        <dict>
+            <key>NSAllowsArbitraryLoads</key><true/>
+        </dict>
         <key>CFBundleDevelopmentRegion</key>
         <string>${app.locale}</string>
         <key>CFBundleDisplayName</key>
@@ -54,5 +58,17 @@
         </array>
         <key>CFBundleIconName</key>
         <string>AppIcon</string>
+        <key>FirebaseAppDelegateProxyEnabled</key>
+        <false/>
+        <key>UIBackgroundModes</key>
+        <array>
+            <string>remote-notification</string>
+        </array>
+        <key>UNNotificationExtensionDefaultContentHidden</key>
+        <false/>
+        <key>UNNotificationExtensionUserInteractionEnabled</key>
+        <true/>
+        <key>PushNotification</key>
+        <true/>
     </dict>
 </plist>

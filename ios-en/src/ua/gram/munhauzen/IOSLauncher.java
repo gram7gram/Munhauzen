@@ -251,6 +251,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
 
         return new IOSApplication(game, config);
+
     }
 
     private float getDeviceScaleFactor() {
