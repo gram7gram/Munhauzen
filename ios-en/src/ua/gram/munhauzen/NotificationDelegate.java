@@ -1,19 +1,28 @@
 package ua.gram.munhauzen;
 
+import com.badlogic.gdx.math.Path;
+
 import org.robovm.apple.foundation.NSArray;
+import org.robovm.apple.foundation.NSBundle;
 import org.robovm.apple.foundation.NSCalendar;
 import org.robovm.apple.foundation.NSCalendarUnit;
 import org.robovm.apple.foundation.NSDate;
 import org.robovm.apple.foundation.NSDateComponents;
 import org.robovm.apple.foundation.NSDictionary;
 import org.robovm.apple.foundation.NSError;
+import org.robovm.apple.foundation.NSErrorException;
+import org.robovm.apple.foundation.NSFileManager;
 import org.robovm.apple.foundation.NSNumber;
 import org.robovm.apple.foundation.NSObject;
+import org.robovm.apple.foundation.NSProcessInfo;
+import org.robovm.apple.foundation.NSSearchPathDirectory;
+import org.robovm.apple.foundation.NSSearchPathDomainMask;
 import org.robovm.apple.foundation.NSSet;
 import org.robovm.apple.foundation.NSString;
 import org.robovm.apple.foundation.NSURL;
 import org.robovm.apple.foundation.NSUserDefaults;
 import org.robovm.apple.metalps.MPSRayIntersector;
+import org.robovm.apple.mobilecoreservices.UTType;
 import org.robovm.apple.usernotifications.UNAuthorizationOptions;
 import org.robovm.apple.usernotifications.UNCalendarNotificationTrigger;
 import org.robovm.apple.usernotifications.UNMutableNotificationContent;
@@ -34,7 +43,20 @@ import org.robovm.objc.block.VoidBlock1;
 import org.robovm.objc.block.VoidBlock2;
 import org.robovm.rt.bro.Bits;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
+import java.nio.channels.FileChannel;
 import java.util.Calendar;
+
+import ua.gram.munhauzen.utils.Files;
+import ua.gram.munhauzen.utils.Log;
 
 public class NotificationDelegate extends NSObject implements UNUserNotificationCenterDelegate {
 
@@ -50,14 +72,18 @@ public class NotificationDelegate extends NSObject implements UNUserNotification
                 if (!didAllow){
                     System.out.println("User has declined notifications");
                 }else {
-                    scheduleNotification("Local Notification");
+//                    try {
+//                        //scheduleNotification("Local Notification");
+//                    } catch (NSErrorException e) {
+//                        e.printStackTrace();
+//                    }
                 }
             }
         };
         notificationCenter.requestAuthorization(options,errorVoidBlock2);
     }
 
-    void scheduleNotification(String notificationType){
+    void scheduleNotification(String notificationType) throws NSErrorException {
         UNMutableNotificationContent content = new UNMutableNotificationContent();
         String userActions = "User Actions";
 
@@ -65,20 +91,48 @@ public class NotificationDelegate extends NSObject implements UNUserNotification
         String des = NSUserDefaults.getStandardUserDefaults().getString(IOSLauncher.KEY_SAVE_DESCRIPTION);
         String msg = NSUserDefaults.getStandardUserDefaults().getString(IOSLauncher.KEY_NOTIFICATION1_MESSAGE);
         String title = NSUserDefaults.getStandardUserDefaults().getString(IOSLauncher.KEY_NOTIFICATION1_TITLE);
+
         int hrs = NSUserDefaults.getStandardUserDefaults().getInt(IOSLauncher.KEY_NOTIFICATION_AFTER);
 
         NSDictionary<?,?> dictionary = new NSDictionary<>();
 
+
+        NSURL dir = NSFileManager.getDefaultManager().getURLsForDirectory(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask).first();
+        NSURL uurl = new NSURL(dir.getPath()+"/.Munchausen/en.munchausen.fingertipsandcompany.any/expansion/chapter/icon_a1.png",new NSURL());
+
+
         UNNotificationAttachment attachment = null;
+
+
         try {
-            attachment = new UNNotificationAttachment("image", new NSURL("https://png.pngtree.com/element_our/20190528/ourmid/pngtree-small-url-icon-opened-on-the-computer-image_1132275.jpg"), null);
+            System.out.println("Attachment TryEntered--------------->");
+//            dir = NSFileManager.getDefaultManager().getURLsForDirectory(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask).first();
+//
+//            String tmpSubFolderName = NSProcessInfo.getSharedProcessInfo().getGloballyUniqueString();
+//            NSURL tmpSubFolderURL = new NSURL().newURLByAppendingPathComponent(tmpSubFolderName,false);
+//
+            java.lang.String imageURL =  dir.getPath()+"/.Munchausen/en.munchausen.fingertipsandcompany.any/expansion/chapter/icon_a1.png";
+//            System.out.println("Img url = "+imageURL);
+//
+//
+            NSDictionary<?,?> dictionary1 = new NSDictionary<>();
+
+            attachment = new UNNotificationAttachment("image", new NSURL("https://miro.medium.com/max/440/1*IDRLEDmc7cacnrQzgclvSw.jpeg"),dictionary1 );
+            System.out.println("Attachment------------------->"+attachment);
+//            attachment = new UNNotificationAttachment("image", new NSURL(imageURL), dictionary1);
+
+            System.out.println("Direcory---->" + NSBundle.getMainBundle());
+
+//            NSURL url =  NSBundle.getMainBundle().findResourceURL(".Munchausen/en.munchausen.fingertipsandcompany.any/expansion/chapter/icon_a1", ".png");
+            NSURL url = new NSURL( NSBundle.getMainBundle()+"/.Munchausen/en.munchausen.fingertipsandcompany.any/expansion/chapter/icon_a1.png");
+            System.out.println("NSURL ----------------->"+url);
+            URL url1 = new URL(NSBundle.getMainBundle()+"/.Munchausen/en.munchausen.fingertipsandcompany.any/expansion/chapter/icon_a1.png");
+//            attachment = new UNNotificationAttachment("image", url1, dictionary);
+
         }catch (Exception e){
-
+            System.out.println("Attachment Error--------------->"+e);
         }
-
-//        let attachement = try! UNNotificationAttachment(identifier: "image",
-//                url: Bundle.main.url(forResource: "cat", withExtension: "png")!,
-//                options: nil)
+        NSArray<UNNotificationAction> actions = new NSArray<UNNotificationAction>();
 
 
         content.setTitle(title);
@@ -86,7 +140,10 @@ public class NotificationDelegate extends NSObject implements UNUserNotification
         content.setSound(UNNotificationSound.getDefaultSound());
         content.setBadge(NSNumber.valueOf(1));
         content.setCategoryIdentifier(userActions);
+
+        System.out.println("Attachment----------------->"+attachment);
         if (attachment!=null){
+            System.out.println("Attachment NotNUll----------------------->");
             NSArray<UNNotificationAttachment> array =new NSArray<UNNotificationAttachment>();
             array.add(attachment);
             content.setAttachments(array);
@@ -104,7 +161,7 @@ public class NotificationDelegate extends NSObject implements UNUserNotification
                         NSCalendarUnit.Second
                 ),date);
 
-        UNCalendarNotificationTrigger trig = new UNCalendarNotificationTrigger(components,false);
+        UNCalendarNotificationTrigger trig = new UNCalendarNotificationTrigger(components,false);;
 
 
         UNTimeIntervalNotificationTrigger trigger = new UNTimeIntervalNotificationTrigger(hrs, false);
@@ -127,6 +184,7 @@ public class NotificationDelegate extends NSObject implements UNUserNotification
 
         notificationCenter.setNotificationCategories(new NSSet<UNNotificationCategory>(category));
     }
+
 
 
     @Override

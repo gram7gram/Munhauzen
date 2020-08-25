@@ -1,1 +1,2 @@
+include ':slf4j-simple-1.6.1-javadoc'
 include 'ios-en', 'ios-ru', 'android-en', 'android-ru', 'core'

@@ -7,23 +7,21 @@ import com.badlogic.gdx.pay.ios.apple.PurchaseManageriOSApple;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.robovm.apple.foundation.Foundation;
 import org.robovm.apple.foundation.NSAutoreleasePool;
 import org.robovm.apple.foundation.NSBundle;
-import org.robovm.apple.foundation.NSCoder;
 import org.robovm.apple.foundation.NSData;
+import org.robovm.apple.foundation.NSDate;
 import org.robovm.apple.foundation.NSDictionary;
 import org.robovm.apple.foundation.NSError;
+import org.robovm.apple.foundation.NSErrorException;
 import org.robovm.apple.foundation.NSFileManager;
-import org.robovm.apple.foundation.NSKeyValueChange;
-import org.robovm.apple.foundation.NSKeyValueChangeInfo;
 import org.robovm.apple.foundation.NSNumber;
 import org.robovm.apple.foundation.NSObject;
 import org.robovm.apple.foundation.NSSearchPathDirectory;
 import org.robovm.apple.foundation.NSSearchPathDomainMask;
-import org.robovm.apple.foundation.NSSet;
 import org.robovm.apple.foundation.NSString;
 import org.robovm.apple.foundation.NSURL;
-import org.robovm.apple.foundation.NSUserActivity;
 import org.robovm.apple.foundation.NSUserDefaults;
 import org.robovm.apple.uikit.UIApplication;
 import org.robovm.apple.uikit.UIApplicationDelegate;
@@ -31,14 +29,11 @@ import org.robovm.apple.uikit.UIApplicationLaunchOptions;
 import org.robovm.apple.uikit.UIBackgroundFetchResult;
 import org.robovm.apple.uikit.UIDevice;
 import org.robovm.apple.uikit.UILocalNotification;
-import org.robovm.apple.uikit.UIOpenURLContext;
 import org.robovm.apple.uikit.UIRemoteNotification;
-import org.robovm.apple.uikit.UIScene;
-import org.robovm.apple.uikit.UISceneConnectionOptions;
-import org.robovm.apple.uikit.UISceneDelegate;
-import org.robovm.apple.uikit.UISceneSession;
 import org.robovm.apple.uikit.UIScreen;
 import org.robovm.apple.uikit.UIUserInterfaceIdiom;
+import org.robovm.apple.uikit.UIUserNotificationSettings;
+import org.robovm.apple.uikit.UIUserNotificationType;
 import org.robovm.apple.usernotifications.UNAuthorizationOptions;
 import org.robovm.apple.usernotifications.UNNotification;
 import org.robovm.apple.usernotifications.UNNotificationPresentationOptions;
@@ -51,7 +46,6 @@ import org.robovm.pods.firebase.core.FIRApp;
 import org.robovm.pods.firebase.database.FIRDataEventType;
 import org.robovm.pods.firebase.database.FIRDataSnapshot;
 import org.robovm.pods.firebase.database.FIRDatabase;
-import org.robovm.pods.firebase.database.FIRDatabaseReference;
 import org.robovm.pods.firebase.messaging.FIRMessaging;
 import org.robovm.pods.firebase.messaging.FIRMessagingDelegate;
 import org.robovm.pods.firebase.messaging.FIRMessagingRemoteMessage;
@@ -59,9 +53,6 @@ import org.robovm.pods.firebase.messaging.FIRMessagingRemoteMessage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Set;
 
 import ua.gram.munhauzen.entity.Device;
@@ -76,31 +67,40 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
     public static final String KEY_NOTIFICATION_AFTER = "key_notification_after";
     public static final String KEY_NOTIFICATION1_TITLE = "key_notification1_title";
     public static final String KEY_NOTIFICATION1_MESSAGE = "key_notification1_message";
+    public static final String KEY_DEVICE_TOKEN = "key_device_token";
 
     IOSApplicationConfiguration config;
 
-    UNUserNotificationCenter notificationCenter = UNUserNotificationCenter.currentNotificationCenter();
+    UNUserNotificationCenter notificationCenter;
+
 
     @Override
     public boolean didFinishLaunching(UIApplication application, UIApplicationLaunchOptions launchOptions) {
         System.out.println("createApplication: ");
         try {
 
-
             FIRApp.configure();
             System.out.println("didFinishLaunching: Firebase configured");
-//        if (Foundation.getMajorSystemVersion()>=10){
-            UNUserNotificationCenter.currentNotificationCenter().setDelegate(this);
-            UNAuthorizationOptions authOptions = UNAuthorizationOptions.with(UNAuthorizationOptions.Alert, UNAuthorizationOptions.Badge, UNAuthorizationOptions.Sound);
-            UNUserNotificationCenter.currentNotificationCenter().requestAuthorization(authOptions, new VoidBlock2<Boolean, NSError>() {
-                @Override
-                public void invoke(Boolean aBoolean, NSError nsError) {
+            if (Foundation.getMajorSystemVersion() >= 10) {
+                notificationCenter = UNUserNotificationCenter.currentNotificationCenter();
+                UNUserNotificationCenter.currentNotificationCenter().setDelegate(this);
+                UNAuthorizationOptions authOptions = UNAuthorizationOptions.with(UNAuthorizationOptions.Alert, UNAuthorizationOptions.Badge, UNAuthorizationOptions.Sound);
+                UNUserNotificationCenter.currentNotificationCenter().requestAuthorization(authOptions, new VoidBlock2<Boolean, NSError>() {
+                    @Override
+                    public void invoke(Boolean aBoolean, NSError nsError) {
 
-                }
-            });
-//        }else {
-//
-//        }
+                    }
+                });
+            } else {
+                System.out.println("Registers with iOS8+");
+                UIUserNotificationType userNotificationTypes = UIUserNotificationType.with(UIUserNotificationType.Alert,
+                        UIUserNotificationType.Badge, UIUserNotificationType.Sound);
+
+
+                UIUserNotificationSettings settings = new UIUserNotificationSettings(userNotificationTypes, null);
+                UIApplication.getSharedApplication().registerUserNotificationSettings(settings);
+                UIApplication.getSharedApplication().registerForRemoteNotifications();
+            }
 
 
             //application.registerForRemoteNotifications();
@@ -116,17 +116,28 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
 //            showNotificaiton();
             //readStoredData();
-           // startAlarm();
+            // startAlarm();
 
             String icon = NSUserDefaults.getStandardUserDefaults().getString(KEY_SAVE_ICON);
             String des = NSUserDefaults.getStandardUserDefaults().getString(KEY_SAVE_DESCRIPTION);
 
 
-
-            System.out.println("Icon: "+NSUserDefaults.getStandardUserDefaults().getString(KEY_SAVE_ICON));
-            System.out.println("Des: "+NSUserDefaults.getStandardUserDefaults().getString(KEY_SAVE_DESCRIPTION));
+            System.out.println("Icon: " + NSUserDefaults.getStandardUserDefaults().getString(KEY_SAVE_ICON));
+            System.out.println("Des: " + NSUserDefaults.getStandardUserDefaults().getString(KEY_SAVE_DESCRIPTION));
 
             loadFromFirebaseDB();
+
+//            UNNotificationCategory newCategory = UNNotificationCategory("newCategory", )
+//            let newCategory = UNNotificationCategory(identifier: "newCategory",
+//                    actions: [ action ],
+//            minimalActions: [ action ],
+//            intentIdentifiers: [],
+//            options: [])
+//
+//            let center = UNUserNotificationCenter.current()
+//
+//            center.setNotificationCategories([newCategory])
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -138,6 +149,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
     @Override
     protected IOSApplication createApplication() {
+
 
 //        FIRApp.configure();
 //        System.out.println("didFinishLaunching: Firebase configured");
@@ -218,10 +230,15 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
 
         // set up when you created the libgdx project
-        MunhauzenGame game = new MunhauzenGame(params, new AlarmInterface(){
+        MunhauzenGame game = new MunhauzenGame(params, new AlarmInterface() {
             @Override
             public void startAlarm() {
-                showNotificaiton();
+                try {
+                    showNotificaiton();
+                } catch (Exception e) {
+
+                }
+
             }
         });
 
@@ -280,20 +297,29 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
     @Override
     public void didReceiveMessage(FIRMessaging messaging, FIRMessagingRemoteMessage remoteMessage) {
         System.out.println("didReceiveMessage: " + messaging);
-        showNotificaiton();
+        try {
+            showNotificaiton();
+        } catch (NSErrorException e) {
+            e.printStackTrace();
+        }
 
     }
 
+
     @Override
     public void didRegisterForRemoteNotifications(UIApplication application, NSData deviceToken) {
+        System.out.println("DeviceToken----------------------> "+deviceToken);
+        NSUserDefaults.getStandardUserDefaults().put(KEY_DEVICE_TOKEN, deviceToken);
         super.didRegisterForRemoteNotifications(application, deviceToken);
         FIRMessaging.messaging().setAPNSToken(deviceToken);
+
     }
 
 
     @Override
     public void didFailToRegisterForRemoteNotifications(UIApplication application, NSError error) {
         super.didFailToRegisterForRemoteNotifications(application, error);
+        NSUserDefaults.getStandardUserDefaults().put(KEY_DEVICE_TOKEN, error.getLocalizedDescription());
         System.out.println("didFailToRegisterForRemoteNotifications error:" + error);
     }
 
@@ -312,7 +338,11 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
         // Change this to your preferred presentation option
         completionHandler.invoke(UNNotificationPresentationOptions.with(UNNotificationPresentationOptions.Alert, UNNotificationPresentationOptions.Sound));
 
-        showNotificaiton();
+        try {
+            showNotificaiton();
+        } catch (NSErrorException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -326,7 +356,11 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
         }
         System.out.println("didReceiveRemoteNotification: UserInfo:" + userInfo);
 
-        showNotificaiton();
+        try {
+            showNotificaiton();
+        } catch (NSErrorException e) {
+            e.printStackTrace();
+        }
 
         completionHandler.run();
     }
@@ -335,6 +369,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
     public void openSettings(UNUserNotificationCenter unUserNotificationCenter, UNNotification unNotification) {
 
     }
+
 
     String gcmMessageIDKey = "gcm.message_id";
 
@@ -346,7 +381,11 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
         }
         System.out.println("didReceiveRemoteNotification: UserInfo:" + userInfo);
 
-        showNotificaiton();
+        try {
+            showNotificaiton();
+        } catch (NSErrorException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -357,16 +396,40 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
         }
         System.out.println("didReceiveRemoteNotification: UserInfo:" + userInfo);
 
-        showNotificaiton();
+        try {
+            showNotificaiton();
+        } catch (NSErrorException e) {
+            e.printStackTrace();
+        }
 
         completionHandler.invoke(UIBackgroundFetchResult.NewData);
     }
 
-    private void showNotificaiton() {
-        NotificationDelegate delegate = new NotificationDelegate();
-        notificationCenter.setDelegate(delegate);
-        delegate.userRequest();
-        delegate.scheduleNotification("test");
+    private void showNotificaiton() throws NSErrorException {
+        if (Foundation.getMajorSystemVersion() >= 10) {
+            NotificationDelegate delegate = new NotificationDelegate();
+            notificationCenter.setDelegate(delegate);
+            delegate.userRequest();
+            delegate.scheduleNotification("test");
+        } else {
+            UILocalNotification notification = new UILocalNotification();
+            NSDate date = new NSDate().newDateByAddingTimeInterval(20);
+            notification.setFireDate(date);
+            notification.setAlertTitle("Hello");
+            String token = NSUserDefaults.getStandardUserDefaults().getString(KEY_DEVICE_TOKEN);
+            notification.setAlertBody("Body "+token);
+
+//            if let info = userInfo {
+//                notification.userInfo = info
+//            }
+
+            notification.setSoundName(UILocalNotification.getDefaultSoundName());
+            UIApplication.getSharedApplication().scheduleLocalNotification(notification);
+
+
+
+        }
+
     }
 
     private void readStoredData() {
@@ -379,40 +442,39 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
 //        java.lang.String fileURL = "/Users/amar/Library/Developer/CoreSimulator/Devices/70E1D038-FA2F-49BD-B3FD-D58A65859153/data/Containers/Data/Application/333F1A41-9F56-4E8D-AE78-96643681ADDE/Documents/.Munchausen/en.munchausen.fingertipsandcompany.any/save-active.json";
 //        /Users/amar/Library/Developer/CoreSimulator/Devices/70E1D038-FA2F-49BD-B3FD-D58A65859153/data/Containers/Bundle/Application/50513BF7-B3DE-453E-AAE0-50FED3235353/IOSLauncher.app/inventory.json
-        java.lang.String fileURL =  dir.getPath();
-        System.out.println("File Path : "+fileURL);
+        java.lang.String fileURL = dir.getPath();
+        System.out.println("File Path : " + fileURL);
 
 
-        java.lang.String savedAction =  dir.getPath()+"/.Munchausen/en.munchausen.fingertipsandcompany.any/save-active.json";
-        String chPath = NSBundle.getMainBundle().findResourcePath("chapters","json");
+        java.lang.String savedAction = dir.getPath() + "/.Munchausen/en.munchausen.fingertipsandcompany.any/save-active.json";
+        String chPath = NSBundle.getMainBundle().findResourcePath("chapters", "json");
 
-        System.out.println("Chapter: Path "+chPath);
+        System.out.println("Chapter: Path " + chPath);
 
         readJsonFile(savedAction);
         String chData = readJsonFile(chPath);
         try {
             JSONArray array = new JSONArray(chData);
             String obj = array.getJSONObject(0).getString("name");
-            System.out.println("Name "+obj);
+            System.out.println("Name " + obj);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Read Error "+e);
+            System.out.println("Read Error " + e);
         }
-
 
 
     }
 
-    private void startAlarm(){
+    private void startAlarm() {
         //Saved
         NSURL dir = NSFileManager.getDefaultManager().getURLsForDirectory(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask).first();
-        java.lang.String savedAction =  dir.getPath()+"/.Munchausen/en.munchausen.fingertipsandcompany.any/save-active.json";
+        java.lang.String savedAction = dir.getPath() + "/.Munchausen/en.munchausen.fingertipsandcompany.any/save-active.json";
         String saveJson = readJsonFile(savedAction);
 
 
         //Chapter
-        String chPath = NSBundle.getMainBundle().findResourcePath("chapters","json");
+        String chPath = NSBundle.getMainBundle().findResourcePath("chapters", "json");
         String chapterJson = readJsonFile(chPath);
 
         try {
@@ -422,45 +484,45 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
             System.out.println("Last Visited CHapter=---->" + lastChapter);
 
-            int index=0;
-            JSONObject selectedJsonObject=null;
+            int index = 0;
+            JSONObject selectedJsonObject = null;
             JSONArray chapters = new JSONArray(chapterJson);
-            for(int j=0;j<chapters.length();j++){
-                if(lastChapter.equals(chapters.getJSONObject(j).getString("name"))){
+            for (int j = 0; j < chapters.length(); j++) {
+                if (lastChapter.equals(chapters.getJSONObject(j).getString("name"))) {
                     JSONObject jsonObject = chapters.getJSONObject(j);
 
                     index = jsonObject.getInt("number");
-                    selectedJsonObject=jsonObject;
+                    selectedJsonObject = jsonObject;
                     break;
                 }
 
             }
 
 
-            if (selectedJsonObject == null){
+            if (selectedJsonObject == null) {
                 return;
             }
-            String iconPath=selectedJsonObject.getString("icon");
-            String description=selectedJsonObject.getString("description");
+            String iconPath = selectedJsonObject.getString("icon");
+            String description = selectedJsonObject.getString("description");
+            int chapterNo = selectedJsonObject.getInt("number");
 
 
-            System.out.println("SELECTED_JSONOBJECT"+selectedJsonObject.getString("icon"));
+            System.out.println("SELECTED_JSONOBJECT" + selectedJsonObject.getString("icon"));
 
 //            SharedPreferencesHelper.setLastVisitedIcon(this,iconPath);
 //            SharedPreferencesHelper.setLastVisitedDescription(this, description);
 
 
             NSUserDefaults defaults = NSUserDefaults.getStandardUserDefaults();
-            defaults.put(KEY_SAVE_ICON,iconPath);
-            defaults.put(KEY_SAVE_DESCRIPTION,description);
+            defaults.put(KEY_SAVE_ICON, iconPath);
+            defaults.put(KEY_SAVE_DESCRIPTION, "Chapter " + chapterNo + ". " + description);
 
             System.out.println("LastChapterString--->" + lastChapter);
 
         } catch (JSONException e) {
             e.printStackTrace();
-            System.out.println("StartAlarmError: "+e);
+            System.out.println("StartAlarmError: " + e);
         }
-
 
 
 //        Calendar c = Calendar.getInstance();
@@ -518,7 +580,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
         } catch (Exception ex) {
             ex.printStackTrace();
-            System.out.println("Error Cached 1 "+ex);
+            System.out.println("Error Cached 1 " + ex);
         }
 
         //System.out.println("filepath--->" + getApplicationContext().getFilesDir());
@@ -526,17 +588,17 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
     }
 
-    private void loadFromFirebaseDB(){
+    private void loadFromFirebaseDB() {
         // Write a message to the database
         FIRDatabase database = FIRDatabase.database();
 
         database.reference("en_hours_notification").observeEvent(FIRDataEventType.Value, new VoidBlock1<FIRDataSnapshot>() {
             @Override
             public void invoke(FIRDataSnapshot firDataSnapshot) {
-                try{
+                try {
                     NSNumber value = (NSNumber) firDataSnapshot.getValue();
-                    NSUserDefaults.getStandardUserDefaults().put(KEY_NOTIFICATION_AFTER,value);
-                }catch (Exception ignored){
+                    NSUserDefaults.getStandardUserDefaults().put(KEY_NOTIFICATION_AFTER, value);
+                } catch (Exception ignored) {
 
                 }
 
@@ -547,11 +609,11 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
         database.reference("en_title_notification").observeEvent(FIRDataEventType.Value, new VoidBlock1<FIRDataSnapshot>() {
             @Override
             public void invoke(FIRDataSnapshot firDataSnapshot) {
-                try{
+                try {
                     NSString value = (NSString) firDataSnapshot.getValue();
-                    NSUserDefaults.getStandardUserDefaults().put(KEY_NOTIFICATION1_TITLE,value);
-                    System.out.println("Notification Title ----> "+value);
-                }catch (Exception ignored){
+                    NSUserDefaults.getStandardUserDefaults().put(KEY_NOTIFICATION1_TITLE, value);
+                    System.out.println("Notification Title ----> " + value);
+                } catch (Exception ignored) {
 
                 }
 
@@ -561,11 +623,11 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
         database.reference("en_message_notification").observeEvent(FIRDataEventType.Value, new VoidBlock1<FIRDataSnapshot>() {
             @Override
             public void invoke(FIRDataSnapshot firDataSnapshot) {
-                try{
+                try {
                     NSString value = (NSString) firDataSnapshot.getValue();
-                    NSUserDefaults.getStandardUserDefaults().put(KEY_NOTIFICATION1_MESSAGE,value);
-                    System.out.println("Notification Message ----> "+value);
-                }catch (Exception ignored){
+                    NSUserDefaults.getStandardUserDefaults().put(KEY_NOTIFICATION1_MESSAGE, value);
+                    System.out.println("Notification Message ----> " + value);
+                } catch (Exception ignored) {
 
                 }
 
@@ -577,7 +639,11 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
     @Override
     public void willResignActive(UIApplication application) {
         startAlarm();
-        showNotificaiton();
+        try {
+            showNotificaiton();
+        } catch (NSErrorException e) {
+            e.printStackTrace();
+        }
         System.out.println("Resign");
         super.willResignActive(application);
     }
@@ -585,24 +651,27 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
     @Override
     public void willTerminate(UIApplication application) {
         startAlarm();
-        showNotificaiton();
+        try {
+            showNotificaiton();
+        } catch (NSErrorException e) {
+            e.printStackTrace();
+        }
         System.out.println("Terminated");
         super.willTerminate(application);
     }
 
 
-
     @Override
     public void didEnterBackground(UIApplication application) {
         startAlarm();
-        showNotificaiton();
+        try {
+            showNotificaiton();
+        } catch (NSErrorException e) {
+            e.printStackTrace();
+        }
         System.out.println("Background Entered");
         super.didEnterBackground(application);
     }
-
-
-
-
 
 
 }
