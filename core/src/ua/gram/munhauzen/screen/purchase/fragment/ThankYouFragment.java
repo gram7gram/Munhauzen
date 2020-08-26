@@ -8,29 +8,30 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-import ua.gram.munhauzen.screen.PurchaseScreen;
+import ua.gram.munhauzen.screen.MunhauzenScreen;
 import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.utils.Log;
 
-public class PromoFragment extends Fragment {
+public class ThankYouFragment extends Fragment {
 
-    public final PurchaseScreen screen;
+    MunhauzenScreen screen;
     FragmentRoot root;
     public boolean isFadeIn;
     public boolean isFadeOut;
 
-    public PromoFragment(PurchaseScreen screen) {
-        this.screen = screen;
+    public ThankYouFragment(MunhauzenScreen screen) {
+       this.screen = screen;
     }
 
     public void create() {
 
         screen.game.internalAssetManager.load("ui/banner_fond_1.png", Texture.class);
-        screen.game.internalAssetManager.load("purchase/sv_baron.png", Texture.class);
+        screen.game.internalAssetManager.load("purchase/b_full_version_2.png", Texture.class);
+
         screen.game.internalAssetManager.finishLoading();
 
-        PromoBanner banner = new PromoBanner(this);
+        ThankYouBanner banner = new ThankYouBanner(this);
         banner.create();
 
         Container<?> c = new Container<>();
@@ -47,13 +48,14 @@ public class PromoFragment extends Fragment {
 
                 if (event.isHandled()) return;
 
+                Log.i(tag, "root clicked");
+
                 fadeOut(new Runnable() {
                     @Override
                     public void run() {
                         screen.destroyBanners();
                     }
                 });
-
             }
         });
 
@@ -84,7 +86,6 @@ public class PromoFragment extends Fragment {
                     }
                 })
         ));
-
     }
 
     public boolean canFadeOut() {

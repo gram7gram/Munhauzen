@@ -194,7 +194,10 @@ public class FailsScreen extends AbstractScreen {
         }
     }
 
+    @Override
     public void destroyBanners() {
+        super.destroyBanners();
+
         if (goofsFragment != null) {
             goofsFragment.destroy();
             goofsFragment = null;

@@ -13,6 +13,7 @@ import ua.gram.munhauzen.screen.purchase.IAPObserver;
 import ua.gram.munhauzen.screen.purchase.fragment.ControlsFragment;
 import ua.gram.munhauzen.screen.purchase.fragment.ListFragment;
 import ua.gram.munhauzen.screen.purchase.fragment.PromoFragment;
+import ua.gram.munhauzen.screen.purchase.fragment.ThankYouFragment;
 import ua.gram.munhauzen.screen.purchase.ui.Layers;
 import ua.gram.munhauzen.ui.AdultGateFragment;
 import ua.gram.munhauzen.ui.MunhauzenStage;
@@ -28,6 +29,7 @@ public class PurchaseScreen extends MunhauzenScreen {
     public ListFragment fragment;
     public AdultGateFragment adultGateFragment;
     public PromoFragment promoFragment;
+    public ThankYouFragment promoSuccessFragment;
     public Layers layers;
     public boolean isBackPressed;
     ControlsFragment controlsFragment;
@@ -104,7 +106,6 @@ public class PurchaseScreen extends MunhauzenScreen {
             if (game.gameState.expansionInfo == null) {
                 game.gameState.expansionInfo = new ExpansionResponse();
             }
-
 
             game.gameState.purchaseState.isVersionSelected = true;
             game.gameState.expansionInfo.isCompleted = false;
@@ -265,8 +266,28 @@ public class PurchaseScreen extends MunhauzenScreen {
         }
     }
 
+    public void openPromoSuccessBanner() {
+
+        try {
+
+            destroyBanners();
+
+            promoSuccessFragment = new ThankYouFragment(this);
+            promoSuccessFragment.create();
+
+            layers.setBannerLayer(promoSuccessFragment);
+
+            promoSuccessFragment.fadeIn();
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+    }
+
     @Override
     public void destroyBanners() {
+        super.destroyBanners();
+
         if (adultGateFragment != null) {
             adultGateFragment.destroy();
             adultGateFragment = null;
@@ -274,6 +295,10 @@ public class PurchaseScreen extends MunhauzenScreen {
         if (promoFragment != null) {
             promoFragment.destroy();
             promoFragment = null;
+        }
+        if (promoSuccessFragment != null) {
+            promoSuccessFragment.destroy();
+            promoSuccessFragment = null;
         }
     }
 

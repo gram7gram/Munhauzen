@@ -143,7 +143,10 @@ public class AuthorsScreen extends AbstractScreen {
         }
     }
 
+    @Override
     public void destroyBanners() {
+        super.destroyBanners();
+
         if (rateFragment != null) {
             rateFragment.destroy();
             rateFragment = null;

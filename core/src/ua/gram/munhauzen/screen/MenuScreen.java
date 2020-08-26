@@ -281,7 +281,10 @@ public class MenuScreen extends AbstractScreen {
         }
     }
 
+    @Override
     public void destroyBanners() {
+        super.destroyBanners();
+
         if (shareFragment != null) {
             shareFragment.destroy();
             shareFragment = null;

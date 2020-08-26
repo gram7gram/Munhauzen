@@ -144,7 +144,10 @@ public class ChaptersScreen extends AbstractScreen {
         }
     }
 
+    @Override
     public void destroyBanners() {
+        super.destroyBanners();
+
         if (banner != null) {
             banner.destroy();
             banner = null;

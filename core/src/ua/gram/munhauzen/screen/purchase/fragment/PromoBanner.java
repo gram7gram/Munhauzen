@@ -3,7 +3,6 @@ package ua.gram.munhauzen.screen.purchase.fragment;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -16,13 +15,13 @@ import java.util.ArrayList;
 import ua.gram.munhauzen.ButtonBuilder;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
-import ua.gram.munhauzen.screen.MunhauzenScreen;
+import ua.gram.munhauzen.screen.PurchaseScreen;
 import ua.gram.munhauzen.screen.purchase.ui.PromoInput;
 import ua.gram.munhauzen.ui.Banner;
 import ua.gram.munhauzen.ui.FixedImage;
 import ua.gram.munhauzen.utils.Log;
 
-public class PromoBanner extends Banner<MunhauzenScreen> {
+public class PromoBanner extends Banner<PurchaseScreen> {
 
     final PromoFragment fragment;
     Button button;
@@ -96,10 +95,36 @@ public class PromoBanner extends Banner<MunhauzenScreen> {
 
                 try {
 
-                    String text = input.getText();
-
                     if (game.gameState.purchaseState.promocodes == null) {
                         game.gameState.purchaseState.promocodes = new ArrayList<>();
+                    }
+
+                    String text = input.getText();
+
+                    boolean hasMatch = false;
+                    for (String code : codes) {
+                        if (code.equals(text)) {
+                            hasMatch = true;
+                            break;
+                        }
+                    }
+
+                    if (!hasMatch) {
+                        Log.e(tag, "NO PROMOCODE " + text);
+                        return;
+                    }
+
+                    boolean isAdded = false;
+                    for (String promocode : game.gameState.purchaseState.promocodes) {
+                        if (promocode.equals(text)) {
+                            isAdded = true;
+                            break;
+                        }
+                    }
+
+                    if (!isAdded) {
+                        Log.e(tag, "ALREADY ADDED PROMOCODE " + text);
+                        return;
                     }
 
                     Log.e(tag, "ADD PROMOCODE " + text);
@@ -110,7 +135,7 @@ public class PromoBanner extends Banner<MunhauzenScreen> {
 
                     game.syncState();
 
-                    screen.game.navigator.openNextPage();
+                    screen.openPromoSuccessBanner();
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -133,36 +158,6 @@ public class PromoBanner extends Banner<MunhauzenScreen> {
         content.add(buttons).row();
 
         return content;
-    }
-
-    @Override
-    public void act(float delta) {
-        super.act(delta);
-
-        try {
-            String text = input.getText();
-
-            for (String code : codes) {
-                if (code.equals(text)) {
-
-                    boolean isAdded = false;
-                    for (String promocode : game.gameState.purchaseState.promocodes) {
-                        if (promocode.equals(code)) {
-                            isAdded = true;
-                            break;
-                        }
-                    }
-
-                    if (!isAdded) {
-                        button.setTouchable(Touchable.enabled);
-                        return;
-                    }
-                }
-            }
-
-            button.setTouchable(Touchable.disabled);
-
-        } catch (Throwable ignore) {}
     }
 
 }

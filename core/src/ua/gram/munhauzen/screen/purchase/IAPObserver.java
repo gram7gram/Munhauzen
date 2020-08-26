@@ -33,35 +33,32 @@ public class IAPObserver implements PurchaseObserver {
 
         try {
 
-            Information fullInfo = game.params.iap.getInformation(game.params.appStoreSkuFull);
-            Information part1Info = game.params.iap.getInformation(game.params.appStoreSkuPart1);
-            Information part2Info = game.params.iap.getInformation(game.params.appStoreSkuPart2);
-
-            Product full = new Product();
-            full.id = game.params.appStoreSkuFull;
-            full.localDescription = fullInfo.getLocalDescription();
-            full.localPricing = fullInfo.getLocalPricing();
-            full.localName = fullInfo.getLocalName();
-            full.isAvailable = fullInfo != Information.UNAVAILABLE;
-
-            Product part1 = new Product();
-            part1.id = game.params.appStoreSkuPart1;
-            part1.localDescription = part1Info.getLocalDescription();
-            part1.localPricing = part1Info.getLocalPricing();
-            part1.localName = part1Info.getLocalName();
-            part1.isAvailable = part1Info != Information.UNAVAILABLE;
-
-            Product part2 = new Product();
-            part2.id = game.params.appStoreSkuPart2;
-            part2.localDescription = part2Info.getLocalDescription();
-            part2.localPricing = part2Info.getLocalPricing();
-            part2.localName = part2Info.getLocalName();
-            part2.isAvailable = part2Info != Information.UNAVAILABLE;
+            String[] ids = {
+                    game.params.appStoreSkuFull,
+                    game.params.appStoreSkuPart1,
+                    game.params.appStoreSkuPart2,
+                    game.params.appStoreSku1Chapter,
+                    game.params.appStoreSku3Chapter,
+                    game.params.appStoreSku5Chapter,
+                    game.params.appStoreSku10Chapter,
+                    game.params.appStoreSkuThanks,
+                    game.params.appStoreSkuFullThanks,
+            };
 
             game.gameState.purchaseState.products = new ArrayList<>();
-            game.gameState.purchaseState.products.add(part1);
-            game.gameState.purchaseState.products.add(part2);
-            game.gameState.purchaseState.products.add(full);
+
+            for (String id : ids) {
+                Information info = game.params.iap.getInformation(id);
+
+                Product product = new Product();
+                product.id = id;
+                product.localDescription = info.getLocalDescription();
+                product.localPricing = info.getLocalPricing();
+                product.localName = info.getLocalName();
+                product.isAvailable = info != Information.UNAVAILABLE;
+
+                game.gameState.purchaseState.products.add(product);
+            }
 
             game.syncState();
 
@@ -114,8 +111,6 @@ public class IAPObserver implements PurchaseObserver {
     @Override
     public void handleRestoreError(Throwable e) {
         Log.e(tag, e);
-
-        screen.onCriticalError(e);
     }
 
     @Override

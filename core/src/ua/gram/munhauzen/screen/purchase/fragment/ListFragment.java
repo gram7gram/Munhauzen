@@ -81,7 +81,6 @@ public class ListFragment extends Fragment {
 
         VerticalGroup list = new VerticalGroup();
         list.addActor(title);
-        list.addActor(promoContainer);
         list.addActor(cardFree);
         list.addActor(chap1);
         list.addActor(chap3);
@@ -92,6 +91,7 @@ public class ListFragment extends Fragment {
         list.addActor(cardPart2);
         list.addActor(cardFull);
         list.addActor(chapFullThx);
+        list.addActor(promoContainer);
 
         Table content = new Table();
         content.setFillParent(true);

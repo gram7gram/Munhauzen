@@ -67,18 +67,17 @@ public class ChapterInteraction extends AbstractInteraction {
             Story story = gameScreen.getStory();
             if (story != null) {
 
-//                if (chapter.number > gameScreen.game.gameState.purchaseState.maxChapter) {
-                if (true) {
+                if (chapter.number > gameScreen.game.gameState.purchaseState.maxChapter) {
                     gameScreen.createPurchaseFragment(story.currentScenario.scenario);
                     return;
                 }
             }
 
-//            gameScreen.interactionService.complete();
-//
-//            gameScreen.interactionService.findStoryAfterInteraction();
-//
-//            gameScreen.restoreProgressBarIfDestroyed();
+            gameScreen.interactionService.complete();
+
+            gameScreen.interactionService.findStoryAfterInteraction();
+
+            gameScreen.restoreProgressBarIfDestroyed();
         } catch (Throwable e) {
             Log.e(tag, e);
 
