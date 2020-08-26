@@ -10,6 +10,7 @@ import org.robovm.apple.foundation.NSDictionary;
 import org.robovm.apple.foundation.NSError;
 import org.robovm.apple.foundation.NSErrorException;
 import org.robovm.apple.foundation.NSFileManager;
+import org.robovm.apple.foundation.NSMutableArray;
 import org.robovm.apple.foundation.NSNumber;
 import org.robovm.apple.foundation.NSObject;
 import org.robovm.apple.foundation.NSSearchPathDirectory;
@@ -37,6 +38,13 @@ import org.robovm.apple.usernotifications.UNUserNotificationCenterDelegate;
 import org.robovm.objc.block.VoidBlock1;
 import org.robovm.objc.block.VoidBlock2;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 public class NotificationDelegate extends NSObject implements UNUserNotificationCenterDelegate {
@@ -79,41 +87,57 @@ public class NotificationDelegate extends NSObject implements UNUserNotification
 
 
         NSURL dir = NSFileManager.getDefaultManager().getURLsForDirectory(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask).first();
-        NSURL uurl = new NSURL(dir.getPath()+"/.Munchausen/en.munchausen.fingertipsandcompany.any/expansion/chapter/icon_a1.png",new NSURL());
 
 
         UNNotificationAttachment attachment = null;
 
 
-        try {
-            System.out.println("Attachment TryEntered--------------->");
-//            dir = NSFileManager.getDefaultManager().getURLsForDirectory(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask).first();
-//
-//            String tmpSubFolderName = NSProcessInfo.getSharedProcessInfo().getGloballyUniqueString();
-//            NSURL tmpSubFolderURL = new NSURL().newURLByAppendingPathComponent(tmpSubFolderName,false);
-//
-            String imageURL =  dir.getPath()+"/.Munchausen/en.munchausen.fingertipsandcompany.any/expansion/chapter/icon_a1.png";
-//            System.out.println("Img url = "+imageURL);
-//
-//
-            NSDictionary<?,?> dictionary1 = new NSDictionary<>();
-
-            attachment = new UNNotificationAttachment("image", new NSURL("https://miro.medium.com/max/440/1*IDRLEDmc7cacnrQzgclvSw.jpeg"),dictionary1 );
-            System.out.println("Attachment------------------->"+attachment);
-//            attachment = new UNNotificationAttachment("image", new NSURL(imageURL), dictionary1);
-
-            System.out.println("Direcory---->" + NSBundle.getMainBundle());
-
-//            NSURL url =  NSBundle.getMainBundle().findResourceURL(".Munchausen/en.munchausen.fingertipsandcompany.any/expansion/chapter/icon_a1", ".png");
-            NSURL url = new NSURL( NSBundle.getMainBundle()+"/.Munchausen/en.munchausen.fingertipsandcompany.any/expansion/chapter/icon_a1.png");
-            System.out.println("NSURL ----------------->"+url);
-            URL url1 = new URL(NSBundle.getMainBundle()+"/.Munchausen/en.munchausen.fingertipsandcompany.any/expansion/chapter/icon_a1.png");
-//            attachment = new UNNotificationAttachment("image", url1, dictionary);
-
-        }catch (Exception e){
-            System.out.println("Attachment Error--------------->"+e);
+        java.lang.String imageURL = dir.getPath() + "/.Munchausen/ru.munchausen.fingertipsandcompany.any/expansion/"+icon;
+        System.out.println("ImagePath---------------->"+imageURL);
+        File imageFile = new File(imageURL);
+        java.lang.String temp = dir.getPath() + "/.Munchausen/ru.munchausen.fingertipsandcompany.any/expansion/chapter/temp";
+        File tempFolder = new File(temp);
+        if (!tempFolder.exists()) {
+            if (tempFolder.mkdir()) {
+                System.out.println("Temp Folder created");
+            } else {
+                System.out.println("Failed to create Temp Folder");
+            }
         }
-        NSArray<UNNotificationAction> actions = new NSArray<UNNotificationAction>();
+
+//        try{
+//            copyDirectory(imageFile,tempFolder);
+//            System.out.println("TempFolder-----------------> "+tempFolder);
+//        }catch (IOException e){
+//            System.out.println("IOException--------------->"+e);
+//        }
+
+        try {
+            copyFile(imageFile, temp);
+        } catch (IOException e) {
+            System.out.println("IOException----------------------->" + e);
+        }
+        System.out.println("tempFolder--------------------->" + tempFolder);
+
+        java.lang.String tempImgPath = dir.getPath() + "/.Munchausen/ru.munchausen.fingertipsandcompany.any/expansion/chapter/temp/icon_temp.png";
+        File tempImageFile = new File(tempImgPath);
+
+        URL url = null;
+        try {
+            url = tempImageFile.toURI().toURL();
+        } catch (MalformedURLException e) {
+            System.out.println("URL--------------------->" + url);
+        }
+        if (url != null) {
+            NSURL nsURL = new NSURL(url);
+            System.out.println("NSURL -------------" + nsURL);
+            try {
+                attachment = new UNNotificationAttachment("image", nsURL, null);
+            } catch (NSErrorException e) {
+                System.out.println("Attachment Error:----------------->" + e);
+            }
+            System.out.println("Attachment : " + attachment);
+        }
 
 
         content.setTitle(title);
@@ -125,7 +149,7 @@ public class NotificationDelegate extends NSObject implements UNUserNotification
         System.out.println("Attachment----------------->"+attachment);
         if (attachment!=null){
             System.out.println("Attachment NotNUll----------------------->");
-            NSArray<UNNotificationAttachment> array =new NSArray<UNNotificationAttachment>();
+            NSMutableArray<UNNotificationAttachment> array =new NSMutableArray<UNNotificationAttachment>();
             array.add(attachment);
             content.setAttachments(array);
         }
@@ -166,6 +190,50 @@ public class NotificationDelegate extends NSObject implements UNUserNotification
         notificationCenter.setNotificationCategories(new NSSet<UNNotificationCategory>(category));
     }
 
+    public void copyDirectory(File sourceLocation, File targetLocation)
+            throws IOException {
+
+        if (sourceLocation.isDirectory()) {
+            if (!targetLocation.exists()) {
+                targetLocation.mkdir();
+            }
+
+            String[] children = sourceLocation.list();
+            for (String child : children) {
+                copyDirectory(new File(sourceLocation, child),
+                        new File(targetLocation, child));
+            }
+        } else {
+
+            InputStream in = new FileInputStream(sourceLocation);
+            OutputStream out = new FileOutputStream(targetLocation);
+
+            // Copy the bits from instream to outstream
+            byte[] buf = new byte[1024];
+            int len;
+            while ((len = in.read(buf)) > 0) {
+                out.write(buf, 0, len);
+            }
+            in.close();
+            out.close();
+        }
+    }
+
+
+    private void copyFile(File sourceLocation, String targetLocation) throws IOException {
+        InputStream in = new FileInputStream(sourceLocation);
+        String imageLocation = targetLocation+"/icon_temp.png";
+        OutputStream out = new FileOutputStream(imageLocation);
+
+        // Copy the bits from instream to outstream
+        byte[] buf = new byte[1024];
+        int len;
+        while ((len = in.read(buf)) > 0) {
+            out.write(buf, 0, len);
+        }
+        in.close();
+        out.close();
+    }
 
 
     @Override
