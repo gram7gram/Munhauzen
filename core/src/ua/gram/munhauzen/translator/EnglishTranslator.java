@@ -258,6 +258,10 @@ public class EnglishTranslator implements Translator {
         map.put("promo_success_banner.title", "Thank you!\nPromocode is activated!");
         map.put("promo_success_banner.btn", "Continue");
 
+        map.put("referal_banner.title", "Share the game and get bonuses!");
+        map.put("referal_banner.btn", "Copy");
+        map.put("referal_banner.success", "Link is copied");
+
     }
 
     @Override

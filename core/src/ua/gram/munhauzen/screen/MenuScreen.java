@@ -643,4 +643,23 @@ public class MenuScreen extends AbstractScreen {
         Gdx.input.setInputProcessor(ui);
         isUILocked = true;
     }
+
+    public void openRateBanner() {
+        try {
+
+            destroyBanners();
+
+            rateFragment = new RateFragment(this);
+            rateFragment.create();
+
+            layers.setBannerLayer(rateFragment);
+
+            rateFragment.fadeIn();
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            onCriticalError(e);
+        }
+    }
 }

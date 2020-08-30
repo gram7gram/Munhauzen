@@ -8,6 +8,9 @@ import ua.gram.munhauzen.entity.JsonEntry;
 public class ExpansionResponse implements JsonEntry {
 
     @JsonProperty
+    public String part;
+
+    @JsonProperty
     public int version;
 
     @JsonProperty
@@ -33,10 +36,10 @@ public class ExpansionResponse implements JsonEntry {
 
     @JsonIgnore
     public boolean isSameExpansion(ExpansionResponse expansion) {
-        return version == expansion.version
+        return part != null
+                && part.equals(expansion.part)
+                && version == expansion.version
                 && locale.equals(expansion.locale)
-                && dpi.equals(expansion.dpi)
-//                && parts.count == expansion.parts.count
-                ;
+                && dpi.equals(expansion.dpi);
     }
 }

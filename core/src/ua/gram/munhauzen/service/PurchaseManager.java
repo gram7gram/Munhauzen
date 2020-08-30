@@ -165,9 +165,9 @@ public class PurchaseManager {
 
         availableChapter += purchasedChapters;
 
-        if (availableChapter > part1EndsAtChapter) {
+        if (part1EndsAtChapter < availableChapter) {
             expansionVersion = "Part_2";
-        } else if (demoEndsAtChapter < availableChapter && availableChapter <= part1EndsAtChapter) {
+        } else if (demoEndsAtChapter < availableChapter) {
             expansionVersion = "Part_1";
         } else {
             expansionVersion = "Part_demo";
@@ -177,6 +177,7 @@ public class PurchaseManager {
 
         if (gameState.purchaseState.isPro) {
             availableChapter = maxChapter;
+            expansionVersion = "Part_2";
         }
 
         gameState.purchaseState.maxChapter = availableChapter;
@@ -187,7 +188,8 @@ public class PurchaseManager {
                 + "; part1EndsAtChapter=" + part1EndsAtChapter
                 + "; part2EndsAtChapter=" + maxChapter);
 
-        Log.e(tag, JSON.stringify(gameState.purchaseState));
+        Log.e(tag, "purchase state:\n" + JSON.stringify(gameState.purchaseState));
+        Log.e(tag, "purchases:\n" + JSON.stringify(gameState.purchaseState.purchases));
     }
 
     public void start(PurchaseObserver observer) {

@@ -59,6 +59,9 @@ public class ExpansionDownloadManager {
         try {
 
             expansionPart = game.gameState.purchaseState.currentExpansionVersion;
+            if (expansionPart == null) {
+                return;
+            }
 
             FileHandle file = Files.getExpansionConfigFile(game.params, expansionPart);
 

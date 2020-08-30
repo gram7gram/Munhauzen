@@ -63,5 +63,9 @@ public class PurchaseState implements JsonEntry {
         }
 
         isPro = isPro || MunhauzenGame.developmentIsPro;
+
+        if (MunhauzenGame.developmentSimulatePurchase) {
+            isPro = false;
+        }
     }
 }

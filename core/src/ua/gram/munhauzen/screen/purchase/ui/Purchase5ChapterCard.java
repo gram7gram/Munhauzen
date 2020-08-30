@@ -15,5 +15,12 @@ public class Purchase5ChapterCard extends ConsumableCard {
 
     }
 
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+
+        setEnabled(!screen.game.gameState.purchaseState.isPro);
+    }
+
 
 }

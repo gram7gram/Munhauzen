@@ -1,5 +1,6 @@
 {
-  "version": 13,
+  "part": "Part_demo",
+  "version": 14,
   "locale": "ru",
   "dpi": "mdpi",
   "size": 150173790,
