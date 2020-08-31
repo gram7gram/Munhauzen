@@ -29,6 +29,7 @@ import ua.gram.munhauzen.entity.History;
 import ua.gram.munhauzen.entity.Image;
 import ua.gram.munhauzen.entity.Inventory;
 import ua.gram.munhauzen.entity.MenuState;
+import ua.gram.munhauzen.entity.Purchase;
 import ua.gram.munhauzen.entity.Save;
 import ua.gram.munhauzen.entity.Scenario;
 import ua.gram.munhauzen.interaction.InteractionFactory;
@@ -484,6 +485,11 @@ public class DebugFragment extends Fragment {
             }
         }
 
+        Label title = new Label("Purchases", new Label.LabelStyle(
+                game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
+                Color.RED
+        ));
+
         Label lbl1 = new Label("Last chapter Part_demo: " + demoEndsAtChapter, new Label.LabelStyle(
                 game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
                 Color.BLACK
@@ -509,11 +515,36 @@ public class DebugFragment extends Fragment {
                 Color.BLACK
         ));
 
+        purchaseContainer.add(title).left().expandX().padBottom(5).row();
         purchaseContainer.add(lbl1).left().expandX().padBottom(5).row();
         purchaseContainer.add(lbl2).left().expandX().padBottom(5).row();
         purchaseContainer.add(lbl3).left().expandX().padBottom(5).row();
         purchaseContainer.add(lbl4).left().expandX().padBottom(5).row();
-        purchaseContainer.add(lbl5).left().expandX().padBottom(5).row();
+        purchaseContainer.add(lbl5).left().expandX().padBottom(40).row();
+
+        if (game.gameState.purchaseState.purchases == null) {
+            game.gameState.purchaseState.purchases = new ArrayList<>();
+        }
+
+        if (game.gameState.purchaseState.purchases.isEmpty()) {
+
+            Label lbl = new Label("No purchases", new Label.LabelStyle(
+                    game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
+                    Color.RED
+            ));
+
+            purchaseContainer.add(lbl).left().expandX().padBottom(5).row();
+
+        } else {
+            for (Purchase purchase : game.gameState.purchaseState.purchases) {
+                Label lbl = new Label(purchase.productId, new Label.LabelStyle(
+                        game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
+                        Color.RED
+                ));
+
+                purchaseContainer.add(lbl).left().expandX().padBottom(5).row();
+            }
+        }
 
     }
 

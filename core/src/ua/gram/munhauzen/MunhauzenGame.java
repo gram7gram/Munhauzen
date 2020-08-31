@@ -34,7 +34,7 @@ public class MunhauzenGame extends Game {
     public static final boolean DEBUG_UI = false;
     public static final int PROGRESS_BAR_FADE_OUT_DELAY = 5;
 
-    public static final boolean developmentIgnorePurchaseRestore = true;
+    public static final boolean developmentIgnorePurchaseRestore = false;
     public static final boolean developmentSimulatePurchase = false;
     public static final boolean developmentIsPro = false;
     public static final boolean developmentSkipEnable = true; //enabled by default even in production
