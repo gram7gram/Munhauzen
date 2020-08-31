@@ -88,12 +88,14 @@ public class IAPObserver implements PurchaseObserver {
 
             game.gameState.purchaseState.purchases = new ArrayList<>();
 
-            for (Transaction transaction : transactions) {
-                Purchase p = new Purchase();
-                p.orderId = transaction.getOrderId();
-                p.productId = transaction.getIdentifier();
+            if (!MunhauzenGame.developmentIgnorePurchaseRestore) {
+                for (Transaction transaction : transactions) {
+                    Purchase p = new Purchase();
+                    p.orderId = transaction.getOrderId();
+                    p.productId = transaction.getIdentifier();
 
-                game.gameState.purchaseState.purchases.add(p);
+                    game.gameState.purchaseState.purchases.add(p);
+                }
             }
 
             game.purchaseManager.updatePurchaseState();
@@ -111,6 +113,8 @@ public class IAPObserver implements PurchaseObserver {
     @Override
     public void handleRestoreError(Throwable e) {
         Log.e(tag, e);
+
+        screen.destroyBanners();
     }
 
     @Override
@@ -165,10 +169,14 @@ public class IAPObserver implements PurchaseObserver {
     @Override
     public void handlePurchaseError(Throwable e) {
         Log.e(tag, e);
+
+        screen.destroyBanners();
     }
 
     @Override
     public void handlePurchaseCanceled() {
+
+        screen.destroyBanners();
 
     }
 }

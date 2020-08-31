@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 
 import ua.gram.munhauzen.FontProvider;
+import ua.gram.munhauzen.entity.Device;
 import ua.gram.munhauzen.entity.PurchaseState;
 import ua.gram.munhauzen.screen.PurchaseScreen;
 import ua.gram.munhauzen.screen.purchase.ui.Card;
@@ -82,8 +83,12 @@ public class ListFragment extends Fragment {
         VerticalGroup list = new VerticalGroup();
         list.addActor(title);
         list.addActor(cardFree);
-        list.addActor(chap1);
-        list.addActor(chap3);
+
+        if (screen.game.params.device.type == Device.Type.android) {
+            list.addActor(chap1);
+            list.addActor(chap3);
+        }
+
         list.addActor(chap5);
         list.addActor(chap10);
         list.addActor(chapThx);

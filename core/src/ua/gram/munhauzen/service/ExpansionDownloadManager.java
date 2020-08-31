@@ -201,15 +201,12 @@ public class ExpansionDownloadManager {
 
     public boolean shouldFetchExpansion() {
 
-        if (!game.purchaseManager.hasPurchases()) {
-            return false;
-        }
-
         try {
 
             fetchExpansionToDownload();
 
             if (expansionToDownload == null) {
+                Log.e(tag, "Nothing is downloaded. Need updates");
                 return true;
             }
 
@@ -220,6 +217,7 @@ public class ExpansionDownloadManager {
             ExpansionResponse existingExpansion = game.gameState.expansionInfo;
 
             if (!existingExpansion.isSameExpansion(expansionToDownload)) {
+                Log.e(tag, "Expansions changed. Need updates");
                 return true;
             }
 

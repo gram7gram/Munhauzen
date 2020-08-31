@@ -126,6 +126,10 @@ public class Navigator {
                 game.gameState.menuState.isFirstMenuAfterGameStart = true;
             }
 
+            Log.e(tag, "isLegalViewed: " + isLegalViewed);
+            Log.e(tag, "hasPurchases: " + hasPurchases);
+            Log.e(tag, "needUpdates: " + needUpdates);
+
             if (!isLegalViewed) {
                 navigateTo(new LegalScreen(game));
             } else if (!hasPurchases) {

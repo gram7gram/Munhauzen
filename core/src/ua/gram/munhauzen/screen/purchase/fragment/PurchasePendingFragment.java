@@ -5,9 +5,9 @@ import com.badlogic.gdx.graphics.Texture;
 import ua.gram.munhauzen.screen.PurchaseScreen;
 import ua.gram.munhauzen.ui.BannerFragment;
 
-public class PromoFragment extends BannerFragment<PurchaseScreen> {
+public class PurchasePendingFragment extends BannerFragment<PurchaseScreen> {
 
-    public PromoFragment(PurchaseScreen screen) {
+    public PurchasePendingFragment(PurchaseScreen screen) {
         super(screen);
     }
 
@@ -15,15 +15,17 @@ public class PromoFragment extends BannerFragment<PurchaseScreen> {
     public void create() {
 
         screen.game.internalAssetManager.load("ui/banner_fond_1.png", Texture.class);
-        screen.game.internalAssetManager.load("purchase/sv_baron.png", Texture.class);
         screen.game.internalAssetManager.finishLoading();
 
-        PromoBanner banner = new PromoBanner(this);
+        PurchasePendingBanner banner = new PurchasePendingBanner(this);
         banner.create();
 
         createRoot();
 
+        backdrop.clearListeners();
+
         root.addContainer(banner);
     }
+
 
 }

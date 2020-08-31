@@ -261,6 +261,7 @@ public class EnglishTranslator implements Translator {
         map.put("referal_banner.title", "Share the game and get bonuses!");
         map.put("referal_banner.btn", "Copy");
         map.put("referal_banner.success", "Link is copied");
+        map.put("purchase_pending_banner.title", "Purchasing...\nIt can take up to 1 minute to complete the purchase.\nPlease, wait until popup is closed");
 
     }
 

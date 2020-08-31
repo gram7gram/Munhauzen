@@ -66,31 +66,40 @@ public class MenuScreen extends AbstractScreen {
 
         audioService = new AudioService(game);
 
-        assetManager.load("GameScreen/t_putty.png", Texture.class);
-        assetManager.load("ui/b_sound_on.png", Texture.class);
-        assetManager.load("ui/b_sound_off.png", Texture.class);
+        try {
+            assetManager.load("GameScreen/t_putty.png", Texture.class);
+            assetManager.load("ui/b_sound_on.png", Texture.class);
+            assetManager.load("ui/b_sound_off.png", Texture.class);
 
-        assetManager.load("menu/icon_an_crown_sheet.png", Texture.class);
-        assetManager.load("menu/icon_an_helmet_sheet.png", Texture.class);
-        assetManager.load("menu/icon_an_lion_sheet.png", Texture.class);
-        assetManager.load("menu/icon_an_rose_sheet.png", Texture.class);
-        assetManager.load("menu/icon_an_shield_sheet.png", Texture.class);
-        assetManager.load("menu/icon_an_cannons_sheet.png", Texture.class);
+            assetManager.load("menu/icon_an_crown_sheet.png", Texture.class);
+            assetManager.load("menu/icon_an_helmet_sheet.png", Texture.class);
+            assetManager.load("menu/icon_an_lion_sheet.png", Texture.class);
+            assetManager.load("menu/icon_an_rose_sheet.png", Texture.class);
+            assetManager.load("menu/icon_an_shield_sheet.png", Texture.class);
+            assetManager.load("menu/icon_an_cannons_sheet.png", Texture.class);
 
-        assetManager.load("menu/mmv_btn.png", Texture.class);
-        assetManager.load("menu/mmv_fond_1.jpg", Texture.class);
-        assetManager.load("menu/b_menu.png", Texture.class);
-        assetManager.load("menu/b_exit_on.png", Texture.class);
-        assetManager.load("menu/b_lock.png", Texture.class);
+            assetManager.load("menu/mmv_btn.png", Texture.class);
+            assetManager.load("menu/mmv_fond_1.jpg", Texture.class);
+            assetManager.load("menu/b_menu.png", Texture.class);
+            assetManager.load("menu/b_exit_on.png", Texture.class);
+            assetManager.load("menu/b_lock.png", Texture.class);
 
-        assetManager.load("menu/b_share_an_sheet.png", Texture.class);
-        assetManager.load("menu/b_rate_an_sheet.png", Texture.class);
-        assetManager.load("menu/b_full_version_an_sheet.png", Texture.class);
-        assetManager.load("menu/b_demo_version_an_sheet.png", Texture.class);
+            assetManager.load("menu/b_share_an_sheet.png", Texture.class);
+            assetManager.load("menu/b_rate_an_sheet.png", Texture.class);
+            assetManager.load("menu/b_full_version_an_sheet.png", Texture.class);
+            assetManager.load("menu/b_demo_version_an_sheet.png", Texture.class);
 
-        assetManager.load("menu/menu_logo.png", Texture.class);
-        assetManager.load("menu/progress_color.png", Texture.class);
-        assetManager.load("menu/progress_black.png", Texture.class);
+            assetManager.load("menu/menu_logo.png", Texture.class);
+            assetManager.load("menu/progress_color.png", Texture.class);
+            assetManager.load("menu/progress_black.png", Texture.class);
+
+            assetManager.finishLoading();
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            navigateTo(new LoadingScreen(game));
+        }
 
     }
 

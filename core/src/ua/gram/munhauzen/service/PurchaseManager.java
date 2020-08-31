@@ -5,6 +5,7 @@ import com.badlogic.gdx.pay.OfferType;
 import com.badlogic.gdx.pay.PurchaseManagerConfig;
 import com.badlogic.gdx.pay.PurchaseObserver;
 import com.badlogic.gdx.pay.Transaction;
+import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.Chapter;
@@ -31,7 +32,7 @@ public class PurchaseManager {
                 && game.gameState.purchaseState.purchases.size() > 0;
     }
 
-    public void purchase(String productId) {
+    public void purchase(final String productId) {
 
         Log.i(tag, "purchase " + productId);
 
@@ -46,8 +47,19 @@ public class PurchaseManager {
             return;
         }
 
+        if (game.getScreen() instanceof PurchaseScreen) {
+            ((PurchaseScreen) game.getScreen()).openPurchasePendingBanner();
 
-        game.params.iap.purchase(productId);
+            Timer.instance().scheduleTask(new Timer.Task() {
+                @Override
+                public void run() {
+                    game.params.iap.purchase(productId);
+                }
+            }, .4f);
+
+        } else {
+            game.params.iap.purchase(productId);
+        }
     }
 
     public boolean isExpansionPurchased(String expansion) {

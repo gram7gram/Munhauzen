@@ -13,6 +13,7 @@ import ua.gram.munhauzen.screen.purchase.IAPObserver;
 import ua.gram.munhauzen.screen.purchase.fragment.ControlsFragment;
 import ua.gram.munhauzen.screen.purchase.fragment.ListFragment;
 import ua.gram.munhauzen.screen.purchase.fragment.PromoFragment;
+import ua.gram.munhauzen.screen.purchase.fragment.PurchasePendingFragment;
 import ua.gram.munhauzen.screen.purchase.fragment.ThankYouFragment;
 import ua.gram.munhauzen.screen.purchase.ui.Layers;
 import ua.gram.munhauzen.ui.AdultGateFragment;
@@ -34,6 +35,7 @@ public class PurchaseScreen extends MunhauzenScreen {
     public boolean isBackPressed;
     ControlsFragment controlsFragment;
     public IAPObserver observer;
+    PurchasePendingFragment purchaseFragment;
 
     public PurchaseScreen(MunhauzenGame game) {
         super(game);
@@ -113,7 +115,7 @@ public class PurchaseScreen extends MunhauzenScreen {
 
             game.databaseManager.persistSync(game.gameState);
 
-            game.navigator.openNextPage();
+            navigateTo(new LoadingScreen(game));
 
         } catch (Throwable e) {
             Log.e(tag, e);
@@ -250,6 +252,8 @@ public class PurchaseScreen extends MunhauzenScreen {
 
     public void openPromoBanner() {
 
+        Log.i(tag, "openPromoBanner");
+
         try {
 
             destroyBanners();
@@ -284,6 +288,26 @@ public class PurchaseScreen extends MunhauzenScreen {
         }
     }
 
+    public void openPurchasePendingBanner() {
+
+        Log.i(tag, "openPurchasePendingBanner");
+
+        try {
+
+            destroyBanners();
+
+            purchaseFragment = new PurchasePendingFragment(this);
+            purchaseFragment.create();
+
+            layers.setBannerLayer(purchaseFragment);
+
+            purchaseFragment.fadeIn();
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+    }
+
     @Override
     public void destroyBanners() {
         super.destroyBanners();
@@ -299,6 +323,10 @@ public class PurchaseScreen extends MunhauzenScreen {
         if (promoSuccessFragment != null) {
             promoSuccessFragment.destroy();
             promoSuccessFragment = null;
+        }
+        if (purchaseFragment != null) {
+            purchaseFragment.destroy();
+            purchaseFragment = null;
         }
     }
 
