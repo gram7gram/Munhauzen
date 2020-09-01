@@ -106,7 +106,7 @@ public class NotificationDelegate extends NSObject implements UNUserNotification
         UNNotificationAttachment attachment = null;
 
 
-        java.lang.String imageURL = dir.getPath() + "/.Munchausen/en.munchausen.fingertipsandcompany.any/expansion/chapter/icon_a1.png";
+        java.lang.String imageURL = dir.getPath() + "/.Munchausen/en.munchausen.fingertipsandcompany.any/expansion/"+icon;
         System.out.println("ImagePath---------------->"+imageURL);
         File imageFile = new File(imageURL);
         java.lang.String temp = dir.getPath() + "/.Munchausen/en.munchausen.fingertipsandcompany.any/expansion/chapter/temp";
@@ -161,8 +161,6 @@ public class NotificationDelegate extends NSObject implements UNUserNotification
         content.setCategoryIdentifier(userActions);
 
         System.out.println("Attachment----------------->" + attachment);
-
-
         if (attachment != null) {
             System.out.println("Attachment NotNUll----------------------->");
             NSMutableArray<UNNotificationAttachment> array = new NSMutableArray<UNNotificationAttachment>();
