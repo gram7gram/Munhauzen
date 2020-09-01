@@ -193,7 +193,10 @@ public class GalleryScreen extends AbstractScreen {
         }
     }
 
+    @Override
     public void destroyBanners() {
+        super.destroyBanners();
+
         if (galleryBannerFragment != null) {
             galleryBannerFragment.destroy();
             galleryBannerFragment = null;

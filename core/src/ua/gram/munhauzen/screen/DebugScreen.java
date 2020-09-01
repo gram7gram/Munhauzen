@@ -1,7 +1,7 @@
 package ua.gram.munhauzen.screen;
 
 import ua.gram.munhauzen.MunhauzenGame;
-import ua.gram.munhauzen.screen.debug.fragment.ControlsFragment;
+import ua.gram.munhauzen.screen.debug.fragment.DebugFragment;
 import ua.gram.munhauzen.utils.Log;
 
 /**
@@ -9,7 +9,7 @@ import ua.gram.munhauzen.utils.Log;
  */
 public class DebugScreen extends AbstractScreen {
 
-    private ControlsFragment controlsFragment;
+    private DebugFragment debugFragment;
 
     public DebugScreen(MunhauzenGame game) {
         super(game);
@@ -20,10 +20,10 @@ public class DebugScreen extends AbstractScreen {
         super.onResourcesLoaded();
 
         try {
-            controlsFragment = new ControlsFragment(this);
-            controlsFragment.create();
+            debugFragment = new DebugFragment(this);
+            debugFragment.create();
 
-            ui.addActor(controlsFragment.getRoot());
+            ui.addActor(debugFragment.getRoot());
         } catch (Throwable e) {
             Log.e(tag, e);
 
@@ -34,8 +34,8 @@ public class DebugScreen extends AbstractScreen {
     @Override
     public void renderAfterLoaded(float delta) {
 
-        if (controlsFragment != null)
-            controlsFragment.update();
+        if (debugFragment != null)
+            debugFragment.update();
 
         ui.act(delta);
         ui.draw();
@@ -45,9 +45,9 @@ public class DebugScreen extends AbstractScreen {
     public void dispose() {
         super.dispose();
 
-        if (controlsFragment != null) {
-            controlsFragment.dispose();
-            controlsFragment = null;
+        if (debugFragment != null) {
+            debugFragment.dispose();
+            debugFragment = null;
         }
     }
 }

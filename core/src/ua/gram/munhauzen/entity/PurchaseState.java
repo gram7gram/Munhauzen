@@ -14,15 +14,23 @@ public class PurchaseState implements JsonEntry {
     @JsonProperty
     public boolean isVersionSelected;
     @JsonProperty
+    public int maxChapter;
+    @JsonProperty
+    public String currentExpansionVersion;
+    @JsonProperty
     public ArrayList<Purchase> purchases;
     @JsonProperty
     public ArrayList<Product> products;
+    @JsonProperty
+    public ArrayList<String> promocodes;
 
     public PurchaseState() {
         if (purchases == null)
             purchases = new ArrayList<>();
         if (products == null)
             products = new ArrayList<>();
+        if (promocodes == null)
+            promocodes = new ArrayList<>();
     }
 
     public void setPro(PlatformParams params) {
@@ -33,6 +41,10 @@ public class PurchaseState implements JsonEntry {
             boolean hasFull = false, hasPart1 = false, hasPart2 = false;
 
             for (Purchase purchase : purchases) {
+                if (purchase.productId.equals(params.appStoreSkuFullThanks)) {
+                    hasFull = true;
+                }
+
                 if (purchase.productId.equals(params.appStoreSkuFull)) {
                     hasFull = true;
                 }
@@ -51,5 +63,9 @@ public class PurchaseState implements JsonEntry {
         }
 
         isPro = isPro || MunhauzenGame.developmentIsPro;
+
+        if (MunhauzenGame.developmentSimulatePurchase) {
+            isPro = false;
+        }
     }
 }

@@ -1,5 +1,6 @@
 package ua.gram.munhauzen.screen;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 
 import ua.gram.munhauzen.MunhauzenGame;
@@ -23,6 +24,7 @@ public abstract class MunhauzenScreen implements Screen {
     }
 
     public void destroyBanners() {
+        Gdx.input.setOnscreenKeyboardVisible(false);
 
     }
 }

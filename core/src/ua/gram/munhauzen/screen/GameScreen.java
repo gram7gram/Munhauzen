@@ -28,7 +28,6 @@ import ua.gram.munhauzen.screen.game.fragment.ImageFragment;
 import ua.gram.munhauzen.screen.game.fragment.PurchaseFragment;
 import ua.gram.munhauzen.screen.game.fragment.VictoryFragment;
 import ua.gram.munhauzen.screen.game.listener.StageInputListener;
-import ua.gram.munhauzen.screen.game.service.PurchaseManager;
 import ua.gram.munhauzen.screen.game.ui.GameLayers;
 import ua.gram.munhauzen.service.ExpansionImageService;
 import ua.gram.munhauzen.service.GameAudioService;
@@ -52,7 +51,6 @@ public class GameScreen extends MunhauzenScreen {
     public GameAudioService audioService;
     public ExpansionImageService imageService;
     public InteractionService interactionService;
-    public PurchaseManager purchaseManager;
     private Texture background;
     private boolean isLoaded, isBackPressed;
     public StageInputListener stageInputListener;
@@ -110,7 +108,6 @@ public class GameScreen extends MunhauzenScreen {
         audioService = new GameAudioService(this);
         imageService = new ExpansionImageService(this);
         interactionService = new InteractionService(this);
-        purchaseManager = new PurchaseManager(this);
 
         ui = new MunhauzenStage(game);
         storyManager = new StoryManager(this, game.gameState);
@@ -324,7 +321,7 @@ public class GameScreen extends MunhauzenScreen {
 
         if (story != null) {
 
-            isPurchased = purchaseManager.isExpansionPurchased(story.currentScenario.scenario.expansion);
+            isPurchased = game.purchaseManager.isExpansionPurchased(story.currentScenario.scenario.expansion);
 
         }
 
@@ -537,7 +534,6 @@ public class GameScreen extends MunhauzenScreen {
             imageService = null;
         }
 
-        purchaseManager = null;
         background = null;
     }
 

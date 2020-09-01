@@ -20,7 +20,7 @@ public class PlatformParams implements JsonEntry {
     public PurchaseManager iap;
 
     public Release release = Release.PROD;
-    public final int expansionVersion = 13;
+    public final int expansionVersion = 14;
     public int width, height;
     public final boolean isAdultGateEnabled = true;
     public boolean isTablet;
@@ -28,7 +28,9 @@ public class PlatformParams implements JsonEntry {
     public String dpi = "mdpi";
     public String locale;
     public String versionName;
-    public String appStoreSkuFull, appStoreSkuPart1, appStoreSkuPart2;
+    public String appStoreSkuFull,
+            appStoreSkuPart1, appStoreSkuPart2,
+            appStoreSku1Chapter, appStoreSku3Chapter, appStoreSku5Chapter, appStoreSku10Chapter, appStoreSkuThanks, appStoreSkuFullThanks;
     public int versionCode;
     public String applicationId;
     public String storageDirectory;
@@ -41,6 +43,9 @@ public class PlatformParams implements JsonEntry {
     public String twLink;
     public String fbLink;
     public String statueLink;
+
+    public final String promocode1 = "KPI";
+    public final String promocode2 = "Moustache";
 
     public int achievementPoints = 1;
 

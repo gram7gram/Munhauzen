@@ -16,6 +16,9 @@ import com.badlogic.gdx.utils.Align;
 
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.entity.Product;
+import ua.gram.munhauzen.entity.Purchase;
+import ua.gram.munhauzen.entity.PurchaseState;
 import ua.gram.munhauzen.screen.PurchaseScreen;
 import ua.gram.munhauzen.ui.FixedImage;
 import ua.gram.munhauzen.utils.Log;
@@ -24,18 +27,22 @@ public abstract class Card extends Stack {
 
     protected final String tag = getClass().getSimpleName();
     public final PurchaseScreen screen;
-    public final FixedImage purchasedIcon;
-    public final Image img;
-    public final Label price;
-    public final Table root, content;
+    public final String productId;
+    public FixedImage purchasedIcon;
+    public Image img;
+    public Label price;
+    public Table root, content;
     public boolean enabled, purchased;
-    public final Container<Table> container;
-    final Container<Table> purchasedIconContainer;
-    public final float maxWidth;
+    public Container<Table> container;
+    Container<Table> purchasedIconContainer;
+    public float maxWidth;
 
-    public Card(PurchaseScreen s) {
+    public Card(PurchaseScreen s, String productId) {
         this.screen = s;
+        this.productId = productId;
+    }
 
+    public void build() {
         maxWidth = MunhauzenGame.WORLD_WIDTH - 10 * 6;
 
         root = new Table();
@@ -147,8 +154,46 @@ public abstract class Card extends Stack {
         setEnabled(true);
     }
 
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+
+        getColor().a = enabled ? 1 : .5f;
+
+    }
+
     public void onClick(ClickListener listener) {
         root.addListener(listener);
+    }
+
+    public void updateCardText(Product product) {
+        PurchaseState state = screen.game.gameState.purchaseState;
+
+        if (!product.isAvailable) {
+            setPriceText(screen.game.t("purchase_screen.unavailable"));
+            setEnabled(false);
+        } else {
+
+            boolean isPurchased = false;
+
+            if (state.purchases != null) {
+                for (Purchase purchase : state.purchases) {
+                    if (purchase.productId.equals(product.id)) {
+                        isPurchased = true;
+                        break;
+                    }
+                }
+            }
+
+            setEnabled(true);
+            setPurchased(isPurchased);
+
+            if (isPurchased) {
+                setPriceText(screen.game.t("purchase_screen.download"));
+            } else {
+                setPriceNumber(product.localPricing);
+            }
+        }
     }
 
     public void updateSideIcon() {
@@ -166,13 +211,6 @@ public abstract class Card extends Stack {
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
         root.setTouchable(enabled ? Touchable.enabled : Touchable.disabled);
-    }
-
-    @Override
-    public void act(float delta) {
-        super.act(delta);
-
-        getColor().a = enabled ? 1 : .5f;
     }
 
     public abstract Label createTitle();

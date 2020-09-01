@@ -1,11 +1,12 @@
 {
-  "version": 13,
+  "part": "Part_demo",
+  "version": 14,
   "locale": "ru",
   "dpi": "hdpi",
   "size": 148453595,
   "sizeMB": 141.58,
   "parts": {
-    "count": 6,
+    "count": 5,
     "items": [
       {
         "size": 28591436,

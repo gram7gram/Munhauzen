@@ -29,6 +29,7 @@ import ua.gram.munhauzen.entity.History;
 import ua.gram.munhauzen.entity.Image;
 import ua.gram.munhauzen.entity.Inventory;
 import ua.gram.munhauzen.entity.MenuState;
+import ua.gram.munhauzen.entity.Purchase;
 import ua.gram.munhauzen.entity.Save;
 import ua.gram.munhauzen.entity.Scenario;
 import ua.gram.munhauzen.interaction.InteractionFactory;
@@ -40,6 +41,7 @@ import ua.gram.munhauzen.interaction.servants.hire.HireScenario;
 import ua.gram.munhauzen.interaction.timer.TimerScenario;
 import ua.gram.munhauzen.interaction.timer2.Timer2Scenario;
 import ua.gram.munhauzen.interaction.wauwau.WauScenario;
+import ua.gram.munhauzen.repository.ChapterRepository;
 import ua.gram.munhauzen.screen.DebugAudioScreen;
 import ua.gram.munhauzen.screen.DebugScreen;
 import ua.gram.munhauzen.screen.GameScreen;
@@ -55,7 +57,7 @@ import ua.gram.munhauzen.utils.Log;
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class ControlsFragment extends Fragment {
+public class DebugFragment extends Fragment {
 
     private final String tag = getClass().getSimpleName();
     private final MunhauzenGame game;
@@ -64,11 +66,11 @@ public class ControlsFragment extends Fragment {
     ScrollPane scroll;
     TextButton startButton;
     Label upButton;
-    Table inventoryContainer, scenarioContainer, interactionContainer, endingsContainer;
+    Table inventoryContainer, scenarioContainer, interactionContainer, endingsContainer, purchaseContainer;
     VerticalGroup group;
     String currentSource = "scenario_1";
 
-    public ControlsFragment(DebugScreen screen) {
+    public DebugFragment(DebugScreen screen) {
         this.screen = screen;
         this.game = screen.game;
     }
@@ -423,6 +425,8 @@ public class ControlsFragment extends Fragment {
 
         createEndingsTable();
 
+        createPurchaseContainer();
+
         Table container2 = new Table();
         container2.add(inventoryContainer).pad(10).top().expandX();
         container2.add(scenarioContainer).pad(10).top().expandX();
@@ -437,6 +441,7 @@ public class ControlsFragment extends Fragment {
         group = new VerticalGroup();
         group.pad(10);
         group.addActor(container);
+        group.addActor(purchaseContainer);
         group.addActor(container3);
         group.addActor(container2);
 
@@ -447,6 +452,100 @@ public class ControlsFragment extends Fragment {
         root = new FragmentRoot();
         root.addContainer(scroll);
         root.addContainer(upContainer);
+    }
+
+    private void createPurchaseContainer() {
+
+        purchaseContainer = new Table();
+        purchaseContainer.padBottom(80);
+
+        int demoEndsAtChapter = 0, part1EndsAtChapter = 0, maxChapter = 0;
+
+        for (Scenario scenario : game.gameState.scenarioRegistry) {
+            if (scenario.chapter == null) continue;
+
+            try {
+                Chapter chapter = ChapterRepository.find(game.gameState, scenario.chapter);
+                if ("Part_demo".equals(scenario.expansion)) {
+                    if (chapter.number > demoEndsAtChapter) {
+                        demoEndsAtChapter = chapter.number;
+                    }
+                }
+
+                if ("Part_1".equals(scenario.expansion)) {
+                    if (chapter.number > part1EndsAtChapter) {
+                        part1EndsAtChapter = chapter.number;
+                    }
+                }
+
+                if (chapter.number > maxChapter) {
+                    maxChapter = chapter.number;
+                }
+            } catch (Throwable ignore) {
+            }
+        }
+
+        Label title = new Label("Purchases", new Label.LabelStyle(
+                game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
+                Color.RED
+        ));
+
+        Label lbl1 = new Label("Last chapter Part_demo: " + demoEndsAtChapter, new Label.LabelStyle(
+                game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
+                Color.BLACK
+        ));
+
+        Label lbl2 = new Label("Last chapter Part_1: " + part1EndsAtChapter, new Label.LabelStyle(
+                game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
+                Color.BLACK
+        ));
+
+        Label lbl3 = new Label("Last chapter Part_2: " + maxChapter, new Label.LabelStyle(
+                game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
+                Color.BLACK
+        ));
+
+        Label lbl4 = new Label("[!] Purchased chapters: " + game.gameState.purchaseState.maxChapter, new Label.LabelStyle(
+                game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
+                Color.BLACK
+        ));
+
+        Label lbl5 = new Label("[!] Current expansion: " + game.gameState.purchaseState.currentExpansionVersion, new Label.LabelStyle(
+                game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
+                Color.BLACK
+        ));
+
+        purchaseContainer.add(title).left().expandX().padBottom(5).row();
+        purchaseContainer.add(lbl1).left().expandX().padBottom(5).row();
+        purchaseContainer.add(lbl2).left().expandX().padBottom(5).row();
+        purchaseContainer.add(lbl3).left().expandX().padBottom(5).row();
+        purchaseContainer.add(lbl4).left().expandX().padBottom(5).row();
+        purchaseContainer.add(lbl5).left().expandX().padBottom(40).row();
+
+        if (game.gameState.purchaseState.purchases == null) {
+            game.gameState.purchaseState.purchases = new ArrayList<>();
+        }
+
+        if (game.gameState.purchaseState.purchases.isEmpty()) {
+
+            Label lbl = new Label("No purchases", new Label.LabelStyle(
+                    game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
+                    Color.RED
+            ));
+
+            purchaseContainer.add(lbl).left().expandX().padBottom(5).row();
+
+        } else {
+            for (Purchase purchase : game.gameState.purchaseState.purchases) {
+                Label lbl = new Label(purchase.productId, new Label.LabelStyle(
+                        game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
+                        Color.RED
+                ));
+
+                purchaseContainer.add(lbl).left().expandX().padBottom(5).row();
+            }
+        }
+
     }
 
     public void createEndingsTable() {

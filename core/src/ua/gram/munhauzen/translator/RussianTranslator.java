@@ -165,7 +165,7 @@ public class RussianTranslator implements Translator {
         map.put("purchase_screen.processing", "Обработка...");
         map.put("purchase_screen.full_discount", "20% СКИДКА");
         map.put("purchase_screen.title", "Покупки");
-        map.put("purchase_screen.unavailable", "Недоступно");
+        map.put("purchase_screen.unavailable", "Не доступно");
         map.put("purchase_screen.already_purchased", "Куплено!");
         map.put("purchase_screen.download", "Скачать");
         map.put("purchase_screen.free_title", "Демо версия");
@@ -177,7 +177,18 @@ public class RussianTranslator implements Translator {
         map.put("purchase_screen.part1_description", "Около 4 часов аудиокниги!\n34 раздела!\n100+ иллюстраций!");
         map.put("purchase_screen.part2_title", "Часть 2");
         map.put("purchase_screen.part2_description", "Около 4 часов аудиокниги!\n35 раздела!\n150+ иллюстраций!");
-
+        map.put("purchase_screen.chap1_title", "+1 История");
+        map.put("purchase_screen.chap1_description", "Необычный рассказ\nБарона Мюнхгаузена!");
+        map.put("purchase_screen.chap3_title", "+3 Истории");
+        map.put("purchase_screen.chap3_description", "Получи 3 байки от\nизвестного Барона!");
+        map.put("purchase_screen.chap5_title", "+5 Историй");
+        map.put("purchase_screen.chap5_description", "5 невероятных и веселых\nприключений ждут!");
+        map.put("purchase_screen.chap10_title", "+10 Историй!");
+        map.put("purchase_screen.chap10_description", "Большой набор лучших\nисторий Мюнхгаузена!");
+        map.put("purchase_screen.thx_title", "Сказать спасибо");
+        map.put("purchase_screen.thx_description", "Поддержите нас для\nподобных приложений!");
+        map.put("purchase_screen.full_thx_title", "Всё + спасибо!");
+        map.put("purchase_screen.full_thx_description", "Получите полную версию\nи низкий поклон от нас!\nСлушайте и улыбайтесь!");
         map.put("error_screen.title", "Неожиданная ошибка :(");
         map.put("error_screen.subtitle", "Самая вероятная причина ошибки - нехватка памяти из-за чего содержимое не было отображено.\nОтчёт был отправлен ответственному человеку для исправления ошибки и восстановления Вашего наслаждения игрой.\nПожалуйста, дайте игре еще один шанс.");
         map.put("error_screen.to_menu", "В меню");
@@ -238,6 +249,18 @@ public class RussianTranslator implements Translator {
         map.put("menu_achievement.progress", "Прогрес");
         map.put("menu_achievement_banner.title", "Новый трофей открыт в гостиной!\nПоздравляем");
         map.put("menu_achievement_banner.btn", "Ура! Ура!");
+
+        map.put("promo_banner.btn", "Есть промокод?");
+        map.put("promo_banner.ok_btn", "Активировать");
+        map.put("promo_banner.title", "Введите промокод");
+
+        map.put("promo_success_banner.title", "Спасибо!\nПромокод активирован!");
+        map.put("promo_success_banner.btn", "Продолжить");
+
+        map.put("referal_banner.title", "Поделись игрой и получи бонусы!");
+        map.put("referal_banner.btn", "Скопировать");
+        map.put("referal_banner.success", "Ссылка скопирована");
+        map.put("purchase_pending_banner.title", "Покупка...\nЭто может занять до 1 минуты.\nПожалуйста, дождитесь закрытия окна");
 
     }
 
