@@ -112,12 +112,15 @@ public class Navigator {
                 throw new GdxRuntimeException("No game state was loaded");
             }
 
+
             game.purchaseManager.updatePurchaseState();
 
             boolean isLegalViewed = false;
             boolean hasPurchases = false;
 
             ExpansionDownloadManager downloadManager = new ExpansionDownloadManager(game, null);
+
+            MunhauzenGame.onExpansionDownloadComplete.setDownloadNeeded(downloadManager.shouldFetchExpansion());
 
             boolean needUpdates = downloadManager.shouldFetchExpansion();
 

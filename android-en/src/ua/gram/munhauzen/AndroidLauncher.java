@@ -51,6 +51,8 @@ import java.util.Objects;
 import en.munchausen.fingertipsandcompany.full.BuildConfig;
 import ua.gram.munhauzen.entity.Device;
 import ua.gram.munhauzen.entity.History;
+import ua.gram.munhauzen.interfaces.OnExpansionDownloadComplete;
+import ua.gram.munhauzen.service.ExpansionDownloadManager;
 import ua.gram.munhauzen.translator.EnglishTranslator;
 import ua.gram.munhauzen.utils.ExternalFiles;
 
@@ -59,6 +61,9 @@ import static android.content.ContentValues.TAG;
 public class AndroidLauncher extends AndroidApplication {
 
     private static final int READ_EXTERNAL_STORAGE = 0X01;
+
+    private boolean needToDownload;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,13 +134,32 @@ public class AndroidLauncher extends AndroidApplication {
         }
 
 
+        MunhauzenGame game = new MunhauzenGame(params, new OnExpansionDownloadComplete() {
+            @Override
+            public void setDownloadNeeded(boolean isDownloaded) {
+                needToDownload = isDownloaded;
+            }
+        });
 
-        initialize(new MunhauzenGame(params), config);
+
+        initialize(game, config);
+
+
+        //for checking should download or not
 
 
         // Write a message to the database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("en_hours_notification");
+        //DatabaseReference myRef = database.getReference("en_hours_notification");
+
+        DatabaseReference notificationsRef = database.getReference("1notifications");
+
+        DatabaseReference notificationContinueRef = notificationsRef.child("1notification_to_continue");
+
+        DatabaseReference notificationDownloadRef = notificationsRef.child("2notification_to_download");
+
+
+        DatabaseReference myRef = notificationContinueRef.child("1en_hours_notification");
 
 
         // Read  Notification time from the database
@@ -166,7 +190,7 @@ public class AndroidLauncher extends AndroidApplication {
 
         // Read Notification title from the database
 
-        DatabaseReference myRef1 = database.getReference("en_title_notification");
+        DatabaseReference myRef1 = notificationContinueRef.child("2en_title_notification");
 
         myRef1.addValueEventListener(new ValueEventListener() {
             @Override
@@ -195,7 +219,7 @@ public class AndroidLauncher extends AndroidApplication {
 
         // Read Notification message from the database
 
-        DatabaseReference myRef2 = database.getReference("en_message_notification");
+        DatabaseReference myRef2 = notificationContinueRef.child("3en_message_notification");
 
         myRef2.addValueEventListener(new ValueEventListener() {
             @Override
@@ -222,10 +246,96 @@ public class AndroidLauncher extends AndroidApplication {
             }
         });
 
+        //FOr Download notification
 
-/*        if (ContextCompat.checkSelfPermission(AndroidLauncher.this,Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
-            startAlarm();
-        }*/
+
+        DatabaseReference myRef3 = notificationDownloadRef.child("1en_hours_notification");
+
+        // Read  Notification time from the database
+        myRef3.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                try {
+                    Integer value = dataSnapshot.getValue(Integer.class);
+                    Log.d(TAG, "Value is: " + value);
+                    System.out.println("Value---->" + value);
+                    SharedPreferencesHelper.setNotification2Time(getApplicationContext(), value);
+                    System.out.println("NotificationValue--->"+ SharedPreferencesHelper.getNotification2Time(getApplicationContext()) );
+                }catch (Exception ex){
+                    ex.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+
+
+            }
+        });
+
+        // Read Notification title from the database
+
+        DatabaseReference myRef4 = notificationDownloadRef.child("2en_title_notification");
+
+        myRef4.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                try {
+                    String value = dataSnapshot.getValue(String.class);
+                    Log.d(TAG, "Value is: " + value);
+                    System.out.println("Value---->" + value);
+                    SharedPreferencesHelper.setKeyNotification2Title(getApplicationContext(), value);
+                    System.out.println("NotificationTitle--->"+ SharedPreferencesHelper.getKeyNotification2Title(getApplicationContext()) );
+                }catch (Exception ex){
+                    ex.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+
+
+            }
+        });
+
+        // Read Notification message from the database
+
+        DatabaseReference myRef5 = notificationDownloadRef.child("3en_message_notification");
+
+        myRef5.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                try {
+                    String value = dataSnapshot.getValue(String.class);
+                    Log.d(TAG, "Value is: " + value);
+                    System.out.println("Value---->" + value);
+                    SharedPreferencesHelper.setKeyNotification2Message(getApplicationContext(), value);
+                    System.out.println("NotificationMessage--->"+ SharedPreferencesHelper.getKeyNotification2Message(getApplicationContext()) );
+                }catch (Exception ex){
+                    ex.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+
+
+            }
+        });
+
+        //for download notification ends
     }
 
 
@@ -235,9 +345,7 @@ public class AndroidLauncher extends AndroidApplication {
         String saveJson = readSaveJsonFile();
 
         String chapterJson = readChapterJsonFile();
-//        chapterJson = chapterJson.replace("\n", "");
-//        chapterJson = chapterJson.replace("\r", "");
-//        chapterJson = chapterJson.replace(" ", "");
+
 
         System.out.println("CHapetr---Jston---->" + chapterJson);
 
@@ -288,49 +396,7 @@ public class AndroidLauncher extends AndroidApplication {
             e.printStackTrace();
         }
 
-     /*   try {
-            JSONObject history = new JSONObject(historyJson);
 
-            JSONArray visitedChapters = history.getJSONArray("visitedChapters");
-            String[] visitedChaptersArray=new String[visitedChapters.length()];
-
-            int index=0;
-            JSONObject selectedJsonObject=null;
-            JSONArray chapters = new JSONArray(chapterJson);
-            for(int i=0;i<visitedChapters.length();i++){
-                for(int j=0;j<chapters.length();j++){
-                    if(visitedChapters.getString(i).equals(chapters.getJSONObject(j).getString("name"))){
-                        JSONObject jsonObject = chapters.getJSONObject(j);
-                        if(index<jsonObject.getInt("number")) {
-                            index = jsonObject.getInt("number");
-                            selectedJsonObject=jsonObject;
-                        }
-                    }
-
-                }
-            }
-
-            if (selectedJsonObject == null){
-                return;
-            }
-            String iconPath=selectedJsonObject.getString("icon");
-            String description=selectedJsonObject.getString("description");
-
-
-            System.out.println("SELECTED_JSONOBJECT"+selectedJsonObject.getString("icon"));
-
-            SharedPreferencesHelper.setIcon(this,iconPath);
-            SharedPreferencesHelper.setDescription(this, description);
-
-
-
-
-
-            System.out.println("String0--->" + visitedChapters.getString(0));
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }*/
 
         Calendar c = Calendar.getInstance();
         c.add(Calendar.SECOND, SharedPreferencesHelper.getNotification1Time(this));
@@ -352,10 +418,45 @@ public class AndroidLauncher extends AndroidApplication {
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, AlertReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
+        intent.setFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, (int) System.currentTimeMillis(), intent, 0);
         if (alarmManager != null) {
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
         }
+
+
+
+
+    }
+
+
+    private void startDownloadAlarm(){
+
+        //For download notification
+
+            String iconPath="chapter/b_full_version_1.png";
+
+            //SharedPreferencesHelper.setLastVisitedIcon(this,iconPath);
+
+            if(needToDownload == true){
+                Calendar c1 = Calendar.getInstance();
+                c1.add(Calendar.SECOND, SharedPreferencesHelper.getNotification2Time(this));
+
+                System.out.println("SetAlarm2AfterSeconds--->" + SharedPreferencesHelper.getNotification2Time(this));
+
+
+                AlarmManager alarmManager1 = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                Intent intent1 = new Intent(this, AlertReceiver2.class);
+                intent1.setFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+                PendingIntent pendingIntent1 = PendingIntent.getBroadcast(this, (int) System.currentTimeMillis(), intent1, 0);
+                if (alarmManager1 != null) {
+                    alarmManager1.setExact(AlarmManager.RTC_WAKEUP, c1.getTimeInMillis(), pendingIntent1);
+                }
+            }
+
+        //For download notification ends
+
+
     }
 
     private String readChapterJsonFile() {
@@ -439,6 +540,37 @@ public class AndroidLauncher extends AndroidApplication {
 
     }
 
+    private String readExpansionJsonFile() {
+        try {
+            PlatformParams platformParams = new PlatformParams();
+            String dfdlk = ".Munchausen/en.munchausen.fingertipsandcompany.any/" + platformParams.expansionVersion + "-expansion.json";
+
+
+
+            //File file = new File(getExternalFilesDir("").toString(), "my.json");
+            File file = new File(Environment.getExternalStorageDirectory() + "/.Munchausen/en.munchausen.fingertipsandcompany.any", platformParams.expansionVersion + "-expansion.json");
+            FileReader fileReader = new FileReader(file);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            StringBuilder stringBuilder = new StringBuilder();
+            String line = bufferedReader.readLine();
+            while (line != null) {
+                stringBuilder.append(line).append("\n");
+                line = bufferedReader.readLine();
+            }
+            bufferedReader.close();
+// This responce will have Json Format String
+            String responce = stringBuilder.toString();
+            System.out.println("Readed Expansion Json--->" + responce);
+            return responce;
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        //System.out.println("filepath--->" + getApplicationContext().getFilesDir());
+        return null;
+
+    }
 
 
     public boolean isTablet(Context context) {
@@ -463,6 +595,7 @@ public class AndroidLauncher extends AndroidApplication {
     protected void onDestroy() {
         if (ContextCompat.checkSelfPermission(AndroidLauncher.this,Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
             startAlarm();
+            startDownloadAlarm();
         }
         super.onDestroy();
 
@@ -472,6 +605,7 @@ public class AndroidLauncher extends AndroidApplication {
     protected void onStop() {
         if (ContextCompat.checkSelfPermission(AndroidLauncher.this,Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
             startAlarm();
+            startDownloadAlarm();
         }
         super.onStop();
     }

@@ -12,10 +12,12 @@ import ua.gram.munhauzen.entity.Device;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.Purchase;
 import ua.gram.munhauzen.entity.StoryAudio;
+import ua.gram.munhauzen.interfaces.OnExpansionDownloadComplete;
 import ua.gram.munhauzen.screen.ErrorScreen;
 import ua.gram.munhauzen.service.AchievementService;
 import ua.gram.munhauzen.service.BackgroundSfxService;
 import ua.gram.munhauzen.service.DatabaseManager;
+import ua.gram.munhauzen.service.ExpansionDownloadManager;
 import ua.gram.munhauzen.service.InventoryService;
 import ua.gram.munhauzen.service.PurchaseManager;
 import ua.gram.munhauzen.service.SfxService;
@@ -70,11 +72,16 @@ public class MunhauzenGame extends Game {
 
     public static AlarmInterface alarmInterface;
 
+    public static OnExpansionDownloadComplete onExpansionDownloadComplete;
+
     // This is the notificatino handler
     public NotificationHandler notificationHandler;
 
-    public MunhauzenGame(PlatformParams params) {
+    public MunhauzenGame(PlatformParams params, OnExpansionDownloadComplete onExpansionDownloadComplete) {
         this.params = params;
+        this.onExpansionDownloadComplete = onExpansionDownloadComplete;
+
+
     }
 
 
@@ -108,7 +115,7 @@ public class MunhauzenGame extends Game {
 
         return id;
     }
-    
+
     public void syncState() {
 
         databaseManager.persistSync(gameState);

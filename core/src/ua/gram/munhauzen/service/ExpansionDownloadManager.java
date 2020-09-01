@@ -271,8 +271,9 @@ public class ExpansionDownloadManager {
 
             return hasIncomplete;
 
-        } catch (Throwable e) {
-            Log.e(tag, e);
+        } catch (Exception e) {
+            //Log.e(tag, e);
+            String errorThrow = e.getLocalizedMessage();
 
             return true;
         }
