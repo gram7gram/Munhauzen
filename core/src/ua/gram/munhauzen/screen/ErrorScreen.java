@@ -120,8 +120,7 @@ public class ErrorScreen extends MunhauzenScreen {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                game.setScreen(new MenuScreen(game));
-                dispose();
+                game.navigator.openNextPage();
             }
         });
 

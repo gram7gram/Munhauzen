@@ -5,9 +5,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.pay.Offer;
-import com.badlogic.gdx.pay.OfferType;
-import com.badlogic.gdx.pay.PurchaseManagerConfig;
 import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.MunhauzenGame;
@@ -15,6 +12,9 @@ import ua.gram.munhauzen.expansion.response.ExpansionResponse;
 import ua.gram.munhauzen.screen.purchase.IAPObserver;
 import ua.gram.munhauzen.screen.purchase.fragment.ControlsFragment;
 import ua.gram.munhauzen.screen.purchase.fragment.ListFragment;
+import ua.gram.munhauzen.screen.purchase.fragment.PromoFragment;
+import ua.gram.munhauzen.screen.purchase.fragment.PurchasePendingFragment;
+import ua.gram.munhauzen.screen.purchase.fragment.ThankYouFragment;
 import ua.gram.munhauzen.screen.purchase.ui.Layers;
 import ua.gram.munhauzen.ui.AdultGateFragment;
 import ua.gram.munhauzen.ui.MunhauzenStage;
@@ -29,10 +29,13 @@ public class PurchaseScreen extends MunhauzenScreen {
     public Texture background;
     public ListFragment fragment;
     public AdultGateFragment adultGateFragment;
+    public PromoFragment promoFragment;
+    public ThankYouFragment promoSuccessFragment;
     public Layers layers;
     public boolean isBackPressed;
     ControlsFragment controlsFragment;
-    IAPObserver observer;
+    public IAPObserver observer;
+    PurchasePendingFragment purchaseFragment;
 
     public PurchaseScreen(MunhauzenGame game) {
         super(game);
@@ -52,6 +55,12 @@ public class PurchaseScreen extends MunhauzenScreen {
         game.internalAssetManager.load("purchase/part1.png", Texture.class);
         game.internalAssetManager.load("purchase/part2.png", Texture.class);
         game.internalAssetManager.load("purchase/free.png", Texture.class);
+        game.internalAssetManager.load("purchase/chap1.png", Texture.class);
+        game.internalAssetManager.load("purchase/chap3.png", Texture.class);
+        game.internalAssetManager.load("purchase/chap5.png", Texture.class);
+        game.internalAssetManager.load("purchase/chap10.png", Texture.class);
+        game.internalAssetManager.load("purchase/thx.png", Texture.class);
+        game.internalAssetManager.load("purchase/full_thx.png", Texture.class);
         game.internalAssetManager.load("purchase/ok.png", Texture.class);
         game.internalAssetManager.load("purchase/off.png", Texture.class);
         game.internalAssetManager.load("purchase/b_menu.png", Texture.class);
@@ -82,25 +91,7 @@ public class PurchaseScreen extends MunhauzenScreen {
 
     public void restorePurchases() {
 
-        PurchaseManagerConfig pmc = new PurchaseManagerConfig();
-
-        pmc.addOffer(new Offer()
-                .setType(OfferType.ENTITLEMENT)
-                .setIdentifier(game.params.appStoreSkuFull));
-
-        pmc.addOffer(new Offer()
-                .setType(OfferType.ENTITLEMENT)
-                .setIdentifier(game.params.appStoreSkuPart1));
-
-        pmc.addOffer(new Offer()
-                .setType(OfferType.ENTITLEMENT)
-                .setIdentifier(game.params.appStoreSkuPart2));
-
-        try {
-            game.params.iap.install(observer, pmc, true);
-        } catch (Throwable e) {
-            Log.e(tag, e);
-        }
+        game.purchaseManager.start(observer);
 
         Timer.instance().scheduleTask(new Timer.Task() {
             @Override
@@ -118,7 +109,6 @@ public class PurchaseScreen extends MunhauzenScreen {
                 game.gameState.expansionInfo = new ExpansionResponse();
             }
 
-
             game.gameState.purchaseState.isVersionSelected = true;
             game.gameState.expansionInfo.isCompleted = false;
             game.gameState.expansionInfo.isDownloadStarted = false;
@@ -126,6 +116,7 @@ public class PurchaseScreen extends MunhauzenScreen {
             game.databaseManager.persistSync(game.gameState);
 
             navigateTo(new LoadingScreen(game));
+
         } catch (Throwable e) {
             Log.e(tag, e);
 
@@ -259,11 +250,84 @@ public class PurchaseScreen extends MunhauzenScreen {
         }
     }
 
+    public void openPromoBanner() {
+
+        Log.i(tag, "openPromoBanner");
+
+        try {
+
+            destroyBanners();
+
+            promoFragment = new PromoFragment(this);
+            promoFragment.create();
+
+            layers.setBannerLayer(promoFragment);
+
+            promoFragment.fadeIn();
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+    }
+
+    public void openPromoSuccessBanner() {
+
+        try {
+
+            destroyBanners();
+
+            promoSuccessFragment = new ThankYouFragment(this);
+            promoSuccessFragment.create();
+
+            layers.setBannerLayer(promoSuccessFragment);
+
+            promoSuccessFragment.fadeIn();
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+    }
+
+    public void openPurchasePendingBanner() {
+
+        Log.i(tag, "openPurchasePendingBanner");
+
+        try {
+
+            destroyBanners();
+
+            purchaseFragment = new PurchasePendingFragment(this);
+            purchaseFragment.create();
+
+            layers.setBannerLayer(purchaseFragment);
+
+            purchaseFragment.fadeIn();
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+    }
+
     @Override
     public void destroyBanners() {
+        super.destroyBanners();
+
         if (adultGateFragment != null) {
             adultGateFragment.destroy();
             adultGateFragment = null;
         }
+        if (promoFragment != null) {
+            promoFragment.destroy();
+            promoFragment = null;
+        }
+        if (promoSuccessFragment != null) {
+            promoSuccessFragment.destroy();
+            promoSuccessFragment = null;
+        }
+        if (purchaseFragment != null) {
+            purchaseFragment.destroy();
+            purchaseFragment = null;
+        }
     }
+
 }

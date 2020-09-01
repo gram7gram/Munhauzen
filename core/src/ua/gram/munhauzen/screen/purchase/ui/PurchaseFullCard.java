@@ -3,58 +3,32 @@ package ua.gram.munhauzen.screen.purchase.ui;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 
 import ua.gram.munhauzen.FontProvider;
+import ua.gram.munhauzen.entity.Purchase;
 import ua.gram.munhauzen.entity.PurchaseState;
 import ua.gram.munhauzen.screen.PurchaseScreen;
 import ua.gram.munhauzen.ui.FixedImage;
-import ua.gram.munhauzen.utils.Log;
 
-public class PurchaseFullCard extends Card {
+public class PurchaseFullCard extends EntitlementCard {
 
     final Label discount;
     final FixedImage discountImg;
     final Container<Table> discountImgContainer;
 
     public PurchaseFullCard(final PurchaseScreen screen) {
-        super(screen);
-
-        onClick(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-
-                try {
-
-                    final String id = screen.game.params.appStoreSkuFull;
-                    Log.i(tag, "clicked on " + id);
-
-                    PurchaseState state = screen.game.gameState.purchaseState;
-                    if (state.isPro) {
-                        screen.onPurchaseCompleted();
-                        return;
-                    }
-
-                    screen.openAdultGateBanner(new Runnable() {
-                        @Override
-                        public void run() {
-                            screen.game.params.iap.purchase(id);
-                        }
-                    });
-                } catch (Throwable e) {
-                    Log.e(tag, e);
-
-                    screen.onCriticalError(e);
-                }
-            }
-        });
+        super(
+                screen,
+                screen.game.params.appStoreSkuFull,
+                screen.game.t("purchase_screen.full_title"),
+                screen.game.t("purchase_screen.full_description"),
+                "purchase/full.png"
+        );
 
         discount = new Label(screen.game.t("purchase_screen.full_discount"), new Label.LabelStyle(
                 screen.game.fontProvider.getFont(FontProvider.BuxtonSketch, FontProvider.h2),
@@ -94,6 +68,38 @@ public class PurchaseFullCard extends Card {
     }
 
     @Override
+    public boolean isPurchased() {
+        PurchaseState state = screen.game.gameState.purchaseState;
+
+        return state.isPro;
+    }
+
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+
+        disableIfPart1AndPart2ArePurchased();
+    }
+
+    private void disableIfPart1AndPart2ArePurchased() {
+        PurchaseState state = screen.game.gameState.purchaseState;
+
+        Purchase part1 = null, part2 = null;
+        for (Purchase purchase : state.purchases) {
+            if (screen.game.params.appStoreSkuPart1.equals(purchase.productId)) {
+                part1 = purchase;
+            } else if (screen.game.params.appStoreSkuPart2.equals(purchase.productId)) {
+                part2 = purchase;
+            }
+        }
+
+        if (part1 != null && part2 != null) {
+            setEnabled(false);
+            setPriceText("");
+        }
+    }
+
+    @Override
     public void updateSideIcon() {
 
         purchasedIconContainer.setVisible(purchased);
@@ -101,40 +107,4 @@ public class PurchaseFullCard extends Card {
 
     }
 
-    @Override
-    public Label[] createSentences() {
-        String[] lines = screen.game.t("purchase_screen.full_description").split("\n");
-
-        Label[] sentences = new Label[lines.length];
-        for (int i = 0; i < lines.length; i++) {
-            Label label = new Label(lines[i], new Label.LabelStyle(
-                    screen.game.fontProvider.getFont(FontProvider.h5),
-                    Color.BLACK
-            ));
-            label.setWrap(true);
-            label.setAlignment(Align.left);
-
-            sentences[i] = label;
-        }
-
-        return sentences;
-    }
-
-    @Override
-    public Label createTitle() {
-        return new Label(screen.game.t("purchase_screen.full_title"), new Label.LabelStyle(
-                screen.game.fontProvider.getFont(FontProvider.h3),
-                Color.BLACK
-        ));
-    }
-
-    @Override
-    public Label createPrice() {
-        return new Label("", getPriceTextStyle());
-    }
-
-    @Override
-    public Texture getImage() {
-        return screen.game.internalAssetManager.get("purchase/full.png", Texture.class);
-    }
 }

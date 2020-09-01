@@ -177,6 +177,18 @@ public class EnglishTranslator implements Translator {
         map.put("purchase_screen.part1_description", "About 4 hours of audiobook!\n34 chapters!\n100+ illustrations!");
         map.put("purchase_screen.part2_title", "Part 2");
         map.put("purchase_screen.part2_description", "About 4 hours of audiobook!\n35 chapters!\n150+ illustrations!");
+        map.put("purchase_screen.chap1_title", "+1 Story");
+        map.put("purchase_screen.chap1_description", "An unusual tall tale\nof Baron Munchausen!");
+        map.put("purchase_screen.chap3_title", "+3 Stories");
+        map.put("purchase_screen.chap3_description", "Get 3 amazing fables\nof famous Munchausen!");
+        map.put("purchase_screen.chap5_title", "+5 Stories");
+        map.put("purchase_screen.chap5_description", "5 amazing and funny\nadventures are waiting!");
+        map.put("purchase_screen.chap10_title", "+10 Stories");
+        map.put("purchase_screen.chap10_description", "A big batch of fantastic stories\nof Munchausen!");
+        map.put("purchase_screen.thx_title", "Say Thank you!");
+        map.put("purchase_screen.thx_description", "Give thanks and support\nus for more nice apps!");
+        map.put("purchase_screen.full_thx_title", "All book + thanks!");
+        map.put("purchase_screen.full_thx_description", "Get a full version and a low bow\nfrom our creative studio!nListen and smile!");
 
         map.put("error_screen.title", "Sorry, an error :(");
         map.put("error_screen.subtitle", "The most common reason for error is a lack of memory, so the contents could not be displayed.\nThe report was sent to man in charge to fix the issue and restore your game experience.\nPlease, give the game another chance.");
@@ -238,6 +250,18 @@ public class EnglishTranslator implements Translator {
         map.put("menu_achievement.progress", "Progress");
         map.put("menu_achievement_banner.title", "A new trophy is opened in hall!\nCongratulations!");
         map.put("menu_achievement_banner.btn", "Hooray!");
+
+        map.put("promo_banner.btn", "Have promocode?");
+        map.put("promo_banner.ok_btn", "Activate");
+        map.put("promo_banner.title", "Enter promocode");
+
+        map.put("promo_success_banner.title", "Thank you!\nPromocode is activated!");
+        map.put("promo_success_banner.btn", "Continue");
+
+        map.put("referal_banner.title", "Share the game and get bonuses!");
+        map.put("referal_banner.btn", "Copy");
+        map.put("referal_banner.success", "Link is copied");
+        map.put("purchase_pending_banner.title", "Purchasing...\nIt can take up to 1 minute to complete the purchase.\nPlease, wait until popup is closed");
 
     }
 

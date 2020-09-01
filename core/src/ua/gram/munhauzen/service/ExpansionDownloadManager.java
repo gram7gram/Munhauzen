@@ -58,7 +58,10 @@ public class ExpansionDownloadManager {
     public void fetchExpansionToDownload() {
         try {
 
-            expansionPart = game.getExpansionPart();
+            expansionPart = game.gameState.purchaseState.currentExpansionVersion;
+            if (expansionPart == null) {
+                return;
+            }
 
             FileHandle file = Files.getExpansionConfigFile(game.params, expansionPart);
 
@@ -198,15 +201,12 @@ public class ExpansionDownloadManager {
 
     public boolean shouldFetchExpansion() {
 
-        if (game.gameState.purchaseState.purchases == null) {
-            return false;
-        }
-
         try {
 
             fetchExpansionToDownload();
 
             if (expansionToDownload == null) {
+                Log.e(tag, "Nothing is downloaded. Need updates");
                 return true;
             }
 
@@ -217,6 +217,7 @@ public class ExpansionDownloadManager {
             ExpansionResponse existingExpansion = game.gameState.expansionInfo;
 
             if (!existingExpansion.isSameExpansion(expansionToDownload)) {
+                Log.e(tag, "Expansions changed. Need updates");
                 return true;
             }
 

@@ -155,17 +155,7 @@ public class ChapterImageFragment extends Fragment {
                             Actions.run(new Runnable() {
                                 @Override
                                 public void run() {
-                                    try {
-                                        interaction.gameScreen.interactionService.complete();
-
-                                        interaction.gameScreen.interactionService.findStoryAfterInteraction();
-
-                                        interaction.gameScreen.restoreProgressBarIfDestroyed();
-                                    } catch (Throwable e) {
-                                        Log.e(tag, e);
-
-                                        interaction.gameScreen.onCriticalError(e);
-                                    }
+                                    interaction.onComplete();
                                 }
                             })
                     ));

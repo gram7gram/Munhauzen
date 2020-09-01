@@ -4,9 +4,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import ua.gram.munhauzen.MunhauzenGame;
@@ -46,17 +44,16 @@ import ua.gram.munhauzen.interaction.wauwau.WauScenario;
 import ua.gram.munhauzen.interaction.wauwau.WauStoryImage;
 import ua.gram.munhauzen.utils.ExternalFiles;
 import ua.gram.munhauzen.utils.Files;
+import ua.gram.munhauzen.utils.JSON;
 import ua.gram.munhauzen.utils.Log;
 
 public class DatabaseManager {
 
     private final String tag = getClass().getSimpleName();
     final MunhauzenGame game;
-    public final ObjectMapper om;
 
     public DatabaseManager(MunhauzenGame game) {
         this.game = game;
-        om = new ObjectMapper();
     }
 
     public synchronized ExpansionResponse loadExpansionInfo() {
@@ -79,18 +76,10 @@ public class DatabaseManager {
 
             if (raw != null && !raw.equals("")) {
 
-                ExpansionResponse result = om.readValue(raw, ExpansionResponse.class);
+                ExpansionResponse result = ua.gram.munhauzen.utils.JSON.parse(raw, ExpansionResponse.class);
 
                 if (result != null) {
-
                     return result;
-
-//                    if (result.version == game.params.expansionVersion) {
-//                        return result;
-//                    } else {
-//                        Log.e(tag, "Obsolete expansion info v" + result.version);
-//                        return null;
-//                    }
                 }
             }
         } catch (Throwable e) {
@@ -101,15 +90,6 @@ public class DatabaseManager {
     }
 
     public synchronized void loadExternal(GameState state) {
-
-//        try {
-//            Log.i(tag, "STATE AFTER\n"
-//                    + om.writeValueAsString(game.inventoryService.getAllInventory()));
-//        } catch (JsonProcessingException e) {
-//            e.printStackTrace();
-//        }
-
-//        Log.i(tag, "loadExternal");
 
         try {
             state.history = loadHistory();
@@ -250,7 +230,7 @@ public class DatabaseManager {
 
 //        try {
 //            Log.i(tag, "STATE BEFORE\n"
-//                    + om.writeValueAsString(gameState.activeSave.story));
+//                    + JSON.stringifyAsString(gameState.activeSave.story));
 //        } catch (Throwable e) {
 //            e.printStackTrace();
 //        }
@@ -323,63 +303,63 @@ public class DatabaseManager {
             }
     }
 
-    public synchronized void persistExpansionInfo(ExpansionResponse state) throws IOException {
+    public synchronized void persistExpansionInfo(ExpansionResponse state) {
 
         FileHandle file = ExternalFiles.getExpansionInfoFile(game.params);
 
         if (state != null)
-            om.writeValue(file.file(), state);
+            ua.gram.munhauzen.utils.JSON.stringify(file.file(), state);
     }
 
-    public synchronized void persistAchievementState(AchievementState state) throws IOException {
+    public synchronized void persistAchievementState(AchievementState state) {
 
         FileHandle file = ExternalFiles.getAchievementStateFile(game.params);
 
         if (state != null)
-            om.writeValue(file.file(), state);
+            ua.gram.munhauzen.utils.JSON.stringify(file.file(), state);
     }
 
-    public synchronized void persistGalleryState(GalleryState state) throws IOException {
+    public synchronized void persistGalleryState(GalleryState state) {
 
         FileHandle file = ExternalFiles.getGalleryStateFile(game.params);
 
         if (state != null)
-            om.writeValue(file.file(), state);
+            ua.gram.munhauzen.utils.JSON.stringify(file.file(), state);
     }
 
-    public synchronized void persistMenuState(MenuState state) throws IOException {
+    public synchronized void persistMenuState(MenuState state) {
         FileHandle file = ExternalFiles.getMenuStateFile(game.params);
 
         if (state != null)
-            om.writeValue(file.file(), state);
+            ua.gram.munhauzen.utils.JSON.stringify(file.file(), state);
     }
 
-    public synchronized void persistFailsState(FailsState state) throws IOException {
+    public synchronized void persistFailsState(FailsState state) {
         FileHandle file = ExternalFiles.getFailsStateFile(game.params);
 
         if (state != null)
-            om.writeValue(file.file(), state);
+            ua.gram.munhauzen.utils.JSON.stringify(file.file(), state);
     }
 
-    public synchronized void persistHistory(History history) throws IOException {
+    public synchronized void persistHistory(History history) {
         FileHandle file = ExternalFiles.getHistoryFile(game.params);
 
-        om.writeValue(file.file(), history);
+        ua.gram.munhauzen.utils.JSON.stringify(file.file(), history);
     }
 
-    public synchronized void persistPurchaseState(PurchaseState state) throws IOException {
+    public synchronized void persistPurchaseState(PurchaseState state) {
         FileHandle file = ExternalFiles.getPurchaseStateFile(game.params);
 
-        om.writeValue(file.file(), state);
+        ua.gram.munhauzen.utils.JSON.stringify(file.file(), state);
     }
 
-    public synchronized void persistPreferences(GamePreferences state) throws IOException {
+    public synchronized void persistPreferences(GamePreferences state) {
         FileHandle file = ExternalFiles.getGamePreferencesFile(game.params);
 
-        om.writeValue(file.file(), state);
+        ua.gram.munhauzen.utils.JSON.stringify(file.file(), state);
     }
 
-    public synchronized void persistSave(Save save) throws IOException {
+    public synchronized void persistSave(Save save) {
         FileHandle file = ExternalFiles.getSaveFile(game.params, save.id);
 
         if (save.story != null) {
@@ -391,17 +371,17 @@ public class DatabaseManager {
             persistStory(save.story);
         }
 
-        om.writeValue(file.file(), save);
+        ua.gram.munhauzen.utils.JSON.stringify(file.file(), save);
     }
 
-    public synchronized void persistStory(Story story) throws IOException {
+    public synchronized void persistStory(Story story) {
         FileHandle file = ExternalFiles.getStoryFile(game.params);
 
         if (story.isValid())
-            om.writeValue(file.file(), story);
+            ua.gram.munhauzen.utils.JSON.stringify(file.file(), story);
     }
 
-    private synchronized History loadHistory() throws IOException {
+    private synchronized History loadHistory() {
         FileHandle file = ExternalFiles.getHistoryFile(game.params);
 
         History state = null;
@@ -410,9 +390,9 @@ public class DatabaseManager {
 //            Log.e(tag, "history content\n" + content);
 
             if (content != null && !content.equals("")) {
-                state = om.readValue(content, History.class);
+                state = ua.gram.munhauzen.utils.JSON.parse(content, History.class);
             } else {
-                state = om.readValue(file.file(), History.class);
+                state = ua.gram.munhauzen.utils.JSON.parse(file.file(), History.class);
             }
         }
 
@@ -423,7 +403,7 @@ public class DatabaseManager {
         return state;
     }
 
-    private synchronized void loadActiveSave(GameState state) throws IOException {
+    private synchronized void loadActiveSave(GameState state) {
         Save save = null;
 
         FileHandle file = ExternalFiles.getActiveSaveFile(game.params);
@@ -432,9 +412,9 @@ public class DatabaseManager {
 //            Log.e(tag, "save content\n" + content);
 
             if (content != null && !content.equals("")) {
-                save = om.readValue(content, Save.class);
+                save = ua.gram.munhauzen.utils.JSON.parse(content, Save.class);
             } else {
-                save = om.readValue(file.file(), Save.class);
+                save = ua.gram.munhauzen.utils.JSON.parse(file.file(), Save.class);
             }
         }
 
@@ -447,7 +427,7 @@ public class DatabaseManager {
         loadActiveStory(save);
     }
 
-    private synchronized void loadActiveStory(Save save) throws IOException {
+    private synchronized void loadActiveStory(Save save) {
         Story story = null;
 
         FileHandle file = ExternalFiles.getStoryFile(game.params);
@@ -455,16 +435,16 @@ public class DatabaseManager {
             String content = file.readString("UTF-8");
 
             if (content != null && !content.equals("")) {
-                story = om.readValue(content, Story.class);
+                story = ua.gram.munhauzen.utils.JSON.parse(content, Story.class);
             } else {
-                story = om.readValue(file.file(), Story.class);
+                story = ua.gram.munhauzen.utils.JSON.parse(file.file(), Story.class);
             }
         }
 
         save.story = story;
     }
 
-    private synchronized MenuState loadMenuState() throws IOException {
+    private synchronized MenuState loadMenuState() {
 
         FileHandle file = ExternalFiles.getMenuStateFile(game.params);
 
@@ -472,9 +452,9 @@ public class DatabaseManager {
         if (file.exists()) {
             String content = file.readString("UTF-8");
             if (content != null && !content.equals("")) {
-                state = om.readValue(content, MenuState.class);
+                state = ua.gram.munhauzen.utils.JSON.parse(content, MenuState.class);
             } else {
-                state = om.readValue(file.file(), MenuState.class);
+                state = ua.gram.munhauzen.utils.JSON.parse(file.file(), MenuState.class);
             }
         }
 
@@ -485,7 +465,7 @@ public class DatabaseManager {
         return state;
     }
 
-    private synchronized FailsState loadFailsState() throws IOException {
+    private synchronized FailsState loadFailsState() {
 
         FileHandle file = ExternalFiles.getFailsStateFile(game.params);
 
@@ -493,9 +473,9 @@ public class DatabaseManager {
         if (file.exists()) {
             String content = file.readString("UTF-8");
             if (content != null && !content.equals("")) {
-                state = om.readValue(content, FailsState.class);
+                state = ua.gram.munhauzen.utils.JSON.parse(content, FailsState.class);
             } else {
-                state = om.readValue(file.file(), FailsState.class);
+                state = ua.gram.munhauzen.utils.JSON.parse(file.file(), FailsState.class);
             }
         }
 
@@ -506,7 +486,7 @@ public class DatabaseManager {
         return state;
     }
 
-    private synchronized AchievementState loadAchievementState() throws IOException {
+    private synchronized AchievementState loadAchievementState() {
 
         FileHandle file = ExternalFiles.getAchievementStateFile(game.params);
 
@@ -514,9 +494,9 @@ public class DatabaseManager {
         if (file.exists()) {
             String content = file.readString("UTF-8");
             if (content != null && !content.equals("")) {
-                state = om.readValue(content, AchievementState.class);
+                state = ua.gram.munhauzen.utils.JSON.parse(content, AchievementState.class);
             } else {
-                state = om.readValue(file.file(), AchievementState.class);
+                state = ua.gram.munhauzen.utils.JSON.parse(file.file(), AchievementState.class);
             }
         }
 
@@ -527,7 +507,7 @@ public class DatabaseManager {
         return state;
     }
 
-    private synchronized GalleryState loadGalleryState() throws IOException {
+    private synchronized GalleryState loadGalleryState() {
 
         FileHandle file = ExternalFiles.getGalleryStateFile(game.params);
 
@@ -535,9 +515,9 @@ public class DatabaseManager {
         if (file.exists()) {
             String content = file.readString("UTF-8");
             if (content != null && !content.equals("")) {
-                state = om.readValue(content, GalleryState.class);
+                state = ua.gram.munhauzen.utils.JSON.parse(content, GalleryState.class);
             } else {
-                state = om.readValue(file.file(), GalleryState.class);
+                state = ua.gram.munhauzen.utils.JSON.parse(file.file(), GalleryState.class);
             }
         }
 
@@ -548,7 +528,7 @@ public class DatabaseManager {
         return state;
     }
 
-    private synchronized PurchaseState loadPurchaseState() throws IOException {
+    private synchronized PurchaseState loadPurchaseState() {
 
         FileHandle file = ExternalFiles.getPurchaseStateFile(game.params);
 
@@ -556,9 +536,9 @@ public class DatabaseManager {
         if (file.exists()) {
             String content = file.readString("UTF-8");
             if (content != null && !content.equals("")) {
-                state = om.readValue(content, PurchaseState.class);
+                state = ua.gram.munhauzen.utils.JSON.parse(content, PurchaseState.class);
             } else {
-                state = om.readValue(file.file(), PurchaseState.class);
+                state = ua.gram.munhauzen.utils.JSON.parse(file.file(), PurchaseState.class);
             }
         }
 
@@ -569,7 +549,7 @@ public class DatabaseManager {
         return state;
     }
 
-    private synchronized GamePreferences loadPreferences() throws IOException {
+    private synchronized GamePreferences loadPreferences() {
 
         FileHandle file = ExternalFiles.getGamePreferencesFile(game.params);
 
@@ -577,9 +557,9 @@ public class DatabaseManager {
         if (file.exists()) {
             String content = file.readString("UTF-8");
             if (content != null && !content.equals("")) {
-                state = om.readValue(content, GamePreferences.class);
+                state = ua.gram.munhauzen.utils.JSON.parse(content, GamePreferences.class);
             } else {
-                state = om.readValue(file.file(), GamePreferences.class);
+                state = ua.gram.munhauzen.utils.JSON.parse(file.file(), GamePreferences.class);
             }
         }
 
@@ -590,7 +570,7 @@ public class DatabaseManager {
         return state;
     }
 
-    public synchronized Save loadSave(String id) throws IOException {
+    public synchronized Save loadSave(String id) {
 
         FileHandle file = ExternalFiles.getSaveFile(game.params, id);
 
@@ -598,9 +578,9 @@ public class DatabaseManager {
         if (file.exists()) {
             String content = file.readString("UTF-8");
             if (content != null && !content.equals("")) {
-                state = om.readValue(content, Save.class);
+                state = ua.gram.munhauzen.utils.JSON.parse(content, Save.class);
             } else {
-                state = om.readValue(file.file(), Save.class);
+                state = JSON.parse(file.file(), Save.class);
             }
         }
 

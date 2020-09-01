@@ -17,6 +17,7 @@ import ua.gram.munhauzen.service.AchievementService;
 import ua.gram.munhauzen.service.BackgroundSfxService;
 import ua.gram.munhauzen.service.DatabaseManager;
 import ua.gram.munhauzen.service.InventoryService;
+import ua.gram.munhauzen.service.PurchaseManager;
 import ua.gram.munhauzen.service.SfxService;
 import ua.gram.munhauzen.ui.GameViewport;
 import ua.gram.munhauzen.utils.AlarmInterface;
@@ -35,6 +36,8 @@ public class MunhauzenGame extends Game {
     public static final boolean DEBUG_UI = false;
     public static final int PROGRESS_BAR_FADE_OUT_DELAY = 5;
 
+    public static final boolean developmentIgnorePurchaseRestore = false;
+    public static final boolean developmentSimulatePurchase = false;
     public static final boolean developmentIsPro = false;
     public static final boolean developmentSkipEnable = true; //enabled by default even in production
 
@@ -48,6 +51,7 @@ public class MunhauzenGame extends Game {
     private final String tag = getClass().getSimpleName();
 
     public final PlatformParams params;
+    public PurchaseManager purchaseManager;
     public DatabaseManager databaseManager;
     public GameState gameState;
     public SpriteBatch batch;
@@ -72,6 +76,7 @@ public class MunhauzenGame extends Game {
     public MunhauzenGame(PlatformParams params) {
         this.params = params;
     }
+
 
     public MunhauzenGame(PlatformParams params, AlarmInterface alarmInterface) {
         this.params = params;
@@ -103,7 +108,7 @@ public class MunhauzenGame extends Game {
 
         return id;
     }
-
+    
     public void syncState() {
 
         databaseManager.persistSync(gameState);
@@ -149,6 +154,7 @@ public class MunhauzenGame extends Game {
             navigator = new Navigator(this);
             inventoryService = new InventoryService(this);
             achievementService = new AchievementService(this);
+            purchaseManager = new PurchaseManager(this);
 
             loadGameState();
             loadGlobalAssets();
@@ -249,6 +255,7 @@ public class MunhauzenGame extends Game {
             buttonBuilder = null;
             achievementService = null;
             inventoryService = null;
+            purchaseManager = null;
 
             gameState = null;
 
