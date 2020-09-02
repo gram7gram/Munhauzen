@@ -1,0 +1,25 @@
+{
+    "continue_notification" : {
+    "continue_notification_text_1" : "Common and let's continue adventures at ",
+	"continue_notification_text_2" : "let's go to ",
+	"continue_notification_text_3" : "Continue listening from :) ",
+  	"continue_notification_text_4" : "Don't sleep, let's listen to ",
+	"continue_notification_text_5" : "Get Back to listening ",  	
+	"continue_notification_text_6" : "Are you bored...Listen ",
+	"continue_notification_text_7" : "Listening is fun.... "
+  		
+    },
+
+	
+    "download_notification" : {
+    "download_notification_text_1" : "Common and let's download adventures at ",
+	"download_notification_text_2" : "let's go to download ",
+	"download_notification_text_3" : "download demo version :) ",
+  	"download_notification_text_4" : "Don't sleep, Download and listen to Muncahusen ",
+	"download_notification_text_5" : "Download noe and Get awesome Munchausen stories. ",  	
+	"download_notification_text_6" : "Are you bored...Download ",
+	"download_notification_text_7" : "Downloading is fun.... "
+  		
+    }		
+  
+}

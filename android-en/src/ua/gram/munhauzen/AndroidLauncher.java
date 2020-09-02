@@ -233,7 +233,7 @@ public class AndroidLauncher extends AndroidApplication {
                     String value = dataSnapshot.getValue(String.class);
                     Log.d(TAG, "Value is: " + value);
                     System.out.println("Value---->" + value);
-                    SharedPreferencesHelper.setKeyNotification1Message(getApplicationContext(), value);
+                    //SharedPreferencesHelper.setKeyNotification1Message(getApplicationContext(), value);
                     System.out.println("NotificationMessage--->"+ SharedPreferencesHelper.getKeyNotification1Message(getApplicationContext()) );
                 }catch (Exception ex){
                     ex.printStackTrace();
@@ -322,7 +322,7 @@ public class AndroidLauncher extends AndroidApplication {
                     String value = dataSnapshot.getValue(String.class);
                     Log.d(TAG, "Value is: " + value);
                     System.out.println("Value---->" + value);
-                    SharedPreferencesHelper.setKeyNotification2Message(getApplicationContext(), value);
+                    //SharedPreferencesHelper.setKeyNotification2Message(getApplicationContext(), value);
                     System.out.println("NotificationMessage--->"+ SharedPreferencesHelper.getKeyNotification2Message(getApplicationContext()) );
                 }catch (Exception ex){
                     ex.printStackTrace();
@@ -339,6 +339,35 @@ public class AndroidLauncher extends AndroidApplication {
         });
 
         //for download notification ends
+
+
+        //for setting random values for notificaitons messages
+
+        String notificationJson = readNotificationJsonFile();
+
+        try{
+            JSONObject notificationJsonObject = new JSONObject(notificationJson);
+
+            //for Continue notification
+            JSONObject continueNotifObject = notificationJsonObject.getJSONObject("continue_notification");
+
+            String continue_notification = continueNotifObject.getString("continue_notification_text_" + (((int) (Math.random() * 7)) + 1));
+
+            SharedPreferencesHelper.setKeyNotification1Message(getApplicationContext(), continue_notification);
+
+
+            //for download notification
+            JSONObject downloadNotifObject = notificationJsonObject.getJSONObject("download_notification");
+
+            String download_notification = downloadNotifObject.getString("download_notification_text_" + (((int) (Math.random() * 7)) + 1));
+
+            SharedPreferencesHelper.setKeyNotification2Message(getApplicationContext(), download_notification);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        //for setting random values for notificaitons messages ends
     }
 
 
@@ -421,7 +450,7 @@ public class AndroidLauncher extends AndroidApplication {
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, AlertReceiver.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+        //intent.setFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
         if (alarmManager != null) {
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
@@ -459,6 +488,23 @@ public class AndroidLauncher extends AndroidApplication {
 
         //For download notification ends
 
+
+    }
+
+    private String readNotificationJsonFile() {
+        String json = null;
+        try {
+            InputStream is = getAssets().open("notification_texts.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, StandardCharsets.UTF_8);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return json;
 
     }
 
