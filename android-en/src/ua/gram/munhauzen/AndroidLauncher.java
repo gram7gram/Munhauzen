@@ -64,6 +64,8 @@ public class AndroidLauncher extends AndroidApplication {
 
     private boolean needToDownload;
 
+    public static boolean needToDownloadStatic;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,6 +140,7 @@ public class AndroidLauncher extends AndroidApplication {
             @Override
             public void setDownloadNeeded(boolean isDownloaded) {
                 needToDownload = isDownloaded;
+                needToDownloadStatic = isDownloaded;
             }
         });
 
@@ -419,7 +422,7 @@ public class AndroidLauncher extends AndroidApplication {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, AlertReceiver.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, (int) System.currentTimeMillis(), intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
         if (alarmManager != null) {
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
         }
@@ -448,7 +451,7 @@ public class AndroidLauncher extends AndroidApplication {
                 AlarmManager alarmManager1 = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
                 Intent intent1 = new Intent(this, AlertReceiver2.class);
                 intent1.setFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-                PendingIntent pendingIntent1 = PendingIntent.getBroadcast(this, (int) System.currentTimeMillis(), intent1, 0);
+                PendingIntent pendingIntent1 = PendingIntent.getBroadcast(this, 2, intent1, 0);
                 if (alarmManager1 != null) {
                     alarmManager1.setExact(AlarmManager.RTC_WAKEUP, c1.getTimeInMillis(), pendingIntent1);
                 }

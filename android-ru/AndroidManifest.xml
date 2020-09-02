@@ -49,6 +49,7 @@
 
 
         <receiver android:name="ua.gram.munhauzen.AlertReceiver"/>
+        <receiver android:name="ua.gram.munhauzen.AlertReceiver2"/>
 
         <service
             android:name="ua.gram.munhauzen.MyFirebaseMessagingService">

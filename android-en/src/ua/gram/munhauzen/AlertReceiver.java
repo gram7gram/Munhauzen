@@ -20,16 +20,16 @@ public class AlertReceiver extends BroadcastReceiver {
 
         //for rescheduling alarm
 
-/*        Calendar c = Calendar.getInstance();
+        Calendar c = Calendar.getInstance();
         c.add(Calendar.SECOND, SharedPreferencesHelper.getNotification1Time(getApplicationContext()));
 
         AlarmManager alarmManager = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
         Intent intent1 = new Intent(getApplicationContext(), AlertReceiver.class);
         intent1.setFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), (int) System.currentTimeMillis(), intent1, 0);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 1, intent1, 0);
         if (alarmManager != null) {
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
-        }*/
+        }
 
         //rescheduling ends
     }
