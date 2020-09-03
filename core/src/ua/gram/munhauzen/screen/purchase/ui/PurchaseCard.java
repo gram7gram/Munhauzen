@@ -32,31 +32,34 @@ public abstract class PurchaseCard extends Card {
 
         if (productId == null) return;
 
-        PurchaseState state = screen.game.gameState.purchaseState;
-        if (state != null) {
+        try {
 
-            if (state.products != null) {
+            PurchaseState state = screen.game.gameState.purchaseState;
+            if (state != null) {
 
-                Product product = null;
-                for (Product p : state.products) {
-                    if (productId.equals(p.id)) {
-                        product = p;
-                        break;
+                if (state.products != null) {
+
+                    Product product = null;
+                    for (Product p : state.products) {
+                        if (productId.equals(p.id)) {
+                            product = p;
+                            break;
+                        }
+                    }
+
+                    if (product != null) {
+                        updateCardText(product);
+                        return;
                     }
                 }
-
-                if (product != null) {
-                    updateCardText(product);
-                    return;
-                }
             }
-        }
 
-        if (!MunhauzenGame.developmentSimulatePurchase) {
-            setEnabled(false);
-        }
+            if (!MunhauzenGame.developmentSimulatePurchase) {
+                setEnabled(false);
+            }
 
-        setPriceText(screen.game.t("purchase_screen.unavailable"));
+            setPriceText(screen.game.t("purchase_screen.unavailable"));
+        } catch (Throwable ignore) {}
     }
 
     @Override

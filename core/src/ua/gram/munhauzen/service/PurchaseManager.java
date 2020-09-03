@@ -11,7 +11,6 @@ import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.Chapter;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.Purchase;
-import ua.gram.munhauzen.entity.PurchaseState;
 import ua.gram.munhauzen.entity.Scenario;
 import ua.gram.munhauzen.repository.ChapterRepository;
 import ua.gram.munhauzen.screen.PurchaseScreen;
@@ -62,47 +61,6 @@ public class PurchaseManager {
         }
     }
 
-    public boolean isExpansionPurchased(String expansion) {
-        if (expansion == null || expansion.equals("Part_demo")) return true;
-
-        PurchaseState state = game.gameState.purchaseState;
-
-        if (state == null || state.purchases == null) return false;
-
-        if (state.isPro) return true;
-
-        Purchase fullPurchase = null, part2Purchase = null, part1Purchase = null;
-
-        for (Purchase purchase : state.purchases) {
-            if (purchase.productId.equals(game.params.appStoreSkuFull)) {
-                fullPurchase = purchase;
-            }
-
-            if (purchase.productId.equals(game.params.appStoreSkuPart2)) {
-                part2Purchase = purchase;
-            }
-
-            if (purchase.productId.equals(game.params.appStoreSkuPart1)) {
-                part1Purchase = purchase;
-            }
-        }
-
-        if (expansion.equals("Part_1")) {
-
-            return fullPurchase != null || part1Purchase != null;
-
-        }
-
-        if (expansion.equals("Part_2")) {
-
-            return fullPurchase != null || part2Purchase != null;
-
-        }
-
-
-        return false;
-    }
-
     public void updatePurchaseState() {
 
         GameState gameState = game.gameState;
@@ -135,6 +93,20 @@ public class PurchaseManager {
 
         int purchasedChapters = 0;
         String expansionVersion;
+
+//        gameState.purchaseState = new PurchaseState();
+//        gameState.purchaseState.referrals.add(game.params.appStoreSku10Chapter);
+//        gameState.purchaseState.isVersionSelected = true;
+
+        for (String code : gameState.purchaseState.referrals) {
+            if (game.params.appStoreSku3Chapter.equals(code)) {
+                purchasedChapters += 3;
+            }
+
+            if (game.params.appStoreSku10Chapter.equals(code)) {
+                purchasedChapters += 10;
+            }
+        }
 
         for (String code : gameState.purchaseState.promocodes) {
             if (game.params.promocode1.equals(code)) {

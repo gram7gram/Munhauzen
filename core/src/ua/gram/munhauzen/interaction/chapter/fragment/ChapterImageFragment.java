@@ -150,6 +150,11 @@ public class ChapterImageFragment extends Fragment {
             public void run() {
                 try {
 
+                    if (!interaction.gameScreen.isChapterPurchased()) {
+                        interaction.gameScreen.createPurchaseFragment();
+                        return;
+                    }
+
                     root.addAction(Actions.sequence(
                             Actions.alpha(0, .4f),
                             Actions.run(new Runnable() {
