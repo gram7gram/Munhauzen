@@ -325,7 +325,9 @@
     "description": "In a second the two froze together, and I hurriedly drew up the line with the bread",
     "file": "images/pbear_fin.jpg",
     "locale": "en",
-    "order": 38
+    "order": 38,
+    "relatedStatue": "ST_CUBIC",
+    "type": "statue"
   },
   {
     "name": "psling_0",
