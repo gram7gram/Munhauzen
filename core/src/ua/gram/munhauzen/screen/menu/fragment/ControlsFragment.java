@@ -28,6 +28,7 @@ import ua.gram.munhauzen.screen.menu.ui.GoofsButton;
 import ua.gram.munhauzen.screen.menu.ui.MenuButton;
 import ua.gram.munhauzen.screen.menu.ui.ProSideButton;
 import ua.gram.munhauzen.screen.menu.ui.RateSideButton;
+import ua.gram.munhauzen.screen.menu.ui.ReferalSideButton;
 import ua.gram.munhauzen.screen.menu.ui.ShareSideButton;
 import ua.gram.munhauzen.screen.menu.ui.StartButton;
 import ua.gram.munhauzen.ui.Fragment;
@@ -104,10 +105,18 @@ public class ControlsFragment extends Fragment {
             }
         }, r.between(5, 10), r.between(5, 10));
 
+        ReferalSideButton referalSideButton = new ReferalSideButton(screen);
+
         float iconSize = MunhauzenGame.WORLD_WIDTH * .18f;
         float iconSize2 = iconSize * 1.5f;
 
         sideTable = new Table();
+
+        sideTable.add(referalSideButton)
+                .size(iconSize)
+                .pad(10)
+                .row();
+
         sideTable.add(rateBtnAnimation)
                 .size(iconSize)
                 .pad(10)

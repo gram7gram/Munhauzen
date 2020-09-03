@@ -258,6 +258,7 @@ public class RussianTranslator implements Translator {
         map.put("promo_success_banner.btn", "Продолжить");
 
         map.put("referal_banner.title", "Поделись игрой и получи бонусы!");
+        map.put("referal_banner.link", "Реферальная ссылка (_NUM_ приглашено");
         map.put("referal_banner.btn", "Скопировать");
         map.put("referal_banner.success", "Ссылка скопирована");
         map.put("purchase_pending_banner.title", "Покупка...\nЭто может занять до 1 минуты.\nПожалуйста, дождитесь закрытия окна");

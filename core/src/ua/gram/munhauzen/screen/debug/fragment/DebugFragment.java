@@ -30,6 +30,7 @@ import ua.gram.munhauzen.entity.Image;
 import ua.gram.munhauzen.entity.Inventory;
 import ua.gram.munhauzen.entity.MenuState;
 import ua.gram.munhauzen.entity.Purchase;
+import ua.gram.munhauzen.entity.PurchaseState;
 import ua.gram.munhauzen.entity.Save;
 import ua.gram.munhauzen.entity.Scenario;
 import ua.gram.munhauzen.interaction.InteractionFactory;
@@ -456,6 +457,20 @@ public class DebugFragment extends Fragment {
 
     private void createPurchaseContainer() {
 
+        PurchaseState state = game.gameState.purchaseState;
+
+        if (state.purchases == null) {
+            state.purchases = new ArrayList<>();
+        }
+
+        if (state.promocodes == null) {
+            state.promocodes = new ArrayList<>();
+        }
+
+        if (state.referrals == null) {
+            state.referrals = new ArrayList<>();
+        }
+
         purchaseContainer = new Table();
         purchaseContainer.padBottom(80);
 
@@ -485,7 +500,7 @@ public class DebugFragment extends Fragment {
             }
         }
 
-        Label title = new Label("Purchases", new Label.LabelStyle(
+        Label title = new Label("Purchase info", new Label.LabelStyle(
                 game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
                 Color.RED
         ));
@@ -505,12 +520,12 @@ public class DebugFragment extends Fragment {
                 Color.BLACK
         ));
 
-        Label lbl4 = new Label("[!] Purchased chapters: " + game.gameState.purchaseState.maxChapter, new Label.LabelStyle(
+        Label lbl4 = new Label("[!] Purchased chapters: " + state.maxChapter, new Label.LabelStyle(
                 game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
                 Color.BLACK
         ));
 
-        Label lbl5 = new Label("[!] Current expansion: " + game.gameState.purchaseState.currentExpansionVersion, new Label.LabelStyle(
+        Label lbl5 = new Label("[!] Current expansion: " + state.currentExpansionVersion, new Label.LabelStyle(
                 game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
                 Color.BLACK
         ));
@@ -522,24 +537,82 @@ public class DebugFragment extends Fragment {
         purchaseContainer.add(lbl4).left().expandX().padBottom(5).row();
         purchaseContainer.add(lbl5).left().expandX().padBottom(40).row();
 
-        if (game.gameState.purchaseState.purchases == null) {
-            game.gameState.purchaseState.purchases = new ArrayList<>();
-        }
+        Label title4 = new Label("Purchases", new Label.LabelStyle(
+                game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
+                Color.RED
+        ));
 
-        if (game.gameState.purchaseState.purchases.isEmpty()) {
+        purchaseContainer.add(title4).left().expandX().padBottom(5).row();
 
-            Label lbl = new Label("No purchases", new Label.LabelStyle(
+        if (state.purchases.isEmpty()) {
+
+            Label lbl = new Label("None", new Label.LabelStyle(
                     game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
-                    Color.RED
+                    Color.BLACK
             ));
 
             purchaseContainer.add(lbl).left().expandX().padBottom(5).row();
 
         } else {
-            for (Purchase purchase : game.gameState.purchaseState.purchases) {
+            for (Purchase purchase : state.purchases) {
                 Label lbl = new Label(purchase.productId, new Label.LabelStyle(
                         game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
-                        Color.RED
+                        Color.BLACK
+                ));
+
+                purchaseContainer.add(lbl).left().expandX().padBottom(5).row();
+            }
+        }
+
+
+        Label title3 = new Label("Promocodes", new Label.LabelStyle(
+                game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
+                Color.RED
+        ));
+
+        purchaseContainer.add(title3).left().expandX().padBottom(5).row();
+
+        if (state.promocodes.isEmpty()) {
+
+            Label lbl = new Label("None", new Label.LabelStyle(
+                    game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
+                    Color.BLACK
+            ));
+
+            purchaseContainer.add(lbl).left().expandX().padBottom(5).row();
+
+        } else {
+            for (String promocode : state.promocodes) {
+                Label lbl = new Label(promocode, new Label.LabelStyle(
+                        game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
+                        Color.BLACK
+                ));
+
+                purchaseContainer.add(lbl).left().expandX().padBottom(5).row();
+            }
+        }
+
+        Label title2 = new Label("Referals x" + state.referralCount, new Label.LabelStyle(
+                game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
+                Color.RED
+        ));
+
+        purchaseContainer.add(title2).left().expandX().padBottom(5).row();
+
+        if (state.referrals.isEmpty()) {
+
+            Label lbl = new Label("None", new Label.LabelStyle(
+                    game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
+                    Color.BLACK
+            ));
+
+            purchaseContainer.add(lbl).left().expandX().padBottom(5).row();
+
+        } else {
+            for (String ref : state.referrals) {
+                Label lbl = new Label(ref, new Label.LabelStyle(
+                        game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
+                        Color.BLACK
                 ));
 
                 purchaseContainer.add(lbl).left().expandX().padBottom(5).row();

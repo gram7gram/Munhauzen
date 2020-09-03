@@ -24,6 +24,7 @@ import ua.gram.munhauzen.screen.menu.fragment.LogoFragment;
 import ua.gram.munhauzen.screen.menu.fragment.NewAchievementFragment;
 import ua.gram.munhauzen.screen.menu.fragment.ProFragment;
 import ua.gram.munhauzen.screen.menu.fragment.RateFragment;
+import ua.gram.munhauzen.screen.menu.fragment.ReferalFragment;
 import ua.gram.munhauzen.screen.menu.fragment.ShareFragment;
 import ua.gram.munhauzen.screen.menu.fragment.StartWarningFragment;
 import ua.gram.munhauzen.screen.menu.fragment.ThankYouFragment;
@@ -47,6 +48,7 @@ public class MenuScreen extends AbstractScreen {
     public ShareFragment shareFragment;
     public GreetingFragment greetingFragment;
     public RateFragment rateFragment;
+    public ReferalFragment referalFragment;
     public DemoFragment demoFragment;
     public ProFragment proFragment;
     public ExitFragment exitFragment;
@@ -94,6 +96,13 @@ public class MenuScreen extends AbstractScreen {
             assetManager.load("menu/progress_black.png", Texture.class);
 
             assetManager.finishLoading();
+
+
+            game.internalAssetManager.load("menu/btn_referral.png", Texture.class);
+            game.internalAssetManager.load("menu/InviteBar_0.png", Texture.class);
+            game.internalAssetManager.load("menu/InviteBar_100.png", Texture.class);
+
+            game.internalAssetManager.finishLoading();
 
         } catch (Throwable e) {
             Log.e(tag, e);
@@ -334,6 +343,10 @@ public class MenuScreen extends AbstractScreen {
             adultGateFragment.destroy();
             adultGateFragment = null;
         }
+        if (referalFragment != null) {
+            referalFragment.destroy();
+            referalFragment = null;
+        }
 
         if (!isDisposed) {
             if (game.backgroundSfxService != null) {
@@ -513,6 +526,44 @@ public class MenuScreen extends AbstractScreen {
         }
     }
 
+    public void openRateBanner() {
+        try {
+
+            destroyBanners();
+
+            rateFragment = new RateFragment(this);
+            rateFragment.create();
+
+            layers.setBannerLayer(rateFragment);
+
+            rateFragment.fadeIn();
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            onCriticalError(e);
+        }
+    }
+
+    public void openReferralBanner() {
+        try {
+
+            destroyBanners();
+
+            referalFragment = new ReferalFragment(this);
+            referalFragment.create();
+
+            layers.setBannerLayer(referalFragment);
+
+            referalFragment.fadeIn();
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            onCriticalError(e);
+        }
+    }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -651,24 +702,5 @@ public class MenuScreen extends AbstractScreen {
     public void unlockUI() {
         Gdx.input.setInputProcessor(ui);
         isUILocked = true;
-    }
-
-    public void openRateBanner() {
-        try {
-
-            destroyBanners();
-
-            rateFragment = new RateFragment(this);
-            rateFragment.create();
-
-            layers.setBannerLayer(rateFragment);
-
-            rateFragment.fadeIn();
-
-        } catch (Throwable e) {
-            Log.e(tag, e);
-
-            onCriticalError(e);
-        }
     }
 }

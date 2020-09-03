@@ -21,4 +21,6 @@ public class MenuState implements JsonEntry {
     public boolean isFirstMenuAfterGameStart = true;
     @JsonProperty
     public Stack<String> achievementsToDisplay;
+    @JsonProperty
+    public Stack<String> referralsToDisplay;
 }
