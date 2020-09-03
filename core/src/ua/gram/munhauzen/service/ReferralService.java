@@ -1,6 +1,7 @@
 package ua.gram.munhauzen.service;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.MenuState;
@@ -39,6 +40,8 @@ public class ReferralService {
 
     public void setReferralCount(int count) {
 
+        count = Math.max(0, count);
+
         if (game.gameState.menuState == null) {
             game.gameState.menuState = new MenuState();
         }
@@ -53,18 +56,13 @@ public class ReferralService {
         if (state.referrals == null) {
             state.referrals = new ArrayList<>();
         }
+        if (menuState.referralsToDisplay == null) {
+            menuState.referralsToDisplay = new Stack<>();
+        }
 
         state.referralCount = count;
 
         if (state.referralCount >= REFERRAL_REWARD_2) {
-            if (!state.referrals.contains(game.params.appStoreSku5Chapter)) {
-
-                // add 5 chapters
-                state.referrals.add(game.params.appStoreSku5Chapter);
-
-                menuState.referralsToDisplay.push(REFERRAL_TYPE_1);
-            }
-        } else if (state.referralCount >= REFERRAL_REWARD_1) {
             if (!state.referrals.contains(game.params.appStoreSku10Chapter)) {
 
                 // add 20 chapters
@@ -72,6 +70,16 @@ public class ReferralService {
                 state.referrals.add(game.params.appStoreSku10Chapter);
 
                 menuState.referralsToDisplay.push(REFERRAL_TYPE_2);
+            }
+        }
+
+        if (state.referralCount >= REFERRAL_REWARD_1) {
+            if (!state.referrals.contains(game.params.appStoreSku5Chapter)) {
+
+                // add 5 chapters
+                state.referrals.add(game.params.appStoreSku5Chapter);
+
+                menuState.referralsToDisplay.push(REFERRAL_TYPE_1);
             }
         }
     }

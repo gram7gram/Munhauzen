@@ -298,6 +298,7 @@ public class DebugFragment extends Fragment {
                     game.gameState.preferences = new GamePreferences();
                     game.gameState.history = new History();
                     game.gameState.achievementState = new AchievementState();
+                    game.gameState.purchaseState = new PurchaseState();
 
                     for (String save : new String[]{"1", "2", "3", "4"}) {
                         ExternalFiles.getSaveFile(game.params, save).delete();
@@ -309,6 +310,7 @@ public class DebugFragment extends Fragment {
                     ExternalFiles.getGamePreferencesFile(game.params).delete();
                     ExternalFiles.getFailsStateFile(game.params).delete();
                     ExternalFiles.getAchievementStateFile(game.params).delete();
+                    ExternalFiles.getPurchaseStateFile(game.params).delete();
 
                     StoryManager storyManager = new StoryManager(null, screen.game.gameState);
 
@@ -320,9 +322,11 @@ public class DebugFragment extends Fragment {
 
                     game.gameState.setActiveSave(save);
 
+                    game.purchaseManager.updatePurchaseState();
+
                     game.syncState();
 
-                    createInventoryTable();
+                   screen.navigateTo(new DebugScreen(game));
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -418,6 +422,9 @@ public class DebugFragment extends Fragment {
         scenarioContainer = new Table();
         scenarioContainer.padBottom(80);
 
+        purchaseContainer = new Table();
+        purchaseContainer.padBottom(80);
+
         createInventoryTable();
 
         createScenarioTable();
@@ -457,7 +464,7 @@ public class DebugFragment extends Fragment {
 
     private void createPurchaseContainer() {
 
-        PurchaseState state = game.gameState.purchaseState;
+        final PurchaseState state = game.gameState.purchaseState;
 
         if (state.purchases == null) {
             state.purchases = new ArrayList<>();
@@ -471,8 +478,7 @@ public class DebugFragment extends Fragment {
             state.referrals = new ArrayList<>();
         }
 
-        purchaseContainer = new Table();
-        purchaseContainer.padBottom(80);
+        purchaseContainer.clearChildren();
 
         int demoEndsAtChapter = 0, part1EndsAtChapter = 0, maxChapter = 0;
 
@@ -618,6 +624,55 @@ public class DebugFragment extends Fragment {
                 purchaseContainer.add(lbl).left().expandX().padBottom(5).row();
             }
         }
+
+        Label btn = new Label("[+] Add referral", new Label.LabelStyle(
+                game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
+                Color.RED
+        ));
+
+        btn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                try {
+                    game.referralService.setReferralCount(state.referralCount + 1);
+
+                    game.syncState();
+
+                    createPurchaseContainer();
+
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
+            }
+        });
+
+        purchaseContainer.add(btn).left().expandX().padBottom(5).row();
+
+        Label btn2 = new Label("[-] Reduce referral", new Label.LabelStyle(
+                game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
+                Color.RED
+        ));
+        btn2.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                try {
+                    game.referralService.setReferralCount(state.referralCount - 1);
+
+                    game.syncState();
+
+                    createPurchaseContainer();
+
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
+            }
+        });
+
+        purchaseContainer.add(btn2).left().expandX().padBottom(5).row();
 
     }
 
