@@ -598,7 +598,7 @@ public class DebugFragment extends Fragment {
             }
         }
 
-        Label title2 = new Label("Referals x" + state.referralCount, new Label.LabelStyle(
+        Label title2 = new Label("Referrals x" + state.referralCount, new Label.LabelStyle(
                 game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
                 Color.RED
         ));

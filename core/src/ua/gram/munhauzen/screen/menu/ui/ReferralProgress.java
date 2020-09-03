@@ -3,7 +3,6 @@ package ua.gram.munhauzen.screen.menu.ui;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
-import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.entity.PurchaseState;
 import ua.gram.munhauzen.screen.MenuScreen;
@@ -43,22 +42,6 @@ public class ReferralProgress extends Stack {
         add(color);
 
         layout();
-
-        Timer.instance().scheduleTask(new Timer.Task() {
-            @Override
-            public void run() {
-                PurchaseState state = screen.game.gameState.purchaseState;
-
-                state.referralCount += 1;
-
-                if (state.referralCount > ReferralService.MAX_REFERRAL_COUNT) {
-                    state.referralCount = 0;
-                }
-
-                invalidate();
-
-            }
-        }, 2, 1);
     }
 
     @Override

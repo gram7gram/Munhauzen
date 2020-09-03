@@ -25,6 +25,8 @@ import ua.gram.munhauzen.screen.menu.fragment.NewAchievementFragment;
 import ua.gram.munhauzen.screen.menu.fragment.ProFragment;
 import ua.gram.munhauzen.screen.menu.fragment.RateFragment;
 import ua.gram.munhauzen.screen.menu.fragment.ReferalFragment;
+import ua.gram.munhauzen.screen.menu.fragment.ReferalThanks3Fragment;
+import ua.gram.munhauzen.screen.menu.fragment.ReferalThanks7Fragment;
 import ua.gram.munhauzen.screen.menu.fragment.ShareFragment;
 import ua.gram.munhauzen.screen.menu.fragment.StartWarningFragment;
 import ua.gram.munhauzen.screen.menu.fragment.ThankYouFragment;
@@ -32,6 +34,7 @@ import ua.gram.munhauzen.screen.menu.fragment.TutorialFragment;
 import ua.gram.munhauzen.screen.menu.listenter.MenuStageListener;
 import ua.gram.munhauzen.screen.menu.ui.MenuLayers;
 import ua.gram.munhauzen.service.AudioService;
+import ua.gram.munhauzen.service.ReferralService;
 import ua.gram.munhauzen.ui.AdultGateFragment;
 import ua.gram.munhauzen.utils.Log;
 
@@ -57,6 +60,8 @@ public class MenuScreen extends AbstractScreen {
     public TutorialFragment tutorialFragment;
     public AdultGateFragment adultGateFragment;
     public NewAchievementFragment newAchievementFragment;
+    public ReferalThanks3Fragment referalThanks3Fragment;
+    public ReferalThanks7Fragment referalThanks7Fragment;
 
     public MenuScreen(MunhauzenGame game) {
         super(game);
@@ -287,7 +292,12 @@ public class MenuScreen extends AbstractScreen {
                 Timer.instance().scheduleTask(new Timer.Task() {
                     @Override
                     public void run() {
-                        createNewAchievementFragment();
+                        boolean isDisplayed = createNewAchievementFragment();
+
+                        if (!isDisplayed) {
+                            openReferralThankYouBanner();
+                        }
+
                     }
                 }, 2);
             }
@@ -347,6 +357,14 @@ public class MenuScreen extends AbstractScreen {
             referalFragment.destroy();
             referalFragment = null;
         }
+        if (referalThanks3Fragment != null) {
+            referalThanks3Fragment.destroy();
+            referalThanks3Fragment = null;
+        }
+        if (referalThanks7Fragment != null) {
+            referalThanks7Fragment.destroy();
+            referalThanks7Fragment = null;
+        }
 
         if (!isDisposed) {
             if (game.backgroundSfxService != null) {
@@ -357,7 +375,7 @@ public class MenuScreen extends AbstractScreen {
         }
     }
 
-    public void createNewAchievementFragment() {
+    public boolean createNewAchievementFragment() {
         try {
             if (game.gameState.menuState.achievementsToDisplay == null) {
                 game.gameState.menuState.achievementsToDisplay = new Stack<>();
@@ -381,12 +399,16 @@ public class MenuScreen extends AbstractScreen {
                     layers.setBannerLayer(newAchievementFragment);
 
                     newAchievementFragment.fadeIn();
+
+                    return true;
                 }
             }
 
         } catch (Throwable e) {
             Log.e(tag, e);
         }
+
+        return false;
     }
 
     public void openStartWarningBanner(Timer.Task task) {
@@ -562,6 +584,56 @@ public class MenuScreen extends AbstractScreen {
 
             onCriticalError(e);
         }
+    }
+
+    public boolean openReferralThankYouBanner() {
+        try {
+
+            MenuState state = game.gameState.menuState;
+
+            if (state != null && state.referralsToDisplay != null) {
+                if (!state.referralsToDisplay.isEmpty()) {
+
+                    String type = state.referralsToDisplay.pop();
+
+                    switch (type) {
+                        case ReferralService.REFERRAL_TYPE_1:
+
+                            destroyBanners();
+
+                            referalThanks3Fragment = new ReferalThanks3Fragment(this);
+                            referalThanks3Fragment.create();
+
+                            layers.setBannerLayer(referalThanks3Fragment);
+
+                            referalThanks3Fragment.fadeIn();
+
+                            break;
+                        case ReferralService.REFERRAL_TYPE_2:
+
+                            destroyBanners();
+
+                            referalThanks7Fragment = new ReferalThanks7Fragment(this);
+                            referalThanks7Fragment.create();
+
+                            layers.setBannerLayer(referalThanks7Fragment);
+
+                            referalThanks7Fragment.fadeIn();
+
+                            break;
+
+                    }
+
+
+                    return true;
+                }
+            }
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+
+        return false;
     }
 
     @Override

@@ -257,6 +257,10 @@ public class RussianTranslator implements Translator {
         map.put("promo_success_banner.title", "Спасибо!\nПромокод активирован!");
         map.put("promo_success_banner.btn", "Продолжить");
 
+        map.put("referral_banner_3.title", "Поздравляем!\nБонус за 3 друзей получен!");
+        map.put("referral_banner_3.btn", "Отлично");
+        map.put("referral_banner_7.title", "Поздравляем!\nБонус за 7 друзей получен!");
+        map.put("referral_banner_7.btn", "Отлично");
         map.put("referal_banner.title", "Поделись игрой и получи бонусы!");
         map.put("referal_banner.link", "Реферальная ссылка (_NUM_ приглашено");
         map.put("referal_banner.btn", "Скопировать");
