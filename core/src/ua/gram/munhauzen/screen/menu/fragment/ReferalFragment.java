@@ -26,5 +26,8 @@ public class ReferalFragment extends BannerFragment<MenuScreen> {
         createRoot();
 
         root.addContainer(banner);
+
+        screen.game.stopCurrentSfx();
+        screen.game.sfxService.onReferralOpened();
     }
 }

@@ -569,4 +569,8 @@ public class SfxService {
     public void onAchievementUnlocked() {
         prepareAndPlay("sfx_fanfare");
     }
+
+    public void onReferralOpened() {
+        prepareAndPlay("sfx_menu_invite_7");
+    }
 }
