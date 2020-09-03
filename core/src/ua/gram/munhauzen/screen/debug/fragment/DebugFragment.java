@@ -42,12 +42,12 @@ import ua.gram.munhauzen.interaction.servants.hire.HireScenario;
 import ua.gram.munhauzen.interaction.timer.TimerScenario;
 import ua.gram.munhauzen.interaction.timer2.Timer2Scenario;
 import ua.gram.munhauzen.interaction.wauwau.WauScenario;
-import ua.gram.munhauzen.repository.ChapterRepository;
 import ua.gram.munhauzen.screen.DebugAudioScreen;
 import ua.gram.munhauzen.screen.DebugScreen;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.screen.LoadingScreen;
 import ua.gram.munhauzen.screen.MenuScreen;
+import ua.gram.munhauzen.service.PurchaseManager;
 import ua.gram.munhauzen.service.StoryManager;
 import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.ui.FragmentRoot;
@@ -480,48 +480,22 @@ public class DebugFragment extends Fragment {
 
         purchaseContainer.clearChildren();
 
-        int demoEndsAtChapter = 0, part1EndsAtChapter = 0, maxChapter = 0;
-
-        for (Scenario scenario : game.gameState.scenarioRegistry) {
-            if (scenario.chapter == null) continue;
-
-            try {
-                Chapter chapter = ChapterRepository.find(game.gameState, scenario.chapter);
-                if ("Part_demo".equals(scenario.expansion)) {
-                    if (chapter.number > demoEndsAtChapter) {
-                        demoEndsAtChapter = chapter.number;
-                    }
-                }
-
-                if ("Part_1".equals(scenario.expansion)) {
-                    if (chapter.number > part1EndsAtChapter) {
-                        part1EndsAtChapter = chapter.number;
-                    }
-                }
-
-                if (chapter.number > maxChapter) {
-                    maxChapter = chapter.number;
-                }
-            } catch (Throwable ignore) {
-            }
-        }
-
         Label title = new Label("Purchase info", new Label.LabelStyle(
                 game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
                 Color.RED
         ));
 
-        Label lbl1 = new Label("Last chapter Part_demo: " + demoEndsAtChapter, new Label.LabelStyle(
+        Label lbl1 = new Label("Last chapter Part_demo: " + PurchaseManager.demoEndsAtChapter, new Label.LabelStyle(
                 game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
                 Color.BLACK
         ));
 
-        Label lbl2 = new Label("Last chapter Part_1: " + part1EndsAtChapter, new Label.LabelStyle(
+        Label lbl2 = new Label("Last chapter Part_1: " + PurchaseManager.part1EndsAtChapter, new Label.LabelStyle(
                 game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
                 Color.BLACK
         ));
 
-        Label lbl3 = new Label("Last chapter Part_2: " + maxChapter, new Label.LabelStyle(
+        Label lbl3 = new Label("Last chapter Part_2: " + PurchaseManager.maxChapter, new Label.LabelStyle(
                 game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
                 Color.BLACK
         ));
