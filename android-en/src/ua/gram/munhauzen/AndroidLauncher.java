@@ -64,7 +64,7 @@ public class AndroidLauncher extends AndroidApplication {
 
     private boolean needToDownload;
 
-    public static boolean needToDownloadStatic;
+    public static boolean needToDownloadStatic=true;
 
 
     @Override
@@ -466,7 +466,7 @@ public class AndroidLauncher extends AndroidApplication {
 
         //For download notification
 
-            String iconPath="chapter/b_full_version_1.png";
+           //String iconPath="chapter/b_full_version_1.png";
 
             //SharedPreferencesHelper.setLastVisitedIcon(this,iconPath);
 
@@ -479,7 +479,7 @@ public class AndroidLauncher extends AndroidApplication {
 
                 AlarmManager alarmManager1 = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
                 Intent intent1 = new Intent(this, AlertReceiver2.class);
-                intent1.setFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+                //intent1.setFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
                 PendingIntent pendingIntent1 = PendingIntent.getBroadcast(this, 2, intent1, 0);
                 if (alarmManager1 != null) {
                     alarmManager1.setExact(AlarmManager.RTC_WAKEUP, c1.getTimeInMillis(), pendingIntent1);
@@ -643,8 +643,11 @@ public class AndroidLauncher extends AndroidApplication {
     @Override
     protected void onDestroy() {
         if (ContextCompat.checkSelfPermission(AndroidLauncher.this,Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
-            startAlarm();
-            startDownloadAlarm();
+            if(!needToDownload == true) {
+                startAlarm();
+            }else if(needToDownload) {
+                startDownloadAlarm();
+            }
         }
         super.onDestroy();
 
@@ -653,8 +656,11 @@ public class AndroidLauncher extends AndroidApplication {
     @Override
     protected void onStop() {
         if (ContextCompat.checkSelfPermission(AndroidLauncher.this,Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
-            startAlarm();
-            startDownloadAlarm();
+            if(!needToDownload == true) {
+                startAlarm();
+            }else if(needToDownload) {
+                    startDownloadAlarm();
+            }
         }
         super.onStop();
     }

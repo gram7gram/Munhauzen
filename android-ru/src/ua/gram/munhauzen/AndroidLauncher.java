@@ -51,7 +51,7 @@ import static android.content.ContentValues.TAG;
 public class AndroidLauncher extends AndroidApplication {
 
     private boolean needToDownload;
-    public static boolean needToDownloadStatic;
+    public static boolean needToDownloadStatic=true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
