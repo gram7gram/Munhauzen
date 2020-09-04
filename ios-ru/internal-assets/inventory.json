@@ -5,7 +5,8 @@
     "__v": 0,
     "locale": "ru",
     "relatedScenario": [
-      "amoon_e"
+      "amoon_e",
+      "amoon_e_proxy"
     ]
   },
   {
@@ -14,7 +15,8 @@
     "__v": 0,
     "locale": "ru",
     "relatedScenario": [
-      "amoon_b"
+      "amoon_b",
+      "amoon_b_proxy"
     ]
   },
   {
@@ -23,7 +25,8 @@
     "__v": 0,
     "locale": "ru",
     "relatedScenario": [
-      "amoon_d"
+      "amoon_d",
+      "amoon_d_proxy"
     ]
   },
   {
@@ -32,7 +35,8 @@
     "isMenu": true,
     "locale": "ru",
     "relatedScenario": [
-      "a29_d"
+      "a29_d",
+      "a29_d_proxy"
     ]
   },
   {
@@ -41,7 +45,8 @@
     "isMenu": true,
     "locale": "ru",
     "relatedScenario": [
-      "asling_b"
+      "asling_b",
+      "asling_b_proxy"
     ]
   },
   {
@@ -50,7 +55,8 @@
     "__v": 0,
     "locale": "ru",
     "relatedScenario": [
-      "aballoon_a_a"
+      "aballoon_a_a",
+      "aballoon_a_a_proxy"
     ]
   },
   {
@@ -60,9 +66,13 @@
     "locale": "ru",
     "relatedScenario": [
       "a15_shot",
+      "a15_shot_proxy",
       "a15_bomb",
+      "a15_bomb_proxy",
       "a15_shot_craw",
-      "a15_bomb_crow"
+      "a15_shot_craw_proxy",
+      "a15_bomb_crow",
+      "a15_bomb_crow_proxy"
     ]
   },
   {
@@ -71,7 +81,8 @@
     "__v": 0,
     "locale": "ru",
     "relatedScenario": [
-      "a25_b"
+      "a25_b",
+      "a25_b_proxy"
     ]
   },
   {
@@ -86,7 +97,8 @@
     "__v": 0,
     "locale": "ru",
     "relatedScenario": [
-      "aprisoners_c"
+      "aprisoners_c",
+      "aprisoners_c_proxy"
     ]
   },
   {
@@ -95,7 +107,8 @@
     "isMenu": true,
     "locale": "ru",
     "relatedScenario": [
-      "acanal_2_2_c"
+      "acanal_2_2_c",
+      "acanal_2_2_c_proxy"
     ]
   },
   {
@@ -104,7 +117,8 @@
     "__v": 0,
     "locale": "ru",
     "relatedScenario": [
-      "aworm_a"
+      "aworm_a",
+      "aworm_a_proxy"
     ]
   },
   {
@@ -113,7 +127,8 @@
     "isMenu": true,
     "locale": "ru",
     "relatedScenario": [
-      "acannon_d"
+      "acannon_d",
+      "acannon_d_proxy"
     ]
   },
   {
@@ -122,7 +137,8 @@
     "__v": 0,
     "locale": "ru",
     "relatedScenario": [
-      "amoon_a"
+      "amoon_a",
+      "amoon_a_proxy"
     ]
   },
   {
@@ -137,7 +153,8 @@
     "__v": 0,
     "locale": "ru",
     "relatedScenario": [
-      "avarvars_a"
+      "avarvars_a",
+      "avarvars_a_proxy"
     ]
   },
   {
@@ -146,7 +163,8 @@
     "__v": 0,
     "locale": "ru",
     "relatedScenario": [
-      "amoon_c"
+      "amoon_c",
+      "amoon_c_proxy"
     ]
   },
   {
@@ -161,7 +179,8 @@
     "isMenu": true,
     "locale": "ru",
     "relatedScenario": [
-      "a15_1_interaction"
+      "a15_1_interaction",
+      "a15_1_interaction_proxy"
     ]
   },
   {
@@ -170,7 +189,8 @@
     "__v": 0,
     "locale": "ru",
     "relatedScenario": [
-      "aballoon_a_a"
+      "aballoon_a_a",
+      "aballoon_a_a_proxy"
     ]
   },
   {
@@ -179,7 +199,8 @@
     "__v": 0,
     "locale": "ru",
     "relatedScenario": [
-      "aballoon_a_b"
+      "aballoon_a_b",
+      "aballoon_a_b_proxy"
     ]
   },
   {
@@ -188,7 +209,8 @@
     "__v": 0,
     "locale": "ru",
     "relatedScenario": [
-      "aballoon_a_c"
+      "aballoon_a_c",
+      "aballoon_a_c_proxy"
     ]
   },
   {
@@ -197,7 +219,8 @@
     "__v": 0,
     "locale": "ru",
     "relatedScenario": [
-      "aballoon_a_d"
+      "aballoon_a_d",
+      "aballoon_a_d_proxy"
     ]
   },
   {
@@ -206,7 +229,8 @@
     "isMenu": true,
     "locale": "ru",
     "relatedScenario": [
-      "a19_b"
+      "a19_b",
+      "a19_b_proxy"
     ]
   },
   {
@@ -215,7 +239,8 @@
     "isMenu": true,
     "locale": "ru",
     "relatedScenario": [
-      "atample"
+      "atample",
+      "atample_proxy"
     ]
   },
   {
@@ -224,7 +249,8 @@
     "__v": 0,
     "locale": "ru",
     "relatedScenario": [
-      "aworm_d"
+      "aworm_d",
+      "aworm_d_proxy"
     ]
   },
   {
@@ -246,7 +272,8 @@
     "__v": 0,
     "locale": "ru",
     "relatedScenario": [
-      "aworm_c"
+      "aworm_c",
+      "aworm_c_proxy"
     ]
   },
   {
@@ -261,7 +288,8 @@
     "__v": 0,
     "locale": "ru",
     "relatedScenario": [
-      "asling_c"
+      "asling_c",
+      "asling_c_proxy"
     ]
   },
   {
@@ -270,7 +298,8 @@
     "isMenu": true,
     "locale": "ru",
     "relatedScenario": [
-      "a13_a"
+      "a13_a",
+      "a13_a_proxy"
     ]
   },
   {
@@ -279,7 +308,8 @@
     "isMenu": true,
     "locale": "ru",
     "relatedScenario": [
-      "a20_c"
+      "a20_c",
+      "a20_c_proxy"
     ]
   },
   {
@@ -288,7 +318,8 @@
     "__v": 0,
     "locale": "ru",
     "relatedScenario": [
-      "awau_d_1"
+      "awau_d_1",
+      "awau_d_1_proxy"
     ]
   },
   {
@@ -297,7 +328,8 @@
     "__v": 0,
     "locale": "ru",
     "relatedScenario": [
-      "awau_d_2"
+      "awau_d_2",
+      "awau_d_2_proxy"
     ]
   },
   {
@@ -306,7 +338,8 @@
     "__v": 0,
     "locale": "ru",
     "relatedScenario": [
-      "awau_d_3"
+      "awau_d_3",
+      "awau_d_3_proxy"
     ]
   },
   {
@@ -315,7 +348,8 @@
     "__v": 0,
     "locale": "ru",
     "relatedScenario": [
-      "awau_d_4"
+      "awau_d_4",
+      "awau_d_4_proxy"
     ]
   },
   {
@@ -324,7 +358,8 @@
     "__v": 0,
     "locale": "ru",
     "relatedScenario": [
-      "awau_d_5"
+      "awau_d_5",
+      "awau_d_5_proxy"
     ]
   },
   {
@@ -345,7 +380,8 @@
     "__v": 0,
     "locale": "ru",
     "relatedScenario": [
-      "a15_d"
+      "a15_d",
+      "a15_d_proxy"
     ]
   },
   {
@@ -354,7 +390,8 @@
     "__v": 0,
     "locale": "ru",
     "relatedScenario": [
-      "avarvars_d"
+      "avarvars_d",
+      "avarvars_d_proxy"
     ]
   },
   {
@@ -363,7 +400,8 @@
     "__v": 0,
     "locale": "ru",
     "relatedScenario": [
-      "a35_a"
+      "a35_a",
+      "a35_a_proxy"
     ]
   },
   {
@@ -372,7 +410,8 @@
     "__v": 0,
     "locale": "ru",
     "relatedScenario": [
-      "a35_c"
+      "a35_c",
+      "a35_c_proxy"
     ]
   },
   {
@@ -381,7 +420,8 @@
     "__v": 0,
     "locale": "ru",
     "relatedScenario": [
-      "a35_b"
+      "a35_b",
+      "a35_b_proxy"
     ]
   },
   {
@@ -390,7 +430,8 @@
     "__v": 0,
     "locale": "ru",
     "relatedScenario": [
-      "a35_e"
+      "a35_e",
+      "a35_e_proxy"
     ]
   },
   {
@@ -399,7 +440,8 @@
     "__v": 0,
     "locale": "ru",
     "relatedScenario": [
-      "a35_d"
+      "a35_d",
+      "a35_d_proxy"
     ]
   },
   {
@@ -414,7 +456,8 @@
     "__v": 0,
     "locale": "ru",
     "relatedScenario": [
-      "awau_2_a"
+      "awau_2_a",
+      "awau_2_a_proxy"
     ]
   },
   {
@@ -423,7 +466,8 @@
     "isMenu": true,
     "locale": "ru",
     "relatedScenario": [
-      "a8_a"
+      "a8_a",
+      "a8_a_proxy"
     ]
   },
   {
@@ -432,7 +476,8 @@
     "isMenu": true,
     "locale": "ru",
     "relatedScenario": [
-      "a7_c"
+      "a7_c",
+      "a7_c_proxy"
     ]
   },
   {
@@ -441,7 +486,8 @@
     "isMenu": true,
     "locale": "ru",
     "relatedScenario": [
-      "a41_story_win"
+      "a41_story_win",
+      "a41_story_win_proxy"
     ]
   },
   {
@@ -456,7 +502,8 @@
     "isMenu": true,
     "locale": "ru",
     "relatedScenario": [
-      "atyran_b"
+      "atyran_b",
+      "atyran_b_proxy"
     ]
   },
   {
@@ -465,7 +512,8 @@
     "isMenu": true,
     "locale": "ru",
     "relatedScenario": [
-      "sboat_ruin_2_b"
+      "sboat_ruin_2_b",
+      "sboat_ruin_2_b_proxy"
     ]
   },
   {
@@ -480,7 +528,8 @@
     "__v": 0,
     "locale": "ru",
     "relatedScenario": [
-      "a21_dod"
+      "a21_dod",
+      "a21_dod_proxy"
     ]
   },
   {
@@ -491,7 +540,8 @@
     "locale": "ru",
     "relatedInventory": [],
     "relatedScenario": [
-      "a29_b"
+      "a29_b",
+      "a29_b_proxy"
     ],
     "statueImage": "statues/st_axe.png"
   },
@@ -503,7 +553,8 @@
     "locale": "ru",
     "relatedInventory": [],
     "relatedScenario": [
-      "aballoon_a"
+      "aballoon_a",
+      "aballoon_a_proxy"
     ],
     "statueImage": "statues/st_balloon.png"
   },
@@ -515,7 +566,8 @@
     "locale": "ru",
     "relatedInventory": [],
     "relatedScenario": [
-      "a22"
+      "a22",
+      "a22_proxy"
     ],
     "statueImage": "statues/st_cannonball.png"
   },
@@ -527,7 +579,8 @@
     "locale": "ru",
     "relatedInventory": [],
     "relatedScenario": [
-      "a1_d_continue"
+      "a1_d_continue",
+      "a1_d_continue_proxy"
     ],
     "statueImage": "statues/st_chapter.png"
   },
@@ -539,7 +592,8 @@
     "locale": "ru",
     "relatedInventory": [],
     "relatedScenario": [
-      "a2_2"
+      "a2_2",
+      "a2_2_proxy"
     ],
     "statueImage": "statues/st_chaptersecret.png"
   },
@@ -551,7 +605,8 @@
     "locale": "ru",
     "relatedInventory": [],
     "relatedScenario": [
-      "anile_d_d"
+      "anile_d_d",
+      "anile_d_d_proxy"
     ],
     "statueImage": "statues/st_crocodile.png"
   },
@@ -578,7 +633,8 @@
     "locale": "ru",
     "relatedInventory": [],
     "relatedScenario": [
-      "a41_story_win"
+      "a41_story_win",
+      "a41_story_win_proxy"
     ],
     "statueImage": "statues/st_danger.png"
   },
@@ -605,7 +661,8 @@
     "locale": "ru",
     "relatedInventory": [],
     "relatedScenario": [
-      "amoon_c_b"
+      "amoon_c_b",
+      "amoon_c_b_proxy"
     ],
     "statueImage": "statues/st_dirt.png"
   },
@@ -617,7 +674,8 @@
     "locale": "ru",
     "relatedInventory": [],
     "relatedScenario": [
-      "abrougham_b"
+      "abrougham_b",
+      "abrougham_b_proxy"
     ],
     "statueImage": "statues/st_ear.png"
   },
@@ -629,7 +687,8 @@
     "locale": "ru",
     "relatedInventory": [],
     "relatedScenario": [
-      "a26_d"
+      "a26_d",
+      "a26_d_proxy"
     ],
     "statueImage": "statues/st_first.png"
   },
@@ -641,7 +700,8 @@
     "locale": "ru",
     "relatedInventory": [],
     "relatedScenario": [
-      "a7_2_a"
+      "a7_2_a",
+      "a7_2_a_proxy"
     ],
     "statueImage": "statues/st_gentle.png"
   },
@@ -653,7 +713,8 @@
     "locale": "ru",
     "relatedInventory": [],
     "relatedScenario": [
-      "amarriage_a_a"
+      "amarriage_a_a",
+      "amarriage_a_a_proxy"
     ],
     "statueImage": "statues/st_jinna.png"
   },
@@ -665,7 +726,8 @@
     "locale": "ru",
     "relatedInventory": [],
     "relatedScenario": [
-      "a34_a"
+      "a34_a",
+      "a34_a_proxy"
     ],
     "statueImage": "statues/st_king.png"
   },
@@ -677,7 +739,8 @@
     "locale": "ru",
     "relatedInventory": [],
     "relatedScenario": [
-      "avarvars_d"
+      "avarvars_d",
+      "avarvars_d_proxy"
     ],
     "statueImage": "statues/st_letter.png"
   },
@@ -689,7 +752,8 @@
     "locale": "ru",
     "relatedInventory": [],
     "relatedScenario": [
-      "alion_attack_win"
+      "alion_attack_win",
+      "alion_attack_win_proxy"
     ],
     "statueImage": "statues/st_lion.png"
   },
@@ -701,7 +765,8 @@
     "locale": "ru",
     "relatedInventory": [],
     "relatedScenario": [
-      "a61_shoot"
+      "a61_shoot",
+      "a61_shoot_proxy"
     ],
     "statueImage": "statues/st_lucky.png"
   },
@@ -713,7 +778,8 @@
     "locale": "ru",
     "relatedInventory": [],
     "relatedScenario": [
-      "a_shoot"
+      "a_shoot",
+      "a_shoot_proxy"
     ],
     "statueImage": "statues/st_lucky.png"
   },
@@ -725,7 +791,8 @@
     "locale": "ru",
     "relatedInventory": [],
     "relatedScenario": [
-      "a57"
+      "a57",
+      "a57_proxy"
     ],
     "statueImage": "statues/st_moon.png"
   },
@@ -737,7 +804,8 @@
     "locale": "ru",
     "relatedInventory": [],
     "relatedScenario": [
-      "a39_a"
+      "a39_a",
+      "a39_a_proxy"
     ],
     "statueImage": "statues/st_nemo.png"
   },
@@ -765,7 +833,8 @@
     "locale": "ru",
     "relatedInventory": [],
     "relatedScenario": [
-      "aboat_ruin_d"
+      "aboat_ruin_d",
+      "aboat_ruin_d_proxy"
     ],
     "statueImage": "statues/st_pifagor.png"
   },
@@ -777,7 +846,8 @@
     "locale": "ru",
     "relatedInventory": [],
     "relatedScenario": [
-      "anephew_e"
+      "anephew_e",
+      "anephew_e_proxy"
     ],
     "statueImage": "statues/st_pony.png"
   },
@@ -789,7 +859,8 @@
     "locale": "ru",
     "relatedInventory": [],
     "relatedScenario": [
-      "a13_a"
+      "a13_a",
+      "a13_a_proxy"
     ],
     "statueImage": "statues/st_problem.png"
   },
@@ -801,7 +872,8 @@
     "locale": "ru",
     "relatedInventory": [],
     "relatedScenario": [
-      "asling_c"
+      "asling_c",
+      "asling_c_proxy"
     ],
     "statueImage": "statues/st_repeat.png"
   },
@@ -813,7 +885,8 @@
     "locale": "ru",
     "relatedInventory": [],
     "relatedScenario": [
-      "aamerica_cont"
+      "aamerica_cont",
+      "aamerica_cont_proxy"
     ],
     "statueImage": "statues/st_slap.png"
   },
@@ -825,7 +898,8 @@
     "locale": "ru",
     "relatedInventory": [],
     "relatedScenario": [
-      "atample_5"
+      "atample_5",
+      "atample_5_proxy"
     ],
     "statueImage": "statues/st_song.png"
   },
@@ -837,7 +911,8 @@
     "locale": "ru",
     "relatedInventory": [],
     "relatedScenario": [
-      "a61_bonus"
+      "a61_bonus",
+      "a61_bonus_proxy"
     ],
     "statueImage": "statues/st_tree.png"
   },
@@ -849,7 +924,8 @@
     "locale": "ru",
     "relatedInventory": [],
     "relatedScenario": [
-      "a41_a"
+      "a41_a",
+      "a41_a_proxy"
     ],
     "statueImage": "statues/st_verse.png"
   },
@@ -861,7 +937,8 @@
     "locale": "ru",
     "relatedInventory": [],
     "relatedScenario": [
-      "awau_2_a_win"
+      "awau_2_a_win",
+      "awau_2_a_win_proxy"
     ],
     "statueImage": "statues/st_wauwau.png"
   },
@@ -873,7 +950,8 @@
     "locale": "ru",
     "relatedInventory": [],
     "relatedScenario": [
-      "a61_d"
+      "a61_d",
+      "a61_d_proxy"
     ],
     "statueImage": "statues/st_win.png"
   },
@@ -885,7 +963,8 @@
     "locale": "ru",
     "relatedInventory": [],
     "relatedScenario": [
-      "aworm_d_cont"
+      "aworm_d_cont",
+      "aworm_d_cont_proxy"
     ],
     "statueImage": "statues/st_worm.png"
   },
@@ -895,7 +974,8 @@
     "__v": 0,
     "locale": "ru",
     "relatedScenario": [
-      "a15_c"
+      "a15_c",
+      "a15_c_proxy"
     ]
   },
   {
@@ -916,7 +996,8 @@
     "__v": 0,
     "locale": "ru",
     "relatedScenario": [
-      "avarvars_b"
+      "avarvars_b",
+      "avarvars_b_proxy"
     ]
   },
   {
@@ -925,7 +1006,8 @@
     "__v": 0,
     "locale": "ru",
     "relatedScenario": [
-      "a62_fin"
+      "a62_fin",
+      "a62_fin_proxy"
     ]
   },
   {
@@ -934,7 +1016,8 @@
     "isMenu": true,
     "locale": "ru",
     "relatedScenario": [
-      "aworm_b"
+      "aworm_b",
+      "aworm_b_proxy"
     ]
   }
 ]
