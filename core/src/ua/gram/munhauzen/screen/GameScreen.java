@@ -11,14 +11,16 @@ import com.badlogic.gdx.utils.Timer;
 import java.util.Stack;
 
 import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.entity.Chapter;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.Image;
 import ua.gram.munhauzen.entity.Inventory;
+import ua.gram.munhauzen.entity.PurchaseState;
 import ua.gram.munhauzen.entity.Save;
-import ua.gram.munhauzen.entity.Scenario;
 import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.interaction.ServantsInteraction;
 import ua.gram.munhauzen.interaction.servants.fragment.ServantsFireImageFragment;
+import ua.gram.munhauzen.repository.ChapterRepository;
 import ua.gram.munhauzen.repository.InventoryRepository;
 import ua.gram.munhauzen.screen.game.fragment.AchievementFragment;
 import ua.gram.munhauzen.screen.game.fragment.ControlsFragment;
@@ -314,14 +316,25 @@ public class GameScreen extends MunhauzenScreen {
 
     }
 
-    public boolean checkExpansionIsPurchased() {
+    public boolean isChapterPurchased() {
         Story story = getStory();
+
+        PurchaseState state = game.gameState.purchaseState;
 
         boolean isPurchased = true;
 
         if (story != null) {
 
-            isPurchased = game.purchaseManager.isExpansionPurchased(story.currentScenario.scenario.expansion);
+            try {
+                Chapter chapter = ChapterRepository.find(game.gameState, story.currentScenario.scenario.chapter);
+
+                isPurchased = chapter.number <= state.maxChapter;
+
+                Log.e(tag, "isChapterPurchased " + chapter.number + "/" + state.maxChapter);
+
+            } catch (Throwable e) {
+                Log.e(tag, e);
+            }
 
         }
 
@@ -364,10 +377,10 @@ public class GameScreen extends MunhauzenScreen {
         }
     }
 
-    public void createPurchaseFragment(Scenario scenario) {
+    public void createPurchaseFragment() {
         if (purchaseFragment == null) {
             purchaseFragment = new PurchaseFragment(this);
-            purchaseFragment.create(scenario);
+            purchaseFragment.create();
 
             gameLayers.setPurchaseLayer(purchaseFragment);
 

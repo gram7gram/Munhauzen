@@ -20,6 +20,7 @@ import ua.gram.munhauzen.service.DatabaseManager;
 import ua.gram.munhauzen.service.ExpansionDownloadManager;
 import ua.gram.munhauzen.service.InventoryService;
 import ua.gram.munhauzen.service.PurchaseManager;
+import ua.gram.munhauzen.service.ReferralService;
 import ua.gram.munhauzen.service.SfxService;
 import ua.gram.munhauzen.ui.GameViewport;
 import ua.gram.munhauzen.utils.AlarmInterface;
@@ -69,6 +70,7 @@ public class MunhauzenGame extends Game {
     public BackgroundSfxService backgroundSfxService;
     public StoryAudio currentSfx;
     public Navigator navigator;
+    public ReferralService referralService;
 
     public static AlarmInterface alarmInterface;
 
@@ -162,6 +164,7 @@ public class MunhauzenGame extends Game {
             inventoryService = new InventoryService(this);
             achievementService = new AchievementService(this);
             purchaseManager = new PurchaseManager(this);
+            referralService = new ReferralService(this);
 
             loadGameState();
             loadGlobalAssets();
@@ -263,6 +266,7 @@ public class MunhauzenGame extends Game {
             achievementService = null;
             inventoryService = null;
             purchaseManager = null;
+            referralService = null;
 
             gameState = null;
 

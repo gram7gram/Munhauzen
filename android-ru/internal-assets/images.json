@@ -325,7 +325,9 @@
     "description": "Да, щас медведь получит залпа сообразительности и находчивости!",
     "file": "images/pbear_fin.jpg",
     "locale": "ru",
-    "order": 38
+    "order": 38,
+    "relatedStatue": "ST_CUBIC",
+    "type": "statue"
   },
   {
     "name": "psling_0",

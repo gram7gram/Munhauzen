@@ -8,12 +8,9 @@ import com.badlogic.gdx.pay.Transaction;
 import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.MunhauzenGame;
-import ua.gram.munhauzen.entity.Chapter;
+import ua.gram.munhauzen.entity.Device;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.Purchase;
-import ua.gram.munhauzen.entity.PurchaseState;
-import ua.gram.munhauzen.entity.Scenario;
-import ua.gram.munhauzen.repository.ChapterRepository;
 import ua.gram.munhauzen.screen.PurchaseScreen;
 import ua.gram.munhauzen.utils.JSON;
 import ua.gram.munhauzen.utils.Log;
@@ -22,6 +19,8 @@ public class PurchaseManager {
 
     public final String tag = getClass().getSimpleName();
     public final MunhauzenGame game;
+
+    public static final int demoEndsAtChapter = 5, part1EndsAtChapter = 36, maxChapter = 68;
 
     public PurchaseManager(MunhauzenGame game) {
         this.game = game;
@@ -62,79 +61,26 @@ public class PurchaseManager {
         }
     }
 
-    public boolean isExpansionPurchased(String expansion) {
-        if (expansion == null || expansion.equals("Part_demo")) return true;
-
-        PurchaseState state = game.gameState.purchaseState;
-
-        if (state == null || state.purchases == null) return false;
-
-        if (state.isPro) return true;
-
-        Purchase fullPurchase = null, part2Purchase = null, part1Purchase = null;
-
-        for (Purchase purchase : state.purchases) {
-            if (purchase.productId.equals(game.params.appStoreSkuFull)) {
-                fullPurchase = purchase;
-            }
-
-            if (purchase.productId.equals(game.params.appStoreSkuPart2)) {
-                part2Purchase = purchase;
-            }
-
-            if (purchase.productId.equals(game.params.appStoreSkuPart1)) {
-                part1Purchase = purchase;
-            }
-        }
-
-        if (expansion.equals("Part_1")) {
-
-            return fullPurchase != null || part1Purchase != null;
-
-        }
-
-        if (expansion.equals("Part_2")) {
-
-            return fullPurchase != null || part2Purchase != null;
-
-        }
-
-
-        return false;
-    }
-
     public void updatePurchaseState() {
 
         GameState gameState = game.gameState;
 
-        int demoEndsAtChapter = 0, part1EndsAtChapter = 0, maxChapter = 0;
-
-        for (Scenario scenario : gameState.scenarioRegistry) {
-            if (scenario.chapter == null) continue;
-
-            try {
-                Chapter chapter = ChapterRepository.find(gameState, scenario.chapter);
-                if ("Part_demo".equals(scenario.expansion)) {
-                    if (chapter.number > demoEndsAtChapter) {
-                        demoEndsAtChapter = chapter.number;
-                    }
-                }
-
-                if ("Part_1".equals(scenario.expansion)) {
-                    if (chapter.number > part1EndsAtChapter) {
-                        part1EndsAtChapter = chapter.number;
-                    }
-                }
-
-                if (chapter.number > maxChapter) {
-                    maxChapter = chapter.number;
-                }
-            } catch (Throwable ignore) {
-            }
-        }
-
         int purchasedChapters = 0;
         String expansionVersion;
+
+//        gameState.purchaseState = new PurchaseState();
+//        gameState.purchaseState.referrals.add(game.params.appStoreSku10Chapter);
+//        gameState.purchaseState.isVersionSelected = true;
+
+        for (String code : gameState.purchaseState.referrals) {
+            if (game.params.appStoreSku3Chapter.equals(code)) {
+                purchasedChapters += 3;
+            }
+
+            if (game.params.appStoreSku10Chapter.equals(code)) {
+                purchasedChapters += 10;
+            }
+        }
 
         for (String code : gameState.purchaseState.promocodes) {
             if (game.params.promocode1.equals(code)) {
@@ -196,10 +142,6 @@ public class PurchaseManager {
         gameState.purchaseState.currentExpansionVersion = expansionVersion;
 
         Log.i(tag, "availableChapter=" + availableChapter + " " + expansionVersion);
-        Log.i(tag, "demoEndsAtChapter=" + demoEndsAtChapter
-                + "; part1EndsAtChapter=" + part1EndsAtChapter
-                + "; part2EndsAtChapter=" + maxChapter);
-
         Log.e(tag, "purchase state:\n" + JSON.stringify(gameState.purchaseState));
         Log.e(tag, "purchases:\n" + JSON.stringify(gameState.purchaseState.purchases));
     }
@@ -221,14 +163,6 @@ public class PurchaseManager {
 
         pmc.addOffer(new Offer()
                 .setType(OfferType.CONSUMABLE)
-                .setIdentifier(game.params.appStoreSku1Chapter));
-
-        pmc.addOffer(new Offer()
-                .setType(OfferType.CONSUMABLE)
-                .setIdentifier(game.params.appStoreSku3Chapter));
-
-        pmc.addOffer(new Offer()
-                .setType(OfferType.CONSUMABLE)
                 .setIdentifier(game.params.appStoreSku5Chapter));
 
         pmc.addOffer(new Offer()
@@ -242,6 +176,17 @@ public class PurchaseManager {
         pmc.addOffer(new Offer()
                 .setType(OfferType.ENTITLEMENT)
                 .setIdentifier(game.params.appStoreSkuFullThanks));
+
+        if (game.params.device.type == Device.Type.android) {
+
+            pmc.addOffer(new Offer()
+                    .setType(OfferType.CONSUMABLE)
+                    .setIdentifier(game.params.appStoreSku1Chapter));
+
+            pmc.addOffer(new Offer()
+                    .setType(OfferType.CONSUMABLE)
+                    .setIdentifier(game.params.appStoreSku3Chapter));
+        }
 
         try {
             game.params.iap.install(observer, pmc, true);

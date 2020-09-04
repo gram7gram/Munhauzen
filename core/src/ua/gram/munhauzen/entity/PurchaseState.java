@@ -23,6 +23,10 @@ public class PurchaseState implements JsonEntry {
     public ArrayList<Product> products;
     @JsonProperty
     public ArrayList<String> promocodes;
+    @JsonProperty
+    public int referralCount;
+    @JsonProperty
+    public ArrayList<String> referrals;
 
     public PurchaseState() {
         if (purchases == null)
@@ -31,6 +35,8 @@ public class PurchaseState implements JsonEntry {
             products = new ArrayList<>();
         if (promocodes == null)
             promocodes = new ArrayList<>();
+        if (referrals == null)
+            referrals = new ArrayList<>();
     }
 
     public void setPro(PlatformParams params) {

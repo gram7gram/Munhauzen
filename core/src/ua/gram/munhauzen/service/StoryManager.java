@@ -264,8 +264,6 @@ public class StoryManager {
 
             Log.i(tag, "onCompleted " + story.id);
 
-            boolean isPurchased = gameScreen.checkExpansionIsPurchased();
-
             displayCurrentImage();
 
             GameState gameState = gameScreen.game.gameState;
@@ -290,11 +288,6 @@ public class StoryManager {
                 if (audio.player != null) {
                     audio.player.pause();
                 }
-            }
-
-            if (!isPurchased) {
-                gameScreen.createPurchaseFragment(story.currentScenario.scenario);
-                return;
             }
 
             if (story.isVictory()) {

@@ -64,15 +64,6 @@ public class ChapterInteraction extends AbstractInteraction {
     public void onComplete() {
         try {
 
-            Story story = gameScreen.getStory();
-            if (story != null) {
-
-                if (chapter.number > gameScreen.game.gameState.purchaseState.maxChapter) {
-                    gameScreen.createPurchaseFragment(story.currentScenario.scenario);
-                    return;
-                }
-            }
-
             gameScreen.interactionService.complete();
 
             gameScreen.interactionService.findStoryAfterInteraction();
