@@ -30632,21 +30632,17 @@
         "scenario": "avarvars_b"
       },
       {
-        "inventoryRequired": [],
-        "inventoryAbsent": [
-          "CARROT",
-          "WHIP",
-          "LETTER"
-        ],
-        "order": 3,
-        "scenario": "avarvars_c"
-      },
-      {
         "inventoryRequired": [
           "CARROT",
           "WHIP",
           "LETTER"
         ],
+        "inventoryAbsent": [],
+        "order": 4,
+        "scenario": "avarvars_c"
+      },
+      {
+        "inventoryRequired": [],
         "inventoryAbsent": [],
         "order": 3,
         "scenario": "avarvars_d"
@@ -30808,7 +30804,7 @@
     ],
     "locale": "ru",
     "source": "scenario_2",
-    "text": "Написал письмо другу"
+    "text": "Написал письмо другу вновь"
   },
   {
     "name": "avarvars_c_proxy",
@@ -30828,7 +30824,7 @@
     "images": [],
     "locale": "ru",
     "source": "scenario_2",
-    "text": "Написал письмо другу"
+    "text": "Написал письмо другу вновь"
   },
   {
     "name": "avarvars_chapter",
@@ -30989,21 +30985,17 @@
         "scenario": "avarvars_b"
       },
       {
-        "inventoryRequired": [],
-        "inventoryAbsent": [
-          "CARROT",
-          "WHIP",
-          "LETTER"
-        ],
-        "order": 3,
-        "scenario": "avarvars_c"
-      },
-      {
         "inventoryRequired": [
           "CARROT",
           "WHIP",
           "LETTER"
         ],
+        "inventoryAbsent": [],
+        "order": 4,
+        "scenario": "avarvars_c"
+      },
+      {
+        "inventoryRequired": [],
         "inventoryAbsent": [],
         "order": 3,
         "scenario": "avarvars_d"

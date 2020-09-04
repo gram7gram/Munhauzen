@@ -3642,7 +3642,7 @@
   {
     "name": "sfx_inter_puzzle_one_1",
     "__v": 0,
-    "duration": 1097,
+    "duration": 1050,
     "file": "audio/sfx_inter_puzzle_one_1.aac",
     "locale": "en"
   },
@@ -3656,7 +3656,7 @@
   {
     "name": "sfx_inter_puzzle_one_3",
     "__v": 0,
-    "duration": 731,
+    "duration": 673,
     "file": "audio/sfx_inter_puzzle_one_3.aac",
     "locale": "en"
   },
@@ -4573,7 +4573,7 @@
   {
     "name": "sfx_menu_sound_off_1",
     "__v": 0,
-    "duration": 1437,
+    "duration": 3000,
     "file": "audio/sfx_menu_sound_off_1.aac",
     "locale": "en"
   },
