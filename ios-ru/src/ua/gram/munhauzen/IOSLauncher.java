@@ -41,6 +41,12 @@ public class IOSLauncher extends IOSApplication.Delegate {
         params.appStoreSkuFull = "full_munchausen_audiobook_ru";
         params.appStoreSkuPart1 = "part_1_munchausen_audiobook_ru";
         params.appStoreSkuPart2 = "part_2_munchausen_audiobook_ru";
+        params.appStoreSku1Chapter = "chapter_1_munchausen_audiobook_ru";
+        params.appStoreSku3Chapter = "chapter_3_munchausen_audiobook_ru";
+        params.appStoreSku5Chapter = "chapter_5_munchausen_audiobook_ru";
+        params.appStoreSku10Chapter = "chapter_10_munchausen_audiobook_ru";
+        params.appStoreSkuThanks = "thanks_munchausen_audiobook_ru";
+        params.appStoreSkuFullThanks = "all_munchausen_audiobook_ru";
         params.iap = new PurchaseManageriOSApple();
         params.translator = new RussianTranslator();
         params.appStore = new AppleStore(params);

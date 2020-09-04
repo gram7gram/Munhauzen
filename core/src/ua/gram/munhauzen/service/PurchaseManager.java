@@ -12,7 +12,6 @@ import ua.gram.munhauzen.entity.Device;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.Purchase;
 import ua.gram.munhauzen.screen.PurchaseScreen;
-import ua.gram.munhauzen.utils.JSON;
 import ua.gram.munhauzen.utils.Log;
 
 public class PurchaseManager {
@@ -142,8 +141,6 @@ public class PurchaseManager {
         gameState.purchaseState.currentExpansionVersion = expansionVersion;
 
         Log.i(tag, "availableChapter=" + availableChapter + " " + expansionVersion);
-        Log.e(tag, "purchase state:\n" + JSON.stringify(gameState.purchaseState));
-        Log.e(tag, "purchases:\n" + JSON.stringify(gameState.purchaseState.purchases));
     }
 
     public void start(PurchaseObserver observer) {
