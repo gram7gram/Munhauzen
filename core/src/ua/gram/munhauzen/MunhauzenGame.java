@@ -87,9 +87,10 @@ public class MunhauzenGame extends Game {
     }
 
 
-    public MunhauzenGame(PlatformParams params, AlarmInterface alarmInterface) {
+    public MunhauzenGame(PlatformParams params, AlarmInterface alarmInterface, OnExpansionDownloadComplete onExpansionDownloadComplete) {
         this.params = params;
         MunhauzenGame.alarmInterface = alarmInterface;
+        MunhauzenGame.onExpansionDownloadComplete = onExpansionDownloadComplete;
     }
 
     public String getExpansionPart() {
