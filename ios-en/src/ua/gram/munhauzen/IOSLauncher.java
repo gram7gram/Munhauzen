@@ -3,29 +3,41 @@ package ua.gram.munhauzen;
 import com.badlogic.gdx.backends.iosrobovm.IOSApplication;
 import com.badlogic.gdx.backends.iosrobovm.IOSApplicationConfiguration;
 import com.badlogic.gdx.pay.ios.apple.PurchaseManageriOSApple;
+import com.fasterxml.jackson.databind.ser.std.StdKeySerializers;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.robovm.apple.foundation.Foundation;
+import org.robovm.apple.foundation.NSArray;
 import org.robovm.apple.foundation.NSAutoreleasePool;
 import org.robovm.apple.foundation.NSBundle;
 import org.robovm.apple.foundation.NSData;
 import org.robovm.apple.foundation.NSDate;
 import org.robovm.apple.foundation.NSDictionary;
+import org.robovm.apple.foundation.NSEnumerator;
 import org.robovm.apple.foundation.NSError;
 import org.robovm.apple.foundation.NSErrorException;
 import org.robovm.apple.foundation.NSFileManager;
+import org.robovm.apple.foundation.NSKeyValueChangeInfo;
+import org.robovm.apple.foundation.NSMutableArray;
 import org.robovm.apple.foundation.NSNumber;
 import org.robovm.apple.foundation.NSObject;
 import org.robovm.apple.foundation.NSSearchPathDirectory;
 import org.robovm.apple.foundation.NSSearchPathDomainMask;
 import org.robovm.apple.foundation.NSString;
 import org.robovm.apple.foundation.NSURL;
+import org.robovm.apple.foundation.NSURLComponents;
+import org.robovm.apple.foundation.NSURLQueryItem;
 import org.robovm.apple.foundation.NSUserDefaults;
+import org.robovm.apple.messageui.MFMailComposeResult;
+import org.robovm.apple.messageui.MFMailComposeViewController;
+import org.robovm.apple.messageui.MFMailComposeViewControllerDelegate;
+import org.robovm.apple.uikit.UIActivityViewController;
 import org.robovm.apple.uikit.UIApplication;
 import org.robovm.apple.uikit.UIApplicationDelegate;
 import org.robovm.apple.uikit.UIApplicationLaunchOptions;
+import org.robovm.apple.uikit.UIApplicationOpenURLOptions;
 import org.robovm.apple.uikit.UIBackgroundFetchResult;
 import org.robovm.apple.uikit.UIDevice;
 import org.robovm.apple.uikit.UILocalNotification;
@@ -34,6 +46,7 @@ import org.robovm.apple.uikit.UIScreen;
 import org.robovm.apple.uikit.UIUserInterfaceIdiom;
 import org.robovm.apple.uikit.UIUserNotificationSettings;
 import org.robovm.apple.uikit.UIUserNotificationType;
+import org.robovm.apple.uikit.UIViewController;
 import org.robovm.apple.usernotifications.UNAuthorizationOptions;
 import org.robovm.apple.usernotifications.UNNotification;
 import org.robovm.apple.usernotifications.UNNotificationPresentationOptions;
@@ -42,11 +55,21 @@ import org.robovm.apple.usernotifications.UNUserNotificationCenter;
 import org.robovm.apple.usernotifications.UNUserNotificationCenterDelegate;
 import org.robovm.objc.block.VoidBlock1;
 import org.robovm.objc.block.VoidBlock2;
+import org.robovm.objc.block.VoidBlock3;
+import org.robovm.pods.firebase.auth.FIRAuth;
+import org.robovm.pods.firebase.auth.FIRAuthDataResult;
+import org.robovm.pods.firebase.auth.FIRUser;
 import org.robovm.pods.firebase.core.FIRApp;
 import org.robovm.pods.firebase.database.FIRDataEventType;
 import org.robovm.pods.firebase.database.FIRDataSnapshot;
 import org.robovm.pods.firebase.database.FIRDatabase;
 import org.robovm.pods.firebase.database.FIRDatabaseReference;
+import org.robovm.pods.firebase.database.FIRServerValue;
+import org.robovm.pods.firebase.dynamiclinks.FIRDynamicLink;
+import org.robovm.pods.firebase.dynamiclinks.FIRDynamicLinkAndroidParameters;
+import org.robovm.pods.firebase.dynamiclinks.FIRDynamicLinkComponents;
+import org.robovm.pods.firebase.dynamiclinks.FIRDynamicLinkIOSParameters;
+import org.robovm.pods.firebase.dynamiclinks.FIRDynamicLinks;
 import org.robovm.pods.firebase.messaging.FIRMessaging;
 import org.robovm.pods.firebase.messaging.FIRMessagingDelegate;
 import org.robovm.pods.firebase.messaging.FIRMessagingRemoteMessage;
@@ -57,7 +80,11 @@ import java.io.FileReader;
 import java.util.Set;
 
 import ua.gram.munhauzen.entity.Device;
+import ua.gram.munhauzen.interaction.swamp.ui.MunchausenInSwamp;
+import ua.gram.munhauzen.interfaces.LoginInterface;
+import ua.gram.munhauzen.interfaces.LoginListener;
 import ua.gram.munhauzen.interfaces.OnExpansionDownloadComplete;
+import ua.gram.munhauzen.interfaces.ReferralInterface;
 import ua.gram.munhauzen.translator.EnglishTranslator;
 import ua.gram.munhauzen.utils.AlarmInterface;
 
@@ -73,12 +100,29 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
     public static final String KEY_NOTIFICATION2_TITLE = "key_notification2_title";
     public static final String KEY_NOTIFICATION2_MESSAGE = "key_notification2_message";
     public static final String KEY_DEVICE_TOKEN = "key_device_token";
+    public static final String KEY_REFERRAL_COUNT = "key_referral_count";
+    public static final String MUNHAUSEN_URL = "https://fingertipsandcompany.page.link/?invitedby=";
+    public static final String INVITE_LINK = MUNHAUSEN_URL+"/?invitedby=";
+    public static final String BUNDLE_ID = "en.munchausen.fingertipsandcompany.full";
+    public static final int CHAPTER0_COMPLETED = 1;
+    public static final int CHAPTER0_INCOMPLETE = 0;
 
-    IOSApplicationConfiguration config;
+    public class FIREBASE_PATHS{
+        public static final  String USERS = "users";
+        public static final  String LAST_LOGIN_TIME = "last_login_time";
+        public static final  String HAS_COMPLETED_CHAP_0 = "hasCompletedChap0";
+        public static final  String REFERRED_CANDIDATES = "referred_candidates";
+        public static final  String REFERRED_BY = "referred_by";
+    }
 
-    UNUserNotificationCenter notificationCenter;
+    private IOSApplicationConfiguration config;
+
+    private UNUserNotificationCenter notificationCenter;
 
     private boolean needToDownload = true;
+    private String mInvitationURL = "";
+
+    private FIRAuth mAuth;
 
 
     @Override
@@ -88,6 +132,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
             FIRApp.configure();
             System.out.println("didFinishLaunching: Firebase configured");
+            NSUserDefaults.getStandardUserDefaults().put(KEY_REFERRAL_COUNT,0);
             if (Foundation.getMajorSystemVersion() >= 10) {
                 notificationCenter = UNUserNotificationCenter.currentNotificationCenter();
                 UNUserNotificationCenter.currentNotificationCenter().setDelegate(this);
@@ -153,6 +198,303 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
         return super.didFinishLaunching(application, launchOptions);
     }
 
+    private AlarmInterface mAlarmInterface = new AlarmInterface() {
+        @Override
+        public void startAlarm() {
+            try {
+                showNotificaiton();
+            }catch (Exception e){
+                System.out.println("Applicatio Exception---------------->"+e);
+            }
+        }
+    };
+
+    private OnExpansionDownloadComplete mExpansionDownloadInterface = new OnExpansionDownloadComplete() {
+        @Override
+        public void setDownloadNeeded(boolean isDownloaded) {
+            needToDownload = isDownloaded;
+        }
+    };
+
+    /**
+     * Creates ananomous user
+     * @param loginListener login interface from core
+     */
+    private void loginAnonymouslyz(final LoginListener loginListener){
+        mAuth.signInAnonymously(new VoidBlock2<FIRAuthDataResult, NSError>() {
+            @Override
+            public void invoke(FIRAuthDataResult firAuthDataResult, NSError nsError) {
+                FIRUser user = firAuthDataResult.getUser();
+                if (user == null){
+                    loginListener.isLoggedIn(false);
+                    System.out.println("LoginFailed------------------------------>"+nsError);
+                    return;
+                }
+                System.out.println("UserID------------------------------>"+mAuth.getCurrentUser().getUid());
+                loginListener.isLoggedIn(true);
+                FIRDatabaseReference userRecord = FIRDatabase.database().reference()
+                        .child(FIREBASE_PATHS.USERS).child(user.getUid());
+                userRecord.child(FIREBASE_PATHS.LAST_LOGIN_TIME).setValue(FIRServerValue.timestamp());
+                userRecord.child(FIREBASE_PATHS.HAS_COMPLETED_CHAP_0).setValue(NSNumber.valueOf(CHAPTER0_INCOMPLETE));
+                setReferralzz();
+            }
+        });
+
+
+    }
+
+    /**
+     * Generates a short referal Link
+     * @return referal link
+     */
+    private String setReferralzz(){
+        String uid = mAuth.getCurrentUser().getUid();
+        String link = INVITE_LINK+uid;
+        FIRDynamicLinkComponents referalLink = new FIRDynamicLinkComponents(new NSURL(link) ,MUNHAUSEN_URL);
+
+        FIRDynamicLinkIOSParameters iOSParameters = new FIRDynamicLinkIOSParameters(BUNDLE_ID);
+        iOSParameters.setMinimumAppVersion("1.0.1");
+        iOSParameters.setAppStoreID("123456789");
+        referalLink.setIOSParameters(iOSParameters);
+
+        FIRDynamicLinkAndroidParameters androidParameters = new FIRDynamicLinkAndroidParameters(BUNDLE_ID);
+        androidParameters.setMinimumVersion(125);
+        referalLink.setAndroidParameters(androidParameters);
+
+
+        referalLink.shorten(new VoidBlock3<NSURL, NSArray<NSString>, NSError>() {
+            @Override
+            public void invoke(NSURL shortURL, NSArray<NSString> nsStrings, NSError nsError) {
+                if (nsError != null){
+                    System.out.println("Referal Link Shorter Error-------------------->"+nsError);
+                    return;
+                }
+                mInvitationURL = shortURL.getAbsoluteString();
+                System.out.println("Generated Referral Link ");
+
+            }
+        });
+
+        return mInvitationURL;
+
+    }
+
+    /**
+     * Sends invitation link through mail
+     */
+    private void sendInvitationLink(){
+        String invitationLink = mInvitationURL;
+        String msg = "Let's play Munchausen together! Use my referrer link: "
+                + invitationLink;
+
+        System.out.println(msg);
+
+        NSMutableArray<NSString> array = new NSMutableArray<NSString>();
+        array.add(msg);
+
+        UIActivityViewController activityViewController = new UIActivityViewController(array,null);
+        UIViewController currentViewController = UIApplication.getSharedApplication().getKeyWindow().getRootViewController();
+        currentViewController.presentViewController(activityViewController,true,null);
+
+//        if (!MFMailComposeViewController.canSendMail()){
+//            System.out.println("Device can't send email")
+//            return;
+//        }
+//
+//        MFMailComposeViewController mailer = new MFMailComposeViewController();
+//        mailer.setMailComposeDelegate(new MFMailComposeViewControllerDelegate() {
+//            @Override
+//            public void didFinish(MFMailComposeViewController mfMailComposeViewController, MFMailComposeResult mfMailComposeResult, NSError nsError) {
+//
+//            }
+//        });
+//
+//        mailer.setSubject("Invitation");
+//        mailer.setMessageBody(msg, true);
+//        mailer.presentViewController(mailer, true, null);
+
+    }
+
+    /**
+     * increase referral count if referral candidates have completed intro chapter
+     */
+    private void getReferralCount(){
+        try{
+            FIRDatabaseReference refCanRef = FIRDatabase.database()
+                    .reference(FIREBASE_PATHS.USERS)
+                    .child(mAuth.getCurrentUser().getUid())
+                    .child(FIREBASE_PATHS.REFERRED_CANDIDATES);
+
+            refCanRef.observeEvent(FIRDataEventType.Value,
+                    new VoidBlock1<FIRDataSnapshot>() {
+                        @Override
+                        public void invoke(FIRDataSnapshot firDataSnapshot) {
+                            FIRDatabaseReference userRef = FIRDatabase.database().reference()
+                                    .child(FIREBASE_PATHS.USERS);
+                            //Initially clear referral count
+                            NSUserDefaults.getStandardUserDefaults().put(KEY_REFERRAL_COUNT,0);
+
+                            int array = (int) firDataSnapshot.getChildrenCount();
+                            int num = (int) firDataSnapshot.getChildrenCount();
+
+                            System.out.println("Referral count ------------------>"+num);
+
+                            for (FIRDataSnapshot referredCandidates: firDataSnapshot.getChildren().getAllObjects()){
+                                String userID = referredCandidates.getValue().toString();
+                                FIRDatabaseReference hasCompetedRef = userRef
+                                        .child(userID)
+                                        .child(FIREBASE_PATHS.HAS_COMPLETED_CHAP_0);
+                                hasCompetedRef.observeSingleEvent(FIRDataEventType.Value,
+                                        new VoidBlock1<FIRDataSnapshot>() {
+                                            @Override
+                                            public void invoke(FIRDataSnapshot firDataSnapshot) {
+                                                try{
+                                                    NSNumber nsNumber = (NSNumber) firDataSnapshot.getValue();
+                                                    int isChap0Completed = nsNumber.intValue();
+                                                    int currentCount = NSUserDefaults.getStandardUserDefaults().getInt(KEY_REFERRAL_COUNT);
+                                                    System.out.println("CurrentCount------------------------>"+currentCount);
+                                                    if (isChap0Completed == CHAPTER0_COMPLETED){
+                                                        NSUserDefaults.getStandardUserDefaults().put(KEY_REFERRAL_COUNT, currentCount+1);
+                                                    }
+                                                }catch (Exception e){
+                                                    System.out.println("Get Chap0 completed Error ----------------->"+e);
+                                                }
+                                            }
+                                        });
+                            }
+
+                        }
+                    });
+
+        }catch (Exception e){
+            System.out.println("getReferalCount Error ------------------>"+e);
+        }
+    }
+
+    private LoginInterface mLoginInterface = new LoginInterface() {
+        @Override
+        public void loginAnonymously(LoginListener loginListener) {
+            loginAnonymouslyz(loginListener);
+        }
+    };
+
+    private LoginInterface mSetReferalInterface = new LoginInterface() {
+        @Override
+        public void loginAnonymously(LoginListener loginListener) {
+           setReferralzz();
+        }
+    };
+
+    private ReferralInterface mReferalInterface = new ReferralInterface() {
+        @Override
+        public String setReferralLink() {
+            return setReferralzz();
+        }
+
+        @Override
+        public void sendReferralLink() {
+            sendInvitationLink();
+        }
+
+        @Override
+        public void getReferral() {
+
+        }
+
+        @Override
+        public int getRefferralCount() {
+            getReferralCount();
+            int count = NSUserDefaults.getStandardUserDefaults().getInt(KEY_REFERRAL_COUNT);
+            System.out.println("CurrentCount Updated------------------------>"+count);
+            return count;
+        }
+
+        @Override
+        public void setChapter0Completed() {
+            FIRUser user = mAuth.getCurrentUser();
+            FIRDatabaseReference userRecord =
+                    FIRDatabase.database().reference()
+                            .child(FIREBASE_PATHS.USERS)
+                            .child(user.getUid());
+
+            userRecord.child(FIREBASE_PATHS.HAS_COMPLETED_CHAP_0)
+                    .setValue(NSNumber.valueOf(CHAPTER0_COMPLETED));
+        }
+    };
+
+    private boolean handleDynamicLink(FIRDynamicLink dynamicLink){
+        if (dynamicLink == null){
+            return false;
+        }
+        NSURL deepLink = dynamicLink.getUrl();
+        if (deepLink == null){
+            return false;
+        }
+
+        System.out.println("DynaimcLink------------------->"+deepLink);
+        NSArray<NSURLQueryItem> queryItems = new NSURLComponents(deepLink,true)
+                .getQueryItems();
+
+        NSArray<NSURLQueryItem> filteredList = new NSArray<NSURLQueryItem>();
+
+        for (NSURLQueryItem item :  queryItems){
+            if (item.getName().equals("invitedby")){
+                filteredList.add(item);
+            }
+        }
+
+        final String invitedBy = filteredList.first().getValue();
+
+        final FIRUser user = FIRAuth.auth().getCurrentUser();
+
+        if (user == null && invitedBy!=null){
+            FIRAuth.auth().signInAnonymously(new VoidBlock2<FIRAuthDataResult, NSError>() {
+                @Override
+                public void invoke(FIRAuthDataResult firAuthDataResult, NSError nsError) {
+                    FIRDatabaseReference users =
+                            FIRDatabase.database().reference()
+                                    .child(FIREBASE_PATHS.USERS);
+
+                    FIRDatabaseReference userRecord = users.child(user.getUid());
+                    userRecord.child(FIREBASE_PATHS.REFERRED_BY).setValue(new NSString(invitedBy));
+                    userRecord.child(FIREBASE_PATHS.LAST_LOGIN_TIME).setValue(FIRServerValue.timestamp());
+                    userRecord.child(FIREBASE_PATHS.HAS_COMPLETED_CHAP_0).setValue(NSNumber.valueOf(CHAPTER0_INCOMPLETE));
+
+                    final FIRDatabaseReference referrer = users.child(invitedBy);
+                    referrer.child(FIREBASE_PATHS.REFERRED_CANDIDATES)
+                            .observeSingleEvent(FIRDataEventType.Value, new VoidBlock1<FIRDataSnapshot>() {
+                                @Override
+                                public void invoke(FIRDataSnapshot dataSnapshot) {
+                                    int index = 0;
+
+                                    if(dataSnapshot.exists()){
+                                        index = (int) dataSnapshot.getChildrenCount();
+                                    }
+
+                                    referrer.child(FIREBASE_PATHS.REFERRED_CANDIDATES)
+                                            .child(String.valueOf(index))
+                                            .setValue(new NSString(user.getUid()));
+                                }
+                            });
+
+
+                }
+            });
+        }
+        return true;
+
+    }
+
+    @Override
+    public boolean openURL(UIApplication app, NSURL url, UIApplicationOpenURLOptions options) {
+        boolean isDynamicLink = FIRDynamicLinks.dynamicLinks()
+                .shouldHandleDynamicLinkFromCustomSchemeURL(url);
+        if (isDynamicLink){
+            FIRDynamicLink firDynamicLink = FIRDynamicLinks.dynamicLinks().dynamicLinkFromCustomSchemeURL(url);
+            return  handleDynamicLink(firDynamicLink);
+        }
+        return false;
+    }
 
     @Override
     protected IOSApplication createApplication() {
@@ -244,33 +586,26 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
         readNotificationJson();
 
-        // set up when you created the libgdx project
-        MunhauzenGame game = new MunhauzenGame(params, new AlarmInterface() {
-            @Override
-            public void startAlarm() {
-                try {
-                    showNotificaiton();
-                } catch (Exception e) {
+        mAuth = FIRAuth.auth();
+        FIRUser user = mAuth.getCurrentUser();
 
-                }
+        LoginInterface loginInterface;
 
-            }
-        }, new OnExpansionDownloadComplete() {
-            @Override
-            public void setDownloadNeeded(boolean isDownloaded) {
-                needToDownload = isDownloaded;
-
-            }
-        });
-
-        // We instantiate the iOS Adapter
-        //AdapterIOS adapter = new AdapterIOS();
-
-        //adapter.showNotification("dfsdsf","dfsfdsf");
-
-        // We set the handler, you must create this method in your class
+        if (user == null) {
+            loginInterface = mLoginInterface;
+        }else {
+            System.out.println("UserID------------------------------>"+mAuth.getCurrentUser().getUid());
+            setReferralzz();
+            getReferralCount();
+            loginInterface = mSetReferalInterface;
+        }
 
 
+        MunhauzenGame game = new MunhauzenGame(params,
+                mAlarmInterface ,
+                mExpansionDownloadInterface,
+                loginInterface,
+                mReferalInterface);
         return new IOSApplication(game, config);
 
     }
@@ -503,16 +838,17 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
     private void startAlarm() {
         //Saved
-        NSURL dir = NSFileManager.getDefaultManager().getURLsForDirectory(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask).first();
-        java.lang.String savedAction = dir.getPath() + "/.Munchausen/en.munchausen.fingertipsandcompany.any/save-active.json";
-        String saveJson = readJsonFile(savedAction);
-
-
-        //Chapter
-        String chPath = NSBundle.getMainBundle().findResourcePath("chapters", "json");
-        String chapterJson = readJsonFile(chPath);
 
         try {
+            NSURL dir = NSFileManager.getDefaultManager().getURLsForDirectory(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask).first();
+            java.lang.String savedAction = dir.getPath() + "/.Munchausen/en.munchausen.fingertipsandcompany.any/save-active.json";
+            String saveJson = readJsonFile(savedAction);
+
+
+            //Chapter
+            String chPath = NSBundle.getMainBundle().findResourcePath("chapters", "json");
+            String chapterJson = readJsonFile(chPath);
+
             JSONObject saveJsonObject = new JSONObject(saveJson);
 
             String lastChapter = saveJsonObject.getString("chapter");
@@ -831,6 +1167,8 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
         System.out.println("Background Entered");
         super.didEnterBackground(application);
     }
+
+
 
 
 }

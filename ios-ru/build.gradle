@@ -33,6 +33,8 @@ dependencies {
 	implementation "io.github.dkimitsa.robovm:robopods-firebase-core-ios:$altpodsVersion"
 	implementation "io.github.dkimitsa.robovm:robopods-firebase-analytics-ios:$altpodsVersion"
 	implementation "io.github.dkimitsa.robovm:robopods-firebase-database-ios:$altpodsVersion"
+	implementation "io.github.dkimitsa.robovm:robopods-firebase-dynamic-links-ios:$altpodsVersion"
+	implementation "io.github.dkimitsa.robovm:robopods-firebase-auth-ios:$altpodsVersion"
 
 //	compile "com.mobidevelop.robovm:robopods-firebase-ios-messaging:$robopodsVersion"
 //	implementation "pl.mk5.gdx-fireapp:gdx-fireapp-ios-moe:2.1.7"
