@@ -269,6 +269,10 @@ public class AchievementService {
     public void onChapterOpened(Chapter chapter) {
         game.gameState.activeSave.visitedChapters.add(chapter.name);
 
+        if(chapter.number == 1) {
+            MunhauzenGame.referralInterface.setChapter0Completed();
+        }
+
         if (!game.gameState.history.visitedChapters.contains(chapter.name)) {
             game.gameState.history.visitedChapters.add(chapter.name);
 

@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.screen.MenuScreen;
 import ua.gram.munhauzen.utils.Log;
 
@@ -27,6 +28,9 @@ public class ReferalSideButton extends Image {
                 screen.game.sfxService.onAnyBtnClicked();
 
                 try {
+
+
+                    MunhauzenGame.referralService.setReferralCount(MunhauzenGame.referralInterface.getRefferralCount());
 
                     screen.openReferralBanner();
 

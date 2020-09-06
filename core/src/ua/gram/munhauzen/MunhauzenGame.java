@@ -12,12 +12,14 @@ import ua.gram.munhauzen.entity.Device;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.Purchase;
 import ua.gram.munhauzen.entity.StoryAudio;
+import ua.gram.munhauzen.interfaces.LoginInterface;
+import ua.gram.munhauzen.interfaces.LoginListener;
 import ua.gram.munhauzen.interfaces.OnExpansionDownloadComplete;
+import ua.gram.munhauzen.interfaces.ReferralInterface;
 import ua.gram.munhauzen.screen.ErrorScreen;
 import ua.gram.munhauzen.service.AchievementService;
 import ua.gram.munhauzen.service.BackgroundSfxService;
 import ua.gram.munhauzen.service.DatabaseManager;
-import ua.gram.munhauzen.service.ExpansionDownloadManager;
 import ua.gram.munhauzen.service.InventoryService;
 import ua.gram.munhauzen.service.PurchaseManager;
 import ua.gram.munhauzen.service.ReferralService;
@@ -70,18 +72,22 @@ public class MunhauzenGame extends Game {
     public BackgroundSfxService backgroundSfxService;
     public StoryAudio currentSfx;
     public Navigator navigator;
-    public ReferralService referralService;
+    public static ReferralService referralService;
 
     public static AlarmInterface alarmInterface;
+    public static LoginInterface loginInterface;
+    public static ReferralInterface referralInterface;
 
     public static OnExpansionDownloadComplete onExpansionDownloadComplete;
 
     // This is the notificatino handler
     public NotificationHandler notificationHandler;
 
-    public MunhauzenGame(PlatformParams params, OnExpansionDownloadComplete onExpansionDownloadComplete) {
+    public MunhauzenGame(PlatformParams params, OnExpansionDownloadComplete onExpansionDownloadComplete, LoginInterface loginInterface, ReferralInterface referralInterface) {
         this.params = params;
         this.onExpansionDownloadComplete = onExpansionDownloadComplete;
+        this.loginInterface = loginInterface;
+        this.referralInterface = referralInterface;
 
 
     }
@@ -178,6 +184,26 @@ public class MunhauzenGame extends Game {
             buttonBuilder = new ButtonBuilder(this);
 
             navigator.openCurrentScreen();
+
+            //For referral addition
+
+
+            loginInterface.loginAnonymously(new LoginListener() {
+                @Override
+                public void isLoggedIn(boolean isLogin) {
+                    if(isLogin){
+                        System.out.println("Already Logged In ");
+                        //referralInterface.setReferralLink();
+
+
+                    }
+                }
+            });
+
+            referralService.setReferralCount(referralInterface.getRefferralCount());
+
+
+            //referral addtion ends
 
         } catch (Throwable e) {
             Log.e(tag, e);

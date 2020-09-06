@@ -43,7 +43,10 @@ import java.util.Date;
 
 import ru.munchausen.fingertipsandcompany.full.BuildConfig;
 import ua.gram.munhauzen.entity.Device;
+import ua.gram.munhauzen.interfaces.LoginInterface;
+import ua.gram.munhauzen.interfaces.LoginListener;
 import ua.gram.munhauzen.interfaces.OnExpansionDownloadComplete;
+import ua.gram.munhauzen.interfaces.ReferralInterface;
 import ua.gram.munhauzen.translator.RussianTranslator;
 
 import static android.content.ContentValues.TAG;
@@ -127,6 +130,36 @@ public class AndroidLauncher extends AndroidApplication {
             public void setDownloadNeeded(boolean isDownloaded) {
                 needToDownload = isDownloaded;
                 needToDownloadStatic = isDownloaded;
+            }
+        }, new LoginInterface() {
+            @Override
+            public void loginAnonymously(LoginListener loginListener) {
+
+            }
+        }, new ReferralInterface() {
+            @Override
+            public String setReferralLink() {
+                return null;
+            }
+
+            @Override
+            public void sendReferralLink() {
+
+            }
+
+            @Override
+            public void getReferral() {
+
+            }
+
+            @Override
+            public int getRefferralCount() {
+                return 0;
+            }
+
+            @Override
+            public void setChapter0Completed() {
+
             }
         });
 

@@ -27,12 +27,15 @@ public class ReferralService {
 
         // TODO Generate link
 
-        return "https://" + MD5.get() + "/" + MD5.get();
+        return MunhauzenGame.referralInterface.setReferralLink();
+
+        //return "https://" + MD5.get() + "/" + MD5.get();
     }
 
     public void copyReferralLink() {
 
         String link = getPersonalReferralLink();
+        MunhauzenGame.referralInterface.sendReferralLink();
 
         // TODO Copy link to device clipboard
 

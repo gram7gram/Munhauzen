@@ -8,13 +8,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.android.AndroidApplication;
@@ -22,11 +25,23 @@ import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.pay.android.googlebilling.PurchaseManagerGoogleBilling;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.dynamiclinks.DynamicLink;
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
+import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
+import com.google.firebase.dynamiclinks.ShortDynamicLink;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.yandex.metrica.YandexMetrica;
@@ -44,14 +59,19 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.security.Permission;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 import en.munchausen.fingertipsandcompany.full.BuildConfig;
 import ua.gram.munhauzen.entity.Device;
 import ua.gram.munhauzen.entity.History;
+import ua.gram.munhauzen.interfaces.LoginInterface;
+import ua.gram.munhauzen.interfaces.LoginListener;
 import ua.gram.munhauzen.interfaces.OnExpansionDownloadComplete;
+import ua.gram.munhauzen.interfaces.ReferralInterface;
 import ua.gram.munhauzen.service.ExpansionDownloadManager;
 import ua.gram.munhauzen.translator.EnglishTranslator;
 import ua.gram.munhauzen.utils.ExternalFiles;
@@ -65,6 +85,14 @@ public class AndroidLauncher extends AndroidApplication {
     private boolean needToDownload;
 
     public static boolean needToDownloadStatic=true;
+
+    private FirebaseDatabase database;
+
+    private FirebaseAuth mAuth;
+    private FirebaseUser user;
+
+    String link;
+    String mInvitationUrl;
 
 
     @Override
@@ -90,6 +118,17 @@ public class AndroidLauncher extends AndroidApplication {
         FirebaseMessaging.getInstance().subscribeToTopic("updates");
         FirebaseMessaging.getInstance().subscribeToTopic("android-all");
         FirebaseMessaging.getInstance().subscribeToTopic("android-en");
+
+
+
+        //Firebase task 2 addition
+
+
+        mAuth = FirebaseAuth.getInstance();
+
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        //Firebase task 2 addition ends
 
         AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 
@@ -135,210 +174,122 @@ public class AndroidLauncher extends AndroidApplication {
             params.release = PlatformParams.Release.DEV;
         }
 
+        FirebaseAnalytics.getInstance(this);
+        getReferralLink();
 
+
+
+        if(user == null) {
         MunhauzenGame game = new MunhauzenGame(params, new OnExpansionDownloadComplete() {
             @Override
             public void setDownloadNeeded(boolean isDownloaded) {
                 needToDownload = isDownloaded;
                 needToDownloadStatic = isDownloaded;
             }
-        });
+        }, new LoginInterface() {
+                @Override
+                public void loginAnonymously(LoginListener loginListener) {
+                    loginAnonymouslyz(loginListener);
+                }
+            }, new ReferralInterface() {
+                @Override
+                public String setReferralLink() {
+                   return setReferralzz();
+                }
+
+            @Override
+            public void sendReferralLink() {
+                AndroidLauncher.this.sendReferralLink();
+            }
+
+            @Override
+                public void getReferral() {
+
+                }
+
+            @Override
+            public int getRefferralCount() {
+                    getReferralCount();
+                    return SharedPreferencesHelper.getReferralCount(getApplicationContext());
+            }
+
+            @Override
+            public void setChapter0Completed() {
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                DatabaseReference userRecord =
+                        FirebaseDatabase.getInstance().getReference()
+                                .child("users")
+                                .child(user.getUid());
+
+                userRecord.child("hasCompletedChap0").setValue(true);
+            }
+        } );
+
 
 
         initialize(game, config);
 
+        }else {
+            user = mAuth.getCurrentUser();
 
+            MunhauzenGame game = new MunhauzenGame(params, new OnExpansionDownloadComplete() {
+                @Override
+                public void setDownloadNeeded(boolean isDownloaded) {
+                    needToDownload = isDownloaded;
+                    needToDownloadStatic = isDownloaded;
+                }
+            }, new LoginInterface() {
+                @Override
+                public void loginAnonymously(LoginListener loginListener) {
+                    setReferralzz();
+                }
+            }, new ReferralInterface() {
+                @Override
+                public String setReferralLink() {
+                    return setReferralzz();
+                }
+
+                @Override
+                public void sendReferralLink() {
+                    AndroidLauncher.this.sendReferralLink();
+                }
+
+                @Override
+                public void getReferral() {
+
+                }
+
+                @Override
+                public int getRefferralCount() {
+                    getReferralCount();
+                    return SharedPreferencesHelper.getReferralCount(getApplicationContext());
+                }
+
+                @Override
+                public void setChapter0Completed() {
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    DatabaseReference userRecord =
+                            FirebaseDatabase.getInstance().getReference()
+                                    .child("users")
+                                    .child(user.getUid());
+
+                    userRecord.child("hasCompletedChap0").setValue(true);
+                }
+            } );
+
+            initialize(game, config);
+
+        }
         //for checking should download or not
 
 
-        // Write a message to the database
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        //DatabaseReference myRef = database.getReference("en_hours_notification");
+        database = FirebaseDatabase.getInstance();
 
-        DatabaseReference notificationsRef = database.getReference("1notifications");
+        getNotificationsInfoFromFirebaseDatabase();
 
-        DatabaseReference notificationContinueRef = notificationsRef.child("1notification_to_continue");
-
-        DatabaseReference notificationDownloadRef = notificationsRef.child("2notification_to_download");
-
-
-        DatabaseReference myRef = notificationContinueRef.child("1en_hours_notification");
-
-
-        // Read  Notification time from the database
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                try {
-                    Integer value = dataSnapshot.getValue(Integer.class);
-                    Log.d(TAG, "Value is: " + value);
-                    System.out.println("Value---->" + value);
-                    SharedPreferencesHelper.setNotification1Time(getApplicationContext(), value);
-                    System.out.println("NotificationValue--->"+ SharedPreferencesHelper.getNotification1Time(getApplicationContext()) );
-                }catch (Exception ex){
-                    ex.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", error.toException());
-
-
-            }
-        });
-
-        // Read Notification title from the database
-
-        DatabaseReference myRef1 = notificationContinueRef.child("2en_title_notification");
-
-        myRef1.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                try {
-                    String value = dataSnapshot.getValue(String.class);
-                    Log.d(TAG, "Value is: " + value);
-                    System.out.println("Value---->" + value);
-                    SharedPreferencesHelper.setKeyNotification1Title(getApplicationContext(), value);
-                    System.out.println("NotificationTitle--->"+ SharedPreferencesHelper.getKeyNotification1Title(getApplicationContext()) );
-                }catch (Exception ex){
-                    ex.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", error.toException());
-
-
-            }
-        });
-
-        // Read Notification message from the database
-
-        DatabaseReference myRef2 = notificationContinueRef.child("3en_message_notification");
-
-        myRef2.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                try {
-                    String value = dataSnapshot.getValue(String.class);
-                    Log.d(TAG, "Value is: " + value);
-                    System.out.println("Value---->" + value);
-                    //SharedPreferencesHelper.setKeyNotification1Message(getApplicationContext(), value);
-                    System.out.println("NotificationMessage--->"+ SharedPreferencesHelper.getKeyNotification1Message(getApplicationContext()) );
-                }catch (Exception ex){
-                    ex.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", error.toException());
-
-
-            }
-        });
-
-        //FOr Download notification
-
-
-        DatabaseReference myRef3 = notificationDownloadRef.child("1en_hours_notification");
-
-        // Read  Notification time from the database
-        myRef3.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                try {
-                    Integer value = dataSnapshot.getValue(Integer.class);
-                    Log.d(TAG, "Value is: " + value);
-                    System.out.println("Value---->" + value);
-                    SharedPreferencesHelper.setNotification2Time(getApplicationContext(), value);
-                    System.out.println("NotificationValue--->"+ SharedPreferencesHelper.getNotification2Time(getApplicationContext()) );
-                }catch (Exception ex){
-                    ex.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", error.toException());
-
-
-            }
-        });
-
-        // Read Notification title from the database
-
-        DatabaseReference myRef4 = notificationDownloadRef.child("2en_title_notification");
-
-        myRef4.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                try {
-                    String value = dataSnapshot.getValue(String.class);
-                    Log.d(TAG, "Value is: " + value);
-                    System.out.println("Value---->" + value);
-                    SharedPreferencesHelper.setKeyNotification2Title(getApplicationContext(), value);
-                    System.out.println("NotificationTitle--->"+ SharedPreferencesHelper.getKeyNotification2Title(getApplicationContext()) );
-                }catch (Exception ex){
-                    ex.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", error.toException());
-
-
-            }
-        });
-
-        // Read Notification message from the database
-
-        DatabaseReference myRef5 = notificationDownloadRef.child("3en_message_notification");
-
-        myRef5.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                try {
-                    String value = dataSnapshot.getValue(String.class);
-                    Log.d(TAG, "Value is: " + value);
-                    System.out.println("Value---->" + value);
-                    //SharedPreferencesHelper.setKeyNotification2Message(getApplicationContext(), value);
-                    System.out.println("NotificationMessage--->"+ SharedPreferencesHelper.getKeyNotification2Message(getApplicationContext()) );
-                }catch (Exception ex){
-                    ex.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", error.toException());
-
-
-            }
-        });
-
-        //for download notification ends
+        //for referral count
+        getReferralCount();
+        //referral count ends
 
 
         //for setting random values for notificaitons messages
@@ -368,6 +319,65 @@ public class AndroidLauncher extends AndroidApplication {
         }
 
         //for setting random values for notificaitons messages ends
+    }
+
+    private void getReferralCount(){
+
+        //for referral count
+
+        try {
+
+            DatabaseReference userRef = database.getReference("users").child(mAuth.getCurrentUser().getUid());
+
+            DatabaseReference refCanRef = userRef.child("referred_candidates");
+
+            refCanRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    int referralCount = (int) dataSnapshot.getChildrenCount();
+
+                    DatabaseReference userRef = database.getReference("users");
+
+                    SharedPreferencesHelper.setReferralCount(getApplicationContext(), 0);
+
+                    for(DataSnapshot refferedCandidates: dataSnapshot.getChildren()){
+                       DatabaseReference hasCompletedRef =  userRef.child(refferedCandidates.getValue(String.class)).child("hasCompletedChap0");
+                       hasCompletedRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                           @Override
+                           public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                               try {
+                                   boolean isChap0Completed = dataSnapshot.getValue(Boolean.class);
+                                   int currentCount = SharedPreferencesHelper.getReferralCount(getApplicationContext());
+                                   if(isChap0Completed){
+                                       SharedPreferencesHelper.setReferralCount(getApplicationContext(), currentCount +1);
+
+                                   }
+                               }catch (Exception e){
+                                   e.printStackTrace();
+                               }
+                           }
+
+                           @Override
+                           public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                           }
+                       });
+
+                    }
+
+
+                    //SharedPreferencesHelper.setReferralCount(getApplicationContext(), referralCount);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        //referral count ends
     }
 
 
@@ -663,6 +673,383 @@ public class AndroidLauncher extends AndroidApplication {
             }
         }
         super.onStop();
+    }
+
+
+    public void loginAnonymouslyz(final LoginListener loginListener){
+        mAuth.signInAnonymously()
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInAnonymously:success");
+                            user = mAuth.getCurrentUser();
+                            //updateUI(user);
+                            //initGame();
+                            loginListener.isLoggedIn(true);
+                            //setReferral();
+
+                            //add to database
+
+                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                            DatabaseReference userRecord =
+                                    FirebaseDatabase.getInstance().getReference()
+                                            .child("users")
+                                            .child(user.getUid());
+
+                            userRecord.child("last_login_time").setValue(ServerValue.TIMESTAMP);
+                            userRecord.child("hasCompletedChap0").setValue(false);
+                            System.out.println("Anonymous Account created with Refferrer info");
+
+                            //ends
+
+
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "signInAnonymously:failure", task.getException());
+                            Toast.makeText(AndroidLauncher.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                            //updateUI(null);
+                            loginListener.isLoggedIn(false);
+                        }
+
+                        // ...
+                    }
+                });
+    }
+
+    public String setReferralzz(){
+
+        String uid = mAuth.getCurrentUser().getUid();
+        link = "https://fingertipsandcompany.page.link/?invitedby=" + uid;
+
+        FirebaseDynamicLinks.getInstance().createDynamicLink()
+                .setLink(Uri.parse(link))
+                //.setDynamicLinkDomain("https://fingertipsandcompany.page.link")
+                .setDomainUriPrefix("https://fingertipsandcompany.page.link")
+                .setAndroidParameters(
+                        new DynamicLink.AndroidParameters.Builder("en.munchausen.fingertipsandcompany.full")
+                                .setMinimumVersion(125)
+                                .build())
+                .setIosParameters(
+                        new DynamicLink.IosParameters.Builder("en.munchausen.fingertipsandcompany.full")
+                                .setAppStoreId("123456789")
+                                .setMinimumVersion("1.0.1")
+                                .build())
+                .buildShortDynamicLink()
+                .addOnCompleteListener(new OnCompleteListener<ShortDynamicLink>() {
+                    @Override
+                    public void onComplete(@NonNull Task<ShortDynamicLink> task) {
+                        if (task.isSuccessful()) {
+                            mInvitationUrl = task.getResult().getShortLink().toString();
+
+                            System.out.println("ShortDynamicLink---->" + task.getResult().getShortLink());
+                            //sendReferralLink();
+                        }
+                        else{
+                            System.out.println("OnFailure---->Message--->" + task.getException().getMessage());
+                            System.out.println("OnFailure---->Cause-->" + task.getException().getCause());
+                        }
+                    }
+                });
+
+        return  mInvitationUrl;
+    }
+
+    public void sendReferralLink(){
+        String referrerName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+        String subject = String.format("%s wants you to play MyExampleGame!", referrerName);
+        String invitationLink = mInvitationUrl.toString();
+        String msg = "Let's play Munchausen together! Use my referrer link: "
+                + invitationLink;
+        String msgHtml = String.format("<p>Let's play Munchausen together! Use my "
+                + "<a href=\"%s\">referrer link</a>!</p>", invitationLink);
+/*
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("mailto:")); // only email apps should handle this
+        intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+        intent.putExtra(Intent.EXTRA_TEXT, msg);
+        intent.putExtra(Intent.EXTRA_HTML_TEXT, msgHtml);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }*/
+
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT,
+                msg);
+
+        startActivity(Intent.createChooser(shareIntent, "Share with"));
+    }
+
+    public void getReferralLink(){
+        FirebaseDynamicLinks.getInstance()
+                .getDynamicLink(getIntent())
+                .addOnSuccessListener(this, new OnSuccessListener<PendingDynamicLinkData>() {
+                    @Override
+                    public void onSuccess(PendingDynamicLinkData pendingDynamicLinkData) {
+                        // Get deep link from result (may be null if no link is found)
+                        Uri deepLink = null;
+                        if (pendingDynamicLinkData != null) {
+                            deepLink = pendingDynamicLinkData.getLink();
+                        }
+                        //
+                        // If the user isn't signed in and the pending Dynamic Link is
+                        // an invitation, sign in the user anonymously, and record the
+                        // referrer's UID.
+                        //
+                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                        if (user == null
+                                && deepLink != null
+                                && deepLink.getBooleanQueryParameter("invitedby", false)) {
+                            String referrerUid = deepLink.getQueryParameter("invitedby");
+                            createAnonymousAccountWithReferrerInfo(referrerUid);
+                        }
+                    }
+                });
+    }
+
+    private void createAnonymousAccountWithReferrerInfo(final String referrerUid) {
+        FirebaseAuth.getInstance()
+                .signInAnonymously()
+                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                    @Override
+                    public void onSuccess(AuthResult authResult) {
+                        // Keep track of the referrer in the RTDB. Database calls
+                        // will depend on the structure of your app's RTDB.
+                        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                        DatabaseReference userRecord =
+                                FirebaseDatabase.getInstance().getReference()
+                                        .child("users")
+                                        .child(user.getUid());
+                        userRecord.child("referred_by").setValue(referrerUid);
+                        userRecord.child("last_login_time").setValue(ServerValue.TIMESTAMP);
+                        userRecord.child("hasCompletedChap0").setValue(false);
+                        System.out.println("Anonymous Account created with Refferrer info");
+
+                        final DatabaseReference referrer = FirebaseDatabase.getInstance().getReference()
+                                .child("users").child(referrerUid);
+
+
+
+                        ValueEventListener valueEventListener = new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                int index = 0;
+
+                                if(dataSnapshot.exists()){
+                                    index = (int) dataSnapshot.getChildrenCount() ;
+                                }else{
+                                    index = 0;
+                                }
+
+                                referrer.child("referred_candidates").child("" + index).setValue(user.getUid());
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        };
+
+                        referrer.child("referred_candidates").addListenerForSingleValueEvent(valueEventListener);
+
+
+
+                    }
+                });
+    }
+
+    private void getNotificationsInfoFromFirebaseDatabase(){
+
+        DatabaseReference notificationsRef = database.getReference("1notifications");
+
+        DatabaseReference notificationContinueRef = notificationsRef.child("1notification_to_continue");
+
+        DatabaseReference notificationDownloadRef = notificationsRef.child("2notification_to_download");
+
+
+        DatabaseReference myRef = notificationContinueRef.child("1en_hours_notification");
+
+
+        // Read  Notification time from the database
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                try {
+                    Integer value = dataSnapshot.getValue(Integer.class);
+                    Log.d(TAG, "Value is: " + value);
+                    System.out.println("Value---->" + value);
+                    SharedPreferencesHelper.setNotification1Time(getApplicationContext(), value);
+                    System.out.println("NotificationValue--->"+ SharedPreferencesHelper.getNotification1Time(getApplicationContext()) );
+                }catch (Exception ex){
+                    ex.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+
+
+            }
+        });
+
+        // Read Notification title from the database
+
+        DatabaseReference myRef1 = notificationContinueRef.child("2en_title_notification");
+
+        myRef1.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                try {
+                    String value = dataSnapshot.getValue(String.class);
+                    Log.d(TAG, "Value is: " + value);
+                    System.out.println("Value---->" + value);
+                    SharedPreferencesHelper.setKeyNotification1Title(getApplicationContext(), value);
+                    System.out.println("NotificationTitle--->"+ SharedPreferencesHelper.getKeyNotification1Title(getApplicationContext()) );
+                }catch (Exception ex){
+                    ex.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+
+
+            }
+        });
+
+        // Read Notification message from the database
+
+        DatabaseReference myRef2 = notificationContinueRef.child("3en_message_notification");
+
+        myRef2.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                try {
+                    String value = dataSnapshot.getValue(String.class);
+                    Log.d(TAG, "Value is: " + value);
+                    System.out.println("Value---->" + value);
+                    //SharedPreferencesHelper.setKeyNotification1Message(getApplicationContext(), value);
+                    System.out.println("NotificationMessage--->"+ SharedPreferencesHelper.getKeyNotification1Message(getApplicationContext()) );
+                }catch (Exception ex){
+                    ex.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+
+
+            }
+        });
+
+        //FOr Download notification
+
+
+        DatabaseReference myRef3 = notificationDownloadRef.child("1en_hours_notification");
+
+        // Read  Notification time from the database
+        myRef3.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                try {
+                    Integer value = dataSnapshot.getValue(Integer.class);
+                    Log.d(TAG, "Value is: " + value);
+                    System.out.println("Value---->" + value);
+                    SharedPreferencesHelper.setNotification2Time(getApplicationContext(), value);
+                    System.out.println("NotificationValue--->"+ SharedPreferencesHelper.getNotification2Time(getApplicationContext()) );
+                }catch (Exception ex){
+                    ex.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+
+
+            }
+        });
+
+        // Read Notification title from the database
+
+        DatabaseReference myRef4 = notificationDownloadRef.child("2en_title_notification");
+
+        myRef4.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                try {
+                    String value = dataSnapshot.getValue(String.class);
+                    Log.d(TAG, "Value is: " + value);
+                    System.out.println("Value---->" + value);
+                    SharedPreferencesHelper.setKeyNotification2Title(getApplicationContext(), value);
+                    System.out.println("NotificationTitle--->"+ SharedPreferencesHelper.getKeyNotification2Title(getApplicationContext()) );
+                }catch (Exception ex){
+                    ex.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+
+
+            }
+        });
+
+        // Read Notification message from the database
+
+        DatabaseReference myRef5 = notificationDownloadRef.child("3en_message_notification");
+
+        myRef5.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                try {
+                    String value = dataSnapshot.getValue(String.class);
+                    Log.d(TAG, "Value is: " + value);
+                    System.out.println("Value---->" + value);
+                    //SharedPreferencesHelper.setKeyNotification2Message(getApplicationContext(), value);
+                    System.out.println("NotificationMessage--->"+ SharedPreferencesHelper.getKeyNotification2Message(getApplicationContext()) );
+                }catch (Exception ex){
+                    ex.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+
+
+            }
+        });
+
+        //for download notification ends
+
+
     }
 
 }

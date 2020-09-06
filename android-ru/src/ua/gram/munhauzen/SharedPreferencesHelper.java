@@ -21,6 +21,8 @@ public class SharedPreferencesHelper {
     private static final String KEY_NOTIFICATION2_TITLE = "key_notification2_title";
     private static final String KEY_NOTIFICATION2_MESSAGE = "key_notification2_message";
 
+    private static final String KEY_REFERRAL_COUNT = "key_referral_count";
+
 
     private  static SharedPreferences sharedPreferences;
 
@@ -133,4 +135,18 @@ public class SharedPreferencesHelper {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         return sharedPreferences.getString(KEY_NOTIFICATION2_MESSAGE, "Загрузите главы и начните свое приключение.");
     }
+
+
+    //for Referrals
+    public static void setReferralCount(Context context, Integer referralCount){
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        sharedPreferences.edit().putInt(KEY_REFERRAL_COUNT, referralCount).apply();
+    }
+
+    public static Integer getReferralCount(Context context){
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPreferences.getInt(KEY_REFERRAL_COUNT, 0);
+    }
+
+
 }
