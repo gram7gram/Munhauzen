@@ -7,21 +7,36 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.badlogic.gdx.pay.android.googlebilling.PurchaseManagerGoogleBilling;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.dynamiclinks.DynamicLink;
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
+import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
+import com.google.firebase.dynamiclinks.ShortDynamicLink;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.yandex.metrica.YandexMetrica;
@@ -56,6 +71,14 @@ public class AndroidLauncher extends AndroidApplication {
     private boolean needToDownload;
     public static boolean needToDownloadStatic=true;
 
+    private FirebaseDatabase database;
+
+    private FirebaseAuth mAuth;
+    private FirebaseUser user;
+
+    String link;
+    String mInvitationUrl;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +101,18 @@ public class AndroidLauncher extends AndroidApplication {
         FirebaseMessaging.getInstance().subscribeToTopic("updates");
         FirebaseMessaging.getInstance().subscribeToTopic("android-all");
         FirebaseMessaging.getInstance().subscribeToTopic("android-ru");
+
+
+
+        //Firebase task 2 addition
+
+
+        mAuth = FirebaseAuth.getInstance();
+
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        //Firebase task 2 addition ends
+
 
         AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 
@@ -125,49 +160,640 @@ public class AndroidLauncher extends AndroidApplication {
 
         //PermissionManager.grant(this, PermissionManager.PERMISSIONS);
 
-        MunhauzenGame game = new MunhauzenGame(params, new OnExpansionDownloadComplete() {
-            @Override
-            public void setDownloadNeeded(boolean isDownloaded) {
-                needToDownload = isDownloaded;
-                needToDownloadStatic = isDownloaded;
-            }
-        }, new LoginInterface() {
-            @Override
-            public void loginAnonymously(LoginListener loginListener) {
+        FirebaseAnalytics.getInstance(this);
+        getReferralLink();
+
+
+        if(user == null) {
+            MunhauzenGame game = new MunhauzenGame(params, new OnExpansionDownloadComplete() {
+                @Override
+                public void setDownloadNeeded(boolean isDownloaded) {
+                    needToDownload = isDownloaded;
+                    needToDownloadStatic = isDownloaded;
+                }
+            }, new LoginInterface() {
+                @Override
+                public void loginAnonymously(LoginListener loginListener) {
+                    loginAnonymouslyz(loginListener);
+                }
+            }, new ReferralInterface() {
+                @Override
+                public String setReferralLink() {
+                    return setReferralzz();
+                }
+
+                @Override
+                public void sendReferralLink() {
+                    AndroidLauncher.this.sendReferralLink();
+                }
+
+                @Override
+                public void getReferral() {
+
+                }
+
+                @Override
+                public int getRefferralCount() {
+                    getReferralCount();
+                    return SharedPreferencesHelper.getReferralCount(getApplicationContext());
+                }
+
+                @Override
+                public void setChapter0Completed() {
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    DatabaseReference userRecord =
+                            FirebaseDatabase.getInstance().getReference()
+                                    .child("users")
+                                    .child(user.getUid());
+
+                    userRecord.child("hasCompletedChap0").setValue(true);
+                }
+            } );
+
+
+
+            initialize(game, config);
+
+        }else {
+            user = mAuth.getCurrentUser();
+
+            MunhauzenGame game = new MunhauzenGame(params, new OnExpansionDownloadComplete() {
+                @Override
+                public void setDownloadNeeded(boolean isDownloaded) {
+                    needToDownload = isDownloaded;
+                    needToDownloadStatic = isDownloaded;
+                }
+            }, new LoginInterface() {
+                @Override
+                public void loginAnonymously(LoginListener loginListener) {
+                    setReferralzz();
+                }
+            }, new ReferralInterface() {
+                @Override
+                public String setReferralLink() {
+                    return setReferralzz();
+                }
+
+                @Override
+                public void sendReferralLink() {
+                    AndroidLauncher.this.sendReferralLink();
+                }
+
+                @Override
+                public void getReferral() {
+
+                }
+
+                @Override
+                public int getRefferralCount() {
+                    getReferralCount();
+                    return SharedPreferencesHelper.getReferralCount(getApplicationContext());
+                }
+
+                @Override
+                public void setChapter0Completed() {
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    DatabaseReference userRecord =
+                            FirebaseDatabase.getInstance().getReference()
+                                    .child("users")
+                                    .child(user.getUid());
+
+                    userRecord.child("hasCompletedChap0").setValue(true);
+                }
+            } );
+
+            initialize(game, config);
+
+        }
+
+        //for checking should download or not
+
+
+        database = FirebaseDatabase.getInstance();
+
+        getNotificationsInfoFromFirebaseDatabase();
+
+        //for referral count
+        getReferralCount();
+        //referral count ends
+
+
+        //for setting random values for notificaitons messages
+
+        String notificationJson = readNotificationJsonFile();
+
+        try{
+            JSONObject notificationJsonObject = new JSONObject(notificationJson);
+
+            //for Continue notification
+            JSONObject continueNotifObject = notificationJsonObject.getJSONObject("continue_notification");
+
+            String continue_notification = continueNotifObject.getString("continue_notification_text_" + (((int) (Math.random() * 7)) + 1));
+
+            SharedPreferencesHelper.setKeyNotification1Message(getApplicationContext(), continue_notification);
+
+
+            //for download notification
+            JSONObject downloadNotifObject = notificationJsonObject.getJSONObject("download_notification");
+
+            String download_notification = downloadNotifObject.getString("download_notification_text_" + (((int) (Math.random() * 7)) + 1));
+
+            SharedPreferencesHelper.setKeyNotification2Message(getApplicationContext(), download_notification);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        //for setting random values for notificaitons messages ends
+
+    }
+
+
+    private void getReferralCount(){
+
+        //for referral count
+
+        try {
+
+            DatabaseReference userRef = database.getReference("users").child(mAuth.getCurrentUser().getUid());
+
+            DatabaseReference refCanRef = userRef.child("referred_candidates");
+
+            refCanRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    int referralCount = (int) dataSnapshot.getChildrenCount();
+
+                    DatabaseReference userRef = database.getReference("users");
+
+                    SharedPreferencesHelper.setReferralCount(getApplicationContext(), 0);
+
+                    for(DataSnapshot refferedCandidates: dataSnapshot.getChildren()){
+                        DatabaseReference hasCompletedRef =  userRef.child(refferedCandidates.getValue(String.class)).child("hasCompletedChap0");
+                        hasCompletedRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                try {
+                                    boolean isChap0Completed = dataSnapshot.getValue(Boolean.class);
+                                    int currentCount = SharedPreferencesHelper.getReferralCount(getApplicationContext());
+                                    if(isChap0Completed){
+                                        SharedPreferencesHelper.setReferralCount(getApplicationContext(), currentCount +1);
+
+                                    }
+                                }catch (Exception e){
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
+                    }
+
+
+                    //SharedPreferencesHelper.setReferralCount(getApplicationContext(), referralCount);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        //referral count ends
+    }
+
+    private void startAlarm() {
+
+        String historyJson = readHistoryJsonFile();
+        String saveJson = readSaveJsonFile();
+
+        String chapterJson = readChapterJsonFile();
+
+
+        System.out.println("CHapetr---Jston---->" + chapterJson);
+
+
+        try {
+            JSONObject saveJsonObject = new JSONObject(saveJson);
+
+            String lastChapter = saveJsonObject.getString("chapter");
+
+            System.out.println("Last Visited CHapter=---->" + lastChapter);
+
+            int index=0;
+            JSONObject selectedJsonObject=null;
+            JSONArray chapters = new JSONArray(chapterJson);
+            for(int j=0;j<chapters.length();j++){
+                if(lastChapter.equals(chapters.getJSONObject(j).getString("name"))){
+                    JSONObject jsonObject = chapters.getJSONObject(j);
+
+                    index = jsonObject.getInt("number");
+                    selectedJsonObject=jsonObject;
+                    break;
+                }
 
             }
-        }, new ReferralInterface() {
-            @Override
-            public String setReferralLink() {
-                return null;
+
+
+            if (selectedJsonObject == null){
+                return;
             }
+            String iconPath=selectedJsonObject.getString("icon");
+            String description=selectedJsonObject.getString("description");
 
-            @Override
-            public void sendReferralLink() {
 
+            int chapterNo = selectedJsonObject.getInt("number");
+
+            System.out.println("SELECTED_JSONOBJECT"+selectedJsonObject.getString("icon"));
+
+            SharedPreferencesHelper.setLastVisitedIcon(this,iconPath);
+            SharedPreferencesHelper.setLastVisitedDescription(this, "\n" +
+                    "Глава " + chapterNo + ". " +description);
+
+
+
+
+
+            System.out.println("LastChapterString--->" + lastChapter);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.SECOND, SharedPreferencesHelper.getNotification1Time(this));
+
+
+
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, AlertReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
+        if (alarmManager != null) {
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
+        }
+    }
+
+    private void startDownloadAlarm(){
+
+        //For download notification
+
+        String iconPath="chapter/b_full_version_1.png";
+
+        //SharedPreferencesHelper.setLastVisitedIcon(this,iconPath);
+
+        if(needToDownload == true){
+            Calendar c1 = Calendar.getInstance();
+            c1.add(Calendar.SECOND, SharedPreferencesHelper.getNotification2Time(this));
+
+            System.out.println("SetAlarm2AfterSeconds--->" + SharedPreferencesHelper.getNotification2Time(this));
+
+
+            AlarmManager alarmManager1 = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            Intent intent1 = new Intent(this, AlertReceiver2.class);
+            intent1.setFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+            PendingIntent pendingIntent1 = PendingIntent.getBroadcast(this, 2, intent1, 0);
+            if (alarmManager1 != null) {
+                alarmManager1.setExact(AlarmManager.RTC_WAKEUP, c1.getTimeInMillis(), pendingIntent1);
             }
+        }
 
-            @Override
-            public void getReferral() {
+        //For download notification ends
 
+
+    }
+
+    private String readNotificationJsonFile() {
+        String json = null;
+        try {
+            InputStream is = getAssets().open("notification_texts.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, StandardCharsets.UTF_8);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return json;
+
+    }
+
+    private String readChapterJsonFile() {
+        String json = null;
+        try {
+            InputStream is = getAssets().open("chapters.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, StandardCharsets.UTF_8);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return json;
+
+    }
+
+
+
+    private String readHistoryJsonFile() {
+        try {
+            String dfdlk = ".Munchausen/ru.munchausen.fingertipsandcompany.any/history.json";
+
+            System.out.println("Filedir----->" + getApplicationContext().getFilesDir());
+            System.out.println("ExtFilesdir-->" + getExternalFilesDir(""));
+            System.out.println("ExternalStorageDirectory--->" + Environment.getExternalStorageDirectory());
+
+
+            //File file = new File(getExternalFilesDir("").toString(), "my.json");
+            File file = new File(Environment.getExternalStorageDirectory() + "/.Munchausen/ru.munchausen.fingertipsandcompany.any", "history.json");
+            FileReader fileReader = new FileReader(file);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            StringBuilder stringBuilder = new StringBuilder();
+            String line = bufferedReader.readLine();
+            while (line != null) {
+                stringBuilder.append(line).append("\n");
+                line = bufferedReader.readLine();
             }
+            bufferedReader.close();
+// This responce will have Json Format String
+            String responce = stringBuilder.toString();
+            System.out.println("Readed Json--->" + responce);
+            return responce;
 
-            @Override
-            public int getRefferralCount() {
-                return 0;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        //System.out.println("filepath--->" + getApplicationContext().getFilesDir());
+        return null;
+
+    }
+
+
+    private String readSaveJsonFile() {
+        try {
+
+            File file = new File(Environment.getExternalStorageDirectory() + "/.Munchausen/ru.munchausen.fingertipsandcompany.any", "save-active.json");
+            FileReader fileReader = new FileReader(file);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            StringBuilder stringBuilder = new StringBuilder();
+            String line = bufferedReader.readLine();
+            while (line != null) {
+                stringBuilder.append(line).append("\n");
+                line = bufferedReader.readLine();
             }
+            bufferedReader.close();
+// This responce will have Json Format String
+            String responce = stringBuilder.toString();
+            System.out.println("Readed Json--->" + responce);
+            return responce;
 
-            @Override
-            public void setChapter0Completed() {
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
 
+        //System.out.println("filepath--->" + getApplicationContext().getFilesDir());
+        return null;
+
+    }
+
+    public boolean isTablet(Context context) {
+        boolean xlarge = ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == 4);
+        boolean large = ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE);
+        return (xlarge || large);
+    }
+
+    @Override
+    public void startActivity(Intent intent) {
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        super.startActivity(intent);
+    }
+
+    @Override
+    public void startActivity(Intent intent, @Nullable Bundle options) {
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        super.startActivity(intent, options);
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (ContextCompat.checkSelfPermission(AndroidLauncher.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+            if(!needToDownload == true) {
+                startAlarm();
+            }else if(needToDownload) {
+                startDownloadAlarm();
             }
-        });
+        }
+        super.onDestroy();
 
-        initialize(game, config);
+    }
 
-        // Write a message to the database
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        //DatabaseReference myRef = database.getReference("en_hours_notification");
+    @Override
+    protected void onStop() {
+        if (ContextCompat.checkSelfPermission(AndroidLauncher.this,Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+            if(!needToDownload == true) {
+                startAlarm();
+            }else if(needToDownload) {
+                startDownloadAlarm();
+            }
+        }
+        super.onStop();
+    }
+
+
+    public void loginAnonymouslyz(final LoginListener loginListener){
+        mAuth.signInAnonymously()
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInAnonymously:success");
+                            user = mAuth.getCurrentUser();
+                            //updateUI(user);
+                            //initGame();
+                            loginListener.isLoggedIn(true);
+                            //setReferral();
+
+                            //add to database
+
+                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                            DatabaseReference userRecord =
+                                    FirebaseDatabase.getInstance().getReference()
+                                            .child("users")
+                                            .child(user.getUid());
+
+                            userRecord.child("last_login_time").setValue(ServerValue.TIMESTAMP);
+                            userRecord.child("hasCompletedChap0").setValue(false);
+                            System.out.println("Anonymous Account created with Refferrer info");
+
+                            //ends
+
+
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "signInAnonymously:failure", task.getException());
+                            Toast.makeText(AndroidLauncher.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                            //updateUI(null);
+                            loginListener.isLoggedIn(false);
+                        }
+
+                        // ...
+                    }
+                });
+    }
+
+
+    public String setReferralzz(){
+
+        String uid = mAuth.getCurrentUser().getUid();
+        link = "https://fingertipsandcompany.page.link/?invitedby=" + uid;
+
+        FirebaseDynamicLinks.getInstance().createDynamicLink()
+                .setLink(Uri.parse(link))
+                //.setDynamicLinkDomain("https://fingertipsandcompany.page.link")
+                .setDomainUriPrefix("https://fingertipsandcompany.page.link")
+                .setAndroidParameters(
+                        new DynamicLink.AndroidParameters.Builder("ru.munchausen.fingertipsandcompany.full")
+                                .setMinimumVersion(125)
+                                .build())
+                .setIosParameters(
+                        new DynamicLink.IosParameters.Builder("ru.munchausen.fingertipsandcompany.full")
+                                .setAppStoreId("123456789")
+                                .setMinimumVersion("1.0.1")
+                                .build())
+                .buildShortDynamicLink()
+                .addOnCompleteListener(new OnCompleteListener<ShortDynamicLink>() {
+                    @Override
+                    public void onComplete(@NonNull Task<ShortDynamicLink> task) {
+                        if (task.isSuccessful()) {
+                            mInvitationUrl = task.getResult().getShortLink().toString();
+
+                            System.out.println("ShortDynamicLink---->" + task.getResult().getShortLink());
+                            //sendReferralLink();
+                        }
+                        else{
+                            System.out.println("OnFailure---->Message--->" + task.getException().getMessage());
+                            System.out.println("OnFailure---->Cause-->" + task.getException().getCause());
+                        }
+                    }
+                });
+
+        return  mInvitationUrl;
+    }
+
+
+    public void sendReferralLink(){
+        String referrerName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+        String subject = String.format("%s wants you to play MyExampleGame!", referrerName);
+        String invitationLink = mInvitationUrl.toString();
+        String msg = "Let's play Munchausen together! Use my referrer link: "
+                + invitationLink;
+        String msgHtml = String.format("<p>Let's play Munchausen together! Use my "
+                + "<a href=\"%s\">referrer link</a>!</p>", invitationLink);
+
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT,
+                msg);
+
+        startActivity(Intent.createChooser(shareIntent, "Share with"));
+    }
+
+
+    public void getReferralLink(){
+        FirebaseDynamicLinks.getInstance()
+                .getDynamicLink(getIntent())
+                .addOnSuccessListener(this, new OnSuccessListener<PendingDynamicLinkData>() {
+                    @Override
+                    public void onSuccess(PendingDynamicLinkData pendingDynamicLinkData) {
+                        // Get deep link from result (may be null if no link is found)
+                        Uri deepLink = null;
+                        if (pendingDynamicLinkData != null) {
+                            deepLink = pendingDynamicLinkData.getLink();
+                        }
+                        //
+                        // If the user isn't signed in and the pending Dynamic Link is
+                        // an invitation, sign in the user anonymously, and record the
+                        // referrer's UID.
+                        //
+                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                        if (user == null
+                                && deepLink != null
+                                && deepLink.getBooleanQueryParameter("invitedby", false)) {
+                            String referrerUid = deepLink.getQueryParameter("invitedby");
+                            createAnonymousAccountWithReferrerInfo(referrerUid);
+                        }
+                    }
+                });
+    }
+
+    private void createAnonymousAccountWithReferrerInfo(final String referrerUid) {
+        FirebaseAuth.getInstance()
+                .signInAnonymously()
+                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                    @Override
+                    public void onSuccess(AuthResult authResult) {
+                        // Keep track of the referrer in the RTDB. Database calls
+                        // will depend on the structure of your app's RTDB.
+                        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                        DatabaseReference userRecord =
+                                FirebaseDatabase.getInstance().getReference()
+                                        .child("users")
+                                        .child(user.getUid());
+                        userRecord.child("referred_by").setValue(referrerUid);
+                        userRecord.child("last_login_time").setValue(ServerValue.TIMESTAMP);
+                        userRecord.child("hasCompletedChap0").setValue(false);
+                        System.out.println("Anonymous Account created with Refferrer info");
+
+                        final DatabaseReference referrer = FirebaseDatabase.getInstance().getReference()
+                                .child("users").child(referrerUid);
+
+
+
+                        ValueEventListener valueEventListener = new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                int index = 0;
+
+                                if(dataSnapshot.exists()){
+                                    index = (int) dataSnapshot.getChildrenCount() ;
+                                }else{
+                                    index = 0;
+                                }
+
+                                referrer.child("referred_candidates").child("" + index).setValue(user.getUid());
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        };
+
+                        referrer.child("referred_candidates").addListenerForSingleValueEvent(valueEventListener);
+
+
+
+                    }
+                });
+    }
+
+    private void getNotificationsInfoFromFirebaseDatabase(){
+
 
         DatabaseReference notificationsRef = database.getReference("1notifications");
 
@@ -354,325 +980,5 @@ public class AndroidLauncher extends AndroidApplication {
 
         //for download notification ends
 
-        //for setting random values for notificaitons messages
-
-        String notificationJson = readNotificationJsonFile();
-
-        try{
-            JSONObject notificationJsonObject = new JSONObject(notificationJson);
-
-            //for Continue notification
-            JSONObject continueNotifObject = notificationJsonObject.getJSONObject("continue_notification");
-
-            String continue_notification = continueNotifObject.getString("continue_notification_text_" + (((int) (Math.random() * 7)) + 1));
-
-            SharedPreferencesHelper.setKeyNotification1Message(getApplicationContext(), continue_notification);
-
-
-            //for download notification
-            JSONObject downloadNotifObject = notificationJsonObject.getJSONObject("download_notification");
-
-            String download_notification = downloadNotifObject.getString("download_notification_text_" + (((int) (Math.random() * 7)) + 1));
-
-            SharedPreferencesHelper.setKeyNotification2Message(getApplicationContext(), download_notification);
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-        //for setting random values for notificaitons messages ends
-
-    }
-
-    private void startAlarm() {
-
-        String historyJson = readHistoryJsonFile();
-        String saveJson = readSaveJsonFile();
-
-        String chapterJson = readChapterJsonFile();
-
-
-        System.out.println("CHapetr---Jston---->" + chapterJson);
-
-
-        try {
-            JSONObject saveJsonObject = new JSONObject(saveJson);
-
-            String lastChapter = saveJsonObject.getString("chapter");
-
-            System.out.println("Last Visited CHapter=---->" + lastChapter);
-
-            int index=0;
-            JSONObject selectedJsonObject=null;
-            JSONArray chapters = new JSONArray(chapterJson);
-            for(int j=0;j<chapters.length();j++){
-                if(lastChapter.equals(chapters.getJSONObject(j).getString("name"))){
-                    JSONObject jsonObject = chapters.getJSONObject(j);
-
-                    index = jsonObject.getInt("number");
-                    selectedJsonObject=jsonObject;
-                    break;
-                }
-
-            }
-
-
-            if (selectedJsonObject == null){
-                return;
-            }
-            String iconPath=selectedJsonObject.getString("icon");
-            String description=selectedJsonObject.getString("description");
-
-
-            int chapterNo = selectedJsonObject.getInt("number");
-
-            System.out.println("SELECTED_JSONOBJECT"+selectedJsonObject.getString("icon"));
-
-            SharedPreferencesHelper.setLastVisitedIcon(this,iconPath);
-            SharedPreferencesHelper.setLastVisitedDescription(this, "\n" +
-                    "Глава " + chapterNo + ". " +description);
-
-
-
-
-
-            System.out.println("LastChapterString--->" + lastChapter);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-      /*  try {
-            JSONObject history = new JSONObject(historyJson);
-
-            JSONArray visitedChapters = history.getJSONArray("visitedChapters");
-            String[] visitedChaptersArray=new String[visitedChapters.length()];
-
-            int index=0;
-            JSONObject selectedJsonObject=null;
-            JSONArray chapters = new JSONArray(chapterJson);
-            for(int i=0;i<visitedChapters.length();i++){
-                for(int j=0;j<chapters.length();j++){
-                    if(visitedChapters.getString(i).equals(chapters.getJSONObject(j).getString("name"))){
-                        JSONObject jsonObject = chapters.getJSONObject(j);
-                        if(index<jsonObject.getInt("number")) {
-                            index = jsonObject.getInt("number");
-                            selectedJsonObject=jsonObject;
-                        }
-                    }
-
-                }
-            }
-
-            if (selectedJsonObject == null){
-                return;
-            }
-            String iconPath=selectedJsonObject.getString("icon");
-            String description=selectedJsonObject.getString("description");
-
-
-            System.out.println("SELECTED_JSONOBJECT"+selectedJsonObject.getString("icon"));
-
-            SharedPreferencesHelper.setIcon(this,iconPath);
-            SharedPreferencesHelper.setDescription(this, description);
-
-
-
-
-
-            System.out.println("String0--->" + visitedChapters.getString(0));
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }*/
-
-        Calendar c = Calendar.getInstance();
-        c.add(Calendar.SECOND, SharedPreferencesHelper.getNotification1Time(this));
-
-      /*  System.out.println("SetAlarmAfterSeconds--->" + SharedPreferencesHelper.getNotification1Time(this));
-        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("ALARM_SET_AFTER_SECONDS",SharedPreferencesHelper.getNotification1Time(this).toString() ).apply();
-
-        String format = "";
-        try {
-            SimpleDateFormat s = new SimpleDateFormat("hhmmss");
-            format = s.format(new Date());
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-
-        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("ALARM_SET_TIME", format ).apply();
-*/
-
-
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, AlertReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
-        if (alarmManager != null) {
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
-        }
-    }
-
-    private void startDownloadAlarm(){
-
-        //For download notification
-
-        String iconPath="chapter/b_full_version_1.png";
-
-        //SharedPreferencesHelper.setLastVisitedIcon(this,iconPath);
-
-        if(needToDownload == true){
-            Calendar c1 = Calendar.getInstance();
-            c1.add(Calendar.SECOND, SharedPreferencesHelper.getNotification2Time(this));
-
-            System.out.println("SetAlarm2AfterSeconds--->" + SharedPreferencesHelper.getNotification2Time(this));
-
-
-            AlarmManager alarmManager1 = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-            Intent intent1 = new Intent(this, AlertReceiver2.class);
-            intent1.setFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-            PendingIntent pendingIntent1 = PendingIntent.getBroadcast(this, 2, intent1, 0);
-            if (alarmManager1 != null) {
-                alarmManager1.setExact(AlarmManager.RTC_WAKEUP, c1.getTimeInMillis(), pendingIntent1);
-            }
-        }
-
-        //For download notification ends
-
-
-    }
-
-    private String readNotificationJsonFile() {
-        String json = null;
-        try {
-            InputStream is = getAssets().open("notification_texts.json");
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            json = new String(buffer, StandardCharsets.UTF_8);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-        return json;
-
-    }
-
-    private String readChapterJsonFile() {
-        String json = null;
-        try {
-            InputStream is = getAssets().open("chapters.json");
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            json = new String(buffer, StandardCharsets.UTF_8);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-        return json;
-
-    }
-
-
-
-    private String readHistoryJsonFile() {
-        try {
-            String dfdlk = ".Munchausen/ru.munchausen.fingertipsandcompany.any/history.json";
-
-            System.out.println("Filedir----->" + getApplicationContext().getFilesDir());
-            System.out.println("ExtFilesdir-->" + getExternalFilesDir(""));
-            System.out.println("ExternalStorageDirectory--->" + Environment.getExternalStorageDirectory());
-
-
-            //File file = new File(getExternalFilesDir("").toString(), "my.json");
-            File file = new File(Environment.getExternalStorageDirectory() + "/.Munchausen/ru.munchausen.fingertipsandcompany.any", "history.json");
-            FileReader fileReader = new FileReader(file);
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-            StringBuilder stringBuilder = new StringBuilder();
-            String line = bufferedReader.readLine();
-            while (line != null) {
-                stringBuilder.append(line).append("\n");
-                line = bufferedReader.readLine();
-            }
-            bufferedReader.close();
-// This responce will have Json Format String
-            String responce = stringBuilder.toString();
-            System.out.println("Readed Json--->" + responce);
-            return responce;
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
-        //System.out.println("filepath--->" + getApplicationContext().getFilesDir());
-        return null;
-
-    }
-
-
-    private String readSaveJsonFile() {
-        try {
-
-            File file = new File(Environment.getExternalStorageDirectory() + "/.Munchausen/ru.munchausen.fingertipsandcompany.any", "save-active.json");
-            FileReader fileReader = new FileReader(file);
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-            StringBuilder stringBuilder = new StringBuilder();
-            String line = bufferedReader.readLine();
-            while (line != null) {
-                stringBuilder.append(line).append("\n");
-                line = bufferedReader.readLine();
-            }
-            bufferedReader.close();
-// This responce will have Json Format String
-            String responce = stringBuilder.toString();
-            System.out.println("Readed Json--->" + responce);
-            return responce;
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
-        //System.out.println("filepath--->" + getApplicationContext().getFilesDir());
-        return null;
-
-    }
-
-    public boolean isTablet(Context context) {
-        boolean xlarge = ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == 4);
-        boolean large = ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE);
-        return (xlarge || large);
-    }
-
-    @Override
-    public void startActivity(Intent intent) {
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        super.startActivity(intent);
-    }
-
-    @Override
-    public void startActivity(Intent intent, @Nullable Bundle options) {
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        super.startActivity(intent, options);
-    }
-
-    @Override
-    protected void onDestroy() {
-        if (ContextCompat.checkSelfPermission(AndroidLauncher.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
-            startAlarm();
-            startDownloadAlarm();
-        }
-        super.onDestroy();
-
-    }
-
-    @Override
-    protected void onStop() {
-        if (ContextCompat.checkSelfPermission(AndroidLauncher.this,Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
-            startAlarm();
-            startDownloadAlarm();
-        }
-        super.onStop();
     }
 }

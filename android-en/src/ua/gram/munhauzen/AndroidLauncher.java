@@ -599,7 +599,7 @@ public class AndroidLauncher extends AndroidApplication {
 
     }
 
-    private String readExpansionJsonFile() {
+/*    private String readExpansionJsonFile() {
         try {
             PlatformParams platformParams = new PlatformParams();
             String dfdlk = ".Munchausen/en.munchausen.fingertipsandcompany.any/" + platformParams.expansionVersion + "-expansion.json";
@@ -629,7 +629,7 @@ public class AndroidLauncher extends AndroidApplication {
         //System.out.println("filepath--->" + getApplicationContext().getFilesDir());
         return null;
 
-    }
+    }*/
 
 
     public boolean isTablet(Context context) {
