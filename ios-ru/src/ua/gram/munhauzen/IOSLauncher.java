@@ -46,6 +46,7 @@ import org.robovm.pods.firebase.core.FIRApp;
 import org.robovm.pods.firebase.database.FIRDataEventType;
 import org.robovm.pods.firebase.database.FIRDataSnapshot;
 import org.robovm.pods.firebase.database.FIRDatabase;
+import org.robovm.pods.firebase.database.FIRDatabaseReference;
 import org.robovm.pods.firebase.messaging.FIRMessaging;
 import org.robovm.pods.firebase.messaging.FIRMessagingDelegate;
 import org.robovm.pods.firebase.messaging.FIRMessagingRemoteMessage;
@@ -56,6 +57,7 @@ import java.io.FileReader;
 import java.util.Set;
 
 import ua.gram.munhauzen.entity.Device;
+import ua.gram.munhauzen.interfaces.OnExpansionDownloadComplete;
 import ua.gram.munhauzen.translator.RussianTranslator;
 import ua.gram.munhauzen.utils.AlarmInterface;
 
@@ -64,14 +66,19 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
     public static final String KEY_TIME = "key_time";
     public static final String KEY_SAVE_ICON = "key_save_icon";
     public static final String KEY_SAVE_DESCRIPTION = "key_save_description";
-    public static final String KEY_NOTIFICATION_AFTER = "key_notification_after";
+    public static final String KEY_NOTIFICATION1_AFTER = "KEY_NOTIFICATION1_AFTER";
     public static final String KEY_NOTIFICATION1_TITLE = "key_notification1_title";
     public static final String KEY_NOTIFICATION1_MESSAGE = "key_notification1_message";
+    public static final String KEY_NOTIFICATION2_AFTER = "KEY_NOTIFICATION2_AFTER";
+    public static final String KEY_NOTIFICATION2_TITLE = "key_notification2_title";
+    public static final String KEY_NOTIFICATION2_MESSAGE = "key_notification2_message";
     public static final String KEY_DEVICE_TOKEN = "key_device_token";
 
     IOSApplicationConfiguration config;
 
     UNUserNotificationCenter notificationCenter;
+
+    private boolean needToDownload = true;
 
 
     @Override
@@ -194,6 +201,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
             }
         }
 
+        readNotificationJson();
 
         // set up when you created the libgdx project
         MunhauzenGame game = new MunhauzenGame(params, new AlarmInterface() {
@@ -204,6 +212,12 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
                 } catch (Exception e) {
 
                 }
+
+            }
+        }, new OnExpansionDownloadComplete() {
+            @Override
+            public void setDownloadNeeded(boolean isDownloaded) {
+                needToDownload = isDownloaded;
 
             }
         });
@@ -273,6 +287,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
     }
 
 
+
     @Override
     public void didRegisterForRemoteNotifications(UIApplication application, NSData deviceToken) {
         System.out.println("DeviceToken----------------------> "+deviceToken);
@@ -292,6 +307,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
     @Override
     public void willPresentNotification(UNUserNotificationCenter unUserNotificationCenter, UNNotification unNotification, VoidBlock1<UNNotificationPresentationOptions> completionHandler) {
+        readNotificationJson();
         NSDictionary<?, ?> userInfo = unNotification.getRequest().getContent().getUserInfo();
 
         // With swizzling disabled you must let Messaging know about the message, for Analytics
@@ -306,6 +322,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
         completionHandler.invoke(UNNotificationPresentationOptions.with(UNNotificationPresentationOptions.Alert, UNNotificationPresentationOptions.Sound));
 
         try {
+
             showNotificaiton();
         } catch (NSErrorException e) {
             e.printStackTrace();
@@ -376,8 +393,17 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
         if (Foundation.getMajorSystemVersion() >= 10) {
             NotificationDelegate delegate = new NotificationDelegate();
             notificationCenter.setDelegate(delegate);
-            delegate.userRequest();
-            delegate.scheduleNotification("test");
+            //delegate.userRequest();
+            try {
+                if (needToDownload){
+                    delegate.scheduleDownloadNotification();
+                }else {
+                    notificationCenter.removeAllPendingNotificationRequests();
+                    delegate.scheduleNotification();
+                }
+            }catch (Exception e){
+                System.out.println("Show Notificaiton Error ----------------->"+e);
+            }
         } else {
             UILocalNotification notification = new UILocalNotification();
             NSDate date = new NSDate().newDateByAddingTimeInterval(20);
@@ -432,6 +458,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
 
     }
+
 
     private void startAlarm() {
         //Saved
@@ -521,7 +548,74 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
     }
 
-    private String readJsonFile(String fileURL) {
+
+    public static void readNotificationJson() {
+
+        //Notification
+        String notificationPath = NSBundle.getMainBundle().findResourcePath("notification_texts", "json");
+        String notificationJson = readJsonFile(notificationPath);
+
+
+        try {
+            JSONObject notificationJsonObject = new JSONObject(notificationJson);
+
+            //for Continue notification
+            JSONObject continueNotifObject = notificationJsonObject.getJSONObject("continue_notification");
+
+            String continue_notification = continueNotifObject.getString("continue_notification_text_" + (((int) (Math.random() * 7)) + 1));
+
+            //SharedPreferencesHelper.setKeyNotification1Message(getApplicationContext(), continue_notification);
+
+
+            //for download notification
+            JSONObject downloadNotifObject = notificationJsonObject.getJSONObject("download_notification");
+
+            String download_notification = downloadNotifObject.getString("download_notification_text_" + (((int) (Math.random() * 7)) + 1));
+
+            //SharedPreferencesHelper.setKeyNotification2Message(getApplicationContext(), download_notification);
+
+
+            NSUserDefaults defaults = NSUserDefaults.getStandardUserDefaults();
+            defaults.put(KEY_NOTIFICATION1_MESSAGE, continue_notification);
+            defaults.put(KEY_NOTIFICATION2_MESSAGE, download_notification);
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+            System.out.println("StartAlarmError: " + e);
+        }
+
+
+//        Calendar c = Calendar.getInstance();
+//        c.add(Calendar.SECOND, 20);
+
+//        System.out.println("SetAlarmAfterSeconds--->" + SharedPreferencesHelper.getNotification1Time(this));
+//        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("ALARM_SET_AFTER_SECONDS",SharedPreferencesHelper.getNotification1Time(this).toString() ).apply();
+
+//        String format = "";
+//        try {
+//            SimpleDateFormat s = new SimpleDateFormat("hhmmss");
+//            format = s.format(new Date());
+//        }catch(Exception e){
+//            e.printStackTrace();
+//        }
+
+        //PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("ALARM_SET_TIME", format ).apply();
+
+
+        //showNotificaiton();
+
+//        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+//        Intent intent = new Intent(this, AlertReceiver.class);
+//        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
+//        if (alarmManager != null) {
+//            alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
+//        }
+
+
+    }
+
+    public static String readJsonFile(String fileURL) {
         try {
 
 
@@ -559,47 +653,104 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
         // Write a message to the database
         FIRDatabase database = FIRDatabase.database();
 
-        database.reference("ru_hours_notification").observeEvent(FIRDataEventType.Value, new VoidBlock1<FIRDataSnapshot>() {
-            @Override
-            public void invoke(FIRDataSnapshot firDataSnapshot) {
-                try {
-                    NSNumber value = (NSNumber) firDataSnapshot.getValue();
-                    NSUserDefaults.getStandardUserDefaults().put(KEY_NOTIFICATION_AFTER, value);
-                } catch (Exception ignored) {
+        FIRDatabaseReference notificationsRef = database.reference("1notifications");
 
-                }
+        FIRDatabaseReference notificationContinueRef = notificationsRef.child("1notification_to_continue");
 
-            }
-        });
+        FIRDatabaseReference notificationDownloadRef = notificationsRef.child("2notification_to_download");
 
 
-        database.reference("ru_title_notification").observeEvent(FIRDataEventType.Value, new VoidBlock1<FIRDataSnapshot>() {
-            @Override
-            public void invoke(FIRDataSnapshot firDataSnapshot) {
-                try {
-                    NSString value = (NSString) firDataSnapshot.getValue();
-                    NSUserDefaults.getStandardUserDefaults().put(KEY_NOTIFICATION1_TITLE, value);
-                    System.out.println("Notification Title ----> " + value);
-                } catch (Exception ignored) {
+        notificationContinueRef.child("4ru_hours_notification").observeEvent(FIRDataEventType.Value,
+                new VoidBlock1<FIRDataSnapshot>() {
+                    @Override
+                    public void invoke(FIRDataSnapshot firDataSnapshot) {
+                        try {
+                            NSNumber value = (NSNumber) firDataSnapshot.getValue();
+                            NSUserDefaults.getStandardUserDefaults().put(KEY_NOTIFICATION1_AFTER, value);
+                            System.out.println("Continue Hrs------------------------------>"+value);
+                        } catch (Exception e) {
+                            System.out.println("Continue Hrs Error------------------------>"+e);
+                        }
 
-                }
+                    }
+                });
 
-            }
-        });
 
-        database.reference("ru_message_notification").observeEvent(FIRDataEventType.Value, new VoidBlock1<FIRDataSnapshot>() {
-            @Override
-            public void invoke(FIRDataSnapshot firDataSnapshot) {
-                try {
-                    NSString value = (NSString) firDataSnapshot.getValue();
-                    NSUserDefaults.getStandardUserDefaults().put(KEY_NOTIFICATION1_MESSAGE, value);
-                    System.out.println("Notification Message ----> " + value);
-                } catch (Exception ignored) {
+        notificationContinueRef.child("5ru_title_notification").observeEvent(FIRDataEventType.Value,
+                new VoidBlock1<FIRDataSnapshot>() {
+                    @Override
+                    public void invoke(FIRDataSnapshot firDataSnapshot) {
+                        try {
+                            NSString value = (NSString) firDataSnapshot.getValue();
+                            NSUserDefaults.getStandardUserDefaults().put(KEY_NOTIFICATION1_TITLE, value);
+                            System.out.println("Notification Title --------------------------> " + value);
+                        } catch (Exception e) {
+                            System.out.println("Continue Title Error------------------------>"+e);
+                        }
 
-                }
+                    }
+                });
 
-            }
-        });
+        notificationContinueRef.child("6ru_message_notification").observeEvent(FIRDataEventType.Value
+                , new VoidBlock1<FIRDataSnapshot>() {
+                    @Override
+                    public void invoke(FIRDataSnapshot firDataSnapshot) {
+                        try {
+                            NSString value = (NSString) firDataSnapshot.getValue();
+                            // NSUserDefaults.getStandardUserDefaults().put(KEY_NOTIFICATION1_MESSAGE, value);
+                            System.out.println("Notification Message ----------------------> " + value);
+                        } catch (Exception e) {
+                            System.out.println("Continue Message Error------------------------>"+e);
+                        }
+
+                    }
+                });
+
+
+        notificationDownloadRef.child("4ru_hours_notification").observeEvent(FIRDataEventType.Value,
+                new VoidBlock1<FIRDataSnapshot>() {
+                    @Override
+                    public void invoke(FIRDataSnapshot firDataSnapshot) {
+                        try {
+                            NSNumber value = (NSNumber) firDataSnapshot.getValue();
+                            NSUserDefaults.getStandardUserDefaults().put(KEY_NOTIFICATION2_AFTER, value);
+                            System.out.println("Download Hrs------------------------>"+value);
+                        } catch (Exception e) {
+                            System.out.println("Download Hrs Error------------------------>"+e);
+                        }
+
+                    }
+                });
+
+
+        notificationDownloadRef.child("5ru_title_notification").observeEvent(FIRDataEventType.Value,
+                new VoidBlock1<FIRDataSnapshot>() {
+                    @Override
+                    public void invoke(FIRDataSnapshot firDataSnapshot) {
+                        try {
+                            NSString value = (NSString) firDataSnapshot.getValue();
+                            NSUserDefaults.getStandardUserDefaults().put(KEY_NOTIFICATION2_TITLE, value);
+                            System.out.println("Notification Title -------------------------> " + value);
+                        } catch (Exception e) {
+                            System.out.println("Download Title Error------------------------>"+e);
+                        }
+
+                    }
+                });
+
+        notificationDownloadRef.child("6ru_message_notification").observeEvent(FIRDataEventType.Value
+                , new VoidBlock1<FIRDataSnapshot>() {
+                    @Override
+                    public void invoke(FIRDataSnapshot firDataSnapshot) {
+                        try {
+                            NSString value = (NSString) firDataSnapshot.getValue();
+                            // NSUserDefaults.getStandardUserDefaults().put(KEY_NOTIFICATION2_MESSAGE, value);
+                            System.out.println("Notification Message --------------------------> " + value);
+                        } catch (Exception e) {
+                            System.out.println("Continue Message Error------------------------>"+e);
+                        }
+                    }
+                });
 
     }
 

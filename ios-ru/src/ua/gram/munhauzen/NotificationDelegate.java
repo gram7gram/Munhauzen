@@ -72,7 +72,7 @@ public class NotificationDelegate extends NSObject implements UNUserNotification
         notificationCenter.requestAuthorization(options,errorVoidBlock2);
     }
 
-    void scheduleNotification(String notificationType) throws NSErrorException {
+    void scheduleNotification() throws NSErrorException {
         UNMutableNotificationContent content = new UNMutableNotificationContent();
         String userActions = "User Actions";
 
@@ -81,7 +81,7 @@ public class NotificationDelegate extends NSObject implements UNUserNotification
         String msg = NSUserDefaults.getStandardUserDefaults().getString(IOSLauncher.KEY_NOTIFICATION1_MESSAGE);
         String title = NSUserDefaults.getStandardUserDefaults().getString(IOSLauncher.KEY_NOTIFICATION1_TITLE);
 
-        int hrs = NSUserDefaults.getStandardUserDefaults().getInt(IOSLauncher.KEY_NOTIFICATION_AFTER);
+        int hrs = NSUserDefaults.getStandardUserDefaults().getInt(IOSLauncher.KEY_NOTIFICATION1_AFTER);
 
         NSDictionary<?,?> dictionary = new NSDictionary<>();
 
@@ -190,6 +190,65 @@ public class NotificationDelegate extends NSObject implements UNUserNotification
         notificationCenter.setNotificationCategories(new NSSet<UNNotificationCategory>(category));
     }
 
+    void scheduleDownloadNotification() {
+        try {
+            UNMutableNotificationContent content = new UNMutableNotificationContent();
+            String userActions = "download-notification";
+
+            String icon = NSUserDefaults.getStandardUserDefaults().getString(IOSLauncher.KEY_SAVE_ICON);
+            //String des = NSUserDefaults.getStandardUserDefaults().getString(IOSLauncher.KEY_SAVE_DESCRIPTION);
+            String msg = NSUserDefaults.getStandardUserDefaults().getString(IOSLauncher.KEY_NOTIFICATION2_MESSAGE);
+            String title = NSUserDefaults.getStandardUserDefaults().getString(IOSLauncher.KEY_NOTIFICATION2_TITLE);
+
+            int hrs = NSUserDefaults.getStandardUserDefaults().getInt(IOSLauncher.KEY_NOTIFICATION2_AFTER);
+
+
+            content.setTitle(title);
+            content.setBody(msg);
+            content.setSound(UNNotificationSound.getDefaultSound());
+            content.setBadge(NSNumber.valueOf(1));
+            content.setCategoryIdentifier(userActions);
+
+
+            /*NSDate date = new NSDate().newDateByAddingTimeInterval(5);
+
+            NSDateComponents components = NSCalendar.getCurrentCalendar().getComponents(
+                    NSCalendarUnit.with(NSCalendarUnit.Year,
+                            NSCalendarUnit.Month,
+                            NSCalendarUnit.Day,
+                            NSCalendarUnit.Hour,
+                            NSCalendarUnit.Minute,
+                            NSCalendarUnit.Second
+                    ), date);
+
+            UNCalendarNotificationTrigger trig = new UNCalendarNotificationTrigger(components, true);
+            */
+
+
+            UNTimeIntervalNotificationTrigger trigger = new UNTimeIntervalNotificationTrigger(hrs, true);
+
+            String identifier = "Notification";
+            UNNotificationRequest request = new UNNotificationRequest(identifier, content, trigger);
+
+            notificationCenter.addNotificationRequest(request, new VoidBlock1<NSError>() {
+                @Override
+                public void invoke(NSError nsError) {
+                    if (nsError != null) {
+                        System.out.println("Error: invoke::" + nsError);
+                    }
+                }
+            });
+
+            UNNotificationAction snoozeAction = new UNNotificationAction("Snooze", "Snooze", UNNotificationActionOptions.None);
+            UNNotificationAction deleteAction = new UNNotificationAction("Delete", "Delete", UNNotificationActionOptions.Destructive);
+            UNNotificationCategory category = new UNNotificationCategory(userActions, new NSArray<UNNotificationAction>(snoozeAction, deleteAction), new NSArray<NSString>(), UNNotificationCategoryOptions.None);
+
+            notificationCenter.setNotificationCategories(new NSSet<UNNotificationCategory>(category));
+        }catch (Exception e){
+            System.out.println("Schedule Download Notification---------------------------->"+e);
+        }
+    }
+
     public void copyDirectory(File sourceLocation, File targetLocation)
             throws IOException {
 
@@ -238,6 +297,7 @@ public class NotificationDelegate extends NSObject implements UNUserNotification
 
     @Override
     public void willPresentNotification(UNUserNotificationCenter unUserNotificationCenter, UNNotification unNotification, VoidBlock1<UNNotificationPresentationOptions> voidBlock1) {
+        IOSLauncher.readNotificationJson();
         System.out.println("willPresentNotification");
     }
 

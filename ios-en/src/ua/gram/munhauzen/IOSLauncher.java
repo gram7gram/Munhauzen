@@ -430,7 +430,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
         if (Foundation.getMajorSystemVersion() >= 10) {
             NotificationDelegate delegate = new NotificationDelegate();
             notificationCenter.setDelegate(delegate);
-            delegate.userRequest();
+            //delegate.userRequest();
             try {
                 if (needToDownload){
                     delegate.scheduleDownloadNotification();
