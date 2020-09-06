@@ -19,8 +19,8 @@ public class ReferralProgress extends Stack {
 
         this.screen = screen;
 
-        Texture txt1 = screen.game.internalAssetManager.get("menu/InviteBar_0.png", Texture.class);
-        Texture txt2 = screen.game.internalAssetManager.get("menu/InviteBar_100.png", Texture.class);
+        Texture txt1 = screen.assetManager.get("menu/InviteBar_0.png", Texture.class);
+        Texture txt2 = screen.assetManager.get("menu/InviteBar_100.png", Texture.class);
 
         this.width = width;
 

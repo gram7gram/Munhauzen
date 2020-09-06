@@ -17,10 +17,8 @@ public class VideoTrailerFragment extends BannerFragment<MenuScreen> {
     public void create() {
 
         screen.assetManager.load("ui/banner_fond_0.png", Texture.class);
+        screen.assetManager.load("menu/pVideo.png", Texture.class);
         screen.assetManager.finishLoading();
-
-        screen.game.internalAssetManager.load("menu/pVideo.png", Texture.class);
-        screen.game.internalAssetManager.finishLoading();
 
         Banner<?> banner = new VideoTrailerBanner(this);
         banner.create();

@@ -102,14 +102,11 @@ public class MenuScreen extends AbstractScreen {
             assetManager.load("menu/progress_color.png", Texture.class);
             assetManager.load("menu/progress_black.png", Texture.class);
 
+            assetManager.load("menu/btn_referral.png", Texture.class);
+            assetManager.load("menu/InviteBar_0.png", Texture.class);
+            assetManager.load("menu/InviteBar_100.png", Texture.class);
+
             assetManager.finishLoading();
-
-
-            game.internalAssetManager.load("menu/btn_referral.png", Texture.class);
-            game.internalAssetManager.load("menu/InviteBar_0.png", Texture.class);
-            game.internalAssetManager.load("menu/InviteBar_100.png", Texture.class);
-
-            game.internalAssetManager.finishLoading();
 
         } catch (Throwable e) {
             Log.e(tag, e);
@@ -180,8 +177,7 @@ public class MenuScreen extends AbstractScreen {
             ui.addListener(new MenuStageListener(this));
 
             try {
-//                openBannerIfNeeded();
-                openTrailerBanner();
+                openBannerIfNeeded();
             } catch (Throwable ignore) {
             }
 

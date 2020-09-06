@@ -77,7 +77,7 @@ public class VideoTrailerBanner extends Banner<MenuScreen> {
                     .row();
         }
 
-        Texture txt = screen.game.internalAssetManager.get("menu/pVideo.png", Texture.class);
+        Texture txt = screen.assetManager.get("menu/pVideo.png", Texture.class);
 
         ClickListener click = new ClickListener() {
             @Override

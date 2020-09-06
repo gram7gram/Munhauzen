@@ -565,27 +565,28 @@ public class ExpansionDownloadManager {
     }
 
     private void onComplete() {
-        ExpansionResponse expansionInfo = game.gameState.expansionInfo;
+        try {
+            ExpansionResponse expansionInfo = game.gameState.expansionInfo;
 
-        if (expansionInfo == null) return;
-        if (expansionInfo.isCompleted) return;
+            Log.i(tag, "onComplete");
 
-        Log.i(tag, "onComplete");
+            expansionInfo.isCompleted = true;
 
-        expansionInfo.isCompleted = true;
+            game.syncState();
 
-        game.syncState();
+            fragment.progress.setText("100%");
+            fragment.progressMessage.setText(game.t("expansion_download.completed"));
 
-        fragment.progress.setText("100%");
-        fragment.progressMessage.setText(game.t("expansion_download.completed"));
+            for (Part item : expansionInfo.parts.items) {
+                ExternalFiles.getExpansionPartFile(game.params, item).delete();
+            }
 
-        for (Part item : expansionInfo.parts.items) {
-            ExternalFiles.getExpansionPartFile(game.params, item).delete();
+            ExternalFiles.updateNomedia(game.params);
+
+            fragment.onExpansionDownloadComplete();
+        } catch (Throwable e) {
+            Log.e(tag, e);
         }
-
-        ExternalFiles.updateNomedia(game.params);
-
-        fragment.onExpansionDownloadComplete();
     }
 
     private float getProgress() {

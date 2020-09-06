@@ -14,9 +14,7 @@ public class ReferalSideButton extends Image {
     private final String tag = getClass().getSimpleName();
 
     public ReferalSideButton(final MenuScreen screen) {
-        super(
-                screen.game.internalAssetManager.get("menu/btn_referral.png", Texture.class)
-        );
+        super(screen.assetManager.get("menu/btn_referral.png", Texture.class));
 
         addListener(new ClickListener() {
             @Override
