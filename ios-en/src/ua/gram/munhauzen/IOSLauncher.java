@@ -20,6 +20,7 @@ import org.robovm.apple.foundation.NSError;
 import org.robovm.apple.foundation.NSErrorException;
 import org.robovm.apple.foundation.NSFileManager;
 import org.robovm.apple.foundation.NSKeyValueChangeInfo;
+import org.robovm.apple.foundation.NSMutableArray;
 import org.robovm.apple.foundation.NSNumber;
 import org.robovm.apple.foundation.NSObject;
 import org.robovm.apple.foundation.NSSearchPathDirectory;
@@ -291,16 +292,15 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
         System.out.println(msg);
 
-        NSArray<NSString> array = new NSArray<NSString>();
+        NSMutableArray<NSString> array = new NSMutableArray<NSString>();
         array.add(msg);
 
         UIActivityViewController activityViewController = new UIActivityViewController(array,null);
         UIViewController currentViewController = UIApplication.getSharedApplication().getKeyWindow().getRootViewController();
         currentViewController.presentViewController(activityViewController,true,null);
 
-
 //        if (!MFMailComposeViewController.canSendMail()){
-//            System.out.println("Device can't send email");
+//            System.out.println("Device can't send email")
 //            return;
 //        }
 //
