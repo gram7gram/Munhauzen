@@ -1,7 +1,6 @@
 package ua.gram.munhauzen;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -14,17 +13,13 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.pay.android.googlebilling.PurchaseManagerGoogleBilling;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -57,24 +52,17 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.security.Permission;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
-import java.util.Objects;
 
 import en.munchausen.fingertipsandcompany.full.BuildConfig;
 import ua.gram.munhauzen.entity.Device;
-import ua.gram.munhauzen.entity.History;
 import ua.gram.munhauzen.interfaces.LoginInterface;
 import ua.gram.munhauzen.interfaces.LoginListener;
 import ua.gram.munhauzen.interfaces.OnExpansionDownloadComplete;
 import ua.gram.munhauzen.interfaces.ReferralInterface;
-import ua.gram.munhauzen.service.ExpansionDownloadManager;
 import ua.gram.munhauzen.translator.EnglishTranslator;
-import ua.gram.munhauzen.utils.ExternalFiles;
 
 import static android.content.ContentValues.TAG;
 
@@ -159,6 +147,7 @@ public class AndroidLauncher extends AndroidApplication {
         params.memoryUsage = new AndroidMemoryUsage();
         params.appStore = new GooglePlay(params);
 
+        params.trailerLink = "https://www.youtube.com/watch?v=3dPQIT10ok8&t";
         params.tutorialLink = "https://youtu.be/xg25QCxlvXM";
         params.fbLink = "https://www.facebook.com/101729401434875/photos/a.101737761434039/147391586868656/?type=3&xts%5B0%5D=68.ARAk1b34nsmLEQ-Qy1jLGgf5M_OS4Eu2bfkwpEyLcDot-rTuQV1p9diUrSyXxTr7FnK5gVC4KP-wxRZK1Ri6Hom0bEoHHn1ECJU8sqPo_tMbqy4LQv1NHNWSvTpnBVQ4DJGkLFyArtPSoRZPc4pp8XDLMNmtr7wN2Q-w4E2m77vbOrD8CyvHVRMs_zTnZbT9qIX3xJbNv4fqabs9CLQIYnK6hMLvkWUe8u1n32gShORJs1cc_sbj9kbDOxFOghMGyBJq9DCTVWxrdyvukwxeVeMCBXdk8f2N5acc-_jUiXeMpT5EBx_GBMEGIl7h_P0mdMUaDECe_LujIqs5uHausB8&tn=-R";
         params.instaLink = "https://www.instagram.com/p/CBdGkEWnj3A/?utm_source=ig_web_copy_link";
@@ -759,21 +748,10 @@ public class AndroidLauncher extends AndroidApplication {
 
     public void sendReferralLink(){
         String referrerName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
-        String subject = String.format("%s wants you to play MyExampleGame!", referrerName);
         String invitationLink = mInvitationUrl.toString();
-        String msg = "Let's play Munchausen together! Use my referrer link: "
+
+        String msg = "Let's listen and play Munchausen together! Use my referrer link: "
                 + invitationLink;
-        String msgHtml = String.format("<p>Let's play Munchausen together! Use my "
-                + "<a href=\"%s\">referrer link</a>!</p>", invitationLink);
-/*
-        Intent intent = new Intent(Intent.ACTION_SENDTO);
-        intent.setData(Uri.parse("mailto:")); // only email apps should handle this
-        intent.putExtra(Intent.EXTRA_SUBJECT, subject);
-        intent.putExtra(Intent.EXTRA_TEXT, msg);
-        intent.putExtra(Intent.EXTRA_HTML_TEXT, msgHtml);
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivity(intent);
-        }*/
 
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
@@ -781,7 +759,7 @@ public class AndroidLauncher extends AndroidApplication {
         shareIntent.putExtra(Intent.EXTRA_TEXT,
                 msg);
 
-        startActivity(Intent.createChooser(shareIntent, "Share with"));
+        startActivity(Intent.createChooser(shareIntent, "Share"));
     }
 
     public void getReferralLink(){

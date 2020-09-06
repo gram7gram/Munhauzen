@@ -14,6 +14,8 @@ public class MenuState implements JsonEntry {
     @JsonProperty
     public boolean isShareViewed;
     @JsonProperty
+    public boolean isTrailerViewed;
+    @JsonProperty
     public boolean showThankYouBanner;
     @JsonProperty
     public boolean isContinueEnabled;

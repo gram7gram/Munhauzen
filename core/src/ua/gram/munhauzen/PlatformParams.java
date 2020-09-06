@@ -37,6 +37,7 @@ public class PlatformParams implements JsonEntry {
     public float scaleFactor = 1;
 
     public String tutorialLink;
+    public String trailerLink;
     public final String sentryDsn = "https://aaab9a00313c443498afb6184a21c867@sentry.io/1802514";
     public String vkLink;
     public String instaLink;

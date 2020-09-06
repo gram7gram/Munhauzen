@@ -31,6 +31,7 @@ import ua.gram.munhauzen.screen.menu.fragment.ShareFragment;
 import ua.gram.munhauzen.screen.menu.fragment.StartWarningFragment;
 import ua.gram.munhauzen.screen.menu.fragment.ThankYouFragment;
 import ua.gram.munhauzen.screen.menu.fragment.TutorialFragment;
+import ua.gram.munhauzen.screen.menu.fragment.VideoTrailerFragment;
 import ua.gram.munhauzen.screen.menu.listenter.MenuStageListener;
 import ua.gram.munhauzen.screen.menu.ui.MenuLayers;
 import ua.gram.munhauzen.service.AudioService;
@@ -62,6 +63,7 @@ public class MenuScreen extends AbstractScreen {
     public NewAchievementFragment newAchievementFragment;
     public ReferalThanks3Fragment referalThanks3Fragment;
     public ReferalThanks7Fragment referalThanks7Fragment;
+    public VideoTrailerFragment trailerFragment;
 
     public MenuScreen(MunhauzenGame game) {
         super(game);
@@ -178,7 +180,8 @@ public class MenuScreen extends AbstractScreen {
             ui.addListener(new MenuStageListener(this));
 
             try {
-                openBannerIfNeeded();
+//                openBannerIfNeeded();
+                openTrailerBanner();
             } catch (Throwable ignore) {
             }
 
@@ -246,6 +249,7 @@ public class MenuScreen extends AbstractScreen {
             boolean canOpenTutorial = !menuState.isTutorialViewed;
             boolean canOpenShare = !menuState.isShareViewed && openCount % 5 == 0;
             boolean canOpenVersion = openCount % 7 == 0;
+            boolean canOpenTrailer = !menuState.isTrailerViewed && openCount % 3 == 0;
 
             if (canOpenGreeting) {
 
@@ -287,6 +291,16 @@ public class MenuScreen extends AbstractScreen {
                         openVersionBanner();
                     }
                 }, 2);
+            } else if (canOpenTrailer) {
+
+                canPlaySfx = false;
+
+                Timer.instance().scheduleTask(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        openTrailerBanner();
+                    }
+                }, 2);
             } else {
 
                 Timer.instance().scheduleTask(new Timer.Task() {
@@ -313,6 +327,10 @@ public class MenuScreen extends AbstractScreen {
     public void destroyBanners() {
         super.destroyBanners();
 
+        if (trailerFragment != null) {
+            trailerFragment.destroy();
+            trailerFragment = null;
+        }
         if (shareFragment != null) {
             shareFragment.destroy();
             shareFragment = null;
@@ -489,6 +507,25 @@ public class MenuScreen extends AbstractScreen {
             layers.setBannerLayer(shareFragment);
 
             shareFragment.fadeIn();
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+    }
+
+    private void openTrailerBanner() {
+
+        try {
+
+            if (layers == null || layers.bannerLayer != null) return;
+            if (isUILocked) return;
+
+            trailerFragment = new VideoTrailerFragment(this);
+            trailerFragment.create();
+
+            layers.setBannerLayer(trailerFragment);
+
+            trailerFragment.fadeIn();
 
         } catch (Throwable e) {
             Log.e(tag, e);

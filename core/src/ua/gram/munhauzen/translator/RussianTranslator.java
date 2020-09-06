@@ -257,14 +257,18 @@ public class RussianTranslator implements Translator {
         map.put("promo_success_banner.title", "Спасибо!\nПромокод активирован!");
         map.put("promo_success_banner.btn", "Продолжить");
 
+        map.put("trailer_banner.title", "Наш ролик");
+        map.put("trailer_banner.content", "Посмотрите наш кинематический ролик!");
+        map.put("trailer_banner.btn", "Смотреть");
+
         map.put("referral_banner_3.title", "Поздравляем!\nБонус за 3 друзей получен!");
         map.put("referral_banner_3.btn", "Отлично");
         map.put("referral_banner_7.title", "Поздравляем!\nБонус за 7 друзей получен!");
         map.put("referral_banner_7.btn", "Отлично");
         map.put("referal_banner.title", "Поделись игрой и получи бонусы!");
         map.put("referal_banner.link", "Реферальная ссылка");
-        map.put("referal_banner.btn", "Скопировать");
-        map.put("referal_banner.success", "Ссылка скопирована");
+        map.put("referal_banner.btn", "Поделиться");
+        map.put("referal_banner.footer", "* гость должен не только установить приложение, но и пройти одну главу");
         map.put("purchase_pending_banner.title", "Покупка...\nЭто может занять до 1 минуты.\nПожалуйста, дождитесь закрытия окна");
 
     }
