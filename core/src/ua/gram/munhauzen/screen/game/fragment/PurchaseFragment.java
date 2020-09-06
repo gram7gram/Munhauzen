@@ -49,6 +49,7 @@ public class PurchaseFragment extends Fragment {
         backdrop.setTouchable(Touchable.enabled);
 
         final PurchaseBanner banner = new PurchaseBanner(this);
+        banner.setTouchable(Touchable.childrenOnly);
         banner.setVisible(false);
 
         root = new FragmentRoot();
