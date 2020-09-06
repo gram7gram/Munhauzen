@@ -60,7 +60,7 @@ public class ExpansionDownloadManager {
 
             expansionPart = game.gameState.purchaseState.currentExpansionVersion;
             if (expansionPart == null) {
-                return;
+                expansionPart = "Part_demo";
             }
 
             FileHandle file = Files.getExpansionConfigFile(game.params, expansionPart);

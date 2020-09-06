@@ -75,7 +75,7 @@ public class ReferalBanner extends Banner<MenuScreen> {
         ReferralProgress progress = new ReferralProgress(screen, cellMinWidth * .9f);
 
         ReferralInput input = new ReferralInput(screen.game);
-        input.setText(screen.game.referralService.getPersonalReferralLink());
+        input.setText("https://unique_refferal_link");
 
         Table columns = new Table();
 
