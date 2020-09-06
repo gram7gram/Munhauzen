@@ -1,0 +1,11 @@
+framework module FirebaseDynamicLinks {
+umbrella header "FirebaseDynamicLinks.h"
+export *
+module * { export * }
+  link framework "CoreTelephony"
+  link framework "Foundation"
+  link framework "QuartzCore"
+  link framework "SystemConfiguration"
+  link framework "UIKit"
+  link "z"
+}

@@ -93,10 +93,15 @@ public class MunhauzenGame extends Game {
     }
 
 
-    public MunhauzenGame(PlatformParams params, AlarmInterface alarmInterface, OnExpansionDownloadComplete onExpansionDownloadComplete) {
+    public MunhauzenGame(PlatformParams params, AlarmInterface alarmInterface,
+                         OnExpansionDownloadComplete onExpansionDownloadComplete,
+                         LoginInterface loginInterface,
+                         ReferralInterface referralInterface) {
         this.params = params;
         MunhauzenGame.alarmInterface = alarmInterface;
         MunhauzenGame.onExpansionDownloadComplete = onExpansionDownloadComplete;
+        MunhauzenGame.loginInterface = loginInterface;
+        MunhauzenGame.referralInterface = referralInterface;
     }
 
     public String getExpansionPart() {
@@ -201,7 +206,8 @@ public class MunhauzenGame extends Game {
                 }
             });
 
-            referralService.setReferralCount(referralInterface.getRefferralCount());
+            int referralCount = referralInterface.getRefferralCount();
+            referralService.setReferralCount(referralCount);
 
 
             //referral addtion ends
