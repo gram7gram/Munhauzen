@@ -221,7 +221,7 @@ public class AndroidLauncher extends AndroidApplication {
                                 .child("users")
                                 .child(user.getUid());
 
-                userRecord.child("hasCompletedChap0").setValue(true);
+                userRecord.child("hasCompletedChap0").setValue(1);
             }
         } );
 
@@ -273,7 +273,7 @@ public class AndroidLauncher extends AndroidApplication {
                                     .child("users")
                                     .child(user.getUid());
 
-                    userRecord.child("hasCompletedChap0").setValue(true);
+                    userRecord.child("hasCompletedChap0").setValue(1);
                 }
             } );
 
@@ -346,9 +346,9 @@ public class AndroidLauncher extends AndroidApplication {
                            @Override
                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                try {
-                                   boolean isChap0Completed = dataSnapshot.getValue(Boolean.class);
+                                   int isChap0Completed = dataSnapshot.getValue(Integer.class);
                                    int currentCount = SharedPreferencesHelper.getReferralCount(getApplicationContext());
-                                   if(isChap0Completed){
+                                   if(isChap0Completed == 1){
                                        SharedPreferencesHelper.setReferralCount(getApplicationContext(), currentCount +1);
 
                                    }
@@ -699,7 +699,7 @@ public class AndroidLauncher extends AndroidApplication {
                                             .child(user.getUid());
 
                             userRecord.child("last_login_time").setValue(ServerValue.TIMESTAMP);
-                            userRecord.child("hasCompletedChap0").setValue(false);
+                            userRecord.child("hasCompletedChap0").setValue(0);
                             System.out.println("Anonymous Account created with Refferrer info");
 
                             //ends
@@ -734,7 +734,7 @@ public class AndroidLauncher extends AndroidApplication {
                                 .build())
                 .setIosParameters(
                         new DynamicLink.IosParameters.Builder("en.munchausen.fingertipsandcompany.full")
-                                .setAppStoreId("123456789")
+                                .setAppStoreId("1496752335")
                                 .setMinimumVersion("1.0.1")
                                 .build())
                 .buildShortDynamicLink()
@@ -826,7 +826,7 @@ public class AndroidLauncher extends AndroidApplication {
                                         .child(user.getUid());
                         userRecord.child("referred_by").setValue(referrerUid);
                         userRecord.child("last_login_time").setValue(ServerValue.TIMESTAMP);
-                        userRecord.child("hasCompletedChap0").setValue(false);
+                        userRecord.child("hasCompletedChap0").setValue(0);
                         System.out.println("Anonymous Account created with Refferrer info");
 
                         final DatabaseReference referrer = FirebaseDatabase.getInstance().getReference()

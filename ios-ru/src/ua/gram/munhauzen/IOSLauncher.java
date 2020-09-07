@@ -248,7 +248,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
         FIRDynamicLinkIOSParameters iOSParameters = new FIRDynamicLinkIOSParameters(BUNDLE_ID);
         iOSParameters.setMinimumAppVersion("1.0.1");
-        iOSParameters.setAppStoreID("123456789");
+        iOSParameters.setAppStoreID("1498389554");
         referalLink.setIOSParameters(iOSParameters);
 
         FIRDynamicLinkAndroidParameters androidParameters = new FIRDynamicLinkAndroidParameters(BUNDLE_ID);
