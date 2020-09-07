@@ -659,7 +659,7 @@ public class AndroidLauncher extends AndroidApplication {
     public String setReferralzz(){
 
         String uid = mAuth.getCurrentUser().getUid();
-        link = "https://fingertipsandcompany.page.link/?invitedby=" + uid;
+        link = "https://thebaronmunchausen.com/?invitedby=" + uid;
 
         FirebaseDynamicLinks.getInstance().createDynamicLink()
                 .setLink(Uri.parse(link))

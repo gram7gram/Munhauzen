@@ -104,7 +104,8 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
     public static final String KEY_NOTIFICATION2_MESSAGE = "key_notification2_message";
     public static final String KEY_DEVICE_TOKEN = "key_device_token";
     public static final String KEY_REFERRAL_COUNT = "key_referral_count";
-    public static final String MUNHAUSEN_URL = "https://fingertipsandcompany.page.link/?invitedby=";
+    public static final String MUNHAUSEN_URL = "https://thebaronmunchausen.com";
+//    public static final String MUNHAUSEN_URL = "https://fingertipsandcompany.page.link";
     public static final String INVITE_LINK = MUNHAUSEN_URL+"/?invitedby=";
     public static final String BUNDLE_ID = "en.munchausen.fingertipsandcompany.full";
     public static final int CHAPTER0_COMPLETED = 1;
@@ -253,11 +254,11 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
     private String setReferralzz(){
         String uid = mAuth.getCurrentUser().getUid();
         String link = INVITE_LINK+uid;
-        FIRDynamicLinkComponents referalLink = new FIRDynamicLinkComponents(new NSURL(link) ,MUNHAUSEN_URL);
+        FIRDynamicLinkComponents referalLink = new FIRDynamicLinkComponents(new NSURL(link) ,"https://fingertipsandcompany.page.link");
 
         FIRDynamicLinkIOSParameters iOSParameters = new FIRDynamicLinkIOSParameters(BUNDLE_ID);
         iOSParameters.setMinimumAppVersion("1.0.1");
-        iOSParameters.setAppStoreID("123456789");
+        iOSParameters.setAppStoreID("1496752335");
         referalLink.setIOSParameters(iOSParameters);
 
         FIRDynamicLinkAndroidParameters androidParameters = new FIRDynamicLinkAndroidParameters(BUNDLE_ID);
@@ -287,8 +288,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
      */
     private void sendInvitationLink(){
         String invitationLink = mInvitationURL;
-        String msg = "Let's play Munchausen together! Use my referrer link: "
-                + invitationLink;
+        String msg = invitationLink;
 
         System.out.println(msg);
 
