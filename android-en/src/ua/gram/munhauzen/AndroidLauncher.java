@@ -82,6 +82,18 @@ public class AndroidLauncher extends AndroidApplication {
     String link;
     String mInvitationUrl;
 
+    public static  String USERS = "ztestusers";
+    public static  String NOTIFICATION = "ztest1notifications";
+
+    public class FIREBASE_PATHS{
+        //        public static final  String USERS = "users";
+//        public static final  String NOTIFICATION = "1notifications";
+        public static final  String LAST_LOGIN_TIME = "last_login_time";
+        public static final  String HAS_COMPLETED_CHAP_0 = "hasCompletedChap0";
+        public static final  String REFERRED_CANDIDATES = "referred_candidates";
+        public static final  String REFERRED_BY = "referred_by";
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -163,6 +175,15 @@ public class AndroidLauncher extends AndroidApplication {
             params.release = PlatformParams.Release.DEV;
         }
 
+
+        if (params.release == PlatformParams.Release.PROD){
+            USERS = "users";
+            NOTIFICATION = "1notifications";
+        }else {
+            USERS = "ztestusers";
+            NOTIFICATION = "ztest1notifications";
+        }
+
         FirebaseAnalytics.getInstance(this);
         getReferralLink();
 
@@ -207,10 +228,10 @@ public class AndroidLauncher extends AndroidApplication {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 DatabaseReference userRecord =
                         FirebaseDatabase.getInstance().getReference()
-                                .child("users")
+                                .child(USERS)
                                 .child(user.getUid());
 
-                userRecord.child("hasCompletedChap0").setValue(true);
+                userRecord.child("hasCompletedChap0").setValue(1);
             }
         } );
 
@@ -259,10 +280,10 @@ public class AndroidLauncher extends AndroidApplication {
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                     DatabaseReference userRecord =
                             FirebaseDatabase.getInstance().getReference()
-                                    .child("users")
+                                    .child(USERS)
                                     .child(user.getUid());
 
-                    userRecord.child("hasCompletedChap0").setValue(true);
+                    userRecord.child("hasCompletedChap0").setValue(1);
                 }
             } );
 
@@ -316,7 +337,7 @@ public class AndroidLauncher extends AndroidApplication {
 
         try {
 
-            DatabaseReference userRef = database.getReference("users").child(mAuth.getCurrentUser().getUid());
+            DatabaseReference userRef = database.getReference(USERS).child(mAuth.getCurrentUser().getUid());
 
             DatabaseReference refCanRef = userRef.child("referred_candidates");
 
@@ -325,7 +346,7 @@ public class AndroidLauncher extends AndroidApplication {
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     int referralCount = (int) dataSnapshot.getChildrenCount();
 
-                    DatabaseReference userRef = database.getReference("users");
+                    DatabaseReference userRef = database.getReference(USERS);
 
                     SharedPreferencesHelper.setReferralCount(getApplicationContext(), 0);
 
@@ -335,9 +356,9 @@ public class AndroidLauncher extends AndroidApplication {
                            @Override
                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                try {
-                                   boolean isChap0Completed = dataSnapshot.getValue(Boolean.class);
+                                   int isChap0Completed = dataSnapshot.getValue(Integer.class);
                                    int currentCount = SharedPreferencesHelper.getReferralCount(getApplicationContext());
-                                   if(isChap0Completed){
+                                   if(isChap0Completed == 1){
                                        SharedPreferencesHelper.setReferralCount(getApplicationContext(), currentCount +1);
 
                                    }
@@ -684,11 +705,11 @@ public class AndroidLauncher extends AndroidApplication {
                             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                             DatabaseReference userRecord =
                                     FirebaseDatabase.getInstance().getReference()
-                                            .child("users")
+                                            .child(USERS)
                                             .child(user.getUid());
 
                             userRecord.child("last_login_time").setValue(ServerValue.TIMESTAMP);
-                            userRecord.child("hasCompletedChap0").setValue(false);
+                            userRecord.child("hasCompletedChap0").setValue(0);
                             System.out.println("Anonymous Account created with Refferrer info");
 
                             //ends
@@ -711,7 +732,7 @@ public class AndroidLauncher extends AndroidApplication {
     public String setReferralzz(){
 
         String uid = mAuth.getCurrentUser().getUid();
-        link = "https://fingertipsandcompany.page.link/?invitedby=" + uid;
+        link = "https://thebaronmunchausen.com/?invitedby=" + uid;
 
         FirebaseDynamicLinks.getInstance().createDynamicLink()
                 .setLink(Uri.parse(link))
@@ -723,7 +744,7 @@ public class AndroidLauncher extends AndroidApplication {
                                 .build())
                 .setIosParameters(
                         new DynamicLink.IosParameters.Builder("en.munchausen.fingertipsandcompany.full")
-                                .setAppStoreId("123456789")
+                                .setAppStoreId("1496752335")
                                 .setMinimumVersion("1.0.1")
                                 .build())
                 .buildShortDynamicLink()
@@ -800,15 +821,15 @@ public class AndroidLauncher extends AndroidApplication {
                         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                         DatabaseReference userRecord =
                                 FirebaseDatabase.getInstance().getReference()
-                                        .child("users")
+                                        .child(USERS)
                                         .child(user.getUid());
                         userRecord.child("referred_by").setValue(referrerUid);
                         userRecord.child("last_login_time").setValue(ServerValue.TIMESTAMP);
-                        userRecord.child("hasCompletedChap0").setValue(false);
+                        userRecord.child("hasCompletedChap0").setValue(0);
                         System.out.println("Anonymous Account created with Refferrer info");
 
                         final DatabaseReference referrer = FirebaseDatabase.getInstance().getReference()
-                                .child("users").child(referrerUid);
+                                .child(USERS).child(referrerUid);
 
 
 
@@ -842,7 +863,7 @@ public class AndroidLauncher extends AndroidApplication {
 
     private void getNotificationsInfoFromFirebaseDatabase(){
 
-        DatabaseReference notificationsRef = database.getReference("1notifications");
+        DatabaseReference notificationsRef = database.getReference(NOTIFICATION);
 
         DatabaseReference notificationContinueRef = notificationsRef.child("1notification_to_continue");
 
