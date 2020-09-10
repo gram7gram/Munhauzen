@@ -25,6 +25,8 @@ obb/*.zip
 /android-*/libs/x86_64/
 /android-*/gen/
 /android-*/build
+/android-*/release/
+/android-*/staging/
 
 ## Gradle
 /local.properties
