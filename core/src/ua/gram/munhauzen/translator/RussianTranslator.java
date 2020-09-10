@@ -253,6 +253,7 @@ public class RussianTranslator implements Translator {
         map.put("promo_banner.btn", "Есть промокод?");
         map.put("promo_banner.ok_btn", "Активировать");
         map.put("promo_banner.title", "Введите промокод");
+        map.put("promo_banner.footer", " * Учитываются заглавные буквы");
 
         map.put("promo_success_banner.title", "Спасибо!\nПромокод активирован!");
         map.put("promo_success_banner.btn", "Продолжить");

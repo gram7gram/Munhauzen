@@ -254,6 +254,7 @@ public class EnglishTranslator implements Translator {
         map.put("promo_banner.btn", "Have promocode?");
         map.put("promo_banner.ok_btn", "Activate");
         map.put("promo_banner.title", "Enter promocode");
+        map.put("promo_banner.footer", "* Letter case is important");
 
         map.put("promo_success_banner.title", "Thank you!\nPromocode is activated!");
         map.put("promo_success_banner.btn", "Continue");
