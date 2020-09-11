@@ -273,8 +273,9 @@ public class ExpansionDownloadManager {
 
         } catch (Exception e) {
             //Log.e(tag, e);
+            e.printStackTrace();
             String errorThrow = e.getLocalizedMessage();
-
+            System.out.println("exception should-fetch-expansion----------------->"+e);
             return true;
         }
     }
