@@ -62,6 +62,8 @@ import ua.gram.munhauzen.utils.Log;
 
 public class NotificationDelegate extends NSObject implements UNUserNotificationCenterDelegate {
 
+
+
     UNUserNotificationCenter notificationCenter = UNUserNotificationCenter.currentNotificationCenter();
 
     void userRequest() {
@@ -308,7 +310,7 @@ public class NotificationDelegate extends NSObject implements UNUserNotification
 
             UNTimeIntervalNotificationTrigger trigger = new UNTimeIntervalNotificationTrigger(hrs, true);
 
-            String identifier = "Notification";
+            String identifier = "downoadNotification";
             UNNotificationRequest request = new UNNotificationRequest(identifier, content, trigger);
 
             notificationCenter.addNotificationRequest(request, new VoidBlock1<NSError>() {

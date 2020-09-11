@@ -3,7 +3,6 @@ package ua.gram.munhauzen;
 import com.badlogic.gdx.backends.iosrobovm.IOSApplication;
 import com.badlogic.gdx.backends.iosrobovm.IOSApplicationConfiguration;
 import com.badlogic.gdx.pay.ios.apple.PurchaseManageriOSApple;
-import com.fasterxml.jackson.databind.ser.std.StdKeySerializers;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -15,11 +14,9 @@ import org.robovm.apple.foundation.NSBundle;
 import org.robovm.apple.foundation.NSData;
 import org.robovm.apple.foundation.NSDate;
 import org.robovm.apple.foundation.NSDictionary;
-import org.robovm.apple.foundation.NSEnumerator;
 import org.robovm.apple.foundation.NSError;
 import org.robovm.apple.foundation.NSErrorException;
 import org.robovm.apple.foundation.NSFileManager;
-import org.robovm.apple.foundation.NSKeyValueChangeInfo;
 import org.robovm.apple.foundation.NSMutableArray;
 import org.robovm.apple.foundation.NSNumber;
 import org.robovm.apple.foundation.NSObject;
@@ -30,9 +27,6 @@ import org.robovm.apple.foundation.NSURL;
 import org.robovm.apple.foundation.NSURLComponents;
 import org.robovm.apple.foundation.NSURLQueryItem;
 import org.robovm.apple.foundation.NSUserDefaults;
-import org.robovm.apple.messageui.MFMailComposeResult;
-import org.robovm.apple.messageui.MFMailComposeViewController;
-import org.robovm.apple.messageui.MFMailComposeViewControllerDelegate;
 import org.robovm.apple.uikit.UIActivityViewController;
 import org.robovm.apple.uikit.UIApplication;
 import org.robovm.apple.uikit.UIApplicationDelegate;
@@ -77,13 +71,9 @@ import org.robovm.pods.firebase.messaging.FIRMessagingRemoteMessage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.Set;
 
 import ua.gram.munhauzen.entity.Device;
-import ua.gram.munhauzen.interaction.swamp.ui.MunchausenInSwamp;
 import ua.gram.munhauzen.interfaces.LoginInterface;
 import ua.gram.munhauzen.interfaces.LoginListener;
 import ua.gram.munhauzen.interfaces.OnExpansionDownloadComplete;
@@ -105,14 +95,17 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
     public static final String KEY_DEVICE_TOKEN = "key_device_token";
     public static final String KEY_REFERRAL_COUNT = "key_referral_count";
     public static final String MUNHAUSEN_URL = "https://thebaronmunchausen.com";
-//    public static final String MUNHAUSEN_URL = "https://fingertipsandcompany.page.link";
     public static final String INVITE_LINK = MUNHAUSEN_URL+"/?invitedby=";
     public static final String BUNDLE_ID = "en.munchausen.fingertipsandcompany.full";
     public static final int CHAPTER0_COMPLETED = 1;
     public static final int CHAPTER0_INCOMPLETE = 0;
 
+    public static  String USERS = "ztestusers";
+    public static  String NOTIFICATION = "ztest1notifications";
+    
     public class FIREBASE_PATHS{
-        public static final  String USERS = "users";
+//        public static final  String USERS = "users";
+//        public static final  String NOTIFICATION = "1notifications";
         public static final  String LAST_LOGIN_TIME = "last_login_time";
         public static final  String HAS_COMPLETED_CHAP_0 = "hasCompletedChap0";
         public static final  String REFERRED_CANDIDATES = "referred_candidates";
@@ -237,7 +230,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
                 System.out.println("UserID------------------------------>"+mAuth.getCurrentUser().getUid());
                 loginListener.isLoggedIn(true);
                 FIRDatabaseReference userRecord = FIRDatabase.database().reference()
-                        .child(FIREBASE_PATHS.USERS).child(user.getUid());
+                        .child(USERS).child(user.getUid());
                 userRecord.child(FIREBASE_PATHS.LAST_LOGIN_TIME).setValue(FIRServerValue.timestamp());
                 userRecord.child(FIREBASE_PATHS.HAS_COMPLETED_CHAP_0).setValue(NSNumber.valueOf(CHAPTER0_INCOMPLETE));
                 setReferralzz();
@@ -324,7 +317,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
     private void getReferralCount(){
         try{
             FIRDatabaseReference refCanRef = FIRDatabase.database()
-                    .reference(FIREBASE_PATHS.USERS)
+                    .reference(USERS)
                     .child(mAuth.getCurrentUser().getUid())
                     .child(FIREBASE_PATHS.REFERRED_CANDIDATES);
 
@@ -333,7 +326,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
                         @Override
                         public void invoke(FIRDataSnapshot firDataSnapshot) {
                             FIRDatabaseReference userRef = FIRDatabase.database().reference()
-                                    .child(FIREBASE_PATHS.USERS);
+                                    .child(USERS);
                             //Initially clear referral count
                             NSUserDefaults.getStandardUserDefaults().put(KEY_REFERRAL_COUNT,0);
 
@@ -417,7 +410,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
             FIRUser user = mAuth.getCurrentUser();
             FIRDatabaseReference userRecord =
                     FIRDatabase.database().reference()
-                            .child(FIREBASE_PATHS.USERS)
+                            .child(USERS)
                             .child(user.getUid());
 
             userRecord.child(FIREBASE_PATHS.HAS_COMPLETED_CHAP_0)
@@ -456,7 +449,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
                 public void invoke(FIRAuthDataResult firAuthDataResult, NSError nsError) {
                     FIRDatabaseReference users =
                             FIRDatabase.database().reference()
-                                    .child(FIREBASE_PATHS.USERS);
+                                    .child(USERS);
 
                     FIRDatabaseReference userRecord = users.child(user.getUid());
                     userRecord.child(FIREBASE_PATHS.REFERRED_BY).setValue(new NSString(invitedBy));
@@ -558,7 +551,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
         params.iap = new PurchaseManageriOSApple();
         params.translator = new EnglishTranslator();
         params.appStore = new AppleStore(params);
-        params.release = PlatformParams.Release.PROD;
+        params.release = PlatformParams.Release.DEV;
 
         params.tutorialLink = "https://youtu.be/xg25QCxlvXM";
         params.fbLink = "https://www.facebook.com/101729401434875/photos/a.101737761434039/147391586868656/?type=3&xts%5B0%5D=68.ARAk1b34nsmLEQ-Qy1jLGgf5M_OS4Eu2bfkwpEyLcDot-rTuQV1p9diUrSyXxTr7FnK5gVC4KP-wxRZK1Ri6Hom0bEoHHn1ECJU8sqPo_tMbqy4LQv1NHNWSvTpnBVQ4DJGkLFyArtPSoRZPc4pp8XDLMNmtr7wN2Q-w4E2m77vbOrD8CyvHVRMs_zTnZbT9qIX3xJbNv4fqabs9CLQIYnK6hMLvkWUe8u1n32gShORJs1cc_sbj9kbDOxFOghMGyBJq9DCTVWxrdyvukwxeVeMCBXdk8f2N5acc-_jUiXeMpT5EBx_GBMEGIl7h_P0mdMUaDECe_LujIqs5uHausB8&tn=-R";
@@ -584,6 +577,14 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
                 final NSObject value = infoDictionary.get(key);
                 params.applicationId = value.toString();
             }
+        }
+
+        if (params.release == PlatformParams.Release.PROD){
+            USERS = "users";
+            NOTIFICATION = "1notifications";
+        }else {
+            USERS = "ztestusers";
+            NOTIFICATION = "ztest1notifications";
         }
 
         readNotificationJson();
@@ -660,6 +661,8 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
             showNotificaiton();
         } catch (NSErrorException e) {
             e.printStackTrace();
+        } catch (Exception e){
+            e.printStackTrace();
         }
 
     }
@@ -704,6 +707,8 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
             showNotificaiton();
         } catch (NSErrorException e) {
             e.printStackTrace();
+        } catch (Exception e){
+            e.printStackTrace();
         }
     }
 
@@ -721,6 +726,8 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
         try {
             showNotificaiton();
         } catch (NSErrorException e) {
+            e.printStackTrace();
+        } catch (Exception e){
             e.printStackTrace();
         }
 
@@ -747,6 +754,8 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
             showNotificaiton();
         } catch (NSErrorException e) {
             e.printStackTrace();
+        } catch (Exception e){
+            e.printStackTrace();
         }
     }
 
@@ -762,6 +771,8 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
             showNotificaiton();
         } catch (NSErrorException e) {
             e.printStackTrace();
+        } catch (Exception e){
+            e.printStackTrace();
         }
 
         completionHandler.invoke(UIBackgroundFetchResult.NewData);
@@ -769,10 +780,10 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
     private void showNotificaiton() throws NSErrorException {
         if (Foundation.getMajorSystemVersion() >= 10) {
-            NotificationDelegate delegate = new NotificationDelegate();
-            notificationCenter.setDelegate(delegate);
-            //delegate.userRequest();
             try {
+                NotificationDelegate delegate = new NotificationDelegate();
+                notificationCenter.setDelegate(delegate);
+                delegate.userRequest();
                 if (needToDownload){
                     delegate.scheduleDownloadNotification();
                 }else {
@@ -803,42 +814,42 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
     }
 
-    private void readStoredData() {
-        java.lang.String saveFile = "save-action.json";
-        java.lang.String chapter = "chapters.json";
+//    private void readStoredData() {
+//        java.lang.String saveFile = "save-action.json";
+//        java.lang.String chapter = "chapters.json";
+//
+//        //readSaveJsonFile();
+//
+//        NSURL dir = NSFileManager.getDefaultManager().getURLsForDirectory(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask).first();
+//
+////        java.lang.String fileURL = "/Users/amar/Library/Developer/CoreSimulator/Devices/70E1D038-FA2F-49BD-B3FD-D58A65859153/data/Containers/Data/Application/333F1A41-9F56-4E8D-AE78-96643681ADDE/Documents/.Munchausen/en.munchausen.fingertipsandcompany.any/save-active.json";
+////        /Users/amar/Library/Developer/CoreSimulator/Devices/70E1D038-FA2F-49BD-B3FD-D58A65859153/data/Containers/Bundle/Application/50513BF7-B3DE-453E-AAE0-50FED3235353/IOSLauncher.app/inventory.json
+//        java.lang.String fileURL = dir.getPath();
+//        System.out.println("File Path : " + fileURL);
+//
+//
+//        java.lang.String savedAction = dir.getPath() + "/.Munchausen/en.munchausen.fingertipsandcompany.any/save-active.json";
+//        String chPath = NSBundle.getMainBundle().findResourcePath("chapters", "json");
+//
+//        System.out.println("Chapter: Path " + chPath);
+//
+//        readJsonFile(savedAction);
+//        String chData = readJsonFile(chPath);
+//        try {
+//            JSONArray array = new JSONArray(chData);
+//            String obj = array.getJSONObject(0).getString("name");
+//            System.out.println("Name " + obj);
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            System.out.println("Read Error " + e);
+//        }
+//
+//
+//    }
 
-        //readSaveJsonFile();
 
-        NSURL dir = NSFileManager.getDefaultManager().getURLsForDirectory(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask).first();
-
-//        java.lang.String fileURL = "/Users/amar/Library/Developer/CoreSimulator/Devices/70E1D038-FA2F-49BD-B3FD-D58A65859153/data/Containers/Data/Application/333F1A41-9F56-4E8D-AE78-96643681ADDE/Documents/.Munchausen/en.munchausen.fingertipsandcompany.any/save-active.json";
-//        /Users/amar/Library/Developer/CoreSimulator/Devices/70E1D038-FA2F-49BD-B3FD-D58A65859153/data/Containers/Bundle/Application/50513BF7-B3DE-453E-AAE0-50FED3235353/IOSLauncher.app/inventory.json
-        java.lang.String fileURL = dir.getPath();
-        System.out.println("File Path : " + fileURL);
-
-
-        java.lang.String savedAction = dir.getPath() + "/.Munchausen/en.munchausen.fingertipsandcompany.any/save-active.json";
-        String chPath = NSBundle.getMainBundle().findResourcePath("chapters", "json");
-
-        System.out.println("Chapter: Path " + chPath);
-
-        readJsonFile(savedAction);
-        String chData = readJsonFile(chPath);
-        try {
-            JSONArray array = new JSONArray(chData);
-            String obj = array.getJSONObject(0).getString("name");
-            System.out.println("Name " + obj);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Read Error " + e);
-        }
-
-
-    }
-
-
-    private void startAlarm() {
+    private void getLastChapter() {
         //Saved
 
         try {
@@ -895,6 +906,8 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
         } catch (JSONException e) {
             e.printStackTrace();
             System.out.println("StartAlarmError: " + e);
+        } catch (Exception e){
+            System.out.println("StartAlarmError generalized exception -----------------------------> "+e);
         }
 
 
@@ -930,12 +943,13 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
     public static void readNotificationJson() {
 
-        //Notification
-        String notificationPath = NSBundle.getMainBundle().findResourcePath("notification_texts", "json");
-        String notificationJson = readJsonFile(notificationPath);
+
 
 
         try {
+            //Notification
+            String notificationPath = NSBundle.getMainBundle().findResourcePath("notification_texts", "json");
+            String notificationJson = readJsonFile(notificationPath);
             JSONObject notificationJsonObject = new JSONObject(notificationJson);
 
             //for Continue notification
@@ -962,6 +976,8 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
         } catch (JSONException e) {
             e.printStackTrace();
             System.out.println("StartAlarmError: " + e);
+        } catch (Exception e){
+            e.printStackTrace();
         }
 
 
@@ -1032,7 +1048,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
         // Write a message to the database
         FIRDatabase database = FIRDatabase.database();
 
-        FIRDatabaseReference notificationsRef = database.reference("1notifications");
+        FIRDatabaseReference notificationsRef = database.reference(NOTIFICATION);
 
         FIRDatabaseReference notificationContinueRef = notificationsRef.child("1notification_to_continue");
 
@@ -1133,21 +1149,24 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
     }
 
-    @Override
-    public void willResignActive(UIApplication application) {
-        startAlarm();
-        try {
-            showNotificaiton();
-        } catch (NSErrorException e) {
-            e.printStackTrace();
-        }
-        System.out.println("Resign");
-        super.willResignActive(application);
-    }
+//    @Override
+//    public void willResignActive(UIApplication application) {
+//        startAlarm();
+//        try {
+//            showNotificaiton();
+//        } catch (NSErrorException e) {
+//            e.printStackTrace();
+//        }
+//        System.out.println("Resign");
+//        super.willResignActive(application);
+//    }
 
     @Override
     public void willTerminate(UIApplication application) {
-        startAlarm();
+        if (!needToDownload){
+            getLastChapter();
+        }
+
         try {
             showNotificaiton();
         } catch (NSErrorException e) {
@@ -1160,7 +1179,10 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
     @Override
     public void didEnterBackground(UIApplication application) {
-        startAlarm();
+        if (!needToDownload){
+            getLastChapter();
+        }
+
         try {
             showNotificaiton();
         } catch (NSErrorException e) {

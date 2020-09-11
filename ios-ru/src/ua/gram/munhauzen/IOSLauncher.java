@@ -101,8 +101,15 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
     public static final int CHAPTER0_COMPLETED = 1;
     public static final int CHAPTER0_INCOMPLETE = 0;
 
+
+    public static String USERS = "ztestusers";
+    public static String NOTIFICATION = "ztest1notifications";
+
     public class FIREBASE_PATHS{
-        public static final  String USERS = "users";
+        //        public static fina
+        //        l  String USERS = "users";
+//        public static final  String NOTIFICATION = "1notifications";
+
         public static final  String LAST_LOGIN_TIME = "last_login_time";
         public static final  String HAS_COMPLETED_CHAP_0 = "hasCompletedChap0";
         public static final  String REFERRED_CANDIDATES = "referred_candidates";
@@ -122,6 +129,9 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
     @Override
     public boolean didFinishLaunching(UIApplication application, UIApplicationLaunchOptions launchOptions) {
         System.out.println("createApplication: ");
+
+
+
         try {
 
             FIRApp.configure();
@@ -227,7 +237,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
                 System.out.println("UserID------------------------------>"+mAuth.getCurrentUser().getUid());
                 loginListener.isLoggedIn(true);
                 FIRDatabaseReference userRecord = FIRDatabase.database().reference()
-                        .child(FIREBASE_PATHS.USERS).child(user.getUid());
+                        .child(USERS).child(user.getUid());
                 userRecord.child(FIREBASE_PATHS.LAST_LOGIN_TIME).setValue(FIRServerValue.timestamp());
                 userRecord.child(FIREBASE_PATHS.HAS_COMPLETED_CHAP_0).setValue(NSNumber.valueOf(CHAPTER0_INCOMPLETE));
                 setReferralzz();
@@ -316,7 +326,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
     private void getReferralCount(){
         try{
             FIRDatabaseReference refCanRef = FIRDatabase.database()
-                    .reference(FIREBASE_PATHS.USERS)
+                    .reference(USERS)
                     .child(mAuth.getCurrentUser().getUid())
                     .child(FIREBASE_PATHS.REFERRED_CANDIDATES);
 
@@ -325,7 +335,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
                         @Override
                         public void invoke(FIRDataSnapshot firDataSnapshot) {
                             FIRDatabaseReference userRef = FIRDatabase.database().reference()
-                                    .child(FIREBASE_PATHS.USERS);
+                                    .child(USERS);
                             //Initially clear referral count
                             NSUserDefaults.getStandardUserDefaults().put(KEY_REFERRAL_COUNT,0);
 
@@ -409,7 +419,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
             FIRUser user = mAuth.getCurrentUser();
             FIRDatabaseReference userRecord =
                     FIRDatabase.database().reference()
-                            .child(FIREBASE_PATHS.USERS)
+                            .child(USERS)
                             .child(user.getUid());
 
             userRecord.child(FIREBASE_PATHS.HAS_COMPLETED_CHAP_0)
@@ -448,7 +458,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
                 public void invoke(FIRAuthDataResult firAuthDataResult, NSError nsError) {
                     FIRDatabaseReference users =
                             FIRDatabase.database().reference()
-                                    .child(FIREBASE_PATHS.USERS);
+                                    .child(USERS);
 
                     FIRDatabaseReference userRecord = users.child(user.getUid());
                     userRecord.child(FIREBASE_PATHS.REFERRED_BY).setValue(new NSString(invitedBy));
@@ -517,7 +527,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
         params.iap = new PurchaseManageriOSApple();
         params.translator = new RussianTranslator();
         params.appStore = new AppleStore(params);
-        params.release = PlatformParams.Release.PROD;
+        params.release = PlatformParams.Release.DEV;
 
         params.tutorialLink = "https://youtu.be/6K__lu7QuLk";
         params.fbLink = "https://www.facebook.com/thebaronmunchausen/photos/a.120269342878170/159930395578731/?type=3&xts%5B0%5D=68.ARDwKU7TTxCgmsz5T6W9Eu2xtm-Hv7chauuJWy_S5CIe9J7J3Rsl8CVsg1jHTERjW2pp3rM-6a5Iup5zR2SmytSr8v5lpnpl3RkXyxE1C6w-x79XqWzx4TRvwZtE_zhEJeIj7lIsceHQe-kBM88Dzz1Z8eLC-r7Z7NbVx7fZdizOFiEobj-hUDluar480Bim6q9hZi3gKs3ul4QUx8vVHZ2IKCoGc_5Vs6qucx07PsvoxnL67qDzxvMjdD7WyCKQaTHwxmrY6delninvJXNdG1lYpE9dP_YrVWO8ES7ZKMo5itape1BZGdURY8ha5jULztsps6zPpMF9725fXyq20AU&tn=-R";
@@ -543,6 +553,15 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
                 final NSObject value = infoDictionary.get(key);
                 params.applicationId = value.toString();
             }
+        }
+
+
+        if (params.release == PlatformParams.Release.PROD){
+            USERS = "users";
+            NOTIFICATION = "1notifications";
+        }else {
+            USERS = "ztestusers";
+            NOTIFICATION = "ztest1notifications";
         }
 
         readNotificationJson();
@@ -619,7 +638,10 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
             showNotificaiton();
         } catch (NSErrorException e) {
             e.printStackTrace();
+        } catch (Exception e){
+            e.printStackTrace();
         }
+
 
     }
 
@@ -663,6 +685,8 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
             showNotificaiton();
         } catch (NSErrorException e) {
             e.printStackTrace();
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 
@@ -681,7 +705,10 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
             showNotificaiton();
         } catch (NSErrorException e) {
             e.printStackTrace();
+        } catch (Exception e){
+            e.printStackTrace();
         }
+
 
         completionHandler.run();
     }
@@ -706,6 +733,8 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
             showNotificaiton();
         } catch (NSErrorException e) {
             e.printStackTrace();
+        } catch (Exception e){
+            e.printStackTrace();
         }
     }
 
@@ -720,6 +749,8 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
         try {
             showNotificaiton();
         } catch (NSErrorException e) {
+            e.printStackTrace();
+        } catch (Exception e){
             e.printStackTrace();
         }
 
@@ -797,7 +828,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
     }
 
 
-    private void startAlarm() {
+    private void getLastChapter() {
         //Saved
 
         try {
@@ -854,6 +885,8 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
         } catch (JSONException e) {
             e.printStackTrace();
             System.out.println("StartAlarmError: " + e);
+        } catch (Exception e){
+            System.out.println("StartAlarmError generalized exception -----------------------------> "+e);
         }
 
 
@@ -921,6 +954,8 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
         } catch (JSONException e) {
             e.printStackTrace();
             System.out.println("StartAlarmError: " + e);
+        } catch (Exception e){
+            e.printStackTrace();
         }
 
 
@@ -991,7 +1026,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
         // Write a message to the database
         FIRDatabase database = FIRDatabase.database();
 
-        FIRDatabaseReference notificationsRef = database.reference("1notifications");
+        FIRDatabaseReference notificationsRef = database.reference(NOTIFICATION);
 
         FIRDatabaseReference notificationContinueRef = notificationsRef.child("1notification_to_continue");
 
@@ -1092,21 +1127,23 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
     }
 
-    @Override
-    public void willResignActive(UIApplication application) {
-        startAlarm();
-        try {
-            showNotificaiton();
-        } catch (NSErrorException e) {
-            e.printStackTrace();
-        }
-        System.out.println("Resign");
-        super.willResignActive(application);
-    }
+//    @Override
+//    public void willResignActive(UIApplication application) {
+//        startAlarm();
+//        try {
+//            showNotificaiton();
+//        } catch (NSErrorException e) {
+//            e.printStackTrace();
+//        }
+//        System.out.println("Resign");
+//        super.willResignActive(application);
+//    }
 
     @Override
     public void willTerminate(UIApplication application) {
-        startAlarm();
+        if (!needToDownload){
+            getLastChapter();
+        }
         try {
             showNotificaiton();
         } catch (NSErrorException e) {
@@ -1119,7 +1156,9 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
     @Override
     public void didEnterBackground(UIApplication application) {
-        startAlarm();
+        if (!needToDownload){
+            getLastChapter();
+        }
         try {
             showNotificaiton();
         } catch (NSErrorException e) {

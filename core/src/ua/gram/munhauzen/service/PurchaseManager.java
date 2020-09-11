@@ -187,8 +187,9 @@ public class PurchaseManager {
 
         try {
             game.params.iap.install(observer, pmc, true);
-        } catch (Throwable e) {
-            Log.e(tag, e);
+        } catch (Exception e) {
+            //Log.e(tag, e);
+            System.out.println("Purchage MangerError-------------------->"+e);
         }
     }
 }
