@@ -120,7 +120,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
     private UNUserNotificationCenter notificationCenter;
 
-    private boolean needToDownload = true;
+    private boolean needToDownload = false;
     private String mInvitationURL = "";
 
     private FIRAuth mAuth;
@@ -761,12 +761,14 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
         if (Foundation.getMajorSystemVersion() >= 10) {
             NotificationDelegate delegate = new NotificationDelegate();
             notificationCenter.setDelegate(delegate);
-            //delegate.userRequest();
+            delegate.userRequest();
+            notificationCenter.removeAllPendingNotificationRequests();
+            readNotificationJson();
             try {
                 if (needToDownload){
                     delegate.scheduleDownloadNotification();
                 }else {
-                    notificationCenter.removeAllPendingNotificationRequests();
+                    getLastChapter();
                     delegate.scheduleNotification();
                 }
             }catch (Exception e){
@@ -1141,11 +1143,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
     @Override
     public void willTerminate(UIApplication application) {
-        if (!needToDownload){
-            getLastChapter();
-        }else{
-            readNotificationJson();
-        }
+
         try {
             showNotificaiton();
         } catch (NSErrorException e) {
@@ -1158,11 +1156,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
     @Override
     public void didEnterBackground(UIApplication application) {
-        if (!needToDownload){
-            getLastChapter();
-        }else {
-            readNotificationJson();
-        }
+
         try {
             showNotificaiton();
         } catch (NSErrorException e) {
