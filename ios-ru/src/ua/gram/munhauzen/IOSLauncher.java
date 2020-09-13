@@ -529,7 +529,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
         params.iap = new PurchaseManageriOSApple();
         params.translator = new RussianTranslator();
         params.appStore = new AppleStore(params);
-        params.release = PlatformParams.Release.DEV;
+        params.release = PlatformParams.Release.PROD;
 
         params.trailerLink = "https://www.youtube.com/watch?v=eCAohaztPlQ&t";
         params.tutorialLink = "https://youtu.be/6K__lu7QuLk";

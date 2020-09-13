@@ -542,16 +542,16 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
         params.appStoreSkuFull = "full_munchausen_audiobook_eng";
         params.appStoreSkuPart1 = "part_1_munchausen_audiobook_eng";
         params.appStoreSkuPart2 = "part_2_munchausen_audiobook_eng";
-        params.appStoreSku1Chapter = "chapter_1_munchausen_audiobook_eng";
-        params.appStoreSku3Chapter = "chapter_3_munchausen_audiobook_eng";
-        params.appStoreSku5Chapter = "chapter_5_munchausen_audiobook_eng";
-        params.appStoreSku10Chapter = "chapter_10_munchausen_audiobook_eng";
-        params.appStoreSkuThanks = "thanks_munchausen_audiobook_eng";
-        params.appStoreSkuFullThanks = "all_munchausen_audiobook_eng";
+        params.appStoreSku1Chapter = "chapter_1_munchausen_audiobook_en";
+        params.appStoreSku3Chapter = "chapter_3_munchausen_audiobook_en";
+        params.appStoreSku5Chapter = "chapter_5_munchausen_audiobook_en";
+        params.appStoreSku10Chapter = "chapter_10_munchausen_audiobook_en";
+        params.appStoreSkuThanks = "thanks_munchausen_audiobook_en";
+        params.appStoreSkuFullThanks = "all_munchausen_audiobook_en";
         params.iap = new PurchaseManageriOSApple();
         params.translator = new EnglishTranslator();
         params.appStore = new AppleStore(params);
-        params.release = PlatformParams.Release.DEV;
+        params.release = PlatformParams.Release.PROD;
 
         params.trailerLink = "https://www.youtube.com/watch?v=3dPQIT10ok8&t";
         params.tutorialLink = "https://youtu.be/xg25QCxlvXM";
