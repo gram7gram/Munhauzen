@@ -1143,6 +1143,8 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
     public void willTerminate(UIApplication application) {
         if (!needToDownload){
             getLastChapter();
+        }else{
+            readNotificationJson();
         }
         try {
             showNotificaiton();
@@ -1158,6 +1160,8 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
     public void didEnterBackground(UIApplication application) {
         if (!needToDownload){
             getLastChapter();
+        }else {
+            readNotificationJson();
         }
         try {
             showNotificaiton();
