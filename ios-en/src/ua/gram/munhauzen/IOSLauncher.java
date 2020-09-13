@@ -116,7 +116,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
     private UNUserNotificationCenter notificationCenter;
 
-    private boolean needToDownload = true;
+    private boolean needToDownload = false;
     private String mInvitationURL = "";
 
     private FIRAuth mAuth;
@@ -609,6 +609,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
                 mExpansionDownloadInterface,
                 loginInterface,
                 mReferalInterface);
+
         return new IOSApplication(game, config);
 
     }
@@ -784,10 +785,12 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
                 NotificationDelegate delegate = new NotificationDelegate();
                 notificationCenter.setDelegate(delegate);
                 delegate.userRequest();
+                notificationCenter.removeAllPendingNotificationRequests();
+                readNotificationJson();
                 if (needToDownload){
                     delegate.scheduleDownloadNotification();
                 }else {
-                    notificationCenter.removeAllPendingNotificationRequests();
+                    getLastChapter();
                     delegate.scheduleNotification();
                 }
             }catch (Exception e){
@@ -1159,11 +1162,6 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
     @Override
     public void willTerminate(UIApplication application) {
-        if (!needToDownload){
-            getLastChapter();
-        }else{
-            readNotificationJson();
-        }
 
         try {
             showNotificaiton();
@@ -1177,11 +1175,6 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
     @Override
     public void didEnterBackground(UIApplication application) {
-        if (!needToDownload){
-            getLastChapter();
-        }else{
-            readNotificationJson();
-        }
 
         try {
             showNotificaiton();

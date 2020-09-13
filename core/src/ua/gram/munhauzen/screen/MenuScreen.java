@@ -34,6 +34,7 @@ import ua.gram.munhauzen.screen.menu.fragment.TutorialFragment;
 import ua.gram.munhauzen.screen.menu.listenter.MenuStageListener;
 import ua.gram.munhauzen.screen.menu.ui.MenuLayers;
 import ua.gram.munhauzen.service.AudioService;
+import ua.gram.munhauzen.service.ExpansionDownloadManager;
 import ua.gram.munhauzen.service.ReferralService;
 import ua.gram.munhauzen.ui.AdultGateFragment;
 import ua.gram.munhauzen.utils.Log;
@@ -108,6 +109,14 @@ public class MenuScreen extends AbstractScreen {
             game.internalAssetManager.load("menu/InviteBar_100.png", Texture.class);
 
             game.internalAssetManager.finishLoading();
+
+            ExpansionDownloadManager downloadManager = new ExpansionDownloadManager(game, null);
+
+            boolean needUpdates = downloadManager.shouldFetchExpansion();
+
+            System.out.println("Need Updates -----------------------------> "+needUpdates);
+
+            MunhauzenGame.onExpansionDownloadComplete.setDownloadNeeded(needUpdates);
 
         } catch (Throwable e) {
             Log.e(tag, e);

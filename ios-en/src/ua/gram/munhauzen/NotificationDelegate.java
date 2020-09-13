@@ -183,7 +183,9 @@ public class NotificationDelegate extends NSObject implements UNUserNotification
             UNCalendarNotificationTrigger trig = new UNCalendarNotificationTrigger(components, false);
             ;
 
-
+            if (hrs<60){
+                hrs = 60;
+            }
             UNTimeIntervalNotificationTrigger trigger = new UNTimeIntervalNotificationTrigger(hrs, true);
 
             String identifier = "Notification";
@@ -307,7 +309,9 @@ public class NotificationDelegate extends NSObject implements UNUserNotification
             UNCalendarNotificationTrigger trig = new UNCalendarNotificationTrigger(components, true);
             */
 
-
+            if (hrs<60){
+                hrs = 60;
+            }
             UNTimeIntervalNotificationTrigger trigger = new UNTimeIntervalNotificationTrigger(hrs, true);
 
             String identifier = "downoadNotification";
