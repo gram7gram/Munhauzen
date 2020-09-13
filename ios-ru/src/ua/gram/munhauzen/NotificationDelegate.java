@@ -88,7 +88,7 @@ public class NotificationDelegate extends NSObject implements UNUserNotification
 
             String icon = NSUserDefaults.getStandardUserDefaults().getString(IOSLauncher.KEY_SAVE_ICON);
             String des = NSUserDefaults.getStandardUserDefaults().getString(IOSLauncher.KEY_SAVE_DESCRIPTION);
-//            String msg = NSUserDefaults.getStandardUserDefaults().getString(IOSLauncher.KEY_NOTIFICATION1_MESSAGE);
+            String msg = NSUserDefaults.getStandardUserDefaults().getString(IOSLauncher.KEY_NOTIFICATION1_MESSAGE);
             String title = NSUserDefaults.getStandardUserDefaults().getString(IOSLauncher.KEY_NOTIFICATION1_TITLE);
 
             int hrs = NSUserDefaults.getStandardUserDefaults().getInt(IOSLauncher.KEY_NOTIFICATION1_AFTER);
@@ -150,9 +150,9 @@ public class NotificationDelegate extends NSObject implements UNUserNotification
             content.setTitle(title);
 
             //Added Codes for random text
-
-            Random rand = new Random();
-            String msg = continueList.get(rand.nextInt(continueList.size()));
+//
+//            Random rand = new Random();
+//            String msg = continueList.get(rand.nextInt(continueList.size()));
 
             //ends
 
@@ -195,7 +195,7 @@ public class NotificationDelegate extends NSObject implements UNUserNotification
 
             notificationCenter.setNotificationCategories(new NSSet<UNNotificationCategory>(category));
 
-            notificationCenter.setDelegate(this);
+            //notificationCenter.setDelegate(this);
         }catch (Exception e){
             System.out.println("Schedule Notificaiton Error------------------------->"+e);
         }
@@ -209,7 +209,7 @@ public class NotificationDelegate extends NSObject implements UNUserNotification
 
             String icon = NSUserDefaults.getStandardUserDefaults().getString(IOSLauncher.KEY_SAVE_ICON);
             //String des = NSUserDefaults.getStandardUserDefaults().getString(IOSLauncher.KEY_SAVE_DESCRIPTION);
-          //  String msg = NSUserDefaults.getStandardUserDefaults().getString(IOSLauncher.KEY_NOTIFICATION2_MESSAGE);
+            String msg = NSUserDefaults.getStandardUserDefaults().getString(IOSLauncher.KEY_NOTIFICATION2_MESSAGE);
             String title = NSUserDefaults.getStandardUserDefaults().getString(IOSLauncher.KEY_NOTIFICATION2_TITLE);
 
             int hrs = NSUserDefaults.getStandardUserDefaults().getInt(IOSLauncher.KEY_NOTIFICATION2_AFTER);
@@ -220,9 +220,9 @@ public class NotificationDelegate extends NSObject implements UNUserNotification
 
             //Added Codes for random text
 
-
-            Random rand = new Random();
-            String msg = downloadList.get(rand.nextInt(downloadList.size()));
+//
+//            Random rand = new Random();
+//            String msg = downloadList.get(rand.nextInt(downloadList.size()));
 
             //ends
 
@@ -270,7 +270,7 @@ public class NotificationDelegate extends NSObject implements UNUserNotification
 
             notificationCenter.setNotificationCategories(new NSSet<UNNotificationCategory>(category));
 
-            notificationCenter.setDelegate(this);
+           // notificationCenter.setDelegate(this);
         }catch (Exception e){
             System.out.println("Schedule Download Notification---------------------------->"+e);
         }
@@ -325,29 +325,29 @@ public class NotificationDelegate extends NSObject implements UNUserNotification
     @Override
     public void willPresentNotification(UNUserNotificationCenter unUserNotificationCenter, UNNotification unNotification, VoidBlock1<UNNotificationPresentationOptions> voidBlock1) {
         System.out.println("willPresentNotification");
-        if(IOSLauncher.needToDownloadStatic){
-            scheduleDownloadNotification();
-        }else {
-            try {
-                scheduleNotification();
-            } catch (NSErrorException e) {
-                e.printStackTrace();
-            }
-        }
+//        if(IOSLauncher.needToDownloadStatic){
+//            scheduleDownloadNotification();
+//        }else {
+//            try {
+//                scheduleNotification();
+//            } catch (NSErrorException e) {
+//                e.printStackTrace();
+//            }
+//        }
     }
 
     @Override
     public void didReceiveNotificationResponse(UNUserNotificationCenter unUserNotificationCenter, UNNotificationResponse unNotificationResponse, Runnable runnable) {
         System.out.println("didReceiveNotificationResponse");
-        if(IOSLauncher.needToDownloadStatic){
-            scheduleDownloadNotification();
-        }else {
-            try {
-                scheduleNotification();
-            } catch (NSErrorException e) {
-                e.printStackTrace();
-            }
-        }
+//        if(IOSLauncher.needToDownloadStatic){
+//            scheduleDownloadNotification();
+//        }else {
+//            try {
+//                scheduleNotification();
+//            } catch (NSErrorException e) {
+//                e.printStackTrace();
+//            }
+//        }
     }
 
 

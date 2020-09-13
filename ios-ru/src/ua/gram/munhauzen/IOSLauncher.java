@@ -837,7 +837,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
         try {
             NSURL dir = NSFileManager.getDefaultManager().getURLsForDirectory(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask).first();
-            java.lang.String savedAction = dir.getPath() + "/.Munchausen/en.munchausen.fingertipsandcompany.any/save-active.json";
+            java.lang.String savedAction = dir.getPath() + "/.Munchausen/ru.munchausen.fingertipsandcompany.any/save-active.json";
             String saveJson = readJsonFile(savedAction);
 
 
