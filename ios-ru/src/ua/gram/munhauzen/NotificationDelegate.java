@@ -1,5 +1,7 @@
 package ua.gram.munhauzen;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.robovm.apple.foundation.NSArray;
 import org.robovm.apple.foundation.NSBundle;
 import org.robovm.apple.foundation.NSCalendar;
@@ -46,10 +48,16 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class NotificationDelegate extends NSObject implements UNUserNotificationCenterDelegate {
 
     UNUserNotificationCenter notificationCenter = UNUserNotificationCenter.currentNotificationCenter();
+
+    List<String> downloadList = new ArrayList<>();
+    List<String> continueList = new ArrayList<>();;
 
     void  userRequest(){
         UNAuthorizationOptions options = UNAuthorizationOptions.with(UNAuthorizationOptions.Alert,
@@ -73,37 +81,36 @@ public class NotificationDelegate extends NSObject implements UNUserNotification
     }
 
     void scheduleNotification() throws NSErrorException {
-        UNMutableNotificationContent content = new UNMutableNotificationContent();
-        String userActions = "User Actions";
+        try {
+            listOfString();
+            UNMutableNotificationContent content = new UNMutableNotificationContent();
+            String userActions = "User Actions";
 
-        String icon = NSUserDefaults.getStandardUserDefaults().getString(IOSLauncher.KEY_SAVE_ICON);
-        String des = NSUserDefaults.getStandardUserDefaults().getString(IOSLauncher.KEY_SAVE_DESCRIPTION);
-        String msg = NSUserDefaults.getStandardUserDefaults().getString(IOSLauncher.KEY_NOTIFICATION1_MESSAGE);
-        String title = NSUserDefaults.getStandardUserDefaults().getString(IOSLauncher.KEY_NOTIFICATION1_TITLE);
+            String icon = NSUserDefaults.getStandardUserDefaults().getString(IOSLauncher.KEY_SAVE_ICON);
+            String des = NSUserDefaults.getStandardUserDefaults().getString(IOSLauncher.KEY_SAVE_DESCRIPTION);
+            String msg = NSUserDefaults.getStandardUserDefaults().getString(IOSLauncher.KEY_NOTIFICATION1_MESSAGE);
+            String title = NSUserDefaults.getStandardUserDefaults().getString(IOSLauncher.KEY_NOTIFICATION1_TITLE);
 
-        int hrs = NSUserDefaults.getStandardUserDefaults().getInt(IOSLauncher.KEY_NOTIFICATION1_AFTER);
+            int hrs = NSUserDefaults.getStandardUserDefaults().getInt(IOSLauncher.KEY_NOTIFICATION1_AFTER);
 
-        NSDictionary<?,?> dictionary = new NSDictionary<>();
-
-
-        NSURL dir = NSFileManager.getDefaultManager().getURLsForDirectory(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask).first();
-
-
-        UNNotificationAttachment attachment = null;
+            NSURL dir = NSFileManager.getDefaultManager().getURLsForDirectory(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask).first();
 
 
-        java.lang.String imageURL = dir.getPath() + "/.Munchausen/ru.munchausen.fingertipsandcompany.any/expansion/"+icon;
-        System.out.println("ImagePath---------------->"+imageURL);
-        File imageFile = new File(imageURL);
-        java.lang.String temp = dir.getPath() + "/.Munchausen/ru.munchausen.fingertipsandcompany.any/expansion/chapter/temp";
-        File tempFolder = new File(temp);
-        if (!tempFolder.exists()) {
-            if (tempFolder.mkdir()) {
-                System.out.println("Temp Folder created");
-            } else {
-                System.out.println("Failed to create Temp Folder");
+            UNNotificationAttachment attachment = null;
+
+
+            java.lang.String imageURL = dir.getPath() + "/.Munchausen/ru.munchausen.fingertipsandcompany.any/expansion/" + icon;
+            System.out.println("ImagePath---------------->" + imageURL);
+            File imageFile = new File(imageURL);
+            java.lang.String temp = dir.getPath() + "/.Munchausen/ru.munchausen.fingertipsandcompany.any/expansion/chapter/temp";
+            File tempFolder = new File(temp);
+            if (!tempFolder.exists()) {
+                if (tempFolder.mkdir()) {
+                    System.out.println("Temp Folder created");
+                } else {
+                    System.out.println("Failed to create Temp Folder");
+                }
             }
-        }
 
 //        try{
 //            copyDirectory(imageFile,tempFolder);
@@ -112,86 +119,91 @@ public class NotificationDelegate extends NSObject implements UNUserNotification
 //            System.out.println("IOException--------------->"+e);
 //        }
 
-        try {
-            copyFile(imageFile, temp);
-        } catch (IOException e) {
-            System.out.println("IOException----------------------->" + e);
-        }
-        System.out.println("tempFolder--------------------->" + tempFolder);
-
-        java.lang.String tempImgPath = dir.getPath() + "/.Munchausen/ru.munchausen.fingertipsandcompany.any/expansion/chapter/temp/icon_temp.png";
-        File tempImageFile = new File(tempImgPath);
-
-        URL url = null;
-        try {
-            url = tempImageFile.toURI().toURL();
-        } catch (MalformedURLException e) {
-            System.out.println("URL--------------------->" + url);
-        }
-        if (url != null) {
-            NSURL nsURL = new NSURL(url);
-            System.out.println("NSURL -------------" + nsURL);
             try {
-                attachment = new UNNotificationAttachment("image", nsURL, null);
-            } catch (NSErrorException e) {
-                System.out.println("Attachment Error:----------------->" + e);
+                copyFile(imageFile, temp);
+            } catch (IOException e) {
+                System.out.println("IOException----------------------->" + e);
             }
-            System.out.println("Attachment : " + attachment);
-        }
+            System.out.println("tempFolder--------------------->" + tempFolder);
 
+            java.lang.String tempImgPath = dir.getPath() + "/.Munchausen/ru.munchausen.fingertipsandcompany.any/expansion/chapter/temp/icon_temp.png";
+            File tempImageFile = new File(tempImgPath);
 
-        content.setTitle(title);
-        content.setBody(msg+" "+des);
-        content.setSound(UNNotificationSound.getDefaultSound());
-        content.setBadge(NSNumber.valueOf(1));
-        content.setCategoryIdentifier(userActions);
-
-        System.out.println("Attachment----------------->"+attachment);
-        if (attachment!=null){
-            System.out.println("Attachment NotNUll----------------------->");
-            NSMutableArray<UNNotificationAttachment> array =new NSMutableArray<UNNotificationAttachment>();
-            array.add(attachment);
-            content.setAttachments(array);
-        }
-
-
-        NSDate date = new NSDate().newDateByAddingTimeInterval(5);
-
-        NSDateComponents components = NSCalendar.getCurrentCalendar().getComponents(
-                NSCalendarUnit.with(NSCalendarUnit.Year,
-                        NSCalendarUnit.Month,
-                        NSCalendarUnit.Day,
-                        NSCalendarUnit.Hour,
-                        NSCalendarUnit.Minute,
-                        NSCalendarUnit.Second
-                ),date);
-
-        UNCalendarNotificationTrigger trig = new UNCalendarNotificationTrigger(components,false);;
-
-
-        UNTimeIntervalNotificationTrigger trigger = new UNTimeIntervalNotificationTrigger(hrs, false);
-
-        String identifier = "Local Notification";
-        UNNotificationRequest request = new UNNotificationRequest(identifier, content, trigger);
-
-        notificationCenter.addNotificationRequest(request, new VoidBlock1<NSError>() {
-            @Override
-            public void invoke(NSError nsError) {
-                if (nsError!=null){
-                    System.out.println("Error: invoke::"+nsError);
+            URL url = null;
+            try {
+                url = tempImageFile.toURI().toURL();
+            } catch (MalformedURLException e) {
+                System.out.println("URL--------------------->" + url);
+            }
+            if (url != null) {
+                NSURL nsURL = new NSURL(url);
+                System.out.println("NSURL -------------" + nsURL);
+                try {
+                    attachment = new UNNotificationAttachment("image", nsURL, null);
+                } catch (NSErrorException e) {
+                    System.out.println("Attachment Error:----------------->" + e);
                 }
+                System.out.println("Attachment : " + attachment);
             }
-        });
 
-        UNNotificationAction snoozeAction = new UNNotificationAction("Snooze","Snooze", UNNotificationActionOptions.None);
-        UNNotificationAction deleteAction = new UNNotificationAction("Delete","Delete", UNNotificationActionOptions.Destructive);
-        UNNotificationCategory category = new UNNotificationCategory(userActions,new NSArray<UNNotificationAction>(snoozeAction,deleteAction),new NSArray<NSString>(), UNNotificationCategoryOptions.None);
 
-        notificationCenter.setNotificationCategories(new NSSet<UNNotificationCategory>(category));
+            content.setTitle(title);
+
+            //Added Codes for random text
+//
+//            Random rand = new Random();
+//            String msg = continueList.get(rand.nextInt(continueList.size()));
+
+            //ends
+
+            content.setBody(msg + " " + des);
+            content.setSound(UNNotificationSound.getDefaultSound());
+            content.setBadge(NSNumber.valueOf(1));
+            content.setCategoryIdentifier(userActions);
+
+            System.out.println("Attachment----------------->" + attachment);
+            if (attachment != null) {
+                System.out.println("Attachment NotNUll----------------------->");
+                NSMutableArray<UNNotificationAttachment> array = new NSMutableArray<UNNotificationAttachment>();
+                array.add(attachment);
+                content.setAttachments(array);
+            }
+
+
+            if (hrs<60){
+                hrs = 60;
+            }
+            UNTimeIntervalNotificationTrigger trigger = new UNTimeIntervalNotificationTrigger(hrs, true);
+
+            String identifier = "RUContinueNotification";
+            UNNotificationRequest request = new UNNotificationRequest(identifier, content, trigger);
+
+            notificationCenter.addNotificationRequest(request, new VoidBlock1<NSError>() {
+                @Override
+                public void invoke(NSError nsError) {
+                    if (nsError != null) {
+                        System.out.println("Error: invoke::" + nsError);
+                    }
+                }
+            });
+
+
+
+            UNNotificationAction snoozeAction = new UNNotificationAction("Snooze", "Snooze", UNNotificationActionOptions.None);
+            UNNotificationAction deleteAction = new UNNotificationAction("Delete", "Delete", UNNotificationActionOptions.Destructive);
+            UNNotificationCategory category = new UNNotificationCategory(userActions, new NSArray<UNNotificationAction>(snoozeAction, deleteAction), new NSArray<NSString>(), UNNotificationCategoryOptions.None);
+
+            notificationCenter.setNotificationCategories(new NSSet<UNNotificationCategory>(category));
+
+            //notificationCenter.setDelegate(this);
+        }catch (Exception e){
+            System.out.println("Schedule Notificaiton Error------------------------->"+e);
+        }
     }
 
     void scheduleDownloadNotification() {
         try {
+            listOfString();
             UNMutableNotificationContent content = new UNMutableNotificationContent();
             String userActions = "download-notification";
 
@@ -203,7 +215,17 @@ public class NotificationDelegate extends NSObject implements UNUserNotification
             int hrs = NSUserDefaults.getStandardUserDefaults().getInt(IOSLauncher.KEY_NOTIFICATION2_AFTER);
 
 
+
             content.setTitle(title);
+
+            //Added Codes for random text
+
+//
+//            Random rand = new Random();
+//            String msg = downloadList.get(rand.nextInt(downloadList.size()));
+
+            //ends
+
             content.setBody(msg);
             content.setSound(UNNotificationSound.getDefaultSound());
             content.setBadge(NSNumber.valueOf(1));
@@ -225,9 +247,12 @@ public class NotificationDelegate extends NSObject implements UNUserNotification
             */
 
 
+            if (hrs<60){
+                hrs = 60;
+            }
             UNTimeIntervalNotificationTrigger trigger = new UNTimeIntervalNotificationTrigger(hrs, true);
 
-            String identifier = "Notification";
+            String identifier = "RUDownloadNotification";
             UNNotificationRequest request = new UNNotificationRequest(identifier, content, trigger);
 
             notificationCenter.addNotificationRequest(request, new VoidBlock1<NSError>() {
@@ -244,6 +269,8 @@ public class NotificationDelegate extends NSObject implements UNUserNotification
             UNNotificationCategory category = new UNNotificationCategory(userActions, new NSArray<UNNotificationAction>(snoozeAction, deleteAction), new NSArray<NSString>(), UNNotificationCategoryOptions.None);
 
             notificationCenter.setNotificationCategories(new NSSet<UNNotificationCategory>(category));
+
+           // notificationCenter.setDelegate(this);
         }catch (Exception e){
             System.out.println("Schedule Download Notification---------------------------->"+e);
         }
@@ -297,17 +324,90 @@ public class NotificationDelegate extends NSObject implements UNUserNotification
 
     @Override
     public void willPresentNotification(UNUserNotificationCenter unUserNotificationCenter, UNNotification unNotification, VoidBlock1<UNNotificationPresentationOptions> voidBlock1) {
-        IOSLauncher.readNotificationJson();
         System.out.println("willPresentNotification");
+//        if(IOSLauncher.needToDownloadStatic){
+//            scheduleDownloadNotification();
+//        }else {
+//            try {
+//                scheduleNotification();
+//            } catch (NSErrorException e) {
+//                e.printStackTrace();
+//            }
+//        }
     }
 
     @Override
     public void didReceiveNotificationResponse(UNUserNotificationCenter unUserNotificationCenter, UNNotificationResponse unNotificationResponse, Runnable runnable) {
         System.out.println("didReceiveNotificationResponse");
+//        if(IOSLauncher.needToDownloadStatic){
+//            scheduleDownloadNotification();
+//        }else {
+//            try {
+//                scheduleNotification();
+//            } catch (NSErrorException e) {
+//                e.printStackTrace();
+//            }
+//        }
     }
+
 
     @Override
     public void openSettings(UNUserNotificationCenter unUserNotificationCenter, UNNotification unNotification) {
 
     }
+
+
+    public void listOfString() {
+
+        //Notification
+        String notificationPath = NSBundle.getMainBundle().findResourcePath("notification_texts", "json");
+        String notificationJson = IOSLauncher.readJsonFile(notificationPath);
+
+
+        try {
+            JSONObject notificationJsonObject = new JSONObject(notificationJson);
+
+            //for Continue notification
+            JSONObject continueNotifObject = notificationJsonObject.getJSONObject("continue_notification");
+
+            String continue_notification = continueNotifObject.getString("continue_notification_text_" + (((int) (Math.random() * 7)) + 1));
+
+            //SharedPreferencesHelper.setKeyNotification1Message(getApplicationContext(), continue_notification);
+
+
+            //for download notification
+            JSONObject downloadNotifObject = notificationJsonObject.getJSONObject("download_notification");
+
+            String download_notification = downloadNotifObject.getString("download_notification_text_" + (((int) (Math.random() * 7)) + 1));
+
+
+
+
+            for(int i = 1; i<8; i++){
+                String continueNotification = continueNotifObject.getString("continue_notification_text_" + i);
+                String downloadNotification = downloadNotifObject.getString("download_notification_text_" + i);
+                downloadList.add(downloadNotification);
+                continueList.add(continueNotification);
+            }
+
+
+            //SharedPreferencesHelper.setKeyNotification2Message(getApplicationContext(), download_notification);
+
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+            System.out.println("StartAlarmError: " + e);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+
+
+    }
+
+
+
+
 }

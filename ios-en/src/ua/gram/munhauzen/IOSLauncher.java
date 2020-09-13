@@ -116,7 +116,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
     private UNUserNotificationCenter notificationCenter;
 
-    private boolean needToDownload = true;
+    private boolean needToDownload = false;
     private String mInvitationURL = "";
 
     private FIRAuth mAuth;
@@ -610,6 +610,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
                 mExpansionDownloadInterface,
                 loginInterface,
                 mReferalInterface);
+
         return new IOSApplication(game, config);
 
     }
@@ -785,27 +786,25 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
                 NotificationDelegate delegate = new NotificationDelegate();
                 notificationCenter.setDelegate(delegate);
                 delegate.userRequest();
+                notificationCenter.removeAllPendingNotificationRequests();
+                readNotificationJson();
                 if (needToDownload){
                     delegate.scheduleDownloadNotification();
                 }else {
-                    notificationCenter.removeAllPendingNotificationRequests();
+                    getLastChapter();
                     delegate.scheduleNotification();
                 }
             }catch (Exception e){
                 System.out.println("Show Notificaiton Error ----------------->"+e);
             }
         } else {
+            String msg = NSUserDefaults.getStandardUserDefaults().getString(IOSLauncher.KEY_NOTIFICATION2_MESSAGE);
+            String title = NSUserDefaults.getStandardUserDefaults().getString(IOSLauncher.KEY_NOTIFICATION2_TITLE);
             UILocalNotification notification = new UILocalNotification();
-            NSDate date = new NSDate().newDateByAddingTimeInterval(20);
+            NSDate date = new NSDate().newDateByAddingTimeInterval(60);
             notification.setFireDate(date);
-            notification.setAlertTitle("Hello");
-            String token = NSUserDefaults.getStandardUserDefaults().getString(KEY_DEVICE_TOKEN);
-            notification.setAlertBody("Body "+token);
-
-//            if let info = userInfo {
-//                notification.userInfo = info
-//            }
-
+            notification.setAlertTitle(title);
+            notification.setAlertBody(msg);
             notification.setSoundName(UILocalNotification.getDefaultSoundName());
             UIApplication.getSharedApplication().scheduleLocalNotification(notification);
 
@@ -1164,9 +1163,6 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
     @Override
     public void willTerminate(UIApplication application) {
-        if (!needToDownload){
-            getLastChapter();
-        }
 
         try {
             showNotificaiton();
@@ -1180,9 +1176,6 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
     @Override
     public void didEnterBackground(UIApplication application) {
-        if (!needToDownload){
-            getLastChapter();
-        }
 
         try {
             showNotificaiton();
@@ -1192,7 +1185,6 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
         System.out.println("Background Entered");
         super.didEnterBackground(application);
     }
-
 
 
 

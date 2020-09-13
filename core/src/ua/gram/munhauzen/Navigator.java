@@ -120,9 +120,11 @@ public class Navigator {
 
             ExpansionDownloadManager downloadManager = new ExpansionDownloadManager(game, null);
 
-            MunhauzenGame.onExpansionDownloadComplete.setDownloadNeeded(downloadManager.shouldFetchExpansion());
-
             boolean needUpdates = downloadManager.shouldFetchExpansion();
+
+            System.out.println("Need Updates -----------------------------> "+needUpdates);
+
+            MunhauzenGame.onExpansionDownloadComplete.setDownloadNeeded(needUpdates);
 
             if (game.gameState.purchaseState != null) {
                 hasPurchases = game.purchaseManager.hasPurchases() || game.gameState.purchaseState.isVersionSelected;
