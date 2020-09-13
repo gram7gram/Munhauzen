@@ -1,25 +1,25 @@
 {
-    "continue_notification" : {
-    "continue_notification_text_1" : "Common and let's continue adventures at ",
-	"continue_notification_text_2" : "let's go to ",
-	"continue_notification_text_3" : "Continue listening from :) ",
-  	"continue_notification_text_4" : "Don't sleep, let's listen to ",
-	"continue_notification_text_5" : "Get Back to listening ",  	
-	"continue_notification_text_6" : "Are you bored...Listen ",
-	"continue_notification_text_7" : "Listening is fun.... "
-  		
-    },
+	"continue_notification" : {
+		"continue_notification_text_1" : "Дорогой слушатель! Ты остановился на таком приключении: ",
+		"continue_notification_text_2" : "Заходи и продолжай слушать невероятные приключения Мюнхгаузена! ",
+		"continue_notification_text_3" : "Сегодня Барон расскажет очередную свою историю. Заходи! ",
+		"continue_notification_text_4" : "Заходи слушать мою следуйщую правдивейшую историю!  ",
+		"continue_notification_text_5" : "Где мы остановились? Ах да!  ",
+		"continue_notification_text_6" : "Следуйщая история ждёт! Заходи! ",
+		"continue_notification_text_7" : "От моих рассказов улыбаются! Слушай следуйщий: "
 
-	
-    "download_notification" : {
-    "download_notification_text_1" : "Common and let's download adventures at ",
-	"download_notification_text_2" : "let's go to download ",
-	"download_notification_text_3" : "download demo version :) ",
-  	"download_notification_text_4" : "Don't sleep, Download and listen to Muncahusen ",
-	"download_notification_text_5" : "Download noe and Get awesome Munchausen stories. ",  	
-	"download_notification_text_6" : "Are you bored...Download ",
-	"download_notification_text_7" : "Downloading is fun.... "
-  		
-    }		
-  
+	},
+
+
+	"download_notification" : {
+		"download_notification_text_1" : "Я - Мюнхгаузен и где только не побывал! И на Тайхатлибиати, и в желудке у рыбы и даже на Луне! Скачивай мои файлы, слушай и узнаешь, кто я такой!",
+		"download_notification_text_2" : "Послушаешь меня и узнаешь, как выбраться из болота, поймать десяток уток на удочку и пускать искры из глаз! Да-да, искорки маленькие такие яркие! Открывай и скачивай файлы Мюнхгаузена!",
+		"download_notification_text_3" : "Лучше меня раз самому увидеть и послушать, чем не знать кто я вообще такой! Загружай истории Мюнхгаузена и улыбайся!",
+		"download_notification_text_4" : "Интерактивная аудио-книга-игра! Занимает много места, но приносит много удовольствия! Скачивай Мюнхгаузена!",
+		"download_notification_text_5" : "Скачай наши файлы игры и не пожалеешь! Такого интерактивного игрового формата ты еще не видел!",
+		"download_notification_text_6" : "Скорей скачивай наши файлы для игры! Такое приложение, как это, ты не найдёшь нигде больше!",
+		"download_notification_text_7" : "Устал от рассказов Мюнхгаузена? Не может быть, ведь ты еще их даже не начинал! Скачивай Мюнхгаузена и улыбайся!"
+
+	}
+
 }

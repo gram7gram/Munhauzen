@@ -1,7 +1,5 @@
 package ua.gram.munhauzen;
 
-import com.badlogic.gdx.math.Path;
-
 import org.robovm.apple.foundation.NSArray;
 import org.robovm.apple.foundation.NSBundle;
 import org.robovm.apple.foundation.NSCalendar;
@@ -15,15 +13,12 @@ import org.robovm.apple.foundation.NSFileManager;
 import org.robovm.apple.foundation.NSMutableArray;
 import org.robovm.apple.foundation.NSNumber;
 import org.robovm.apple.foundation.NSObject;
-import org.robovm.apple.foundation.NSProcessInfo;
 import org.robovm.apple.foundation.NSSearchPathDirectory;
 import org.robovm.apple.foundation.NSSearchPathDomainMask;
 import org.robovm.apple.foundation.NSSet;
 import org.robovm.apple.foundation.NSString;
 import org.robovm.apple.foundation.NSURL;
 import org.robovm.apple.foundation.NSUserDefaults;
-import org.robovm.apple.metalps.MPSRayIntersector;
-import org.robovm.apple.mobilecoreservices.UTType;
 import org.robovm.apple.usernotifications.UNAuthorizationOptions;
 import org.robovm.apple.usernotifications.UNCalendarNotificationTrigger;
 import org.robovm.apple.usernotifications.UNMutableNotificationContent;
@@ -42,27 +37,17 @@ import org.robovm.apple.usernotifications.UNUserNotificationCenter;
 import org.robovm.apple.usernotifications.UNUserNotificationCenterDelegate;
 import org.robovm.objc.block.VoidBlock1;
 import org.robovm.objc.block.VoidBlock2;
-import org.robovm.rt.bro.Bits;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.channels.FileChannel;
-import java.util.Calendar;
-
-import ua.gram.munhauzen.utils.Files;
-import ua.gram.munhauzen.utils.Log;
 
 public class NotificationDelegate extends NSObject implements UNUserNotificationCenterDelegate {
-
-
 
     UNUserNotificationCenter notificationCenter = UNUserNotificationCenter.currentNotificationCenter();
 
@@ -100,7 +85,6 @@ public class NotificationDelegate extends NSObject implements UNUserNotification
             int hrs = NSUserDefaults.getStandardUserDefaults().getInt(IOSLauncher.KEY_NOTIFICATION1_AFTER);
 
             NSURL dir = NSFileManager.getDefaultManager().getURLsForDirectory(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask).first();
-            NSURL uurl = new NSURL(dir.getPath() + "/.Munchausen/en.munchausen.fingertipsandcompany.any/expansion/chapter/icon_a1.png", new NSURL());
 
 
             UNNotificationAttachment attachment = null;
@@ -188,7 +172,7 @@ public class NotificationDelegate extends NSObject implements UNUserNotification
             }
             UNTimeIntervalNotificationTrigger trigger = new UNTimeIntervalNotificationTrigger(hrs, true);
 
-            String identifier = "Notification";
+            String identifier = "ENContinueNotification";
             UNNotificationRequest request = new UNNotificationRequest(identifier, content, trigger);
 
             notificationCenter.addNotificationRequest(request, new VoidBlock1<NSError>() {
@@ -222,77 +206,12 @@ public class NotificationDelegate extends NSObject implements UNUserNotification
 
             int hrs = NSUserDefaults.getStandardUserDefaults().getInt(IOSLauncher.KEY_NOTIFICATION2_AFTER);
 
-            /*
-            NSDictionary<?, ?> dictionary = new NSDictionary<>();
-
-
-            NSURL dir = NSFileManager.getDefaultManager().getURLsForDirectory(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask).first();
-
-
-            UNNotificationAttachment attachment = null;
-
-
-            java.lang.String imageURL = dir.getPath() + "/.Munchausen/en.munchausen.fingertipsandcompany.any/expansion/" + icon;
-            System.out.println("ImagePath---------------->" + imageURL);
-            File imageFile = new File(imageURL);
-            java.lang.String temp = dir.getPath() + "/.Munchausen/en.munchausen.fingertipsandcompany.any/expansion/chapter/temp";
-            File tempFolder = new File(temp);
-            if (!tempFolder.exists()) {
-                if (tempFolder.mkdir()) {
-                    System.out.println("Temp Folder created");
-                } else {
-                    System.out.println("Failed to create Temp Folder");
-                }
-            }
-
-//        try{
-//            copyDirectory(imageFile,tempFolder);
-//            System.out.println("TempFolder-----------------> "+tempFolder);
-//        }catch (IOException e){
-//            System.out.println("IOException--------------->"+e);
-//        }
-
-            try {
-                copyFile(imageFile, temp);
-            } catch (IOException e) {
-                System.out.println("IOException----------------------->" + e);
-            }
-            System.out.println("tempFolder--------------------->" + tempFolder);
-
-            java.lang.String tempImgPath = dir.getPath() + "/.Munchausen/en.munchausen.fingertipsandcompany.any/expansion/chapter/temp/icon_temp.png";
-            File tempImageFile = new File(tempImgPath);
-
-            URL url = null;
-            try {
-                url = tempImageFile.toURI().toURL();
-            } catch (MalformedURLException e) {
-                System.out.println("URL--------------------->" + url);
-            }
-            if (url != null) {
-                NSURL nsURL = new NSURL(url);
-                System.out.println("NSURL -------------" + nsURL);
-                try {
-                    attachment = new UNNotificationAttachment("image", nsURL, null);
-                } catch (NSErrorException e) {
-                    System.out.println("Attachment Error:----------------->" + e);
-                }
-                System.out.println("Attachment : " + attachment);
-            }*/
-
 
             content.setTitle(title);
             content.setBody(msg);
             content.setSound(UNNotificationSound.getDefaultSound());
             content.setBadge(NSNumber.valueOf(1));
             content.setCategoryIdentifier(userActions);
-
-           /* System.out.println("Attachment----------------->" + attachment);
-            if (attachment != null) {
-                System.out.println("Attachment NotNUll----------------------->");
-                NSMutableArray<UNNotificationAttachment> array = new NSMutableArray<UNNotificationAttachment>();
-                array.add(attachment);
-                content.setAttachments(array);
-            }*/
 
 
             /*NSDate date = new NSDate().newDateByAddingTimeInterval(5);
@@ -314,7 +233,7 @@ public class NotificationDelegate extends NSObject implements UNUserNotification
             }
             UNTimeIntervalNotificationTrigger trigger = new UNTimeIntervalNotificationTrigger(hrs, true);
 
-            String identifier = "downoadNotification";
+            String identifier = "ENDownloadNotification";
             UNNotificationRequest request = new UNNotificationRequest(identifier, content, trigger);
 
             notificationCenter.addNotificationRequest(request, new VoidBlock1<NSError>() {
@@ -335,7 +254,6 @@ public class NotificationDelegate extends NSObject implements UNUserNotification
             System.out.println("Schedule Download Notification---------------------------->"+e);
         }
     }
-
 
     public void copyDirectory(File sourceLocation, File targetLocation)
             throws IOException {
@@ -367,8 +285,6 @@ public class NotificationDelegate extends NSObject implements UNUserNotification
     }
 
 
-
-
     private void copyFile(File sourceLocation, String targetLocation) throws IOException {
         InputStream in = new FileInputStream(sourceLocation);
         String imageLocation = targetLocation+"/icon_temp.png";
@@ -390,9 +306,6 @@ public class NotificationDelegate extends NSObject implements UNUserNotification
         IOSLauncher.readNotificationJson();
         System.out.println("willPresentNotification");
     }
-
-
-
 
     @Override
     public void didReceiveNotificationResponse(UNUserNotificationCenter unUserNotificationCenter, UNNotificationResponse unNotificationResponse, Runnable runnable) {

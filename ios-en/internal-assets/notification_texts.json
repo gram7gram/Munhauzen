@@ -1,25 +1,25 @@
 {
-    "continue_notification" : {
-    "continue_notification_text_1" : "Common and let's continue adventures at ",
-	"continue_notification_text_2" : "let's go to ",
-	"continue_notification_text_3" : "Continue listening from :) ",
-  	"continue_notification_text_4" : "Don't sleep, let's listen to ",
-	"continue_notification_text_5" : "Get Back to listening ",  	
-	"continue_notification_text_6" : "Are you bored...Listen ",
-	"continue_notification_text_7" : "Listening is fun.... "
-  		
-    },
+	"continue_notification" : {
+		"continue_notification_text_1" : "Dear listener! You have stopped at next adventure: ",
+		"continue_notification_text_2" : "Come in and keep listening to the incredible adventures of Munchausen! ",
+		"continue_notification_text_3" : "Today Baron will tell his next story. Come in! ",
+		"continue_notification_text_4" : "Come and listen to my next truthful story!  ",
+		"continue_notification_text_5" : "Where have we stopped at? Ooo, yeeees! ",
+		"continue_notification_text_6" : "Next funny story is waiting! Come round! ",
+		"continue_notification_text_7" : "I tell my stories and people smile! Wonderful! Here are the next one: "
 
-	
-    "download_notification" : {
-    "download_notification_text_1" : "Common and let's download adventures at ",
-	"download_notification_text_2" : "let's go to download ",
-	"download_notification_text_3" : "download demo version :) ",
-  	"download_notification_text_4" : "Don't sleep, Download and listen to Muncahusen ",
-	"download_notification_text_5" : "Download noe and Get awesome Munchausen stories. ",  	
-	"download_notification_text_6" : "Are you bored...Download ",
-	"download_notification_text_7" : "Downloading is fun.... "
-  		
-    }		
-  
+	},
+
+
+	"download_notification" : {
+		"download_notification_text_1" : "I am Munchausen and have been anywhere! On Taihatlibiati, in the stomach of a fish and even on the Moon! Download my files and listen to find out more!",
+		"download_notification_text_2" : "Listen to me and learn how to get out of a swamp, catch a dozen of ducks with a fishing rod and let sparks come out from your eyes! Yes, the little and bright sparks! Just open and download Munchausen files!",
+		"download_notification_text_3" : "It is better to see and listen to me once, than not to know who I am! Download Munchausen stories and smile!",
+		"download_notification_text_4" : "Interactive audio-book-game! Takes up a lot of space but brings a lot of fun! Download Munchausen!",
+		"download_notification_text_5" : "Download our game files and you won't regret it! Such an interactive game format you have never seen before!",
+		"download_notification_text_6" : "Download our files for the game sooner! You won't find any app like this anywhere!",
+		"download_notification_text_7" : "Tired of Munchausen's stories? Can't be, because you haven't even started listening them yet! Download Munchausen and smile!"
+
+	}
+
 }

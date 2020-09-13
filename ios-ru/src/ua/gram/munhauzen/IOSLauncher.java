@@ -121,6 +121,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
     private UNUserNotificationCenter notificationCenter;
 
     private boolean needToDownload = false;
+    public static boolean needToDownloadStatic = false;
     private String mInvitationURL = "";
 
     private FIRAuth mAuth;
@@ -217,6 +218,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
         @Override
         public void setDownloadNeeded(boolean isDownloaded) {
             needToDownload = isDownloaded;
+            needToDownloadStatic = isDownloaded;
         }
     };
 
