@@ -393,91 +393,87 @@ public class AndroidLauncher extends AndroidApplication {
 
     private void startAlarm() {
 
-        String historyJson = readHistoryJsonFile();
-        String saveJson = readSaveJsonFile();
-
-        String chapterJson = readChapterJsonFile();
-
-
-        System.out.println("CHapetr---Jston---->" + chapterJson);
-
-
         try {
-            JSONObject saveJsonObject = new JSONObject(saveJson);
+            String historyJson = readHistoryJsonFile();
+            String saveJson = readSaveJsonFile();
 
-            String lastChapter = saveJsonObject.getString("chapter");
+            String chapterJson = readChapterJsonFile();
 
-            System.out.println("Last Visited CHapter=---->" + lastChapter);
 
-            int index=0;
-            JSONObject selectedJsonObject=null;
-            JSONArray chapters = new JSONArray(chapterJson);
-                for(int j=0;j<chapters.length();j++){
-                    if(lastChapter.equals(chapters.getJSONObject(j).getString("name"))){
+            System.out.println("CHapetr---Jston---->" + chapterJson);
+
+
+            try {
+                JSONObject saveJsonObject = new JSONObject(saveJson);
+
+                String lastChapter = saveJsonObject.getString("chapter");
+
+                System.out.println("Last Visited CHapter=---->" + lastChapter);
+
+                int index = 0;
+                JSONObject selectedJsonObject = null;
+                JSONArray chapters = new JSONArray(chapterJson);
+                for (int j = 0; j < chapters.length(); j++) {
+                    if (lastChapter.equals(chapters.getJSONObject(j).getString("name"))) {
                         JSONObject jsonObject = chapters.getJSONObject(j);
 
-                            index = jsonObject.getInt("number");
-                            selectedJsonObject=jsonObject;
-                            break;
+                        index = jsonObject.getInt("number");
+                        selectedJsonObject = jsonObject;
+                        break;
                     }
 
                 }
 
 
-            if (selectedJsonObject == null){
-                return;
+                if (selectedJsonObject == null) {
+                    return;
+                }
+                String iconPath = selectedJsonObject.getString("icon");
+                String description = selectedJsonObject.getString("description");
+
+                int chapterNo = selectedJsonObject.getInt("number");
+
+
+                System.out.println("SELECTED_JSONOBJECT" + selectedJsonObject.getString("icon"));
+
+                SharedPreferencesHelper.setLastVisitedIcon(this, iconPath);
+                SharedPreferencesHelper.setLastVisitedDescription(this, "Chapter " + chapterNo + ". " + description);
+
+
+                System.out.println("LastChapterString--->" + lastChapter);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-            String iconPath=selectedJsonObject.getString("icon");
-            String description=selectedJsonObject.getString("description");
-
-            int chapterNo = selectedJsonObject.getInt("number");
 
 
-            System.out.println("SELECTED_JSONOBJECT"+selectedJsonObject.getString("icon"));
+            Calendar c = Calendar.getInstance();
+            c.add(Calendar.SECOND, SharedPreferencesHelper.getNotification1Time(this));
 
-            SharedPreferencesHelper.setLastVisitedIcon(this,iconPath);
-            SharedPreferencesHelper.setLastVisitedDescription(this, "Chapter " + chapterNo + ". " + description);
+            System.out.println("SetAlarmAfterSeconds--->" + SharedPreferencesHelper.getNotification1Time(this));
+            PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("ALARM_SET_AFTER_SECONDS", SharedPreferencesHelper.getNotification1Time(this).toString()).apply();
 
+            String format = "";
+            try {
+                SimpleDateFormat s = new SimpleDateFormat("hhmmss");
+                format = s.format(new Date());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
-
-
-
-            System.out.println("LastChapterString--->" + lastChapter);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-
-
-        Calendar c = Calendar.getInstance();
-        c.add(Calendar.SECOND, SharedPreferencesHelper.getNotification1Time(this));
-
-        System.out.println("SetAlarmAfterSeconds--->" + SharedPreferencesHelper.getNotification1Time(this));
-        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("ALARM_SET_AFTER_SECONDS",SharedPreferencesHelper.getNotification1Time(this).toString() ).apply();
-
-        String format = "";
-        try {
-            SimpleDateFormat s = new SimpleDateFormat("hhmmss");
-            format = s.format(new Date());
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-
-        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("ALARM_SET_TIME", format ).apply();
+            PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("ALARM_SET_TIME", format).apply();
 
 
-
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, AlertReceiver.class);
-        //intent.setFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
-        if (alarmManager != null) {
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
-        }
-
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            Intent intent = new Intent(this, AlertReceiver.class);
+            //intent.setFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
+            if (alarmManager != null) {
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
+            }
 
 
+        } catch (Throwable ignore) {}
 
     }
 
@@ -768,19 +764,21 @@ public class AndroidLauncher extends AndroidApplication {
     }
 
     public void sendReferralLink(){
-        String referrerName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
-        String invitationLink = mInvitationUrl.toString();
+        try {
+            String referrerName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+            String invitationLink = mInvitationUrl.toString();
 
-        String msg = "Let's listen and play Munchausen together! Use my referrer link: "
-                + invitationLink;
+            String msg = "Let's listen and play Munchausen together! Use my referrer link: "
+                    + invitationLink;
 
-        Intent shareIntent = new Intent();
-        shareIntent.setAction(Intent.ACTION_SEND);
-        shareIntent.setType("text/plain");
-        shareIntent.putExtra(Intent.EXTRA_TEXT,
-                msg);
+            Intent shareIntent = new Intent();
+            shareIntent.setAction(Intent.ACTION_SEND);
+            shareIntent.setType("text/plain");
+            shareIntent.putExtra(Intent.EXTRA_TEXT,
+                    msg);
 
-        startActivity(Intent.createChooser(shareIntent, "Share"));
+            startActivity(Intent.createChooser(shareIntent, "Share"));
+        } catch (Throwable ignore) {}
     }
 
     public void getReferralLink(){

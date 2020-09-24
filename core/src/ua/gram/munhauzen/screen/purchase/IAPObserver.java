@@ -62,17 +62,13 @@ public class IAPObserver implements PurchaseObserver {
 
             game.syncState();
 
-        } catch (Throwable e) {
-            Log.e(tag, e);
-        }
+            try {
+                game.params.iap.purchaseRestore();
+            } catch (Throwable e) {
+                Log.e(tag, e);
+            }
 
-        try {
-            game.params.iap.purchaseRestore();
-        } catch (Throwable e) {
-            Log.e(tag, e);
-
-            screen.onCriticalError(e);
-        }
+        } catch (Throwable ignore) {}
     }
 
     @Override

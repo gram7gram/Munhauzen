@@ -81,8 +81,6 @@ public class PaintingScreen extends AbstractScreen {
             game.gameState.galleryState.visitedImages.add(paintingImage.image.name);
         } catch (Throwable e) {
             Log.e(tag, e);
-
-            onCriticalError(e);
         }
     }
 
@@ -148,8 +146,6 @@ public class PaintingScreen extends AbstractScreen {
 
                     } catch (Throwable e) {
                         Log.e(tag, e);
-
-                        onCriticalError(e);
                     }
                 }
             }, .22f);
@@ -204,8 +200,6 @@ public class PaintingScreen extends AbstractScreen {
 
                     } catch (Throwable e) {
                         Log.e(tag, e);
-
-                        onCriticalError(e);
                     }
                 }
             }, .22f);

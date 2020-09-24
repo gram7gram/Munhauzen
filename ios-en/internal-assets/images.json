@@ -1,1 +1,2027 @@
-[{"_id":"5f5456422e12cb4da259d481","name":"p0","__v":0,"description":"","file":"images/p0.jpg","isHiddenFromGallery":true,"locale":"en","order":0},{"_id":"5f5456422e12cb4da259d476","name":"p1_intro_1","__v":0,"description":"Oh that Munchausen!","file":"images/p1_intro_1.jpg","locale":"en","order":1},{"_id":"5f5456422e12cb4da259d47d","name":"p1_intro_2","__v":0,"description":"Yes, a cherry tree! And it had berries on it. So juicy, so sweet... ","file":"images/p1_intro_2.jpg","locale":"en","order":2},{"_id":"5f5456422e12cb4da259d4b9","name":"p1_intro_3","__v":0,"description":"Yes, daughter?","file":"images/p1_intro_3.jpg","locale":"en","order":3},{"_id":"5f5456422e12cb4da259d4a4","name":"p1_intro_4","__v":0,"description":"Yes, gentlemen, that is how It was!","file":"images/p1_intro_4.jpg","locale":"en","order":4},{"_id":"5f5456422e12cb4da259d4a2","name":"p1_0","__v":0,"description":"Tired, I alighted, and fastened my horse to something like a pointed stump of a tree, which appeared above the snow","file":"images/p1_0.jpg","locale":"en","order":5},{"_id":"5f5456422e12cb4da259d483","name":"p1_1","__v":0,"description":"How did he end up there?","file":"images/p1_1.jpg","locale":"en","order":6},{"_id":"5f5456422e12cb4da259d485","name":"p1_2","__v":0,"description":"He's tied right to the cross!","file":"images/p1_2.jpg","locale":"en","order":7},{"_id":"5f5456422e12cb4da259d4c2","name":"p1_d","__v":0,"description":"Grabbed a pistol and fired!","file":"images/p1_d.jpg","locale":"en","order":8,"relatedStatue":"ST_CHAPTER","type":"statue"},{"_id":"5f5456422e12cb4da259d4ad","name":"p1_d_bonus","__v":0,"description":"Shot!","file":"images/p1_d_bonus.jpg","locale":"en","order":9,"relatedScenario":"p1_d","type":"bonus"},{"_id":"5f5456422e12cb4da259d4ac","name":"p2_b","__v":0,"description":"The wolf happened to be harnessed to a sled!","file":"images/p2_b.jpg","locale":"en","order":10},{"_id":"5f5456422e12cb4da259d487","name":"p3_0","__v":0,"description":"People can doubt the truth of the stories about my real heroic deeds, which is highly insulting for a noble gentleman, who values his honor","file":"images/p3_0.jpg","locale":"en","order":11},{"_id":"5f5456422e12cb4da259d489","name":"p3_1","__v":0,"description":"\r\nOnce early in he morning I look out the window and see ducks","file":"images/p3_1.jpg","locale":"en","order":12},{"_id":"5f5456422e12cb4da259d4ca","name":"p3_2","__v":0,"description":"I rushed for ducks immediately","file":"images/p3_2.jpg","locale":"en","order":13},{"_id":"5f5456422e12cb4da259d4b5","name":"p3_a","__v":0,"description":"Without hesitation, I hit myself in the right eye and sparks flew out!","file":"images/p3_a.jpg","locale":"en","order":14},{"_id":"5f5456422e12cb4da259d4b4","name":"p3_shoot","__v":0,"description":"The stick fired!","file":"images/p3_shoot.jpg","locale":"en","order":15,"relatedStatue":"ST_LUCKY_1","type":"statue"},{"_id":"5f5456422e12cb4da259d48b","name":"p4_1","__v":0,"description":"A whole flock of ducks, but a gunpowder was over","file":"images/p4_1.jpg","locale":"en","order":16},{"_id":"5f5456422e12cb4da259d48d","name":"p4_2","__v":0,"description":"But the becan was slippery and it, oop!, went right through the duck and came out behind it","file":"images/p4_2.jpg","locale":"en","order":17},{"_id":"5f5456422e12cb4da259d4d3","name":"p6","__v":0,"description":"It was hard for me to drag a whole bunch of ducks back home, but then, a miracle!, It took off!","file":"images/p6.jpg","locale":"en","order":18},{"_id":"5f5456422e12cb4da259d4bd","name":"psandstorm","__v":0,"description":"In the harsh desert","file":"images/psandstorm.jpg","locale":"en","order":19},{"_id":"5f5456422e12cb4da259d4bc","name":"psandstorm_b","__v":0,"description":"There was nothing more joyful for us than to see the green forest, meadows and lush mountains on the horizon.","file":"images/psandstorm_b.jpg","locale":"en","order":20},{"_id":"5f5456422e12cb4da259d48f","name":"p2_0","__v":0,"description":"It happened in the vastness of great Russia","file":"images/p2_0.jpg","locale":"en","order":21},{"_id":"5f5456422e12cb4da259d491","name":"p2_1","__v":0,"description":"The wolf attacked me","file":"images/p2_1.jpg","locale":"en","order":22},{"_id":"5f5456422e12cb4da259d4d7","name":"p8","__v":0,"description":"The fox at a gunpoint","file":"images/p8.jpg","locale":"en","order":23},{"_id":"5f5456422e12cb4da259d4c5","name":"p8_d","__v":0,"description":"And the fox ran away from me absolutely naked","file":"images/p8_d.jpg","locale":"en","order":24},{"_id":"5f5456422e12cb4da259d4bf","name":"p7_1","__v":0,"description":"Once I came across a scary bear","file":"images/p7_1.jpg","locale":"en","order":25},{"_id":"5f5456422e12cb4da259d493","name":"p7_1_bonus","__v":0,"description":"Lonely","file":"images/p7_1_bonus.jpg","locale":"en","order":26,"relatedScenario":"p7_1","type":"bonus"},{"_id":"5f5456422e12cb4da259d495","name":"p7_1_d","__v":0,"description":"I flung with all my might and threw a stone right in his mouth","file":"images/p7_1_d.jpg","locale":"en","order":27},{"_id":"5f5456422e12cb4da259d4db","name":"p7_2_0","__v":0,"description":"I went for a walk with my wife","file":"images/p7_2_0.jpg","locale":"en","order":28,"relatedStatue":"ST_GENTLE","type":"statue"},{"_id":"5f5456422e12cb4da259d4ce","name":"p7_2_b_1","__v":0,"description":"My dog froze where I left it!","file":"images/p7_2_b_1.jpg","locale":"en","order":29},{"_id":"5f5456422e12cb4da259d4c3","name":"p7_2_b_2","__v":0,"description":"Oh, my dog","file":"images/p7_2_b_2.jpg","locale":"en","order":30},{"_id":"5f5456422e12cb4da259d497","name":"p7_3_0","__v":0,"description":"Diana was a wonderful dog, wonderful","file":"images/p7_3_0.jpg","locale":"en","order":31},{"_id":"5f5456422e12cb4da259d499","name":"p7_3_1","__v":0,"description":"I rode and rode after that hare","file":"images/p7_3_1.jpg","locale":"en","order":32},{"_id":"5f5456422e12cb4da259d4df","name":"pmoon","__v":0,"description":"Look, rusty spots!","file":"images/pmoon.jpg","locale":"en","order":33,"relatedStatue":"ST_PERSONS","type":"statue"},{"_id":"5f5456422e12cb4da259d4d5","name":"pmoon_a_win","__v":0,"description":"We took out the moon and polished it to its former shine","file":"images/pmoon_a_win.jpg","locale":"en","order":34},{"_id":"5f5456422e12cb4da259d4c7","name":"p13_0","__v":0,"description":"... and I see: a young deer is right in front of me","file":"images/p13_0.jpg","locale":"en","order":35,"relatedStatue":"ST_PROBLEM","type":"statue"},{"_id":"5f5456422e12cb4da259d49b","name":"p13_d","__v":0,"description":"I beheld a noble stag with a fine full grown cherry- tree above ten feet high, between his antlers","file":"images/p13_d.jpg","locale":"en","order":36,"type":"color"},{"_id":"5f5456422e12cb4da259d49d","name":"pbear","__v":0,"description":"How to sharpen a flint?","file":"images/pbear.jpg","locale":"en","order":37},{"_id":"5f5456422e12cb4da259d4e3","name":"pbear_fin","__v":0,"description":"In a second the two froze together, and I hurriedly drew up the line with the bread","file":"images/pbear_fin.jpg","locale":"en","order":38,"relatedStatue":"ST_CUBIC","type":"statue"},{"_id":"5f5456422e12cb4da259d4d9","name":"psling_0","__v":0,"description":"My father","file":"images/psling_0.jpg","locale":"en","order":39},{"_id":"5f5456422e12cb4da259d4cb","name":"psling_1","__v":0,"description":"Once, my father was attacked by a wild angry seahorse","file":"images/psling_1.jpg","locale":"en","order":40,"relatedStatue":"ST_REPEAT","type":"statue"},{"_id":"5f5456422e12cb4da259d4a8","name":"psling_b","__v":0,"description":"My father saddled the sea horse and set off across the sea","file":"images/psling_b.jpg","locale":"en","order":41},{"_id":"5f5456422e12cb4da259d49f","name":"psling_bonus","__v":0,"description":"Angry Seahorse v1","file":"images/psling_bonus.jpg","locale":"en","order":42,"relatedScenario":"psling","type":"bonus"},{"_id":"5f5456422e12cb4da259d4e7","name":"p16_0","__v":0,"description":"Walking around St. Petersburg, a mad dog pounced on me","file":"images/p16_0.jpg","locale":"en","order":43},{"_id":"5f5456422e12cb4da259d4dd","name":"p16_0_bonus","__v":0,"description":"Angry mad dog","file":"images/p16_0_bonus.jpg","locale":"en","order":44,"relatedScenario":"p16_0","type":"bonus"},{"_id":"5f5456422e12cb4da259d4cf","name":"p17","__v":0,"description":"I look: a furious fur coat tore into pieces my ceremonial uniform!","file":"images/p17.jpg","locale":"en","order":45},{"_id":"5f5456422e12cb4da259d4b0","name":"p17_a","__v":0,"description":"I shot, and in a moment the fur coat pacified and didn’t bite anyone else anymore","file":"images/p17_a.jpg","locale":"en","order":46,"type":"color"},{"_id":"5f5456422e12cb4da259d4a5","name":"p17_a_bonus","__v":0,"description":"Fur coat v1","file":"images/p17_a_bonus.jpg","locale":"en","order":47,"relatedScenario":"p17_a","type":"bonus"},{"_id":"5f5456422e12cb4da259d4eb","name":"p18_d","__v":0,"description":"He had four normal legs and four legs on his back!","file":"images/p18_d.jpg","locale":"en","order":48},{"_id":"5f5456422e12cb4da259d4e1","name":"p19_0","__v":0,"description":"I almost burst out crying with pity!","file":"images/p19_0.jpg","locale":"en","order":49},{"_id":"5f5456422e12cb4da259d4d2","name":"p19_0_bonus","__v":0,"description":"Dachshund Dianka","file":"images/p19_0_bonus.jpg","locale":"en","order":50,"relatedScenario":"p19_0","type":"bonus"},{"_id":"5f5456422e12cb4da259d4b8","name":"p19_b","__v":0,"description":"You can see that there used to be two rows of eleven buttons each on my waistcoat, and that now only three are left! Do you believe me now?","file":"images/p19_b.jpg","locale":"en","order":51,"relatedStatue":"ST_CHAPTERSECRET","type":"statue"},{"_id":"5f5456422e12cb4da259d529","name":"p20_1","__v":0,"description":"Even the best riders could not pacify that frisky horse","file":"images/p20_1.jpg","locale":"en","order":52},{"_id":"5f5456422e12cb4da259d4ef","name":"p20_2","__v":0,"description":"I decided to show my skills to the ladies","file":"images/p20_2.jpg","locale":"en","order":53},{"_id":"5f5456422e12cb4da259d4e5","name":"p20_a","__v":0,"description":"Jumped right onto the tea table on my horse","file":"images/p20_a.jpg","locale":"en","order":54,"type":"color"},{"_id":"5f5456422e12cb4da259d588","name":"p21_1","__v":0,"description":"My darling, my granddaughter","file":"images/p21_1.jpg","locale":"en","order":55},{"_id":"5f5456422e12cb4da259d56c","name":"p21_2","__v":0,"description":"The horse was drinking but could not get enough","file":"images/p21_2.jpg","locale":"en","order":56,"type":"color"},{"_id":"5f5456422e12cb4da259d570","name":"p21_2_a","__v":0,"description":"I rushed forward at the head of my little squad","file":"images/p21_2_a.jpg","locale":"en","order":57},{"_id":"5f5456422e12cb4da259d4f3","name":"p21_3","__v":0,"description":"Here it is - grazing in the meadow","file":"images/p21_3.jpg","locale":"en","order":58},{"_id":"5f5456422e12cb4da259d4e9","name":"p21_4","__v":0,"description":"Under this arbor I accomplished a lot of feats","file":"images/p21_4.jpg","locale":"en","order":59,"type":"color"},{"_id":"5f5456422e12cb4da259d5a3","name":"p22","__v":0,"description":"I turned out to be the bravest","file":"images/p22.jpg","locale":"en","order":60,"type":"color"},{"_id":"5f5456422e12cb4da259d574","name":"p22_d","__v":0,"description":"I waited for the cannon to fire and then jumped right on the cannonball","file":"images/p22_d.jpg","locale":"en","order":61,"relatedStatue":"ST_CANNONBALL","type":"statue"},{"_id":"5f5456422e12cb4da259d578","name":"p22_d_2","__v":0,"description":"No, dear Munchausen, you have to go back before it's too late!","file":"images/p22_d_2.jpg","locale":"en","order":62},{"_id":"5f5456422e12cb4da259d4f7","name":"p7","__v":0,"description":"Suddenly, seven partridges fluttered out right from under my feet","file":"images/p7.jpg","locale":"en","order":63},{"_id":"5f5456422e12cb4da259d4ed","name":"p7_0_bonus","__v":0,"description":"Munchausens","file":"images/p7_0_bonus.jpg","locale":"en","order":64,"relatedScenario":"p7_0","type":"bonus"},{"_id":"5f5456422e12cb4da259d5b5","name":"p7_c","__v":0,"description":"Yes, all seven partridges in one shot","file":"images/p7_c.jpg","locale":"en","order":65},{"_id":"5f5456422e12cb4da259d57c","name":"p14_0","__v":0,"description":"My dear friends and companions, have confidence in what I say, and pay  honour to the tales of Munchausen.","file":"images/p14_0.jpg","locale":"en","order":66},{"_id":"5f5456422e12cb4da259d580","name":"p14_1","__v":0,"description":"Without waiting a second, I thrust my fist into the wolf's open mouth","file":"images/p14_1.jpg","locale":"en","order":67},{"_id":"5f5456422e12cb4da259d4fb","name":"p15_smile","__v":0,"description":"And since then a charming smile can be seen on my face.","file":"images/p15_smile.jpg","locale":"en","order":68},{"_id":"5f5456422e12cb4da259d4f1","name":"p23_d","__v":0,"description":"Let us raise our cups, dear gentlemen, friends and comrades, for this married couple, for our health and together for the comforts of society and for the unconditional veracity of each narrator ...","file":"images/p23_d.jpg","locale":"en","order":69},{"_id":"5f5456422e12cb4da259d5c7","name":"pisland_1","__v":0,"description":"Prisoners at Tahatlibiati","file":"images/pisland_1.jpg","locale":"en","order":70},{"_id":"5f5456422e12cb4da259d584","name":"pisland_2","__v":0,"description":"It's time for a  breakout","file":"images/pisland_2.jpg","locale":"en","order":71},{"_id":"5f5456422e12cb4da259d58c","name":"pisland_cont","__v":0,"description":"Balloons inflated and flew!","file":"images/pisland_cont.jpg","locale":"en","order":72},{"_id":"5f5456422e12cb4da259d4ff","name":"pisland_game","__v":0,"description":"","file":"images/pisland_game.jpg","isHiddenFromGallery":true,"locale":"en","order":73},{"_id":"5f5456422e12cb4da259d4f5","name":"pboy_0","__v":0,"description":"Little Bastian was a burden to us","file":"images/pboy_0.jpg","locale":"en","order":74},{"_id":"5f5456422e12cb4da259d64a","name":"pboy_bonus","__v":0,"description":"Have fused","file":"images/pboy_bonus.jpg","locale":"en","order":75,"relatedScenario":"pboy_0","type":"bonus"},{"_id":"5f5456422e12cb4da259d592","name":"pboy_b","__v":0,"description":"I put Bastian on my shoulders and we went up with joy","file":"images/pboy_b.jpg","locale":"en","order":76},{"_id":"5f5456422e12cb4da259d58f","name":"pmarriage","__v":0,"description":"Once I caught a whole box of salmon-trout","file":"images/pmarriage.jpg","locale":"en","order":77},{"_id":"5f5456422e12cb4da259d503","name":"pmarriage_a_a","__v":0,"description":"And Jinna appeared in front of me !","file":"images/pmarriage_a_a.jpg","locale":"en","order":78,"relatedStatue":"ST_JINNA","type":"statue"},{"_id":"5f5456422e12cb4da259d4f9","name":"pmarriage_c","__v":0,"description":"I harnessed the fish, sat on the box and sailed cheerfully down the river","file":"images/pmarriage_c.jpg","locale":"en","order":79},{"_id":"5f5456422e12cb4da259d64e","name":"pbrougham_0","__v":0,"description":"I barely had time to take my hat off to the ladies","file":"images/pbrougham_0.jpg","locale":"en","order":80},{"_id":"5f5456422e12cb4da259d59b","name":"pbrougham_1","__v":0,"description":"The fat Will Huber (Vasiliy)","file":"images/pbrougham_1.jpg","locale":"en","order":81},{"_id":"5f5456422e12cb4da259d596","name":"pbrougham_a","__v":0,"description":"I gave him such a slap in the face that there was a ringing sound","file":"images/pbrougham_a.jpg","locale":"en","order":82,"relatedStatue":"ST_EAR","type":"statue"},{"_id":"5f5456422e12cb4da259d507","name":"p10_0","__v":0,"description":"I saw a wild pig and A sow running close behind each other","file":"images/p10_0.jpg","locale":"en","order":83},{"_id":"5f5456422e12cb4da259d4fd","name":"p11_0","__v":0,"description":"One day I met a wild boar","file":"images/p11_0.jpg","locale":"en","order":84},{"_id":"5f5456422e12cb4da259d652","name":"p11_b","__v":0,"description":"In a flash I hid behind a large oak tree","file":"images/p11_b.jpg","locale":"en","order":85},{"_id":"5f5456422e12cb4da259d5ac","name":"p12_a","__v":0,"description":"No one knew that the ferocious boar could be caught without firing a single bullet","file":"images/p12_a.jpg","locale":"en","order":86},{"_id":"5f5456422e12cb4da259d59f","name":"p25","__v":0,"description":"Two bears attacked the poor bee, wanting to enjoy her honey","file":"images/p25.jpg","locale":"en","order":87},{"_id":"5f5456422e12cb4da259d50b","name":"p25_d","__v":0,"description":"Where can I find such a long ladder to reach the moon?","file":"images/p25_d.jpg","locale":"en","order":88},{"_id":"5f5456422e12cb4da259d501","name":"p27_0","__v":0,"description":"Yes, try to find a silver ax on the silver Moon ...","file":"images/p27_0.jpg","locale":"en","order":89},{"_id":"5f5456422e12cb4da259d656","name":"p27_1","__v":0,"description":"But how can I go back now? Will I always stay on this terrible moon?","file":"images/p27_1.jpg","locale":"en","order":90,"relatedStatue":"ST_FIRST","type":"statue"},{"_id":"5f5456422e12cb4da259d5bd","name":"p27_d","__v":0,"description":"The rope ended and I hung in the air between the sky and the earth","file":"images/p27_d.jpg","locale":"en","order":91},{"_id":"5f5456422e12cb4da259d5a8","name":"p28_a","__v":0,"description":"How do I get out?","file":"images/p28_a.jpg","locale":"en","order":92,"relatedStatue":"ST_AXE","type":"statue"},{"_id":"5f5456422e12cb4da259d50f","name":"p29_2","__v":0,"description":"I have plenty of equally striking proofs at the service of any who are insolent enough to doubt the truth of any of my statements.","file":"images/p29_2.jpg","locale":"en","order":93},{"_id":"5f5456422e12cb4da259d505","name":"pballoon","__v":0,"description":"I observed a globular substance in the air, which appeared to be about the size of a twelve-inch globe ","file":"images/pballoon.jpg","locale":"en","order":94,"type":"color"},{"_id":"5f5456422e12cb4da259d65a","name":"pballoon_a_1","__v":0,"description":"Monsieur DeJaVu","file":"images/pballoon_a_1.jpg","locale":"en","order":95,"relatedStatue":"ST_BALLOON","type":"statue"},{"_id":"5f5456422e12cb4da259d648","name":"pballoon_a_2","__v":0,"description":"And we were rising higher and higher with a colossal speed!","file":"images/pballoon_a_2.jpg","locale":"en","order":96,"relatedStatue":"ST_DEJAVU","type":"statue"},{"_id":"5f5456422e12cb4da259d5b0","name":"pcannon","__v":0,"description":"The sultan offered me a deal","file":"images/pcannon.jpg","locale":"en","order":97},{"_id":"5f5456422e12cb4da259d513","name":"pcannon_d","__v":0,"description":"I threw a huge cannon hard","file":"images/pcannon_d.jpg","locale":"en","order":98},{"_id":"5f5456422e12cb4da259d509","name":"p32_0","__v":0,"description":"I see how a black carriage rushes towards us!","file":"images/p32_0.jpg","locale":"en","order":99},{"_id":"5f5456422e12cb4da259d65e","name":"pcarriage","__v":0,"description":"Baaaam!","file":"images/pcarriage.jpg","locale":"en","order":100},{"_id":"5f5456422e12cb4da259d64c","name":"p32_a","__v":0,"description":"I put the carriage on my shoulders easily","file":"images/p32_a.jpg","locale":"en","order":101},{"_id":"5f5456422e12cb4da259d5b9","name":"p33_d","__v":0,"description":"If any of the company entertain a doubt of my veracity, I shall only say to such, I pity their want of faith…","file":"images/p33_d.jpg","locale":"en","order":102},{"_id":"5f5456422e12cb4da259d517","name":"p33_b","__v":0,"description":"And my horse had to dial back his naughtiness whether he wanted to or not","file":"images/p33_b.jpg","locale":"en","order":103},{"_id":"5f5456422e12cb4da259d50d","name":"p33_2","__v":0,"description":"","file":"images/p33_2.jpg","isHiddenFromGallery":true,"locale":"en","order":104},{"_id":"5f5456422e12cb4da259d664","name":"ptample_0","__v":0,"description":"I climbed to the top to enjoy the beautiful view.","file":"images/ptample_0.jpg","locale":"en","order":105},{"_id":"5f5456422e12cb4da259d650","name":"ptample_bonus","__v":0,"description":"The hole in the tower v1","file":"images/ptample_bonus.jpg","locale":"en","order":106,"relatedScenario":"ptample_0","type":"bonus"},{"_id":"5f5456422e12cb4da259d5c2","name":"ptample_1","__v":0,"description":"There was a hole in the tower ...","file":"images/ptample_1.jpg","locale":"en","order":107},{"_id":"5f5456422e12cb4da259d51b","name":"ptample_2_0","__v":0,"description":"I clung tightly to the neck of the first eagle, and we flew ","file":"images/ptample_2_0.jpg","locale":"en","order":108},{"_id":"5f5456422e12cb4da259d511","name":"ptample_2_1","__v":0,"description":"I heard a rustling in the bushes, and, on looking upwards, saw an enormous beast","file":"images/ptample_2_1.jpg","locale":"en","order":109},{"_id":"5f5456422e12cb4da259d668","name":"ptample_3","__v":0,"description":"Soon our flight reached the Arctic Circle","file":"images/ptample_3.jpg","locale":"en","order":110},{"_id":"5f5456422e12cb4da259d654","name":"ptample_5","__v":0,"description":"I cheered up and sang a song that I had learned as I was a child","file":"images/ptample_5.jpg","locale":"en","order":111,"relatedStatue":"ST_SONG","type":"statue"},{"_id":"5f5456422e12cb4da259d795","name":"p34_0","__v":0,"description":"I left the Assembly without another word, unable to endure any longer the company of men who could not distinguish between lying brag and the simple truth.","file":"images/p34_0.jpg","locale":"en","order":112},{"_id":"5f5456422e12cb4da259d51f","name":"p34_3","__v":0,"description":"The weight of this couple, as the tree descended, overbalanced the trunk, and brought it down in a horizontal position","file":"images/p34_3.jpg","locale":"en","order":113},{"_id":"5f5456422e12cb4da259d515","name":"p34_1","__v":0,"description":"\"Oh noble Munchausen, be our king!\"","file":"images/p34_1.jpg","locale":"en","order":114,"type":"color"},{"_id":"5f5456422e12cb4da259d66c","name":"p34_2","__v":0,"description":"Here is the crown","file":"images/p34_2.jpg","locale":"en","order":115,"type":"color"},{"_id":"5f5456422e12cb4da259d658","name":"p34_a","__v":0,"description":"What's this?","file":"images/p34_a.jpg","locale":"en","order":116,"relatedStatue":"ST_KING","type":"statue"},{"_id":"5f5456422e12cb4da259d7ac","name":"p35_0","__v":0,"description":"Lion attacked me","file":"images/p35_0.jpg","locale":"en","order":117},{"_id":"5f5456422e12cb4da259d523","name":"p35_what","__v":0,"description":"Where to run? Where to run?","file":"images/p35_what.jpg","locale":"en","order":118,"type":"color"},{"_id":"5f5456422e12cb4da259d519","name":"p36_e","__v":0,"description":"Lion pounced on me, but landed straight into the jaws of a crocodile!","file":"images/p36_e.jpg","locale":"en","order":119},{"_id":"5f5456422e12cb4da259d670","name":"pvarvars","__v":0,"description":"I wanted to help these barbarians stop eating raw meat and drinking kava","file":"images/pvarvars.jpg","locale":"en","order":120,"relatedStatue":"ST_LETTER","type":"statue"},{"_id":"5f5456422e12cb4da259d65c","name":"pvarvars_d_all_1","__v":0,"description":"I spoke in the mad bliss of fire tenderness, and I burst into tears!","file":"images/pvarvars_d_all_1.jpg","locale":"en","order":121},{"_id":"5f5456422e12cb4da259d7b5","name":"pvarvars_d_all_2","__v":0,"description":"Fudges! Fudges! Fudges! - sounded from everywhere","file":"images/pvarvars_d_all_2.jpg","locale":"en","order":122,"type":"color"},{"_id":"5f5456422e12cb4da259d528","name":"pvarvars_d_all_3","__v":0,"description":"O! I even have the clipping!","file":"images/pvarvars_d_all_3.jpg","locale":"en","order":123},{"_id":"5f5456422e12cb4da259d51d","name":"pbridge_0","__v":0,"description":"New route from Africa to Britain was built","file":"images/pbridge_0.jpg","locale":"en","order":124,"type":"color"},{"_id":"5f5456422e12cb4da259d674","name":"pwau","__v":0,"description":"Catch, catch Wauwau!","file":"images/pwau.jpg","locale":"en","order":125},{"_id":"5f5456422e12cb4da259d661","name":"pwau_2","__v":0,"description":"Wauwau is somewhere nearby","file":"images/pwau_2.jpg","locale":"en","order":126,"relatedStatue":"ST_WAUWAU","type":"statue"},{"_id":"5f5456422e12cb4da259d7c0","name":"pwau_3","__v":0,"description":"Bring a treat!","file":"images/pwau_3.jpg","locale":"en","order":127},{"_id":"5f5456422e12cb4da259d52d","name":"pwau_3_c","__v":0,"description":"I grabbed his own bear by its hind legs and took a swing!","file":"images/pwau_3_c.jpg","locale":"en","order":128},{"_id":"5f5456422e12cb4da259d521","name":"pwau_4","__v":0,"description":"Strange cavalcade","file":"images/pwau_4.jpg","locale":"en","order":129},{"_id":"5f5456422e12cb4da259d679","name":"pwau_a","__v":0,"description":"I took a chain and tied the island","file":"images/pwau_a.jpg","locale":"en","order":130},{"_id":"5f5456422e12cb4da259d666","name":"pcanal_1","__v":0,"description":"We arrived at the neck of Darien","file":"images/pcanal_1.jpg","locale":"en","order":131,"type":"color"},{"_id":"5f5456422e12cb4da259d7c8","name":"pcanal_1_b","__v":0,"description":"Panama Chanel","file":"images/pcanal_1_b.jpg","locale":"en","order":132},{"_id":"5f5456422e12cb4da259d531","name":"pcanal_2","__v":0,"description":"Seized with a fury of canal-cutting, I took it in my head to form an immediate communication between the Mediterranean and the Red Sea","file":"images/pcanal_2.jpg","locale":"en","order":133},{"_id":"5f5456422e12cb4da259d525","name":"pcanal_2_c","__v":0,"description":"I appeared in the library of Alexandria!","file":"images/pcanal_2_c.jpg","locale":"en","order":134,"type":"color"},{"_id":"5f5456422e12cb4da259d67f","name":"pcanal_2_c_bonus","__v":0,"description":"Alexandria Library v1","file":"images/pcanal_2_c_bonus.jpg","locale":"en","order":135,"relatedScenario":"pcanal_2_c","type":"bonus"},{"_id":"5f5456422e12cb4da259d66a","name":"ptyran_1","__v":0,"description":"Tuco","file":"images/ptyran_1.jpg","locale":"en","order":136},{"_id":"5f5456422e12cb4da259d7d2","name":"ptyran_bonus","__v":0,"description":"Crossover","file":"images/ptyran_bonus.jpg","locale":"en","order":137,"relatedScenario":"ptyran_1","type":"bonus"},{"_id":"5f5456422e12cb4da259d535","name":"ptyran_2","__v":0,"description":"Tuco came to me mounted on his elephant","file":"images/ptyran_2.jpg","locale":"en","order":138},{"_id":"5f5456422e12cb4da259d52b","name":"ptyran_b","__v":0,"description":"Tuco instantly let off his carbine","file":"images/ptyran_b.jpg","locale":"en","order":139},{"_id":"5f5456422e12cb4da259d684","name":"plions","__v":0,"description":"Pride of lions surrounded our camp","file":"images/plions.jpg","locale":"en","order":140},{"_id":"5f5456422e12cb4da259d66e","name":"plions_bonus","__v":0,"description":"Lions B1","file":"images/plions_bonus.jpg","locale":"en","order":141,"relatedScenario":"plions","type":"bonus"},{"_id":"5f5456422e12cb4da259d7dc","name":"plions_a","__v":0,"description":"I challenged the king of beasts to a duel","file":"images/plions_a.jpg","locale":"en","order":142},{"_id":"5f5456422e12cb4da259d539","name":"plions_a_win","__v":0,"description":"The beast has fallen!","file":"images/plions_a_win.jpg","locale":"en","order":143,"relatedStatue":"TRUE"},{"_id":"5f5456422e12cb4da259d52f","name":"p38_0","__v":0,"description":"It’s not a rock, it’s a huge whale!","file":"images/p38_0.jpg","locale":"en","order":144},{"_id":"5f5456422e12cb4da259d688","name":"p38_d","__v":0,"description":"Without even taking off my pants, I covered the hole with my back!","file":"images/p38_d.jpg","locale":"en","order":145},{"_id":"5f5456422e12cb4da259d672","name":"p39_0","__v":0,"description":"Suddenly I discovered a very large fish, with his jaws quite extended, approaching me with the greatest velocity !","file":"images/p39_0.jpg","locale":"en","order":146},{"_id":"5f5456422e12cb4da259d7e6","name":"p39_a","__v":0,"description":"Captain Nemo","file":"images/p39_a.jpg","locale":"en","order":147,"relatedStatue":"ST_NEMO","type":"statue"},{"_id":"5f5456422e12cb4da259d53d","name":"p39_d","__v":0,"description":"Dived into its mouth","file":"images/p39_d.jpg","locale":"en","order":148},{"_id":"5f5456422e12cb4da259d533","name":"p40","__v":0,"description":"It was dark and wet in the fish’s stomach","file":"images/p40.jpg","locale":"en","order":149},{"_id":"5f5456422e12cb4da259d68c","name":"p41_d","__v":0,"description":"They were even more surprised surprised when I jumped out of the fish's mouth and greeted them with a kind bow","file":"images/p41_d.jpg","locale":"en","order":150,"relatedStatue":"ST_VERSE","type":"statue"},{"_id":"5f5456422e12cb4da259d676","name":"p41_d_bonus_1","__v":0,"description":"Deck v1","file":"images/p41_d_bonus_1.jpg","locale":"en","order":151,"relatedScenario":"p41_d","type":"bonus"},{"_id":"5f5456422e12cb4da259d7f0","name":"p41_d_bonus_2","__v":0,"description":"Deck v2","file":"images/p41_d_bonus_2.jpg","locale":"en","order":152,"relatedScenario":"p41_d","type":"bonus"},{"_id":"5f5456422e12cb4da259d541","name":"p41_1","__v":0,"description":"Oh, I once sailed to the Sultan for a secret mission","file":"images/p41_1.jpg","locale":"en","order":153},{"_id":"5f5456422e12cb4da259d537","name":"p41_egypt","__v":0,"description":"Set off to Egypt?","file":"images/p41_egypt.jpg","locale":"en","order":154},{"_id":"5f5456422e12cb4da259d690","name":"pnile","__v":0,"description":"We sailed the Nile River for the secret mission of the Sultan","file":"images/pnile.jpg","locale":"en","order":155},{"_id":"5f5456422e12cb4da259d67b","name":"pnile_a_1","__v":0,"description":"Fortunately, we climbed a tree","file":"images/pnile_a_1.jpg","locale":"en","order":156},{"_id":"5f5456422e12cb4da259d7f4","name":"pnile_a_2","__v":0,"description":"Istanbul","file":"images/pnile_a_2.jpg","locale":"en","order":157},{"_id":"5f5456422e12cb4da259d545","name":"pnile_d","__v":0,"description":"Tricky Crocodile","file":"images/pnile_d.jpg","locale":"en","order":158,"relatedStatue":"ST_CROCODILE","type":"statue"},{"_id":"5f5456422e12cb4da259d53b","name":"p41_story_1","__v":0,"description":"\"Oh, Munchausen, you have never tasted a wine like this\"","file":"images/p41_story_1.jpg","locale":"en","order":159},{"_id":"5f5456422e12cb4da259d694","name":"p41_story_2","__v":0,"description":"Still-life painting","file":"images/p41_story_2.jpg","locale":"en","order":160},{"_id":"5f5456422e12cb4da259d682","name":"p41_story_3","__v":0,"description":"It was five minutes after four, when I called my servant","file":"images/p41_story_3.jpg","locale":"en","order":161},{"_id":"5f5456422e12cb4da259d7fc","name":"p41_story_4","__v":0,"description":"Well? Do you hear? Where is that slob?","file":"images/p41_story_4.jpg","locale":"en","order":162},{"_id":"5f5456422e12cb4da259d549","name":"p41_story_5","__v":0,"description":"Well, see him?","file":"images/p41_story_5.jpg","locale":"en","order":163},{"_id":"5f5456422e12cb4da259d53f","name":"p41_story_6","__v":0,"description":"Exactly thirty seconds before the fourth my speedwalker runs in!","file":"images/p41_story_6.jpg","locale":"en","order":164},{"_id":"5f5456422e12cb4da259d698","name":"p41_story_7","__v":0,"description":"Sultan's treasury","file":"images/p41_story_7.jpg","locale":"en","order":165},{"_id":"5f5456422e12cb4da259d686","name":"p49_strong","__v":0,"description":"We threw all the treasures of Turkey on the the giant's shoulders and hurried to the ship","file":"images/p49_strong.jpg","locale":"en","order":166},{"_id":"5f5456422e12cb4da259d806","name":"p50_0","__v":0,"description":"But that exactly happened what I was afraid of.","file":"images/p50_0.jpg","locale":"en","order":167},{"_id":"5f5456422e12cb4da259d54d","name":"p50_0_bonus","__v":0,"description":"The chase v1","file":"images/p50_0_bonus.jpg","locale":"en","order":168,"relatedScenario":"p50_0","type":"bonus"},{"_id":"5f5456422e12cb4da259d543","name":"p50_nose","__v":0,"description":"He directed one nostril against the Turkish fleet, and the other one - on our sail","file":"images/p50_nose.jpg","locale":"en","order":169},{"_id":"5f5456422e12cb4da259d69c","name":"p41_win","__v":0,"description":"It was a great victory!","file":"images/p41_win.jpg","locale":"en","order":170,"relatedStatue":"ST_DANGER","type":"statue"},{"_id":"5f5456422e12cb4da259d68a","name":"p41_story_bonus_1","__v":0,"description":"Apartments 1","file":"images/p41_story_bonus_1.jpg","locale":"en","order":171},{"_id":"5f5456422e12cb4da259d810","name":"p41_story_bonus_2","__v":0,"description":"Apartments 2","file":"images/p41_story_bonus_2.jpg","locale":"en","order":172},{"_id":"5f5456422e12cb4da259d551","name":"p41_story_bonus_3","__v":0,"description":"The sultan","file":"images/p41_story_bonus_3.jpg","locale":"en","order":173},{"_id":"5f5456422e12cb4da259d547","name":"p51_0","__v":0,"description":"I found the enemy were about to discharge a thirty- six pounder at the spot where we stood","file":"images/p51_0.jpg","locale":"en","order":174},{"_id":"5f5456422e12cb4da259d6a0","name":"p51_0_bonus","__v":0,"description":"On the walls of Gibraltar v1","file":"images/p51_0_bonus.jpg","locale":"en","order":175,"relatedScenario":"p51_0","type":"bonus"},{"_id":"5f5456422e12cb4da259d68e","name":"pprisoners","__v":0,"description":"The general and I were having lunch, when a cannonball flew in and fell right onto our table","file":"images/pprisoners.jpg","locale":"en","order":176},{"_id":"5f5456422e12cb4da259d818","name":"pprisoners_2","__v":0,"description":"I took up the cannonball in my hand fearlessly","file":"images/pprisoners_2.jpg","locale":"en","order":177},{"_id":"5f5456422e12cb4da259d555","name":"pprisoners_exploded","__v":0,"description":"- And the cannonball exploded! - Ah, you are mischievous granddaughter!","file":"images/pprisoners_exploded.jpg","locale":"en","order":178},{"_id":"5f5456422e12cb4da259d54b","name":"p53","__v":0,"description":"I dressed myself in the habit of a Popish priest, and at about one o clock in the morning sneaked to the middle of their camp","file":"images/p53.jpg","locale":"en","order":179},{"_id":"5f5456422e12cb4da259d6a6","name":"p53_b","__v":0,"description":"Quietly I started throwing cannons into the sea","file":"images/p53_b.jpg","locale":"en","order":180},{"_id":"5f5456422e12cb4da259d692","name":"pnephew","__v":0,"description":"Oh, and here is my glorious nephew Voldemar!","file":"images/pnephew.jpg","locale":"en","order":181},{"_id":"5f5456422e12cb4da259d820","name":"pnephew_2","__v":0,"description":"What do you think, gentlemen, what did I use my pomade for?","file":"images/pnephew_2.jpg","locale":"en","order":182,"relatedStatue":"ST_PONY","type":"statue"},{"_id":"5f5456422e12cb4da259d559","name":"pnephew_3","__v":0,"description":"Right! On the place over the upper lip!","file":"images/pnephew_3.jpg","locale":"en","order":183},{"_id":"5f5456422e12cb4da259d54f","name":"pnephew_4","__v":0,"description":"And I repeated the same trick seventeen times in that morning","file":"images/pnephew_4.jpg","locale":"en","order":184},{"_id":"5f5456422e12cb4da259d6ae","name":"pnephew_e","__v":0,"description":"Toby, whom at the time I retained as my groom, was not at all pleased with the rapid results of the pomade","file":"images/pnephew_e.jpg","locale":"en","order":185},{"_id":"5f5456422e12cb4da259d696","name":"p55_0","__v":0,"description":"One hot day I was looking for a cool place","file":"images/p55_0.jpg","locale":"en","order":186},{"_id":"5f5456422e12cb4da259d828","name":"p55_a_1","__v":0,"description":"I landed in a huge sheaf of hay","file":"images/p55_a_1.jpg","locale":"en","order":187},{"_id":"5f5456422e12cb4da259d55d","name":"p55_a_2","__v":0,"description":"And after three months I woke up","file":"images/p55_a_2.jpg","locale":"en","order":188},{"_id":"5f5456422e12cb4da259d553","name":"p56_0","__v":0,"description":"I saw two polar bears","file":"images/p56_0.jpg","locale":"en","order":189},{"_id":"5f5456422e12cb4da259d6b6","name":"pamerica_1","__v":0,"description":"I was in America too","file":"images/pamerica_1.jpg","locale":"en","order":190},{"_id":"5f5456422e12cb4da259d69a","name":"pamerica_2","__v":0,"description":"Oh, I remember the wonderful american railways","file":"images/pamerica_2.jpg","locale":"en","order":191},{"_id":"5f5456422e12cb4da259d830","name":"pamerica_5","__v":0,"description":"Prince of the Station","file":"images/pamerica_5.jpg","locale":"en","order":192,"relatedStatue":"ST_SLAP","type":"statue"},{"_id":"5f5456422e12cb4da259d561","name":"pamerica_3","__v":0,"description":"I pulled the lever - and mountain oil poured from the well!","file":"images/pamerica_3.jpg","locale":"en","order":193},{"_id":"5f5456422e12cb4da259d557","name":"pamerica_4","__v":0,"description":"Oh yes, I forgot to tell you another interesting story","file":"images/pamerica_4.jpg","locale":"en","order":194,"type":"color"},{"_id":"5f5456422e12cb4da259d6bf","name":"pgener","__v":0,"description":"The bear landed on a cart and began brazenly eating our nuts","file":"images/pgener.jpg","locale":"en","order":195},{"_id":"5f5456422e12cb4da259d69e","name":"pgener_bonus_1","__v":0,"description":"Goodbye! v2","file":"images/pgener_bonus_1.jpg","locale":"en","order":196,"relatedScenario":"pgener","type":"bonus"},{"_id":"5f5456422e12cb4da259d839","name":"pgener_bonus_2","__v":0,"description":"Goodbye! v1","file":"images/pgener_bonus_2.jpg","locale":"en","order":197,"relatedScenario":"pgener","type":"bonus"},{"_id":"5f5456422e12cb4da259d565","name":"pgener_d","__v":0,"description":"\"Three cheers for General Kushko! Hip, hip, hooray!\"","file":"images/pgener_d.jpg","locale":"en","order":198},{"_id":"5f5456422e12cb4da259d55b","name":"pdog","__v":0,"description":"My dog pointed","file":"images/pdog.jpg","locale":"en","order":199},{"_id":"5f5456422e12cb4da259d6c7","name":"pboat_ruin","__v":0,"description":"Yes, you should believe me!","file":"images/pboat_ruin.jpg","locale":"en","order":200},{"_id":"5f5456422e12cb4da259d6a3","name":"pboat_ruin_0","__v":0,"description":"Yes, that was a bad luck!","file":"images/pboat_ruin_0.jpg","locale":"en","order":201,"relatedStatue":"ST_PIFAGOR","type":"statue"},{"_id":"5f5456422e12cb4da259d846","name":"pboat_ruin_a","__v":0,"description":"And with my act I convinced all of Europe of the possibility of pulling taking her up again","file":"images/pboat_ruin_a.jpg","locale":"en","order":202},{"_id":"5f5456422e12cb4da259d569","name":"pworm_0","__v":0,"description":"\"They are victims of the iron worm!\"","file":"images/pworm_0.jpg","locale":"en","order":203,"relatedStatue":"ST_WORM","type":"statue"},{"_id":"5f5456422e12cb4da259d55f","name":"pworm_d","__v":0,"description":"To poison the parasite!","file":"images/pworm_d.jpg","locale":"en","order":204},{"_id":"5f5456422e12cb4da259d6d1","name":"p57_0","__v":0,"description":"On the moon","file":"images/p57_0.jpg","locale":"en","order":205,"relatedScenario":"p57_0","relatedStatue":"TRUE","type":"color"},{"_id":"5f5456422e12cb4da259d6aa","name":"pvolcano_0","__v":0,"description":"I was подниматься with a firm resolution to examine the interior of this famous volcano","file":"images/pvolcano_0.jpg","locale":"en","order":206},{"_id":"5f5456422e12cb4da259d850","name":"pvolcano_1","__v":0,"description":"The volcano was rumbling  with all its ferocity","file":"images/pvolcano_1.jpg","locale":"en","order":207},{"_id":"5f5456422e12cb4da259d571","name":"pvolcano_b_1","__v":0,"description":"I jumped down instantly","file":"images/pvolcano_b_1.jpg","locale":"en","order":208},{"_id":"5f5456422e12cb4da259d563","name":"pvolcano_b_2","__v":0,"description":"I appeared in the company of the Volcano and its cyclops","file":"images/pvolcano_b_2.jpg","locale":"en","order":209},{"_id":"5f5456422e12cb4da259d6d6","name":"pvolcano_b_3","__v":0,"description":"\"Man-traps and spring-guns!\"","file":"images/pvolcano_b_3.jpg","locale":"en","order":210},{"_id":"5f5456422e12cb4da259d6b2","name":"pvolcano_b_b","__v":0,"description":"\"Ungrateful mortal! Return to the world where you came from!\"","file":"images/pvolcano_b_b.jpg","locale":"en","order":211,"type":"color"},{"_id":"5f5456422e12cb4da259d856","name":"pvolcano_b_b_2","__v":0,"description":"Moonlight night","file":"images/pvolcano_b_b_2.jpg","locale":"en","order":212},{"_id":"5f5456422e12cb4da259d579","name":"p58_0","__v":0,"description":"You know, my friends, how difficult it is to sail the sea without a compass","file":"images/p58_0.jpg","locale":"en","order":213,"type":"color"},{"_id":"5f5456422e12cb4da259d567","name":"p58_1","__v":0,"description":"Cheese island","file":"images/p58_1.jpg","locale":"en","order":214},{"_id":"5f5456422e12cb4da259d6da","name":"p60_1","__v":0,"description":"This monster completely sucked our ship with the masts themselves!","file":"images/p60_1.jpg","locale":"en","order":215},{"_id":"5f5456422e12cb4da259d6ba","name":"p60_2","__v":0,"description":"They chose me as the head of the council","file":"images/p60_2.jpg","locale":"en","order":216},{"_id":"5f5456422e12cb4da259d860","name":"p60_a","__v":0,"description":"when the deed was done, ninety-five ships sailed out of the jaws of the fish","file":"images/p60_a.jpg","locale":"en","order":217},{"_id":"5f5456422e12cb4da259d582","name":"p61_0","__v":0,"description":"Scarcely had I set foot on the shore, when I found myself assailed by a huge bear","file":"images/p61_0.jpg","locale":"en","order":218},{"_id":"5f5456422e12cb4da259d56d","name":"p61_bonus","__v":0,"description":"And we got married","file":"images/p61_bonus.jpg","locale":"en","order":219,"relatedStatue":"ST_TREE","type":"statue"},{"_id":"5f5456422e12cb4da259d6de","name":"p61_c","__v":0,"description":"I squeezed his paws","file":"images/p61_c.jpg","locale":"en","order":220},{"_id":"5f5456422e12cb4da259d6c3","name":"p61_shoot","__v":0,"description":"Shoot with the paddle, gentlemen","file":"images/p61_shoot.jpg","locale":"en","order":221,"relatedStatue":"ST_LUCKY_2","type":"statue"},{"_id":"5f5456422e12cb4da259d86a","name":"p_unknown_1","__v":0,"description":"Me and my granddaugher","file":"images/unknown_1.jpg","locale":"en","order":222},{"_id":"5f5456422e12cb4da259d589","name":"p_unknown_2","__v":0,"description":"I was returning somehow from an unsuccessful hunt …","file":"images/unknown_2.jpg","locale":"en","order":223,"type":"bonus"},{"_id":"5f5456422e12cb4da259d575","name":"p_unknown_3","__v":0,"description":"In honor of my dog!","file":"images/unknown_3.jpg","locale":"en","order":224,"relatedScenario":"p62_fin","type":"bonus"},{"_id":"5f5456422e12cb4da259d6e2","name":"p_unknown_4","__v":0,"description":"My daughter","file":"images/unknown_4.jpg","locale":"en","order":225,"type":"bonus"},{"_id":"5f5456422e12cb4da259d6cc","name":"p_unknown_5","__v":0,"description":"Damn it, the truth is all this, the truth!","file":"images/unknown_6.jpg","locale":"en","order":226,"type":"bonus"},{"_id":"5f5456422e12cb4da259d871","name":"p_unknown_6","__v":0,"description":"If you do not belive me, then…","file":"images/unknown_5.jpg","locale":"en","order":227,"type":"bonus"},{"_id":"5f5456422e12cb4da259d593","name":"p62_fin","__v":0,"description":"The end","file":"images/p62_fin.jpg","locale":"en","order":228,"relatedStatue":"ST_WIN","type":"statue"},{"_id":"5f5456422e12cb4da259d57e","name":"p62_fin_0","__v":0,"description":"Yes, only you…","file":"images/p62_fin_0.jpg","locale":"en","order":229},{"_id":"5f5456422e12cb4da259d6e6","name":"p62_fin_bonus_1","__v":0,"description":"Grandfather and granddaughter","file":"images/p62_fin_bonus_1.jpg","locale":"en","order":230,"relatedScenario":"p62_fin","type":"bonus"},{"_id":"5f5456422e12cb4da259d6d4","name":"p62_fin_bonus_2","__v":0,"description":"Granddaughter v2","file":"images/p62_fin_bonus_2.jpg","locale":"en","order":231,"relatedScenario":"p62_fin","type":"bonus"},{"_id":"5f5456422e12cb4da259d87c","name":"p62_fin_bonus_3","__v":0,"description":"Granddaughter v1","file":"images/p62_fin_bonus_3.jpg","locale":"en","order":232,"relatedScenario":"p62_fin","type":"bonus"},{"_id":"5f5456422e12cb4da259d59a","name":"p62_fin_bonus_4","__v":0,"description":"Munchausen B1","file":"images/p62_fin_bonus_4.jpg","locale":"en","order":233,"relatedScenario":"p62_fin","type":"bonus"},{"_id":"5f5456422e12cb4da259d585","name":"p62_fin_bonus_5","__v":0,"description":"How it all started","file":"images/p62_fin_bonus_5.jpg","locale":"en","order":234,"relatedScenario":"p62_fin","type":"bonus"},{"_id":"5f5456422e12cb4da259d6ea","name":"p_int_swamp_start","__v":0,"description":"","file":"images/int_swamp_start.jpg","isHiddenFromGallery":true,"locale":"en","order":235}]
+[
+  {
+    "name": "p0",
+    "__v": 0,
+    "description": "",
+    "file": "images/p0.jpg",
+    "isHiddenFromGallery": true,
+    "locale": "en",
+    "order": 0
+  },
+  {
+    "name": "p1_intro_1",
+    "__v": 0,
+    "description": "Oh that Munchausen!",
+    "file": "images/p1_intro_1.jpg",
+    "locale": "en",
+    "order": 1
+  },
+  {
+    "name": "p1_intro_2",
+    "__v": 0,
+    "description": "Yes, a cherry tree! And it had berries on it. So juicy, so sweet... ",
+    "file": "images/p1_intro_2.jpg",
+    "locale": "en",
+    "order": 2
+  },
+  {
+    "name": "p1_intro_3",
+    "__v": 0,
+    "description": "Yes, daughter?",
+    "file": "images/p1_intro_3.jpg",
+    "locale": "en",
+    "order": 3
+  },
+  {
+    "name": "p1_intro_4",
+    "__v": 0,
+    "description": "Yes, gentlemen, that is how It was!",
+    "file": "images/p1_intro_4.jpg",
+    "locale": "en",
+    "order": 4
+  },
+  {
+    "name": "p1_0",
+    "__v": 0,
+    "description": "Tired, I alighted, and fastened my horse to something like a pointed stump of a tree, which appeared above the snow",
+    "file": "images/p1_0.jpg",
+    "locale": "en",
+    "order": 5
+  },
+  {
+    "name": "p1_1",
+    "__v": 0,
+    "description": "How did he end up there?",
+    "file": "images/p1_1.jpg",
+    "locale": "en",
+    "order": 6
+  },
+  {
+    "name": "p1_2",
+    "__v": 0,
+    "description": "He's tied right to the cross!",
+    "file": "images/p1_2.jpg",
+    "locale": "en",
+    "order": 7
+  },
+  {
+    "name": "p1_d",
+    "__v": 0,
+    "description": "Grabbed a pistol and fired!",
+    "file": "images/p1_d.jpg",
+    "locale": "en",
+    "order": 8,
+    "relatedStatue": "ST_CHAPTER",
+    "type": "statue"
+  },
+  {
+    "name": "p1_d_bonus",
+    "__v": 0,
+    "description": "Shot!",
+    "file": "images/p1_d_bonus.jpg",
+    "locale": "en",
+    "order": 9,
+    "relatedScenario": "p1_d",
+    "type": "bonus"
+  },
+  {
+    "name": "p2_b",
+    "__v": 0,
+    "description": "The wolf happened to be harnessed to a sled!",
+    "file": "images/p2_b.jpg",
+    "locale": "en",
+    "order": 10
+  },
+  {
+    "name": "p3_0",
+    "__v": 0,
+    "description": "People can doubt the truth of the stories about my real heroic deeds, which is highly insulting for a noble gentleman, who values his honor",
+    "file": "images/p3_0.jpg",
+    "locale": "en",
+    "order": 11
+  },
+  {
+    "name": "p3_1",
+    "__v": 0,
+    "description": "\r\nOnce early in he morning I look out the window and see ducks",
+    "file": "images/p3_1.jpg",
+    "locale": "en",
+    "order": 12
+  },
+  {
+    "name": "p3_2",
+    "__v": 0,
+    "description": "I rushed for ducks immediately",
+    "file": "images/p3_2.jpg",
+    "locale": "en",
+    "order": 13
+  },
+  {
+    "name": "p3_a",
+    "__v": 0,
+    "description": "Without hesitation, I hit myself in the right eye and sparks flew out!",
+    "file": "images/p3_a.jpg",
+    "locale": "en",
+    "order": 14
+  },
+  {
+    "name": "p3_shoot",
+    "__v": 0,
+    "description": "The stick fired!",
+    "file": "images/p3_shoot.jpg",
+    "locale": "en",
+    "order": 15,
+    "relatedStatue": "ST_LUCKY_1",
+    "type": "statue"
+  },
+  {
+    "name": "p4_1",
+    "__v": 0,
+    "description": "A whole flock of ducks, but a gunpowder was over",
+    "file": "images/p4_1.jpg",
+    "locale": "en",
+    "order": 16
+  },
+  {
+    "name": "p4_2",
+    "__v": 0,
+    "description": "But the becan was slippery and it, oop!, went right through the duck and came out behind it",
+    "file": "images/p4_2.jpg",
+    "locale": "en",
+    "order": 17
+  },
+  {
+    "name": "p6",
+    "__v": 0,
+    "description": "It was hard for me to drag a whole bunch of ducks back home, but then, a miracle!, It took off!",
+    "file": "images/p6.jpg",
+    "locale": "en",
+    "order": 18
+  },
+  {
+    "name": "psandstorm",
+    "__v": 0,
+    "description": "In the harsh desert",
+    "file": "images/psandstorm.jpg",
+    "locale": "en",
+    "order": 19
+  },
+  {
+    "name": "psandstorm_b",
+    "__v": 0,
+    "description": "There was nothing more joyful for us than to see the green forest, meadows and lush mountains on the horizon.",
+    "file": "images/psandstorm_b.jpg",
+    "locale": "en",
+    "order": 20
+  },
+  {
+    "name": "p2_0",
+    "__v": 0,
+    "description": "It happened in the vastness of great Russia",
+    "file": "images/p2_0.jpg",
+    "locale": "en",
+    "order": 21
+  },
+  {
+    "name": "p2_1",
+    "__v": 0,
+    "description": "The wolf attacked me",
+    "file": "images/p2_1.jpg",
+    "locale": "en",
+    "order": 22
+  },
+  {
+    "name": "p8",
+    "__v": 0,
+    "description": "The fox at a gunpoint",
+    "file": "images/p8.jpg",
+    "locale": "en",
+    "order": 23
+  },
+  {
+    "name": "p8_d",
+    "__v": 0,
+    "description": "And the fox ran away from me absolutely naked",
+    "file": "images/p8_d.jpg",
+    "locale": "en",
+    "order": 24
+  },
+  {
+    "name": "p7_1",
+    "__v": 0,
+    "description": "Once I came across a scary bear",
+    "file": "images/p7_1.jpg",
+    "locale": "en",
+    "order": 25
+  },
+  {
+    "name": "p7_1_bonus",
+    "__v": 0,
+    "description": "Lonely",
+    "file": "images/p7_1_bonus.jpg",
+    "locale": "en",
+    "order": 26,
+    "relatedScenario": "p7_1",
+    "type": "bonus"
+  },
+  {
+    "name": "p7_1_d",
+    "__v": 0,
+    "description": "I flung with all my might and threw a stone right in his mouth",
+    "file": "images/p7_1_d.jpg",
+    "locale": "en",
+    "order": 27
+  },
+  {
+    "name": "p7_2_0",
+    "__v": 0,
+    "description": "I went for a walk with my wife",
+    "file": "images/p7_2_0.jpg",
+    "locale": "en",
+    "order": 28,
+    "relatedStatue": "ST_GENTLE",
+    "type": "statue"
+  },
+  {
+    "name": "p7_2_b_1",
+    "__v": 0,
+    "description": "My dog froze where I left it!",
+    "file": "images/p7_2_b_1.jpg",
+    "locale": "en",
+    "order": 29
+  },
+  {
+    "name": "p7_2_b_2",
+    "__v": 0,
+    "description": "Oh, my dog",
+    "file": "images/p7_2_b_2.jpg",
+    "locale": "en",
+    "order": 30
+  },
+  {
+    "name": "p7_3_0",
+    "__v": 0,
+    "description": "Diana was a wonderful dog, wonderful",
+    "file": "images/p7_3_0.jpg",
+    "locale": "en",
+    "order": 31
+  },
+  {
+    "name": "p7_3_1",
+    "__v": 0,
+    "description": "I rode and rode after that hare",
+    "file": "images/p7_3_1.jpg",
+    "locale": "en",
+    "order": 32
+  },
+  {
+    "name": "pmoon",
+    "__v": 0,
+    "description": "Look, rusty spots!",
+    "file": "images/pmoon.jpg",
+    "locale": "en",
+    "order": 33,
+    "relatedStatue": "ST_PERSONS",
+    "type": "statue"
+  },
+  {
+    "name": "pmoon_a_win",
+    "__v": 0,
+    "description": "We took out the moon and polished it to its former shine",
+    "file": "images/pmoon_a_win.jpg",
+    "locale": "en",
+    "order": 34
+  },
+  {
+    "name": "p13_0",
+    "__v": 0,
+    "description": "... and I see: a young deer is right in front of me",
+    "file": "images/p13_0.jpg",
+    "locale": "en",
+    "order": 35,
+    "relatedStatue": "ST_PROBLEM",
+    "type": "statue"
+  },
+  {
+    "name": "p13_d",
+    "__v": 0,
+    "description": "I beheld a noble stag with a fine full grown cherry- tree above ten feet high, between his antlers",
+    "file": "images/p13_d.jpg",
+    "locale": "en",
+    "order": 36,
+    "type": "color"
+  },
+  {
+    "name": "pbear",
+    "__v": 0,
+    "description": "How to sharpen a flint?",
+    "file": "images/pbear.jpg",
+    "locale": "en",
+    "order": 37
+  },
+  {
+    "name": "pbear_fin",
+    "__v": 0,
+    "description": "In a second the two froze together, and I hurriedly drew up the line with the bread",
+    "file": "images/pbear_fin.jpg",
+    "locale": "en",
+    "order": 38,
+    "relatedStatue": "ST_CUBIC",
+    "type": "statue"
+  },
+  {
+    "name": "psling_0",
+    "__v": 0,
+    "description": "My father",
+    "file": "images/psling_0.jpg",
+    "locale": "en",
+    "order": 39
+  },
+  {
+    "name": "psling_1",
+    "__v": 0,
+    "description": "Once, my father was attacked by a wild angry seahorse",
+    "file": "images/psling_1.jpg",
+    "locale": "en",
+    "order": 40,
+    "relatedStatue": "ST_REPEAT",
+    "type": "statue"
+  },
+  {
+    "name": "psling_b",
+    "__v": 0,
+    "description": "My father saddled the sea horse and set off across the sea",
+    "file": "images/psling_b.jpg",
+    "locale": "en",
+    "order": 41
+  },
+  {
+    "name": "psling_bonus",
+    "__v": 0,
+    "description": "Angry Seahorse v1",
+    "file": "images/psling_bonus.jpg",
+    "locale": "en",
+    "order": 42,
+    "relatedScenario": "psling",
+    "type": "bonus"
+  },
+  {
+    "name": "p16_0",
+    "__v": 0,
+    "description": "Walking around St. Petersburg, a mad dog pounced on me",
+    "file": "images/p16_0.jpg",
+    "locale": "en",
+    "order": 43
+  },
+  {
+    "name": "p16_0_bonus",
+    "__v": 0,
+    "description": "Angry mad dog",
+    "file": "images/p16_0_bonus.jpg",
+    "locale": "en",
+    "order": 44,
+    "relatedScenario": "p16_0",
+    "type": "bonus"
+  },
+  {
+    "name": "p17",
+    "__v": 0,
+    "description": "I look: a furious fur coat tore into pieces my ceremonial uniform!",
+    "file": "images/p17.jpg",
+    "locale": "en",
+    "order": 45
+  },
+  {
+    "name": "p17_a",
+    "__v": 0,
+    "description": "I shot, and in a moment the fur coat pacified and didn’t bite anyone else anymore",
+    "file": "images/p17_a.jpg",
+    "locale": "en",
+    "order": 46,
+    "type": "color"
+  },
+  {
+    "name": "p17_a_bonus",
+    "__v": 0,
+    "description": "Fur coat v1",
+    "file": "images/p17_a_bonus.jpg",
+    "locale": "en",
+    "order": 47,
+    "relatedScenario": "p17_a",
+    "type": "bonus"
+  },
+  {
+    "name": "p18_d",
+    "__v": 0,
+    "description": "He had four normal legs and four legs on his back!",
+    "file": "images/p18_d.jpg",
+    "locale": "en",
+    "order": 48
+  },
+  {
+    "name": "p19_0",
+    "__v": 0,
+    "description": "I almost burst out crying with pity!",
+    "file": "images/p19_0.jpg",
+    "locale": "en",
+    "order": 49
+  },
+  {
+    "name": "p19_0_bonus",
+    "__v": 0,
+    "description": "Dachshund Dianka",
+    "file": "images/p19_0_bonus.jpg",
+    "locale": "en",
+    "order": 50,
+    "relatedScenario": "p19_0",
+    "type": "bonus"
+  },
+  {
+    "name": "p19_b",
+    "__v": 0,
+    "description": "You can see that there used to be two rows of eleven buttons each on my waistcoat, and that now only three are left! Do you believe me now?",
+    "file": "images/p19_b.jpg",
+    "locale": "en",
+    "order": 51,
+    "relatedStatue": "ST_CHAPTERSECRET",
+    "type": "statue"
+  },
+  {
+    "name": "p20_1",
+    "__v": 0,
+    "description": "Even the best riders could not pacify that frisky horse",
+    "file": "images/p20_1.jpg",
+    "locale": "en",
+    "order": 52
+  },
+  {
+    "name": "p20_2",
+    "__v": 0,
+    "description": "I decided to show my skills to the ladies",
+    "file": "images/p20_2.jpg",
+    "locale": "en",
+    "order": 53
+  },
+  {
+    "name": "p20_a",
+    "__v": 0,
+    "description": "Jumped right onto the tea table on my horse",
+    "file": "images/p20_a.jpg",
+    "locale": "en",
+    "order": 54,
+    "type": "color"
+  },
+  {
+    "name": "p21_1",
+    "__v": 0,
+    "description": "My darling, my granddaughter",
+    "file": "images/p21_1.jpg",
+    "locale": "en",
+    "order": 55
+  },
+  {
+    "name": "p21_2",
+    "__v": 0,
+    "description": "The horse was drinking but could not get enough",
+    "file": "images/p21_2.jpg",
+    "locale": "en",
+    "order": 56,
+    "type": "color"
+  },
+  {
+    "name": "p21_2_a",
+    "__v": 0,
+    "description": "I rushed forward at the head of my little squad",
+    "file": "images/p21_2_a.jpg",
+    "locale": "en",
+    "order": 57
+  },
+  {
+    "name": "p21_3",
+    "__v": 0,
+    "description": "Here it is - grazing in the meadow",
+    "file": "images/p21_3.jpg",
+    "locale": "en",
+    "order": 58
+  },
+  {
+    "name": "p21_4",
+    "__v": 0,
+    "description": "Under this arbor I accomplished a lot of feats",
+    "file": "images/p21_4.jpg",
+    "locale": "en",
+    "order": 59,
+    "type": "color"
+  },
+  {
+    "name": "p22",
+    "__v": 0,
+    "description": "I turned out to be the bravest",
+    "file": "images/p22.jpg",
+    "locale": "en",
+    "order": 60,
+    "type": "color"
+  },
+  {
+    "name": "p22_d",
+    "__v": 0,
+    "description": "I waited for the cannon to fire and then jumped right on the cannonball",
+    "file": "images/p22_d.jpg",
+    "locale": "en",
+    "order": 61,
+    "relatedStatue": "ST_CANNONBALL",
+    "type": "statue"
+  },
+  {
+    "name": "p22_d_2",
+    "__v": 0,
+    "description": "No, dear Munchausen, you have to go back before it's too late!",
+    "file": "images/p22_d_2.jpg",
+    "locale": "en",
+    "order": 62
+  },
+  {
+    "name": "p7",
+    "__v": 0,
+    "description": "Suddenly, seven partridges fluttered out right from under my feet",
+    "file": "images/p7.jpg",
+    "locale": "en",
+    "order": 63
+  },
+  {
+    "name": "p7_0_bonus",
+    "__v": 0,
+    "description": "Munchausens",
+    "file": "images/p7_0_bonus.jpg",
+    "locale": "en",
+    "order": 64,
+    "relatedScenario": "p7_0",
+    "type": "bonus"
+  },
+  {
+    "name": "p7_c",
+    "__v": 0,
+    "description": "Yes, all seven partridges in one shot",
+    "file": "images/p7_c.jpg",
+    "locale": "en",
+    "order": 65
+  },
+  {
+    "name": "p14_0",
+    "__v": 0,
+    "description": "My dear friends and companions, have confidence in what I say, and pay  honour to the tales of Munchausen.",
+    "file": "images/p14_0.jpg",
+    "locale": "en",
+    "order": 66
+  },
+  {
+    "name": "p14_1",
+    "__v": 0,
+    "description": "Without waiting a second, I thrust my fist into the wolf's open mouth",
+    "file": "images/p14_1.jpg",
+    "locale": "en",
+    "order": 67
+  },
+  {
+    "name": "p15_smile",
+    "__v": 0,
+    "description": "And since then a charming smile can be seen on my face.",
+    "file": "images/p15_smile.jpg",
+    "locale": "en",
+    "order": 68
+  },
+  {
+    "name": "p23_d",
+    "__v": 0,
+    "description": "Let us raise our cups, dear gentlemen, friends and comrades, for this married couple, for our health and together for the comforts of society and for the unconditional veracity of each narrator ...",
+    "file": "images/p23_d.jpg",
+    "locale": "en",
+    "order": 69
+  },
+  {
+    "name": "pisland_1",
+    "__v": 0,
+    "description": "Prisoners at Tahatlibiati",
+    "file": "images/pisland_1.jpg",
+    "locale": "en",
+    "order": 70
+  },
+  {
+    "name": "pisland_2",
+    "__v": 0,
+    "description": "It's time for a  breakout",
+    "file": "images/pisland_2.jpg",
+    "locale": "en",
+    "order": 71
+  },
+  {
+    "name": "pisland_cont",
+    "__v": 0,
+    "description": "Balloons inflated and flew!",
+    "file": "images/pisland_cont.jpg",
+    "locale": "en",
+    "order": 72
+  },
+  {
+    "name": "pisland_game",
+    "__v": 0,
+    "description": "",
+    "file": "images/pisland_game.jpg",
+    "isHiddenFromGallery": true,
+    "locale": "en",
+    "order": 73
+  },
+  {
+    "name": "pboy_0",
+    "__v": 0,
+    "description": "Little Bastian was a burden to us",
+    "file": "images/pboy_0.jpg",
+    "locale": "en",
+    "order": 74
+  },
+  {
+    "name": "pboy_bonus",
+    "__v": 0,
+    "description": "Have fused",
+    "file": "images/pboy_bonus.jpg",
+    "locale": "en",
+    "order": 75,
+    "relatedScenario": "pboy_0",
+    "type": "bonus"
+  },
+  {
+    "name": "pboy_b",
+    "__v": 0,
+    "description": "I put Bastian on my shoulders and we went up with joy",
+    "file": "images/pboy_b.jpg",
+    "locale": "en",
+    "order": 76
+  },
+  {
+    "name": "pmarriage",
+    "__v": 0,
+    "description": "Once I caught a whole box of salmon-trout",
+    "file": "images/pmarriage.jpg",
+    "locale": "en",
+    "order": 77
+  },
+  {
+    "name": "pmarriage_a_a",
+    "__v": 0,
+    "description": "And Jinna appeared in front of me !",
+    "file": "images/pmarriage_a_a.jpg",
+    "locale": "en",
+    "order": 78,
+    "relatedStatue": "ST_JINNA",
+    "type": "statue"
+  },
+  {
+    "name": "pmarriage_c",
+    "__v": 0,
+    "description": "I harnessed the fish, sat on the box and sailed cheerfully down the river",
+    "file": "images/pmarriage_c.jpg",
+    "locale": "en",
+    "order": 79
+  },
+  {
+    "name": "pbrougham_0",
+    "__v": 0,
+    "description": "I barely had time to take my hat off to the ladies",
+    "file": "images/pbrougham_0.jpg",
+    "locale": "en",
+    "order": 80
+  },
+  {
+    "name": "pbrougham_1",
+    "__v": 0,
+    "description": "The fat Will Huber (Vasiliy)",
+    "file": "images/pbrougham_1.jpg",
+    "locale": "en",
+    "order": 81
+  },
+  {
+    "name": "pbrougham_a",
+    "__v": 0,
+    "description": "I gave him such a slap in the face that there was a ringing sound",
+    "file": "images/pbrougham_a.jpg",
+    "locale": "en",
+    "order": 82,
+    "relatedStatue": "ST_EAR",
+    "type": "statue"
+  },
+  {
+    "name": "p10_0",
+    "__v": 0,
+    "description": "I saw a wild pig and A sow running close behind each other",
+    "file": "images/p10_0.jpg",
+    "locale": "en",
+    "order": 83
+  },
+  {
+    "name": "p11_0",
+    "__v": 0,
+    "description": "One day I met a wild boar",
+    "file": "images/p11_0.jpg",
+    "locale": "en",
+    "order": 84
+  },
+  {
+    "name": "p11_b",
+    "__v": 0,
+    "description": "In a flash I hid behind a large oak tree",
+    "file": "images/p11_b.jpg",
+    "locale": "en",
+    "order": 85
+  },
+  {
+    "name": "p12_a",
+    "__v": 0,
+    "description": "No one knew that the ferocious boar could be caught without firing a single bullet",
+    "file": "images/p12_a.jpg",
+    "locale": "en",
+    "order": 86
+  },
+  {
+    "name": "p25",
+    "__v": 0,
+    "description": "Two bears attacked the poor bee, wanting to enjoy her honey",
+    "file": "images/p25.jpg",
+    "locale": "en",
+    "order": 87
+  },
+  {
+    "name": "p25_d",
+    "__v": 0,
+    "description": "Where can I find such a long ladder to reach the moon?",
+    "file": "images/p25_d.jpg",
+    "locale": "en",
+    "order": 88
+  },
+  {
+    "name": "p27_0",
+    "__v": 0,
+    "description": "Yes, try to find a silver ax on the silver Moon ...",
+    "file": "images/p27_0.jpg",
+    "locale": "en",
+    "order": 89
+  },
+  {
+    "name": "p27_1",
+    "__v": 0,
+    "description": "But how can I go back now? Will I always stay on this terrible moon?",
+    "file": "images/p27_1.jpg",
+    "locale": "en",
+    "order": 90,
+    "relatedStatue": "ST_FIRST",
+    "type": "statue"
+  },
+  {
+    "name": "p27_d",
+    "__v": 0,
+    "description": "The rope ended and I hung in the air between the sky and the earth",
+    "file": "images/p27_d.jpg",
+    "locale": "en",
+    "order": 91
+  },
+  {
+    "name": "p28_a",
+    "__v": 0,
+    "description": "How do I get out?",
+    "file": "images/p28_a.jpg",
+    "locale": "en",
+    "order": 92,
+    "relatedStatue": "ST_AXE",
+    "type": "statue"
+  },
+  {
+    "name": "p29_2",
+    "__v": 0,
+    "description": "I have plenty of equally striking proofs at the service of any who are insolent enough to doubt the truth of any of my statements.",
+    "file": "images/p29_2.jpg",
+    "locale": "en",
+    "order": 93
+  },
+  {
+    "name": "pballoon",
+    "__v": 0,
+    "description": "I observed a globular substance in the air, which appeared to be about the size of a twelve-inch globe ",
+    "file": "images/pballoon.jpg",
+    "locale": "en",
+    "order": 94,
+    "type": "color"
+  },
+  {
+    "name": "pballoon_a_1",
+    "__v": 0,
+    "description": "Monsieur DeJaVu",
+    "file": "images/pballoon_a_1.jpg",
+    "locale": "en",
+    "order": 95,
+    "relatedStatue": "ST_BALLOON",
+    "type": "statue"
+  },
+  {
+    "name": "pballoon_a_2",
+    "__v": 0,
+    "description": "And we were rising higher and higher with a colossal speed!",
+    "file": "images/pballoon_a_2.jpg",
+    "locale": "en",
+    "order": 96,
+    "relatedStatue": "ST_DEJAVU",
+    "type": "statue"
+  },
+  {
+    "name": "pcannon",
+    "__v": 0,
+    "description": "The sultan offered me a deal",
+    "file": "images/pcannon.jpg",
+    "locale": "en",
+    "order": 97
+  },
+  {
+    "name": "pcannon_d",
+    "__v": 0,
+    "description": "I threw a huge cannon hard",
+    "file": "images/pcannon_d.jpg",
+    "locale": "en",
+    "order": 98
+  },
+  {
+    "name": "p32_0",
+    "__v": 0,
+    "description": "I see how a black carriage rushes towards us!",
+    "file": "images/p32_0.jpg",
+    "locale": "en",
+    "order": 99
+  },
+  {
+    "name": "pcarriage",
+    "__v": 0,
+    "description": "Baaaam!",
+    "file": "images/pcarriage.jpg",
+    "locale": "en",
+    "order": 100
+  },
+  {
+    "name": "p32_a",
+    "__v": 0,
+    "description": "I put the carriage on my shoulders easily",
+    "file": "images/p32_a.jpg",
+    "locale": "en",
+    "order": 101
+  },
+  {
+    "name": "p33_d",
+    "__v": 0,
+    "description": "If any of the company entertain a doubt of my veracity, I shall only say to such, I pity their want of faith…",
+    "file": "images/p33_d.jpg",
+    "locale": "en",
+    "order": 102
+  },
+  {
+    "name": "p33_b",
+    "__v": 0,
+    "description": "And my horse had to dial back his naughtiness whether he wanted to or not",
+    "file": "images/p33_b.jpg",
+    "locale": "en",
+    "order": 103
+  },
+  {
+    "name": "p33_2",
+    "__v": 0,
+    "description": "",
+    "file": "images/p33_2.jpg",
+    "isHiddenFromGallery": true,
+    "locale": "en",
+    "order": 104
+  },
+  {
+    "name": "ptample_0",
+    "__v": 0,
+    "description": "I climbed to the top to enjoy the beautiful view.",
+    "file": "images/ptample_0.jpg",
+    "locale": "en",
+    "order": 105
+  },
+  {
+    "name": "ptample_bonus",
+    "__v": 0,
+    "description": "The hole in the tower v1",
+    "file": "images/ptample_bonus.jpg",
+    "locale": "en",
+    "order": 106,
+    "relatedScenario": "ptample_0",
+    "type": "bonus"
+  },
+  {
+    "name": "ptample_1",
+    "__v": 0,
+    "description": "There was a hole in the tower ...",
+    "file": "images/ptample_1.jpg",
+    "locale": "en",
+    "order": 107
+  },
+  {
+    "name": "ptample_2_0",
+    "__v": 0,
+    "description": "I clung tightly to the neck of the first eagle, and we flew ",
+    "file": "images/ptample_2_0.jpg",
+    "locale": "en",
+    "order": 108
+  },
+  {
+    "name": "ptample_2_1",
+    "__v": 0,
+    "description": "I heard a rustling in the bushes, and, on looking upwards, saw an enormous beast",
+    "file": "images/ptample_2_1.jpg",
+    "locale": "en",
+    "order": 109
+  },
+  {
+    "name": "ptample_3",
+    "__v": 0,
+    "description": "Soon our flight reached the Arctic Circle",
+    "file": "images/ptample_3.jpg",
+    "locale": "en",
+    "order": 110
+  },
+  {
+    "name": "ptample_5",
+    "__v": 0,
+    "description": "I cheered up and sang a song that I had learned as I was a child",
+    "file": "images/ptample_5.jpg",
+    "locale": "en",
+    "order": 111,
+    "relatedStatue": "ST_SONG",
+    "type": "statue"
+  },
+  {
+    "name": "p34_0",
+    "__v": 0,
+    "description": "I left the Assembly without another word, unable to endure any longer the company of men who could not distinguish between lying brag and the simple truth.",
+    "file": "images/p34_0.jpg",
+    "locale": "en",
+    "order": 112
+  },
+  {
+    "name": "p34_3",
+    "__v": 0,
+    "description": "The weight of this couple, as the tree descended, overbalanced the trunk, and brought it down in a horizontal position",
+    "file": "images/p34_3.jpg",
+    "locale": "en",
+    "order": 113
+  },
+  {
+    "name": "p34_1",
+    "__v": 0,
+    "description": "\"Oh noble Munchausen, be our king!\"",
+    "file": "images/p34_1.jpg",
+    "locale": "en",
+    "order": 114,
+    "type": "color"
+  },
+  {
+    "name": "p34_2",
+    "__v": 0,
+    "description": "Here is the crown",
+    "file": "images/p34_2.jpg",
+    "locale": "en",
+    "order": 115,
+    "type": "color"
+  },
+  {
+    "name": "p34_a",
+    "__v": 0,
+    "description": "What's this?",
+    "file": "images/p34_a.jpg",
+    "locale": "en",
+    "order": 116,
+    "relatedStatue": "ST_KING",
+    "type": "statue"
+  },
+  {
+    "name": "p35_0",
+    "__v": 0,
+    "description": "Lion attacked me",
+    "file": "images/p35_0.jpg",
+    "locale": "en",
+    "order": 117
+  },
+  {
+    "name": "p35_what",
+    "__v": 0,
+    "description": "Where to run? Where to run?",
+    "file": "images/p35_what.jpg",
+    "locale": "en",
+    "order": 118,
+    "type": "color"
+  },
+  {
+    "name": "p36_e",
+    "__v": 0,
+    "description": "Lion pounced on me, but landed straight into the jaws of a crocodile!",
+    "file": "images/p36_e.jpg",
+    "locale": "en",
+    "order": 119
+  },
+  {
+    "name": "pvarvars",
+    "__v": 0,
+    "description": "I wanted to help these barbarians stop eating raw meat and drinking kava",
+    "file": "images/pvarvars.jpg",
+    "locale": "en",
+    "order": 120,
+    "relatedStatue": "ST_LETTER",
+    "type": "statue"
+  },
+  {
+    "name": "pvarvars_d_all_1",
+    "__v": 0,
+    "description": "I spoke in the mad bliss of fire tenderness, and I burst into tears!",
+    "file": "images/pvarvars_d_all_1.jpg",
+    "locale": "en",
+    "order": 121
+  },
+  {
+    "name": "pvarvars_d_all_2",
+    "__v": 0,
+    "description": "Fudges! Fudges! Fudges! - sounded from everywhere",
+    "file": "images/pvarvars_d_all_2.jpg",
+    "locale": "en",
+    "order": 122,
+    "type": "color"
+  },
+  {
+    "name": "pvarvars_d_all_3",
+    "__v": 0,
+    "description": "O! I even have the clipping!",
+    "file": "images/pvarvars_d_all_3.jpg",
+    "locale": "en",
+    "order": 123
+  },
+  {
+    "name": "pbridge_0",
+    "__v": 0,
+    "description": "New route from Africa to Britain was built",
+    "file": "images/pbridge_0.jpg",
+    "locale": "en",
+    "order": 124,
+    "type": "color"
+  },
+  {
+    "name": "pwau",
+    "__v": 0,
+    "description": "Catch, catch Wauwau!",
+    "file": "images/pwau.jpg",
+    "locale": "en",
+    "order": 125
+  },
+  {
+    "name": "pwau_2",
+    "__v": 0,
+    "description": "Wauwau is somewhere nearby",
+    "file": "images/pwau_2.jpg",
+    "locale": "en",
+    "order": 126,
+    "relatedStatue": "ST_WAUWAU",
+    "type": "statue"
+  },
+  {
+    "name": "pwau_3",
+    "__v": 0,
+    "description": "Bring a treat!",
+    "file": "images/pwau_3.jpg",
+    "locale": "en",
+    "order": 127
+  },
+  {
+    "name": "pwau_3_c",
+    "__v": 0,
+    "description": "I grabbed his own bear by its hind legs and took a swing!",
+    "file": "images/pwau_3_c.jpg",
+    "locale": "en",
+    "order": 128
+  },
+  {
+    "name": "pwau_4",
+    "__v": 0,
+    "description": "Strange cavalcade",
+    "file": "images/pwau_4.jpg",
+    "locale": "en",
+    "order": 129
+  },
+  {
+    "name": "pwau_a",
+    "__v": 0,
+    "description": "I took a chain and tied the island",
+    "file": "images/pwau_a.jpg",
+    "locale": "en",
+    "order": 130
+  },
+  {
+    "name": "pcanal_1",
+    "__v": 0,
+    "description": "We arrived at the neck of Darien",
+    "file": "images/pcanal_1.jpg",
+    "locale": "en",
+    "order": 131,
+    "type": "color"
+  },
+  {
+    "name": "pcanal_1_b",
+    "__v": 0,
+    "description": "Panama Chanel",
+    "file": "images/pcanal_1_b.jpg",
+    "locale": "en",
+    "order": 132
+  },
+  {
+    "name": "pcanal_2",
+    "__v": 0,
+    "description": "Seized with a fury of canal-cutting, I took it in my head to form an immediate communication between the Mediterranean and the Red Sea",
+    "file": "images/pcanal_2.jpg",
+    "locale": "en",
+    "order": 133
+  },
+  {
+    "name": "pcanal_2_c",
+    "__v": 0,
+    "description": "I appeared in the library of Alexandria!",
+    "file": "images/pcanal_2_c.jpg",
+    "locale": "en",
+    "order": 134,
+    "type": "color"
+  },
+  {
+    "name": "pcanal_2_c_bonus",
+    "__v": 0,
+    "description": "Alexandria Library v1",
+    "file": "images/pcanal_2_c_bonus.jpg",
+    "locale": "en",
+    "order": 135,
+    "relatedScenario": "pcanal_2_c",
+    "type": "bonus"
+  },
+  {
+    "name": "ptyran_1",
+    "__v": 0,
+    "description": "Tuco",
+    "file": "images/ptyran_1.jpg",
+    "locale": "en",
+    "order": 136
+  },
+  {
+    "name": "ptyran_bonus",
+    "__v": 0,
+    "description": "Crossover",
+    "file": "images/ptyran_bonus.jpg",
+    "locale": "en",
+    "order": 137,
+    "relatedScenario": "ptyran_1",
+    "type": "bonus"
+  },
+  {
+    "name": "ptyran_2",
+    "__v": 0,
+    "description": "Tuco came to me mounted on his elephant",
+    "file": "images/ptyran_2.jpg",
+    "locale": "en",
+    "order": 138
+  },
+  {
+    "name": "ptyran_b",
+    "__v": 0,
+    "description": "Tuco instantly let off his carbine",
+    "file": "images/ptyran_b.jpg",
+    "locale": "en",
+    "order": 139
+  },
+  {
+    "name": "plions",
+    "__v": 0,
+    "description": "Pride of lions surrounded our camp",
+    "file": "images/plions.jpg",
+    "locale": "en",
+    "order": 140
+  },
+  {
+    "name": "plions_bonus",
+    "__v": 0,
+    "description": "Lions B1",
+    "file": "images/plions_bonus.jpg",
+    "locale": "en",
+    "order": 141,
+    "relatedScenario": "plions",
+    "type": "bonus"
+  },
+  {
+    "name": "plions_a",
+    "__v": 0,
+    "description": "I challenged the king of beasts to a duel",
+    "file": "images/plions_a.jpg",
+    "locale": "en",
+    "order": 142
+  },
+  {
+    "name": "plions_a_win",
+    "__v": 0,
+    "description": "The beast has fallen!",
+    "file": "images/plions_a_win.jpg",
+    "locale": "en",
+    "order": 143,
+    "relatedStatue": "TRUE"
+  },
+  {
+    "name": "p38_0",
+    "__v": 0,
+    "description": "It’s not a rock, it’s a huge whale!",
+    "file": "images/p38_0.jpg",
+    "locale": "en",
+    "order": 144
+  },
+  {
+    "name": "p38_d",
+    "__v": 0,
+    "description": "Without even taking off my pants, I covered the hole with my back!",
+    "file": "images/p38_d.jpg",
+    "locale": "en",
+    "order": 145
+  },
+  {
+    "name": "p39_0",
+    "__v": 0,
+    "description": "Suddenly I discovered a very large fish, with his jaws quite extended, approaching me with the greatest velocity !",
+    "file": "images/p39_0.jpg",
+    "locale": "en",
+    "order": 146
+  },
+  {
+    "name": "p39_a",
+    "__v": 0,
+    "description": "Captain Nemo",
+    "file": "images/p39_a.jpg",
+    "locale": "en",
+    "order": 147,
+    "relatedStatue": "ST_NEMO",
+    "type": "statue"
+  },
+  {
+    "name": "p39_d",
+    "__v": 0,
+    "description": "Dived into its mouth",
+    "file": "images/p39_d.jpg",
+    "locale": "en",
+    "order": 148
+  },
+  {
+    "name": "p40",
+    "__v": 0,
+    "description": "It was dark and wet in the fish’s stomach",
+    "file": "images/p40.jpg",
+    "locale": "en",
+    "order": 149
+  },
+  {
+    "name": "p41_d",
+    "__v": 0,
+    "description": "They were even more surprised surprised when I jumped out of the fish's mouth and greeted them with a kind bow",
+    "file": "images/p41_d.jpg",
+    "locale": "en",
+    "order": 150,
+    "relatedStatue": "ST_VERSE",
+    "type": "statue"
+  },
+  {
+    "name": "p41_d_bonus_1",
+    "__v": 0,
+    "description": "Deck v1",
+    "file": "images/p41_d_bonus_1.jpg",
+    "locale": "en",
+    "order": 151,
+    "relatedScenario": "p41_d",
+    "type": "bonus"
+  },
+  {
+    "name": "p41_d_bonus_2",
+    "__v": 0,
+    "description": "Deck v2",
+    "file": "images/p41_d_bonus_2.jpg",
+    "locale": "en",
+    "order": 152,
+    "relatedScenario": "p41_d",
+    "type": "bonus"
+  },
+  {
+    "name": "p41_1",
+    "__v": 0,
+    "description": "Oh, I once sailed to the Sultan for a secret mission",
+    "file": "images/p41_1.jpg",
+    "locale": "en",
+    "order": 153
+  },
+  {
+    "name": "p41_egypt",
+    "__v": 0,
+    "description": "Set off to Egypt?",
+    "file": "images/p41_egypt.jpg",
+    "locale": "en",
+    "order": 154
+  },
+  {
+    "name": "pnile",
+    "__v": 0,
+    "description": "We sailed the Nile River for the secret mission of the Sultan",
+    "file": "images/pnile.jpg",
+    "locale": "en",
+    "order": 155
+  },
+  {
+    "name": "pnile_a_1",
+    "__v": 0,
+    "description": "Fortunately, we climbed a tree",
+    "file": "images/pnile_a_1.jpg",
+    "locale": "en",
+    "order": 156
+  },
+  {
+    "name": "pnile_a_2",
+    "__v": 0,
+    "description": "Istanbul",
+    "file": "images/pnile_a_2.jpg",
+    "locale": "en",
+    "order": 157
+  },
+  {
+    "name": "pnile_d",
+    "__v": 0,
+    "description": "Tricky Crocodile",
+    "file": "images/pnile_d.jpg",
+    "locale": "en",
+    "order": 158,
+    "relatedStatue": "ST_CROCODILE",
+    "type": "statue"
+  },
+  {
+    "name": "p41_story_1",
+    "__v": 0,
+    "description": "\"Oh, Munchausen, you have never tasted a wine like this\"",
+    "file": "images/p41_story_1.jpg",
+    "locale": "en",
+    "order": 159
+  },
+  {
+    "name": "p41_story_2",
+    "__v": 0,
+    "description": "Still-life painting",
+    "file": "images/p41_story_2.jpg",
+    "locale": "en",
+    "order": 160
+  },
+  {
+    "name": "p41_story_3",
+    "__v": 0,
+    "description": "It was five minutes after four, when I called my servant",
+    "file": "images/p41_story_3.jpg",
+    "locale": "en",
+    "order": 161
+  },
+  {
+    "name": "p41_story_4",
+    "__v": 0,
+    "description": "Well? Do you hear? Where is that slob?",
+    "file": "images/p41_story_4.jpg",
+    "locale": "en",
+    "order": 162
+  },
+  {
+    "name": "p41_story_5",
+    "__v": 0,
+    "description": "Well, see him?",
+    "file": "images/p41_story_5.jpg",
+    "locale": "en",
+    "order": 163
+  },
+  {
+    "name": "p41_story_6",
+    "__v": 0,
+    "description": "Exactly thirty seconds before the fourth my speedwalker runs in!",
+    "file": "images/p41_story_6.jpg",
+    "locale": "en",
+    "order": 164
+  },
+  {
+    "name": "p41_story_7",
+    "__v": 0,
+    "description": "Sultan's treasury",
+    "file": "images/p41_story_7.jpg",
+    "locale": "en",
+    "order": 165
+  },
+  {
+    "name": "p49_strong",
+    "__v": 0,
+    "description": "We threw all the treasures of Turkey on the the giant's shoulders and hurried to the ship",
+    "file": "images/p49_strong.jpg",
+    "locale": "en",
+    "order": 166
+  },
+  {
+    "name": "p50_0",
+    "__v": 0,
+    "description": "But that exactly happened what I was afraid of.",
+    "file": "images/p50_0.jpg",
+    "locale": "en",
+    "order": 167
+  },
+  {
+    "name": "p50_0_bonus",
+    "__v": 0,
+    "description": "The chase v1",
+    "file": "images/p50_0_bonus.jpg",
+    "locale": "en",
+    "order": 168,
+    "relatedScenario": "p50_0",
+    "type": "bonus"
+  },
+  {
+    "name": "p50_nose",
+    "__v": 0,
+    "description": "He directed one nostril against the Turkish fleet, and the other one - on our sail",
+    "file": "images/p50_nose.jpg",
+    "locale": "en",
+    "order": 169
+  },
+  {
+    "name": "p41_win",
+    "__v": 0,
+    "description": "It was a great victory!",
+    "file": "images/p41_win.jpg",
+    "locale": "en",
+    "order": 170,
+    "relatedStatue": "ST_DANGER",
+    "type": "statue"
+  },
+  {
+    "name": "p41_story_bonus_1",
+    "__v": 0,
+    "description": "Apartments 1",
+    "file": "images/p41_story_bonus_1.jpg",
+    "locale": "en",
+    "order": 171
+  },
+  {
+    "name": "p41_story_bonus_2",
+    "__v": 0,
+    "description": "Apartments 2",
+    "file": "images/p41_story_bonus_2.jpg",
+    "locale": "en",
+    "order": 172
+  },
+  {
+    "name": "p41_story_bonus_3",
+    "__v": 0,
+    "description": "The sultan",
+    "file": "images/p41_story_bonus_3.jpg",
+    "locale": "en",
+    "order": 173
+  },
+  {
+    "name": "p51_0",
+    "__v": 0,
+    "description": "I found the enemy were about to discharge a thirty- six pounder at the spot where we stood",
+    "file": "images/p51_0.jpg",
+    "locale": "en",
+    "order": 174
+  },
+  {
+    "name": "p51_0_bonus",
+    "__v": 0,
+    "description": "On the walls of Gibraltar v1",
+    "file": "images/p51_0_bonus.jpg",
+    "locale": "en",
+    "order": 175,
+    "relatedScenario": "p51_0",
+    "type": "bonus"
+  },
+  {
+    "name": "pprisoners",
+    "__v": 0,
+    "description": "The general and I were having lunch, when a cannonball flew in and fell right onto our table",
+    "file": "images/pprisoners.jpg",
+    "locale": "en",
+    "order": 176
+  },
+  {
+    "name": "pprisoners_2",
+    "__v": 0,
+    "description": "I took up the cannonball in my hand fearlessly",
+    "file": "images/pprisoners_2.jpg",
+    "locale": "en",
+    "order": 177
+  },
+  {
+    "name": "pprisoners_exploded",
+    "__v": 0,
+    "description": "- And the cannonball exploded! - Ah, you are mischievous granddaughter!",
+    "file": "images/pprisoners_exploded.jpg",
+    "locale": "en",
+    "order": 178
+  },
+  {
+    "name": "p53",
+    "__v": 0,
+    "description": "I dressed myself in the habit of a Popish priest, and at about one o clock in the morning sneaked to the middle of their camp",
+    "file": "images/p53.jpg",
+    "locale": "en",
+    "order": 179
+  },
+  {
+    "name": "p53_b",
+    "__v": 0,
+    "description": "Quietly I started throwing cannons into the sea",
+    "file": "images/p53_b.jpg",
+    "locale": "en",
+    "order": 180
+  },
+  {
+    "name": "pnephew",
+    "__v": 0,
+    "description": "Oh, and here is my glorious nephew Voldemar!",
+    "file": "images/pnephew.jpg",
+    "locale": "en",
+    "order": 181
+  },
+  {
+    "name": "pnephew_2",
+    "__v": 0,
+    "description": "What do you think, gentlemen, what did I use my pomade for?",
+    "file": "images/pnephew_2.jpg",
+    "locale": "en",
+    "order": 182,
+    "relatedStatue": "ST_PONY",
+    "type": "statue"
+  },
+  {
+    "name": "pnephew_3",
+    "__v": 0,
+    "description": "Right! On the place over the upper lip!",
+    "file": "images/pnephew_3.jpg",
+    "locale": "en",
+    "order": 183
+  },
+  {
+    "name": "pnephew_4",
+    "__v": 0,
+    "description": "And I repeated the same trick seventeen times in that morning",
+    "file": "images/pnephew_4.jpg",
+    "locale": "en",
+    "order": 184
+  },
+  {
+    "name": "pnephew_e",
+    "__v": 0,
+    "description": "Toby, whom at the time I retained as my groom, was not at all pleased with the rapid results of the pomade",
+    "file": "images/pnephew_e.jpg",
+    "locale": "en",
+    "order": 185
+  },
+  {
+    "name": "p55_0",
+    "__v": 0,
+    "description": "One hot day I was looking for a cool place",
+    "file": "images/p55_0.jpg",
+    "locale": "en",
+    "order": 186
+  },
+  {
+    "name": "p55_a_1",
+    "__v": 0,
+    "description": "I landed in a huge sheaf of hay",
+    "file": "images/p55_a_1.jpg",
+    "locale": "en",
+    "order": 187
+  },
+  {
+    "name": "p55_a_2",
+    "__v": 0,
+    "description": "And after three months I woke up",
+    "file": "images/p55_a_2.jpg",
+    "locale": "en",
+    "order": 188
+  },
+  {
+    "name": "p56_0",
+    "__v": 0,
+    "description": "I saw two polar bears",
+    "file": "images/p56_0.jpg",
+    "locale": "en",
+    "order": 189
+  },
+  {
+    "name": "pamerica_1",
+    "__v": 0,
+    "description": "I was in America too",
+    "file": "images/pamerica_1.jpg",
+    "locale": "en",
+    "order": 190
+  },
+  {
+    "name": "pamerica_2",
+    "__v": 0,
+    "description": "Oh, I remember the wonderful american railways",
+    "file": "images/pamerica_2.jpg",
+    "locale": "en",
+    "order": 191
+  },
+  {
+    "name": "pamerica_5",
+    "__v": 0,
+    "description": "Prince of the Station",
+    "file": "images/pamerica_5.jpg",
+    "locale": "en",
+    "order": 192,
+    "relatedStatue": "ST_SLAP",
+    "type": "statue"
+  },
+  {
+    "name": "pamerica_3",
+    "__v": 0,
+    "description": "I pulled the lever - and mountain oil poured from the well!",
+    "file": "images/pamerica_3.jpg",
+    "locale": "en",
+    "order": 193
+  },
+  {
+    "name": "pamerica_4",
+    "__v": 0,
+    "description": "Oh yes, I forgot to tell you another interesting story",
+    "file": "images/pamerica_4.jpg",
+    "locale": "en",
+    "order": 194,
+    "type": "color"
+  },
+  {
+    "name": "pgener",
+    "__v": 0,
+    "description": "The bear landed on a cart and began brazenly eating our nuts",
+    "file": "images/pgener.jpg",
+    "locale": "en",
+    "order": 195
+  },
+  {
+    "name": "pgener_bonus_1",
+    "__v": 0,
+    "description": "Goodbye! v2",
+    "file": "images/pgener_bonus_1.jpg",
+    "locale": "en",
+    "order": 196,
+    "relatedScenario": "pgener",
+    "type": "bonus"
+  },
+  {
+    "name": "pgener_bonus_2",
+    "__v": 0,
+    "description": "Goodbye! v1",
+    "file": "images/pgener_bonus_2.jpg",
+    "locale": "en",
+    "order": 197,
+    "relatedScenario": "pgener",
+    "type": "bonus"
+  },
+  {
+    "name": "pgener_d",
+    "__v": 0,
+    "description": "\"Three cheers for General Kushko! Hip, hip, hooray!\"",
+    "file": "images/pgener_d.jpg",
+    "locale": "en",
+    "order": 198
+  },
+  {
+    "name": "pdog",
+    "__v": 0,
+    "description": "My dog pointed",
+    "file": "images/pdog.jpg",
+    "locale": "en",
+    "order": 199
+  },
+  {
+    "name": "pboat_ruin",
+    "__v": 0,
+    "description": "Yes, you should believe me!",
+    "file": "images/pboat_ruin.jpg",
+    "locale": "en",
+    "order": 200
+  },
+  {
+    "name": "pboat_ruin_0",
+    "__v": 0,
+    "description": "Yes, that was a bad luck!",
+    "file": "images/pboat_ruin_0.jpg",
+    "locale": "en",
+    "order": 201,
+    "relatedStatue": "ST_PIFAGOR",
+    "type": "statue"
+  },
+  {
+    "name": "pboat_ruin_a",
+    "__v": 0,
+    "description": "And with my act I convinced all of Europe of the possibility of pulling taking her up again",
+    "file": "images/pboat_ruin_a.jpg",
+    "locale": "en",
+    "order": 202
+  },
+  {
+    "name": "pworm_0",
+    "__v": 0,
+    "description": "\"They are victims of the iron worm!\"",
+    "file": "images/pworm_0.jpg",
+    "locale": "en",
+    "order": 203,
+    "relatedStatue": "ST_WORM",
+    "type": "statue"
+  },
+  {
+    "name": "pworm_d",
+    "__v": 0,
+    "description": "To poison the parasite!",
+    "file": "images/pworm_d.jpg",
+    "locale": "en",
+    "order": 204
+  },
+  {
+    "name": "p57_0",
+    "__v": 0,
+    "description": "On the moon",
+    "file": "images/p57_0.jpg",
+    "locale": "en",
+    "order": 205,
+    "relatedScenario": "p57_0",
+    "relatedStatue": "TRUE",
+    "type": "color"
+  },
+  {
+    "name": "pvolcano_0",
+    "__v": 0,
+    "description": "I was подниматься with a firm resolution to examine the interior of this famous volcano",
+    "file": "images/pvolcano_0.jpg",
+    "locale": "en",
+    "order": 206
+  },
+  {
+    "name": "pvolcano_1",
+    "__v": 0,
+    "description": "The volcano was rumbling  with all its ferocity",
+    "file": "images/pvolcano_1.jpg",
+    "locale": "en",
+    "order": 207
+  },
+  {
+    "name": "pvolcano_b_1",
+    "__v": 0,
+    "description": "I jumped down instantly",
+    "file": "images/pvolcano_b_1.jpg",
+    "locale": "en",
+    "order": 208
+  },
+  {
+    "name": "pvolcano_b_2",
+    "__v": 0,
+    "description": "I appeared in the company of the Volcano and its cyclops",
+    "file": "images/pvolcano_b_2.jpg",
+    "locale": "en",
+    "order": 209
+  },
+  {
+    "name": "pvolcano_b_3",
+    "__v": 0,
+    "description": "\"Man-traps and spring-guns!\"",
+    "file": "images/pvolcano_b_3.jpg",
+    "locale": "en",
+    "order": 210
+  },
+  {
+    "name": "pvolcano_b_b",
+    "__v": 0,
+    "description": "\"Ungrateful mortal! Return to the world where you came from!\"",
+    "file": "images/pvolcano_b_b.jpg",
+    "locale": "en",
+    "order": 211,
+    "type": "color"
+  },
+  {
+    "name": "pvolcano_b_b_2",
+    "__v": 0,
+    "description": "Moonlight night",
+    "file": "images/pvolcano_b_b_2.jpg",
+    "locale": "en",
+    "order": 212
+  },
+  {
+    "name": "p58_0",
+    "__v": 0,
+    "description": "You know, my friends, how difficult it is to sail the sea without a compass",
+    "file": "images/p58_0.jpg",
+    "locale": "en",
+    "order": 213,
+    "type": "color"
+  },
+  {
+    "name": "p58_1",
+    "__v": 0,
+    "description": "Cheese island",
+    "file": "images/p58_1.jpg",
+    "locale": "en",
+    "order": 214
+  },
+  {
+    "name": "p60_1",
+    "__v": 0,
+    "description": "This monster completely sucked our ship with the masts themselves!",
+    "file": "images/p60_1.jpg",
+    "locale": "en",
+    "order": 215
+  },
+  {
+    "name": "p60_2",
+    "__v": 0,
+    "description": "They chose me as the head of the council",
+    "file": "images/p60_2.jpg",
+    "locale": "en",
+    "order": 216
+  },
+  {
+    "name": "p60_a",
+    "__v": 0,
+    "description": "when the deed was done, ninety-five ships sailed out of the jaws of the fish",
+    "file": "images/p60_a.jpg",
+    "locale": "en",
+    "order": 217
+  },
+  {
+    "name": "p61_0",
+    "__v": 0,
+    "description": "Scarcely had I set foot on the shore, when I found myself assailed by a huge bear",
+    "file": "images/p61_0.jpg",
+    "locale": "en",
+    "order": 218
+  },
+  {
+    "name": "p61_bonus",
+    "__v": 0,
+    "description": "And we got married",
+    "file": "images/p61_bonus.jpg",
+    "locale": "en",
+    "order": 219,
+    "relatedStatue": "ST_TREE",
+    "type": "statue"
+  },
+  {
+    "name": "p61_c",
+    "__v": 0,
+    "description": "I squeezed his paws",
+    "file": "images/p61_c.jpg",
+    "locale": "en",
+    "order": 220
+  },
+  {
+    "name": "p61_shoot",
+    "__v": 0,
+    "description": "Shoot with the paddle, gentlemen",
+    "file": "images/p61_shoot.jpg",
+    "locale": "en",
+    "order": 221,
+    "relatedStatue": "ST_LUCKY_2",
+    "type": "statue"
+  },
+  {
+    "name": "p_unknown_1",
+    "__v": 0,
+    "description": "Me and my granddaugher",
+    "file": "images/unknown_1.jpg",
+    "locale": "en",
+    "order": 222
+  },
+  {
+    "name": "p_unknown_2",
+    "__v": 0,
+    "description": "I was returning somehow from an unsuccessful hunt …",
+    "file": "images/unknown_2.jpg",
+    "locale": "en",
+    "order": 223,
+    "type": "bonus"
+  },
+  {
+    "name": "p_unknown_3",
+    "__v": 0,
+    "description": "In honor of my dog!",
+    "file": "images/unknown_3.jpg",
+    "locale": "en",
+    "order": 224,
+    "relatedScenario": "p62_fin",
+    "type": "bonus"
+  },
+  {
+    "name": "p_unknown_4",
+    "__v": 0,
+    "description": "My daughter",
+    "file": "images/unknown_4.jpg",
+    "locale": "en",
+    "order": 225,
+    "type": "bonus"
+  },
+  {
+    "name": "p_unknown_5",
+    "__v": 0,
+    "description": "Damn it, the truth is all this, the truth!",
+    "file": "images/unknown_6.jpg",
+    "locale": "en",
+    "order": 226,
+    "type": "bonus"
+  },
+  {
+    "name": "p_unknown_6",
+    "__v": 0,
+    "description": "If you do not belive me, then…",
+    "file": "images/unknown_5.jpg",
+    "locale": "en",
+    "order": 227,
+    "type": "bonus"
+  },
+  {
+    "name": "p62_fin",
+    "__v": 0,
+    "description": "The end",
+    "file": "images/p62_fin.jpg",
+    "locale": "en",
+    "order": 228,
+    "relatedStatue": "ST_WIN",
+    "type": "statue"
+  },
+  {
+    "name": "p62_fin_0",
+    "__v": 0,
+    "description": "Yes, only you…",
+    "file": "images/p62_fin_0.jpg",
+    "locale": "en",
+    "order": 229
+  },
+  {
+    "name": "p62_fin_bonus_1",
+    "__v": 0,
+    "description": "Grandfather and granddaughter",
+    "file": "images/p62_fin_bonus_1.jpg",
+    "locale": "en",
+    "order": 230,
+    "relatedScenario": "p62_fin",
+    "type": "bonus"
+  },
+  {
+    "name": "p62_fin_bonus_2",
+    "__v": 0,
+    "description": "Granddaughter v2",
+    "file": "images/p62_fin_bonus_2.jpg",
+    "locale": "en",
+    "order": 231,
+    "relatedScenario": "p62_fin",
+    "type": "bonus"
+  },
+  {
+    "name": "p62_fin_bonus_3",
+    "__v": 0,
+    "description": "Granddaughter v1",
+    "file": "images/p62_fin_bonus_3.jpg",
+    "locale": "en",
+    "order": 232,
+    "relatedScenario": "p62_fin",
+    "type": "bonus"
+  },
+  {
+    "name": "p62_fin_bonus_4",
+    "__v": 0,
+    "description": "Munchausen B1",
+    "file": "images/p62_fin_bonus_4.jpg",
+    "locale": "en",
+    "order": 233,
+    "relatedScenario": "p62_fin",
+    "type": "bonus"
+  },
+  {
+    "name": "p62_fin_bonus_5",
+    "__v": 0,
+    "description": "How it all started",
+    "file": "images/p62_fin_bonus_5.jpg",
+    "locale": "en",
+    "order": 234,
+    "relatedScenario": "p62_fin",
+    "type": "bonus"
+  },
+  {
+    "name": "p_int_swamp_start",
+    "__v": 0,
+    "description": "",
+    "file": "images/int_swamp_start.jpg",
+    "isHiddenFromGallery": true,
+    "locale": "en",
+    "order": 235
+  }
+]

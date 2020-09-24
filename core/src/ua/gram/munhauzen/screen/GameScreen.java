@@ -317,28 +317,28 @@ public class GameScreen extends MunhauzenScreen {
     }
 
     public boolean isChapterPurchased() {
-        Story story = getStory();
+        try {
 
-        PurchaseState state = game.gameState.purchaseState;
+            Story story = getStory();
 
-        boolean isPurchased = true;
+            PurchaseState state = game.gameState.purchaseState;
 
-        if (story != null) {
+            boolean isPurchased = true;
 
-            try {
+            if (story != null) {
+
                 Chapter chapter = ChapterRepository.find(game.gameState, story.currentScenario.scenario.chapter);
 
                 isPurchased = chapter.number <= state.maxChapter;
 
                 Log.e(tag, "isChapterPurchased " + chapter.number + "/" + state.maxChapter);
-
-            } catch (Throwable e) {
-                Log.e(tag, e);
             }
 
-        }
+            return isPurchased;
 
-        return isPurchased;
+        } catch (Throwable ignore) {}
+
+        return true;
     }
 
     public void createAchievementFragment() {

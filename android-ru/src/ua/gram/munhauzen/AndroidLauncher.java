@@ -379,75 +379,73 @@ public class AndroidLauncher extends AndroidApplication {
 
     private void startAlarm() {
 
-        String historyJson = readHistoryJsonFile();
-        String saveJson = readSaveJsonFile();
-
-        String chapterJson = readChapterJsonFile();
-
-
-        System.out.println("CHapetr---Jston---->" + chapterJson);
-
-
         try {
-            JSONObject saveJsonObject = new JSONObject(saveJson);
 
-            String lastChapter = saveJsonObject.getString("chapter");
+            String historyJson = readHistoryJsonFile();
+            String saveJson = readSaveJsonFile();
 
-            System.out.println("Last Visited CHapter=---->" + lastChapter);
+            String chapterJson = readChapterJsonFile();
 
-            int index=0;
-            JSONObject selectedJsonObject=null;
-            JSONArray chapters = new JSONArray(chapterJson);
-            for(int j=0;j<chapters.length();j++){
-                if(lastChapter.equals(chapters.getJSONObject(j).getString("name"))){
-                    JSONObject jsonObject = chapters.getJSONObject(j);
 
-                    index = jsonObject.getInt("number");
-                    selectedJsonObject=jsonObject;
-                    break;
+            System.out.println("CHapetr---Jston---->" + chapterJson);
+
+
+            try {
+                JSONObject saveJsonObject = new JSONObject(saveJson);
+
+                String lastChapter = saveJsonObject.getString("chapter");
+
+                System.out.println("Last Visited CHapter=---->" + lastChapter);
+
+                int index = 0;
+                JSONObject selectedJsonObject = null;
+                JSONArray chapters = new JSONArray(chapterJson);
+                for (int j = 0; j < chapters.length(); j++) {
+                    if (lastChapter.equals(chapters.getJSONObject(j).getString("name"))) {
+                        JSONObject jsonObject = chapters.getJSONObject(j);
+
+                        index = jsonObject.getInt("number");
+                        selectedJsonObject = jsonObject;
+                        break;
+                    }
+
                 }
 
+
+                if (selectedJsonObject == null) {
+                    return;
+                }
+                String iconPath = selectedJsonObject.getString("icon");
+                String description = selectedJsonObject.getString("description");
+
+
+                int chapterNo = selectedJsonObject.getInt("number");
+
+                System.out.println("SELECTED_JSONOBJECT" + selectedJsonObject.getString("icon"));
+
+                SharedPreferencesHelper.setLastVisitedIcon(this, iconPath);
+                SharedPreferencesHelper.setLastVisitedDescription(this, "\n" +
+                        "Глава " + chapterNo + ". " + description);
+
+
+                System.out.println("LastChapterString--->" + lastChapter);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
 
 
-            if (selectedJsonObject == null){
-                return;
+            Calendar c = Calendar.getInstance();
+            c.add(Calendar.SECOND, SharedPreferencesHelper.getNotification1Time(this));
+
+
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            Intent intent = new Intent(this, AlertReceiver.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
+            if (alarmManager != null) {
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
             }
-            String iconPath=selectedJsonObject.getString("icon");
-            String description=selectedJsonObject.getString("description");
-
-
-            int chapterNo = selectedJsonObject.getInt("number");
-
-            System.out.println("SELECTED_JSONOBJECT"+selectedJsonObject.getString("icon"));
-
-            SharedPreferencesHelper.setLastVisitedIcon(this,iconPath);
-            SharedPreferencesHelper.setLastVisitedDescription(this, "\n" +
-                    "Глава " + chapterNo + ". " +description);
-
-
-
-
-
-            System.out.println("LastChapterString--->" + lastChapter);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-
-        Calendar c = Calendar.getInstance();
-        c.add(Calendar.SECOND, SharedPreferencesHelper.getNotification1Time(this));
-
-
-
-
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, AlertReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
-        if (alarmManager != null) {
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
-        }
+        } catch (Throwable ignore) {}
     }
 
     private void startDownloadAlarm(){
@@ -705,18 +703,20 @@ public class AndroidLauncher extends AndroidApplication {
 
 
     public void sendReferralLink(){
-        String referrerName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
-        String invitationLink = mInvitationUrl.toString();
-        String msg = "Давай слушать и играть в Мюнхгаузена вместе! Скачивай по моей рефферальной ссылке: "
-                + invitationLink;
+        try {
+            String referrerName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+            String invitationLink = mInvitationUrl.toString();
+            String msg = "Давай слушать и играть в Мюнхгаузена вместе! Скачивай по моей рефферальной ссылке: "
+                    + invitationLink;
 
-        Intent shareIntent = new Intent();
-        shareIntent.setAction(Intent.ACTION_SEND);
-        shareIntent.setType("text/plain");
-        shareIntent.putExtra(Intent.EXTRA_TEXT,
-                msg);
+            Intent shareIntent = new Intent();
+            shareIntent.setAction(Intent.ACTION_SEND);
+            shareIntent.setType("text/plain");
+            shareIntent.putExtra(Intent.EXTRA_TEXT,
+                    msg);
 
-        startActivity(Intent.createChooser(shareIntent, "Поделиться"));
+            startActivity(Intent.createChooser(shareIntent, "Поделиться"));
+        } catch (Throwable ignore) {}
     }
 
 
