@@ -7,6 +7,7 @@ import com.badlogic.gdx.pay.ios.apple.PurchaseManageriOSApple;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.robovm.apple.coregraphics.CGRect;
 import org.robovm.apple.foundation.Foundation;
 import org.robovm.apple.foundation.NSArray;
 import org.robovm.apple.foundation.NSAutoreleasePool;
@@ -35,6 +36,8 @@ import org.robovm.apple.uikit.UIApplicationOpenURLOptions;
 import org.robovm.apple.uikit.UIBackgroundFetchResult;
 import org.robovm.apple.uikit.UIDevice;
 import org.robovm.apple.uikit.UILocalNotification;
+import org.robovm.apple.uikit.UIPopoverArrowDirection;
+import org.robovm.apple.uikit.UIPopoverPresentationController;
 import org.robovm.apple.uikit.UIRemoteNotification;
 import org.robovm.apple.uikit.UIScreen;
 import org.robovm.apple.uikit.UIUserInterfaceIdiom;
@@ -290,6 +293,14 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
         UIActivityViewController activityViewController = new UIActivityViewController(array,null);
         UIViewController currentViewController = UIApplication.getSharedApplication().getKeyWindow().getRootViewController();
+
+        if (isIpad()) {
+            UIPopoverPresentationController popoverController = activityViewController.getPopoverPresentationController();
+            popoverController.setSourceRect(new CGRect(UIScreen.getMainScreen().getBounds().getWidth()/2, UIScreen.getMainScreen().getBounds().getHeight()/2,0,0));
+            popoverController.setSourceView(activityViewController.getView());
+            popoverController.setPermittedArrowDirections(new UIPopoverArrowDirection(0));
+        }
+
         currentViewController.presentViewController(activityViewController,true,null);
 
 //        if (!MFMailComposeViewController.canSendMail()){
