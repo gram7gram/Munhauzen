@@ -17,8 +17,8 @@ public class ScenarioBar extends ProgressBar {
 
     public static ProgressBar.ProgressBarStyle getDefaultStyle(GameScreen screen) {
 
-        Texture line = screen.assetManager.get("ui/player_progress_bar_progress.9.jpg", Texture.class);
-        Texture knob = screen.assetManager.get("ui/player_progress_bar_knob.png", Texture.class);
+        Texture line = screen.internalAssetManager.get("ui/player_progress_bar_progress.9.jpg", Texture.class);
+        Texture knob = screen.internalAssetManager.get("ui/player_progress_bar_knob.png", Texture.class);
 
         ProgressBar.ProgressBarStyle barStyle = new ProgressBar.ProgressBarStyle();
         barStyle.background = new NinePatchDrawable(new NinePatch(

@@ -559,8 +559,7 @@ public class ExpansionDownloadManager {
         if (expansionInfo != null)
             expansionInfo.isDownloadStarted = false;
 
-        fragment.retryTitle.setText(game.t("expansion_download.low_memory"));
-        fragment.showRetry();
+        fragment.showNoMemory();
 
         dispose();
     }

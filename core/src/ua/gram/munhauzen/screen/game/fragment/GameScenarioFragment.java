@@ -44,24 +44,24 @@ public class GameScenarioFragment extends ScenarioFragment {
 
         screen.showProgressBar();
 
-        screen.assetManager.load("GameScreen/an_cannons_sheet.png", Texture.class);
-        screen.assetManager.load("GameScreen/an_cannons_left_sheet.png", Texture.class);
-        screen.assetManager.load("GameScreen/b_star_game.png", Texture.class);
-        screen.assetManager.load("GameScreen/b_tulip_1.png", Texture.class);
-        screen.assetManager.load("GameScreen/b_decision_add_line.png", Texture.class);
-        screen.assetManager.load("GameScreen/b_decision_first_line.png", Texture.class);
-        screen.assetManager.load("GameScreen/b_decision_last_line.png", Texture.class);
+        screen.internalAssetManager.load("GameScreen/an_cannons_sheet.png", Texture.class);
+        screen.internalAssetManager.load("GameScreen/an_cannons_left_sheet.png", Texture.class);
+        screen.internalAssetManager.load("GameScreen/b_star_game.png", Texture.class);
+        screen.internalAssetManager.load("GameScreen/b_tulip_1.png", Texture.class);
+        screen.internalAssetManager.load("GameScreen/b_decision_add_line.png", Texture.class);
+        screen.internalAssetManager.load("GameScreen/b_decision_first_line.png", Texture.class);
+        screen.internalAssetManager.load("GameScreen/b_decision_last_line.png", Texture.class);
 
         for (int i = 0; i < decisions.size(); i++) {
             String letterResource = animatedMap.get(i);
 
-            screen.assetManager.load(letterResource, Texture.class);
+            screen.internalAssetManager.load(letterResource, Texture.class);
         }
 
-        screen.assetManager.finishLoading();
+        screen.internalAssetManager.finishLoading();
 
-        Texture borders = screen.assetManager.get("GameScreen/b_tulip_1.png", Texture.class);
-        Texture drawableTop = screen.assetManager.get("GameScreen/b_star_game.png", Texture.class);
+        Texture borders = screen.internalAssetManager.get("GameScreen/b_tulip_1.png", Texture.class);
+        Texture drawableTop = screen.internalAssetManager.get("GameScreen/b_star_game.png", Texture.class);
 
         final Table buttons = new Table();
         buttons.add()
@@ -78,7 +78,7 @@ public class GameScenarioFragment extends ScenarioFragment {
 
             final int currentIndex = i;
 
-            PrimaryDecision button = new PrimaryDecision(this, screen.assetManager);
+            PrimaryDecision button = new PrimaryDecision(this, screen.internalAssetManager);
             button.setText(text);
             button.setIndex(currentIndex);
             button.setAnimatedMap(animatedMap);

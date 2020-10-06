@@ -4,7 +4,7 @@ import com.badlogic.gdx.utils.Disposable;
 
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.screen.GameScreen;
-import ua.gram.munhauzen.utils.ExpansionAssetManager;
+import ua.gram.munhauzen.utils.InternalAssetManager;
 import ua.gram.munhauzen.utils.Log;
 
 /**
@@ -14,7 +14,7 @@ public abstract class AbstractInteraction implements Disposable {
 
     final String tag = getClass().getSimpleName();
     public final GameScreen gameScreen;
-    public ExpansionAssetManager assetManager;
+    public InternalAssetManager assetManager;
 
     public AbstractInteraction(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
@@ -27,9 +27,7 @@ public abstract class AbstractInteraction implements Disposable {
     public void start() {
         Log.i(tag, "start");
 
-//        gameScreen.audioService.stop();
-
-        assetManager = new ExpansionAssetManager(gameScreen.game);
+        assetManager = new InternalAssetManager();
 
         GameState.unpause(tag);
 

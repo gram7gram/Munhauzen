@@ -59,9 +59,10 @@ public class VictoryFragment extends Fragment {
         Log.i(tag, "create");
 
         screen.assetManager.load(IMAGE, Texture.class);
-        screen.assetManager.load("menu/b_menu.png", Texture.class);
+        screen.internalAssetManager.load("menu/b_menu.png", Texture.class);
 
         screen.assetManager.finishLoading();
+        screen.internalAssetManager.finishLoading();
 
         screen.game.fontProvider.loadHd();
 
@@ -328,7 +329,7 @@ public class VictoryFragment extends Fragment {
     }
 
     private ImageButton getMenuBtn() {
-        Texture txt = screen.assetManager.get("menu/b_menu.png", Texture.class);
+        Texture txt = screen.internalAssetManager.get("menu/b_menu.png", Texture.class);
 
         ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
         style.up = new SpriteDrawable(new Sprite(txt));

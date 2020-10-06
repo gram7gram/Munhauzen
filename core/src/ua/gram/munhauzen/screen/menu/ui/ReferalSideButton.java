@@ -26,9 +26,6 @@ public class ReferalSideButton extends Image {
 
                 try {
 
-
-//                    MunhauzenGame.referralService.setReferralCount(MunhauzenGame.referralInterface.getRefferralCount());
-
                     screen.openReferralBanner();
 
                 } catch (Throwable e) {

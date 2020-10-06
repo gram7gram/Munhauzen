@@ -18,6 +18,7 @@ import ua.gram.munhauzen.screen.menu.fragment.AchievementFragment;
 import ua.gram.munhauzen.screen.menu.fragment.ControlsFragment;
 import ua.gram.munhauzen.screen.menu.fragment.DemoFragment;
 import ua.gram.munhauzen.screen.menu.fragment.ExitFragment;
+import ua.gram.munhauzen.screen.menu.fragment.GameModeFragment;
 import ua.gram.munhauzen.screen.menu.fragment.GreetingFragment;
 import ua.gram.munhauzen.screen.menu.fragment.ImageFragment;
 import ua.gram.munhauzen.screen.menu.fragment.LogoFragment;
@@ -54,6 +55,7 @@ public class MenuScreen extends AbstractScreen {
     public GreetingFragment greetingFragment;
     public RateFragment rateFragment;
     public ReferalFragment referalFragment;
+    public GameModeFragment gameModeFragment;
     public DemoFragment demoFragment;
     public ProFragment proFragment;
     public ExitFragment exitFragment;
@@ -106,6 +108,9 @@ public class MenuScreen extends AbstractScreen {
             assetManager.load("menu/btn_referral.png", Texture.class);
             assetManager.load("menu/InviteBar_0.png", Texture.class);
             assetManager.load("menu/InviteBar_100.png", Texture.class);
+
+            assetManager.load("ui/btn_online.png", Texture.class);
+            assetManager.load("ui/btn_offline.png", Texture.class);
 
             assetManager.finishLoading();
 
@@ -332,6 +337,10 @@ public class MenuScreen extends AbstractScreen {
     public void destroyBanners() {
         super.destroyBanners();
 
+        if (gameModeFragment != null) {
+            gameModeFragment.destroy();
+            gameModeFragment = null;
+        }
         if (trailerFragment != null) {
             trailerFragment.destroy();
             trailerFragment = null;
@@ -620,6 +629,25 @@ public class MenuScreen extends AbstractScreen {
             layers.setBannerLayer(referalFragment);
 
             referalFragment.fadeIn();
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            onCriticalError(e);
+        }
+    }
+
+    public void openGameModeBanner() {
+        try {
+
+            destroyBanners();
+
+            gameModeFragment = new GameModeFragment(this);
+            gameModeFragment.create();
+
+            layers.setBannerLayer(gameModeFragment);
+
+            gameModeFragment.fadeIn();
 
         } catch (Throwable e) {
             Log.e(tag, e);

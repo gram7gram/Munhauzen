@@ -38,12 +38,14 @@ import ua.gram.munhauzen.service.StoryManager;
 import ua.gram.munhauzen.ui.MunhauzenStage;
 import ua.gram.munhauzen.utils.DateUtils;
 import ua.gram.munhauzen.utils.ExpansionAssetManager;
+import ua.gram.munhauzen.utils.InternalAssetManager;
 import ua.gram.munhauzen.utils.Log;
 
 public class GameScreen extends MunhauzenScreen {
 
     public MunhauzenStage ui;
     public GameLayers gameLayers;
+    public InternalAssetManager internalAssetManager;
     public ExpansionAssetManager assetManager;
     public StoryManager storyManager;
     public GameScenarioFragment scenarioFragment;
@@ -104,6 +106,7 @@ public class GameScreen extends MunhauzenScreen {
 
         background = game.internalAssetManager.get("p0.jpg", Texture.class);
 
+        internalAssetManager = new InternalAssetManager();
         assetManager = new ExpansionAssetManager(game);
         progressBarFragment = new GameProgressBarFragment(this);
 
@@ -120,20 +123,20 @@ public class GameScreen extends MunhauzenScreen {
 
         game.databaseManager.loadExternal(game.gameState);
 
-        assetManager.load("GameScreen/t_putty.png", Texture.class);
-        assetManager.load("ui/playbar_pause.png", Texture.class);
-        assetManager.load("ui/playbar_play.png", Texture.class);
+        internalAssetManager.load("GameScreen/t_putty.png", Texture.class);
+        internalAssetManager.load("ui/playbar_pause.png", Texture.class);
+        internalAssetManager.load("ui/playbar_play.png", Texture.class);
 
-        assetManager.load("ui/playbar_rewind_backward.png", Texture.class);
-        assetManager.load("ui/playbar_rewind_forward.png", Texture.class);
-        assetManager.load("ui/playbar_skip_backward.png", Texture.class);
-        assetManager.load("ui/playbar_skip_forward.png", Texture.class);
+        internalAssetManager.load("ui/playbar_rewind_backward.png", Texture.class);
+        internalAssetManager.load("ui/playbar_rewind_forward.png", Texture.class);
+        internalAssetManager.load("ui/playbar_skip_backward.png", Texture.class);
+        internalAssetManager.load("ui/playbar_skip_forward.png", Texture.class);
 
-        assetManager.load("ui/elements_player_fond_1.png", Texture.class);
-        assetManager.load("ui/elements_player_fond_2.png", Texture.class);
-        assetManager.load("ui/elements_player_fond_3.png", Texture.class);
-        assetManager.load("ui/player_progress_bar_progress.9.jpg", Texture.class);
-        assetManager.load("ui/player_progress_bar_knob.png", Texture.class);
+        internalAssetManager.load("ui/elements_player_fond_1.png", Texture.class);
+        internalAssetManager.load("ui/elements_player_fond_2.png", Texture.class);
+        internalAssetManager.load("ui/elements_player_fond_3.png", Texture.class);
+        internalAssetManager.load("ui/player_progress_bar_progress.9.jpg", Texture.class);
+        internalAssetManager.load("ui/player_progress_bar_knob.png", Texture.class);
 
         persistTask = new Timer.Task() {
             @Override
@@ -203,9 +206,15 @@ public class GameScreen extends MunhauzenScreen {
 
             checkBackPressed();
 
+            if (internalAssetManager == null) return;
             if (assetManager == null) return;
 
             drawBackground();
+
+            try {
+                internalAssetManager.update();
+            } catch (Throwable ignore) {
+            }
 
             try {
                 assetManager.update();
@@ -214,7 +223,7 @@ public class GameScreen extends MunhauzenScreen {
 
             if (!isLoaded) {
 
-                if (assetManager.isFinished()) {
+                if (internalAssetManager.isFinished()) {
                     try {
                         onResourcesLoaded();
                     } catch (Throwable ignore) {
@@ -530,6 +539,11 @@ public class GameScreen extends MunhauzenScreen {
         if (assetManager != null) {
             assetManager.dispose();
             assetManager = null;
+        }
+
+        if (internalAssetManager != null) {
+            internalAssetManager.dispose();
+            internalAssetManager = null;
         }
 
         if (ui != null) {

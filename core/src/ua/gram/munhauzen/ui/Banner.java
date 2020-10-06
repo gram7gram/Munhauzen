@@ -54,8 +54,8 @@ public abstract class Banner<S extends MunhauzenScreen> extends Group {
         );
 
         back.setSize(
-                content.getPrefWidth(),
-                content.getPrefHeight()
+                Math.min(content.getPrefWidth(), MunhauzenGame.WORLD_WIDTH * .9f),
+                Math.min(content.getPrefHeight(), MunhauzenGame.WORLD_HEIGHT * .9f)
         );
     }
 }

@@ -28,7 +28,7 @@ import ua.gram.munhauzen.animation.LetterFAnimation;
 import ua.gram.munhauzen.animation.LetterGAnimation;
 import ua.gram.munhauzen.ui.ScenarioFragment;
 import ua.gram.munhauzen.ui.WrapLabel;
-import ua.gram.munhauzen.utils.ExpansionAssetManager;
+import ua.gram.munhauzen.utils.InternalAssetManager;
 import ua.gram.munhauzen.utils.Log;
 
 public class PrimaryDecision extends Stack {
@@ -36,7 +36,7 @@ public class PrimaryDecision extends Stack {
     final String tag = getClass().getSimpleName();
     final ScenarioFragment fragment;
     final MunhauzenGame game;
-    final ExpansionAssetManager assetManager;
+    final InternalAssetManager assetManager;
 
     boolean visited;
     String text;
@@ -48,7 +48,7 @@ public class PrimaryDecision extends Stack {
     final int headerSize, letterWidth = 180;
     public final int buttonSize;
 
-    public PrimaryDecision(ScenarioFragment fragment, ExpansionAssetManager assetManager) {
+    public PrimaryDecision(ScenarioFragment fragment, InternalAssetManager assetManager) {
         this.fragment = fragment;
         this.game = fragment.screen.game;
         this.assetManager = assetManager;

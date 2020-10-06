@@ -262,6 +262,16 @@ public class RussianTranslator implements Translator {
         map.put("trailer_banner.content", "Посмотрите наш кинематический ролик!");
         map.put("trailer_banner.btn", "Смотреть");
 
+        map.put("game_mode_banner.title", "Выберите режим игры");
+        map.put("game_mode_banner.btn_online", "Онлайн");
+        map.put("game_mode_banner.btn_offline", "Офлайн");
+        map.put("game_mode_banner.content", "Офлайн редим позволяет загрзить все необходимые ресурсы и наслаждаться рассказом в любое время!\nИли же Вы можете начать случшать рассказ прямо сейчас в режиме Онлайн!");
+
+        map.put("no_memory_banner.title", "Не достаточно памяти");
+        map.put("no_memory_banner.btn_online", "Онлайн");
+        map.put("no_memory_banner.btn_retry", "Повторить");
+        map.put("no_memory_banner.content", "Пожалуйста, освободите место на диске или переключитесь в режим Онлайн!");
+
         map.put("referral_banner_3.title", "Поздравляем!\nБонус за 3 друзей получен!");
         map.put("referral_banner_3.btn", "Отлично");
         map.put("referral_banner_7.title", "Поздравляем!\nБонус за 7 друзей получен!");

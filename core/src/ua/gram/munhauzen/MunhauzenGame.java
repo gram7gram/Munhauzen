@@ -102,6 +102,13 @@ public class MunhauzenGame extends Game {
         MunhauzenGame.referralInterface = referralInterface;
     }
 
+    public void setGameMode(boolean isOnline) {
+        Log.e(tag, "Change game mode to: " + (isOnline ? "online" : "offline"));
+
+        gameState.setGameMode(isOnline);
+        syncState();
+    }
+
     public void syncState() {
 
         databaseManager.persistSync(gameState);

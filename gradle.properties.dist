@@ -1,0 +1,17 @@
+org.gradle.daemon=true
+org.gradle.jvmargs=-Xms128m -Xmx1500m
+org.gradle.configureondemand=false
+
+APP_VERSION_NAME=2.0.0
+APP_VERSION_CODE=111
+
+RELEASE_STORE_FILE=/Users/master/Projects/Munhauzen/fingertipsandcompany.jks
+RELEASE_STORE_PASSWORD=****
+RELEASE_KEY_ALIAS=robinzon
+RELEASE_KEY_PASSWORD=****
+
+IOS_SIGN_IDENTITY_EN=****
+IOS_PROVISIONING_PROFILE_EN=MunchausenEnDevProfile
+
+IOS_SIGN_IDENTITY_RU=****
+IOS_PROVISIONING_PROFILE_RU=RuMunchausenDev

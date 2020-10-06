@@ -46,6 +46,15 @@ public class ControlsFragment extends Fragment {
         this.screen = screen;
     }
 
+    public void retryDownload() {
+        progress.setText("");
+        progressMessage.setText("");
+
+        showDownload();
+
+        startExpansionDownload();
+    }
+
     public void create() {
 
         Log.i(tag, "create");
@@ -55,12 +64,7 @@ public class ControlsFragment extends Fragment {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                progress.setText("");
-                progressMessage.setText("");
-
-                showDownload();
-
-                startExpansionDownload();
+                retryDownload();
             }
         });
 
@@ -69,12 +73,7 @@ public class ControlsFragment extends Fragment {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                progress.setText("");
-                progressMessage.setText("");
-
-                showDownload();
-
-                startExpansionDownload();
+                retryDownload();
             }
         });
 
@@ -256,18 +255,32 @@ public class ControlsFragment extends Fragment {
         startContainer.setVisible(true);
         progressContainer.setVisible(false);
         retryContainer.setVisible(false);
+
+        screen.destroyBanners();
     }
 
     private void showDownload() {
         startContainer.setVisible(false);
         progressContainer.setVisible(true);
         retryContainer.setVisible(false);
+
+        screen.destroyBanners();
     }
 
     public void showRetry() {
         startContainer.setVisible(false);
         progressContainer.setVisible(false);
         retryContainer.setVisible(true);
+
+        screen.destroyBanners();
+    }
+
+    public void showNoMemory() {
+        startContainer.setVisible(false);
+        progressContainer.setVisible(false);
+        retryContainer.setVisible(false);
+
+        screen.openNoMemoryBanner();
     }
 
     private void startExpansionDownload() {

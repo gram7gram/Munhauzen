@@ -33,21 +33,21 @@ public class VictoryCircle extends AnimatedImage {
     }
 
     public void dispose() {
-        screen.assetManager.unload(file1);
-        screen.assetManager.unload(file2);
-        screen.assetManager.unload(file3);
+        screen.internalAssetManager.unload(file1);
+        screen.internalAssetManager.unload(file2);
+        screen.internalAssetManager.unload(file3);
     }
 
     private void startPart1() {
 
         Log.i(tag, "startPart1");
 
-        screen.assetManager.load(file1, Texture.class);
-        screen.assetManager.load(file2, Texture.class);
+        screen.internalAssetManager.load(file1, Texture.class);
+        screen.internalAssetManager.load(file2, Texture.class);
 
-        screen.assetManager.finishLoading();
+        screen.internalAssetManager.finishLoading();
 
-        animate(screen.assetManager.get(file1, Texture.class), 5, 6, 30, delay);
+        animate(screen.internalAssetManager.get(file1, Texture.class), 5, 6, 30, delay);
 
         isStarted = true;
 
@@ -63,14 +63,14 @@ public class VictoryCircle extends AnimatedImage {
 
         Log.i(tag, "startPart2");
 
-        screen.assetManager.unload(file1);
+        screen.internalAssetManager.unload(file1);
 
-        screen.assetManager.load(file2, Texture.class);
-        screen.assetManager.load(file3, Texture.class);
+        screen.internalAssetManager.load(file2, Texture.class);
+        screen.internalAssetManager.load(file3, Texture.class);
 
-        screen.assetManager.finishLoading();
+        screen.internalAssetManager.finishLoading();
 
-        animate(screen.assetManager.get(file2, Texture.class), 5, 6, 30, delay);
+        animate(screen.internalAssetManager.get(file2, Texture.class), 5, 6, 30, delay);
 
         isStarted = true;
 
@@ -86,14 +86,14 @@ public class VictoryCircle extends AnimatedImage {
 
         Log.i(tag, "startPart3");
 
-        screen.assetManager.unload(file1);
-        screen.assetManager.unload(file2);
+        screen.internalAssetManager.unload(file1);
+        screen.internalAssetManager.unload(file2);
 
-        screen.assetManager.load(file3, Texture.class);
+        screen.internalAssetManager.load(file3, Texture.class);
 
-        screen.assetManager.finishLoading();
+        screen.internalAssetManager.finishLoading();
 
-        animate(screen.assetManager.get(file3, Texture.class), 6, 6, 36, delay);
+        animate(screen.internalAssetManager.get(file3, Texture.class), 6, 6, 36, delay);
 
         isStarted = true;
     }

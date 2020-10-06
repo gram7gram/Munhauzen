@@ -24,6 +24,7 @@ import ua.gram.munhauzen.screen.menu.ui.ChaptersButton;
 import ua.gram.munhauzen.screen.menu.ui.ContinueButton;
 import ua.gram.munhauzen.screen.menu.ui.DemoSideButton;
 import ua.gram.munhauzen.screen.menu.ui.GalleryButton;
+import ua.gram.munhauzen.screen.menu.ui.GameModeSideButton;
 import ua.gram.munhauzen.screen.menu.ui.GoofsButton;
 import ua.gram.munhauzen.screen.menu.ui.MenuButton;
 import ua.gram.munhauzen.screen.menu.ui.ProSideButton;
@@ -107,10 +108,17 @@ public class ControlsFragment extends Fragment {
 
         ReferalSideButton referalSideButton = new ReferalSideButton(screen);
 
+        GameModeSideButton modeButton = new GameModeSideButton(screen);
+
         float iconSize = MunhauzenGame.WORLD_WIDTH * .18f;
         float iconSize2 = iconSize * 1.5f;
 
         sideTable = new Table();
+
+        sideTable.add(modeButton)
+                .size(iconSize)
+                .pad(10)
+                .row();
 
         sideTable.add(referalSideButton)
                 .size(iconSize)

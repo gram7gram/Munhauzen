@@ -34,7 +34,7 @@ public class Statue extends Group {
         addActor(statue);
 
         setStatueBackground(
-                screen.paintingFragment.assetManager.get("gallery/gv2_statue.png", Texture.class)
+                screen.paintingFragment.internalAssetManager.get("gallery/gv2_statue.png", Texture.class)
         );
 
         item.addListener(new ClickListener() {
@@ -72,7 +72,7 @@ public class Statue extends Group {
             addActor(item);
 
             setItemBackground(
-                    screen.paintingFragment.assetManager.get(img.statueResource, Texture.class)
+                    screen.paintingFragment.internalAssetManager.get(img.statueResource, Texture.class)
             );
         }
     }

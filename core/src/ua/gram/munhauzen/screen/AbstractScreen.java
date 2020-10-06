@@ -3,7 +3,6 @@ package ua.gram.munhauzen.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Timer;
@@ -11,7 +10,7 @@ import com.badlogic.gdx.utils.Timer;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.ui.MunhauzenStage;
-import ua.gram.munhauzen.utils.ExpansionAssetManager;
+import ua.gram.munhauzen.utils.InternalAssetManager;
 import ua.gram.munhauzen.utils.Log;
 
 /**
@@ -20,7 +19,7 @@ import ua.gram.munhauzen.utils.Log;
 public abstract class AbstractScreen extends MunhauzenScreen {
 
     public MunhauzenStage ui;
-    public AssetManager assetManager;
+    public InternalAssetManager assetManager;
     protected Texture background;
     private boolean isLoaded;
     protected boolean isDisposed, isBackPressed;
@@ -38,7 +37,7 @@ public abstract class AbstractScreen extends MunhauzenScreen {
         isDisposed = false;
         isLoaded = false;
 
-        assetManager = new ExpansionAssetManager(game);
+        assetManager = new InternalAssetManager();
 
         background = game.internalAssetManager.get("p0.jpg", Texture.class);
 

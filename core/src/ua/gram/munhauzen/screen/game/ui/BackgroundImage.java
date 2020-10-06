@@ -142,7 +142,7 @@ public class BackgroundImage extends Group {
         });
 
         setOverlayTexture(
-                gameScreen.assetManager.get("GameScreen/t_putty.png", Texture.class)
+                gameScreen.internalAssetManager.get("GameScreen/t_putty.png", Texture.class)
         );
     }
 
@@ -151,17 +151,6 @@ public class BackgroundImage extends Group {
         SpriteDrawable drawable = new SpriteDrawable(new Sprite(texture));
         overlayBottom.setDrawable(drawable);
         overlayTop.setDrawable(drawable);
-
-//        Pixmap red = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
-//        red.setColor(Color.RED);
-//        red.fill();
-//
-//        Pixmap blue = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
-//        blue.setColor(Color.BLUE);
-//        blue.fill();
-//
-//        overlayBottom.setDrawable(new SpriteDrawable(new Sprite(new Texture(red))));
-//        overlayTop.setDrawable(new SpriteDrawable(new Sprite(new Texture(blue))));
     }
 
     public void setBackgroundDrawable(SpriteDrawable drawable) {
@@ -239,7 +228,7 @@ public class BackgroundImage extends Group {
     }
 
     private ImageButton getArrowRight() {
-        Texture img = gameScreen.assetManager.get("ui/playbar_skip_forward.png", Texture.class);
+        Texture img = gameScreen.internalAssetManager.get("ui/playbar_skip_forward.png", Texture.class);
 
         ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
         style.up = new SpriteDrawable(new Sprite(img));
@@ -250,7 +239,7 @@ public class BackgroundImage extends Group {
     }
 
     private ImageButton getArrowLeft() {
-        Texture img = gameScreen.assetManager.get("ui/playbar_skip_backward.png", Texture.class);
+        Texture img = gameScreen.internalAssetManager.get("ui/playbar_skip_backward.png", Texture.class);
 
         ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
         style.up = new SpriteDrawable(new Sprite(img));

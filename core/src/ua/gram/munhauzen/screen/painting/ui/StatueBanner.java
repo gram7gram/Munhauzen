@@ -48,7 +48,7 @@ public class StatueBanner extends Group {
         lblTable.add(lbl).top().grow();
 
         setBackground(
-                screen.paintingFragment.assetManager.get("ui/banner_fond_3.png", Texture.class)
+                screen.paintingFragment.internalAssetManager.get("ui/banner_fond_3.png", Texture.class)
         );
 
         addActor(back);

@@ -263,6 +263,16 @@ public class EnglishTranslator implements Translator {
         map.put("trailer_banner.content", "Watch our special cinematiс trailer!");
         map.put("trailer_banner.btn", "Watch");
 
+        map.put("game_mode_banner.title", "Choose the mode of the game");
+        map.put("game_mode_banner.btn_online", "Online");
+        map.put("game_mode_banner.btn_offline", "Offline");
+        map.put("game_mode_banner.content", "You can change to offline mode to preload resources and enjoy the story whenever you want.\nOr you can enjoy the story right now with online mode!");
+
+        map.put("no_memory_banner.title", "Not enough memory");
+        map.put("no_memory_banner.btn_online", "Go online");
+        map.put("no_memory_banner.btn_retry", "Retry");
+        map.put("no_memory_banner.content", "Please, free some space or go online!");
+
         map.put("referral_banner_3.title", "Congratulations!\nThe bonus for 3 friends is received!");
         map.put("referral_banner_3.btn", "Super");
         map.put("referral_banner_7.title", "Congratulations!\nThe bonus for 7 friends is received!");
