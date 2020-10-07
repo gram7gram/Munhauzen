@@ -92,26 +92,32 @@ const testLinks = file => {
 
     const json = JSON.parse(content)
 
-    json.version = 12
-
     if (!json.parts || !json.parts.items || json.parts.items.length < 5) {
         throw new Error(`Invalid part count in file: ${file}`)
     }
 
     json.parts.count = json.parts.items.length
 
+    let sizeMb = 0
     for (const item of json.parts.items) {
+
+        sizeMb += item.sizeMb
+
+        delete item.checksum
+        delete item.size
 
         item.url = item.url
             .replace('https://drive.google.com/file/d/', '')
             .replace('/view?usp=sharing', '')
 
-//              item.url = ''
-
         if (item.url.length !== 33) {
             throw new Error(`Invalid url in part #${item.part} ${file}: ${item.url.length}`)
         }
     }
+
+    json.sizeMb = sizeMb
+
+    delete json.size;
 
     fs.writeFileSync(file, JSON.stringify(json, null, 2))
 }
