@@ -3,45 +3,34 @@
   "version": 16,
   "locale": "en",
   "dpi": "mdpi",
-  "size": 450770847,
-  "sizeMB": 429.89,
+  "sizeMB": 380,
   "parts": {
     "count": 5,
     "items": [
       {
-        "size": 82982553,
-        "sizeMB": 79.14,
+        "sizeMB": 72,
         "part": 1,
-        "checksum": "",
-        "url": "1pWeeMYCEsp4LS56vWN8G74e9_DZqZaA0"
+        "url": "1xEYYCVhapowTD6wB_akymHwvFfW-pFYh"
       },
       {
-        "size": 90816084,
-        "sizeMB": 86.61,
+        "sizeMB": 76,
         "part": 2,
-        "checksum": "",
-        "url": "1PMciOkW6jJuT9JYht0xw2hmEknC3UtZL"
+        "url": "1NAJBt6nNqs8iazq4m4ppLS-yK35KNoHR"
       },
       {
-        "size": 97213599,
-        "sizeMB": 92.71,
+        "sizeMB": 85,
         "part": 3,
-        "checksum": "",
-        "url": "1kzkCH78x03-ySs-s4q2z3_eE9D_27hV6"
+        "url": "1MYC7oIE_zBwW3OqKSiiwnhMfnWL8qMqZ"
       },
       {
-        "size": 97535070,
-        "sizeMB": 93.02,
+        "sizeMB": 75,
         "part": 4,
-        "checksum": "",
-        "url": "12KctuOekmQU2QHc5YQChIfycSjOw_W9f"
+        "url": "1QaCfV1yvzQzyebkH36unj-7AACNa0Fh2"
       },
       {
-        "size": 82223541,
-        "sizeMB": 78.41,
+        "sizeMB": 72,
         "part": 5,
-        "checksum": "",
-        "url": "16wcxvBJ3bcDspTA_dHhhoVv_m7zjhcPP"
+        "url": "1kF0SD4Jbq7tTIY-guE664DEa2UkHnAR8"
       }
     ]
   }

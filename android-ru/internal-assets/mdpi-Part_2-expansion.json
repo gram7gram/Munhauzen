@@ -3,45 +3,34 @@
   "version": 16,
   "locale": "ru",
   "dpi": "mdpi",
-  "size": 409646625,
-  "sizeMB": 390.67,
+  "sizeMB": 365,
   "parts": {
     "count": 5,
     "items": [
       {
-        "size": 77822010,
         "sizeMB": 66,
         "part": 1,
-        "checksum": "",
-        "url": "https://drive.google.com/file/d/1pUP6u_oYSPupHT8lppjItBjvrca38RJe/view?usp=sharing"
+        "url": "1pUP6u_oYSPupHT8lppjItBjvrca38RJe"
       },
       {
-        "size": 75246364,
         "sizeMB": 75,
         "part": 2,
-        "checksum": "",
-        "url": "https://drive.google.com/file/d/1UibPzUp9I8yMBuMs1SJM265p6kppuUdC/view?usp=sharing"
+        "url": "1UibPzUp9I8yMBuMs1SJM265p6kppuUdC"
       },
       {
-        "size": 79062504,
         "sizeMB": 69,
         "part": 3,
-        "checksum": "",
-        "url": "https://drive.google.com/file/d/1yhBOus_HEb1nRfRaJlrY2nOA6c1Ia8xh/view?usp=sharing"
+        "url": "1yhBOus_HEb1nRfRaJlrY2nOA6c1Ia8xh"
       },
       {
-        "size": 90433818,
         "sizeMB": 85,
         "part": 4,
-        "checksum": "",
-        "url": "https://drive.google.com/file/d/1gDJiVZRnEIc_hW7bVqCC2Scb52C89N1P/view?usp=sharing"
+        "url": "1gDJiVZRnEIc_hW7bVqCC2Scb52C89N1P"
       },
       {
-        "size": 87081929,
         "sizeMB": 70,
         "part": 5,
-        "checksum": "",
-        "url": "https://drive.google.com/file/d/1zZUrD-NJQO7L-7hhc7QEbm7oeMKm8oKW/view?usp=sharing"
+        "url": "1zZUrD-NJQO7L-7hhc7QEbm7oeMKm8oKW"
       }
     ]
   }

@@ -355,12 +355,9 @@ public class ControlsFragment extends Fragment {
                 menuBtn.setVisible(expansionInfo.isCompleted);
 
                 if (expansionInfo.version > 0) {
-
-                    float sizeMb = expansionInfo.size / 1024f / 1024f;
-
                     subtitle.setText(part
                             + " " + expansionInfo.dpi
-                            + " " + String.format(Locale.US, "%.2f", sizeMb) + "MB"
+                            + " " + String.format(Locale.US, "%.2f", expansionInfo.sizeMB) + "MB"
                             + " v" + expansionInfo.version);
                 }
             }

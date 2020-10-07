@@ -88,6 +88,7 @@ const testAssetsExist = async (file, part, dpi) => {
 }
 
 const testLinks = file => {
+    console.log(`[+] Testing links in file ${file} ...`)
     const content = fs.readFileSync(file)
 
     const json = JSON.parse(content)
@@ -101,7 +102,7 @@ const testLinks = file => {
     let sizeMb = 0
     for (const item of json.parts.items) {
 
-        sizeMb += item.sizeMb
+        sizeMb += item.sizeMB
 
         delete item.checksum
         delete item.size
@@ -115,9 +116,11 @@ const testLinks = file => {
         }
     }
 
-    json.sizeMb = sizeMb
+    json.sizeMB = sizeMb;
 
-    delete json.size;
+    if (json.sizeMB <= 0) {
+        throw new Error(`Invalid expansion size ${file}: ${json.sizeMB}MB`)
+    }
 
     fs.writeFileSync(file, JSON.stringify(json, null, 2))
 }
@@ -130,10 +133,10 @@ for (const dpi of dpis) {
         const en2File = path.resolve(`../ios-en/internal-assets/${dpi}-${part}-expansion.json`)
         const ru2File = path.resolve(`../ios-ru/internal-assets/${dpi}-${part}-expansion.json`)
 
-        testAssetsExist(en1File, part, dpi)
-        testAssetsExist(ru1File, part, dpi)
-        testAssetsExist(en2File, part, dpi)
-        testAssetsExist(ru2File, part, dpi)
+//        testAssetsExist(en1File, part, dpi)
+//        testAssetsExist(ru1File, part, dpi)
+//        testAssetsExist(en2File, part, dpi)
+//        testAssetsExist(ru2File, part, dpi)
 
         testLinks(ru1File)
         testLinks(ru2File)
@@ -142,3 +145,6 @@ for (const dpi of dpis) {
 
     }
 }
+
+console.log('[+] Completed')
+process.exit(0)

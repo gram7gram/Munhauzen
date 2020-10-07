@@ -164,11 +164,9 @@ public class ExpansionDownloadManager {
 
                 Log.e(tag, "New expansion");
 
-                final float sizeMb = expansionToDownload.size / 1024f / 1024f;
-
                 if (game.params.memoryUsage != null) {
                     float memory = game.params.memoryUsage.megabytesAvailable();
-                    if (sizeMb > memory) {
+                    if (expansionToDownload.sizeMB > memory) {
                         Gdx.app.postRunnable(new Runnable() {
                             @Override
                             public void run() {
@@ -319,7 +317,7 @@ public class ExpansionDownloadManager {
             return;
         }
 
-        String url = part.getUrl();
+        String url = part.getUrl(game.params);
 
         final HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
 
