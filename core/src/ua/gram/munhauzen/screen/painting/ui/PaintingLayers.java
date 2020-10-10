@@ -5,13 +5,14 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.utils.Disposable;
 
+import ua.gram.munhauzen.GameLayerInterface;
 import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class PaintingLayers extends Stack implements Disposable {
+public class PaintingLayers extends Stack implements Disposable, GameLayerInterface {
 
     final String tag = getClass().getSimpleName();
     public Fragment contentLayer, controlsLayer, fullscreenLayer, bannerLayer;

@@ -18,6 +18,7 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import ua.gram.munhauzen.ButtonBuilder;
 import ua.gram.munhauzen.FontProvider;
+import ua.gram.munhauzen.GameLayerInterface;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.ui.MunhauzenStage;
@@ -240,5 +241,10 @@ public class ErrorScreen extends MunhauzenScreen {
 
         errorContainer = new ScrollPane(group);
         errorContainer.setFillParent(true);
+    }
+
+    @Override
+    public GameLayerInterface getLayers() {
+        return null;
     }
 }

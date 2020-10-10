@@ -1,4 +1,4 @@
-package ua.gram.munhauzen.screen.loading.ui;
+package ua.gram.munhauzen.ui;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -11,27 +11,24 @@ import com.badlogic.gdx.utils.Align;
 import ua.gram.munhauzen.ButtonBuilder;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
-import ua.gram.munhauzen.screen.LoadingScreen;
-import ua.gram.munhauzen.screen.MenuScreen;
-import ua.gram.munhauzen.screen.loading.fragment.NoMemoryFragment;
-import ua.gram.munhauzen.ui.Banner;
-import ua.gram.munhauzen.ui.FixedImage;
-import ua.gram.munhauzen.ui.PrimaryButton;
+import ua.gram.munhauzen.screen.MunhauzenScreen;
 import ua.gram.munhauzen.utils.Log;
 
-public class NoMemoryBanner extends Banner<LoadingScreen> {
+public class NoInternetBanner extends Banner<MunhauzenScreen> {
 
-    final NoMemoryFragment fragment;
+    final BannerFragment<?> fragment;
+    final Runnable action;
 
-    public NoMemoryBanner(NoMemoryFragment fragment) {
+    public NoInternetBanner(BannerFragment<MunhauzenScreen> fragment, Runnable action) {
         super(fragment.screen);
 
         this.fragment = fragment;
+        this.action = action;
     }
 
     @Override
     public Texture getBackgroundTexture() {
-        return screen.assetManager.get("ui/banner_fond_0.png", Texture.class);
+        return screen.game.internalAssetManager.get("ui/banner_fond_0.png", Texture.class);
     }
 
     @Override
@@ -57,7 +54,7 @@ public class NoMemoryBanner extends Banner<LoadingScreen> {
                 Color.BLACK
         );
 
-        Label title = new Label(screen.game.t("no_memory_banner.title"), titleStyle);
+        Label title = new Label(screen.game.t("no_internet_banner.title"), titleStyle);
         title.setAlignment(Align.center);
         title.setWrap(true);
 
@@ -66,7 +63,7 @@ public class NoMemoryBanner extends Banner<LoadingScreen> {
                 .padBottom(10)
                 .row();
 
-        for (String sentence : screen.game.t("no_memory_banner.content").split("\n")) {
+        for (String sentence : screen.game.t("no_internet_banner.content").split("\n")) {
             Label label = new Label(sentence, style);
             label.setAlignment(Align.center);
             label.setWrap(true);
@@ -77,11 +74,11 @@ public class NoMemoryBanner extends Banner<LoadingScreen> {
                     .row();
         }
 
-        Texture txt = screen.assetManager.get("loading/no_memory.png", Texture.class);
+        Texture txt = screen.game.internalAssetManager.get("ui/no_internet.png", Texture.class);
         FixedImage img = new FixedImage(txt, cellMinWidth / 2);
 
         PrimaryButton btnRetry = screen.game.buttonBuilder.primary(
-                screen.game.t("no_memory_banner.btn_retry"),
+                screen.game.t("no_internet_banner.btn_retry"),
                 new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
@@ -89,31 +86,7 @@ public class NoMemoryBanner extends Banner<LoadingScreen> {
 
                         try {
 
-                            fragment.fadeOut(new Runnable() {
-                                @Override
-                                public void run() {
-                                    screen.controlsFragment.retryDownload();
-                                }
-                            });
-
-                        } catch (Throwable e) {
-                            Log.e(tag, e);
-                        }
-                    }
-                });
-
-        PrimaryButton btnOnline = screen.game.buttonBuilder.primary(
-                screen.game.t("game_mode_banner.btn_online"),
-                new ClickListener() {
-                    @Override
-                    public void clicked(InputEvent event, float x, float y) {
-                        super.clicked(event, x, y);
-
-                        try {
-
-                            game.setGameMode(true);
-
-                            screen.navigateTo(new MenuScreen(screen.game));
+                            fragment.fadeOut(action);
 
                         } catch (Throwable e) {
                             Log.e(tag, e);
@@ -130,11 +103,6 @@ public class NoMemoryBanner extends Banner<LoadingScreen> {
         Table buttons = new Table();
 
         buttons.add(btnRetry)
-                .width(ButtonBuilder.BTN_PRIMARY_SM_WIDTH)
-                .height(ButtonBuilder.BTN_PRIMARY_SM_HEIGHT)
-                .padBottom(10);
-
-        buttons.add(btnOnline)
                 .width(ButtonBuilder.BTN_PRIMARY_SM_WIDTH)
                 .height(ButtonBuilder.BTN_PRIMARY_SM_HEIGHT)
                 .padBottom(10).row();

@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Timer;
 
 import java.util.Stack;
 
+import ua.gram.munhauzen.GameLayerInterface;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.Chapter;
 import ua.gram.munhauzen.entity.GameState;
@@ -65,6 +66,11 @@ public class GameScreen extends MunhauzenScreen {
 
     public GameScreen(MunhauzenGame game) {
         super(game);
+    }
+
+    @Override
+    public GameLayerInterface getLayers() {
+        return gameLayers;
     }
 
     public Story getStory() {

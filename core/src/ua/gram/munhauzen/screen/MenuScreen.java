@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.Timer;
 
 import java.util.Stack;
 
+import ua.gram.munhauzen.GameLayerInterface;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.AchievementState;
 import ua.gram.munhauzen.entity.AudioFail;
@@ -70,6 +71,11 @@ public class MenuScreen extends AbstractScreen {
 
     public MenuScreen(MunhauzenGame game) {
         super(game);
+    }
+
+    @Override
+    public GameLayerInterface getLayers() {
+        return layers;
     }
 
     @Override

@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 
 import java.util.HashMap;
 
+import ua.gram.munhauzen.GameLayerInterface;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.Chapter;
 import ua.gram.munhauzen.entity.Save;
@@ -31,6 +32,11 @@ public class SavesScreen extends AbstractScreen {
 
     public SavesScreen(MunhauzenGame game) {
         super(game);
+    }
+
+    @Override
+    public GameLayerInterface getLayers() {
+        return layers;
     }
 
     @Override

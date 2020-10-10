@@ -2,10 +2,10 @@ package ua.gram.munhauzen.screen;
 
 import com.badlogic.gdx.graphics.Texture;
 
+import ua.gram.munhauzen.GameLayerInterface;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.screen.loading.fragment.ControlsFragment;
 import ua.gram.munhauzen.screen.loading.fragment.ImageFragment;
-import ua.gram.munhauzen.screen.loading.fragment.NoMemoryFragment;
 import ua.gram.munhauzen.screen.loading.ui.LoadingLayers;
 import ua.gram.munhauzen.service.ExpansionDownloadManager;
 import ua.gram.munhauzen.utils.InternalAssetManager;
@@ -20,10 +20,14 @@ public class LoadingScreen extends AbstractScreen {
     public ImageFragment imageFragment;
     public ControlsFragment controlsFragment;
     public ExpansionDownloadManager expansionDownloader;
-    public NoMemoryFragment noMemoryFragment;
 
     public LoadingScreen(MunhauzenGame game) {
         super(game);
+    }
+
+    @Override
+    public GameLayerInterface getLayers() {
+        return layers;
     }
 
     @Override
@@ -114,35 +118,6 @@ public class LoadingScreen extends AbstractScreen {
 
         if (expansionDownloader != null) {
             expansionDownloader.updateProgress();
-        }
-    }
-
-    public void openNoMemoryBanner() {
-        try {
-
-            destroyBanners();
-
-            noMemoryFragment = new NoMemoryFragment(this);
-            noMemoryFragment.create();
-
-            layers.setBannerLayer(noMemoryFragment);
-
-            noMemoryFragment.fadeIn();
-
-        } catch (Throwable e) {
-            Log.e(tag, e);
-
-            onCriticalError(e);
-        }
-    }
-
-    @Override
-    public void destroyBanners() {
-        super.destroyBanners();
-
-        if (noMemoryFragment != null) {
-            noMemoryFragment.destroy();
-            noMemoryFragment = null;
         }
     }
 

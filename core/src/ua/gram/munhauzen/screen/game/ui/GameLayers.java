@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.utils.Disposable;
 
+import ua.gram.munhauzen.GameLayerInterface;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.screen.game.fragment.ImageFragment;
 import ua.gram.munhauzen.ui.Fragment;
@@ -12,13 +13,13 @@ import ua.gram.munhauzen.ui.Fragment;
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class GameLayers extends Stack implements Disposable {
+public class GameLayers extends Stack implements Disposable, GameLayerInterface {
 
     final GameScreen gameScreen;
     public ImageFragment backgroundLayer;
     public Fragment controlsLayer, interactionLayer,
             storyDecisionsLayer, progressBarLayer, interactionProgressBarLayer,
-            purchaseLayer, achievementLayer;
+            purchaseLayer, achievementLayer, bannerLayer;
 
     public GameLayers(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
@@ -74,6 +75,13 @@ public class GameLayers extends Stack implements Disposable {
             addActor(createDummy("achievementLayer"));
         }
 
+        if (bannerLayer != null) {
+            bannerLayer.getRoot().setTouchable(Touchable.childrenOnly);
+            addActor(bannerLayer.getRoot());
+        } else {
+            addActor(createDummy("bannerLayer"));
+        }
+
         if (purchaseLayer != null) {
             purchaseLayer.getRoot().setTouchable(Touchable.childrenOnly);
             addActor(purchaseLayer.getRoot());
@@ -87,6 +95,18 @@ public class GameLayers extends Stack implements Disposable {
         } else {
             addActor(createDummy("controlsLayer"));
         }
+
+    }
+
+    @Override
+    public void setBannerLayer(Fragment actor) {
+        if (bannerLayer != null) {
+            removeActor(bannerLayer.getRoot());
+            bannerLayer.destroy();
+        }
+        bannerLayer = actor;
+
+        update();
 
     }
 
@@ -209,6 +229,10 @@ public class GameLayers extends Stack implements Disposable {
         if (achievementLayer != null) {
             achievementLayer.destroy();
             achievementLayer = null;
+        }
+        if (bannerLayer != null) {
+            bannerLayer.destroy();
+            bannerLayer = null;
         }
     }
 }

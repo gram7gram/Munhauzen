@@ -514,8 +514,7 @@ public class ExpansionDownloadManager {
         if (expansionInfo != null)
             expansionInfo.isDownloadStarted = false;
 
-        fragment.retryTitle.setText(game.t("expansion_download.failed"));
-        fragment.showRetry();
+        fragment.showNoInternet();
 
         dispose();
     }

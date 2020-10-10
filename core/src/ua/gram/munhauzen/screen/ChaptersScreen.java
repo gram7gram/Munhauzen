@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import java.util.Collections;
 import java.util.Comparator;
 
+import ua.gram.munhauzen.GameLayerInterface;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.Chapter;
 import ua.gram.munhauzen.screen.chapters.fragment.BannerFragment;
@@ -29,6 +30,11 @@ public class ChaptersScreen extends AbstractScreen {
 
     public ChaptersScreen(MunhauzenGame game) {
         super(game);
+    }
+
+    @Override
+    public GameLayerInterface getLayers() {
+        return layers;
     }
 
     @Override

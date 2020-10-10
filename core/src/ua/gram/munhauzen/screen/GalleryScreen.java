@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.Timer;
 
 import java.util.ArrayList;
 
+import ua.gram.munhauzen.GameLayerInterface;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.GalleryState;
 import ua.gram.munhauzen.entity.Image;
@@ -31,6 +32,11 @@ public class GalleryScreen extends AbstractScreen {
 
     public GalleryScreen(MunhauzenGame game) {
         super(game);
+    }
+
+    @Override
+    public GameLayerInterface getLayers() {
+        return layers;
     }
 
     @Override

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import java.io.IOException;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 import java.util.HashSet;
 
 import io.sentry.Sentry;
@@ -57,6 +58,7 @@ public class ErrorMonitoring {
         if (e instanceof SocketTimeoutException) return;
         if (e instanceof MismatchedInputException) return;
         if (e instanceof IOException) return;
+        if (e instanceof UnknownHostException) return;
 
         if (e.getMessage() != null) {
             if (e.getMessage().contains("EACCES")) return;

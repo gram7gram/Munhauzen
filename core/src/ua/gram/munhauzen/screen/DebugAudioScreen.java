@@ -1,5 +1,6 @@
 package ua.gram.munhauzen.screen;
 
+import ua.gram.munhauzen.GameLayerInterface;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.screen.debug.fragment.AudioFragment;
 import ua.gram.munhauzen.utils.Log;
@@ -13,6 +14,11 @@ public class DebugAudioScreen extends AbstractScreen {
 
     public DebugAudioScreen(MunhauzenGame game) {
         super(game);
+    }
+
+    @Override
+    public GameLayerInterface getLayers() {
+        return null;
     }
 
     @Override

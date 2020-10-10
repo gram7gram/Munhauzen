@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.Timer;
 
 import java.util.ArrayList;
 
+import ua.gram.munhauzen.GameLayerInterface;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.AudioFail;
 import ua.gram.munhauzen.entity.StoryAudio;
@@ -30,6 +31,11 @@ public class FailsScreen extends AbstractScreen {
 
     public FailsScreen(MunhauzenGame game) {
         super(game);
+    }
+
+    @Override
+    public GameLayerInterface getLayers() {
+        return layers;
     }
 
     @Override

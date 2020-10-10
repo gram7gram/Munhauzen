@@ -280,7 +280,25 @@ public class ControlsFragment extends Fragment {
         progressContainer.setVisible(false);
         retryContainer.setVisible(false);
 
-        screen.openNoMemoryBanner();
+        screen.openNoMemoryBanner(new Runnable() {
+            @Override
+            public void run() {
+                screen.controlsFragment.retryDownload();
+            }
+        });
+    }
+
+    public void showNoInternet() {
+        startContainer.setVisible(false);
+        progressContainer.setVisible(false);
+        retryContainer.setVisible(false);
+
+        screen.openNoInternetBanner(new Runnable() {
+            @Override
+            public void run() {
+                screen.controlsFragment.retryDownload();
+            }
+        });
     }
 
     private void startExpansionDownload() {

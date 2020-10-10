@@ -2,7 +2,6 @@ package ua.gram.munhauzen.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Timer;
@@ -192,14 +191,6 @@ public abstract class AbstractScreen extends MunhauzenScreen {
         ui.dispose();
 
         background = null;
-    }
-
-    public void onCriticalError(Throwable e) {
-        game.navigator.onCriticalError(e);
-    }
-
-    public void navigateTo(Screen screen) {
-        game.navigator.navigateTo(screen);
     }
 
 }

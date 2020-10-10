@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 
+import ua.gram.munhauzen.GameLayerInterface;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.screen.authors.fragment.AuthorsFragment;
 import ua.gram.munhauzen.screen.authors.fragment.ControlsFragment;
@@ -35,6 +36,11 @@ public class AuthorsScreen extends AbstractScreen {
 
     public AuthorsScreen(MunhauzenGame game) {
         super(game);
+    }
+
+    @Override
+    public GameLayerInterface getLayers() {
+        return layers;
     }
 
     @Override

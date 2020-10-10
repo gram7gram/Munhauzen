@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.utils.Timer;
 
+import ua.gram.munhauzen.GameLayerInterface;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.screen.gallery.entity.PaintingImage;
 import ua.gram.munhauzen.screen.painting.fragment.ControlsFragment;
@@ -209,6 +210,11 @@ public class PaintingScreen extends AbstractScreen {
 
             onCriticalError(e);
         }
+    }
+
+    @Override
+    public GameLayerInterface getLayers() {
+        return layers;
     }
 
     public void openAdultGateBanner(Runnable task) {
