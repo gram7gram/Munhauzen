@@ -50,6 +50,8 @@ import ua.gram.munhauzen.repository.AudioRepository;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.utils.ExpansionAssetManager;
 import ua.gram.munhauzen.utils.ExternalFiles;
+import ua.gram.munhauzen.utils.Files;
+import ua.gram.munhauzen.utils.InternalAssetManager;
 import ua.gram.munhauzen.utils.Log;
 
 public class GameAudioService implements Disposable {
@@ -57,15 +59,23 @@ public class GameAudioService implements Disposable {
     private final String tag = getClass().getSimpleName();
     private final GameScreen gameScreen;
     public ExpansionAssetManager assetManager;
+    public InternalAssetManager internalAssetManager;
     public final HashMap<String, StoryAudio> activeAudio;
 
     public GameAudioService(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
         assetManager = new ExpansionAssetManager(gameScreen.game);
+        internalAssetManager = new InternalAssetManager();
         activeAudio = new HashMap<>();
     }
 
     public void prepare(StoryAudio item, Timer.Task onComplete) {
+
+        if ("intro".equals(item.chapter)) {
+            prepareInternal(item, onComplete);
+            return;
+        }
+
         if (item.isPrepared && item.player != null) {
             if (item.isLocked && !item.isActive) {
                 Timer.post(onComplete);
@@ -101,6 +111,43 @@ public class GameAudioService implements Disposable {
             item.isPrepared = true;
             item.prepareCompletedAt = new Date();
             item.player = assetManager.get(item.resource, Music.class);
+
+            Timer.post(onComplete);
+        }
+
+    }
+
+    public void prepareInternal(StoryAudio item, Timer.Task onComplete) {
+        if (item.isPrepared && item.player != null) {
+            if (item.isLocked && !item.isActive) {
+                Timer.post(onComplete);
+            }
+            return;
+        }
+
+        Audio audio = AudioRepository.find(gameScreen.game.gameState, item.audio);
+        if (item.duration == 0) {
+            item.duration = audio.duration;
+        }
+
+        item.resource = Files.getIntroAudio(audio).path();
+
+        boolean isLoaded = internalAssetManager.isLoaded(item.resource, Music.class);
+
+        if (!isLoaded) {
+            if (!item.isPreparing) {
+
+                item.isPreparing = true;
+                item.prepareStartedAt = new Date();
+
+                internalAssetManager.load(item.resource, Music.class);
+            }
+        } else {
+
+            item.isPreparing = false;
+            item.isPrepared = true;
+            item.prepareCompletedAt = new Date();
+            item.player = internalAssetManager.get(item.resource, Music.class);
 
             Timer.post(onComplete);
         }
@@ -891,6 +938,10 @@ public class GameAudioService implements Disposable {
             assetManager.update();
         } catch (Throwable ignore) {
         }
+        try {
+            internalAssetManager.update();
+        } catch (Throwable ignore) {
+        }
 
         updateVolume();
 
@@ -1063,10 +1114,15 @@ public class GameAudioService implements Disposable {
             assetManager.dispose();
             assetManager = null;
         }
+
+        if (internalAssetManager != null) {
+            internalAssetManager.dispose();
+            internalAssetManager = null;
+        }
     }
 
     public synchronized void dispose(HireStory story) {
-        if (assetManager == null || story == null) return;
+        if (story == null) return;
 
         Log.i(tag, "dispose " + story.id);
 
@@ -1083,7 +1139,7 @@ public class GameAudioService implements Disposable {
     }
 
     public synchronized void dispose(CannonsStory story) {
-        if (assetManager == null || story == null) return;
+        if (story == null) return;
 
         Log.i(tag, "dispose " + story.id);
 
@@ -1100,7 +1156,7 @@ public class GameAudioService implements Disposable {
     }
 
     public synchronized void dispose(WauStory story) {
-        if (assetManager == null || story == null) return;
+        if (story == null) return;
 
         Log.i(tag, "dispose " + story.id);
 
@@ -1117,7 +1173,7 @@ public class GameAudioService implements Disposable {
     }
 
     public synchronized void dispose(TimerStory story) {
-        if (assetManager == null || story == null) return;
+        if (story == null) return;
 
         Log.i(tag, "dispose " + story.id);
 
@@ -1134,7 +1190,7 @@ public class GameAudioService implements Disposable {
     }
 
     public synchronized void dispose(Timer2Story story) {
-        if (assetManager == null || story == null) return;
+        if (story == null) return;
 
         Log.i(tag, "dispose " + story.id);
 
@@ -1151,7 +1207,7 @@ public class GameAudioService implements Disposable {
     }
 
     public synchronized void dispose(HareStory story) {
-        if (assetManager == null || story == null) return;
+        if (story == null) return;
 
         Log.i(tag, "dispose " + story.id);
 
@@ -1168,7 +1224,7 @@ public class GameAudioService implements Disposable {
     }
 
     public synchronized void dispose(PictureStory story) {
-        if (assetManager == null || story == null) return;
+        if (story == null) return;
 
         Log.i(tag, "dispose " + story.id);
 
@@ -1185,7 +1241,7 @@ public class GameAudioService implements Disposable {
     }
 
     public synchronized void dispose(GeneralsStory story) {
-        if (assetManager == null || story == null) return;
+        if (story == null) return;
 
         Log.i(tag, "dispose " + story.id);
 
@@ -1201,7 +1257,7 @@ public class GameAudioService implements Disposable {
     }
 
     public synchronized void dispose(Story story) {
-        if (assetManager == null || story == null) return;
+        if (story == null) return;
 
         Log.i(tag, "dispose " + story.id);
 
@@ -1226,12 +1282,25 @@ public class GameAudioService implements Disposable {
         try {
 
             if (item.resource != null) {
-                if (assetManager.isLoaded(item.resource)) {
-                    if (assetManager.getReferenceCount(item.resource) == 0) {
-                        assetManager.unload(item.resource);
-                        item.resource = null;
-                    } else {
-                        Log.e(tag, item.audio + " dispose ignored");
+                if (assetManager != null) {
+                    if (assetManager.isLoaded(item.resource)) {
+                        if (assetManager.getReferenceCount(item.resource) == 0) {
+                            assetManager.unload(item.resource);
+                            item.resource = null;
+                        } else {
+                            Log.e(tag, item.audio + " dispose ignored");
+                        }
+                    }
+                }
+
+                if (internalAssetManager != null) {
+                    if (internalAssetManager.isLoaded(item.resource)) {
+                        if (internalAssetManager.getReferenceCount(item.resource) == 0) {
+                            internalAssetManager.unload(item.resource);
+                            item.resource = null;
+                        } else {
+                            Log.e(tag, item.audio + " dispose ignored");
+                        }
                     }
                 }
             }

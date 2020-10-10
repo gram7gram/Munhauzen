@@ -52,7 +52,7 @@ public class GameModeSideButton extends Image {
     public void act(float delta) {
         super.act(delta);
 
-        if (screen.game.gameState.preferences.isOnlineMode) {
+        if (screen.game.gameState.preferences.isOfflineMode) {
             setDrawable(onlineSprite);
         } else {
             setDrawable(offlineSprite);

@@ -21,17 +21,20 @@ import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.screen.game.transition.FadeTransition;
 import ua.gram.munhauzen.screen.game.transition.NormalTransition;
 import ua.gram.munhauzen.screen.game.transition.Transition;
+import ua.gram.munhauzen.utils.InternalAssetManager;
 import ua.gram.munhauzen.utils.Log;
 
 public abstract class ImageService implements Disposable {
 
     protected final String tag = getClass().getSimpleName();
     protected final GameScreen gameScreen;
+    public InternalAssetManager internalAssetManager;
     public AssetManager assetManager;
     Transition transition;
 
     public ImageService(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
+        internalAssetManager = new InternalAssetManager();
         assetManager = createAssetManager();
     }
 
@@ -42,6 +45,10 @@ public abstract class ImageService implements Disposable {
     public void prepareAndDisplay(StoryImage item) {
 
         try {
+            if ("intro".equals(item.chapter)) {
+                prepareAndDisplayInternal(item);
+                return;
+            }
 
             String resource = getResource(item);
             if (resource == null) return;
@@ -65,6 +72,40 @@ public abstract class ImageService implements Disposable {
 
             item.drawable = new SpriteDrawable(new Sprite(
                     assetManager.get(resource, Texture.class)
+            ));
+
+            onPrepared(item);
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+    }
+
+    public void prepareAndDisplayInternal(StoryImage item) {
+
+        try {
+
+            String resource = getResource(item);
+            if (resource == null) return;
+
+            item.resource = resource;
+
+            if (item.isPrepared && item.drawable != null) {
+                onPrepared(item);
+                return;
+            }
+
+            if (!internalAssetManager.isLoaded(resource, Texture.class)) {
+                internalAssetManager.load(resource, Texture.class);
+
+                internalAssetManager.finishLoading();
+            }
+
+            item.isPreparing = false;
+            item.isPrepared = true;
+            item.prepareCompletedAt = new Date();
+
+            item.drawable = new SpriteDrawable(new Sprite(
+                    internalAssetManager.get(resource, Texture.class)
             ));
 
             onPrepared(item);
@@ -170,6 +211,11 @@ public abstract class ImageService implements Disposable {
             } catch (Throwable ignore) {
             }
 
+            try {
+                internalAssetManager.update();
+            } catch (Throwable ignore) {
+            }
+
             Story story = gameScreen.getStory();
             if (story != null) {
                 for (StoryScenario scenario : story.scenarios) {
@@ -214,13 +260,16 @@ public abstract class ImageService implements Disposable {
                 assetManager = null;
             }
 
+            if (internalAssetManager != null) {
+                internalAssetManager.dispose();
+                internalAssetManager = null;
+            }
+
         } catch (Throwable ignore) {
         }
     }
 
     public synchronized void dispose(HireStory story) {
-        if (assetManager == null) return;
-
         Log.i(tag, "dispose " + story.id);
 
         for (HireStoryScenario storyScenario : story.scenarios) {
@@ -228,19 +277,7 @@ public abstract class ImageService implements Disposable {
             if (storyScenario.scenario.images != null) {
                 for (StoryImage item : storyScenario.scenario.images) {
 
-                    item.drawable = null;
-                    item.isPrepared = false;
-
-                    if (item.resource != null) {
-                        if (assetManager.isLoaded(item.resource)) {
-                            if (assetManager.getReferenceCount(item.resource) == 0) {
-                                assetManager.unload(item.resource);
-                                item.resource = null;
-                            } else {
-                                Log.e(tag, item.image + " dispose ignored");
-                            }
-                        }
-                    }
+                    dispose(item);
                 }
             }
         }
@@ -248,8 +285,6 @@ public abstract class ImageService implements Disposable {
     }
 
     public synchronized void dispose(Story story, boolean force) {
-        if (assetManager == null) return;
-
         Log.i(tag, "dispose " + story.id);
 
         Image last = gameScreen.getLastBackground();
@@ -260,14 +295,7 @@ public abstract class ImageService implements Disposable {
                 for (StoryImage item : storyScenario.scenario.images) {
 
                     if (force) {
-                        if (item.resource != null) {
-                            if (assetManager.isLoaded(item.resource)) {
-                                assetManager.unload(item.resource);
-                            }
-                        }
-
-                        item.drawable = null;
-                        item.isPrepared = false;
+                        forceDispose(item);
                     } else {
 
                         boolean isLast = (last != null && last.name.equals(item.image))
@@ -275,19 +303,7 @@ public abstract class ImageService implements Disposable {
 
                         if (!isLast) {
 
-                            item.drawable = null;
-                            item.isPrepared = false;
-
-                            if (item.resource != null) {
-                                if (assetManager.isLoaded(item.resource)) {
-                                    if (assetManager.getReferenceCount(item.resource) == 0) {
-                                        assetManager.unload(item.resource);
-                                        item.resource = null;
-                                    } else {
-                                        Log.e(tag, item.image + " dispose ignored");
-                                    }
-                                }
-                            }
+                            dispose(item);
                         }
 
                     }
@@ -295,5 +311,55 @@ public abstract class ImageService implements Disposable {
             }
         }
 
+    }
+
+    private void dispose(StoryImage item) {
+
+        item.drawable = null;
+        item.isPrepared = false;
+
+        if (item.resource != null) {
+            if (assetManager != null) {
+                if (assetManager.isLoaded(item.resource)) {
+                    if (assetManager.getReferenceCount(item.resource) == 0) {
+                        assetManager.unload(item.resource);
+                        item.resource = null;
+                    } else {
+                        Log.e(tag, item.image + " dispose ignored");
+                    }
+                }
+            }
+            if (internalAssetManager != null) {
+                if (internalAssetManager.isLoaded(item.resource)) {
+                    if (internalAssetManager.getReferenceCount(item.resource) == 0) {
+                        internalAssetManager.unload(item.resource);
+                        item.resource = null;
+                    } else {
+                        Log.e(tag, item.image + " dispose ignored");
+                    }
+                }
+            }
+        }
+    }
+
+    private void forceDispose(StoryImage item) {
+
+        item.drawable = null;
+        item.isPrepared = false;
+
+        if (item.resource != null) {
+            if (assetManager != null) {
+                if (assetManager.isLoaded(item.resource)) {
+                    assetManager.unload(item.resource);
+                    item.resource = null;
+                }
+            }
+            if (internalAssetManager != null) {
+                if (internalAssetManager.isLoaded(item.resource)) {
+                    internalAssetManager.unload(item.resource);
+                    item.resource = null;
+                }
+            }
+        }
     }
 }

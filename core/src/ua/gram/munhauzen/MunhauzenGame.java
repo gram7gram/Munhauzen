@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import ua.gram.munhauzen.entity.Device;
+import ua.gram.munhauzen.entity.GamePreferences;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.interfaces.LoginInterface;
@@ -100,6 +101,14 @@ public class MunhauzenGame extends Game {
         MunhauzenGame.onExpansionDownloadComplete = onExpansionDownloadComplete;
         MunhauzenGame.loginInterface = loginInterface;
         MunhauzenGame.referralInterface = referralInterface;
+    }
+
+    public boolean isOnlineMode() {
+        if (gameState.preferences == null) {
+            gameState.preferences = new GamePreferences();
+        }
+
+        return !gameState.preferences.isOfflineMode;
     }
 
     public void setGameMode(boolean isOnline) {

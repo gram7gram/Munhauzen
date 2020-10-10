@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class StoryImage extends StoryMedia<StoryImage> {
 
     @JsonProperty
+    public String chapter;
+    @JsonProperty
     public String image;
     @JsonProperty
     public int duration;

@@ -77,6 +77,14 @@ public class StoryScenario extends StoryMedia<StoryScenario> {
         if (duration == 0) {
             duration = 500;
         }
+
+        for (StoryImage item : scenario.images) {
+            item.chapter = scenario.chapter;
+        }
+
+        for (StoryAudio item : scenario.audio) {
+            item.chapter = scenario.chapter;
+        }
     }
 
     public void update(float progress, int max) {

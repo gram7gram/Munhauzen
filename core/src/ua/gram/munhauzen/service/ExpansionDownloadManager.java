@@ -201,6 +201,10 @@ public class ExpansionDownloadManager {
 
         try {
 
+            if (game.isOnlineMode()) {
+                return false;
+            }
+
             fetchExpansionToDownload();
 
             if (expansionToDownload == null) {

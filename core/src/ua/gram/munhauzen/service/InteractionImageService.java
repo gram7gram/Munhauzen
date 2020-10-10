@@ -1,13 +1,14 @@
 package ua.gram.munhauzen.service;
 
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.assets.loaders.resolvers.ExternalFileHandleResolver;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
+import ua.gram.munhauzen.entity.Image;
 import ua.gram.munhauzen.entity.StoryImage;
 import ua.gram.munhauzen.repository.ImageRepository;
 import ua.gram.munhauzen.screen.GameScreen;
+import ua.gram.munhauzen.utils.ExpansionAssetManager;
 import ua.gram.munhauzen.utils.ExternalFiles;
 
 /**
@@ -21,7 +22,7 @@ public class InteractionImageService extends ImageService {
 
     @Override
     public AssetManager createAssetManager() {
-        return new AssetManager(new ExternalFileHandleResolver());
+        return new ExpansionAssetManager(gameScreen.game);
     }
 
     @Override
@@ -30,7 +31,7 @@ public class InteractionImageService extends ImageService {
         FileHandle file;
         if (ImageRepository.LAST.equals(item.image)) {
 
-            ua.gram.munhauzen.entity.Image image = gameScreen.getLastBackground();
+            Image image = gameScreen.getLastBackground();
             if (image == null) {
                 return null;
             }

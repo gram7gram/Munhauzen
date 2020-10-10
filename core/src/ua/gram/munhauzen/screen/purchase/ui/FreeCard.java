@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 
 import ua.gram.munhauzen.FontProvider;
-import ua.gram.munhauzen.screen.LoadingScreen;
+import ua.gram.munhauzen.screen.MenuScreen;
 import ua.gram.munhauzen.screen.PurchaseScreen;
 import ua.gram.munhauzen.utils.Log;
 
@@ -30,7 +30,7 @@ public class FreeCard extends Card {
                 try {
                     screen.game.gameState.purchaseState.isVersionSelected = true;
 
-                    screen.navigateTo(new LoadingScreen(screen.game));
+                    screen.navigateTo(new MenuScreen(screen.game));
                 } catch (Throwable e) {
                     Log.e(tag, e);
 

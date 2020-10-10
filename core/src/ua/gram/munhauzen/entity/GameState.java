@@ -58,7 +58,7 @@ public class GameState {
             preferences = new GamePreferences();
         }
 
-        preferences.isOnlineMode = isOnline;
+        preferences.isOfflineMode = !isOnline;
     }
 
     public void setActiveSave(Save save) {
