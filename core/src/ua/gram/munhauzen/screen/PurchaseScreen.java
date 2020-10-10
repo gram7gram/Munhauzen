@@ -121,7 +121,11 @@ public class PurchaseScreen extends MunhauzenScreen {
 
             game.databaseManager.persistSync(game.gameState);
 
-            navigateTo(new MenuScreen(game));
+            if (game.gameState.preferences.isOfflineMode) {
+                navigateTo(new LoadingScreen(game));
+            } else {
+                navigateTo(new MenuScreen(game));
+            }
 
         } catch (Throwable e) {
             Log.e(tag, e);

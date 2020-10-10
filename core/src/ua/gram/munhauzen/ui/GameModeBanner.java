@@ -1,4 +1,4 @@
-package ua.gram.munhauzen.screen.menu.ui;
+package ua.gram.munhauzen.ui;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -11,26 +11,24 @@ import com.badlogic.gdx.utils.Align;
 import ua.gram.munhauzen.ButtonBuilder;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
-import ua.gram.munhauzen.screen.MenuScreen;
-import ua.gram.munhauzen.screen.menu.fragment.GameModeFragment;
-import ua.gram.munhauzen.ui.Banner;
-import ua.gram.munhauzen.ui.FixedImage;
-import ua.gram.munhauzen.ui.PrimaryButton;
+import ua.gram.munhauzen.screen.MunhauzenScreen;
 import ua.gram.munhauzen.utils.Log;
 
-public class GameModeBanner extends Banner<MenuScreen> {
+public class GameModeBanner extends Banner<MunhauzenScreen> {
 
-    final GameModeFragment fragment;
+    final BannerFragment<?> fragment;
+    final Runnable action;
 
-    public GameModeBanner(GameModeFragment fragment) {
+    public GameModeBanner(BannerFragment<?> fragment, Runnable action) {
         super(fragment.screen);
 
         this.fragment = fragment;
+        this.action = action;
     }
 
     @Override
     public Texture getBackgroundTexture() {
-        return screen.assetManager.get("ui/banner_fond_0.png", Texture.class);
+        return screen.game.internalAssetManager.get("ui/banner_fond_0.png", Texture.class);
     }
 
     @Override
@@ -76,7 +74,7 @@ public class GameModeBanner extends Banner<MenuScreen> {
                     .row();
         }
 
-        Texture txt = screen.assetManager.get("ui/banner_version.png", Texture.class);
+        Texture txt = screen.game.internalAssetManager.get("ui/banner_version.png", Texture.class);
         FixedImage img = new FixedImage(txt, cellMinWidth);
 
         PrimaryButton btnOnline = screen.game.buttonBuilder.primary(
@@ -90,12 +88,7 @@ public class GameModeBanner extends Banner<MenuScreen> {
 
                             game.setGameMode(true);
 
-                            fragment.fadeOut(new Runnable() {
-                                @Override
-                                public void run() {
-                                    screen.destroyBanners();
-                                }
-                            });
+                            fragment.fadeOut(action);
 
                         } catch (Throwable e) {
                             Log.e(tag, e);
@@ -114,12 +107,7 @@ public class GameModeBanner extends Banner<MenuScreen> {
 
                             game.setGameMode(false);
 
-                            fragment.fadeOut(new Runnable() {
-                                @Override
-                                public void run() {
-                                    screen.destroyBanners();
-                                }
-                            });
+                            fragment.fadeOut(action);
 
                         } catch (Throwable e) {
                             Log.e(tag, e);
@@ -138,12 +126,12 @@ public class GameModeBanner extends Banner<MenuScreen> {
         buttons.add(btnOffline)
                 .width(ButtonBuilder.BTN_PRIMARY_SM_WIDTH)
                 .height(ButtonBuilder.BTN_PRIMARY_SM_HEIGHT)
-                .padBottom(10);
+                .pad(10);
 
         buttons.add(btnOnline)
                 .width(ButtonBuilder.BTN_PRIMARY_SM_WIDTH)
                 .height(ButtonBuilder.BTN_PRIMARY_SM_HEIGHT)
-                .padBottom(10).row();
+                .pad(10).row();
 
         content.add(columns).row();
         content.add(img).center().size(img.width, img.height)

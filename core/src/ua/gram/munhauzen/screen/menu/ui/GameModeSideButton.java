@@ -31,7 +31,12 @@ public class GameModeSideButton extends Image {
 
                 try {
 
-                    screen.openGameModeBanner();
+                    screen.openGameModeBanner(new Runnable() {
+                        @Override
+                        public void run() {
+                            screen.destroyBanners();
+                        }
+                    });
 
                 } catch (Throwable e) {
                     Log.e(tag, e);

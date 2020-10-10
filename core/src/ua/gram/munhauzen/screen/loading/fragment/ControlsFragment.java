@@ -95,6 +95,24 @@ public class ControlsFragment extends Fragment {
             }
         });
 
+        PrimaryButton gameModeBtn = screen.game.buttonBuilder.danger(screen.game.t("loading.game_mode_btn"), new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                screen.openGameModeBanner(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (screen.game.gameState.preferences.isOfflineMode) {
+                            retryDownload();
+                        } else {
+                            screen.navigateTo(new MenuScreen(screen.game));
+                        }
+                    }
+                });
+            }
+        });
+
         cancelBtn = screen.game.buttonBuilder.danger(screen.game.t("loading.cancel_btn"), new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -188,7 +206,10 @@ public class ControlsFragment extends Fragment {
                 .padBottom(10).row();
         startTable.add(startBtn)
                 .width(ButtonBuilder.BTN_PRIMARY_WIDTH)
-                .height(ButtonBuilder.BTN_PRIMARY_HEIGHT);
+                .height(ButtonBuilder.BTN_PRIMARY_HEIGHT).row();
+        startTable.add(gameModeBtn)
+                .width(ButtonBuilder.BTN_PRIMARY_WIDTH)
+                .height(ButtonBuilder.BTN_PRIMARY_HEIGHT).row();
 
         Table retryTable = new Table();
         retryTable.add(retryTitle)

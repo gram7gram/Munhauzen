@@ -16,6 +16,7 @@ public class RussianTranslator implements Translator {
         map.put("loading.retry_btn", "Повторить");
         map.put("loading.cancel_btn", "Отменить");
         map.put("loading.purchases_btn", "Покупки");
+        map.put("loading.game_mode_btn", "Рижим игры");
         map.put("loading.menu_btn", "Главное меню");
         map.put("loading.download_btn", "Скачать");
         map.put("loading.title", "Загрузка ресурсов");
@@ -265,7 +266,7 @@ public class RussianTranslator implements Translator {
         map.put("game_mode_banner.title", "Выберите режим игры");
         map.put("game_mode_banner.btn_online", "Онлайн");
         map.put("game_mode_banner.btn_offline", "Офлайн");
-        map.put("game_mode_banner.content", "Офлайн редим позволяет загрзить все необходимые ресурсы и наслаждаться рассказом в любое время!\nИли же Вы можете начать случшать рассказ прямо сейчас в режиме Онлайн!");
+        map.put("game_mode_banner.content", "Офлайн режим позволяет загрузить все необходимые ресурсы и наслаждаться рассказом в любое время!\nИли же Вы можете начать слушать рассказ прямо сейчас в режиме Онлайн!");
 
         map.put("no_memory_banner.title", "Не достаточно памяти");
         map.put("no_memory_banner.btn_online", "Онлайн");

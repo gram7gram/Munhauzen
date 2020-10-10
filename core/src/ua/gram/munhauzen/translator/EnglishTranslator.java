@@ -16,6 +16,7 @@ public class EnglishTranslator implements Translator {
         map.put("loading.retry_btn", "Retry");
         map.put("loading.cancel_btn", "Cancel");
         map.put("loading.purchases_btn", "Purchases");
+        map.put("loading.game_mode_btn", "Game mode");
         map.put("loading.menu_btn", "Main menu");
         map.put("loading.download_btn", "Download");
         map.put("loading.title", "Downloading resources");
@@ -266,7 +267,7 @@ public class EnglishTranslator implements Translator {
         map.put("game_mode_banner.title", "Choose the mode of the game");
         map.put("game_mode_banner.btn_online", "Online");
         map.put("game_mode_banner.btn_offline", "Offline");
-        map.put("game_mode_banner.content", "You can change to offline mode to preload resources and enjoy the story whenever you want.\nOr you can enjoy the story right now with online mode!");
+        map.put("game_mode_banner.content", "You can choose offline mode to preload resources and enjoy the story whenever you want.\nOr you can enjoy the story right now with online mode!");
 
         map.put("no_memory_banner.title", "Not enough memory");
         map.put("no_memory_banner.btn_online", "Go online");

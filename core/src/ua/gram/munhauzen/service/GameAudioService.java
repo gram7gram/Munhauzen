@@ -156,6 +156,11 @@ public class GameAudioService implements Disposable {
 
     public void prepareAndPlay(StoryAudio item) {
 
+        if ("intro".equals(item.chapter)) {
+            prepareAndPlayInternal(item);
+            return;
+        }
+
         Log.i(tag, "play " + item.audio);
 
         Audio audio = AudioRepository.find(gameScreen.game.gameState, item.audio);
@@ -176,6 +181,47 @@ public class GameAudioService implements Disposable {
             assetManager.finishLoading();
 
             item.player = assetManager.get(resource, Music.class);
+
+            item.player.setVolume(GameState.isMute ? 0 : 1);
+            item.player.play();
+
+            synchronized (activeAudio) {
+                activeAudio.put(item.audio, item);
+            }
+
+        } catch (Throwable ignore) {
+        }
+
+        try {
+
+            gameScreen.game.achievementService.onAudioListened(audio);
+
+        } catch (GdxRuntimeException ignore) {
+        }
+    }
+
+    public void prepareAndPlayInternal(StoryAudio item) {
+
+        Log.i(tag, "play " + item.audio);
+
+        Audio audio = AudioRepository.find(gameScreen.game.gameState, item.audio);
+        if (item.duration == 0) {
+            item.duration = audio.duration;
+        }
+
+        FileHandle file = Files.getIntroAudio(audio);
+        if (!file.exists()) {
+            throw new GdxRuntimeException("Audio file does not exist " + audio.name + " at " + file.path());
+        }
+
+        try {
+            String resource = file.path();
+
+            internalAssetManager.load(resource, Music.class);
+
+            internalAssetManager.finishLoading();
+
+            item.player = internalAssetManager.get(resource, Music.class);
 
             item.player.setVolume(GameState.isMute ? 0 : 1);
             item.player.play();

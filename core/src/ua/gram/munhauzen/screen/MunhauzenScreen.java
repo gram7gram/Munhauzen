@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 
 import ua.gram.munhauzen.GameLayerInterface;
 import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.ui.GameModeFragment;
 import ua.gram.munhauzen.ui.NoInternetFragment;
 import ua.gram.munhauzen.ui.NoMemoryFragment;
 import ua.gram.munhauzen.ui.SlowInternetFragment;
@@ -20,6 +21,7 @@ public abstract class MunhauzenScreen implements Screen {
     public NoMemoryFragment noMemoryFragment;
     public NoInternetFragment noInternetFragment;
     public SlowInternetFragment slowInternetFragment;
+    public GameModeFragment gameModeFragment;
 
     public MunhauzenScreen(MunhauzenGame game) {
         this.game = game;
@@ -39,8 +41,29 @@ public abstract class MunhauzenScreen implements Screen {
         Log.i(tag, "openAdultGateBanner");
     }
 
+    public void openGameModeBanner(Runnable action) {
+        try {
+
+            destroyBanners();
+
+            gameModeFragment = new GameModeFragment(this);
+            gameModeFragment.create(action);
+
+            getLayers().setBannerLayer(gameModeFragment);
+
+            gameModeFragment.fadeIn();
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            onCriticalError(e);
+        }
+    }
+
     public void destroyBanners() {
         Log.i(tag, "destroyBanners");
+
+        game.stopCurrentSfx();
 
         Gdx.input.setOnscreenKeyboardVisible(false);
 
@@ -55,6 +78,10 @@ public abstract class MunhauzenScreen implements Screen {
         if (slowInternetFragment != null) {
             slowInternetFragment.destroy();
             slowInternetFragment = null;
+        }
+        if (gameModeFragment != null) {
+            gameModeFragment.destroy();
+            gameModeFragment = null;
         }
 
     }

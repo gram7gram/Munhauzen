@@ -6,5 +6,7 @@ public class GamePreferences implements JsonEntry {
     @JsonProperty
     public boolean isLegalViewed;
     @JsonProperty
+    public boolean isGameModeSelected;
+    @JsonProperty
     public boolean isOfflineMode;
 }

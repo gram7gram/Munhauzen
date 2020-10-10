@@ -28,4 +28,9 @@ public class SlowInternetFragment extends BannerFragment<MunhauzenScreen> {
 
         root.addContainer(banner);
     }
+
+    @Override
+    public void onBackDropClicked() {
+        //ignore
+    }
 }

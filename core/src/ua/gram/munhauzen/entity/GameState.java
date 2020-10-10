@@ -58,6 +58,7 @@ public class GameState {
             preferences = new GamePreferences();
         }
 
+        preferences.isGameModeSelected = true;
         preferences.isOfflineMode = !isOnline;
     }
 

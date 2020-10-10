@@ -8,7 +8,7 @@ import ua.gram.munhauzen.entity.Audio;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.repository.AudioRepository;
-import ua.gram.munhauzen.utils.ExpansionAssetManager;
+import ua.gram.munhauzen.utils.InternalAssetManager;
 import ua.gram.munhauzen.utils.Log;
 import ua.gram.munhauzen.utils.Random;
 
@@ -17,7 +17,7 @@ public class BackgroundSfxService {
     final String tag = getClass().getSimpleName();
     final MunhauzenGame game;
     StoryAudio activeAudio;
-    final ExpansionAssetManager expansionAssetManager;
+    final InternalAssetManager internalAssetManager;
     public boolean isPlaying;
 
     int index;
@@ -34,7 +34,7 @@ public class BackgroundSfxService {
 
     public BackgroundSfxService(MunhauzenGame game) {
         this.game = game;
-        expansionAssetManager = new ExpansionAssetManager(game);
+        internalAssetManager = new InternalAssetManager();
     }
 
     public void start() {
@@ -108,15 +108,15 @@ public class BackgroundSfxService {
                 public void run() {
 
                     try {
-                        if (activeAudio == null || expansionAssetManager == null) {
+                        if (activeAudio == null || internalAssetManager == null) {
                             return;
                         }
 
-                        expansionAssetManager.load(audio.file, Music.class);
+                        internalAssetManager.load(audio.file, Music.class);
 
-                        expansionAssetManager.finishLoading();
+                        internalAssetManager.finishLoading();
 
-                        Music sound = expansionAssetManager.get(audio.file, Music.class);
+                        Music sound = internalAssetManager.get(audio.file, Music.class);
 
                         if (sound == null) return;
 
@@ -150,7 +150,7 @@ public class BackgroundSfxService {
     public void update() {
 
         try {
-            expansionAssetManager.update();
+            internalAssetManager.update();
         } catch (Throwable ignore) {
         }
 
@@ -170,7 +170,7 @@ public class BackgroundSfxService {
             activeAudio = null;
         }
 
-        expansionAssetManager.clear();
+        internalAssetManager.clear();
     }
 
     public void dispose() {
@@ -180,7 +180,7 @@ public class BackgroundSfxService {
 
             stop();
 
-            expansionAssetManager.dispose();
+            internalAssetManager.dispose();
 
         } catch (Throwable ignore) {
         }
@@ -194,7 +194,7 @@ public class BackgroundSfxService {
                 storyAudio.player = null;
             }
 
-            expansionAssetManager.unload(storyAudio.resource);
+            internalAssetManager.unload(storyAudio.resource);
 
         } catch (Throwable ignore) {
         }
