@@ -2,6 +2,7 @@ package ua.gram.munhauzen.screen;
 
 import com.badlogic.gdx.graphics.Texture;
 
+import ua.gram.munhauzen.GameLayerInterface;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.screen.loading.fragment.ControlsFragment;
 import ua.gram.munhauzen.screen.loading.fragment.ImageFragment;
@@ -22,6 +23,11 @@ public class LoadingScreen extends AbstractScreen {
 
     public LoadingScreen(MunhauzenGame game) {
         super(game);
+    }
+
+    @Override
+    public GameLayerInterface getLayers() {
+        return layers;
     }
 
     @Override

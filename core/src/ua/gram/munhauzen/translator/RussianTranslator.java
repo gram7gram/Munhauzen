@@ -16,6 +16,7 @@ public class RussianTranslator implements Translator {
         map.put("loading.retry_btn", "Повторить");
         map.put("loading.cancel_btn", "Отменить");
         map.put("loading.purchases_btn", "Покупки");
+        map.put("loading.game_mode_btn", "Рижим игры");
         map.put("loading.menu_btn", "Главное меню");
         map.put("loading.download_btn", "Скачать");
         map.put("loading.title", "Загрузка ресурсов");
@@ -253,9 +254,32 @@ public class RussianTranslator implements Translator {
         map.put("promo_banner.btn", "Есть промокод?");
         map.put("promo_banner.ok_btn", "Активировать");
         map.put("promo_banner.title", "Введите промокод");
+        map.put("promo_banner.footer", " * Учитываются заглавные буквы");
 
         map.put("promo_success_banner.title", "Спасибо!\nПромокод активирован!");
         map.put("promo_success_banner.btn", "Продолжить");
+
+        map.put("trailer_banner.title", "Наш ролик");
+        map.put("trailer_banner.content", "Посмотрите наш кинематический ролик!");
+        map.put("trailer_banner.btn", "Смотреть");
+
+        map.put("game_mode_banner.title", "Выберите режим игры");
+        map.put("game_mode_banner.btn_online", "Онлайн");
+        map.put("game_mode_banner.btn_offline", "Офлайн");
+        map.put("game_mode_banner.content", "Офлайн режим позволяет загрузить все необходимые ресурсы и наслаждаться рассказом в любое время!\nИли же Вы можете начать слушать рассказ прямо сейчас в режиме Онлайн!");
+
+        map.put("no_memory_banner.title", "Не достаточно памяти");
+        map.put("no_memory_banner.btn_online", "Онлайн");
+        map.put("no_memory_banner.btn_retry", "Повторить");
+        map.put("no_memory_banner.content", "Пожалуйста, освободите место на диске или переключитесь в режим Онлайн!");
+
+        map.put("no_internet_banner.title", "Нету соединения с Интернетом");
+        map.put("no_internet_banner.btn_retry", "Повторить");
+        map.put("no_internet_banner.content", "Пожалуйста, включите WiFi и попробуйте снова");
+
+        map.put("slow_internet_banner.title", "Медленное соединение с Интернетом");
+        map.put("slow_internet_banner.btn_retry", "Повторить");
+        map.put("slow_internet_banner.content", "Пожалуйста, найдите место с лучшим доступом для быстрейшего скачивания ресурсов");
 
         map.put("referral_banner_3.title", "Поздравляем!\nБонус за 3 друзей получен!");
         map.put("referral_banner_3.btn", "Отлично");
@@ -263,8 +287,8 @@ public class RussianTranslator implements Translator {
         map.put("referral_banner_7.btn", "Отлично");
         map.put("referal_banner.title", "Поделись игрой и получи бонусы!");
         map.put("referal_banner.link", "Реферальная ссылка");
-        map.put("referal_banner.btn", "Скопировать");
-        map.put("referal_banner.success", "Ссылка скопирована");
+        map.put("referal_banner.btn", "Поделиться");
+        map.put("referal_banner.footer", "* гость должен не только установить приложение, но и пройти одну главу");
         map.put("purchase_pending_banner.title", "Покупка...\nЭто может занять до 1 минуты.\nПожалуйста, дождитесь закрытия окна");
 
     }

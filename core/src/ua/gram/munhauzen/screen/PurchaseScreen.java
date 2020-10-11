@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Timer;
 
+import ua.gram.munhauzen.GameLayerInterface;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.expansion.response.ExpansionResponse;
 import ua.gram.munhauzen.screen.purchase.IAPObserver;
@@ -39,6 +40,11 @@ public class PurchaseScreen extends MunhauzenScreen {
 
     public PurchaseScreen(MunhauzenGame game) {
         super(game);
+    }
+
+    @Override
+    public GameLayerInterface getLayers() {
+        return layers;
     }
 
     @Override
@@ -115,7 +121,11 @@ public class PurchaseScreen extends MunhauzenScreen {
 
             game.databaseManager.persistSync(game.gameState);
 
-            navigateTo(new LoadingScreen(game));
+            if (game.gameState.preferences.isOfflineMode) {
+                navigateTo(new LoadingScreen(game));
+            } else {
+                navigateTo(new MenuScreen(game));
+            }
 
         } catch (Throwable e) {
             Log.e(tag, e);

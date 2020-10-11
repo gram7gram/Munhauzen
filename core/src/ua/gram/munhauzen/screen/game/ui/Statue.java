@@ -34,11 +34,11 @@ public class Statue extends Group {
         addActor(stars);
 
         setStatueBackground(
-                screen.assetManager.get("gallery/gv2_statue.png", Texture.class)
+                screen.internalAssetManager.get("gallery/gv2_statue.png", Texture.class)
         );
 
         setItemBackground(
-                screen.assetManager.get(inventory.statueImage, Texture.class)
+                screen.internalAssetManager.get(inventory.statueImage, Texture.class)
         );
 
         setStarsBackground();

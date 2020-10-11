@@ -7,108 +7,21 @@ const audioDir = "/Users/master/Projects/MunhauzenDocs/Elements/AUDIO_FINAL";
 
 const PARTS = 5;
 
-const VERSION = 14;
+const VERSION = 16;
 const LOCALE = 'ru';
 
 const DLC = {
   Part_demo: {
     audio: [ "/Part_demo_Ru", "/Fails_Ru", "/Sfx_Ru" ],
-    images: [ "/Part_demo" ],
-    localeAssets: [ "/Part_demo_Ru" ],
-    otherAssets: [
-      '/authors',
-      '/gallery',
-      '/menu',
-      '/GameScreen',
-      '/ui',
-      '/saves',
-      '/fails',
-      '/victory',
-    ],
-    interactions: [
-      "/timer",
-      "/timer2",
-      "/hare",
-      "/generals",
-      "/cannons",
-      "/wau",
-      "/picture",
-      "/servants",
-      "/lions",
-      "/date",
-      "/horn",
-      "/swamp",
-      "/slap",
-      "/puzzle",
-      "/continue",
-      "/chapter",
-      "/balloons" ]
+    images: [ "/Part_demo" ]
   },
   Part_1: {
     audio: [ "/Part_demo_Ru", "/Fails_Ru", "/Sfx_Ru", "/Part_1_Ru" ],
-    images: [ "/Part_demo", "/Part_1" ],
-    localeAssets: [ "/Part_demo_Ru" ],
-    otherAssets: [
-      '/authors',
-      '/gallery',
-      '/menu',
-      '/GameScreen',
-      '/ui',
-      '/saves',
-      '/fails',
-      '/victory',
-    ],
-    interactions: [
-      "/timer",
-      "/timer2",
-      "/hare",
-      "/generals",
-      "/cannons",
-      "/wau",
-      "/picture",
-      "/servants",
-      "/lions",
-      "/date",
-      "/horn",
-      "/swamp",
-      "/slap",
-      "/puzzle",
-      "/continue",
-      "/chapter",
-      "/balloons" ]
+    images: [ "/Part_demo", "/Part_1" ]
   },
   Part_2: {
     audio: [ "/Part_demo_Ru", "/Fails_Ru", "/Sfx_Ru", "/Part_1_Ru", "/Part_2_Ru" ],
-    images: [ "/Part_demo", "/Part_1", "/Part_2" ],
-    localeAssets: [ "/Part_demo_Ru" ],
-    otherAssets: [
-      '/authors',
-      '/gallery',
-      '/menu',
-      '/GameScreen',
-      '/ui',
-      '/saves',
-      '/fails',
-      '/victory',
-    ],
-    interactions: [
-      "/timer",
-      "/timer2",
-      "/hare",
-      "/generals",
-      "/cannons",
-      "/wau",
-      "/picture",
-      "/servants",
-      "/lions",
-      "/date",
-      "/horn",
-      "/swamp",
-      "/slap",
-      "/puzzle",
-      "/continue",
-      "/chapter",
-      "/balloons" ]
+    images: [ "/Part_demo", "/Part_1", "/Part_2" ]
   }
 };
 
@@ -174,59 +87,6 @@ const createDLC = async (DPI, EXP) => {
       fs.copySync(sourceDir + "/" + file, destDir + "/" + file);
 
       nextPart();
-    });
-  });
-
-  dlcConfig.interactions.forEach(dir => {
-    const sourceDir = obbDir + "/Part_demo/" + DPI + dir;
-
-    getDirs(sourceDir).forEach(file => {
-      const outputDir = getTmpDir();
-      const destDir = outputDir + dir;
-
-      fs.ensureDir(destDir, () => {
-      });
-
-      fs.copySync(sourceDir + "/" + file, destDir + "/" + file);
-
-      nextPart();
-    });
-  });
-
-  dlcConfig.otherAssets.forEach(dir => {
-    const sourceDir = obbDir + "/Part_demo/" + DPI + dir;
-
-    getDirs(sourceDir).forEach(file => {
-      const outputDir = getTmpDir();
-      const destDir = outputDir + dir;
-
-      fs.ensureDir(destDir, () => {
-      });
-
-      fs.copySync(sourceDir + "/" + file, destDir + "/" + file);
-
-      nextPart();
-    });
-  });
-
-  dlcConfig.localeAssets.forEach(dir => {
-    const dpiDir = obbDir + dir + "/" + DPI;
-
-    getDirs(dpiDir).forEach(dir => {
-
-      const sourceDir = dpiDir + "/" + dir;
-
-      getDirs(sourceDir).forEach(file => {
-        const outputDir = getTmpDir();
-        const destDir = outputDir + "/" + dir;
-
-        fs.ensureDir(destDir, () => {
-        });
-
-        fs.copySync(sourceDir + "/" + file, destDir + "/" + file);
-
-        nextPart();
-      });
     });
   });
 

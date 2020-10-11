@@ -156,9 +156,9 @@
     "locale": "en"
   },
   {
+    "isMenu": true,
     "name": "CROW",
     "__v": 0,
-    "isMenu": true,
     "locale": "en",
     "relatedScenario": [
       "a15_1_interaction"
@@ -215,7 +215,7 @@
     "isMenu": true,
     "locale": "en",
     "relatedScenario": [
-      "atample"
+      "atample_5"
     ]
   },
   {

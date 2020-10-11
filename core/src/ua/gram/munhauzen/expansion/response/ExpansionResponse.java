@@ -17,9 +17,6 @@ public class ExpansionResponse implements JsonEntry {
     public String locale, dpi;
 
     @JsonProperty
-    public long size;
-
-    @JsonProperty
     public float sizeMB;
 
     @JsonProperty

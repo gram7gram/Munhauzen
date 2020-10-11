@@ -9,8 +9,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import ua.gram.munhauzen.entity.Device;
+import ua.gram.munhauzen.entity.GamePreferences;
 import ua.gram.munhauzen.entity.GameState;
-import ua.gram.munhauzen.entity.Purchase;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.interfaces.LoginInterface;
 import ua.gram.munhauzen.interfaces.LoginListener;
@@ -41,7 +41,6 @@ public class MunhauzenGame extends Game {
     public static final boolean DEBUG_UI = false;
     public static final int PROGRESS_BAR_FADE_OUT_DELAY = 5;
 
-    public static final boolean developmentIgnorePurchaseRestore = false;
     public static final boolean developmentSimulatePurchase = false;
     public static final boolean developmentIsPro = false;
     public static final boolean developmentSkipEnable = true; //enabled by default even in production
@@ -104,30 +103,19 @@ public class MunhauzenGame extends Game {
         MunhauzenGame.referralInterface = referralInterface;
     }
 
-    public String getExpansionPart() {
-        Purchase part2Purchase = null, part1Purchase = null;
-
-        for (Purchase purchase : gameState.purchaseState.purchases) {
-
-            if (purchase.productId.equals(params.appStoreSkuPart2)) {
-                part2Purchase = purchase;
-            }
-
-            if (purchase.productId.equals(params.appStoreSkuPart1)) {
-                part1Purchase = purchase;
-            }
+    public boolean isOnlineMode() {
+        if (gameState.preferences == null) {
+            gameState.preferences = new GamePreferences();
         }
 
-        String id = "Part_demo";
-        if (gameState.purchaseState.isPro) {
-            id = "Part_2";
-        } else if (part2Purchase != null) {
-            id = "Part_2";
-        } else if (part1Purchase != null) {
-            id = "Part_1";
-        }
+        return !gameState.preferences.isOfflineMode;
+    }
 
-        return id;
+    public void setGameMode(boolean isOnline) {
+        Log.e(tag, "Change game mode to: " + (isOnline ? "online" : "offline"));
+
+        gameState.setGameMode(isOnline);
+        syncState();
     }
 
     public void syncState() {

@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "811410083672-f4lbs1r04j91gc4u6frqqcmlo5sipm97.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "en.munchausen.fingertipsandcompany.full",
+            "certificate_hash": "41dee5c4a1e04012bbbb7d4307ad6acf70465a9f"
+          }
+        },
+        {
           "client_id": "811410083672-a0ohneqs65f36h8nu2gn54sk3mm9dd9f.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -30,6 +38,59 @@
             {
               "client_id": "811410083672-a0ohneqs65f36h8nu2gn54sk3mm9dd9f.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "811410083672-nhm7f9c64v3d8lcrea9hm19nttn1mv0e.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "ru.munchausen.fingertipsandcompany.full",
+                "app_store_id": "1498389554"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:811410083672:android:6571360dfba6070c631f2d",
+        "android_client_info": {
+          "package_name": "ru.munchausen.fingertipsandcompany.full"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "811410083672-af3i2q87g8kcmubiu2k9dotn47dqdd8j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ru.munchausen.fingertipsandcompany.full",
+            "certificate_hash": "41dee5c4a1e04012bbbb7d4307ad6acf70465a9f"
+          }
+        },
+        {
+          "client_id": "811410083672-a0ohneqs65f36h8nu2gn54sk3mm9dd9f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBFbr4i32n6sQhrj6fyef3xrMUPXuhH7U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "811410083672-a0ohneqs65f36h8nu2gn54sk3mm9dd9f.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "811410083672-nhm7f9c64v3d8lcrea9hm19nttn1mv0e.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "ru.munchausen.fingertipsandcompany.full",
+                "app_store_id": "1498389554"
+              }
             }
           ]
         }

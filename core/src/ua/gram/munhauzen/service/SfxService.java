@@ -3,15 +3,13 @@ package ua.gram.munhauzen.service;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-
-import java.util.HashSet;
+import com.badlogic.gdx.utils.Array;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.Audio;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.repository.AudioRepository;
-import ua.gram.munhauzen.utils.ExpansionAssetManager;
 import ua.gram.munhauzen.utils.InternalAssetManager;
 import ua.gram.munhauzen.utils.Log;
 import ua.gram.munhauzen.utils.MathUtils;
@@ -21,13 +19,10 @@ public class SfxService {
     final String tag = getClass().getSimpleName();
     final MunhauzenGame game;
     final InternalAssetManager internalAssetManager;
-    final ExpansionAssetManager expansionAssetManager;
-    private final HashSet<StoryAudio> activeAudio = new HashSet<>();
 
     public SfxService(MunhauzenGame game) {
         this.game = game;
         internalAssetManager = new InternalAssetManager();
-        expansionAssetManager = new ExpansionAssetManager(game);
     }
 
     public void load() {
@@ -308,8 +303,6 @@ public class SfxService {
     private void prepareAndPlayIndependant(final String sfx, boolean checkVolume, final boolean loop) {
 
         try {
-            if (game.expansionAssetManager == null) return;
-
             if (checkVolume && GameState.isMute) return;
 
             final Audio audio = AudioRepository.find(game.gameState, sfx);
@@ -320,20 +313,12 @@ public class SfxService {
                 public void run() {
 
                     try {
-                        if (game.expansionAssetManager == null) return;
+                        internalAssetManager.load(audio.file, Music.class);
 
-                        game.expansionAssetManager.load(audio.file, Music.class);
+                        internalAssetManager.finishLoading();
 
-                        game.expansionAssetManager.finishLoading();
-
-                        Music sound = game.expansionAssetManager.get(audio.file, Music.class);
+                        Music sound = internalAssetManager.get(audio.file, Music.class);
                         sound.setLooping(loop);
-
-//                        final StoryAudio storyAudio = new StoryAudio();
-//                        storyAudio.audio = sfx;
-//                        storyAudio.duration = audio.duration;
-//                        storyAudio.resource = audio.file;
-//                        storyAudio.player = sound;
 
                         sound.play();
 
@@ -369,11 +354,11 @@ public class SfxService {
                 public void run() {
 
                     try {
-                        expansionAssetManager.load(audio.file, Music.class);
+                        internalAssetManager.load(audio.file, Music.class);
 
-                        expansionAssetManager.finishLoading();
+                        internalAssetManager.finishLoading();
 
-                        Music sound = expansionAssetManager.get(audio.file, Music.class);
+                        Music sound = internalAssetManager.get(audio.file, Music.class);
                         sound.setLooping(loop);
                         sound.play();
 
@@ -474,17 +459,6 @@ public class SfxService {
         }
 
         try {
-            expansionAssetManager.update();
-        } catch (Throwable ignore) {
-        }
-
-        try {
-            for (StoryAudio storyAudio : activeAudio) {
-                if (storyAudio.player != null) {
-                    storyAudio.player.setVolume(GameState.isMute ? 0 : 1);
-                }
-            }
-
             if (game.currentSfx != null) {
                 if (game.currentSfx.player != null) {
                     game.currentSfx.player.setVolume(GameState.isMute ? 0 : 1);
@@ -499,14 +473,21 @@ public class SfxService {
 
         try {
 
-            for (StoryAudio storyAudio : activeAudio) {
-                dispose(storyAudio);
-            }
-            activeAudio.clear();
+            Array<Music> audio1 = new Array<>();
+            internalAssetManager.getAll(Music.class, audio1);
 
-//        internalAssetManager.clear();
-            expansionAssetManager.clear();
+            for (Music item : audio1) {
+                item.stop();
+            }
+
+            Array<Sound> audio2 = new Array<>();
+            internalAssetManager.getAll(Sound.class, audio2);
+
+            for (Sound item : audio2) {
+                item.stop();
+            }
         } catch (Throwable ignore) {
+            Log.e(tag, ignore);
         }
     }
 
@@ -516,7 +497,6 @@ public class SfxService {
             stop();
 
             internalAssetManager.dispose();
-            expansionAssetManager.dispose();
 
         } catch (Throwable ignore) {
         }
@@ -529,15 +509,6 @@ public class SfxService {
                 storyAudio.player.stop();
                 storyAudio.player = null;
             }
-
-            activeAudio.remove(storyAudio);
-
-            if (internalAssetManager.isLoaded(storyAudio.resource))
-                internalAssetManager.unload(storyAudio.resource);
-
-            if (expansionAssetManager.isLoaded(storyAudio.resource))
-                expansionAssetManager.unload(storyAudio.resource);
-
         } catch (Throwable ignore) {
         }
     }

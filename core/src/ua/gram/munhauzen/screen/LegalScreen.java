@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.Align;
 
 import ua.gram.munhauzen.ButtonBuilder;
 import ua.gram.munhauzen.FontProvider;
+import ua.gram.munhauzen.GameLayerInterface;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.ui.MunhauzenStage;
 import ua.gram.munhauzen.ui.PrimaryButton;
@@ -31,6 +32,11 @@ public class LegalScreen extends MunhauzenScreen {
 
     public LegalScreen(MunhauzenGame game) {
         super(game);
+    }
+
+    @Override
+    public GameLayerInterface getLayers() {
+        return null;
     }
 
     @Override

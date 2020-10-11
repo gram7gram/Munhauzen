@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class StoryAudio extends StoryMedia<StoryAudio> {
 
     @JsonProperty
+    public String chapter;
+    @JsonProperty
     public String audio;
     @JsonProperty
     public int duration;

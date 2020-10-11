@@ -164,11 +164,9 @@ public class ExpansionDownloadManager {
 
                 Log.e(tag, "New expansion");
 
-                final float sizeMb = expansionToDownload.size / 1024f / 1024f;
-
                 if (game.params.memoryUsage != null) {
                     float memory = game.params.memoryUsage.megabytesAvailable();
-                    if (sizeMb > memory) {
+                    if (expansionToDownload.sizeMB > memory) {
                         Gdx.app.postRunnable(new Runnable() {
                             @Override
                             public void run() {
@@ -202,6 +200,10 @@ public class ExpansionDownloadManager {
     public boolean shouldFetchExpansion() {
 
         try {
+
+            if (game.isOnlineMode()) {
+                return false;
+            }
 
             fetchExpansionToDownload();
 
@@ -319,7 +321,7 @@ public class ExpansionDownloadManager {
             return;
         }
 
-        String url = part.getUrl();
+        String url = part.getUrl(game.params);
 
         final HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
 
@@ -516,8 +518,7 @@ public class ExpansionDownloadManager {
         if (expansionInfo != null)
             expansionInfo.isDownloadStarted = false;
 
-        fragment.retryTitle.setText(game.t("expansion_download.failed"));
-        fragment.showRetry();
+        fragment.showNoInternet();
 
         dispose();
     }
@@ -559,34 +560,34 @@ public class ExpansionDownloadManager {
         if (expansionInfo != null)
             expansionInfo.isDownloadStarted = false;
 
-        fragment.retryTitle.setText(game.t("expansion_download.low_memory"));
-        fragment.showRetry();
+        fragment.showNoMemory();
 
         dispose();
     }
 
     private void onComplete() {
-        ExpansionResponse expansionInfo = game.gameState.expansionInfo;
+        try {
+            ExpansionResponse expansionInfo = game.gameState.expansionInfo;
 
-        if (expansionInfo == null) return;
-        if (expansionInfo.isCompleted) return;
+            Log.i(tag, "onComplete");
 
-        Log.i(tag, "onComplete");
+            expansionInfo.isCompleted = true;
 
-        expansionInfo.isCompleted = true;
+            game.syncState();
 
-        game.syncState();
+            fragment.progress.setText("100%");
+            fragment.progressMessage.setText(game.t("expansion_download.completed"));
 
-        fragment.progress.setText("100%");
-        fragment.progressMessage.setText(game.t("expansion_download.completed"));
+            for (Part item : expansionInfo.parts.items) {
+                ExternalFiles.getExpansionPartFile(game.params, item).delete();
+            }
 
-        for (Part item : expansionInfo.parts.items) {
-            ExternalFiles.getExpansionPartFile(game.params, item).delete();
+            ExternalFiles.updateNomedia(game.params);
+
+            fragment.onExpansionDownloadComplete();
+        } catch (Throwable e) {
+            Log.e(tag, e);
         }
-
-        ExternalFiles.updateNomedia(game.params);
-
-        fragment.onExpansionDownloadComplete();
     }
 
     private float getProgress() {

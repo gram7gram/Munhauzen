@@ -29,11 +29,11 @@ public class AchievementFragment extends Fragment {
 
     public void create(Inventory inventory) {
 
-        screen.assetManager.load("gallery/gv2_statue.png", Texture.class);
-        screen.assetManager.load("GameScreen/an_stars_sheet.png", Texture.class);
-        screen.assetManager.load(inventory.statueImage, Texture.class);
+        screen.internalAssetManager.load("gallery/gv2_statue.png", Texture.class);
+        screen.internalAssetManager.load("GameScreen/an_stars_sheet.png", Texture.class);
+        screen.internalAssetManager.load(inventory.statueImage, Texture.class);
 
-        screen.assetManager.finishLoading();
+        screen.internalAssetManager.finishLoading();
 
         Container<?> backdrop = new Container<>();
         backdrop.setTouchable(Touchable.enabled);

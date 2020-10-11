@@ -5,16 +5,17 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.utils.Disposable;
 
+import ua.gram.munhauzen.GameLayerInterface;
 import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
  */
-public class LoadingLayers extends Stack implements Disposable {
+public class LoadingLayers extends Stack implements Disposable, GameLayerInterface {
 
     final String tag = getClass().getSimpleName();
-    public Fragment contentLayer, controlsLayer;
+    public Fragment contentLayer, controlsLayer, bannerLayer;
 
     public LoadingLayers() {
         setFillParent(true);
@@ -40,6 +41,12 @@ public class LoadingLayers extends Stack implements Disposable {
             addActor(createDummy("controlsLayer"));
         }
 
+        if (bannerLayer != null) {
+            addActor(bannerLayer.getRoot());
+        } else {
+            addActor(createDummy("bannerLayer"));
+        }
+
     }
 
     public void setContentLayer(Fragment actor) {
@@ -62,6 +69,16 @@ public class LoadingLayers extends Stack implements Disposable {
         update();
     }
 
+    public void setBannerLayer(Fragment actor) {
+        if (bannerLayer != null) {
+            removeActor(bannerLayer.getRoot());
+            bannerLayer.destroy();
+        }
+        bannerLayer = actor;
+
+        update();
+    }
+
     private Actor createDummy(String suffix) {
         Actor dummy = new Actor();
         dummy.setName("dummy-" + suffix);
@@ -73,6 +90,10 @@ public class LoadingLayers extends Stack implements Disposable {
 
     @Override
     public void dispose() {
+        if (bannerLayer != null) {
+            bannerLayer.destroy();
+            bannerLayer = null;
+        }
         if (contentLayer != null) {
             contentLayer.destroy();
             contentLayer = null;

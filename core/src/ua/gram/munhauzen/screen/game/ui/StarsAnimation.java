@@ -12,7 +12,7 @@ public class StarsAnimation extends AnimatedImage {
 
 //        this.loop = false;
 
-        animate(screen.assetManager.get("GameScreen/an_stars_sheet.png", Texture.class),
+        animate(screen.internalAssetManager.get("GameScreen/an_stars_sheet.png", Texture.class),
                 3, 5, 15);
     }
 }

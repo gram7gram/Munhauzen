@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import ua.gram.munhauzen.PlatformParams;
+import ua.gram.munhauzen.entity.Audio;
+import ua.gram.munhauzen.entity.Image;
 
 /**
  * @author Gram <gram7gram@gmail.com>
@@ -70,6 +72,13 @@ public class Files {
         return getInternal("scenario.json");
     }
 
+    public static FileHandle getIntroAudio(Audio item) {
+        return getInternal(item.file);
+    }
+    public static FileHandle getIntroImage(Image item) {
+        return getInternal(item.file);
+    }
+
     public static FileHandle getExpansionConfigFile(PlatformParams params, String part) {
         return getInternal(params.dpi + "-" + part + "-expansion.json");
     }
@@ -79,7 +88,6 @@ public class Files {
         if (!file.exists()) {
             throw new GdxRuntimeException(name + " does not exist");
         }
-        System.out.println("File Path ---- : "+file.file().getAbsolutePath());
         return file;
     }
 

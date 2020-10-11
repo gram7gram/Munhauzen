@@ -3,6 +3,7 @@ Elements
 
 .docker
 *.jks
+*.zip
 
 node_modules
 *.csv

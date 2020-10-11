@@ -32,7 +32,7 @@ public class PurchaseBanner extends Banner {
 
     @Override
     Texture getBackgroundTexture() {
-        return screen.assetManager.get("ui/banner_fond_1.png", Texture.class);
+        return screen.internalAssetManager.get("ui/banner_fond_1.png", Texture.class);
     }
 
     @Override
@@ -64,7 +64,7 @@ public class PurchaseBanner extends Banner {
         }
 
         FitImage img = new FitImage(
-                screen.assetManager.get("menu/b_demo_version_2.png", Texture.class)
+                screen.internalAssetManager.get("menu/b_demo_version_2.png", Texture.class)
         );
 
         Table columns = new Table();

@@ -18,6 +18,7 @@ import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.ui.FragmentRoot;
 import ua.gram.munhauzen.utils.ExpansionAssetManager;
 import ua.gram.munhauzen.utils.ExternalFiles;
+import ua.gram.munhauzen.utils.InternalAssetManager;
 import ua.gram.munhauzen.utils.Log;
 
 /**
@@ -33,6 +34,7 @@ public class PaintingFragment extends Fragment {
     public BonusNotice bonusNotice;
     public PaintingImage paintingImage;
     public ExpansionAssetManager assetManager;
+    public InternalAssetManager internalAssetManager;
 
     public PaintingFragment(PaintingScreen screen) {
         this.screen = screen;
@@ -46,48 +48,53 @@ public class PaintingFragment extends Fragment {
             assetManager.dispose();
             assetManager = null;
         }
+
+        if (internalAssetManager != null) {
+            internalAssetManager.dispose();
+            internalAssetManager = null;
+        }
     }
 
     public Texture getPaintingTexture() {
         if (paintingImage.isOpened) {
             return assetManager.get(paintingImage.imageResource, Texture.class);
         } else {
-            return assetManager.get("gallery/aquestion.png", Texture.class);
+            return internalAssetManager.get("gallery/aquestion.png", Texture.class);
         }
     }
 
     public Texture getBonusFrameTexture() {
-        return assetManager.get("gallery/gv2_frame_4.png", Texture.class);
+        return internalAssetManager.get("gallery/gv2_frame_4.png", Texture.class);
     }
 
     public Texture getStatueFrameTexture() {
-        return assetManager.get("gallery/gv2_frame_3.png", Texture.class);
+        return internalAssetManager.get("gallery/gv2_frame_3.png", Texture.class);
     }
 
     public Texture getColorFrameTexture() {
-        return assetManager.get("gallery/gv2_frame_2.png", Texture.class);
+        return internalAssetManager.get("gallery/gv2_frame_2.png", Texture.class);
     }
 
     public Texture getSimpleFrameTexture() {
-        return assetManager.get("gallery/gv2_frame_1.png", Texture.class);
+        return internalAssetManager.get("gallery/gv2_frame_1.png", Texture.class);
     }
 
     private void loadFrame() {
         if (paintingImage.image.isBonus()) {
 
-            assetManager.load("gallery/gv2_frame_4.png", Texture.class);
+            internalAssetManager.load("gallery/gv2_frame_4.png", Texture.class);
 
         } else if (paintingImage.image.isStatue()) {
 
-            assetManager.load("gallery/gv2_frame_3.png", Texture.class);
+            internalAssetManager.load("gallery/gv2_frame_3.png", Texture.class);
 
         } else if (paintingImage.image.isColor()) {
 
-            assetManager.load("gallery/gv2_frame_2.png", Texture.class);
+            internalAssetManager.load("gallery/gv2_frame_2.png", Texture.class);
 
         } else {
 
-            assetManager.load("gallery/gv2_frame_1.png", Texture.class);
+            internalAssetManager.load("gallery/gv2_frame_1.png", Texture.class);
 
         }
     }
@@ -95,6 +102,7 @@ public class PaintingFragment extends Fragment {
     public void create(PaintingImage img) {
         Log.i(tag, "create " + img.image.name);
 
+        internalAssetManager = new InternalAssetManager();
         assetManager = new ExpansionAssetManager(screen.game);
 
         this.paintingImage = img;
@@ -104,7 +112,7 @@ public class PaintingFragment extends Fragment {
         if (paintingImage.isOpened) {
             assetManager.load(paintingImage.imageResource, Texture.class);
         } else {
-            assetManager.load("gallery/aquestion.png", Texture.class);
+            internalAssetManager.load("gallery/aquestion.png", Texture.class);
         }
 
         loadFrame();
@@ -112,20 +120,21 @@ public class PaintingFragment extends Fragment {
         if (paintingImage.image.isStatue()) {
 
             if (paintingImage.canDisplayStatueItem()) {
-                assetManager.load(paintingImage.statueResource, Texture.class);
+                internalAssetManager.load(paintingImage.statueResource, Texture.class);
             }
 
-            assetManager.load("gallery/gv2_statue.png", Texture.class);
-            assetManager.load("ui/banner_fond_3.png", Texture.class);
+            internalAssetManager.load("gallery/gv2_statue.png", Texture.class);
+            internalAssetManager.load("ui/banner_fond_3.png", Texture.class);
 
         } else if (paintingImage.image.isBonus()) {
 
-            assetManager.load("gallery/gv2_bonus_back.png", Texture.class);
-            assetManager.load("gallery/gv2_bonus_stick.png", Texture.class);
+            internalAssetManager.load("gallery/gv2_bonus_back.png", Texture.class);
+            internalAssetManager.load("gallery/gv2_bonus_stick.png", Texture.class);
 
         }
 
         assetManager.finishLoading();
+        internalAssetManager.finishLoading();
 
         if (paintingImage.image.isBonus()) {
 

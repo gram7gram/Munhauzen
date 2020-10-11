@@ -38,18 +38,21 @@ public abstract class BannerFragment<S extends MunhauzenScreen> extends Fragment
 
                 if (event.isHandled()) return;
 
-                fadeOut(new Runnable() {
-                    @Override
-                    public void run() {
-                        screen.destroyBanners();
-                    }
-                });
-
+                onBackDropClicked();
             }
         });
 
         root.setVisible(false);
 
+    }
+
+    public void onBackDropClicked() {
+        fadeOut(new Runnable() {
+            @Override
+            public void run() {
+                screen.destroyBanners();
+            }
+        });
     }
 
     public void fadeIn() {

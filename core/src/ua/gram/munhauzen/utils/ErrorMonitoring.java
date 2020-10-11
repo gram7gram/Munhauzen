@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import java.io.IOException;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 import java.util.HashSet;
 
 import io.sentry.Sentry;
@@ -57,8 +58,10 @@ public class ErrorMonitoring {
         if (e instanceof SocketTimeoutException) return;
         if (e instanceof MismatchedInputException) return;
         if (e instanceof IOException) return;
+        if (e instanceof UnknownHostException) return;
 
         if (e.getMessage() != null) {
+            if (e.getMessage().contains("EACCES")) return;
             if (e.getMessage().contains("ENOSPC")) return;
             if (e.getMessage().contains("ENOENT")) return;
             if (e.getMessage().contains("Couldn't load dependencies of asset")) return;
@@ -67,6 +70,8 @@ public class ErrorMonitoring {
             if (e.getMessage().contains("was not downloaded")) return;
             if (e.getMessage().contains("Error opening music file")) return;
             if (e.getMessage().contains("Error writing file")) return;
+            if (e.getMessage().contains("Error reading file")) return;
+            if (e.getMessage().contains("Error loading audio file")) return;
         }
 
         if (captured.contains(e)) return;

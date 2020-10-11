@@ -62,17 +62,13 @@ public class IAPObserver implements PurchaseObserver {
 
             game.syncState();
 
-        } catch (Throwable e) {
-            Log.e(tag, e);
-        }
+            try {
+                game.params.iap.purchaseRestore();
+            } catch (Throwable e) {
+                Log.e(tag, e);
+            }
 
-        try {
-            game.params.iap.purchaseRestore();
-        } catch (Throwable e) {
-            Log.e(tag, e);
-
-            screen.onCriticalError(e);
-        }
+        } catch (Throwable ignore) {}
     }
 
     @Override
@@ -88,14 +84,12 @@ public class IAPObserver implements PurchaseObserver {
 
             game.gameState.purchaseState.purchases = new ArrayList<>();
 
-            if (!MunhauzenGame.developmentIgnorePurchaseRestore) {
-                for (Transaction transaction : transactions) {
-                    Purchase p = new Purchase();
-                    p.orderId = transaction.getOrderId();
-                    p.productId = transaction.getIdentifier();
+            for (Transaction transaction : transactions) {
+                Purchase p = new Purchase();
+                p.orderId = transaction.getOrderId();
+                p.productId = transaction.getIdentifier();
 
-                    game.gameState.purchaseState.purchases.add(p);
-                }
+                game.gameState.purchaseState.purchases.add(p);
             }
 
             game.purchaseManager.updatePurchaseState();

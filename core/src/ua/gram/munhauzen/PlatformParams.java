@@ -20,7 +20,7 @@ public class PlatformParams implements JsonEntry {
     public PurchaseManager iap;
 
     public Release release = Release.PROD;
-    public final int expansionVersion = 14;
+    public final int expansionVersion = 16;
     public int width, height;
     public final boolean isAdultGateEnabled = true;
     public boolean isTablet;
@@ -37,7 +37,9 @@ public class PlatformParams implements JsonEntry {
     public float scaleFactor = 1;
 
     public String tutorialLink;
+    public String trailerLink;
     public final String sentryDsn = "https://aaab9a00313c443498afb6184a21c867@sentry.io/1802514";
+    public final String googleApiKey = "AIzaSyD7dkdttQpRuVLP-UhYU9DEWI6duFCO0lY";
     public String vkLink;
     public String instaLink;
     public String twLink;

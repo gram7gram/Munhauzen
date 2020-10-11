@@ -10,7 +10,6 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -52,9 +51,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 import ru.munchausen.fingertipsandcompany.full.BuildConfig;
 import ua.gram.munhauzen.entity.Device;
@@ -146,6 +143,7 @@ public class AndroidLauncher extends AndroidApplication {
         params.memoryUsage = new AndroidMemoryUsage();
         params.appStore = new GooglePlay(params);
 
+        params.trailerLink = "https://www.youtube.com/watch?v=eCAohaztPlQ&t";
         params.tutorialLink = "https://youtu.be/6K__lu7QuLk";
         params.fbLink = "https://www.facebook.com/thebaronmunchausen/photos/a.120269342878170/159930395578731/?type=3&xts%5B0%5D=68.ARDwKU7TTxCgmsz5T6W9Eu2xtm-Hv7chauuJWy_S5CIe9J7J3Rsl8CVsg1jHTERjW2pp3rM-6a5Iup5zR2SmytSr8v5lpnpl3RkXyxE1C6w-x79XqWzx4TRvwZtE_zhEJeIj7lIsceHQe-kBM88Dzz1Z8eLC-r7Z7NbVx7fZdizOFiEobj-hUDluar480Bim6q9hZi3gKs3ul4QUx8vVHZ2IKCoGc_5Vs6qucx07PsvoxnL67qDzxvMjdD7WyCKQaTHwxmrY6delninvJXNdG1lYpE9dP_YrVWO8ES7ZKMo5itape1BZGdURY8ha5jULztsps6zPpMF9725fXyq20AU&tn=-R";
         params.instaLink = "https://www.instagram.com/p/CBdHK7BnYHK/?utm_source=ig_web_copy_link";
@@ -381,75 +379,73 @@ public class AndroidLauncher extends AndroidApplication {
 
     private void startAlarm() {
 
-        String historyJson = readHistoryJsonFile();
-        String saveJson = readSaveJsonFile();
-
-        String chapterJson = readChapterJsonFile();
-
-
-        System.out.println("CHapetr---Jston---->" + chapterJson);
-
-
         try {
-            JSONObject saveJsonObject = new JSONObject(saveJson);
 
-            String lastChapter = saveJsonObject.getString("chapter");
+            String historyJson = readHistoryJsonFile();
+            String saveJson = readSaveJsonFile();
 
-            System.out.println("Last Visited CHapter=---->" + lastChapter);
+            String chapterJson = readChapterJsonFile();
 
-            int index=0;
-            JSONObject selectedJsonObject=null;
-            JSONArray chapters = new JSONArray(chapterJson);
-            for(int j=0;j<chapters.length();j++){
-                if(lastChapter.equals(chapters.getJSONObject(j).getString("name"))){
-                    JSONObject jsonObject = chapters.getJSONObject(j);
 
-                    index = jsonObject.getInt("number");
-                    selectedJsonObject=jsonObject;
-                    break;
+            System.out.println("CHapetr---Jston---->" + chapterJson);
+
+
+            try {
+                JSONObject saveJsonObject = new JSONObject(saveJson);
+
+                String lastChapter = saveJsonObject.getString("chapter");
+
+                System.out.println("Last Visited CHapter=---->" + lastChapter);
+
+                int index = 0;
+                JSONObject selectedJsonObject = null;
+                JSONArray chapters = new JSONArray(chapterJson);
+                for (int j = 0; j < chapters.length(); j++) {
+                    if (lastChapter.equals(chapters.getJSONObject(j).getString("name"))) {
+                        JSONObject jsonObject = chapters.getJSONObject(j);
+
+                        index = jsonObject.getInt("number");
+                        selectedJsonObject = jsonObject;
+                        break;
+                    }
+
                 }
 
+
+                if (selectedJsonObject == null) {
+                    return;
+                }
+                String iconPath = selectedJsonObject.getString("icon");
+                String description = selectedJsonObject.getString("description");
+
+
+                int chapterNo = selectedJsonObject.getInt("number");
+
+                System.out.println("SELECTED_JSONOBJECT" + selectedJsonObject.getString("icon"));
+
+                SharedPreferencesHelper.setLastVisitedIcon(this, iconPath);
+                SharedPreferencesHelper.setLastVisitedDescription(this, "\n" +
+                        "Глава " + chapterNo + ". " + description);
+
+
+                System.out.println("LastChapterString--->" + lastChapter);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
 
 
-            if (selectedJsonObject == null){
-                return;
+            Calendar c = Calendar.getInstance();
+            c.add(Calendar.SECOND, SharedPreferencesHelper.getNotification1Time(this));
+
+
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            Intent intent = new Intent(this, AlertReceiver.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
+            if (alarmManager != null) {
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
             }
-            String iconPath=selectedJsonObject.getString("icon");
-            String description=selectedJsonObject.getString("description");
-
-
-            int chapterNo = selectedJsonObject.getInt("number");
-
-            System.out.println("SELECTED_JSONOBJECT"+selectedJsonObject.getString("icon"));
-
-            SharedPreferencesHelper.setLastVisitedIcon(this,iconPath);
-            SharedPreferencesHelper.setLastVisitedDescription(this, "\n" +
-                    "Глава " + chapterNo + ". " +description);
-
-
-
-
-
-            System.out.println("LastChapterString--->" + lastChapter);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-
-        Calendar c = Calendar.getInstance();
-        c.add(Calendar.SECOND, SharedPreferencesHelper.getNotification1Time(this));
-
-
-
-
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, AlertReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
-        if (alarmManager != null) {
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
-        }
+        } catch (Throwable ignore) {}
     }
 
     private void startDownloadAlarm(){
@@ -707,21 +703,20 @@ public class AndroidLauncher extends AndroidApplication {
 
 
     public void sendReferralLink(){
-        String referrerName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
-        String subject = String.format("%s wants you to play MyExampleGame!", referrerName);
-        String invitationLink = mInvitationUrl.toString();
-        String msg = "Let's play Munchausen together! Use my referrer link: "
-                + invitationLink;
-        String msgHtml = String.format("<p>Let's play Munchausen together! Use my "
-                + "<a href=\"%s\">referrer link</a>!</p>", invitationLink);
+        try {
+            String referrerName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+            String invitationLink = mInvitationUrl.toString();
+            String msg = "Давай слушать и играть в Мюнхгаузена вместе! Скачивай по моей рефферальной ссылке: "
+                    + invitationLink;
 
-        Intent shareIntent = new Intent();
-        shareIntent.setAction(Intent.ACTION_SEND);
-        shareIntent.setType("text/plain");
-        shareIntent.putExtra(Intent.EXTRA_TEXT,
-                msg);
+            Intent shareIntent = new Intent();
+            shareIntent.setAction(Intent.ACTION_SEND);
+            shareIntent.setType("text/plain");
+            shareIntent.putExtra(Intent.EXTRA_TEXT,
+                    msg);
 
-        startActivity(Intent.createChooser(shareIntent, "Share with"));
+            startActivity(Intent.createChooser(shareIntent, "Поделиться"));
+        } catch (Throwable ignore) {}
     }
 
 

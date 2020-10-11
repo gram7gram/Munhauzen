@@ -30,6 +30,7 @@ import ua.gram.munhauzen.entity.StoryImage;
 import ua.gram.munhauzen.entity.StoryScenario;
 import ua.gram.munhauzen.entity.Translation;
 import ua.gram.munhauzen.expansion.response.ExpansionResponse;
+import ua.gram.munhauzen.expansion.response.Part;
 import ua.gram.munhauzen.interaction.cannons.CannonsScenario;
 import ua.gram.munhauzen.interaction.cannons.CannonsStoryImage;
 import ua.gram.munhauzen.interaction.generals.GeneralsScenario;
@@ -76,9 +77,24 @@ public class DatabaseManager {
 
             if (raw != null && !raw.equals("")) {
 
-                ExpansionResponse result = ua.gram.munhauzen.utils.JSON.parse(raw, ExpansionResponse.class);
+                ExpansionResponse result = JSON.parse(raw, ExpansionResponse.class);
 
                 if (result != null) {
+
+                    if (!result.isCompleted) {
+                        if (result.parts != null) {
+                            boolean areAllCompleted = true;
+
+                            for (Part item : result.parts.items) {
+                                if (!item.isCompleted) {
+                                    areAllCompleted = false;
+                                    break;
+                                }
+                            }
+
+                            result.isCompleted = areAllCompleted;
+                        }
+                    }
                     return result;
                 }
             }

@@ -1,47 +1,36 @@
 {
   "part": "Part_demo",
-  "version": 14,
+  "version": 16,
   "locale": "ru",
   "dpi": "mdpi",
-  "size": 150173790,
-  "sizeMB": 143.22,
+  "sizeMB": 95,
   "parts": {
     "count": 5,
     "items": [
       {
-        "size": 27334159,
-        "sizeMB": 26.07,
+        "sizeMB": 17,
         "part": 1,
-        "checksum": "",
-        "url": "1Nq1B9jQ4qSyXig2Bg6C_732JSMQAL3te"
+        "url": "18F-HI1ExiwwbXU1ITMp3iBRemGwfkW62"
       },
       {
-        "size": 30490002,
-        "sizeMB": 29.08,
+        "sizeMB": 22,
         "part": 2,
-        "checksum": "",
-        "url": "1IGkQckjsIy_ZiiKaNWOWdsg1Dvxkae5e"
+        "url": "1qydG1IqCdmuvYdOAacuyAR2iOHJYnDLi"
       },
       {
-        "size": 30719915,
-        "sizeMB": 29.3,
+        "sizeMB": 20,
         "part": 3,
-        "checksum": "",
-        "url": "1rktqk4KCSq-vzyISCvFMvAwdyszoXFAP"
+        "url": "1i8MxVXphMVQdIPfWtyt50h5RnBXF1kba"
       },
       {
-        "size": 34421432,
-        "sizeMB": 32.83,
+        "sizeMB": 19,
         "part": 4,
-        "checksum": "",
-        "url": "1HnMbPo3VDflyG_lbCwRU8abFOSF4Q8jq"
+        "url": "1VheECTblzafs-mlo2_1G2rpI2U5EtdpE"
       },
       {
-        "size": 27208282,
-        "sizeMB": 25.95,
+        "sizeMB": 17,
         "part": 5,
-        "checksum": "",
-        "url": "1eUx4la7uNLqUzsTSBNDn6B2EV2V-vdt9"
+        "url": "1Xjdxy3uVqg7wHWPUJxRJ0w3sEihC9N94"
       }
     ]
   }

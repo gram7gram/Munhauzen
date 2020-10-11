@@ -553,17 +553,18 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
         params.appStoreSkuFull = "full_munchausen_audiobook_eng";
         params.appStoreSkuPart1 = "part_1_munchausen_audiobook_eng";
         params.appStoreSkuPart2 = "part_2_munchausen_audiobook_eng";
-        params.appStoreSku1Chapter = "chapter_1_munchausen_audiobook_eng";
-        params.appStoreSku3Chapter = "chapter_3_munchausen_audiobook_eng";
-        params.appStoreSku5Chapter = "chapter_5_munchausen_audiobook_eng";
-        params.appStoreSku10Chapter = "chapter_10_munchausen_audiobook_eng";
-        params.appStoreSkuThanks = "thanks_munchausen_audiobook_eng";
-        params.appStoreSkuFullThanks = "all_munchausen_audiobook_eng";
+        params.appStoreSku1Chapter = "chapter_1_munchausen_audiobook_en";
+        params.appStoreSku3Chapter = "chapter_3_munchausen_audiobook_en";
+        params.appStoreSku5Chapter = "chapter_5_munchausen_audiobook_en";
+        params.appStoreSku10Chapter = "chapter_10_munchausen_audiobook_en";
+        params.appStoreSkuThanks = "thanks_munchausen_audiobook_en";
+        params.appStoreSkuFullThanks = "all_munchausen_audiobook_en";
         params.iap = new PurchaseManageriOSApple();
         params.translator = new EnglishTranslator();
         params.appStore = new AppleStore(params);
-        params.release = PlatformParams.Release.DEV;
+        params.release = PlatformParams.Release.PROD;
 
+        params.trailerLink = "https://www.youtube.com/watch?v=3dPQIT10ok8&t";
         params.tutorialLink = "https://youtu.be/xg25QCxlvXM";
         params.fbLink = "https://www.facebook.com/101729401434875/photos/a.101737761434039/147391586868656/?type=3&xts%5B0%5D=68.ARAk1b34nsmLEQ-Qy1jLGgf5M_OS4Eu2bfkwpEyLcDot-rTuQV1p9diUrSyXxTr7FnK5gVC4KP-wxRZK1Ri6Hom0bEoHHn1ECJU8sqPo_tMbqy4LQv1NHNWSvTpnBVQ4DJGkLFyArtPSoRZPc4pp8XDLMNmtr7wN2Q-w4E2m77vbOrD8CyvHVRMs_zTnZbT9qIX3xJbNv4fqabs9CLQIYnK6hMLvkWUe8u1n32gShORJs1cc_sbj9kbDOxFOghMGyBJq9DCTVWxrdyvukwxeVeMCBXdk8f2N5acc-_jUiXeMpT5EBx_GBMEGIl7h_P0mdMUaDECe_LujIqs5uHausB8&tn=-R";
         params.instaLink = "https://www.instagram.com/p/CBdGkEWnj3A/?utm_source=ig_web_copy_link";

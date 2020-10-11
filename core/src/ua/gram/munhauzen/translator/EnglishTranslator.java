@@ -16,6 +16,7 @@ public class EnglishTranslator implements Translator {
         map.put("loading.retry_btn", "Retry");
         map.put("loading.cancel_btn", "Cancel");
         map.put("loading.purchases_btn", "Purchases");
+        map.put("loading.game_mode_btn", "Game mode");
         map.put("loading.menu_btn", "Main menu");
         map.put("loading.download_btn", "Download");
         map.put("loading.title", "Downloading resources");
@@ -254,9 +255,32 @@ public class EnglishTranslator implements Translator {
         map.put("promo_banner.btn", "Have promocode?");
         map.put("promo_banner.ok_btn", "Activate");
         map.put("promo_banner.title", "Enter promocode");
+        map.put("promo_banner.footer", "* Letter case is important");
 
         map.put("promo_success_banner.title", "Thank you!\nPromocode is activated!");
         map.put("promo_success_banner.btn", "Continue");
+
+        map.put("trailer_banner.title", "Our trailer");
+        map.put("trailer_banner.content", "Watch our special cinematiс trailer!");
+        map.put("trailer_banner.btn", "Watch");
+
+        map.put("game_mode_banner.title", "Choose the mode of the game");
+        map.put("game_mode_banner.btn_online", "Online");
+        map.put("game_mode_banner.btn_offline", "Offline");
+        map.put("game_mode_banner.content", "You can choose offline mode to preload resources and enjoy the story whenever you want.\nOr you can enjoy the story right now with online mode!");
+
+        map.put("no_memory_banner.title", "Not enough memory");
+        map.put("no_memory_banner.btn_online", "Go online");
+        map.put("no_memory_banner.btn_retry", "Retry");
+        map.put("no_memory_banner.content", "Please, free some space or go online!");
+
+        map.put("no_internet_banner.title", "Slow Internet connection");
+        map.put("no_internet_banner.btn_retry", "Retry");
+        map.put("no_internet_banner.content", "Please, find better spot so that resources are downloaded faster");
+
+        map.put("slow_internet_banner.title", "Not Internet connection");
+        map.put("slow_internet_banner.btn_retry", "Retry");
+        map.put("slow_internet_banner.content", "Please, enable WiFi and try again");
 
         map.put("referral_banner_3.title", "Congratulations!\nThe bonus for 3 friends is received!");
         map.put("referral_banner_3.btn", "Super");
@@ -264,8 +288,8 @@ public class EnglishTranslator implements Translator {
         map.put("referral_banner_7.btn", "Super");
         map.put("referal_banner.title", "Share the game and get bonuses!");
         map.put("referal_banner.link", "Referral link");
-        map.put("referal_banner.btn", "Copy");
-        map.put("referal_banner.success", "Link is copied");
+        map.put("referal_banner.btn", "Share");
+        map.put("referal_banner.footer", "* the guest should install the app and complete one chapter");
         map.put("purchase_pending_banner.title", "Purchasing...\nIt can take up to 1 minute to complete the purchase.\nPlease, wait until popup is closed");
 
     }

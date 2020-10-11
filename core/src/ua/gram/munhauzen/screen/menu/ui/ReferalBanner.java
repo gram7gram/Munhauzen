@@ -60,6 +60,10 @@ public class ReferalBanner extends Banner<MenuScreen> {
                     .row();
         }
 
+        Label footer = new Label(screen.game.t("referal_banner.footer"), style);
+        footer.setAlignment(Align.center);
+        footer.setWrap(true);
+
         Label label2 = new Label(screen.game.t("referal_banner.link")
                 .replace("_NUM_", game.gameState.purchaseState.referralCount + ""), style);
         label2.setAlignment(Align.center);
@@ -102,6 +106,11 @@ public class ReferalBanner extends Banner<MenuScreen> {
                 .row();
 
         columns.add(input)
+                .minWidth(cellMinWidth)
+                .padBottom(10)
+                .row();
+
+        columns.add(footer)
                 .minWidth(cellMinWidth)
                 .padBottom(10)
                 .row();

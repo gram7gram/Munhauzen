@@ -71,6 +71,10 @@ public class PromoBanner extends Banner<PurchaseScreen> {
                     .row();
         }
 
+        Label footer = new Label(screen.game.t("promo_banner.footer"), style);
+        footer.setAlignment(Align.center);
+        footer.setWrap(true);
+
         FixedImage img = new FixedImage(
                 screen.game.internalAssetManager.get("purchase/sv_baron.png", Texture.class),
                 cellMinWidth / 2f
@@ -152,7 +156,11 @@ public class PromoBanner extends Banner<PurchaseScreen> {
                 .padBottom(10).row();
         buttons.add(button)
                 .width(ButtonBuilder.BTN_PRIMARY_WIDTH)
-                .height(ButtonBuilder.BTN_PRIMARY_HEIGHT).row();
+                .height(ButtonBuilder.BTN_PRIMARY_HEIGHT)
+                .padBottom(10).row();
+        buttons.add(footer)
+                .minWidth(cellMinWidth - 40)
+                .row();
 
         content.add(columns).row();
         content.add(buttons).row();

@@ -6,10 +6,11 @@ import java.util.Stack;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.MenuState;
 import ua.gram.munhauzen.entity.PurchaseState;
-import ua.gram.munhauzen.utils.MD5;
+import ua.gram.munhauzen.utils.Log;
 
 public class ReferralService {
 
+    public final String tag = getClass().getSimpleName();
     public static final String REFERRAL_TYPE_1 = "invited_3";
     public static final String REFERRAL_TYPE_2 = "invited_7";
 
@@ -23,25 +24,16 @@ public class ReferralService {
         this.game = game;
     }
 
-    public String getPersonalReferralLink() {
-
-        // TODO Generate link
-
-        return MunhauzenGame.referralInterface.setReferralLink();
-
-        //return "https://" + MD5.get() + "/" + MD5.get();
-    }
-
     public void copyReferralLink() {
-
-        String link = getPersonalReferralLink();
         MunhauzenGame.referralInterface.sendReferralLink();
-
-        // TODO Copy link to device clipboard
-
     }
 
+    /**
+     * Set value once on app start
+     */
     public void setReferralCount(int count) {
+
+        Log.e(tag, "setReferralCount=" + count);
 
         count = Math.max(0, count);
 

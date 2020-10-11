@@ -27,8 +27,8 @@ public class MenuBookmark extends Table {
 
         width = MunhauzenGame.WORLD_WIDTH * .15f;
 
-        img = new FixedImage(screen.assetManager.get("GameScreen/b_bookmenu.png", Texture.class), width);
-        tail = new FixedImage(screen.assetManager.get("GameScreen/b_bookmenu_tail.png", Texture.class), width);
+        img = new FixedImage(screen.internalAssetManager.get("GameScreen/b_bookmenu.png", Texture.class), width);
+        tail = new FixedImage(screen.internalAssetManager.get("GameScreen/b_bookmenu_tail.png", Texture.class), width);
 
         add(img).size(img.width, img.height).row();
         add(tail).size(tail.width, tail.height).row();

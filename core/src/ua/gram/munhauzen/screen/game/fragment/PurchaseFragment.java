@@ -31,13 +31,13 @@ public class PurchaseFragment extends Fragment {
 
     public void create() {
 
-        screen.assetManager.load("menu/b_demo_version_2.png", Texture.class);
-        screen.assetManager.load("ui/banner_fond_1.png", Texture.class);
-        screen.assetManager.load("gallery/b_closed_1.png", Texture.class);
+        screen.internalAssetManager.load("menu/b_demo_version_2.png", Texture.class);
+        screen.internalAssetManager.load("ui/banner_fond_1.png", Texture.class);
+        screen.internalAssetManager.load("gallery/b_closed_1.png", Texture.class);
 
-        screen.assetManager.finishLoading();
+        screen.internalAssetManager.finishLoading();
 
-        Texture txt = screen.assetManager.get("gallery/b_closed_1.png", Texture.class);
+        Texture txt = screen.internalAssetManager.get("gallery/b_closed_1.png", Texture.class);
 
         float width = MunhauzenGame.WORLD_WIDTH * .25f;
         float height = txt.getHeight() * (txt.getWidth() / width);

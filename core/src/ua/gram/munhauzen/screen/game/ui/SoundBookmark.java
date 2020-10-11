@@ -31,10 +31,10 @@ public class SoundBookmark extends Table {
 
         width = MunhauzenGame.WORLD_WIDTH * .15f;
 
-        soundOn = new SpriteDrawable(new Sprite(screen.assetManager.get("GameScreen/b_booksound_on.png", Texture.class)));
-        soundOff = new SpriteDrawable(new Sprite(screen.assetManager.get("GameScreen/b_booksound_off.png", Texture.class)));
-        tailOn = new SpriteDrawable(new Sprite(screen.assetManager.get("GameScreen/b_booksound_on_tail.png", Texture.class)));
-        tailOff = new SpriteDrawable(new Sprite(screen.assetManager.get("GameScreen/b_booksound_off_tail.png", Texture.class)));
+        soundOn = new SpriteDrawable(new Sprite(screen.internalAssetManager.get("GameScreen/b_booksound_on.png", Texture.class)));
+        soundOff = new SpriteDrawable(new Sprite(screen.internalAssetManager.get("GameScreen/b_booksound_off.png", Texture.class)));
+        tailOn = new SpriteDrawable(new Sprite(screen.internalAssetManager.get("GameScreen/b_booksound_on_tail.png", Texture.class)));
+        tailOff = new SpriteDrawable(new Sprite(screen.internalAssetManager.get("GameScreen/b_booksound_off_tail.png", Texture.class)));
 
         img = new FixedImage();
         tail = new FixedImage();

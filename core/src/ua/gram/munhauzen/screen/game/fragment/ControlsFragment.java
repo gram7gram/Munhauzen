@@ -22,14 +22,14 @@ public class ControlsFragment extends Fragment {
 
     public void create() {
 
-        gameScreen.assetManager.load("GameScreen/b_booksound_off.png", Texture.class);
-        gameScreen.assetManager.load("GameScreen/b_booksound_on.png", Texture.class);
-        gameScreen.assetManager.load("GameScreen/b_booksound_on_tail.png", Texture.class);
-        gameScreen.assetManager.load("GameScreen/b_booksound_off_tail.png", Texture.class);
-        gameScreen.assetManager.load("GameScreen/b_bookmenu.png", Texture.class);
-        gameScreen.assetManager.load("GameScreen/b_bookmenu_tail.png", Texture.class);
+        gameScreen.internalAssetManager.load("GameScreen/b_booksound_off.png", Texture.class);
+        gameScreen.internalAssetManager.load("GameScreen/b_booksound_on.png", Texture.class);
+        gameScreen.internalAssetManager.load("GameScreen/b_booksound_on_tail.png", Texture.class);
+        gameScreen.internalAssetManager.load("GameScreen/b_booksound_off_tail.png", Texture.class);
+        gameScreen.internalAssetManager.load("GameScreen/b_bookmenu.png", Texture.class);
+        gameScreen.internalAssetManager.load("GameScreen/b_bookmenu_tail.png", Texture.class);
 
-        gameScreen.assetManager.finishLoading();
+        gameScreen.internalAssetManager.finishLoading();
 
         menuGroup = new MenuBookmark(gameScreen);
         soundGroup = new SoundBookmark(gameScreen);

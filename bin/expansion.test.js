@@ -88,11 +88,10 @@ const testAssetsExist = async (file, part, dpi) => {
 }
 
 const testLinks = file => {
+    console.log(`[+] Testing links in file ${file} ...`)
     const content = fs.readFileSync(file)
 
     const json = JSON.parse(content)
-
-    json.version = 12
 
     if (!json.parts || !json.parts.items || json.parts.items.length < 5) {
         throw new Error(`Invalid part count in file: ${file}`)
@@ -100,17 +99,27 @@ const testLinks = file => {
 
     json.parts.count = json.parts.items.length
 
+    let sizeMb = 0
     for (const item of json.parts.items) {
+
+        sizeMb += item.sizeMB
+
+        delete item.checksum
+        delete item.size
 
         item.url = item.url
             .replace('https://drive.google.com/file/d/', '')
             .replace('/view?usp=sharing', '')
 
-//              item.url = ''
-
         if (item.url.length !== 33) {
             throw new Error(`Invalid url in part #${item.part} ${file}: ${item.url.length}`)
         }
+    }
+
+    json.sizeMB = sizeMb;
+
+    if (json.sizeMB <= 0) {
+        throw new Error(`Invalid expansion size ${file}: ${json.sizeMB}MB`)
     }
 
     fs.writeFileSync(file, JSON.stringify(json, null, 2))
@@ -124,10 +133,10 @@ for (const dpi of dpis) {
         const en2File = path.resolve(`../ios-en/internal-assets/${dpi}-${part}-expansion.json`)
         const ru2File = path.resolve(`../ios-ru/internal-assets/${dpi}-${part}-expansion.json`)
 
-        testAssetsExist(en1File, part, dpi)
-        testAssetsExist(ru1File, part, dpi)
-        testAssetsExist(en2File, part, dpi)
-        testAssetsExist(ru2File, part, dpi)
+//        testAssetsExist(en1File, part, dpi)
+//        testAssetsExist(ru1File, part, dpi)
+//        testAssetsExist(en2File, part, dpi)
+//        testAssetsExist(ru2File, part, dpi)
 
         testLinks(ru1File)
         testLinks(ru2File)
@@ -136,3 +145,6 @@ for (const dpi of dpis) {
 
     }
 }
+
+console.log('[+] Completed')
+process.exit(0)

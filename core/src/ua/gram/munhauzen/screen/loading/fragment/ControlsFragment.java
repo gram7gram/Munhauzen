@@ -46,6 +46,15 @@ public class ControlsFragment extends Fragment {
         this.screen = screen;
     }
 
+    public void retryDownload() {
+        progress.setText("");
+        progressMessage.setText("");
+
+        showDownload();
+
+        startExpansionDownload();
+    }
+
     public void create() {
 
         Log.i(tag, "create");
@@ -55,12 +64,7 @@ public class ControlsFragment extends Fragment {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                progress.setText("");
-                progressMessage.setText("");
-
-                showDownload();
-
-                startExpansionDownload();
+                retryDownload();
             }
         });
 
@@ -69,12 +73,7 @@ public class ControlsFragment extends Fragment {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                progress.setText("");
-                progressMessage.setText("");
-
-                showDownload();
-
-                startExpansionDownload();
+                retryDownload();
             }
         });
 
@@ -93,6 +92,24 @@ public class ControlsFragment extends Fragment {
                 super.clicked(event, x, y);
 
                 screen.navigateTo(new PurchaseScreen(screen.game));
+            }
+        });
+
+        PrimaryButton gameModeBtn = screen.game.buttonBuilder.danger(screen.game.t("loading.game_mode_btn"), new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                screen.openGameModeBanner(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (screen.game.gameState.preferences.isOfflineMode) {
+                            retryDownload();
+                        } else {
+                            screen.navigateTo(new MenuScreen(screen.game));
+                        }
+                    }
+                });
             }
         });
 
@@ -189,7 +206,10 @@ public class ControlsFragment extends Fragment {
                 .padBottom(10).row();
         startTable.add(startBtn)
                 .width(ButtonBuilder.BTN_PRIMARY_WIDTH)
-                .height(ButtonBuilder.BTN_PRIMARY_HEIGHT);
+                .height(ButtonBuilder.BTN_PRIMARY_HEIGHT).row();
+        startTable.add(gameModeBtn)
+                .width(ButtonBuilder.BTN_PRIMARY_WIDTH)
+                .height(ButtonBuilder.BTN_PRIMARY_HEIGHT).row();
 
         Table retryTable = new Table();
         retryTable.add(retryTitle)
@@ -256,18 +276,50 @@ public class ControlsFragment extends Fragment {
         startContainer.setVisible(true);
         progressContainer.setVisible(false);
         retryContainer.setVisible(false);
+
+        screen.destroyBanners();
     }
 
     private void showDownload() {
         startContainer.setVisible(false);
         progressContainer.setVisible(true);
         retryContainer.setVisible(false);
+
+        screen.destroyBanners();
     }
 
     public void showRetry() {
         startContainer.setVisible(false);
         progressContainer.setVisible(false);
         retryContainer.setVisible(true);
+
+        screen.destroyBanners();
+    }
+
+    public void showNoMemory() {
+        startContainer.setVisible(false);
+        progressContainer.setVisible(false);
+        retryContainer.setVisible(false);
+
+        screen.openNoMemoryBanner(new Runnable() {
+            @Override
+            public void run() {
+                screen.controlsFragment.retryDownload();
+            }
+        });
+    }
+
+    public void showNoInternet() {
+        startContainer.setVisible(false);
+        progressContainer.setVisible(false);
+        retryContainer.setVisible(false);
+
+        screen.openNoInternetBanner(new Runnable() {
+            @Override
+            public void run() {
+                screen.controlsFragment.retryDownload();
+            }
+        });
     }
 
     private void startExpansionDownload() {
@@ -342,12 +394,9 @@ public class ControlsFragment extends Fragment {
                 menuBtn.setVisible(expansionInfo.isCompleted);
 
                 if (expansionInfo.version > 0) {
-
-                    float sizeMb = expansionInfo.size / 1024f / 1024f;
-
                     subtitle.setText(part
                             + " " + expansionInfo.dpi
-                            + " " + String.format(Locale.US, "%.2f", sizeMb) + "MB"
+                            + " " + String.format(Locale.US, "%.2f", expansionInfo.sizeMB) + "MB"
                             + " v" + expansionInfo.version);
                 }
             }
