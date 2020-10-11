@@ -7,6 +7,7 @@ import com.badlogic.gdx.pay.ios.apple.PurchaseManageriOSApple;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.robovm.apple.coregraphics.CGRect;
 import org.robovm.apple.foundation.Foundation;
 import org.robovm.apple.foundation.NSArray;
 import org.robovm.apple.foundation.NSAutoreleasePool;
@@ -35,6 +36,8 @@ import org.robovm.apple.uikit.UIApplicationOpenURLOptions;
 import org.robovm.apple.uikit.UIBackgroundFetchResult;
 import org.robovm.apple.uikit.UIDevice;
 import org.robovm.apple.uikit.UILocalNotification;
+import org.robovm.apple.uikit.UIPopoverArrowDirection;
+import org.robovm.apple.uikit.UIPopoverPresentationController;
 import org.robovm.apple.uikit.UIRemoteNotification;
 import org.robovm.apple.uikit.UIScreen;
 import org.robovm.apple.uikit.UIUserInterfaceIdiom;
@@ -95,8 +98,8 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
     public static final String KEY_DEVICE_TOKEN = "key_device_token";
     public static final String KEY_REFERRAL_COUNT = "key_referral_count";
     public static final String MUNHAUSEN_URL = "https://thebaronmunchausen.com";
-//    public static final String MUNHAUSEN_URL = "https://fingertipsandcompany.page.link/?invitedby=";
-    public static final String INVITE_LINK = MUNHAUSEN_URL+"/?invitedby=";
+    //    public static final String MUNHAUSEN_URL = "https://fingertipsandcompany.page.link/?invitedby=";
+    public static final String INVITE_LINK = MUNHAUSEN_URL + "/?invitedby=";
     public static final String BUNDLE_ID = "ru.munchausen.fingertipsandcompany.full";
     public static final int CHAPTER0_COMPLETED = 1;
     public static final int CHAPTER0_INCOMPLETE = 0;
@@ -105,15 +108,15 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
     public static String USERS = "ztestusers";
     public static String NOTIFICATION = "ztest1notifications";
 
-    public class FIREBASE_PATHS{
+    public class FIREBASE_PATHS {
         //        public static fina
         //        l  String USERS = "users";
 //        public static final  String NOTIFICATION = "1notifications";
 
-        public static final  String LAST_LOGIN_TIME = "last_login_time";
-        public static final  String HAS_COMPLETED_CHAP_0 = "hasCompletedChap0";
-        public static final  String REFERRED_CANDIDATES = "referred_candidates";
-        public static final  String REFERRED_BY = "referred_by";
+        public static final String LAST_LOGIN_TIME = "last_login_time";
+        public static final String HAS_COMPLETED_CHAP_0 = "hasCompletedChap0";
+        public static final String REFERRED_CANDIDATES = "referred_candidates";
+        public static final String REFERRED_BY = "referred_by";
     }
 
     private IOSApplicationConfiguration config;
@@ -131,13 +134,11 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
     public boolean didFinishLaunching(UIApplication application, UIApplicationLaunchOptions launchOptions) {
         System.out.println("createApplication: ");
 
-
-
         try {
 
             FIRApp.configure();
             System.out.println("didFinishLaunching: Firebase configured");
-            NSUserDefaults.getStandardUserDefaults().put(KEY_REFERRAL_COUNT,0);
+            NSUserDefaults.getStandardUserDefaults().put(KEY_REFERRAL_COUNT, 0);
             if (Foundation.getMajorSystemVersion() >= 10) {
                 notificationCenter = UNUserNotificationCenter.currentNotificationCenter();
                 UNUserNotificationCenter.currentNotificationCenter().setDelegate(this);
@@ -208,8 +209,8 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
         public void startAlarm() {
             try {
                 showNotificaiton();
-            }catch (Exception e){
-                System.out.println("Applicatio Exception---------------->"+e);
+            } catch (Exception e) {
+                System.out.println("Applicatio Exception---------------->" + e);
             }
         }
     };
@@ -224,19 +225,20 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
     /**
      * Creates ananomous user
+     *
      * @param loginListener login interface from core
      */
-    private void loginAnonymouslyz(final LoginListener loginListener){
+    private void loginAnonymouslyz(final LoginListener loginListener) {
         mAuth.signInAnonymously(new VoidBlock2<FIRAuthDataResult, NSError>() {
             @Override
             public void invoke(FIRAuthDataResult firAuthDataResult, NSError nsError) {
                 FIRUser user = firAuthDataResult.getUser();
-                if (user == null){
+                if (user == null) {
                     loginListener.isLoggedIn(false);
-                    System.out.println("LoginFailed------------------------------>"+nsError);
+                    System.out.println("LoginFailed------------------------------>" + nsError);
                     return;
                 }
-                System.out.println("UserID------------------------------>"+mAuth.getCurrentUser().getUid());
+                System.out.println("UserID------------------------------>" + mAuth.getCurrentUser().getUid());
                 loginListener.isLoggedIn(true);
                 FIRDatabaseReference userRecord = FIRDatabase.database().reference()
                         .child(USERS).child(user.getUid());
@@ -251,12 +253,13 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
     /**
      * Generates a short referal Link
+     *
      * @return referal link
      */
-    private String setReferralzz(){
+    private String setReferralzz() {
         String uid = mAuth.getCurrentUser().getUid();
-        String link = INVITE_LINK+uid;
-        FIRDynamicLinkComponents referalLink = new FIRDynamicLinkComponents(new NSURL(link) ,"https://fingertipsandcompany.page.link");
+        String link = INVITE_LINK + uid;
+        FIRDynamicLinkComponents referalLink = new FIRDynamicLinkComponents(new NSURL(link), "https://fingertipsandcompany.page.link");
 
         FIRDynamicLinkIOSParameters iOSParameters = new FIRDynamicLinkIOSParameters(BUNDLE_ID);
         iOSParameters.setMinimumAppVersion("1.0.1");
@@ -271,8 +274,8 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
         referalLink.shorten(new VoidBlock3<NSURL, NSArray<NSString>, NSError>() {
             @Override
             public void invoke(NSURL shortURL, NSArray<NSString> nsStrings, NSError nsError) {
-                if (nsError != null){
-                    System.out.println("Referal Link Shorter Error-------------------->"+nsError);
+                if (nsError != null) {
+                    System.out.println("Referal Link Shorter Error-------------------->" + nsError);
                     return;
                 }
                 mInvitationURL = shortURL.getAbsoluteString();
@@ -288,7 +291,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
     /**
      * Sends invitation link through mail
      */
-    private void sendInvitationLink(){
+    private void sendInvitationLink() {
         String invitationLink = mInvitationURL;
         String msg = "Let's play Munchausen together! Use my referrer link: "
                 + invitationLink;
@@ -298,9 +301,27 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
         NSMutableArray<NSString> array = new NSMutableArray<NSString>();
         array.add(msg);
 
-        UIActivityViewController activityViewController = new UIActivityViewController(array,null);
+        UIActivityViewController activityViewController = new UIActivityViewController(array, null);
         UIViewController currentViewController = UIApplication.getSharedApplication().getKeyWindow().getRootViewController();
-        currentViewController.presentViewController(activityViewController,true,null);
+
+        if (isIpad()) {
+            UIPopoverPresentationController popoverController = activityViewController.getPopoverPresentationController();
+            popoverController.setSourceRect(new CGRect(UIScreen.getMainScreen().getBounds().getWidth()/2, UIScreen.getMainScreen().getBounds().getHeight()/2,0,0));
+            popoverController.setSourceView(activityViewController.getView());
+            popoverController.setPermittedArrowDirections(new UIPopoverArrowDirection(0));
+        }
+        currentViewController.presentViewController(activityViewController, true, null);
+
+//        let activityViewController = UIActivityViewController(activityItems: textToShare, applicationActivities: nil)
+//        activityViewController.excludedActivityTypes = [.airDrop]
+//
+//        if let popoverController = activityViewController.popoverPresentationController {
+//            popoverController.sourceRect = CGRect(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2, width: 0, height: 0)
+//            popoverController.sourceView = self.view
+//            popoverController.permittedArrowDirections = UIPopoverArrowDirection(rawValue: 0)
+//        }
+//
+//        self.present(activityViewController, animated: true, completion: nil)
 
 
 //        if (!MFMailComposeViewController.canSendMail()){
@@ -325,8 +346,8 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
     /**
      * increase referral count if referral candidates have completed intro chapter
      */
-    private void getReferralCount(){
-        try{
+    private void getReferralCount() {
+        try {
             FIRDatabaseReference refCanRef = FIRDatabase.database()
                     .reference(USERS)
                     .child(mAuth.getCurrentUser().getUid())
@@ -339,14 +360,14 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
                             FIRDatabaseReference userRef = FIRDatabase.database().reference()
                                     .child(USERS);
                             //Initially clear referral count
-                            NSUserDefaults.getStandardUserDefaults().put(KEY_REFERRAL_COUNT,0);
+                            NSUserDefaults.getStandardUserDefaults().put(KEY_REFERRAL_COUNT, 0);
 
                             int array = (int) firDataSnapshot.getChildrenCount();
                             int num = (int) firDataSnapshot.getChildrenCount();
 
-                            System.out.println("Referral count ------------------>"+num);
+                            System.out.println("Referral count ------------------>" + num);
 
-                            for (FIRDataSnapshot referredCandidates: firDataSnapshot.getChildren().getAllObjects()){
+                            for (FIRDataSnapshot referredCandidates : firDataSnapshot.getChildren().getAllObjects()) {
                                 String userID = referredCandidates.getValue().toString();
                                 FIRDatabaseReference hasCompetedRef = userRef
                                         .child(userID)
@@ -355,16 +376,16 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
                                         new VoidBlock1<FIRDataSnapshot>() {
                                             @Override
                                             public void invoke(FIRDataSnapshot firDataSnapshot) {
-                                                try{
+                                                try {
                                                     NSNumber nsNumber = (NSNumber) firDataSnapshot.getValue();
                                                     int isChap0Completed = nsNumber.intValue();
                                                     int currentCount = NSUserDefaults.getStandardUserDefaults().getInt(KEY_REFERRAL_COUNT);
-                                                    System.out.println("CurrentCount------------------------>"+currentCount);
-                                                    if (isChap0Completed == CHAPTER0_COMPLETED){
-                                                        NSUserDefaults.getStandardUserDefaults().put(KEY_REFERRAL_COUNT, currentCount+1);
+                                                    System.out.println("CurrentCount------------------------>" + currentCount);
+                                                    if (isChap0Completed == CHAPTER0_COMPLETED) {
+                                                        NSUserDefaults.getStandardUserDefaults().put(KEY_REFERRAL_COUNT, currentCount + 1);
                                                     }
-                                                }catch (Exception e){
-                                                    System.out.println("Get Chap0 completed Error ----------------->"+e);
+                                                } catch (Exception e) {
+                                                    System.out.println("Get Chap0 completed Error ----------------->" + e);
                                                 }
                                             }
                                         });
@@ -373,8 +394,8 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
                         }
                     });
 
-        }catch (Exception e){
-            System.out.println("getReferalCount Error ------------------>"+e);
+        } catch (Exception e) {
+            System.out.println("getReferalCount Error ------------------>" + e);
         }
     }
 
@@ -412,7 +433,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
         public int getRefferralCount() {
             getReferralCount();
             int count = NSUserDefaults.getStandardUserDefaults().getInt(KEY_REFERRAL_COUNT);
-            System.out.println("CurrentCount Updated------------------------>"+count);
+            System.out.println("CurrentCount Updated------------------------>" + count);
             return count;
         }
 
@@ -429,23 +450,23 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
         }
     };
 
-    private boolean handleDynamicLink(FIRDynamicLink dynamicLink){
-        if (dynamicLink == null){
+    private boolean handleDynamicLink(FIRDynamicLink dynamicLink) {
+        if (dynamicLink == null) {
             return false;
         }
         NSURL deepLink = dynamicLink.getUrl();
-        if (deepLink == null){
+        if (deepLink == null) {
             return false;
         }
 
-        System.out.println("DynaimcLink------------------->"+deepLink);
-        NSArray<NSURLQueryItem> queryItems = new NSURLComponents(deepLink,true)
+        System.out.println("DynaimcLink------------------->" + deepLink);
+        NSArray<NSURLQueryItem> queryItems = new NSURLComponents(deepLink, true)
                 .getQueryItems();
 
         NSArray<NSURLQueryItem> filteredList = new NSArray<NSURLQueryItem>();
 
-        for (NSURLQueryItem item :  queryItems){
-            if (item.getName().equals("invitedby")){
+        for (NSURLQueryItem item : queryItems) {
+            if (item.getName().equals("invitedby")) {
                 filteredList.add(item);
             }
         }
@@ -454,7 +475,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
         final FIRUser user = FIRAuth.auth().getCurrentUser();
 
-        if (user == null && invitedBy!=null){
+        if (user == null && invitedBy != null) {
             FIRAuth.auth().signInAnonymously(new VoidBlock2<FIRAuthDataResult, NSError>() {
                 @Override
                 public void invoke(FIRAuthDataResult firAuthDataResult, NSError nsError) {
@@ -474,7 +495,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
                                 public void invoke(FIRDataSnapshot dataSnapshot) {
                                     int index = 0;
 
-                                    if(dataSnapshot.exists()){
+                                    if (dataSnapshot.exists()) {
                                         index = (int) dataSnapshot.getChildrenCount();
                                     }
 
@@ -496,9 +517,9 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
     public boolean openURL(UIApplication app, NSURL url, UIApplicationOpenURLOptions options) {
         boolean isDynamicLink = FIRDynamicLinks.dynamicLinks()
                 .shouldHandleDynamicLinkFromCustomSchemeURL(url);
-        if (isDynamicLink){
+        if (isDynamicLink) {
             FIRDynamicLink firDynamicLink = FIRDynamicLinks.dynamicLinks().dynamicLinkFromCustomSchemeURL(url);
-            return  handleDynamicLink(firDynamicLink);
+            return handleDynamicLink(firDynamicLink);
         }
         return false;
     }
@@ -558,10 +579,10 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
         }
 
 
-        if (params.release == PlatformParams.Release.PROD){
+        if (params.release == PlatformParams.Release.PROD) {
             USERS = "users";
             NOTIFICATION = "1notifications";
-        }else {
+        } else {
             USERS = "ztestusers";
             NOTIFICATION = "ztest1notifications";
         }
@@ -575,8 +596,8 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
         if (user == null) {
             loginInterface = mLoginInterface;
-        }else {
-            System.out.println("UserID------------------------------>"+mAuth.getCurrentUser().getUid());
+        } else {
+            System.out.println("UserID------------------------------>" + mAuth.getCurrentUser().getUid());
             setReferralzz();
             getReferralCount();
             loginInterface = mSetReferalInterface;
@@ -584,7 +605,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
 
         MunhauzenGame game = new MunhauzenGame(params,
-                mAlarmInterface ,
+                mAlarmInterface,
                 mExpansionDownloadInterface,
                 loginInterface,
                 mReferalInterface);
@@ -640,7 +661,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
             showNotificaiton();
         } catch (NSErrorException e) {
             e.printStackTrace();
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -648,10 +669,9 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
     }
 
 
-
     @Override
     public void didRegisterForRemoteNotifications(UIApplication application, NSData deviceToken) {
-        System.out.println("DeviceToken----------------------> "+deviceToken);
+        System.out.println("DeviceToken----------------------> " + deviceToken);
         NSUserDefaults.getStandardUserDefaults().put(KEY_DEVICE_TOKEN, deviceToken);
         super.didRegisterForRemoteNotifications(application, deviceToken);
         FIRMessaging.messaging().setAPNSToken(deviceToken);
@@ -687,7 +707,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
             showNotificaiton();
         } catch (NSErrorException e) {
             e.printStackTrace();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -707,7 +727,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
             showNotificaiton();
         } catch (NSErrorException e) {
             e.printStackTrace();
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -735,7 +755,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
             showNotificaiton();
         } catch (NSErrorException e) {
             e.printStackTrace();
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -752,7 +772,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
             showNotificaiton();
         } catch (NSErrorException e) {
             e.printStackTrace();
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -767,14 +787,14 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
             notificationCenter.removeAllPendingNotificationRequests();
             readNotificationJson();
             try {
-                if (needToDownload){
+                if (needToDownload) {
                     delegate.scheduleDownloadNotification();
-                }else {
+                } else {
                     getLastChapter();
                     delegate.scheduleNotification();
                 }
-            }catch (Exception e){
-                System.out.println("Show Notificaiton Error ----------------->"+e);
+            } catch (Exception e) {
+                System.out.println("Show Notificaiton Error ----------------->" + e);
             }
         } else {
             UILocalNotification notification = new UILocalNotification();
@@ -782,7 +802,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
             notification.setFireDate(date);
             notification.setAlertTitle("Hello");
             String token = NSUserDefaults.getStandardUserDefaults().getString(KEY_DEVICE_TOKEN);
-            notification.setAlertBody("Body "+token);
+            notification.setAlertBody("Body " + token);
 
 //            if let info = userInfo {
 //                notification.userInfo = info
@@ -790,7 +810,6 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
             notification.setSoundName(UILocalNotification.getDefaultSoundName());
             UIApplication.getSharedApplication().scheduleLocalNotification(notification);
-
 
 
         }
@@ -889,8 +908,8 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
         } catch (JSONException e) {
             e.printStackTrace();
             System.out.println("StartAlarmError: " + e);
-        } catch (Exception e){
-            System.out.println("StartAlarmError generalized exception -----------------------------> "+e);
+        } catch (Exception e) {
+            System.out.println("StartAlarmError generalized exception -----------------------------> " + e);
         }
 
 
@@ -958,7 +977,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
         } catch (JSONException e) {
             e.printStackTrace();
             System.out.println("StartAlarmError: " + e);
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -1044,9 +1063,9 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
                         try {
                             NSNumber value = (NSNumber) firDataSnapshot.getValue();
                             NSUserDefaults.getStandardUserDefaults().put(KEY_NOTIFICATION1_AFTER, value);
-                            System.out.println("Continue Hrs------------------------------>"+value);
+                            System.out.println("Continue Hrs------------------------------>" + value);
                         } catch (Exception e) {
-                            System.out.println("Continue Hrs Error------------------------>"+e);
+                            System.out.println("Continue Hrs Error------------------------>" + e);
                         }
 
                     }
@@ -1062,7 +1081,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
                             NSUserDefaults.getStandardUserDefaults().put(KEY_NOTIFICATION1_TITLE, value);
                             System.out.println("Notification Title --------------------------> " + value);
                         } catch (Exception e) {
-                            System.out.println("Continue Title Error------------------------>"+e);
+                            System.out.println("Continue Title Error------------------------>" + e);
                         }
 
                     }
@@ -1077,7 +1096,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
                             // NSUserDefaults.getStandardUserDefaults().put(KEY_NOTIFICATION1_MESSAGE, value);
                             System.out.println("Notification Message ----------------------> " + value);
                         } catch (Exception e) {
-                            System.out.println("Continue Message Error------------------------>"+e);
+                            System.out.println("Continue Message Error------------------------>" + e);
                         }
 
                     }
@@ -1091,9 +1110,9 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
                         try {
                             NSNumber value = (NSNumber) firDataSnapshot.getValue();
                             NSUserDefaults.getStandardUserDefaults().put(KEY_NOTIFICATION2_AFTER, value);
-                            System.out.println("Download Hrs------------------------>"+value);
+                            System.out.println("Download Hrs------------------------>" + value);
                         } catch (Exception e) {
-                            System.out.println("Download Hrs Error------------------------>"+e);
+                            System.out.println("Download Hrs Error------------------------>" + e);
                         }
 
                     }
@@ -1109,7 +1128,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
                             NSUserDefaults.getStandardUserDefaults().put(KEY_NOTIFICATION2_TITLE, value);
                             System.out.println("Notification Title -------------------------> " + value);
                         } catch (Exception e) {
-                            System.out.println("Download Title Error------------------------>"+e);
+                            System.out.println("Download Title Error------------------------>" + e);
                         }
 
                     }
@@ -1124,7 +1143,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
                             // NSUserDefaults.getStandardUserDefaults().put(KEY_NOTIFICATION2_MESSAGE, value);
                             System.out.println("Notification Message --------------------------> " + value);
                         } catch (Exception e) {
-                            System.out.println("Continue Message Error------------------------>"+e);
+                            System.out.println("Continue Message Error------------------------>" + e);
                         }
                     }
                 });
