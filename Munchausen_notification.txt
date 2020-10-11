@@ -1,0 +1,31 @@
+For Sending to Android:
+
+RequestBody:
+{
+"to": "/topics/android-all",
+
+"data": {
+    "title": "This is the title from inside Data Test1",
+    "message":"This is the message from inside data! Test1"
+
+
+}
+
+}
+
+
+
+For Sending to IPhone. 
+
+
+RequestBody:
+{
+"to": "/topics/ios-all",
+
+"notification" : {
+    "title": "Rxxxx Test for Russian version  Munchause Notification",
+     "body" : "Good Morning type2 notification. Sent from Postman! Test for simulator"
+     
+ }
+
+}
