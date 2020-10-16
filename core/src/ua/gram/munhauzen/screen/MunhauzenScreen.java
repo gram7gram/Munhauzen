@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 
 import ua.gram.munhauzen.GameLayerInterface;
 import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.ui.ChapterDownloadFragment;
 import ua.gram.munhauzen.ui.GameModeFragment;
 import ua.gram.munhauzen.ui.NoInternetFragment;
 import ua.gram.munhauzen.ui.NoMemoryFragment;
@@ -22,6 +23,7 @@ public abstract class MunhauzenScreen implements Screen {
     public NoInternetFragment noInternetFragment;
     public SlowInternetFragment slowInternetFragment;
     public GameModeFragment gameModeFragment;
+    public ChapterDownloadFragment chapterDownloadFragment;
 
     public MunhauzenScreen(MunhauzenGame game) {
         this.game = game;
@@ -83,6 +85,10 @@ public abstract class MunhauzenScreen implements Screen {
             gameModeFragment.destroy();
             gameModeFragment = null;
         }
+        if (chapterDownloadFragment != null) {
+            chapterDownloadFragment.destroy();
+            chapterDownloadFragment = null;
+        }
 
     }
 
@@ -135,6 +141,25 @@ public abstract class MunhauzenScreen implements Screen {
             getLayers().setBannerLayer(slowInternetFragment);
 
             slowInternetFragment.fadeIn();
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            onCriticalError(e);
+        }
+    }
+
+    public void openChapterDownloadBanner(Runnable action) {
+        try {
+
+            destroyBanners();
+
+            chapterDownloadFragment = new ChapterDownloadFragment(this);
+            chapterDownloadFragment.create(action);
+
+            getLayers().setBannerLayer(chapterDownloadFragment);
+
+            chapterDownloadFragment.fadeIn();
 
         } catch (Throwable e) {
             Log.e(tag, e);

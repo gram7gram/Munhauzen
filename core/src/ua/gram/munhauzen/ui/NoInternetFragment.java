@@ -18,7 +18,7 @@ public class NoInternetFragment extends BannerFragment<MunhauzenScreen> {
     public void create(Runnable action) {
 
         screen.game.internalAssetManager.load("ui/banner_fond_0.png", Texture.class);
-        screen.game.internalAssetManager.load("ui/no_internet.png", Texture.class);
+        screen.game.internalAssetManager.load("ui/wau.png", Texture.class);
         screen.game.internalAssetManager.finishLoading();
 
         Banner<?> banner = new NoInternetBanner(this, action);

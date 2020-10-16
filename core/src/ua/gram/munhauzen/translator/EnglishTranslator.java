@@ -282,6 +282,10 @@ public class EnglishTranslator implements Translator {
         map.put("slow_internet_banner.btn_retry", "Retry");
         map.put("slow_internet_banner.content", "Please, enable WiFi and try again");
 
+        map.put("chapter_download_banner.title", "Downloading chapter");
+        map.put("chapter_download_banner.btn", "Cancel");
+        map.put("chapter_download_banner.content", "Please wait until the chapter is downloaded...");
+
         map.put("referral_banner_3.title", "Congratulations!\nThe bonus for 3 friends is received!");
         map.put("referral_banner_3.btn", "Super");
         map.put("referral_banner_7.title", "Congratulations!\nThe bonus for 7 friends is received!");

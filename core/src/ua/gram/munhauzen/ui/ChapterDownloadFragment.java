@@ -4,9 +4,9 @@ import com.badlogic.gdx.graphics.Texture;
 
 import ua.gram.munhauzen.screen.MunhauzenScreen;
 
-public class SlowInternetFragment extends BannerFragment<MunhauzenScreen> {
+public class ChapterDownloadFragment extends BannerFragment<MunhauzenScreen> {
 
-    public SlowInternetFragment(MunhauzenScreen screen) {
+    public ChapterDownloadFragment(MunhauzenScreen screen) {
         super(screen);
     }
 
@@ -21,7 +21,7 @@ public class SlowInternetFragment extends BannerFragment<MunhauzenScreen> {
         screen.game.internalAssetManager.load("ui/wau.png", Texture.class);
         screen.game.internalAssetManager.finishLoading();
 
-        Banner<?> banner = new SlowInternetBanner(this, action);
+        Banner<?> banner = new ChapterDownloadBanner(this, action);
         banner.create();
 
         createRoot();
