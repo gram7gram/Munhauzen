@@ -158,6 +158,8 @@ public class SfxService {
                 "sfx_menu_sound_on_3", "sfx_menu_sound_on_4",
                 "sfx_menu_sound_on_5"
         }), false, false);
+
+        MunhauzenGame.downloadExpansionInteface.downloadExpansionAndDeletePrev("a3");
     }
 
     public void onSoundDisabled() {
