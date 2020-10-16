@@ -3460,7 +3460,7 @@
   {
     "name": "sfx_button_arrow",
     "__v": 0,
-    "duration": 900,
+    "duration": 800,
     "file": "audio/sfx_button_arrow.aac",
     "locale": "en"
   },
@@ -3488,7 +3488,7 @@
   {
     "name": "sfx_button_off",
     "__v": 0,
-    "duration": 496,
+    "duration": 340,
     "file": "audio/sfx_button_off.aac",
     "locale": "en"
   },
@@ -3656,7 +3656,7 @@
   {
     "name": "sfx_inter_puzzle_one_3",
     "__v": 0,
-    "duration": 731,
+    "duration": 673,
     "file": "audio/sfx_inter_puzzle_one_3.aac",
     "locale": "en"
   },

@@ -14,12 +14,12 @@ import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.screen.MunhauzenScreen;
 import ua.gram.munhauzen.utils.Log;
 
-public class NoInternetBanner extends Banner<MunhauzenScreen> {
+public class ChapterDownloadBanner extends Banner<MunhauzenScreen> {
 
     final BannerFragment<?> fragment;
     final Runnable action;
 
-    public NoInternetBanner(BannerFragment<MunhauzenScreen> fragment, Runnable action) {
+    public ChapterDownloadBanner(BannerFragment<MunhauzenScreen> fragment, Runnable action) {
         super(fragment.screen);
 
         this.fragment = fragment;
@@ -54,7 +54,7 @@ public class NoInternetBanner extends Banner<MunhauzenScreen> {
                 Color.BLACK
         );
 
-        Label title = new Label(screen.game.t("no_internet_banner.title"), titleStyle);
+        Label title = new Label(screen.game.t("chapter_download_banner.title"), titleStyle);
         title.setAlignment(Align.center);
         title.setWrap(true);
 
@@ -63,7 +63,7 @@ public class NoInternetBanner extends Banner<MunhauzenScreen> {
                 .padBottom(10)
                 .row();
 
-        for (String sentence : screen.game.t("no_internet_banner.content").split("\n")) {
+        for (String sentence : screen.game.t("chapter_download_banner.content").split("\n")) {
             Label label = new Label(sentence, style);
             label.setAlignment(Align.center);
             label.setWrap(true);
@@ -77,8 +77,8 @@ public class NoInternetBanner extends Banner<MunhauzenScreen> {
         Texture txt = screen.game.internalAssetManager.get("ui/wau.png", Texture.class);
         FixedImage img = new FixedImage(txt, cellMinWidth / 2);
 
-        PrimaryButton btnRetry = screen.game.buttonBuilder.primary(
-                screen.game.t("no_internet_banner.btn_retry"),
+        PrimaryButton btn = screen.game.buttonBuilder.primary(
+                screen.game.t("chapter_download_banner.btn"),
                 new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
@@ -102,7 +102,7 @@ public class NoInternetBanner extends Banner<MunhauzenScreen> {
 
         Table buttons = new Table();
 
-        buttons.add(btnRetry)
+        buttons.add(btn)
                 .width(ButtonBuilder.BTN_PRIMARY_SM_WIDTH)
                 .height(ButtonBuilder.BTN_PRIMARY_SM_HEIGHT)
                 .padBottom(10).row();

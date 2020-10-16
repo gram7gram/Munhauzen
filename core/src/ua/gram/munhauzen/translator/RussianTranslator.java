@@ -273,6 +273,10 @@ public class RussianTranslator implements Translator {
         map.put("no_memory_banner.btn_retry", "Повторить");
         map.put("no_memory_banner.content", "Пожалуйста, освободите место на диске или переключитесь в режим Онлайн!");
 
+        map.put("chapter_download_banner.title", "Загрузка главы");
+        map.put("chapter_download_banner.btn", "Отменить");
+        map.put("chapter_download_banner.content", "Пожалуйста, дождитесь загрузки главы");
+
         map.put("no_internet_banner.title", "Нету соединения с Интернетом");
         map.put("no_internet_banner.btn_retry", "Повторить");
         map.put("no_internet_banner.content", "Пожалуйста, включите WiFi и попробуйте снова");

@@ -2476,7 +2476,7 @@
         "duration": 39628
       }
     ],
-    "chapter": null,
+    "chapter": "abear",
     "decisions": [
       {
         "inventoryRequired": [],
@@ -2506,7 +2506,7 @@
         "duration": 40385
       }
     ],
-    "chapter": null,
+    "chapter": "abear",
     "decisions": [
       {
         "inventoryRequired": [],
@@ -2531,7 +2531,7 @@
     "__v": 0,
     "action": "GOTO",
     "audio": [],
-    "chapter": null,
+    "chapter": "abear",
     "decisions": [
       {
         "inventoryRequired": [],
@@ -2551,7 +2551,7 @@
     "__v": 0,
     "action": "GOTO",
     "audio": [],
-    "chapter": null,
+    "chapter": "abear",
     "decisions": [
       {
         "inventoryRequired": [],
@@ -2777,7 +2777,7 @@
         "duration": 31739
       }
     ],
-    "chapter": null,
+    "chapter": "abear",
     "decisions": [
       {
         "inventoryRequired": [],
@@ -2802,7 +2802,7 @@
     "__v": 0,
     "action": "GOTO",
     "audio": [],
-    "chapter": null,
+    "chapter": "abear",
     "decisions": [
       {
         "inventoryRequired": [],
@@ -2827,7 +2827,7 @@
         "duration": 34873
       }
     ],
-    "chapter": null,
+    "chapter": "abear",
     "decisions": [
       {
         "inventoryRequired": [],
@@ -2852,7 +2852,7 @@
     "__v": 0,
     "action": "GOTO",
     "audio": [],
-    "chapter": null,
+    "chapter": "abear",
     "decisions": [
       {
         "inventoryRequired": [],
@@ -20160,7 +20160,7 @@
     "expansion": "Part_1",
     "images": [
       {
-        "image": "Last",
+        "image": "p0",
         "duration": 600
       }
     ],
@@ -20294,7 +20294,7 @@
         "duration": 23641
       }
     ],
-    "chapter": null,
+    "chapter": "a3",
     "decisions": [
       {
         "inventoryRequired": [],
@@ -20328,7 +20328,7 @@
         "duration": 32705
       }
     ],
-    "chapter": null,
+    "chapter": "a3",
     "decisions": [
       {
         "inventoryRequired": [],
@@ -20353,7 +20353,7 @@
     "__v": 0,
     "action": "GOTO",
     "audio": [],
-    "chapter": null,
+    "chapter": "a3",
     "decisions": [
       {
         "inventoryRequired": [],
@@ -20373,7 +20373,7 @@
     "__v": 0,
     "action": "GOTO",
     "audio": [],
-    "chapter": null,
+    "chapter": "a3",
     "decisions": [
       {
         "inventoryRequired": [],
