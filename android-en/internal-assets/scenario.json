@@ -8311,7 +8311,7 @@
         "duration": 51487
       }
     ],
-    "chapter": null,
+    "chapter": "a27",
     "decisions": [
       {
         "inventoryRequired": [],
@@ -8336,7 +8336,7 @@
     "__v": 0,
     "action": "GOTO",
     "audio": [],
-    "chapter": null,
+    "chapter": "a27",
     "decisions": [
       {
         "inventoryRequired": [],
