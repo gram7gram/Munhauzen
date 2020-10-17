@@ -274,13 +274,13 @@ public class EnglishTranslator implements Translator {
         map.put("no_memory_banner.btn_retry", "Retry");
         map.put("no_memory_banner.content", "Please, free some space or go online!");
 
-        map.put("no_internet_banner.title", "Slow Internet connection");
+        map.put("no_internet_banner.title", "No Internet connection");
         map.put("no_internet_banner.btn_retry", "Retry");
-        map.put("no_internet_banner.content", "Please, find better spot so that resources are downloaded faster");
+        map.put("no_internet_banner.content", "Please, enable WiFi and try again");
 
-        map.put("slow_internet_banner.title", "Not Internet connection");
+        map.put("slow_internet_banner.title", "Slow Internet connection");
         map.put("slow_internet_banner.btn_retry", "Retry");
-        map.put("slow_internet_banner.content", "Please, enable WiFi and try again");
+        map.put("slow_internet_banner.content", "Please, find better spot so that resources are downloaded faster");
 
         map.put("chapter_download_banner.title", "Downloading chapter");
         map.put("chapter_download_banner.btn", "Cancel");
