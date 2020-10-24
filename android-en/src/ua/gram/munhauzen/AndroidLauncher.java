@@ -57,6 +57,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.InetAddress;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -280,6 +281,11 @@ public class AndroidLauncher extends AndroidApplication {
 
                 return downloadGoofAudio(goofName, downloadSuccessFailureListener1);
             }
+
+            @Override
+            public boolean downloadGallery(String imageName, DownloadSuccessFailureListener downloadSuccessFailureListener2) {
+                return downloadGalleryImage(imageName, downloadSuccessFailureListener2);
+            }
         });
 
 
@@ -345,6 +351,11 @@ public class AndroidLauncher extends AndroidApplication {
                 @Override
                 public boolean downloadGoof(String goofName, DownloadSuccessFailureListener downloadSuccessFailureListener1) {
                     return downloadGoofAudio(goofName, downloadSuccessFailureListener1);
+                }
+
+                @Override
+                public boolean downloadGallery(String imageName, DownloadSuccessFailureListener downloadSuccessFailureListener2) {
+                    return downloadGalleryImage(imageName, downloadSuccessFailureListener2);
                 }
             } );
 
@@ -1145,10 +1156,25 @@ public class AndroidLauncher extends AndroidApplication {
 
     }
 
+    public boolean isInternetAvailable() {
+        try {
+            InetAddress ipAddr = InetAddress.getByName("google.com");
+            //You can replace it with your name
+            return !ipAddr.equals("");
+
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     private void downloadExpansionFile(String currentChapterName, DownloadSuccessFailureListener downloadSuccessFailureListener) throws IOException {
 
         this.downloadSuccessFailureListener = downloadSuccessFailureListener;
-        extractInfoFromScenarioJsonAndPerformDeleteDownload(currentChapterName);
+        if(isInternetAvailable()) {
+            extractInfoFromScenarioJsonAndPerformDeleteDownload(currentChapterName);
+        }else{
+            downloadSuccessFailureListener.onFailure();
+        }
 
 
     }
@@ -1668,7 +1694,7 @@ public class AndroidLauncher extends AndroidApplication {
         }
 
         //*check if image files already present and delete ends
- 
+
 
     }
 
@@ -1749,6 +1775,108 @@ public class AndroidLauncher extends AndroidApplication {
                 }
             });
 
+        }
+
+        return true;
+
+    }
+
+    public boolean downloadGalleryImage(String imageName, DownloadSuccessFailureListener downloadSuccessFailureListener2){
+
+        downloadSuccessFailureListener = downloadSuccessFailureListener2;
+
+        float dpi = getResources().getDisplayMetrics().densityDpi;
+        System.out.println("DPI of Device---->" + dpi);
+
+        String PICTURES_DPI;
+
+        if(dpi < 420){
+            PICTURES_DPI = "Pictures_Mdpi/";
+        }else{
+            PICTURES_DPI = "Pictures_Hdpi/";
+        }
+
+
+        if(isInternetAvailable()) {
+            StorageReference storageRef = storage.getReference();
+
+            storageRef.getStorage().setMaxDownloadRetryTimeMillis(1000);
+
+            final StorageReference imageRef = storageRef.child("Expansion Files for online Munchausen/" + PICTURES_DPI + imageName + ".jpg");
+
+            //Download to a local file
+            File storagePath = new File(Environment.getExternalStorageDirectory() + "/.Munchausen/en.munchausen.fingertipsandcompany.any/expansion/images/");
+            // Create direcorty if not exists
+            if (!storagePath.exists()) {
+                storagePath.mkdirs();
+            }
+
+            String filePath = imageName + ".jpg";
+            // Create direcorty if not exists
+            if (!storagePath.exists()) {
+                storagePath.mkdirs();
+            }
+
+            final File localFile = new File(storagePath, filePath);
+
+            if (!localFile.exists()) {
+
+                imageRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                        downloadSuccessFailureListener.onSuccess();
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                        downloadSuccessFailureListener.onFailure();
+                    }
+                });
+            } else {
+
+                final long totalSpaceInLocal = localFile.length();
+
+                imageRef.getMetadata().addOnSuccessListener(new OnSuccessListener<StorageMetadata>() {
+                    @Override
+                    public void onSuccess(StorageMetadata storageMetadata) {
+                        long totalByteCountedInCloud = storageMetadata.getSizeBytes();
+
+                        System.out.println("totalByteCounted");
+
+                        if (totalSpaceInLocal == totalByteCountedInCloud) {
+                            System.out.println("Already full file on local");
+                            downloadSuccessFailureListener.onSuccess();
+                        } else {
+                            //download again
+
+                            imageRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                    downloadSuccessFailureListener.onSuccess();
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    downloadSuccessFailureListener.onFailure();
+                                }
+                            });
+                            //download again ends
+                        }
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        downloadSuccessFailureListener.onFailure();
+                    }
+                });
+
+            }
+        }else{
+            downloadSuccessFailureListener.onFailure();
         }
 
         return true;

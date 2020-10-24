@@ -6,4 +6,6 @@ public interface DownloadExpansionInteface {
 
     boolean downloadGoof(String goofName, DownloadSuccessFailureListener downloadSuccessFailureListener);
 
+    boolean downloadGallery(String imageName, DownloadSuccessFailureListener downloadSuccessFailureListener);
+
 }

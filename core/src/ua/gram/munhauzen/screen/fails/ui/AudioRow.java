@@ -151,6 +151,13 @@ public class AudioRow extends Table {
                             @Override
                             public void onFailure() {
 
+                                /*screen.openNoInternetBanner(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        screen.destroyBanners();
+                                    }
+                                });*/
+
                             }
                         });
 
