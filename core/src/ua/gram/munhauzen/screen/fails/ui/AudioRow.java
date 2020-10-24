@@ -18,8 +18,10 @@ import com.badlogic.gdx.utils.Align;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.AudioFail;
+import ua.gram.munhauzen.interfaces.DownloadSuccessFailureListener;
 import ua.gram.munhauzen.repository.AudioFailRepository;
 import ua.gram.munhauzen.screen.FailsScreen;
+import ua.gram.munhauzen.screen.MunhauzenScreen;
 import ua.gram.munhauzen.screen.fails.entity.GalleryFail;
 import ua.gram.munhauzen.utils.ExternalFiles;
 import ua.gram.munhauzen.utils.Log;
@@ -84,33 +86,80 @@ public class AudioRow extends Table {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                try {
+                if(!screen.game.isOnlineMode()) {
+                    try {
 
-                    Log.i(tag, "clicked on " + fail.storyAudio.audio);
+                        Log.i(tag, "clicked on " + fail.storyAudio.audio);
 
-                    screen.stopAll();
+                        screen.stopAll();
 
-                    screen.audioService.prepareAndPlay(fail.storyAudio);
+                        screen.audioService.prepareAndPlay(fail.storyAudio);
 
-                    if (fail.storyAudio.player != null) {
-                        fail.isPlaying = true;
+                        if (fail.storyAudio.player != null) {
+                            fail.isPlaying = true;
 
-                        fail.storyAudio.player.setOnCompletionListener(new Music.OnCompletionListener() {
+                            fail.storyAudio.player.setOnCompletionListener(new Music.OnCompletionListener() {
+                                @Override
+                                public void onCompletion(Music music) {
+                                    screen.stopAll();
+                                }
+                            });
+                        }
+
+                        fail.isListened = true;
+
+                        screen.game.gameState.failsState.listenedAudio.add(fail.storyAudio.audio);
+
+                        init();
+
+                    } catch (Throwable e) {
+                        Log.e(tag, e);
+                    }
+                }else{
+
+                    try {
+
+                        Log.i(tag, "clicked on " + fail.storyAudio.audio);
+
+                        screen.stopAll();
+
+
+                        MunhauzenGame.downloadExpansionInteface.downloadGoof(fail.storyAudio.audio, new DownloadSuccessFailureListener() {
                             @Override
-                            public void onCompletion(Music music) {
-                                screen.stopAll();
+                            public void onSuccess() {
+                                screen.audioService.prepareAndPlay(fail.storyAudio);
+
+                                if (fail.storyAudio.player != null) {
+                                    fail.isPlaying = true;
+
+                                    fail.storyAudio.player.setOnCompletionListener(new Music.OnCompletionListener() {
+                                        @Override
+                                        public void onCompletion(Music music) {
+                                            screen.stopAll();
+                                        }
+                                    });
+                                }
+
+                                fail.isListened = true;
+
+                                screen.game.gameState.failsState.listenedAudio.add(fail.storyAudio.audio);
+
+                                init();
+
+                            }
+
+                            @Override
+                            public void onFailure() {
+
                             }
                         });
+
+
+
+                    } catch (Throwable e) {
+                        Log.e(tag, e);
                     }
 
-                    fail.isListened = true;
-
-                    screen.game.gameState.failsState.listenedAudio.add(fail.storyAudio.audio);
-
-                    init();
-
-                } catch (Throwable e) {
-                    Log.e(tag, e);
                 }
             }
         });

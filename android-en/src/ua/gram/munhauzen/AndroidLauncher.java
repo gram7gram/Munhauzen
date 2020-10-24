@@ -274,6 +274,12 @@ public class AndroidLauncher extends AndroidApplication {
                     e.printStackTrace();
                 }
             }
+
+            @Override
+            public boolean downloadGoof(String goofName, DownloadSuccessFailureListener downloadSuccessFailureListener1) {
+
+                return downloadGoofAudio(goofName, downloadSuccessFailureListener1);
+            }
         });
 
 
@@ -334,6 +340,11 @@ public class AndroidLauncher extends AndroidApplication {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+                }
+
+                @Override
+                public boolean downloadGoof(String goofName, DownloadSuccessFailureListener downloadSuccessFailureListener1) {
+                    return downloadGoofAudio(goofName, downloadSuccessFailureListener1);
                 }
             } );
 
@@ -1657,7 +1668,90 @@ public class AndroidLauncher extends AndroidApplication {
         }
 
         //*check if image files already present and delete ends
+ 
 
+    }
+
+
+    public boolean downloadGoofAudio(String goofName, DownloadSuccessFailureListener downloadSuccessFailureListener1){
+
+        downloadSuccessFailureListener = downloadSuccessFailureListener1;
+
+        StorageReference storageRef = storage.getReference();
+
+        storageRef.getStorage().setMaxDownloadRetryTimeMillis(1000);
+
+        String filePath = goofName + ".aac";
+
+        final StorageReference audioRef = storageRef.child("Expansion Files for online Munchausen/AUDIO_FINAL/Fails_Eng/" + filePath);
+
+        //Download to a local file
+        File storagePath = new File(Environment.getExternalStorageDirectory() + "/.Munchausen/en.munchausen.fingertipsandcompany.any/expansion/audio/");
+        // Create direcorty if not exists
+        if(!storagePath.exists()) {
+            storagePath.mkdirs();
+        }
+
+        final File localFile = new File(storagePath, filePath);
+
+        if(!localFile.exists()) {
+
+            audioRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                        downloadSuccessFailureListener.onSuccess();
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+
+                    downloadSuccessFailureListener.onFailure();
+                }
+            });
+        }else{
+
+            final long totalSpaceInLocal = localFile.length();
+
+            audioRef.getMetadata().addOnSuccessListener(new OnSuccessListener<StorageMetadata>() {
+                @Override
+                public void onSuccess(StorageMetadata storageMetadata) {
+                    long totalByteCountedInCloud = storageMetadata.getSizeBytes();
+
+                    System.out.println("totalByteCounted");
+
+                    if(totalSpaceInLocal == totalByteCountedInCloud){
+                        System.out.println("Already full file on local");
+                            downloadSuccessFailureListener.onSuccess();
+                    }else{
+                        //download again
+
+                        audioRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                    downloadSuccessFailureListener.onSuccess();
+
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                downloadSuccessFailureListener.onFailure();
+                            }
+                        });
+                        //download again ends
+                    }
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    downloadSuccessFailureListener.onFailure();
+                }
+            });
+
+        }
+
+        return true;
 
     }
 }
