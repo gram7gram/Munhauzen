@@ -67,6 +67,7 @@ import java.util.List;
 import en.munchausen.fingertipsandcompany.full.BuildConfig;
 import ua.gram.munhauzen.entity.Device;
 import ua.gram.munhauzen.interfaces.DownloadExpansionInteface;
+import ua.gram.munhauzen.interfaces.DownloadSuccessFailureListener;
 import ua.gram.munhauzen.interfaces.LoginInterface;
 import ua.gram.munhauzen.interfaces.LoginListener;
 import ua.gram.munhauzen.interfaces.OnExpansionDownloadComplete;
@@ -94,8 +95,25 @@ public class AndroidLauncher extends AndroidApplication {
     String link;
     String mInvitationUrl;
 
+    public int audioDownloadCount;
+    public int imageDownloadCount;
+
+    public int audiosNextChapterCount;
+    public int imagesNextChapterCount;
+
+    public DownloadSuccessFailureListener downloadSuccessFailureListener;
+
     public static  String USERS = "ztestusers";
     public static  String NOTIFICATION = "ztest1notifications";
+
+    List<String> audiosCurrentChapter;
+    List<String> imagesCurrentChapter;
+
+    List<String> audiosPrevChapter;
+    List<String> imagesPrevChapter;
+
+    List<String> audiosNextChapter;
+    List<String> imagesNextChapter;
 
     public class FIREBASE_PATHS{
         //        public static final  String USERS = "users";
@@ -249,9 +267,9 @@ public class AndroidLauncher extends AndroidApplication {
             }
         }, new DownloadExpansionInteface() {
             @Override
-            public void downloadExpansionAndDeletePrev(String currentChapterName) {
+            public void downloadExpansionAndDeletePrev(String currentChapterName, DownloadSuccessFailureListener downloadSuccessFailureListener) {
                 try {
-                    downloadExpansionFile(currentChapterName);
+                    downloadExpansionFile(currentChapterName, downloadSuccessFailureListener);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -310,9 +328,9 @@ public class AndroidLauncher extends AndroidApplication {
                 }
             }, new DownloadExpansionInteface() {
                 @Override
-                public void downloadExpansionAndDeletePrev(String currentChapterName) {
+                public void downloadExpansionAndDeletePrev(String currentChapterName, DownloadSuccessFailureListener downloadSuccessFailureListener) {
                     try {
-                        downloadExpansionFile(currentChapterName);
+                        downloadExpansionFile(currentChapterName, downloadSuccessFailureListener);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -361,6 +379,7 @@ public class AndroidLauncher extends AndroidApplication {
         }
 
         //for setting random values for notificaitons messages ends
+
     }
 
     private void getReferralCount(){
@@ -1115,8 +1134,9 @@ public class AndroidLauncher extends AndroidApplication {
 
     }
 
-    private void downloadExpansionFile(String currentChapterName) throws IOException {
+    private void downloadExpansionFile(String currentChapterName, DownloadSuccessFailureListener downloadSuccessFailureListener) throws IOException {
 
+        this.downloadSuccessFailureListener = downloadSuccessFailureListener;
         extractInfoFromScenarioJsonAndPerformDeleteDownload(currentChapterName);
 
 
@@ -1125,14 +1145,17 @@ public class AndroidLauncher extends AndroidApplication {
     public void extractInfoFromScenarioJsonAndPerformDeleteDownload(String currentChapterName){
 
 
-        List<String> audiosCurrentChapter = getAudioFilesFromChapter(currentChapterName);
-        List<String> imagesCurrentChapter = getImageFilesFromChapter(currentChapterName);
+        audioDownloadCount = 0;
+        imageDownloadCount = 0;
 
-        List<String> audiosPrevChapter = new ArrayList<>();
-        List<String> imagesPrevChapter = new ArrayList<>();
+        audiosCurrentChapter = getAudioFilesFromChapter(currentChapterName);
+        imagesCurrentChapter = getImageFilesFromChapter(currentChapterName);
 
-        List<String> audiosNextChapter = new ArrayList<>();
-        List<String> imagesNextChapter = new ArrayList<>();
+        audiosPrevChapter = new ArrayList<>();
+        imagesPrevChapter = new ArrayList<>();
+
+        audiosNextChapter = new ArrayList<>();
+        imagesNextChapter = new ArrayList<>();
 
         //get previous and next chapter
         String previousChapter= "";
@@ -1180,60 +1203,6 @@ public class AndroidLauncher extends AndroidApplication {
             System.out.println("ddf");
 
 
-            //check if audio files already present and delete
-
-            File audioDirectory = new File(Environment.getExternalStorageDirectory() + "/.Munchausen/en.munchausen.fingertipsandcompany.any/expansion/audio");
-
-            File[] directoryListing = audioDirectory.listFiles();
-
-            if(directoryListing != null) {
-                for (File file : directoryListing) {
-
-                    String fileName = "audio/" + file.getName();
-                    if(!audiosCurrentChapter.contains(fileName) && audiosPrevChapter.contains(fileName) && !audiosNextChapter.contains(fileName)){
-                        file.delete();
-                    }
-
-                    //for deleting all other files(making sure only chapters x-1, x and x+1 comes into play)
-
-                    if(!audiosCurrentChapter.contains(fileName) && !audiosPrevChapter.contains(fileName) && !audiosNextChapter.contains(fileName)){
-                        file.delete();
-                    }
-                }
-            }
-
-        //*check if audio files already present and delete ends
-
-
-            //check if image files already present and delete
-
-            File imageDirectory = new File(Environment.getExternalStorageDirectory() + "/.Munchausen/en.munchausen.fingertipsandcompany.any/expansion/images");
-
-            File[] imgdirectoryListing = imageDirectory.listFiles();
-
-            if(imgdirectoryListing != null) {
-                for (File file : imgdirectoryListing) {
-
-                    int iend = file.getName().indexOf(".");
-
-                    String fileName ="";
-
-                    if(iend !=1){
-                        fileName = file.getName().substring(0, iend);
-                    }
-                    if(!imagesCurrentChapter.contains(fileName) && imagesPrevChapter.contains(fileName) && !imagesNextChapter.contains(fileName)){
-                        file.delete();
-                    }
-
-                    //for deleting all other files(making sure only chapters x-1, x and x+1 comes into play)
-
-                    if(!imagesCurrentChapter.contains(fileName) && !imagesPrevChapter.contains(fileName) && !imagesNextChapter.contains(fileName)){
-                        file.delete();
-                    }
-                }
-            }
-
-            //*check if image files already present and delete ends
 
             System.out.println("Intermission");
 
@@ -1244,12 +1213,15 @@ public class AndroidLauncher extends AndroidApplication {
 
         try{
             //download audioFilesForAChapter
+
+            audiosNextChapterCount = audiosNextChapter.size();
             for(String audioPath: audiosNextChapter){
                 downloadChapterAudioFileFromCloud(audioPath);
             }
 
 
             //download imageFilesForAChapter
+            imagesNextChapterCount = imagesNextChapter.size();
             for(String imagePath: imagesNextChapter){
                 downloadChapterImageFileFromCloud(imagePath);
             }
@@ -1268,6 +1240,8 @@ public class AndroidLauncher extends AndroidApplication {
 
         StorageReference storageRef = storage.getReference();
 
+        storageRef.getStorage().setMaxDownloadRetryTimeMillis(1000);
+
         final StorageReference audioRef = storageRef.child("Expansion Files for online Munchausen/AUDIO_FINAL/Part_English/" + filePath);
 
         //Download to a local file
@@ -1285,16 +1259,26 @@ public class AndroidLauncher extends AndroidApplication {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
 
+                    audioDownloadCount++;
                     System.out.println("Success downloading from cloud :)");
-                    System.out.println("Success downloading from cloud :)");
-                    long totalBytes = taskSnapshot.getTotalByteCount();
-                    long totalBytesTransferred = taskSnapshot.getBytesTransferred();
-                    System.out.println("totalByteCount" + taskSnapshot.getTotalByteCount());
+                    System.out.println("AudioDownloadCount--->"+ audioDownloadCount);
+                    System.out.println("ImageDownloadCount--->"+ imageDownloadCount);
+
+                   if(audioDownloadCount >= audiosNextChapterCount && imageDownloadCount >= imagesNextChapterCount){
+                       downloadSuccessFailureListener.onSuccess();
+                       deletePreviousChapterExpansions();
+                   }
+
+
 
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
+
+                    System.out.println("AudioDownloadCount--->"+ audioDownloadCount);
+                    System.out.println("ImageDownloadCount--->"+ imageDownloadCount);
+                    downloadSuccessFailureListener.onFailure();
                     System.out.println("FAILURe downloading from cloud");
                 }
             });
@@ -1311,6 +1295,13 @@ public class AndroidLauncher extends AndroidApplication {
 
                     if(totalSpaceInLocal == totalByteCountedInCloud){
                         System.out.println("Already full file on local");
+                        audioDownloadCount++;
+                        if(audioDownloadCount >= audiosNextChapterCount && imageDownloadCount >= imagesNextChapterCount){
+                            System.out.println("AudioDownloadCount--->"+ audioDownloadCount);
+                            System.out.println("ImageDownloadCount--->"+ imageDownloadCount);
+                            downloadSuccessFailureListener.onSuccess();
+                            deletePreviousChapterExpansions();
+                        }
                     }else{
                         //download again
 
@@ -1318,12 +1309,22 @@ public class AndroidLauncher extends AndroidApplication {
                             @Override
                             public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
 
+                                audioDownloadCount++;
                                 System.out.println("Success downloading from cloud :)");
+                                if(audioDownloadCount >= audiosNextChapterCount && imageDownloadCount >= imagesNextChapterCount){
+                                    System.out.println("AudioDownloadCount--->"+ audioDownloadCount);
+                                    System.out.println("ImageDownloadCount--->"+ imageDownloadCount);
+                                    downloadSuccessFailureListener.onSuccess();
+                                    deletePreviousChapterExpansions();
+                                }
 
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
+                                System.out.println("AudioDownloadCount--->"+ audioDownloadCount);
+                                System.out.println("ImageDownloadCount--->"+ imageDownloadCount);
+                                downloadSuccessFailureListener.onFailure();
                                 System.out.println("FAILURe downloading from cloud");
                             }
                         });
@@ -1334,7 +1335,7 @@ public class AndroidLauncher extends AndroidApplication {
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-
+                    downloadSuccessFailureListener.onFailure();
                 }
             });
 
@@ -1360,6 +1361,8 @@ public class AndroidLauncher extends AndroidApplication {
 
         StorageReference storageRef = storage.getReference();
 
+        storageRef.getStorage().setMaxDownloadRetryTimeMillis(1000);
+
         final StorageReference imageRef = storageRef.child("Expansion Files for online Munchausen/" + PICTURES_DPI + img_without_jpg + ".jpg");
 
         //Download to a local file
@@ -1376,16 +1379,25 @@ public class AndroidLauncher extends AndroidApplication {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
 
+                    imageDownloadCount++;
                     System.out.println("Success downloading from cloud :)");
                     System.out.println("Success downloading from cloud :)");
-                    long totalBytes = taskSnapshot.getTotalByteCount();
-                    long totalBytesTransferred = taskSnapshot.getBytesTransferred();
-                    System.out.println("totalByteCount" + taskSnapshot.getTotalByteCount());
+
+                    System.out.println("AudioDownloadCount--->"+ audioDownloadCount);
+                    System.out.println("ImageDownloadCount--->"+ imageDownloadCount);
+
+                    if(audioDownloadCount >= audiosNextChapterCount && imageDownloadCount >= imagesNextChapterCount){
+                        downloadSuccessFailureListener.onSuccess();
+                        deletePreviousChapterExpansions();
+                    }
 
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
+                    System.out.println("AudioDownloadCount--->"+ audioDownloadCount);
+                    System.out.println("ImageDownloadCount--->"+ imageDownloadCount);
+                    downloadSuccessFailureListener.onFailure();
                     System.out.println("FAILURe downloading from cloud");
                 }
             });
@@ -1402,6 +1414,14 @@ public class AndroidLauncher extends AndroidApplication {
 
                     if(totalSpaceInLocal == totalByteCountedInCloud){
                         System.out.println("Already full Image file on local");
+                        imageDownloadCount++;
+                        System.out.println("AudioDownloadCount--->"+ audioDownloadCount);
+                        System.out.println("ImageDownloadCount--->"+ imageDownloadCount);
+                        if(audioDownloadCount >= audiosNextChapterCount && imageDownloadCount >= imagesNextChapterCount){
+                            downloadSuccessFailureListener.onSuccess();
+                            deletePreviousChapterExpansions();
+                        }
+
                     }else{
                         //download again
 
@@ -1409,13 +1429,25 @@ public class AndroidLauncher extends AndroidApplication {
                             @Override
                             public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
 
+                                imageDownloadCount++;
+                                System.out.println("AudioDownloadCount--->"+ audioDownloadCount);
+                                System.out.println("ImageDownloadCount--->"+ imageDownloadCount);
+                                if(audioDownloadCount >= audiosNextChapterCount && imageDownloadCount >= imagesNextChapterCount){
+                                    downloadSuccessFailureListener.onSuccess();
+                                    deletePreviousChapterExpansions();
+                                }
+
                                 System.out.println("Success downloading from cloud :)");
 
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
+                                System.out.println("AudioDownloadCount--->"+ audioDownloadCount);
+                                System.out.println("ImageDownloadCount--->"+ imageDownloadCount);
                                 System.out.println("FAILURe downloading from cloud");
+                                downloadSuccessFailureListener.onFailure();
+
                             }
                         });
                         //download again ends
@@ -1425,7 +1457,7 @@ public class AndroidLauncher extends AndroidApplication {
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-
+                    downloadSuccessFailureListener.onFailure();
                 }
             });
 
@@ -1497,6 +1529,23 @@ public class AndroidLauncher extends AndroidApplication {
 
             }
 
+            //for adding chapter title audio
+
+            String chapterJson = readChapterJsonFile();
+
+            JSONArray chapters = new JSONArray(chapterJson);
+
+            for(int i=0; i< chapters.length(); i++){
+
+                JSONObject jsonObject = chapters.getJSONObject(i);
+                if(chapterName.equals(jsonObject.getString("name"))){
+                    audioPaths.add("audio/" + jsonObject.getString("chapterAudio") + ".aac");
+                }
+
+            }
+
+            //title audio ends
+
             return audioPaths;
     } catch (JSONException ex) {
             ex.printStackTrace();
@@ -1528,6 +1577,7 @@ public class AndroidLauncher extends AndroidApplication {
 
                         for(int k=0; k< imageArray.length(); k++){
 
+                            if(!imageArray.getJSONObject(k).getString("image").equals("Last"))
                             images.add(imageArray.getJSONObject(k).getString("image"));
 
                         }
@@ -1548,6 +1598,66 @@ public class AndroidLauncher extends AndroidApplication {
             ex.printStackTrace();
             return null;
         }
+
+    }
+
+    public void deletePreviousChapterExpansions(){
+
+        //check if audio files already present and delete
+
+        File audioDirectory = new File(Environment.getExternalStorageDirectory() + "/.Munchausen/en.munchausen.fingertipsandcompany.any/expansion/audio");
+
+        File[] directoryListing = audioDirectory.listFiles();
+
+        if(directoryListing != null) {
+            for (File file : directoryListing) {
+
+                String fileName = "audio/" + file.getName();
+                if(!audiosCurrentChapter.contains(fileName) && audiosPrevChapter.contains(fileName) && !audiosNextChapter.contains(fileName)){
+                    file.delete();
+                }
+
+                //for deleting all other files(making sure only chapters x-1, x and x+1 comes into play)
+
+                if(!audiosCurrentChapter.contains(fileName) && !audiosPrevChapter.contains(fileName) && !audiosNextChapter.contains(fileName)){
+                    file.delete();
+                }
+            }
+        }
+
+        //*check if audio files already present and delete ends
+
+
+        //check if image files already present and delete
+
+        File imageDirectory = new File(Environment.getExternalStorageDirectory() + "/.Munchausen/en.munchausen.fingertipsandcompany.any/expansion/images");
+
+        File[] imgdirectoryListing = imageDirectory.listFiles();
+
+        if(imgdirectoryListing != null) {
+            for (File file : imgdirectoryListing) {
+
+                int iend = file.getName().indexOf(".");
+
+                String fileName ="";
+
+                if(iend !=1){
+                    fileName = file.getName().substring(0, iend);
+                }
+                if(!imagesCurrentChapter.contains(fileName) && imagesPrevChapter.contains(fileName) && !imagesNextChapter.contains(fileName)){
+                    file.delete();
+                }
+
+                //for deleting all other files(making sure only chapters x-1, x and x+1 comes into play)
+
+                if(!imagesCurrentChapter.contains(fileName) && !imagesPrevChapter.contains(fileName) && !imagesNextChapter.contains(fileName)){
+                    file.delete();
+                }
+            }
+        }
+
+        //*check if image files already present and delete ends
+
 
     }
 }

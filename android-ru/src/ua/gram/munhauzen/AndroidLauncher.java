@@ -55,6 +55,8 @@ import java.util.Calendar;
 
 import ru.munchausen.fingertipsandcompany.full.BuildConfig;
 import ua.gram.munhauzen.entity.Device;
+import ua.gram.munhauzen.interfaces.DownloadExpansionInteface;
+import ua.gram.munhauzen.interfaces.DownloadSuccessFailureListener;
 import ua.gram.munhauzen.interfaces.LoginInterface;
 import ua.gram.munhauzen.interfaces.LoginListener;
 import ua.gram.munhauzen.interfaces.OnExpansionDownloadComplete;
@@ -217,7 +219,12 @@ public class AndroidLauncher extends AndroidApplication {
 
                     userRecord.child("hasCompletedChap0").setValue(1);
                 }
-            } );
+            }, new DownloadExpansionInteface() {
+                @Override
+                public void downloadExpansionAndDeletePrev(String currentChapterName, DownloadSuccessFailureListener downloadSuccessFailureListener) {
+
+                }
+            });
 
 
 
@@ -269,7 +276,12 @@ public class AndroidLauncher extends AndroidApplication {
 
                     userRecord.child("hasCompletedChap0").setValue(1);
                 }
-            } );
+            }, new DownloadExpansionInteface() {
+                @Override
+                public void downloadExpansionAndDeletePrev(String currentChapterName, DownloadSuccessFailureListener downloadSuccessFailureListener) {
+
+                }
+            });
 
             initialize(game, config);
 
