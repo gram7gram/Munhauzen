@@ -224,6 +224,16 @@ public class AndroidLauncher extends AndroidApplication {
                 public void downloadExpansionAndDeletePrev(String currentChapterName, DownloadSuccessFailureListener downloadSuccessFailureListener) {
 
                 }
+
+                @Override
+                public boolean downloadGoof(String goofName, DownloadSuccessFailureListener downloadSuccessFailureListener) {
+                    return false;
+                }
+
+                @Override
+                public boolean downloadGallery(String imageName, DownloadSuccessFailureListener downloadSuccessFailureListener) {
+                    return false;
+                }
             });
 
 
@@ -280,6 +290,16 @@ public class AndroidLauncher extends AndroidApplication {
                 @Override
                 public void downloadExpansionAndDeletePrev(String currentChapterName, DownloadSuccessFailureListener downloadSuccessFailureListener) {
 
+                }
+
+                @Override
+                public boolean downloadGoof(String goofName, DownloadSuccessFailureListener downloadSuccessFailureListener) {
+                    return false;
+                }
+
+                @Override
+                public boolean downloadGallery(String imageName, DownloadSuccessFailureListener downloadSuccessFailureListener) {
+                    return false;
                 }
             });
 

@@ -8,12 +8,14 @@ import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.GameLayerInterface;
 import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.interfaces.DownloadSuccessFailureListener;
 import ua.gram.munhauzen.screen.gallery.entity.PaintingImage;
 import ua.gram.munhauzen.screen.painting.fragment.ControlsFragment;
 import ua.gram.munhauzen.screen.painting.fragment.FullscreenFragment;
 import ua.gram.munhauzen.screen.painting.fragment.PaintingFragment;
 import ua.gram.munhauzen.screen.painting.ui.PaintingLayers;
 import ua.gram.munhauzen.ui.AdultGateFragment;
+import ua.gram.munhauzen.utils.ExternalFiles;
 import ua.gram.munhauzen.utils.Log;
 
 /**
@@ -128,6 +130,45 @@ public class PaintingScreen extends AbstractScreen {
                 }
             });
 
+            //paintingFragment.paintingImage.image.description = "Loading";
+
+
+            if(game.isOnlineMode()){
+                final boolean[] isSuccess = {false, false};
+                int i= 1;
+                while(isSuccess[0] != true && isSuccess[1] != true){
+
+                    String path = ExternalFiles.getExpansionImage(game.params, next.image).path();
+
+                    if (!Gdx.files.external(path).exists() || i > 1) {
+
+
+                        System.out.println("file does not exist");
+                        if(i == 1) {
+                            MunhauzenGame.downloadExpansionInteface.downloadGallery(next.image.name, new DownloadSuccessFailureListener() {
+                                @Override
+                                public void onSuccess() {
+                                    isSuccess[0] = true;
+                                }
+
+                                @Override
+                                public void onFailure() {
+                                    isSuccess[1] = true;
+                                }
+                            });
+                        }
+                        i++;
+
+                    }else{
+                        System.out.println("file exists!");
+                        break;
+                    }
+
+                }
+
+            }
+
+
             Timer.instance().scheduleTask(new Timer.Task() {
                 @Override
                 public void run() {
@@ -167,6 +208,7 @@ public class PaintingScreen extends AbstractScreen {
 
             game.sfxService.onGalleryArrowClick();
 
+
             paintingFragment.fadeOutRight(new Runnable() {
                 @Override
                 public void run() {
@@ -181,6 +223,41 @@ public class PaintingScreen extends AbstractScreen {
                     }
                 }
             });
+
+
+            if(game.isOnlineMode()){
+                final boolean[] isSuccess = {false, false};
+                int i= 1;
+                while(isSuccess[0] != true && isSuccess[1] != true){
+
+                    String path = ExternalFiles.getExpansionImage(game.params, prev.image).path();
+
+                    if (!Gdx.files.external(path).exists() || i > 1) {
+                        System.out.println("file does not exist");
+                        if(i == 1) {
+                            MunhauzenGame.downloadExpansionInteface.downloadGallery(prev.image.name, new DownloadSuccessFailureListener() {
+                                @Override
+                                public void onSuccess() {
+                                    isSuccess[0] = true;
+                                }
+
+                                @Override
+                                public void onFailure() {
+                                    isSuccess[1] = true;
+                                }
+                            });
+                        }
+                        i++;
+
+                    }else{
+                        System.out.println("file exists!");
+                        break;
+                    }
+
+                }
+
+            }
+
 
             Timer.instance().scheduleTask(new Timer.Task() {
                 @Override
