@@ -156,6 +156,20 @@ public class PaintingScreen extends AbstractScreen {
                                     isSuccess[1] = true;
                                 }
                             });
+
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        Thread.sleep(10000);
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
+                                    isSuccess[1] = true;
+
+                                }
+                            }).start();
+
                         }
                         i++;
 
@@ -167,6 +181,7 @@ public class PaintingScreen extends AbstractScreen {
                 }
 
             }
+
 
 
             Timer.instance().scheduleTask(new Timer.Task() {
@@ -246,6 +261,20 @@ public class PaintingScreen extends AbstractScreen {
                                     isSuccess[1] = true;
                                 }
                             });
+
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        Thread.sleep(10000);
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
+                                    isSuccess[1] = true;
+
+                                }
+                            }).start();
+
                         }
                         i++;
 

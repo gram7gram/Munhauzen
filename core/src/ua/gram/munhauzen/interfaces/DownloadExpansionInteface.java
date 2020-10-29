@@ -8,4 +8,6 @@ public interface DownloadExpansionInteface {
 
     boolean downloadGallery(String imageName, DownloadSuccessFailureListener downloadSuccessFailureListener);
 
+    boolean isInternetAvailable();
+
 }
