@@ -93,63 +93,80 @@ public class ImageRow extends Stack {
                         screen.navigateTo(new PaintingScreen(screen.game, paintingImage));
                     }else {
 
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
 
-                                long time = System.currentTimeMillis();
-                                while (System.currentTimeMillis() < time + 1000){}
+                        //memory check
+                        float memory = screen.game.params.memoryUsage.megabytesAvailable();
+                        if(0.5 > memory){
+                            screen.destroyBanners();
+                            long time = System.currentTimeMillis();
+                            while (System.currentTimeMillis() < time + 1000){}
+                            screen.openNoMemoryBanner(new Runnable() {
+                                @Override
+                                public void run() {
+                                    System.out.println("No memory");
+                                }
+                            });
 
-                                Gdx.app.postRunnable(new Runnable() {
-                                    @Override
-                                    public void run() {
+                        }else {
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                    long time = System.currentTimeMillis();
+                                    while (System.currentTimeMillis() < time + 1000) {
+                                    }
+
+                                    Gdx.app.postRunnable(new Runnable() {
+                                        @Override
+                                        public void run() {
 
 
-                                final boolean[] isSuccess = {false, false};
-                                int i = 1;
+                                            final boolean[] isSuccess = {false, false};
+                                            int i = 1;
 
 
-                                while (isSuccess[0] != true && isSuccess[1] != true) {
+                                            while (isSuccess[0] != true && isSuccess[1] != true) {
 
-                                    if (i == 1) {
-                                        MunhauzenGame.downloadExpansionInteface.downloadGallery(paintingImage.image.name, new DownloadSuccessFailureListener() {
-                                            @Override
-                                            public void onSuccess() {
-                                                //screen.navigateTo(new PaintingScreen(screen.game, paintingImage));
-                                                isSuccess[0] = true;
+                                                if (i == 1) {
+                                                    MunhauzenGame.downloadExpansionInteface.downloadGallery(paintingImage.image.name, new DownloadSuccessFailureListener() {
+                                                        @Override
+                                                        public void onSuccess() {
+                                                            //screen.navigateTo(new PaintingScreen(screen.game, paintingImage));
+                                                            isSuccess[0] = true;
+
+                                                        }
+
+                                                        @Override
+                                                        public void onFailure() {
+                                                            isSuccess[1] = true;
+                                                            screen.openNoInternetBanner(new Runnable() {
+                                                                @Override
+                                                                public void run() {
+
+                                                                }
+                                                            });
+                                                        }
+                                                    });
+
+
+                                                }
+                                                i++;
+
 
                                             }
 
-                                            @Override
-                                            public void onFailure() {
-                                                isSuccess[1] = true;
-                                                screen.openNoInternetBanner(new Runnable() {
-                                                    @Override
-                                                    public void run() {
 
-                                                    }
-                                                });
+                                            if (isSuccess[0]) {
+                                                screen.navigateTo(new PaintingScreen(screen.game, paintingImage));
                                             }
-                                        });
 
-
-                                    }
-                                    i++;
-
-
-                                }
-
-
-                                if (isSuccess[0]) {
-                                    screen.navigateTo(new PaintingScreen(screen.game, paintingImage));
-                                }
-
-                                    }
-                                });
+                                        }
+                                    });
 
 //upHere
-                            }
-                        }).start();
+                                }
+                            }).start();
+                        }
 
 
                     }
