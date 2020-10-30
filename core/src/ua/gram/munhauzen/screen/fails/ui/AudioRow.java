@@ -117,39 +117,54 @@ public class AudioRow extends Table {
                     }
                 }else{
 
-                    try {
-
-                        Log.i(tag, "clicked on " + fail.storyAudio.audio);
-
-                        screen.stopAll();
-
-
-                        MunhauzenGame.downloadExpansionInteface.downloadGoof(fail.storyAudio.audio, new DownloadSuccessFailureListener() {
+                    //memory check
+                    float memory = screen.game.params.memoryUsage.megabytesAvailable();
+                    if(0.5 > memory){
+                        screen.destroyBanners();
+                        long time = System.currentTimeMillis();
+                        while (System.currentTimeMillis() < time + 1000){}
+                        screen.openNoMemoryBanner(new Runnable() {
                             @Override
-                            public void onSuccess() {
-                                screen.audioService.prepareAndPlay(fail.storyAudio);
+                            public void run() {
+                                System.out.println("No memory");
+                            }
+                        });
 
-                                if (fail.storyAudio.player != null) {
-                                    fail.isPlaying = true;
+                    }else {
 
-                                    fail.storyAudio.player.setOnCompletionListener(new Music.OnCompletionListener() {
-                                        @Override
-                                        public void onCompletion(Music music) {
-                                            screen.stopAll();
-                                        }
-                                    });
+                        try {
+
+                            Log.i(tag, "clicked on " + fail.storyAudio.audio);
+
+                            screen.stopAll();
+
+
+                            MunhauzenGame.downloadExpansionInteface.downloadGoof(fail.storyAudio.audio, new DownloadSuccessFailureListener() {
+                                @Override
+                                public void onSuccess() {
+                                    screen.audioService.prepareAndPlay(fail.storyAudio);
+
+                                    if (fail.storyAudio.player != null) {
+                                        fail.isPlaying = true;
+
+                                        fail.storyAudio.player.setOnCompletionListener(new Music.OnCompletionListener() {
+                                            @Override
+                                            public void onCompletion(Music music) {
+                                                screen.stopAll();
+                                            }
+                                        });
+                                    }
+
+                                    fail.isListened = true;
+
+                                    screen.game.gameState.failsState.listenedAudio.add(fail.storyAudio.audio);
+
+                                    init();
+
                                 }
 
-                                fail.isListened = true;
-
-                                screen.game.gameState.failsState.listenedAudio.add(fail.storyAudio.audio);
-
-                                init();
-
-                            }
-
-                            @Override
-                            public void onFailure() {
+                                @Override
+                                public void onFailure() {
 
                                 /*screen.openNoInternetBanner(new Runnable() {
                                     @Override
@@ -158,13 +173,13 @@ public class AudioRow extends Table {
                                     }
                                 });*/
 
-                            }
-                        });
+                                }
+                            });
 
 
-
-                    } catch (Throwable e) {
-                        Log.e(tag, e);
+                        } catch (Throwable e) {
+                            Log.e(tag, e);
+                        }
                     }
 
                 }

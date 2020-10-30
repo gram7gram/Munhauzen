@@ -269,6 +269,11 @@ public class AndroidLauncher extends AndroidApplication {
                 public boolean downloadGallery(String imageName, DownloadSuccessFailureListener downloadSuccessFailureListener2) {
                     return downloadGalleryImage(imageName, downloadSuccessFailureListener2);
                 }
+
+                @Override
+                public boolean isInternetAvailable() {
+                    return AndroidLauncher.this.isInternetAvailable();
+                }
             });
 
 
@@ -339,6 +344,11 @@ public class AndroidLauncher extends AndroidApplication {
                 @Override
                 public boolean downloadGallery(String imageName, DownloadSuccessFailureListener downloadSuccessFailureListener2) {
                     return downloadGalleryImage(imageName, downloadSuccessFailureListener2);
+                }
+
+                @Override
+                public boolean isInternetAvailable() {
+                    return AndroidLauncher.this.isInternetAvailable();
                 }
             });
 
