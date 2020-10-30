@@ -67,16 +67,20 @@ import org.robovm.pods.firebase.dynamiclinks.FIRDynamicLinkAndroidParameters;
 import org.robovm.pods.firebase.dynamiclinks.FIRDynamicLinkComponents;
 import org.robovm.pods.firebase.dynamiclinks.FIRDynamicLinkIOSParameters;
 import org.robovm.pods.firebase.dynamiclinks.FIRDynamicLinks;
+import org.robovm.pods.firebase.firestore.FIRFirestore;
 import org.robovm.pods.firebase.messaging.FIRMessaging;
 import org.robovm.pods.firebase.messaging.FIRMessagingDelegate;
 import org.robovm.pods.firebase.messaging.FIRMessagingRemoteMessage;
+import org.robovm.pods.firebase.storage.FIRStorage;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.List;
 import java.util.Set;
 
 import ua.gram.munhauzen.entity.Device;
+import ua.gram.munhauzen.interfaces.DownloadSuccessFailureListener;
 import ua.gram.munhauzen.interfaces.LoginInterface;
 import ua.gram.munhauzen.interfaces.LoginListener;
 import ua.gram.munhauzen.interfaces.OnExpansionDownloadComplete;
@@ -124,13 +128,33 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
     private FIRAuth mAuth;
 
+    private FIRStorage storage;
 
+    public int audioDownloadCount;
+    public int imageDownloadCount;
+
+    public int audiosNextChapterCount;
+    public int imageNextChapterCount;
+
+    public DownloadSuccessFailureListener downloadSuccessFailureListener;
+
+    List<String> audiosCurrentChapter;
+    List<String> imagesCurrentChapter;
+
+    List<String> audiosPrevChapter;
+    List<String> imagesPrevChapter;
+
+    List<String> audiosNextChapter;
+    List<String> imagesNextChapter;
     @Override
     public boolean didFinishLaunching(UIApplication application, UIApplicationLaunchOptions launchOptions) {
         System.out.println("createApplication: ");
         try {
 
             FIRApp.configure();
+
+            storage = FIRStorage.storage();
+
             System.out.println("didFinishLaunching: Firebase configured");
             NSUserDefaults.getStandardUserDefaults().put(KEY_REFERRAL_COUNT,0);
             if (Foundation.getMajorSystemVersion() >= 10) {
