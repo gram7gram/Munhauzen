@@ -70,7 +70,7 @@ import org.robovm.pods.firebase.dynamiclinks.FIRDynamicLinkAndroidParameters;
 import org.robovm.pods.firebase.dynamiclinks.FIRDynamicLinkComponents;
 import org.robovm.pods.firebase.dynamiclinks.FIRDynamicLinkIOSParameters;
 import org.robovm.pods.firebase.dynamiclinks.FIRDynamicLinks;
-import org.robovm.pods.firebase.firestore.FIRFirestore;
+//import org.robovm.pods.firebase.firestore.FIRFirestore;
 import org.robovm.pods.firebase.messaging.FIRMessaging;
 import org.robovm.pods.firebase.messaging.FIRMessagingDelegate;
 import org.robovm.pods.firebase.messaging.FIRMessagingRemoteMessage;
