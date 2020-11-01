@@ -67,6 +67,8 @@ public class ExpansionDownloadManager {
 
             String content = file.readString("UTF-8");
 
+            System.out.println("ExpansionPath -----------> "+file.path());
+
             Log.i(tag, "fetchExpansionToDownload:\n" + content);
 
             expansionToDownload = game.databaseManager.loadExpansionInfo(content);

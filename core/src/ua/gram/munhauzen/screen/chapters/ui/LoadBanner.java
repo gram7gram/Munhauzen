@@ -1,5 +1,6 @@
 package ua.gram.munhauzen.screen.chapters.ui;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -13,6 +14,7 @@ import ua.gram.munhauzen.ButtonBuilder;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.Chapter;
+import ua.gram.munhauzen.entity.Device;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.Scenario;
 import ua.gram.munhauzen.entity.Story;
@@ -128,8 +130,15 @@ public class LoadBanner extends Banner<ChaptersScreen> {
                                     }
                                 });
 
+
                                 //memory check
-                                float memory = game.params.memoryUsage.megabytesAvailable();
+                                float memory;
+                                if (Gdx.app.getType() == Application.ApplicationType.Android) {
+                                    memory = game.params.memoryUsage.megabytesAvailable();
+                                } else {
+                                    memory = 10;
+                                }
+
                                 if(5 > memory){
                                     screen.destroyBanners();
                                     long time = System.currentTimeMillis();

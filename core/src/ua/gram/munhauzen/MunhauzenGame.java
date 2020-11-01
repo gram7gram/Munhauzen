@@ -98,12 +98,14 @@ public class MunhauzenGame extends Game {
     public MunhauzenGame(PlatformParams params, AlarmInterface alarmInterface,
                          OnExpansionDownloadComplete onExpansionDownloadComplete,
                          LoginInterface loginInterface,
-                         ReferralInterface referralInterface) {
+                         ReferralInterface referralInterface,
+                         DownloadExpansionInteface downloadExpansionInteface) {
         this.params = params;
         MunhauzenGame.alarmInterface = alarmInterface;
         MunhauzenGame.onExpansionDownloadComplete = onExpansionDownloadComplete;
         MunhauzenGame.loginInterface = loginInterface;
         MunhauzenGame.referralInterface = referralInterface;
+        MunhauzenGame.downloadExpansionInteface = downloadExpansionInteface;
     }
 
     public boolean isOnlineMode() {

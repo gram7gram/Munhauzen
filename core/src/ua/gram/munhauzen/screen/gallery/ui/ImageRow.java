@@ -1,5 +1,6 @@
 package ua.gram.munhauzen.screen.gallery.ui;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -95,7 +96,12 @@ public class ImageRow extends Stack {
 
 
                         //memory check
-                        float memory = screen.game.params.memoryUsage.megabytesAvailable();
+                        float memory;
+                        if (Gdx.app.getType() == Application.ApplicationType.Android) {
+                            memory = screen.game.params.memoryUsage.megabytesAvailable();
+                        } else {
+                            memory = 10;
+                        }
                         if(0.5 > memory){
                             screen.destroyBanners();
                             long time = System.currentTimeMillis();
