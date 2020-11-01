@@ -114,64 +114,138 @@ public class ImageRow extends Stack {
                             });
 
                         }else {
-                            new Thread(new Runnable() {
-                                @Override
-                                public void run() {
 
-                                    long time = System.currentTimeMillis();
-                                    while (System.currentTimeMillis() < time + 1000) {
+                            if (Gdx.app.getType() == Application.ApplicationType.Android) {
+                                new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                        long time = System.currentTimeMillis();
+                                        while (System.currentTimeMillis() < time + 1000) {
+                                        }
+
+                                        Gdx.app.postRunnable(new Runnable() {
+                                            @Override
+                                            public void run() {
+
+
+                                                final boolean[] isSuccess = {false, false};
+                                                int i = 1;
+
+
+                                                while (isSuccess[0] != true && isSuccess[1] != true) {
+
+                                                    if (i == 1) {
+                                                        MunhauzenGame.downloadExpansionInteface.downloadGallery(paintingImage.image.name, new DownloadSuccessFailureListener() {
+                                                            @Override
+                                                            public void onSuccess() {
+                                                                //screen.navigateTo(new PaintingScreen(screen.game, paintingImage));
+                                                                isSuccess[0] = true;
+
+                                                            }
+
+                                                            @Override
+                                                            public void onFailure() {
+                                                                isSuccess[1] = true;
+                                                                screen.openNoInternetBanner(new Runnable() {
+                                                                    @Override
+                                                                    public void run() {
+
+                                                                    }
+                                                                });
+                                                            }
+                                                        });
+
+
+                                                    }
+                                                    i++;
+
+
+                                                }
+
+
+                                                if (isSuccess[0]) {
+                                                    screen.navigateTo(new PaintingScreen(screen.game, paintingImage));
+                                                }
+
+                                            }
+                                        });
+
+//upHere
                                     }
+                                }).start();
+                            } else {
+                                //for ios
+                                new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
 
-                                    Gdx.app.postRunnable(new Runnable() {
-                                        @Override
-                                        public void run() {
+                                        long time = System.currentTimeMillis();
+                                        while (System.currentTimeMillis() < time + 1000) {
+                                        }
+
+//                                        Gdx.app.postRunnable(new Runnable() {
+//                                            @Override
+//                                            public void run() {
 
 
-                                            final boolean[] isSuccess = {false, false};
-                                            int i = 1;
+                                                final boolean[] isSuccess = {false, false};
+                                                int i = 1;
 
 
-                                            while (isSuccess[0] != true && isSuccess[1] != true) {
-
-                                                if (i == 1) {
-                                                    MunhauzenGame.downloadExpansionInteface.downloadGallery(paintingImage.image.name, new DownloadSuccessFailureListener() {
-                                                        @Override
-                                                        public void onSuccess() {
-                                                            //screen.navigateTo(new PaintingScreen(screen.game, paintingImage));
-                                                            isSuccess[0] = true;
-
-                                                        }
-
-                                                        @Override
-                                                        public void onFailure() {
-                                                            isSuccess[1] = true;
-                                                            screen.openNoInternetBanner(new Runnable() {
+                                                while (isSuccess[0] != true && isSuccess[1] != true) {
+                                                    if (i == 1) {
+                                                            MunhauzenGame.downloadExpansionInteface.downloadGallery(paintingImage.image.name, new DownloadSuccessFailureListener() {
                                                                 @Override
-                                                                public void run() {
+                                                                public void onSuccess() {
+                                                                    //screen.navigateTo(new PaintingScreen(screen.game, paintingImage));
+                                                                    isSuccess[0] = true;
 
                                                                 }
+
+                                                                @Override
+                                                                public void onFailure() {
+                                                                    isSuccess[1] = true;
+                                                                    screen.openNoInternetBanner(new Runnable() {
+                                                                        @Override
+                                                                        public void run() {
+
+                                                                        }
+                                                                    });
+                                                                }
                                                             });
+
+                                                    }
+                                                    i++;
+
+
+                                                }
+
+
+                                                if (isSuccess[0]) {
+                                                    Gdx.app.postRunnable(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            screen.navigateTo(new PaintingScreen(screen.game, paintingImage));
                                                         }
                                                     });
 
 
                                                 }
-                                                i++;
 
-
-                                            }
-
-
-                                            if (isSuccess[0]) {
-                                                screen.navigateTo(new PaintingScreen(screen.game, paintingImage));
-                                            }
-
-                                        }
-                                    });
+//                                            }
+//                                        });
 
 //upHere
-                                }
-                            }).start();
+                                    }
+                                }).start();
+
+
+
+
+
+
+                            }
                         }
 
 

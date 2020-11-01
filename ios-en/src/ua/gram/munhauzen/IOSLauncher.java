@@ -1385,16 +1385,14 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
             audiosNextChapterCount = audiosNextChapter.size();
             for(String audioPath: audiosNextChapter){
                 downloadChapterAudioFileFromCloud(audioPath);
-                break;
             }
 
 
             //download imageFilesForAChapter
             imagesNextChapterCount = imagesNextChapter.size();
-//            for(String imagePath: imagesNextChapter){
-//                downloadChapterImageFileFromCloud(imagePath);
-//
-//            }
+            for(String imagePath: imagesNextChapter){
+                downloadChapterImageFileFromCloud(imagePath);
+            }
 
 
         }catch (Exception e){

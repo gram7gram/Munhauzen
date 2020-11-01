@@ -1,5 +1,6 @@
 package ua.gram.munhauzen.screen;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -133,10 +134,10 @@ public class PaintingScreen extends AbstractScreen {
             //paintingFragment.paintingImage.image.description = "Loading";
 
 
-            if(game.isOnlineMode()){
+            if (game.isOnlineMode()) {
                 final boolean[] isSuccess = {false, false};
-                int i= 1;
-                while(isSuccess[0] != true && isSuccess[1] != true){
+                int i = 1;
+                while (isSuccess[0] != true && isSuccess[1] != true) {
 
                     String path = ExternalFiles.getExpansionImage(game.params, next.image).path();
 
@@ -144,7 +145,7 @@ public class PaintingScreen extends AbstractScreen {
 
 
                         System.out.println("file does not exist");
-                        if(i == 1) {
+                        if (i == 1) {
                             MunhauzenGame.downloadExpansionInteface.downloadGallery(next.image.name, new DownloadSuccessFailureListener() {
                                 @Override
                                 public void onSuccess() {
@@ -157,6 +158,7 @@ public class PaintingScreen extends AbstractScreen {
                                 }
                             });
 
+
                             new Thread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -165,7 +167,9 @@ public class PaintingScreen extends AbstractScreen {
                                     } catch (InterruptedException e) {
                                         e.printStackTrace();
                                     }
+
                                     isSuccess[1] = true;
+
 
                                 }
                             }).start();
@@ -173,7 +177,7 @@ public class PaintingScreen extends AbstractScreen {
                         }
                         i++;
 
-                    }else{
+                    } else {
                         System.out.println("file exists!");
                         break;
                     }
@@ -183,13 +187,28 @@ public class PaintingScreen extends AbstractScreen {
             }
 
 
+//            if (Gdx.app.getType() == Application.ApplicationType.iOS){
+//                Thread.sleep(20000);
+//            }
+
 
             Timer.instance().scheduleTask(new Timer.Task() {
                 @Override
                 public void run() {
                     try {
 
+
                         paintingFragment = new PaintingFragment(PaintingScreen.this);
+                        if (Gdx.app.getType() == Application.ApplicationType.iOS) {
+                            long time = System.currentTimeMillis();
+                            while (System.currentTimeMillis() < time + 20000){
+                                String path = ExternalFiles.getExpansionImage(game.params, next.image).path();
+
+                                if (Gdx.files.external(path).exists()) {
+                                    break;
+                                }
+                            }
+                        }
                         paintingFragment.create(next);
 
                         layers.setContentLayer(paintingFragment);
@@ -206,6 +225,9 @@ public class PaintingScreen extends AbstractScreen {
                     }
                 }
             }, .22f);
+
+
+
 
         } catch (Throwable e) {
             Log.e(tag, e);
@@ -240,16 +262,16 @@ public class PaintingScreen extends AbstractScreen {
             });
 
 
-            if(game.isOnlineMode()){
+            if (game.isOnlineMode()) {
                 final boolean[] isSuccess = {false, false};
-                int i= 1;
-                while(isSuccess[0] != true && isSuccess[1] != true){
+                int i = 1;
+                while (isSuccess[0] != true && isSuccess[1] != true) {
 
                     String path = ExternalFiles.getExpansionImage(game.params, prev.image).path();
 
                     if (!Gdx.files.external(path).exists() || i > 1) {
                         System.out.println("file does not exist");
-                        if(i == 1) {
+                        if (i == 1) {
                             MunhauzenGame.downloadExpansionInteface.downloadGallery(prev.image.name, new DownloadSuccessFailureListener() {
                                 @Override
                                 public void onSuccess() {
@@ -278,7 +300,7 @@ public class PaintingScreen extends AbstractScreen {
                         }
                         i++;
 
-                    }else{
+                    } else {
                         System.out.println("file exists!");
                         break;
                     }
@@ -294,6 +316,16 @@ public class PaintingScreen extends AbstractScreen {
                     try {
 
                         paintingFragment = new PaintingFragment(PaintingScreen.this);
+                        if (Gdx.app.getType() == Application.ApplicationType.iOS) {
+                            long time = System.currentTimeMillis();
+                            while (System.currentTimeMillis() < time + 20000){
+                                String path = ExternalFiles.getExpansionImage(game.params, prev.image).path();
+
+                                if (Gdx.files.external(path).exists()) {
+                                    break;
+                                }
+                            }
+                        }
                         paintingFragment.create(prev);
 
                         layers.setContentLayer(paintingFragment);
