@@ -11,7 +11,7 @@ buildscript {
         //Needed for `apply plugin: "robovm"`
         classpath "com.mobidevelop.robovm:robovm-gradle-plugin:2.3.10-SNAPSHOT"
         //Needed for `apply plugin: "android"`
-        classpath 'com.android.tools.build:gradle:4.1.0'
+        classpath 'com.android.tools.build:gradle:3.3.2'
         classpath 'com.google.gms:google-services:4.3.3'
         classpath 'org.slf4j:slf4j-jdk14:1.7.9'
         classpath 'org.slf4j:slf4j-simple:1.7.9'
