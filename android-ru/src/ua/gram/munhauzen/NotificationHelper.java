@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
@@ -12,6 +13,8 @@ import android.os.Environment;
 import android.support.v4.app.NotificationCompat;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 
 import ru.munchausen.fingertipsandcompany.full.R;
 
@@ -88,16 +91,18 @@ public class NotificationHelper {
         String channelId = MunhauzenApp.CHANNEL_ID;
 
 
+
+
         //for image
 
-        File imageFile = new File(Environment.getExternalStorageDirectory() + "/.Munchausen/en.munchausen.fingertipsandcompany.any/expansion/" , icon);
-        //for image compression
-        Bitmap bitmap=null;
+        AssetManager assetManager = context.getAssets();
+        InputStream istr = null;
         try {
-            bitmap = BitmapFactory.decodeFile(imageFile.getPath());
-        } catch (Throwable t) {
-            t.printStackTrace();
+            istr = assetManager.open(icon);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        Bitmap bitmap = BitmapFactory.decodeStream(istr);
 
 
         //for image ends
