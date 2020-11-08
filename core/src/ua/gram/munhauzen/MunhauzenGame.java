@@ -148,7 +148,6 @@ public class MunhauzenGame extends Game {
         Log.i(tag, "create");
 
 
-
         try {
 
             Gdx.input.setCatchKey(Input.Keys.BACK, true);
@@ -190,7 +189,7 @@ public class MunhauzenGame extends Game {
             loginInterface.loginAnonymously(new LoginListener() {
                 @Override
                 public void isLoggedIn(boolean isLogin) {
-                    if(isLogin){
+                    if (isLogin) {
                         System.out.println("Already Logged In ");
                         //referralInterface.setReferralLink();
 
@@ -235,7 +234,6 @@ public class MunhauzenGame extends Game {
         // This is just an example but you
         // can now send notifications in your project
 //        if(Gdx.input.justTouched())
-
 
 
     }
@@ -379,14 +377,19 @@ public class MunhauzenGame extends Game {
     }
 
     public void stopCurrentSfx() {
-        if (sfxService == null) return;
+        if (sfxService != null) {
 
-        if (currentSfx != null) {
-            sfxService.dispose(currentSfx);
-            currentSfx = null;
+            if (currentSfx != null) {
+                sfxService.dispose(currentSfx);
+                currentSfx = null;
+            }
+
+            sfxService.stop();
         }
 
-        sfxService.stop();
+        if (backgroundSfxService != null) {
+            backgroundSfxService.stop();
+        }
     }
 
     public void updateDpi() {

@@ -1,21 +1,15 @@
 package ua.gram.munhauzen.service;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.files.FileHandle;
 
-import ua.gram.munhauzen.MunhauzenGame;
-import ua.gram.munhauzen.entity.Chapter;
 import ua.gram.munhauzen.entity.Image;
 import ua.gram.munhauzen.entity.StoryImage;
-import ua.gram.munhauzen.interfaces.DownloadSuccessFailureListener;
-import ua.gram.munhauzen.repository.ChapterRepository;
 import ua.gram.munhauzen.repository.ImageRepository;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.utils.ExpansionAssetManager;
 import ua.gram.munhauzen.utils.ExternalFiles;
 import ua.gram.munhauzen.utils.Files;
-import ua.gram.munhauzen.utils.Log;
 
 /**
  * @author Gram <gram7gram@gmail.com>
@@ -45,9 +39,9 @@ public class ExpansionImageService extends ImageService {
         if (!file.exists()) {
 
 
-          /*  if(gameScreen.game.isOnlineMode()) {
+            /*  if(gameScreen.game.isOnlineMode()) {
 
-               *//* gameScreen.banner.fadeOut(new Runnable() {
+             *//* gameScreen.banner.fadeOut(new Runnable() {
                     @Override
                     public void run() {*//*
                         //screen.destroyBanners();

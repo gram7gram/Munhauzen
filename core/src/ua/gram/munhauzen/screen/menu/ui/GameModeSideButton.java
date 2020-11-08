@@ -36,6 +36,11 @@ public class GameModeSideButton extends Image {
                         public void run() {
                             screen.destroyBanners();
                         }
+                    }, new Runnable() {
+                        @Override
+                        public void run() {
+                            screen.game.sfxService.onGameModeSelectInMenu();
+                        }
                     });
 
                 } catch (Throwable e) {
@@ -57,7 +62,7 @@ public class GameModeSideButton extends Image {
     public void act(float delta) {
         super.act(delta);
 
-        if (screen.game.gameState.preferences.isOfflineMode) {
+        if (screen.game.isOnlineMode()) {
             setDrawable(onlineSprite);
         } else {
             setDrawable(offlineSprite);

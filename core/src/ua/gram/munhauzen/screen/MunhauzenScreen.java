@@ -7,6 +7,7 @@ import ua.gram.munhauzen.GameLayerInterface;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.ui.ChapterDownloadFragment;
 import ua.gram.munhauzen.ui.GameModeFragment;
+import ua.gram.munhauzen.ui.Gift6Fragment;
 import ua.gram.munhauzen.ui.NoInternetFragment;
 import ua.gram.munhauzen.ui.NoMemoryFragment;
 import ua.gram.munhauzen.ui.SlowInternetFragment;
@@ -24,6 +25,7 @@ public abstract class MunhauzenScreen implements Screen {
     public SlowInternetFragment slowInternetFragment;
     public GameModeFragment gameModeFragment;
     public ChapterDownloadFragment chapterDownloadFragment;
+    public Gift6Fragment gift6Fragment;
 
     public MunhauzenScreen(MunhauzenGame game) {
         this.game = game;
@@ -43,13 +45,13 @@ public abstract class MunhauzenScreen implements Screen {
         Log.i(tag, "openAdultGateBanner");
     }
 
-    public void openGameModeBanner(Runnable action) {
+    public void openGameModeBanner(Runnable action, Runnable soundAction) {
         try {
 
             destroyBanners();
 
             gameModeFragment = new GameModeFragment(this);
-            gameModeFragment.create(action);
+            gameModeFragment.create(action, soundAction);
 
             getLayers().setBannerLayer(gameModeFragment);
 
@@ -88,6 +90,10 @@ public abstract class MunhauzenScreen implements Screen {
         if (chapterDownloadFragment != null) {
             chapterDownloadFragment.destroy();
             chapterDownloadFragment = null;
+        }
+        if (gift6Fragment != null) {
+            gift6Fragment.destroy();
+            gift6Fragment = null;
         }
 
     }
@@ -160,6 +166,25 @@ public abstract class MunhauzenScreen implements Screen {
             getLayers().setBannerLayer(chapterDownloadFragment);
 
             chapterDownloadFragment.fadeIn();
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            onCriticalError(e);
+        }
+    }
+
+    public void openGift6Banner(Runnable action) {
+        try {
+
+            destroyBanners();
+
+            gift6Fragment = new Gift6Fragment(this);
+            gift6Fragment.create(action);
+
+            getLayers().setBannerLayer(gift6Fragment);
+
+            gift6Fragment.fadeIn();
 
         } catch (Throwable e) {
             Log.e(tag, e);

@@ -1,16 +1,13 @@
 package ua.gram.munhauzen.screen.purchase;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.pay.Information;
 import com.badlogic.gdx.pay.PurchaseObserver;
 import com.badlogic.gdx.pay.Transaction;
-import com.badlogic.gdx.utils.Timer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import ua.gram.munhauzen.MunhauzenGame;
-import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.Product;
 import ua.gram.munhauzen.entity.Purchase;
 import ua.gram.munhauzen.screen.PurchaseScreen;
@@ -68,7 +65,8 @@ public class IAPObserver implements PurchaseObserver {
                 Log.e(tag, e);
             }
 
-        } catch (Throwable ignore) {}
+        } catch (Throwable ignore) {
+        }
     }
 
     @Override
@@ -116,42 +114,19 @@ public class IAPObserver implements PurchaseObserver {
         Log.i(tag, "handlePurchase\n" + transaction);
 
         try {
-
-            if (game.gameState.purchaseState.purchases == null) {
-                game.gameState.purchaseState.purchases = new ArrayList<>();
-            }
-
+            Purchase purchase = null;
             if (transaction != null) {
-                Purchase p = new Purchase();
-                p.orderId = transaction.getOrderId();
-                p.productId = transaction.getIdentifier();
-
-                game.gameState.purchaseState.purchases.add(p);
+                purchase = new Purchase();
+                purchase.orderId = transaction.getOrderId();
+                purchase.productId = transaction.getIdentifier();
             }
 
-            game.purchaseManager.updatePurchaseState();
-
-            game.stopCurrentSfx();
-            game.currentSfx = game.sfxService.onPurchaseSuccess();
-
-            Gdx.input.setInputProcessor(null);
-            GameState.clearTimer(tag);
-
-            if (game.currentSfx != null) {
-                Timer.instance().scheduleTask(new Timer.Task() {
-                    @Override
-                    public void run() {
-                        try {
-                            screen.onPurchaseCompleted();
-                        } catch (Throwable e) {
-                            Log.e(tag, e);
-                        }
-                    }
-                }, game.currentSfx.duration / 1000f);
-            } else {
-                screen.onPurchaseCompleted();
-            }
-
+            game.purchaseManager.purchaseSuccess(purchase, new Runnable() {
+                @Override
+                public void run() {
+                    screen.onPurchaseCompleted();
+                }
+            });
 
         } catch (Throwable e) {
             Log.e(tag, e);

@@ -18,7 +18,6 @@ import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.interfaces.DownloadSuccessFailureListener;
 import ua.gram.munhauzen.screen.GalleryScreen;
-import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.screen.PaintingScreen;
 import ua.gram.munhauzen.screen.gallery.entity.PaintingImage;
 import ua.gram.munhauzen.ui.FitImage;
@@ -90,9 +89,9 @@ public class ImageRow extends Stack {
                     screen.game.sfxService.onListItemClicked();
 
 
-                    if(!screen.game.isOnlineMode()) {
+                    if (!screen.game.isOnlineMode()) {
                         screen.navigateTo(new PaintingScreen(screen.game, paintingImage));
-                    }else {
+                    } else {
 
 
                         //memory check
@@ -102,10 +101,11 @@ public class ImageRow extends Stack {
                         } else {
                             memory = 10;
                         }
-                        if(0.5 > memory){
+                        if (0.5 > memory) {
                             screen.destroyBanners();
                             long time = System.currentTimeMillis();
-                            while (System.currentTimeMillis() < time + 1000){}
+                            while (System.currentTimeMillis() < time + 1000) {
+                            }
                             screen.openNoMemoryBanner(new Runnable() {
                                 @Override
                                 public void run() {
@@ -113,7 +113,7 @@ public class ImageRow extends Stack {
                                 }
                             });
 
-                        }else {
+                        } else {
 
                             if (Gdx.app.getType() == Application.ApplicationType.Android) {
                                 new Thread(new Runnable() {
@@ -189,49 +189,49 @@ public class ImageRow extends Stack {
 //                                            public void run() {
 
 
-                                                final boolean[] isSuccess = {false, false};
-                                                int i = 1;
+                                        final boolean[] isSuccess = {false, false};
+                                        int i = 1;
 
 
-                                                while (isSuccess[0] != true && isSuccess[1] != true) {
-                                                    if (i == 1) {
-                                                            MunhauzenGame.downloadExpansionInteface.downloadGallery(paintingImage.image.name, new DownloadSuccessFailureListener() {
-                                                                @Override
-                                                                public void onSuccess() {
-                                                                    //screen.navigateTo(new PaintingScreen(screen.game, paintingImage));
-                                                                    isSuccess[0] = true;
-
-                                                                }
-
-                                                                @Override
-                                                                public void onFailure() {
-                                                                    isSuccess[1] = true;
-                                                                    screen.openNoInternetBanner(new Runnable() {
-                                                                        @Override
-                                                                        public void run() {
-
-                                                                        }
-                                                                    });
-                                                                }
-                                                            });
+                                        while (isSuccess[0] != true && isSuccess[1] != true) {
+                                            if (i == 1) {
+                                                MunhauzenGame.downloadExpansionInteface.downloadGallery(paintingImage.image.name, new DownloadSuccessFailureListener() {
+                                                    @Override
+                                                    public void onSuccess() {
+                                                        //screen.navigateTo(new PaintingScreen(screen.game, paintingImage));
+                                                        isSuccess[0] = true;
 
                                                     }
-                                                    i++;
+
+                                                    @Override
+                                                    public void onFailure() {
+                                                        isSuccess[1] = true;
+                                                        screen.openNoInternetBanner(new Runnable() {
+                                                            @Override
+                                                            public void run() {
+
+                                                            }
+                                                        });
+                                                    }
+                                                });
+
+                                            }
+                                            i++;
 
 
+                                        }
+
+
+                                        if (isSuccess[0]) {
+                                            Gdx.app.postRunnable(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    screen.navigateTo(new PaintingScreen(screen.game, paintingImage));
                                                 }
+                                            });
 
 
-                                                if (isSuccess[0]) {
-                                                    Gdx.app.postRunnable(new Runnable() {
-                                                        @Override
-                                                        public void run() {
-                                                            screen.navigateTo(new PaintingScreen(screen.game, paintingImage));
-                                                        }
-                                                    });
-
-
-                                                }
+                                        }
 
 //                                            }
 //                                        });
@@ -239,10 +239,6 @@ public class ImageRow extends Stack {
 //upHere
                                     }
                                 }).start();
-
-
-
-
 
 
                             }

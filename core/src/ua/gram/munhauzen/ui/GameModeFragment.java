@@ -1,6 +1,7 @@
 package ua.gram.munhauzen.ui;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import ua.gram.munhauzen.screen.MunhauzenScreen;
 
@@ -12,10 +13,10 @@ public class GameModeFragment extends BannerFragment<MunhauzenScreen> {
 
     @Override
     public void create() {
-        create(null);
+        throw new GdxRuntimeException("Not supported");
     }
 
-    public void create(Runnable action) {
+    public void create(Runnable action, Runnable soundAction) {
 
         screen.game.internalAssetManager.load("ui/banner_fond_0.png", Texture.class);
         screen.game.internalAssetManager.load("ui/banner_version.png", Texture.class);
@@ -27,6 +28,9 @@ public class GameModeFragment extends BannerFragment<MunhauzenScreen> {
         createRoot();
 
         root.addContainer(banner);
+
+        screen.game.stopCurrentSfx();
+        soundAction.run();
     }
 
     @Override

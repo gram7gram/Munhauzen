@@ -57,7 +57,8 @@ public class ImageFragment extends Fragment {
             public void run() {
                 try {
                     displayImages();
-                } catch (Throwable ignore) {}
+                } catch (Throwable ignore) {
+                }
             }
         });
     }
@@ -109,7 +110,8 @@ public class ImageFragment extends Fragment {
                             public void run() {
                                 try {
                                     decoration.start();
-                                } catch (Throwable ignore) {}
+                                } catch (Throwable ignore) {
+                                }
                             }
                         }, delay, interval);
                     } else {
@@ -117,7 +119,8 @@ public class ImageFragment extends Fragment {
                     }
 
                     decorations.addActor(decoration);
-                } catch (Throwable ignore) {}
+                } catch (Throwable ignore) {
+                }
             }
         }
 

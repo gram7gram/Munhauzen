@@ -9,7 +9,7 @@ buildscript {
     }
     dependencies {
         //Needed for `apply plugin: "robovm"`
-        classpath "com.mobidevelop.robovm:robovm-gradle-plugin:2.3.10-SNAPSHOT"
+        classpath "com.mobidevelop.robovm:robovm-gradle-plugin:2.3.11"
         //Needed for `apply plugin: "android"`
         classpath 'com.android.tools.build:gradle:3.3.2'
         classpath 'com.google.gms:google-services:4.3.3'
@@ -24,7 +24,7 @@ allprojects {
     ext {
         appName = "Munchausen"
         gdxVersion = '1.9.10'
-        roboVMVersion = '2.3.10-SNAPSHOT'
+        roboVMVersion = '2.3.11'
         gdxPayVersion = '1.1.0'
     }
 

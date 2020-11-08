@@ -19,7 +19,9 @@ public abstract class StoryMedia<T> implements JsonEntry {
      */
     @JsonProperty
     public boolean isActive;
-    /** Media should be displayed or playing */
+    /**
+     * Media should be displayed or playing
+     */
     @JsonProperty
     public boolean isLocked;
     @JsonProperty
@@ -39,7 +41,9 @@ public abstract class StoryMedia<T> implements JsonEntry {
     @JsonProperty
     public Date prepareCompletedAt;
 
-    /** Media path to file */
+    /**
+     * Media path to file
+     */
     @JsonProperty
     public String resource;
 }

@@ -59,7 +59,8 @@ public abstract class PurchaseCard extends Card {
             }
 
             setPriceText(screen.game.t("purchase_screen.unavailable"));
-        } catch (Throwable ignore) {}
+        } catch (Throwable ignore) {
+        }
     }
 
     @Override

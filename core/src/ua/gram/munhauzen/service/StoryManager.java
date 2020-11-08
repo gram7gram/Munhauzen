@@ -86,7 +86,7 @@ public class StoryManager {
                 story.update(progressBefore, story.totalDuration);
             }
 
-            if(!gameState.preferences.isOfflineMode) {
+            if (gameScreen.game.isOnlineMode()) {
                 Chapter chapter = ChapterRepository.find(gameState, story.currentScenario.scenario.chapter);
 
                 //sending previous chapter
@@ -300,7 +300,8 @@ public class StoryManager {
 
                     gameScreen.game.achievementService.onChapterOpened(chapter);
                     gameScreen.game.achievementService.onScenarioVisited(storyScenario.scenario);
-                } catch (Throwable ignore) {}
+                } catch (Throwable ignore) {
+                }
             }
 
             for (StoryAudio audio : story.currentScenario.scenario.audio) {

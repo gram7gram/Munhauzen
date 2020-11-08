@@ -1198,11 +1198,17 @@ public class VerticalScrollPane extends WidgetGroup {
      * @author Nathan Sweet
      */
     static public class ScrollPaneStyle {
-        /** Optional. */
+        /**
+         * Optional.
+         */
         public Drawable background, corner;
-        /** Optional. */
+        /**
+         * Optional.
+         */
         public Drawable hScroll, hScrollKnob;
-        /** Optional. */
+        /**
+         * Optional.
+         */
         public Drawable vScroll, vScrollKnob;
 
         public ScrollPaneStyle() {

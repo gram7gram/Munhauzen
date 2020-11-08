@@ -67,7 +67,7 @@ public class ExpansionDownloadManager {
 
             String content = file.readString("UTF-8");
 
-            System.out.println("ExpansionPath -----------> "+file.path());
+            System.out.println("ExpansionPath -----------> " + file.path());
 
             Log.i(tag, "fetchExpansionToDownload:\n" + content);
 
@@ -279,7 +279,7 @@ public class ExpansionDownloadManager {
             //Log.e(tag, e);
             e.printStackTrace();
             String errorThrow = e.getLocalizedMessage();
-            System.out.println("exception should-fetch-expansion----------------->"+e);
+            System.out.println("exception should-fetch-expansion----------------->" + e);
             return true;
         }
     }

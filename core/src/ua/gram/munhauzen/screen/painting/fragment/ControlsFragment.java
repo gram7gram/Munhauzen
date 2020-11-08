@@ -114,12 +114,11 @@ public class ControlsFragment extends Fragment {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                if(MunhauzenGame.downloadExpansionInteface.isInternetAvailable()) {
+                if (MunhauzenGame.downloadExpansionInteface.isInternetAvailable()) {
                     btn.setTouchable(Touchable.disabled);
 
                     screen.nextPainting();
-                }
-                else{
+                } else {
                     screen.openNoInternetBanner(new Runnable() {
                         @Override
                         public void run() {
@@ -148,12 +147,11 @@ public class ControlsFragment extends Fragment {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                if(MunhauzenGame.downloadExpansionInteface.isInternetAvailable()) {
+                if (MunhauzenGame.downloadExpansionInteface.isInternetAvailable()) {
                     btn.setTouchable(Touchable.disabled);
 
                     screen.prevPainting();
-                }
-                else{
+                } else {
                     screen.openNoInternetBanner(new Runnable() {
                         @Override
                         public void run() {

@@ -103,11 +103,16 @@ public class ControlsFragment extends Fragment {
                 screen.openGameModeBanner(new Runnable() {
                     @Override
                     public void run() {
-                        if (screen.game.gameState.preferences.isOfflineMode) {
+                        if (!screen.game.isOnlineMode()) {
                             retryDownload();
                         } else {
                             screen.navigateTo(new MenuScreen(screen.game));
                         }
+                    }
+                }, new Runnable() {
+                    @Override
+                    public void run() {
+                        screen.game.sfxService.onGameModeSelect();
                     }
                 });
             }

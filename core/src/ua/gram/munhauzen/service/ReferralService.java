@@ -25,6 +25,7 @@ public class ReferralService {
     }
 
     public void copyReferralLink() {
+        game.stopCurrentSfx();
         MunhauzenGame.referralInterface.sendReferralLink();
     }
 

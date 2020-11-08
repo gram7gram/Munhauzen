@@ -279,7 +279,7 @@ public class RussianTranslator implements Translator {
 
         map.put("no_internet_banner.title", "Нету соединения с Интернетом");
         map.put("no_internet_banner.btn_retry", "Повторить");
-        map.put("no_internet_banner.content", "Пожалуйста, включите WiFi и попробуйте снова");
+        map.put("no_internet_banner.content", "Пожалуйста, подключите Интернет и попробуйте снова");
 
         map.put("slow_internet_banner.title", "Медленное соединение с Интернетом");
         map.put("slow_internet_banner.btn_retry", "Повторить");
@@ -294,6 +294,10 @@ public class RussianTranslator implements Translator {
         map.put("referal_banner.btn", "Поделиться");
         map.put("referal_banner.footer", "* гость должен не только установить приложение, но и пройти одну главу");
         map.put("purchase_pending_banner.title", "Покупка...\nЭто может занять до 1 минуты.\nПожалуйста, дождитесь закрытия окна");
+
+        map.put("gift_6_banner.title", "Держи подарок от меня!");
+        map.put("gift_6_banner.content", "6 замечательных глав!");
+        map.put("gift_6_banner.btn", "Спасибо");
 
     }
 

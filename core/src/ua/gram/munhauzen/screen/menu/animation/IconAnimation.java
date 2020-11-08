@@ -25,7 +25,8 @@ public abstract class IconAnimation extends AnimatedImage {
             iconWidth = scale * getCurrentDrawable().getMinWidth();
 
             setSize(iconWidth, iconHeight);
-        } catch (Throwable ignore) {}
+        } catch (Throwable ignore) {
+        }
 
     }
 }

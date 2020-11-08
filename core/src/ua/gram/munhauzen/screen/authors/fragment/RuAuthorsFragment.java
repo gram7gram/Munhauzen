@@ -110,7 +110,6 @@ public class RuAuthorsFragment extends AuthorsFragment {
         rows.add(img2).expandX().row();
 
 
-
         for (String sentence : screen.game.t("authors.content3").split("\n")) {
 
             Label label = new Label(sentence, style);
@@ -126,7 +125,6 @@ public class RuAuthorsFragment extends AuthorsFragment {
         rows.add(img4).expandX().row();
 
 
-
         for (String sentence : screen.game.t("authors.content4").split("\n")) {
 
             Label label = new Label(sentence, style);
@@ -138,7 +136,6 @@ public class RuAuthorsFragment extends AuthorsFragment {
 
 
         rows.add(img5).expandX().row();
-
 
 
         for (String sentence : screen.game.t("authors.content5").split("\n")) {

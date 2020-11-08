@@ -1,35 +1,33 @@
 package ua.gram.munhauzen.ui;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import ua.gram.munhauzen.screen.MunhauzenScreen;
 
-public class NoInternetFragment extends BannerFragment<MunhauzenScreen> {
+public class Gift6Fragment extends BannerFragment<MunhauzenScreen> {
 
-    public NoInternetFragment(MunhauzenScreen screen) {
+    public Gift6Fragment(MunhauzenScreen screen) {
         super(screen);
     }
 
     @Override
     public void create() {
-        create(null);
+        throw new GdxRuntimeException("Not supported");
     }
 
     public void create(Runnable action) {
 
         screen.game.internalAssetManager.load("ui/banner_fond_0.png", Texture.class);
-        screen.game.internalAssetManager.load("ui/wau.png", Texture.class);
+        screen.game.internalAssetManager.load("menu/b_full_version_2.png", Texture.class);
         screen.game.internalAssetManager.finishLoading();
 
-        Banner<?> banner = new NoInternetBanner(this, action);
+        Banner<?> banner = new Gift6Banner(this, action);
         banner.create();
 
         createRoot();
 
         root.addContainer(banner);
-
-        screen.game.stopCurrentSfx();
-        screen.game.sfxService.onNoInternet();
     }
 
     @Override

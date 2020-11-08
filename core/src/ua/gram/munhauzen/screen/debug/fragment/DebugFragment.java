@@ -326,7 +326,7 @@ public class DebugFragment extends Fragment {
 
                     game.syncState();
 
-                   screen.navigateTo(new DebugScreen(game));
+                    screen.navigateTo(new DebugScreen(game));
 
                 } catch (Throwable e) {
                     Log.e(tag, e);

@@ -11,16 +11,15 @@ import com.badlogic.gdx.utils.Align;
 import ua.gram.munhauzen.ButtonBuilder;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
-import ua.gram.munhauzen.screen.LoadingScreen;
 import ua.gram.munhauzen.screen.MunhauzenScreen;
 import ua.gram.munhauzen.utils.Log;
 
-public class GameModeBanner extends Banner<MunhauzenScreen> {
+public class Gift6Banner extends Banner<MunhauzenScreen> {
 
     final BannerFragment<?> fragment;
     final Runnable action;
 
-    public GameModeBanner(BannerFragment<?> fragment, Runnable action) {
+    public Gift6Banner(BannerFragment<?> fragment, Runnable action) {
         super(fragment.screen);
 
         this.fragment = fragment;
@@ -55,7 +54,7 @@ public class GameModeBanner extends Banner<MunhauzenScreen> {
                 Color.BLACK
         );
 
-        Label title = new Label(screen.game.t("game_mode_banner.title"), titleStyle);
+        Label title = new Label(screen.game.t("gift_6_banner.title"), titleStyle);
         title.setAlignment(Align.center);
         title.setWrap(true);
 
@@ -64,7 +63,7 @@ public class GameModeBanner extends Banner<MunhauzenScreen> {
                 .padBottom(10)
                 .row();
 
-        for (String sentence : screen.game.t("game_mode_banner.content").split("\n")) {
+        for (String sentence : screen.game.t("gift_6_banner.content").split("\n")) {
             Label label = new Label(sentence, style);
             label.setAlignment(Align.center);
             label.setWrap(true);
@@ -75,57 +74,18 @@ public class GameModeBanner extends Banner<MunhauzenScreen> {
                     .row();
         }
 
-        Texture txt = screen.game.internalAssetManager.get("ui/banner_version.png", Texture.class);
-        FixedImage img = new FixedImage(txt, cellMinWidth);
+        Texture txt = screen.game.internalAssetManager.get("menu/b_full_version_2.png", Texture.class);
+        FixedImage img = new FixedImage(txt, cellMinWidth * .5f);
 
-        PrimaryButton btnOnline = screen.game.buttonBuilder.primary(
-                screen.game.t("game_mode_banner.btn_online"),
+        PrimaryButton btnOffline = screen.game.buttonBuilder.primary(
+                screen.game.t("gift_6_banner.btn"),
                 new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         super.clicked(event, x, y);
 
                         try {
-
-                            screen.game.stopCurrentSfx();
-                            if (!game.isOnlineMode()) {
-                                screen.game.sfxService.onGameModeSwitch();
-                            } else {
-                                screen.game.sfxService.onGameModeLeave();
-                            }
-
-                            game.setGameMode(true);
-
                             fragment.fadeOut(action);
-
-                        } catch (Throwable e) {
-                            Log.e(tag, e);
-                        }
-                    }
-                });
-
-        final PrimaryButton btnOffline = screen.game.buttonBuilder.primary(
-                screen.game.t("game_mode_banner.btn_offline"),
-                new ClickListener() {
-                    @Override
-                    public void clicked(InputEvent event, float x, float y) {
-                        super.clicked(event, x, y);
-
-                        try {
-
-                            screen.game.stopCurrentSfx();
-                            if (game.isOnlineMode()) {
-                                screen.game.sfxService.onGameModeSwitch();
-                            } else {
-                                screen.game.sfxService.onGameModeLeave();
-                            }
-
-                            game.setGameMode(false);
-
-                            fragment.fadeOut(action);
-
-                            screen.navigateTo(new LoadingScreen(game));
-
                         } catch (Throwable e) {
                             Log.e(tag, e);
                         }
@@ -141,11 +101,6 @@ public class GameModeBanner extends Banner<MunhauzenScreen> {
         Table buttons = new Table();
 
         buttons.add(btnOffline)
-                .width(ButtonBuilder.BTN_PRIMARY_SM_WIDTH)
-                .height(ButtonBuilder.BTN_PRIMARY_SM_HEIGHT)
-                .pad(10);
-
-        buttons.add(btnOnline)
                 .width(ButtonBuilder.BTN_PRIMARY_SM_WIDTH)
                 .height(ButtonBuilder.BTN_PRIMARY_SM_HEIGHT)
                 .pad(10).row();

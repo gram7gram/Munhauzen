@@ -201,7 +201,7 @@ public class PaintingScreen extends AbstractScreen {
                         paintingFragment = new PaintingFragment(PaintingScreen.this);
                         if (Gdx.app.getType() == Application.ApplicationType.iOS) {
                             long time = System.currentTimeMillis();
-                            while (System.currentTimeMillis() < time + 20000){
+                            while (System.currentTimeMillis() < time + 20000) {
                                 String path = ExternalFiles.getExpansionImage(game.params, next.image).path();
 
                                 if (Gdx.files.external(path).exists()) {
@@ -225,8 +225,6 @@ public class PaintingScreen extends AbstractScreen {
                     }
                 }
             }, .22f);
-
-
 
 
         } catch (Throwable e) {
@@ -318,7 +316,7 @@ public class PaintingScreen extends AbstractScreen {
                         paintingFragment = new PaintingFragment(PaintingScreen.this);
                         if (Gdx.app.getType() == Application.ApplicationType.iOS) {
                             long time = System.currentTimeMillis();
-                            while (System.currentTimeMillis() < time + 20000){
+                            while (System.currentTimeMillis() < time + 20000) {
                                 String path = ExternalFiles.getExpansionImage(game.params, prev.image).path();
 
                                 if (Gdx.files.external(path).exists()) {

@@ -6,7 +6,6 @@ import com.badlogic.gdx.assets.loaders.resolvers.ExternalFileHandleResolver;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import ua.gram.munhauzen.MunhauzenGame;
-import ua.gram.munhauzen.screen.MunhauzenScreen;
 
 public class ExpansionAssetManager extends AssetManager {
 
@@ -90,9 +89,9 @@ public class ExpansionAssetManager extends AssetManager {
         }
 
         if (!Gdx.files.external(path).exists()) {
-            if(game.isOnlineMode()){
+            if (game.isOnlineMode()) {
                 System.out.println("exception file doesn't exist");
-            }else {
+            } else {
                 throw new GdxRuntimeException("No such asset " + path);
             }
         }

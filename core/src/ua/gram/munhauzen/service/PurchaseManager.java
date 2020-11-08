@@ -1,11 +1,14 @@
 package ua.gram.munhauzen.service;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.pay.Offer;
 import com.badlogic.gdx.pay.OfferType;
 import com.badlogic.gdx.pay.PurchaseManagerConfig;
 import com.badlogic.gdx.pay.PurchaseObserver;
 import com.badlogic.gdx.pay.Transaction;
 import com.badlogic.gdx.utils.Timer;
+
+import java.util.ArrayList;
 
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.Device;
@@ -28,6 +31,47 @@ public class PurchaseManager {
     public boolean hasPurchases() {
         return game.gameState.purchaseState.purchases != null
                 && game.gameState.purchaseState.purchases.size() > 0;
+    }
+
+    public void purchaseSuccess(Purchase purchase, final Runnable task) {
+        try {
+
+            if (game.gameState.purchaseState.purchases == null) {
+                game.gameState.purchaseState.purchases = new ArrayList<>();
+            }
+
+            if (purchase != null) {
+                game.gameState.purchaseState.purchases.add(purchase);
+            }
+
+            game.purchaseManager.updatePurchaseState();
+
+            game.stopCurrentSfx();
+            game.currentSfx = game.sfxService.onPurchaseSuccess();
+
+            Gdx.input.setInputProcessor(null);
+            GameState.clearTimer(tag);
+
+            if (game.currentSfx != null) {
+                Timer.instance().scheduleTask(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        try {
+                            task.run();
+                        } catch (Throwable e) {
+                            Log.e(tag, e);
+                        }
+                    }
+                }, game.currentSfx.duration / 1000f);
+            } else {
+                task.run();
+            }
+
+        } catch (Throwable e) {
+            Log.e(tag, e);
+
+            game.onCriticalError(e);
+        }
     }
 
     public void purchase(final String productId) {
@@ -189,7 +233,7 @@ public class PurchaseManager {
             game.params.iap.install(observer, pmc, true);
         } catch (Exception e) {
             //Log.e(tag, e);
-            System.out.println("Purchage MangerError-------------------->"+e);
+            System.out.println("Purchage MangerError-------------------->" + e);
         }
     }
 }

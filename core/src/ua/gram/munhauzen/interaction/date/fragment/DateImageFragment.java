@@ -34,6 +34,7 @@ public class DateImageFragment extends InteractionFragment {
     enum SEASON {
         SUMMER, SPRING, AUTUMN, WINTER
     }
+
     final SEASON correctSeason = SEASON.SUMMER;
     SEASON currentSeason;
 

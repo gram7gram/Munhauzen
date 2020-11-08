@@ -84,7 +84,6 @@ public class Navigator {
         Gdx.input.setInputProcessor(null);
 
 
-
         try {
             if (game.params.iap != null)
                 game.params.iap.dispose();
@@ -97,7 +96,7 @@ public class Navigator {
         } catch (Throwable ignore) {
         }
 
-        if (Gdx.app.getType() == Application.ApplicationType.iOS){
+        if (Gdx.app.getType() == Application.ApplicationType.iOS) {
             MunhauzenGame.alarmInterface.startAlarm();
         }
 
@@ -122,7 +121,7 @@ public class Navigator {
 
             boolean needUpdates = downloadManager.shouldFetchExpansion();
 
-            System.out.println("Need Updates -----------------------------> "+needUpdates);
+            System.out.println("Need Updates -----------------------------> " + needUpdates);
 
             MunhauzenGame.onExpansionDownloadComplete.setDownloadNeeded(needUpdates);
 

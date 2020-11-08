@@ -103,6 +103,19 @@ public class PurchaseScreen extends MunhauzenScreen {
             @Override
             public void run() {
                 controlsFragment.fadeInRestore();
+
+                if (!game.gameState.purchaseState.isGift6Viewed) {
+                    game.gameState.purchaseState.isGift6Viewed = true;
+
+                    openGift6Banner(new Runnable() {
+                        @Override
+                        public void run() {
+                            destroyBanners();
+                        }
+                    });
+
+                    game.syncState();
+                }
             }
         }, 1);
     }
@@ -121,7 +134,7 @@ public class PurchaseScreen extends MunhauzenScreen {
 
             game.databaseManager.persistSync(game.gameState);
 
-            if (game.gameState.preferences.isOfflineMode) {
+            if (!game.isOnlineMode()) {
                 navigateTo(new LoadingScreen(game));
             } else {
                 navigateTo(new MenuScreen(game));

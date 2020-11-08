@@ -296,6 +296,16 @@ public class SfxService {
         }));
     }
 
+    public void onNoInternet() {
+        prepareAndPlay(MathUtils.random(new String[]{
+                "sfx_menu_connection_fail_BD_1",
+                "sfx_menu_connection_fail_BD_2",
+                "sfx_menu_connection_fail_BD_3",
+                "sfx_menu_connection_fail_BD_4",
+                "sfx_menu_connection_fail_BD_5",
+        }));
+    }
+
     private StoryAudio prepareAndPlay(String sfx) {
         return prepareAndPlay(sfx, true, false);
     }
@@ -486,8 +496,8 @@ public class SfxService {
             for (Sound item : audio2) {
                 item.stop();
             }
-        } catch (Throwable ignore) {
-            Log.e(tag, ignore);
+        } catch (Throwable e) {
+            Log.e(tag, e);
         }
     }
 
@@ -543,5 +553,109 @@ public class SfxService {
 
     public void onReferralOpened() {
         prepareAndPlay("sfx_menu_invite_7");
+    }
+
+    public void onGameModeSelect() {
+        try {
+            if (GameState.isMute) {
+                return;
+            }
+
+            final Audio audio = AudioRepository.find(game.gameState, "sfx_menu_mode_select");
+
+            final StoryAudio storyAudio = new StoryAudio();
+            storyAudio.audio = "sfx_menu_mode_select";
+            storyAudio.duration = audio.duration;
+            storyAudio.resource = audio.file;
+
+            new Thread(new Runnable() {
+
+                @Override
+                public void run() {
+
+                    try {
+                        internalAssetManager.load(audio.file, Music.class);
+
+                        internalAssetManager.finishLoading();
+
+                        Music sound = internalAssetManager.get(audio.file, Music.class);
+                        sound.play();
+
+                        storyAudio.player = sound;
+
+                        sound.setOnCompletionListener(new Music.OnCompletionListener() {
+                            @Override
+                            public void onCompletion(Music music) {
+                                dispose(storyAudio);
+                                onGameModeSelectDescription();
+                            }
+                        });
+
+                    } catch (Throwable ignore) {
+                    }
+
+                }
+            }).start();
+
+        } catch (Throwable ignore) {
+        }
+    }
+
+    public void onGameModeSelectDescription() {
+        prepareAndPlay("sfx_menu_mode_description");
+    }
+
+    public void onGameModeSelectInMenu() {
+        try {
+            if (GameState.isMute) {
+                return;
+            }
+
+            final Audio audio = AudioRepository.find(game.gameState, "sfx_menu_mode_menu");
+
+            final StoryAudio storyAudio = new StoryAudio();
+            storyAudio.audio = "sfx_menu_mode_menu";
+            storyAudio.duration = audio.duration;
+            storyAudio.resource = audio.file;
+
+            new Thread(new Runnable() {
+
+                @Override
+                public void run() {
+
+                    try {
+                        internalAssetManager.load(audio.file, Music.class);
+
+                        internalAssetManager.finishLoading();
+
+                        Music sound = internalAssetManager.get(audio.file, Music.class);
+                        sound.play();
+
+                        storyAudio.player = sound;
+
+                        sound.setOnCompletionListener(new Music.OnCompletionListener() {
+                            @Override
+                            public void onCompletion(Music music) {
+                                dispose(storyAudio);
+                                onGameModeSelectDescription();
+                            }
+                        });
+
+                    } catch (Throwable ignore) {
+                    }
+
+                }
+            }).start();
+
+        } catch (Throwable ignore) {
+        }
+    }
+
+    public void onGameModeSwitch() {
+        prepareAndPlay("sfx_menu_mode_switch");
+    }
+
+    public void onGameModeLeave() {
+        prepareAndPlay("sfx_menu_mode_leave");
     }
 }

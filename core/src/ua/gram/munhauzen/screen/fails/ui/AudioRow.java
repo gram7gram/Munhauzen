@@ -23,7 +23,6 @@ import ua.gram.munhauzen.entity.AudioFail;
 import ua.gram.munhauzen.interfaces.DownloadSuccessFailureListener;
 import ua.gram.munhauzen.repository.AudioFailRepository;
 import ua.gram.munhauzen.screen.FailsScreen;
-import ua.gram.munhauzen.screen.MunhauzenScreen;
 import ua.gram.munhauzen.screen.fails.entity.GalleryFail;
 import ua.gram.munhauzen.utils.ExternalFiles;
 import ua.gram.munhauzen.utils.Log;
@@ -88,7 +87,7 @@ public class AudioRow extends Table {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                if(!screen.game.isOnlineMode()) {
+                if (!screen.game.isOnlineMode()) {
                     try {
 
                         Log.i(tag, "clicked on " + fail.storyAudio.audio);
@@ -117,7 +116,7 @@ public class AudioRow extends Table {
                     } catch (Throwable e) {
                         Log.e(tag, e);
                     }
-                }else{
+                } else {
 
                     //memory check
                     float memory;
@@ -126,11 +125,12 @@ public class AudioRow extends Table {
                     } else {
                         memory = 10;
                     }
-                    
-                    if(0.5 > memory){
+
+                    if (0.5 > memory) {
                         screen.destroyBanners();
                         long time = System.currentTimeMillis();
-                        while (System.currentTimeMillis() < time + 1000){}
+                        while (System.currentTimeMillis() < time + 1000) {
+                        }
                         screen.openNoMemoryBanner(new Runnable() {
                             @Override
                             public void run() {
@@ -138,7 +138,7 @@ public class AudioRow extends Table {
                             }
                         });
 
-                    }else {
+                    } else {
 
                         try {
 

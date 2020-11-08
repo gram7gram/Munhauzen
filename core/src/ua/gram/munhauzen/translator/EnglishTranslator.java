@@ -276,7 +276,7 @@ public class EnglishTranslator implements Translator {
 
         map.put("no_internet_banner.title", "No Internet connection");
         map.put("no_internet_banner.btn_retry", "Retry");
-        map.put("no_internet_banner.content", "Please, enable WiFi and try again");
+        map.put("no_internet_banner.content", "Please, connect to Internet and try again");
 
         map.put("slow_internet_banner.title", "Slow Internet connection");
         map.put("slow_internet_banner.btn_retry", "Retry");
@@ -295,6 +295,10 @@ public class EnglishTranslator implements Translator {
         map.put("referal_banner.btn", "Share");
         map.put("referal_banner.footer", "* the guest should install the app and complete one chapter");
         map.put("purchase_pending_banner.title", "Purchasing...\nIt can take up to 1 minute to complete the purchase.\nPlease, wait until popup is closed");
+
+        map.put("gift_6_banner.title", "Take a present from me!");
+        map.put("gift_6_banner.content", "6 awesome chapters!");
+        map.put("gift_6_banner.btn", "Thanks");
 
     }
 

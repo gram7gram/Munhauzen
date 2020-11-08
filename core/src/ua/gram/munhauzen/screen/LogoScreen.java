@@ -64,6 +64,11 @@ public class LogoScreen extends MunhauzenScreen {
                     public void run() {
                         game.navigator.openNextPage();
                     }
+                }, new Runnable() {
+                    @Override
+                    public void run() {
+                        game.sfxService.onGameModeSelect();
+                    }
                 });
             } else {
                 game.navigator.openNextPage();

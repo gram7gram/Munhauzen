@@ -60,6 +60,9 @@ public class ControlsFragment extends Fragment {
 
         Log.i(tag, "create");
 
+        float iconSize = MunhauzenGame.WORLD_WIDTH * .18f;
+        float iconSize2 = iconSize * 1.5f;
+
         MenuState state = screen.game.gameState.menuState;
 
         startButton = new StartButton(screen);
@@ -106,12 +109,10 @@ public class ControlsFragment extends Fragment {
             }
         }, r.between(5, 10), r.between(5, 10));
 
-        ReferalSideButton referalSideButton = new ReferalSideButton(screen);
+        ReferalSideButton referalSideButton = new ReferalSideButton(screen, iconSize);
+        referalSideButton.start();
 
         GameModeSideButton modeButton = new GameModeSideButton(screen);
-
-        float iconSize = MunhauzenGame.WORLD_WIDTH * .18f;
-        float iconSize2 = iconSize * 1.5f;
 
         sideTable = new Table();
 

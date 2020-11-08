@@ -16,7 +16,7 @@ public class Log {
 
         String trace = "";
         for (StackTraceElement tr : e.getStackTrace()) {
-            trace += "\n" + prefix + "trace "+ tr.toString();
+            trace += "\n" + prefix + "trace " + tr.toString();
         }
         Log.e(tag, e.getClass().getSimpleName() + ": " + e.getMessage() + trace);
 

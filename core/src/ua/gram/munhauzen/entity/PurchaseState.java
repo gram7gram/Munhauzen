@@ -14,6 +14,8 @@ public class PurchaseState implements JsonEntry {
     @JsonProperty
     public boolean isVersionSelected;
     @JsonProperty
+    public boolean isGift6Viewed;
+    @JsonProperty
     public int maxChapter;
     @JsonProperty
     public String currentExpansionVersion;

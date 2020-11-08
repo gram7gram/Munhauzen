@@ -356,7 +356,8 @@ public class GameScreen extends MunhauzenScreen {
 
             return isPurchased;
 
-        } catch (Throwable ignore) {}
+        } catch (Throwable ignore) {
+        }
 
         return true;
     }
@@ -373,7 +374,7 @@ public class GameScreen extends MunhauzenScreen {
 
             if (story != null) {
 
-                if(game.isOnlineMode()) {
+                if (game.isOnlineMode()) {
 
                     Chapter chapter = ChapterRepository.find(game.gameState, story.currentScenario.scenario.chapter);
 
@@ -403,11 +404,11 @@ public class GameScreen extends MunhauzenScreen {
 
             return isDownloaded;
 
-        } catch (Throwable ignore) {}
+        } catch (Throwable ignore) {
+        }
 
         return true;
     }
-
 
 
     public void createAchievementFragment() {
@@ -744,14 +745,15 @@ public class GameScreen extends MunhauzenScreen {
     }
 
 
-    public static String getPreviousChapterName(String currentChapterName){
+    public static String getPreviousChapterName(String currentChapterName) {
 
         //get previous and next chapter
-        String previousChapter= "";
+        String previousChapter = "";
         String nextChapter = "";
         try {
 
-            String chapterJson = Files.getChaptersFile().readString();;
+            String chapterJson = Files.getChaptersFile().readString();
+            ;
             JSONArray chapters = new JSONArray(chapterJson);
 
             for (int m = 0; m < chapters.length(); m++) {
@@ -779,8 +781,8 @@ public class GameScreen extends MunhauzenScreen {
 
             }
 
-            return  previousChapter;
-        }catch (Exception e){
+            return previousChapter;
+        } catch (Exception e) {
             e.printStackTrace();
             return previousChapter;
         }

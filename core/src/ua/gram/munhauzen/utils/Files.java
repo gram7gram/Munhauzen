@@ -75,6 +75,7 @@ public class Files {
     public static FileHandle getIntroAudio(Audio item) {
         return getInternal(item.file);
     }
+
     public static FileHandle getIntroImage(Image item) {
         return getInternal(item.file);
     }
