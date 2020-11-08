@@ -122,7 +122,7 @@ public class ControlsFragment extends Fragment {
                     screen.openNoInternetBanner(new Runnable() {
                         @Override
                         public void run() {
-
+                            screen.navigateTo(new GalleryScreen(screen.game));
                         }
                     });
                 }
@@ -155,7 +155,7 @@ public class ControlsFragment extends Fragment {
                     screen.openNoInternetBanner(new Runnable() {
                         @Override
                         public void run() {
-
+                            screen.navigateTo(new GalleryScreen(screen.game));
                         }
                     });
                 }

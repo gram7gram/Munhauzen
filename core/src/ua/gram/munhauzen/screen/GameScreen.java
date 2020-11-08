@@ -387,11 +387,11 @@ public class GameScreen extends MunhauzenScreen {
 
                         @Override
                         public void onFailure() {
-                            //
-                            ((MunhauzenScreen) (game.getScreen())).openNoInternetBanner(new Runnable() {
+                            GameState.pause(tag);
+                            openNoInternetBanner(new Runnable() {
                                 @Override
                                 public void run() {
-
+                                    navigateTo(new MenuScreen(game));
                                 }
                             });
                         }

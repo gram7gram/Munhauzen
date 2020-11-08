@@ -171,6 +171,8 @@ public class BackgroundSfxService {
         }
 
         internalAssetManager.clear();
+
+        isPlaying = false;
     }
 
     public void dispose() {

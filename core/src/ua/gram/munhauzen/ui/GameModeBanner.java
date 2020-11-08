@@ -7,10 +7,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.ButtonBuilder;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.screen.LoadingScreen;
 import ua.gram.munhauzen.screen.MunhauzenScreen;
 import ua.gram.munhauzen.utils.Log;
@@ -19,6 +21,7 @@ public class GameModeBanner extends Banner<MunhauzenScreen> {
 
     final BannerFragment<?> fragment;
     final Runnable action;
+    PrimaryButton btnOffline, btnOnline;
 
     public GameModeBanner(BannerFragment<?> fragment, Runnable action) {
         super(fragment.screen);
@@ -78,7 +81,7 @@ public class GameModeBanner extends Banner<MunhauzenScreen> {
         Texture txt = screen.game.internalAssetManager.get("ui/banner_version.png", Texture.class);
         FixedImage img = new FixedImage(txt, cellMinWidth);
 
-        PrimaryButton btnOnline = screen.game.buttonBuilder.primary(
+        btnOnline = screen.game.buttonBuilder.primary(
                 screen.game.t("game_mode_banner.btn_online"),
                 new ClickListener() {
                     @Override
@@ -87,16 +90,26 @@ public class GameModeBanner extends Banner<MunhauzenScreen> {
 
                         try {
 
+
+                            btnOffline.setDisabled(true);
+
                             screen.game.stopCurrentSfx();
+
+                            StoryAudio audio;
                             if (!game.isOnlineMode()) {
-                                screen.game.sfxService.onGameModeSwitch();
+                                audio = screen.game.sfxService.onGameModeSwitch();
                             } else {
-                                screen.game.sfxService.onGameModeLeave();
+                                audio = screen.game.sfxService.onGameModeLeave();
                             }
 
-                            game.setGameMode(true);
+                            Timer.instance().scheduleTask(new Timer.Task() {
+                                @Override
+                                public void run() {
+                                    game.setGameMode(true);
 
-                            fragment.fadeOut(action);
+                                    fragment.fadeOut(action);
+                                }
+                            }, audio.duration / 1000f);
 
                         } catch (Throwable e) {
                             Log.e(tag, e);
@@ -104,7 +117,7 @@ public class GameModeBanner extends Banner<MunhauzenScreen> {
                     }
                 });
 
-        final PrimaryButton btnOffline = screen.game.buttonBuilder.primary(
+        btnOffline = screen.game.buttonBuilder.primary(
                 screen.game.t("game_mode_banner.btn_offline"),
                 new ClickListener() {
                     @Override
@@ -113,18 +126,28 @@ public class GameModeBanner extends Banner<MunhauzenScreen> {
 
                         try {
 
+                            btnOffline.setDisabled(true);
+
                             screen.game.stopCurrentSfx();
+
+                            StoryAudio audio;
                             if (game.isOnlineMode()) {
-                                screen.game.sfxService.onGameModeSwitch();
+                                audio = screen.game.sfxService.onGameModeSwitch();
                             } else {
-                                screen.game.sfxService.onGameModeLeave();
+                                audio = screen.game.sfxService.onGameModeLeave();
                             }
 
-                            game.setGameMode(false);
+                            Timer.instance().scheduleTask(new Timer.Task() {
+                                @Override
+                                public void run() {
+                                    game.setGameMode(false);
 
-                            fragment.fadeOut(action);
+                                    fragment.fadeOut(action);
 
-                            screen.navigateTo(new LoadingScreen(game));
+                                    screen.navigateTo(new LoadingScreen(game));
+
+                                }
+                            }, audio.duration / 1000f);
 
                         } catch (Throwable e) {
                             Log.e(tag, e);

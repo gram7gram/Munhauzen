@@ -134,7 +134,7 @@ public class AudioRow extends Table {
                         screen.openNoMemoryBanner(new Runnable() {
                             @Override
                             public void run() {
-                                System.out.println("No memory");
+                                screen.destroyBanners();
                             }
                         });
 

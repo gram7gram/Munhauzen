@@ -109,7 +109,7 @@ public class ImageRow extends Stack {
                             screen.openNoMemoryBanner(new Runnable() {
                                 @Override
                                 public void run() {
-                                    System.out.println("No memory");
+                                    screen.destroyBanners();
                                 }
                             });
 
@@ -150,7 +150,7 @@ public class ImageRow extends Stack {
                                                                 screen.openNoInternetBanner(new Runnable() {
                                                                     @Override
                                                                     public void run() {
-
+                                                                        screen.destroyBanners();
                                                                     }
                                                                 });
                                                             }
@@ -209,6 +209,7 @@ public class ImageRow extends Stack {
                                                         screen.openNoInternetBanner(new Runnable() {
                                                             @Override
                                                             public void run() {
+                                                                screen.destroyBanners();
 
                                                             }
                                                         });

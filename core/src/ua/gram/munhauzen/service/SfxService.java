@@ -381,6 +381,8 @@ public class SfxService {
                             }
                         });
 
+                        game.currentSfx = storyAudio;
+
                     } catch (Throwable ignore) {
                     }
 
@@ -452,6 +454,8 @@ public class SfxService {
             });
 
             sound.play();
+
+            game.currentSfx = storyAudio;
 
             return storyAudio;
 
@@ -591,6 +595,8 @@ public class SfxService {
                             }
                         });
 
+                        game.currentSfx = storyAudio;
+
                     } catch (Throwable ignore) {
                     }
 
@@ -641,6 +647,8 @@ public class SfxService {
                             }
                         });
 
+                        game.currentSfx = storyAudio;
+
                     } catch (Throwable ignore) {
                     }
 
@@ -651,11 +659,11 @@ public class SfxService {
         }
     }
 
-    public void onGameModeSwitch() {
-        prepareAndPlay("sfx_menu_mode_switch");
+    public StoryAudio onGameModeSwitch() {
+        return prepareAndPlay("sfx_menu_mode_switch");
     }
 
-    public void onGameModeLeave() {
-        prepareAndPlay("sfx_menu_mode_leave");
+    public StoryAudio onGameModeLeave() {
+        return prepareAndPlay("sfx_menu_mode_leave");
     }
 }

@@ -149,7 +149,7 @@ public class LoadBanner extends Banner<ChaptersScreen> {
                                         screen.openNoMemoryBanner(new Runnable() {
                                             @Override
                                             public void run() {
-                                                System.out.println("No memory");
+                                                screen.destroyBanners();
                                             }
                                         });
 
@@ -193,9 +193,7 @@ public class LoadBanner extends Banner<ChaptersScreen> {
                                                                             screen.openNoInternetBanner(new Runnable() {
                                                                                 @Override
                                                                                 public void run() {
-                                                                                    //screen.destroyBanners();
-
-
+                                                                                    screen.destroyBanners();
                                                                                 }
                                                                             });
                                                                         }
@@ -257,7 +255,7 @@ public class LoadBanner extends Banner<ChaptersScreen> {
                                         screen.openNoMemoryBanner(new Runnable() {
                                             @Override
                                             public void run() {
-                                                System.out.println("No memory");
+                                                screen.destroyBanners();
                                             }
                                         });
 
@@ -301,9 +299,7 @@ public class LoadBanner extends Banner<ChaptersScreen> {
                                                                     screen.openNoInternetBanner(new Runnable() {
                                                                         @Override
                                                                         public void run() {
-                                                                            //screen.destroyBanners();
-
-
+                                                                            screen.destroyBanners();
                                                                         }
                                                                     });
                                                                 }
