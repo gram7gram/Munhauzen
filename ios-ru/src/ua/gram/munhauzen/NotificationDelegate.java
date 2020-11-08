@@ -93,11 +93,11 @@ public class NotificationDelegate extends NSObject implements UNUserNotification
 
             int hrs = NSUserDefaults.getStandardUserDefaults().getInt(IOSLauncher.KEY_NOTIFICATION1_AFTER);
 
+
+
+            /* Attachment could not be set as images cannot be accessed from internal-assets folder
             NSURL dir = NSFileManager.getDefaultManager().getURLsForDirectory(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask).first();
-
-
             UNNotificationAttachment attachment = null;
-
 
             java.lang.String imageURL = dir.getPath() + "/.Munchausen/ru.munchausen.fingertipsandcompany.any/expansion/" + icon;
             System.out.println("ImagePath---------------->" + imageURL);
@@ -111,13 +111,6 @@ public class NotificationDelegate extends NSObject implements UNUserNotification
                     System.out.println("Failed to create Temp Folder");
                 }
             }
-
-//        try{
-//            copyDirectory(imageFile,tempFolder);
-//            System.out.println("TempFolder-----------------> "+tempFolder);
-//        }catch (IOException e){
-//            System.out.println("IOException--------------->"+e);
-//        }
 
             try {
                 copyFile(imageFile, temp);
@@ -146,6 +139,16 @@ public class NotificationDelegate extends NSObject implements UNUserNotification
                 System.out.println("Attachment : " + attachment);
             }
 
+            System.out.println("Attachment----------------->" + attachment);
+            if (attachment != null) {
+                System.out.println("Attachment NotNUll----------------------->");
+                NSMutableArray<UNNotificationAttachment> array = new NSMutableArray<UNNotificationAttachment>();
+                array.add(attachment);
+                content.setAttachments(array);
+            }
+            */
+
+
 
             content.setTitle(title);
 
@@ -160,14 +163,6 @@ public class NotificationDelegate extends NSObject implements UNUserNotification
             content.setSound(UNNotificationSound.getDefaultSound());
             content.setBadge(NSNumber.valueOf(1));
             content.setCategoryIdentifier(userActions);
-
-            System.out.println("Attachment----------------->" + attachment);
-            if (attachment != null) {
-                System.out.println("Attachment NotNUll----------------------->");
-                NSMutableArray<UNNotificationAttachment> array = new NSMutableArray<UNNotificationAttachment>();
-                array.add(attachment);
-                content.setAttachments(array);
-            }
 
 
             if (hrs<60){

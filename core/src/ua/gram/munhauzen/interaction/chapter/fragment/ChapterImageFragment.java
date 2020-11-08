@@ -156,6 +156,8 @@ public class ChapterImageFragment extends Fragment {
                         return;
                     }
 
+                    interaction.gameScreen.isChapterDownloaded();
+
                     root.addAction(Actions.sequence(
                             Actions.alpha(0, .4f),
                             Actions.run(new Runnable() {

@@ -8,6 +8,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.Timer;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.Stack;
 
 import ua.gram.munhauzen.GameLayerInterface;
@@ -21,6 +24,7 @@ import ua.gram.munhauzen.entity.Save;
 import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.interaction.ServantsInteraction;
 import ua.gram.munhauzen.interaction.servants.fragment.ServantsFireImageFragment;
+import ua.gram.munhauzen.interfaces.DownloadSuccessFailureListener;
 import ua.gram.munhauzen.repository.ChapterRepository;
 import ua.gram.munhauzen.repository.InventoryRepository;
 import ua.gram.munhauzen.screen.game.fragment.AchievementFragment;
@@ -39,6 +43,7 @@ import ua.gram.munhauzen.service.StoryManager;
 import ua.gram.munhauzen.ui.MunhauzenStage;
 import ua.gram.munhauzen.utils.DateUtils;
 import ua.gram.munhauzen.utils.ExpansionAssetManager;
+import ua.gram.munhauzen.utils.Files;
 import ua.gram.munhauzen.utils.InternalAssetManager;
 import ua.gram.munhauzen.utils.Log;
 
@@ -355,6 +360,55 @@ public class GameScreen extends MunhauzenScreen {
 
         return true;
     }
+
+
+    public boolean isChapterDownloaded() {
+        try {
+
+            Story story = getStory();
+
+            PurchaseState state = game.gameState.purchaseState;
+
+            boolean isDownloaded = false;
+
+            if (story != null) {
+
+                if(game.isOnlineMode()) {
+
+                    Chapter chapter = ChapterRepository.find(game.gameState, story.currentScenario.scenario.chapter);
+
+                    //sending previous chapter
+                    MunhauzenGame.downloadExpansionInteface.downloadExpansionAndDeletePrev(chapter.name, new DownloadSuccessFailureListener() {
+                        @Override
+                        public void onSuccess() {
+
+                        }
+
+                        @Override
+                        public void onFailure() {
+                            //
+                            ((MunhauzenScreen) (game.getScreen())).openNoInternetBanner(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                }
+                            });
+                        }
+                    });
+
+
+                    Log.e(tag, "isChapterDownloaded " + chapter.name + "/" + state.maxChapter);
+                }
+            }
+
+            return isDownloaded;
+
+        } catch (Throwable ignore) {}
+
+        return true;
+    }
+
+
 
     public void createAchievementFragment() {
         try {
@@ -687,5 +741,49 @@ public class GameScreen extends MunhauzenScreen {
 
     public void onInventoryAdded(Inventory inventory) {
         game.achievementService.onInventoryAdded(inventory);
+    }
+
+
+    public static String getPreviousChapterName(String currentChapterName){
+
+        //get previous and next chapter
+        String previousChapter= "";
+        String nextChapter = "";
+        try {
+
+            String chapterJson = Files.getChaptersFile().readString();;
+            JSONArray chapters = new JSONArray(chapterJson);
+
+            for (int m = 0; m < chapters.length(); m++) {
+
+                JSONObject jsonObject = chapters.getJSONObject(m);
+                if (currentChapterName.equals(jsonObject.getString("name"))) {
+                    int currentChapNumber = jsonObject.getInt("number");
+
+                    for (int n = 0; n < chapters.length(); n++) {
+                        JSONObject jsonObject1 = chapters.getJSONObject(n);
+
+                        if (jsonObject1.getInt("number") == currentChapNumber - 1) {
+                            previousChapter = jsonObject1.getString("name");
+                            System.out.println("Prevchap--->" + previousChapter);
+                        } else if (jsonObject1.getInt("number") == currentChapNumber + 1) {
+                            nextChapter = jsonObject1.getString("name");
+                            System.out.println("NextChap---श>" + nextChapter);
+                        }
+
+                    }
+
+                    break;
+                }
+
+
+            }
+
+            return  previousChapter;
+        }catch (Exception e){
+            e.printStackTrace();
+            return previousChapter;
+        }
+
     }
 }

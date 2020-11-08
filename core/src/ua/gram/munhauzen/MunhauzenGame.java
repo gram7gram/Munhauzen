@@ -12,6 +12,7 @@ import ua.gram.munhauzen.entity.Device;
 import ua.gram.munhauzen.entity.GamePreferences;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.StoryAudio;
+import ua.gram.munhauzen.interfaces.DownloadExpansionInteface;
 import ua.gram.munhauzen.interfaces.LoginInterface;
 import ua.gram.munhauzen.interfaces.LoginListener;
 import ua.gram.munhauzen.interfaces.OnExpansionDownloadComplete;
@@ -76,17 +77,19 @@ public class MunhauzenGame extends Game {
     public static AlarmInterface alarmInterface;
     public static LoginInterface loginInterface;
     public static ReferralInterface referralInterface;
+    public static DownloadExpansionInteface downloadExpansionInteface;
 
     public static OnExpansionDownloadComplete onExpansionDownloadComplete;
 
     // This is the notificatino handler
     public NotificationHandler notificationHandler;
 
-    public MunhauzenGame(PlatformParams params, OnExpansionDownloadComplete onExpansionDownloadComplete, LoginInterface loginInterface, ReferralInterface referralInterface) {
+    public MunhauzenGame(PlatformParams params, OnExpansionDownloadComplete onExpansionDownloadComplete, LoginInterface loginInterface, ReferralInterface referralInterface, DownloadExpansionInteface downloadExpansionInteface) {
         this.params = params;
         this.onExpansionDownloadComplete = onExpansionDownloadComplete;
         this.loginInterface = loginInterface;
         this.referralInterface = referralInterface;
+        this.downloadExpansionInteface = downloadExpansionInteface;
 
 
     }
@@ -95,12 +98,14 @@ public class MunhauzenGame extends Game {
     public MunhauzenGame(PlatformParams params, AlarmInterface alarmInterface,
                          OnExpansionDownloadComplete onExpansionDownloadComplete,
                          LoginInterface loginInterface,
-                         ReferralInterface referralInterface) {
+                         ReferralInterface referralInterface,
+                         DownloadExpansionInteface downloadExpansionInteface) {
         this.params = params;
         MunhauzenGame.alarmInterface = alarmInterface;
         MunhauzenGame.onExpansionDownloadComplete = onExpansionDownloadComplete;
         MunhauzenGame.loginInterface = loginInterface;
         MunhauzenGame.referralInterface = referralInterface;
+        MunhauzenGame.downloadExpansionInteface = downloadExpansionInteface;
     }
 
     public boolean isOnlineMode() {

@@ -1,5 +1,7 @@
 package ua.gram.munhauzen.screen.gallery.ui;
 
+import com.badlogic.gdx.Application;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -13,7 +15,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 
 import ua.gram.munhauzen.FontProvider;
+import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.interfaces.DownloadSuccessFailureListener;
 import ua.gram.munhauzen.screen.GalleryScreen;
+import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.screen.PaintingScreen;
 import ua.gram.munhauzen.screen.gallery.entity.PaintingImage;
 import ua.gram.munhauzen.ui.FitImage;
@@ -84,7 +89,167 @@ public class ImageRow extends Stack {
 
                     screen.game.sfxService.onListItemClicked();
 
-                    screen.navigateTo(new PaintingScreen(screen.game, paintingImage));
+
+                    if(!screen.game.isOnlineMode()) {
+                        screen.navigateTo(new PaintingScreen(screen.game, paintingImage));
+                    }else {
+
+
+                        //memory check
+                        float memory;
+                        if (Gdx.app.getType() == Application.ApplicationType.Android) {
+                            memory = screen.game.params.memoryUsage.megabytesAvailable();
+                        } else {
+                            memory = 10;
+                        }
+                        if(0.5 > memory){
+                            screen.destroyBanners();
+                            long time = System.currentTimeMillis();
+                            while (System.currentTimeMillis() < time + 1000){}
+                            screen.openNoMemoryBanner(new Runnable() {
+                                @Override
+                                public void run() {
+                                    System.out.println("No memory");
+                                }
+                            });
+
+                        }else {
+
+                            if (Gdx.app.getType() == Application.ApplicationType.Android) {
+                                new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                        long time = System.currentTimeMillis();
+                                        while (System.currentTimeMillis() < time + 1000) {
+                                        }
+
+                                        Gdx.app.postRunnable(new Runnable() {
+                                            @Override
+                                            public void run() {
+
+
+                                                final boolean[] isSuccess = {false, false};
+                                                int i = 1;
+
+
+                                                while (isSuccess[0] != true && isSuccess[1] != true) {
+
+                                                    if (i == 1) {
+                                                        MunhauzenGame.downloadExpansionInteface.downloadGallery(paintingImage.image.name, new DownloadSuccessFailureListener() {
+                                                            @Override
+                                                            public void onSuccess() {
+                                                                //screen.navigateTo(new PaintingScreen(screen.game, paintingImage));
+                                                                isSuccess[0] = true;
+
+                                                            }
+
+                                                            @Override
+                                                            public void onFailure() {
+                                                                isSuccess[1] = true;
+                                                                screen.openNoInternetBanner(new Runnable() {
+                                                                    @Override
+                                                                    public void run() {
+
+                                                                    }
+                                                                });
+                                                            }
+                                                        });
+
+
+                                                    }
+                                                    i++;
+
+
+                                                }
+
+
+                                                if (isSuccess[0]) {
+                                                    screen.navigateTo(new PaintingScreen(screen.game, paintingImage));
+                                                }
+
+                                            }
+                                        });
+
+//upHere
+                                    }
+                                }).start();
+                            } else {
+                                //for ios
+                                new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                        long time = System.currentTimeMillis();
+                                        while (System.currentTimeMillis() < time + 1000) {
+                                        }
+
+//                                        Gdx.app.postRunnable(new Runnable() {
+//                                            @Override
+//                                            public void run() {
+
+
+                                                final boolean[] isSuccess = {false, false};
+                                                int i = 1;
+
+
+                                                while (isSuccess[0] != true && isSuccess[1] != true) {
+                                                    if (i == 1) {
+                                                            MunhauzenGame.downloadExpansionInteface.downloadGallery(paintingImage.image.name, new DownloadSuccessFailureListener() {
+                                                                @Override
+                                                                public void onSuccess() {
+                                                                    //screen.navigateTo(new PaintingScreen(screen.game, paintingImage));
+                                                                    isSuccess[0] = true;
+
+                                                                }
+
+                                                                @Override
+                                                                public void onFailure() {
+                                                                    isSuccess[1] = true;
+                                                                    screen.openNoInternetBanner(new Runnable() {
+                                                                        @Override
+                                                                        public void run() {
+
+                                                                        }
+                                                                    });
+                                                                }
+                                                            });
+
+                                                    }
+                                                    i++;
+
+
+                                                }
+
+
+                                                if (isSuccess[0]) {
+                                                    Gdx.app.postRunnable(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            screen.navigateTo(new PaintingScreen(screen.game, paintingImage));
+                                                        }
+                                                    });
+
+
+                                                }
+
+//                                            }
+//                                        });
+
+//upHere
+                                    }
+                                }).start();
+
+
+
+
+
+
+                            }
+                        }
+
+
+                    }
 
                 } catch (Throwable e) {
                     Log.e(tag, e);

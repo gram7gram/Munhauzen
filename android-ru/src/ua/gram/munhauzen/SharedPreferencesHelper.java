@@ -83,7 +83,7 @@ public class SharedPreferencesHelper {
 
     public static Integer getNotification1Time(Context context){
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return sharedPreferences.getInt(KEY_NOTIFICATION1_AFTER, 24);
+        return sharedPreferences.getInt(KEY_NOTIFICATION1_AFTER, 24000);
     }
 
     public static void setKeyNotification1Title(Context context, String title){
@@ -113,7 +113,7 @@ public class SharedPreferencesHelper {
 
     public static Integer getNotification2Time(Context context){
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return sharedPreferences.getInt(KEY_NOTIFICATION2_AFTER, 24);
+        return sharedPreferences.getInt(KEY_NOTIFICATION2_AFTER, 24000);
     }
 
     public static void setKeyNotification2Title(Context context, String title){

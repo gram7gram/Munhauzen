@@ -18,6 +18,7 @@ import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.entity.StoryImage;
 import ua.gram.munhauzen.entity.StoryScenario;
+import ua.gram.munhauzen.interfaces.DownloadSuccessFailureListener;
 import ua.gram.munhauzen.repository.ChapterRepository;
 import ua.gram.munhauzen.repository.ScenarioRepository;
 import ua.gram.munhauzen.screen.GameScreen;
@@ -84,6 +85,24 @@ public class StoryManager {
 
                 story.update(progressBefore, story.totalDuration);
             }
+
+            if(!gameState.preferences.isOfflineMode) {
+                Chapter chapter = ChapterRepository.find(gameState, story.currentScenario.scenario.chapter);
+
+                //sending previous chapter
+                MunhauzenGame.downloadExpansionInteface.downloadExpansionAndDeletePrev(chapter.name, new DownloadSuccessFailureListener() {
+                    @Override
+                    public void onSuccess() {
+                        //
+                    }
+
+                    @Override
+                    public void onFailure() {
+
+                    }
+                });
+            }
+
         }
 
         if (MunhauzenGame.developmentScenario != null || story == null || !story.isValid()) {

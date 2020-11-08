@@ -1,5 +1,7 @@
 package ua.gram.munhauzen;
 
+import com.badlogic.gdx.Gdx;
+
 import org.robovm.apple.foundation.NSArray;
 import org.robovm.apple.foundation.NSBundle;
 import org.robovm.apple.foundation.NSCalendar;
@@ -90,6 +92,9 @@ public class NotificationDelegate extends NSObject implements UNUserNotification
             UNNotificationAttachment attachment = null;
 
 
+//            Gdx.files.internal(icon).read();
+
+
             java.lang.String imageURL = dir.getPath() + "/.Munchausen/en.munchausen.fingertipsandcompany.any/expansion/" + icon;
             System.out.println("ImagePath---------------->" + imageURL);
             File imageFile = new File(imageURL);
@@ -110,21 +115,26 @@ public class NotificationDelegate extends NSObject implements UNUserNotification
 //            System.out.println("IOException--------------->"+e);
 //        }
 
+            java.lang.String tempImgPath;
+            File tempImageFile = null;
             try {
                 copyFile(imageFile, temp);
+                tempImgPath = dir.getPath() + "/.Munchausen/en.munchausen.fingertipsandcompany.any/expansion/chapter/temp/icon_temp.png";
+                tempImageFile = new File(tempImgPath);
             } catch (IOException e) {
                 System.out.println("IOException----------------------->" + e);
+                tempImageFile = null;
             }
             System.out.println("tempFolder--------------------->" + tempFolder);
 
-            java.lang.String tempImgPath = dir.getPath() + "/.Munchausen/en.munchausen.fingertipsandcompany.any/expansion/chapter/temp/icon_temp.png";
-            File tempImageFile = new File(tempImgPath);
+
 
             URL url = null;
             try {
                 url = tempImageFile.toURI().toURL();
-            } catch (MalformedURLException e) {
+            } catch (Exception e) {
                 System.out.println("URL--------------------->" + url);
+                url=null;
             }
             if (url != null) {
                 NSURL nsURL = new NSURL(url);
@@ -133,6 +143,7 @@ public class NotificationDelegate extends NSObject implements UNUserNotification
                     attachment = new UNNotificationAttachment("image", nsURL, null);
                 } catch (NSErrorException e) {
                     System.out.println("Attachment Error:----------------->" + e);
+                    attachment = null;
                 }
                 System.out.println("Attachment : " + attachment);
             }

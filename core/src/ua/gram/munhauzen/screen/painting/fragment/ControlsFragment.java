@@ -114,9 +114,19 @@ public class ControlsFragment extends Fragment {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                btn.setTouchable(Touchable.disabled);
+                if(MunhauzenGame.downloadExpansionInteface.isInternetAvailable()) {
+                    btn.setTouchable(Touchable.disabled);
 
-                screen.nextPainting();
+                    screen.nextPainting();
+                }
+                else{
+                    screen.openNoInternetBanner(new Runnable() {
+                        @Override
+                        public void run() {
+
+                        }
+                    });
+                }
             }
         });
 
@@ -138,9 +148,19 @@ public class ControlsFragment extends Fragment {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                btn.setTouchable(Touchable.disabled);
+                if(MunhauzenGame.downloadExpansionInteface.isInternetAvailable()) {
+                    btn.setTouchable(Touchable.disabled);
 
-                screen.prevPainting();
+                    screen.prevPainting();
+                }
+                else{
+                    screen.openNoInternetBanner(new Runnable() {
+                        @Override
+                        public void run() {
+
+                        }
+                    });
+                }
             }
         });
 

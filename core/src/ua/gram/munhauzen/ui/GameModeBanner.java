@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.Align;
 import ua.gram.munhauzen.ButtonBuilder;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.screen.LoadingScreen;
 import ua.gram.munhauzen.screen.MunhauzenScreen;
 import ua.gram.munhauzen.utils.Log;
 
@@ -108,6 +109,8 @@ public class GameModeBanner extends Banner<MunhauzenScreen> {
                             game.setGameMode(false);
 
                             fragment.fadeOut(action);
+
+                            screen.navigateTo(new LoadingScreen(game));
 
                         } catch (Throwable e) {
                             Log.e(tag, e);

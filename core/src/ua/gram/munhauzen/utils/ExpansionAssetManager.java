@@ -6,15 +6,18 @@ import com.badlogic.gdx.assets.loaders.resolvers.ExternalFileHandleResolver;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.screen.MunhauzenScreen;
 
 public class ExpansionAssetManager extends AssetManager {
 
+    private MunhauzenGame game;
     final String tag = getClass().getSimpleName();
     final String prefix;
 
     public ExpansionAssetManager(MunhauzenGame game) {
         super(new ExternalFileHandleResolver());
 
+        this.game = game;
         prefix = ExternalFiles.getExpansionDir(game.params).path();
     }
 
@@ -87,7 +90,11 @@ public class ExpansionAssetManager extends AssetManager {
         }
 
         if (!Gdx.files.external(path).exists()) {
-            throw new GdxRuntimeException("No such asset " + path);
+            if(game.isOnlineMode()){
+                System.out.println("exception file doesn't exist");
+            }else {
+                throw new GdxRuntimeException("No such asset " + path);
+            }
         }
 
         return path;
