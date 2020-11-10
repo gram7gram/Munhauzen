@@ -3,7 +3,6 @@ package ua.gram.munhauzen.screen.fails.ui;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -24,7 +23,6 @@ import ua.gram.munhauzen.interfaces.DownloadSuccessFailureListener;
 import ua.gram.munhauzen.repository.AudioFailRepository;
 import ua.gram.munhauzen.screen.FailsScreen;
 import ua.gram.munhauzen.screen.fails.entity.GalleryFail;
-import ua.gram.munhauzen.utils.ExternalFiles;
 import ua.gram.munhauzen.utils.Log;
 
 public class AudioRow extends Table {
@@ -107,6 +105,7 @@ public class AudioRow extends Table {
                             });
                         }
 
+                        fail.isError = false;
                         fail.isListened = true;
 
                         screen.game.gameState.failsState.listenedAudio.add(fail.storyAudio.audio);
@@ -163,6 +162,7 @@ public class AudioRow extends Table {
                                         });
                                     }
 
+                                    fail.isError = false;
                                     fail.isListened = true;
 
                                     screen.game.gameState.failsState.listenedAudio.add(fail.storyAudio.audio);
@@ -174,12 +174,8 @@ public class AudioRow extends Table {
                                 @Override
                                 public void onFailure() {
 
-                                /*screen.openNoInternetBanner(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        screen.destroyBanners();
-                                    }
-                                });*/
+                                    fail.isError = true;
+                                    init();
 
                                 }
                             });
@@ -262,8 +258,7 @@ public class AudioRow extends Table {
 
         getCell(title).width(lblWidth);
 
-        FileHandle file = ExternalFiles.getExpansionAudio(screen.game.params, audioFail);
-        if (!file.exists()) {
+        if (fail.isError) {
             title.setStyle(errorStyle);
             number.setStyle(errorStyle);
         }

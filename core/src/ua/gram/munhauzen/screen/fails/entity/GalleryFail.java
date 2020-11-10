@@ -5,5 +5,5 @@ import ua.gram.munhauzen.entity.StoryAudio;
 public class GalleryFail {
 
     public StoryAudio storyAudio;
-    public boolean isOpened, isListened, isPlaying;
+    public boolean isOpened, isListened, isPlaying, isError;
 }

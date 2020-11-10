@@ -194,6 +194,9 @@ public class GameScreen extends MunhauzenScreen {
             storyManager.resume();
 
             ui.addListener(stageInputListener);
+
+            isChapterDownloaded();
+
         } catch (Throwable e) {
             Log.e(tag, e);
 
@@ -393,6 +396,8 @@ public class GameScreen extends MunhauzenScreen {
                                     public void run() {
                                         destroyBanners();
                                         GameState.unpause(tag);
+
+                                        isChapterDownloaded();
                                     }
                                 });
                             }
