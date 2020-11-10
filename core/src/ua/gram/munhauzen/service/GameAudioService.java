@@ -304,7 +304,7 @@ public class GameAudioService implements Disposable {
 
                 FileHandle file = ExternalFiles.getExpansionAudio(gameScreen.game.params, audio);
                 if (!file.exists()) {
-                    throw new GdxRuntimeException("Audio file does not exist " + audio.name + " at " + file.path());
+                    return;
                 }
 
                 resource = file.path();

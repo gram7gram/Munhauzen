@@ -12,6 +12,7 @@ import ua.gram.munhauzen.ButtonBuilder;
 import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.screen.MunhauzenScreen;
+import ua.gram.munhauzen.screen.menu.ui.WauAnimation;
 import ua.gram.munhauzen.utils.Log;
 
 public class SlowInternetBanner extends Banner<MunhauzenScreen> {
@@ -74,8 +75,11 @@ public class SlowInternetBanner extends Banner<MunhauzenScreen> {
                     .row();
         }
 
-        Texture txt = screen.game.internalAssetManager.get("ui/slow_internet.png", Texture.class);
-        FixedImage img = new FixedImage(txt, cellMinWidth / 2);
+        WauAnimation img = new WauAnimation(
+                screen.game.internalAssetManager.get("wau/wau_sheet_1x4.png", Texture.class),
+                cellMinWidth / 2
+        );
+        img.start();
 
         PrimaryButton btnRetry = screen.game.buttonBuilder.primary(
                 screen.game.t("slow_internet_banner.btn_retry"),

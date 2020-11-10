@@ -18,6 +18,7 @@ import ua.gram.munhauzen.FontProvider;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.interfaces.DownloadSuccessFailureListener;
 import ua.gram.munhauzen.screen.GalleryScreen;
+import ua.gram.munhauzen.screen.MenuScreen;
 import ua.gram.munhauzen.screen.PaintingScreen;
 import ua.gram.munhauzen.screen.gallery.entity.PaintingImage;
 import ua.gram.munhauzen.ui.FitImage;
@@ -150,7 +151,7 @@ public class ImageRow extends Stack {
                                                                 screen.openNoInternetBanner(new Runnable() {
                                                                     @Override
                                                                     public void run() {
-                                                                        screen.destroyBanners();
+                                                                        screen.navigateTo(new MenuScreen(screen.game));
                                                                     }
                                                                 });
                                                             }
@@ -209,8 +210,7 @@ public class ImageRow extends Stack {
                                                         screen.openNoInternetBanner(new Runnable() {
                                                             @Override
                                                             public void run() {
-                                                                screen.destroyBanners();
-
+                                                                screen.navigateTo(new MenuScreen(screen.game));
                                                             }
                                                         });
                                                     }

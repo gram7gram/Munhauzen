@@ -378,24 +378,26 @@ public class GameScreen extends MunhauzenScreen {
 
                     Chapter chapter = ChapterRepository.find(game.gameState, story.currentScenario.scenario.chapter);
 
-                    //sending previous chapter
-                    MunhauzenGame.downloadExpansionInteface.downloadExpansionAndDeletePrev(chapter.name, new DownloadSuccessFailureListener() {
-                        @Override
-                        public void onSuccess() {
+                    if (!"intro".equals(chapter.name)) {
+                        //sending previous chapter
+                        MunhauzenGame.downloadExpansionInteface.downloadExpansionAndDeletePrev(chapter.name, new DownloadSuccessFailureListener() {
+                            @Override
+                            public void onSuccess() {
 
-                        }
+                            }
 
-                        @Override
-                        public void onFailure() {
-                            GameState.pause(tag);
-                            openNoInternetBanner(new Runnable() {
-                                @Override
-                                public void run() {
-                                    navigateTo(new MenuScreen(game));
-                                }
-                            });
-                        }
-                    });
+                            @Override
+                            public void onFailure() {
+                                openNoInternetBanner(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        destroyBanners();
+                                        GameState.unpause(tag);
+                                    }
+                                });
+                            }
+                        });
+                    }
 
 
                     Log.e(tag, "isChapterDownloaded " + chapter.name + "/" + state.maxChapter);

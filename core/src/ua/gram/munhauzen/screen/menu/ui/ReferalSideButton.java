@@ -2,17 +2,18 @@ package ua.gram.munhauzen.screen.menu.ui;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import ua.gram.munhauzen.screen.MenuScreen;
 import ua.gram.munhauzen.utils.Log;
 
-public class ReferalSideButton extends WauAnimation {
+public class ReferalSideButton extends Image {
 
     private final String tag = getClass().getSimpleName();
 
-    public ReferalSideButton(final MenuScreen screen, float width) {
-        super(screen.assetManager.get("menu/btn_wau_sheet_1x4.png", Texture.class), width);
+    public ReferalSideButton(final MenuScreen screen) {
+        super(screen.assetManager.get("menu/btn_referral.png", Texture.class));
 
         addListener(new ClickListener() {
             @Override

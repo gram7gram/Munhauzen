@@ -109,8 +109,7 @@ public class ControlsFragment extends Fragment {
             }
         }, r.between(5, 10), r.between(5, 10));
 
-        ReferalSideButton referalSideButton = new ReferalSideButton(screen, iconSize);
-        referalSideButton.start();
+        ReferalSideButton referalSideButton = new ReferalSideButton(screen);
 
         GameModeSideButton modeButton = new GameModeSideButton(screen);
 

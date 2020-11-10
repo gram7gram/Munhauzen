@@ -96,10 +96,15 @@ public class GameModeBanner extends Banner<MunhauzenScreen> {
                             screen.game.stopCurrentSfx();
 
                             StoryAudio audio;
-                            if (!game.isOnlineMode()) {
+
+                            if (!game.gameState.preferences.isGameModeSelected) {
                                 audio = screen.game.sfxService.onGameModeSwitch();
                             } else {
-                                audio = screen.game.sfxService.onGameModeLeave();
+                                if (!game.isOnlineMode()) {
+                                    audio = screen.game.sfxService.onGameModeSwitch();
+                                } else {
+                                    audio = screen.game.sfxService.onGameModeLeave();
+                                }
                             }
 
                             Timer.instance().scheduleTask(new Timer.Task() {
@@ -131,10 +136,14 @@ public class GameModeBanner extends Banner<MunhauzenScreen> {
                             screen.game.stopCurrentSfx();
 
                             StoryAudio audio;
-                            if (game.isOnlineMode()) {
+                            if (!game.gameState.preferences.isGameModeSelected) {
                                 audio = screen.game.sfxService.onGameModeSwitch();
                             } else {
-                                audio = screen.game.sfxService.onGameModeLeave();
+                                if (game.isOnlineMode()) {
+                                    audio = screen.game.sfxService.onGameModeSwitch();
+                                } else {
+                                    audio = screen.game.sfxService.onGameModeLeave();
+                                }
                             }
 
                             Timer.instance().scheduleTask(new Timer.Task() {

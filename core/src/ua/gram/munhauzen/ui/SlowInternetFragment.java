@@ -18,7 +18,7 @@ public class SlowInternetFragment extends BannerFragment<MunhauzenScreen> {
     public void create(Runnable action) {
 
         screen.game.internalAssetManager.load("ui/banner_fond_0.png", Texture.class);
-        screen.game.internalAssetManager.load("ui/wau.png", Texture.class);
+        screen.game.internalAssetManager.load("wau/wau_sheet_1x4.png", Texture.class);
         screen.game.internalAssetManager.finishLoading();
 
         Banner<?> banner = new SlowInternetBanner(this, action);

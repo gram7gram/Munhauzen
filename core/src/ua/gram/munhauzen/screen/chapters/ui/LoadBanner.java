@@ -21,6 +21,7 @@ import ua.gram.munhauzen.interaction.InteractionFactory;
 import ua.gram.munhauzen.interfaces.DownloadSuccessFailureListener;
 import ua.gram.munhauzen.screen.ChaptersScreen;
 import ua.gram.munhauzen.screen.GameScreen;
+import ua.gram.munhauzen.screen.MenuScreen;
 import ua.gram.munhauzen.service.StoryManager;
 import ua.gram.munhauzen.ui.Banner;
 import ua.gram.munhauzen.ui.PrimaryButton;
@@ -127,8 +128,7 @@ public class LoadBanner extends Banner<ChaptersScreen> {
                                     screen.openChapterDownloadBanner(new Runnable() {
                                         @Override
                                         public void run() {
-                                            //screen.destroyBanners();
-                                            System.out.println("openedChapter");
+                                            screen.destroyBanners();
                                         }
                                     });
 
@@ -233,8 +233,7 @@ public class LoadBanner extends Banner<ChaptersScreen> {
                                     screen.openChapterDownloadBanner(new Runnable() {
                                         @Override
                                         public void run() {
-                                            //screen.destroyBanners();
-                                            System.out.println("openedChapter");
+                                            screen.destroyBanners();
                                         }
                                     });
 
@@ -299,7 +298,7 @@ public class LoadBanner extends Banner<ChaptersScreen> {
                                                                     screen.openNoInternetBanner(new Runnable() {
                                                                         @Override
                                                                         public void run() {
-                                                                            screen.destroyBanners();
+                                                                            screen.navigateTo(new MenuScreen(screen.game));
                                                                         }
                                                                     });
                                                                 }

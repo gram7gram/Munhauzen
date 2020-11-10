@@ -184,7 +184,7 @@ public class RussianTranslator implements Translator {
         map.put("purchase_screen.chap3_description", "Получи 3 байки от\nизвестного Барона!");
         map.put("purchase_screen.chap5_title", "+5 Историй");
         map.put("purchase_screen.chap5_description", "5 невероятных и веселых\nприключений ждут!");
-        map.put("purchase_screen.chap10_title", "+10 Историй!");
+        map.put("purchase_screen.chap10_title", "+6 Историй!");
         map.put("purchase_screen.chap10_description", "Большой набор лучших\nисторий Мюнхгаузена!");
         map.put("purchase_screen.thx_title", "Сказать спасибо");
         map.put("purchase_screen.thx_description", "Поддержите нас для\nподобных приложений!");

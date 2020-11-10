@@ -104,7 +104,6 @@ public class MenuScreen extends AbstractScreen {
             assetManager.load("menu/b_rate_an_sheet.png", Texture.class);
             assetManager.load("menu/b_full_version_an_sheet.png", Texture.class);
             assetManager.load("menu/b_demo_version_an_sheet.png", Texture.class);
-            assetManager.load("menu/btn_wau_sheet_1x4.png", Texture.class);
 
             assetManager.load("menu/menu_logo.png", Texture.class);
             assetManager.load("menu/progress_color.png", Texture.class);

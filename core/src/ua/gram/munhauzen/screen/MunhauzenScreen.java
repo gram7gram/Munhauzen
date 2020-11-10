@@ -10,7 +10,6 @@ import ua.gram.munhauzen.ui.GameModeFragment;
 import ua.gram.munhauzen.ui.Gift6Fragment;
 import ua.gram.munhauzen.ui.NoInternetFragment;
 import ua.gram.munhauzen.ui.NoMemoryFragment;
-import ua.gram.munhauzen.ui.SlowInternetFragment;
 import ua.gram.munhauzen.utils.Log;
 
 /**
@@ -22,7 +21,6 @@ public abstract class MunhauzenScreen implements Screen {
     public final MunhauzenGame game;
     public NoMemoryFragment noMemoryFragment;
     public NoInternetFragment noInternetFragment;
-    public SlowInternetFragment slowInternetFragment;
     public GameModeFragment gameModeFragment;
     public ChapterDownloadFragment chapterDownloadFragment;
     public Gift6Fragment gift6Fragment;
@@ -79,10 +77,6 @@ public abstract class MunhauzenScreen implements Screen {
             noInternetFragment.destroy();
             noInternetFragment = null;
         }
-        if (slowInternetFragment != null) {
-            slowInternetFragment.destroy();
-            slowInternetFragment = null;
-        }
         if (gameModeFragment != null) {
             gameModeFragment.destroy();
             gameModeFragment = null;
@@ -128,25 +122,6 @@ public abstract class MunhauzenScreen implements Screen {
             getLayers().setBannerLayer(noInternetFragment);
 
             noInternetFragment.fadeIn();
-
-        } catch (Throwable e) {
-            Log.e(tag, e);
-
-            onCriticalError(e);
-        }
-    }
-
-    public void openSlowInternetBanner(Runnable action) {
-        try {
-
-            destroyBanners();
-
-            slowInternetFragment = new SlowInternetFragment(this);
-            slowInternetFragment.create(action);
-
-            getLayers().setBannerLayer(slowInternetFragment);
-
-            slowInternetFragment.fadeIn();
 
         } catch (Throwable e) {
             Log.e(tag, e);

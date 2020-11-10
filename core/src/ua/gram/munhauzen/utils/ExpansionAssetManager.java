@@ -90,7 +90,7 @@ public class ExpansionAssetManager extends AssetManager {
 
         if (!Gdx.files.external(path).exists()) {
             if (game.isOnlineMode()) {
-                System.out.println("exception file doesn't exist");
+                //System.out.println("exception file doesn't exist");
             } else {
                 throw new GdxRuntimeException("No such asset " + path);
             }
