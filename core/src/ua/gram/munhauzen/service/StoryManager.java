@@ -193,10 +193,7 @@ public class StoryManager {
                 }
             }
 
-        } catch (Throwable e) {
-            Log.e(tag, e);
-
-//            gameScreen.onCriticalError(e);
+        } catch (Throwable ignore) {
         }
     }
 
@@ -219,10 +216,7 @@ public class StoryManager {
                 }
             }
 
-        } catch (Throwable e) {
-            Log.e(tag, e);
-
-//            gameScreen.onCriticalError(e);
+        } catch (Throwable ignore) {
         }
     }
 
@@ -242,10 +236,7 @@ public class StoryManager {
                         try {
                             if (gameScreen.audioService != null)
                                 gameScreen.audioService.playAudio(optionAudio);
-                        } catch (Throwable e) {
-                            Log.e(tag, e);
-
-//                            gameScreen.onCriticalError(e);
+                        } catch (Throwable ignore) {
                         }
                     }
                 });
@@ -260,10 +251,7 @@ public class StoryManager {
                 }
             }
 
-        } catch (Throwable e) {
-            Log.e(tag, e);
-
-//            gameScreen.onCriticalError(e);
+        } catch (Throwable ignore) {
         }
     }
 

@@ -322,6 +322,7 @@ public class ControlsFragment extends Fragment {
         screen.openNoInternetBanner(new Runnable() {
             @Override
             public void run() {
+                screen.destroyBanners();
                 screen.controlsFragment.retryDownload();
             }
         });

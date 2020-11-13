@@ -78,9 +78,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.InetAddress;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -88,9 +86,11 @@ import java.util.Set;
 import ua.gram.munhauzen.entity.Device;
 import ua.gram.munhauzen.interfaces.DownloadExpansionInteface;
 import ua.gram.munhauzen.interfaces.DownloadSuccessFailureListener;
+import ua.gram.munhauzen.interfaces.InternetListenterInterface;
 import ua.gram.munhauzen.interfaces.LoginInterface;
 import ua.gram.munhauzen.interfaces.LoginListener;
 import ua.gram.munhauzen.interfaces.OnExpansionDownloadComplete;
+import ua.gram.munhauzen.interfaces.OnlineOfflineListenterInterface;
 import ua.gram.munhauzen.interfaces.ReferralInterface;
 import ua.gram.munhauzen.translator.RussianTranslator;
 import ua.gram.munhauzen.utils.AlarmInterface;
@@ -648,7 +648,20 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
                 mExpansionDownloadInterface,
                 loginInterface,
                 mReferalInterface,
-                mDownloadExpansionInterface);
+                mDownloadExpansionInterface,
+                new OnlineOfflineListenterInterface() {
+                    @Override
+                    public void onGameModeChanged(boolean isOnline) {
+                        if (!isOnline) {
+                            deletePreviousChapterExpansions();
+                        }
+                    }
+                }, new InternetListenterInterface() {
+                    @Override
+                    public boolean hasIntenet() {
+                        return isInternetAvailable();
+                    }
+                });
         return new IOSApplication(game, config);
 
     }
@@ -662,7 +675,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
             try {
                 downloadExpansionFile(currentChapterName, downloadSuccessFailureListener);
             } catch (IOException e) {
-                e.printStackTrace();
+                downloadSuccessFailureListener.onFailure();
             }
         }
 
@@ -1528,7 +1541,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
                 JSONObject jsonObject = scenarios.getJSONObject(i);
 
                 try{
-                    if(jsonObject.get("chapter").equals(chapterName)){
+                    if(jsonObject.has("chapter") && jsonObject.get("chapter").equals(chapterName)){
 
                         JSONArray audioArray = jsonObject.getJSONArray("audio");
 
@@ -1614,7 +1627,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
                 JSONObject jsonObject = scenarios.getJSONObject(i);
 
                 try{
-                    if(jsonObject.get("chapter").equals(chapterName)){
+                    if(jsonObject.has("chapter") && jsonObject.get("chapter").equals(chapterName)){
 
 
                         JSONArray imageArray = jsonObject.getJSONArray("images");
@@ -1657,13 +1670,21 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
             for (File file : directoryListing) {
 
                 String fileName = "audio/" + file.getName();
-                if(!audiosCurrentChapter.contains(fileName) && audiosPrevChapter.contains(fileName) && !audiosNextChapter.contains(fileName)){
+
+                if (audiosCurrentChapter != null && audiosPrevChapter != null && audiosNextChapter != null) {
+                    if (!audiosCurrentChapter.contains(fileName) && audiosPrevChapter.contains(fileName) && !audiosNextChapter.contains(fileName)) {
+                        file.delete();
+                    }
+                } else if (file.exists()) {
                     file.delete();
                 }
 
                 //for deleting all other files(making sure only chapters x-1, x and x+1 comes into play)
-
-                if(!audiosCurrentChapter.contains(fileName) && !audiosPrevChapter.contains(fileName) && !audiosNextChapter.contains(fileName)){
+                if (audiosCurrentChapter != null && audiosPrevChapter != null && audiosNextChapter != null) {
+                    if (!audiosCurrentChapter.contains(fileName) && !audiosPrevChapter.contains(fileName) && !audiosNextChapter.contains(fileName)) {
+                        file.delete();
+                    }
+                } else if (file.exists()) {
                     file.delete();
                 }
             }
@@ -1682,18 +1703,25 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
                 int iend = file.getName().indexOf(".");
 
-                String fileName ="";
+                String fileName = "";
 
-                if(iend !=1){
+                if (iend != 1) {
                     fileName = file.getName().substring(0, iend);
                 }
-                if(!imagesCurrentChapter.contains(fileName) && imagesPrevChapter.contains(fileName) && !imagesNextChapter.contains(fileName)){
+                if (imagesCurrentChapter != null && imagesPrevChapter != null && imagesNextChapter != null) {
+                    if (!imagesCurrentChapter.contains(fileName) && imagesPrevChapter.contains(fileName) && !imagesNextChapter.contains(fileName)) {
+                        file.delete();
+                    }
+                } else if (file.exists()) {
                     file.delete();
                 }
 
                 //for deleting all other files(making sure only chapters x-1, x and x+1 comes into play)
-
-                if(!imagesCurrentChapter.contains(fileName) && !imagesPrevChapter.contains(fileName) && !imagesNextChapter.contains(fileName)){
+                if (imagesCurrentChapter != null && imagesPrevChapter != null && imagesNextChapter != null) {
+                    if (!imagesCurrentChapter.contains(fileName) && !imagesPrevChapter.contains(fileName) && !imagesNextChapter.contains(fileName)) {
+                        file.delete();
+                    }
+                } else if (file.exists()) {
                     file.delete();
                 }
             }

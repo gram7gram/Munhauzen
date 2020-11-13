@@ -79,6 +79,11 @@ public class LoadingLayers extends Stack implements Disposable, GameLayerInterfa
         update();
     }
 
+    @Override
+    public Fragment getBannerLayer() {
+        return bannerLayer;
+    }
+
     private Actor createDummy(String suffix) {
         Actor dummy = new Actor();
         dummy.setName("dummy-" + suffix);

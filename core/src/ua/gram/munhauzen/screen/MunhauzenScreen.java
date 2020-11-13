@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import ua.gram.munhauzen.GameLayerInterface;
 import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.ui.ChapterDownloadFragment;
+import ua.gram.munhauzen.ui.Fragment;
 import ua.gram.munhauzen.ui.GameModeFragment;
 import ua.gram.munhauzen.ui.Gift6Fragment;
 import ua.gram.munhauzen.ui.NoInternetFragment;
@@ -68,6 +69,12 @@ public abstract class MunhauzenScreen implements Screen {
         game.stopCurrentSfx();
 
         Gdx.input.setOnscreenKeyboardVisible(false);
+
+        Fragment currentBanner = getLayers().getBannerLayer();
+        if (currentBanner != null) {
+            currentBanner.destroy();
+            getLayers().setBannerLayer(null);
+        }
 
         if (noMemoryFragment != null) {
             noMemoryFragment.destroy();

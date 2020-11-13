@@ -63,6 +63,11 @@ public class LogoLayers extends Stack implements Disposable, GameLayerInterface 
         update();
     }
 
+    @Override
+    public Fragment getBannerLayer() {
+        return bannerLayer;
+    }
+
     private Actor createDummy(String suffix) {
         Actor dummy = new Actor();
         dummy.setName("dummy-" + suffix);

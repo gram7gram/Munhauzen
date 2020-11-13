@@ -65,9 +65,11 @@ import ru.munchausen.fingertipsandcompany.full.BuildConfig;
 import ua.gram.munhauzen.entity.Device;
 import ua.gram.munhauzen.interfaces.DownloadExpansionInteface;
 import ua.gram.munhauzen.interfaces.DownloadSuccessFailureListener;
+import ua.gram.munhauzen.interfaces.InternetListenterInterface;
 import ua.gram.munhauzen.interfaces.LoginInterface;
 import ua.gram.munhauzen.interfaces.LoginListener;
 import ua.gram.munhauzen.interfaces.OnExpansionDownloadComplete;
+import ua.gram.munhauzen.interfaces.OnlineOfflineListenterInterface;
 import ua.gram.munhauzen.interfaces.ReferralInterface;
 import ua.gram.munhauzen.translator.RussianTranslator;
 
@@ -98,7 +100,7 @@ public class AndroidLauncher extends AndroidApplication {
     public DownloadSuccessFailureListener downloadSuccessFailureListener;
 
     public static  String USERS = "ztestusers";
-    public static  String NOTIFICATION = "ztest1notifications";
+    public static String NOTIFICATION = "ztest1notifications";
 
     List<String> audiosCurrentChapter;
     List<String> imagesCurrentChapter;
@@ -108,7 +110,6 @@ public class AndroidLauncher extends AndroidApplication {
 
     List<String> audiosNextChapter;
     List<String> imagesNextChapter;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -255,7 +256,7 @@ public class AndroidLauncher extends AndroidApplication {
                     try {
                         downloadExpansionFile(currentChapterName, downloadSuccessFailureListener);
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        downloadSuccessFailureListener.onFailure();
                     }
                 }
 
@@ -273,6 +274,18 @@ public class AndroidLauncher extends AndroidApplication {
                 @Override
                 public boolean isInternetAvailable() {
                     return AndroidLauncher.this.isInternetAvailable();
+                }
+            }, new OnlineOfflineListenterInterface() {
+                @Override
+                public void onGameModeChanged(boolean isOnline) {
+                    if (!isOnline) {
+                        deletePreviousChapterExpansions();
+                    }
+                }
+            }, new InternetListenterInterface() {
+                @Override
+                public boolean hasIntenet() {
+                    return isInternetAvailable();
                 }
             });
 
@@ -332,7 +345,7 @@ public class AndroidLauncher extends AndroidApplication {
                     try {
                         downloadExpansionFile(currentChapterName, downloadSuccessFailureListener);
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        downloadSuccessFailureListener.onFailure();
                     }
                 }
 
@@ -349,6 +362,18 @@ public class AndroidLauncher extends AndroidApplication {
                 @Override
                 public boolean isInternetAvailable() {
                     return AndroidLauncher.this.isInternetAvailable();
+                }
+            }, new OnlineOfflineListenterInterface() {
+                @Override
+                public void onGameModeChanged(boolean isOnline) {
+                    if (!isOnline) {
+                        deletePreviousChapterExpansions();
+                    }
+                }
+            }, new InternetListenterInterface() {
+                @Override
+                public boolean hasIntenet() {
+                    return isInternetAvailable();
                 }
             });
 
@@ -1468,7 +1493,7 @@ public class AndroidLauncher extends AndroidApplication {
                 JSONObject jsonObject = scenarios.getJSONObject(i);
 
                 try{
-                    if(jsonObject.get("chapter").equals(chapterName)){
+                    if(jsonObject.has("chapter") && jsonObject.get("chapter").equals(chapterName)){
 
                         JSONArray audioArray = jsonObject.getJSONArray("audio");
 
@@ -1553,7 +1578,7 @@ public class AndroidLauncher extends AndroidApplication {
                 JSONObject jsonObject = scenarios.getJSONObject(i);
 
                 try{
-                    if(jsonObject.get("chapter").equals(chapterName)){
+                    if(jsonObject.has("chapter") && jsonObject.get("chapter").equals(chapterName)){
 
 
                         JSONArray imageArray = jsonObject.getJSONArray("images");

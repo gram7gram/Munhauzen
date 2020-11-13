@@ -32,9 +32,7 @@ public class NoInternetBanner extends Banner<MunhauzenScreen> {
     public void act(float delta) {
         super.act(delta);
 
-        if (!GameState.isPaused) {
-            GameState.pause(tag);
-        }
+        GameState.pause(tag);
     }
 
     @Override

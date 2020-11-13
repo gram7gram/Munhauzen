@@ -45,7 +45,7 @@ public abstract class ImageService implements Disposable {
     public void prepareAndDisplay(StoryImage item) {
 
         try {
-            if ("intro".equals(item.chapter)) {
+            if (!gameScreen.game.canUseIntenetForChapter(item.chapter)) {
                 prepareAndDisplayInternal(item);
                 return;
             }

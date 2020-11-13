@@ -65,11 +65,12 @@ public abstract class BannerFragment<S extends MunhauzenScreen> extends Fragment
 
         Log.i(tag, "fadeIn");
 
-        root.setVisible(true);
+        root.setVisible(false);
 
         root.clearActions();
         root.addAction(Actions.sequence(
                 Actions.alpha(0),
+                Actions.visible(true),
                 Actions.alpha(1, .3f),
                 Actions.run(new Runnable() {
                     @Override

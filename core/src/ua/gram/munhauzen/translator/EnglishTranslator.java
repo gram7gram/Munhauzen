@@ -171,7 +171,7 @@ public class EnglishTranslator implements Translator {
         map.put("purchase_screen.download", "Download");
         map.put("purchase_screen.free_title", "Demo version");
         map.put("purchase_screen.free_price", "Free");
-        map.put("purchase_screen.free_description", "About 1 hour of audiobook!\n10 chapters!\n31 illustrations!");
+        map.put("purchase_screen.free_description", "About 1 hour of audiobook!\n6 chapters!\n31 illustrations!");
         map.put("purchase_screen.full_title", "Full version");
         map.put("purchase_screen.full_description", "More then 8 hours of audiobook!\nAll 69 chapters!\nAll 250+ illustrations!");
         map.put("purchase_screen.part1_title", "Part 1");
@@ -184,7 +184,7 @@ public class EnglishTranslator implements Translator {
         map.put("purchase_screen.chap3_description", "Get 3 amazing fables\nof famous Munchausen!");
         map.put("purchase_screen.chap5_title", "+5 Stories");
         map.put("purchase_screen.chap5_description", "5 amazing and funny\nadventures are waiting!");
-        map.put("purchase_screen.chap10_title", "+6 Stories");
+        map.put("purchase_screen.chap10_title", "+10 Stories");
         map.put("purchase_screen.chap10_description", "A big batch of fantastic stories\nof Munchausen!");
         map.put("purchase_screen.thx_title", "Say Thank you!");
         map.put("purchase_screen.thx_description", "Give thanks and support\nus for more nice apps!");

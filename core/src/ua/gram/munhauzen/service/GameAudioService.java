@@ -71,7 +71,7 @@ public class GameAudioService implements Disposable {
 
     public void prepare(StoryAudio item, Timer.Task onComplete) {
 
-        if ("intro".equals(item.chapter)) {
+        if (!gameScreen.game.canUseIntenetForChapter(item.chapter)) {
             prepareInternal(item, onComplete);
             return;
         }
@@ -156,7 +156,7 @@ public class GameAudioService implements Disposable {
 
     public void prepareAndPlay(StoryAudio item) {
 
-        if ("intro".equals(item.chapter)) {
+        if (!gameScreen.game.canUseIntenetForChapter(item.chapter)) {
             prepareAndPlayInternal(item);
             return;
         }

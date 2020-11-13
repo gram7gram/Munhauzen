@@ -13,9 +13,11 @@ import ua.gram.munhauzen.entity.GamePreferences;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.StoryAudio;
 import ua.gram.munhauzen.interfaces.DownloadExpansionInteface;
+import ua.gram.munhauzen.interfaces.InternetListenterInterface;
 import ua.gram.munhauzen.interfaces.LoginInterface;
 import ua.gram.munhauzen.interfaces.LoginListener;
 import ua.gram.munhauzen.interfaces.OnExpansionDownloadComplete;
+import ua.gram.munhauzen.interfaces.OnlineOfflineListenterInterface;
 import ua.gram.munhauzen.interfaces.ReferralInterface;
 import ua.gram.munhauzen.screen.ErrorScreen;
 import ua.gram.munhauzen.service.AchievementService;
@@ -80,32 +82,39 @@ public class MunhauzenGame extends Game {
     public static DownloadExpansionInteface downloadExpansionInteface;
 
     public static OnExpansionDownloadComplete onExpansionDownloadComplete;
+    public static OnlineOfflineListenterInterface gameModeListener;
+    public static InternetListenterInterface internetListenter;
 
     // This is the notificatino handler
     public NotificationHandler notificationHandler;
 
-    public MunhauzenGame(PlatformParams params, OnExpansionDownloadComplete onExpansionDownloadComplete, LoginInterface loginInterface, ReferralInterface referralInterface, DownloadExpansionInteface downloadExpansionInteface) {
-        this.params = params;
-        this.onExpansionDownloadComplete = onExpansionDownloadComplete;
-        this.loginInterface = loginInterface;
-        this.referralInterface = referralInterface;
-        this.downloadExpansionInteface = downloadExpansionInteface;
-
-
-    }
-
-
-    public MunhauzenGame(PlatformParams params, AlarmInterface alarmInterface,
+    public MunhauzenGame(PlatformParams params,
                          OnExpansionDownloadComplete onExpansionDownloadComplete,
                          LoginInterface loginInterface,
                          ReferralInterface referralInterface,
-                         DownloadExpansionInteface downloadExpansionInteface) {
+                         DownloadExpansionInteface downloadExpansionInteface,
+                         OnlineOfflineListenterInterface gameModeListener,
+                         InternetListenterInterface internetListenter) {
         this.params = params;
-        MunhauzenGame.alarmInterface = alarmInterface;
         MunhauzenGame.onExpansionDownloadComplete = onExpansionDownloadComplete;
         MunhauzenGame.loginInterface = loginInterface;
         MunhauzenGame.referralInterface = referralInterface;
         MunhauzenGame.downloadExpansionInteface = downloadExpansionInteface;
+        MunhauzenGame.gameModeListener = gameModeListener;
+        MunhauzenGame.internetListenter = internetListenter;
+    }
+
+
+    public MunhauzenGame(PlatformParams params,
+                         AlarmInterface alarmInterface,
+                         OnExpansionDownloadComplete onExpansionDownloadComplete,
+                         LoginInterface loginInterface,
+                         ReferralInterface referralInterface,
+                         DownloadExpansionInteface downloadExpansionInteface,
+                         OnlineOfflineListenterInterface gameModeListener,
+                         InternetListenterInterface internetListenter) {
+        this(params, onExpansionDownloadComplete, loginInterface, referralInterface, downloadExpansionInteface, gameModeListener, internetListenter);
+        MunhauzenGame.alarmInterface = alarmInterface;
     }
 
     public boolean isOnlineMode() {
@@ -121,6 +130,12 @@ public class MunhauzenGame extends Game {
 
         gameState.setGameMode(isOnline);
         syncState();
+
+        gameModeListener.onGameModeChanged(isOnlineMode());
+    }
+
+    public boolean canUseIntenetForChapter(String name) {
+        return !"intro".equals(name);
     }
 
     public void syncState() {

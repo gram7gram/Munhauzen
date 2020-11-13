@@ -65,6 +65,11 @@ public class PaintingLayers extends Stack implements Disposable, GameLayerInterf
         update();
     }
 
+    @Override
+    public Fragment getBannerLayer() {
+        return bannerLayer;
+    }
+
     public void setContentLayer(Fragment actor) {
         if (contentLayer != null) {
             removeActor(contentLayer.getRoot());

@@ -59,6 +59,11 @@ public class AuthorsLayers extends Stack implements Disposable, GameLayerInterfa
         update();
     }
 
+    @Override
+    public Fragment getBannerLayer() {
+        return bannerLayer;
+    }
+
     public void setContentLayer(Fragment actor) {
         if (contentLayer != null) {
             removeActor(contentLayer.getRoot());

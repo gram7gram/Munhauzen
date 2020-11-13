@@ -67,7 +67,7 @@ public class GameScreen extends MunhauzenScreen {
     public VictoryFragment victoryFragment;
     public PurchaseFragment purchaseFragment;
     public AchievementFragment achievementFragment;
-    Timer.Task persistTask;
+    Timer.Task persistTask, internetTask;
 
     public GameScreen(MunhauzenGame game) {
         super(game);
@@ -128,6 +128,9 @@ public class GameScreen extends MunhauzenScreen {
         ui = new MunhauzenStage(game);
         storyManager = new StoryManager(this, game.gameState);
         stageInputListener = new StageInputListener(this);
+        gameLayers = new GameLayers(this);
+
+        destroyBanners();
 
         isLoaded = false;
         GameState.unpause(tag);
@@ -164,6 +167,38 @@ public class GameScreen extends MunhauzenScreen {
                 }
             }
         };
+        internetTask = new Timer.Task() {
+            @Override
+            public void run() {
+                try {
+                    Story story = getStory();
+
+                    if (story != null && story.currentInteraction == null) {
+                        if (game.isOnlineMode()) {
+                            Chapter chapter = ChapterRepository.find(game.gameState, story.currentScenario.scenario.chapter);
+
+                            if (game.canUseIntenetForChapter(chapter.name)) {
+
+                                if (!MunhauzenGame.internetListenter.hasIntenet()) {
+                                    if (noInternetFragment == null) {
+                                        Log.i(tag, "No internet checker => openNoInternetBanner");
+                                        openNoInternetBanner(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                destroyBanners();
+                                                navigateTo(new GameScreen(game));
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } catch (Throwable e) {
+                    Log.e(tag, e);
+                }
+            }
+        };
     }
 
     private void onResourcesLoaded() {
@@ -173,8 +208,6 @@ public class GameScreen extends MunhauzenScreen {
         try {
 
             isLoaded = true;
-
-            gameLayers = new GameLayers(this);
 
             ui.addActor(gameLayers);
 
@@ -194,6 +227,9 @@ public class GameScreen extends MunhauzenScreen {
             storyManager.resume();
 
             ui.addListener(stageInputListener);
+
+            destroyBanners();
+            GameState.unpause(tag);
 
             isChapterDownloaded();
 
@@ -249,6 +285,13 @@ public class GameScreen extends MunhauzenScreen {
             try {
                 if (persistTask != null && !persistTask.isScheduled()) {
                     Timer.instance().scheduleTask(persistTask, 1, 1);
+                }
+            } catch (Throwable ignore) {
+            }
+
+            try {
+                if (internetTask != null && !internetTask.isScheduled()) {
+                    Timer.instance().scheduleTask(internetTask, 1, 5);
                 }
             } catch (Throwable ignore) {
             }
@@ -365,56 +408,48 @@ public class GameScreen extends MunhauzenScreen {
         return true;
     }
 
-
-    public boolean isChapterDownloaded() {
+    public void isChapterDownloaded() {
         try {
 
             Story story = getStory();
 
             PurchaseState state = game.gameState.purchaseState;
 
-            boolean isDownloaded = false;
-
             if (story != null) {
 
                 if (game.isOnlineMode()) {
 
-                    Chapter chapter = ChapterRepository.find(game.gameState, story.currentScenario.scenario.chapter);
+                    final Chapter chapter = ChapterRepository.find(game.gameState, story.currentScenario.scenario.chapter);
 
-                    if (!"intro".equals(chapter.name)) {
+                    if (game.canUseIntenetForChapter(chapter.name)) {
                         //sending previous chapter
+                        GameState.pause(tag);
                         MunhauzenGame.downloadExpansionInteface.downloadExpansionAndDeletePrev(chapter.name, new DownloadSuccessFailureListener() {
                             @Override
                             public void onSuccess() {
-
+                                Log.i(tag, "Chapter " + chapter.name + " is downloaded!");
+                                GameState.unpause(tag);
                             }
 
                             @Override
                             public void onFailure() {
+                                Log.e(tag, "Chapter " + chapter.name + " is not downloaded! => openNoInternetBanner");
                                 openNoInternetBanner(new Runnable() {
                                     @Override
                                     public void run() {
                                         destroyBanners();
-                                        GameState.unpause(tag);
-
-                                        isChapterDownloaded();
+                                        navigateTo(new GameScreen(game));
                                     }
                                 });
                             }
                         });
+                    } else {
+                        Log.e(tag, "Can't download the chapter " + chapter.name + "/" + state.maxChapter);
                     }
-
-
-                    Log.e(tag, "isChapterDownloaded " + chapter.name + "/" + state.maxChapter);
                 }
             }
-
-            return isDownloaded;
-
         } catch (Throwable ignore) {
         }
-
-        return true;
     }
 
 
@@ -567,6 +602,11 @@ public class GameScreen extends MunhauzenScreen {
         if (persistTask != null) {
             persistTask.cancel();
             persistTask = null;
+        }
+
+        if (internetTask != null) {
+            internetTask.cancel();
+            internetTask = null;
         }
 
         if (progressBarFragment != null) {
@@ -760,7 +800,6 @@ public class GameScreen extends MunhauzenScreen {
         try {
 
             String chapterJson = Files.getChaptersFile().readString();
-            ;
             JSONArray chapters = new JSONArray(chapterJson);
 
             for (int m = 0; m < chapters.length(); m++) {

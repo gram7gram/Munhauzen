@@ -16,7 +16,7 @@ public class RussianTranslator implements Translator {
         map.put("loading.retry_btn", "Повторить");
         map.put("loading.cancel_btn", "Отменить");
         map.put("loading.purchases_btn", "Покупки");
-        map.put("loading.game_mode_btn", "Рижим игры");
+        map.put("loading.game_mode_btn", "Режим игры");
         map.put("loading.menu_btn", "Главное меню");
         map.put("loading.download_btn", "Скачать");
         map.put("loading.title", "Загрузка ресурсов");
@@ -171,7 +171,7 @@ public class RussianTranslator implements Translator {
         map.put("purchase_screen.download", "Скачать");
         map.put("purchase_screen.free_title", "Демо версия");
         map.put("purchase_screen.free_price", "Бесплатно");
-        map.put("purchase_screen.free_description", "Более 1 часа аудиокниги!\n10 разделов!\n31 иллюстрация!");
+        map.put("purchase_screen.free_description", "Более 1 часа аудиокниги!\n6 разделов!\n31 иллюстрация!");
         map.put("purchase_screen.full_title", "Полная версия");
         map.put("purchase_screen.full_description", "Более 8 часов аудиокниги!\nВсе 69 разделов!\nВсе 250+ иллюстраций!");
         map.put("purchase_screen.part1_title", "Часть 1");
@@ -184,7 +184,7 @@ public class RussianTranslator implements Translator {
         map.put("purchase_screen.chap3_description", "Получи 3 байки от\nизвестного Барона!");
         map.put("purchase_screen.chap5_title", "+5 Историй");
         map.put("purchase_screen.chap5_description", "5 невероятных и веселых\nприключений ждут!");
-        map.put("purchase_screen.chap10_title", "+6 Историй!");
+        map.put("purchase_screen.chap10_title", "+10 Историй!");
         map.put("purchase_screen.chap10_description", "Большой набор лучших\nисторий Мюнхгаузена!");
         map.put("purchase_screen.thx_title", "Сказать спасибо");
         map.put("purchase_screen.thx_description", "Поддержите нас для\nподобных приложений!");

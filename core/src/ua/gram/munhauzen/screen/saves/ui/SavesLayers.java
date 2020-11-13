@@ -69,6 +69,11 @@ public class SavesLayers extends Stack implements Disposable, GameLayerInterface
         update();
     }
 
+    @Override
+    public Fragment getBannerLayer() {
+        return bannerLayer;
+    }
+
     public void setControlsLayer(Fragment actor) {
         if (controlsLayer != null) {
             removeActor(controlsLayer.getRoot());

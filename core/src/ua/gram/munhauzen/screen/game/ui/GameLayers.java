@@ -107,7 +107,11 @@ public class GameLayers extends Stack implements Disposable, GameLayerInterface 
         bannerLayer = actor;
 
         update();
+    }
 
+    @Override
+    public Fragment getBannerLayer() {
+        return bannerLayer;
     }
 
     public void setAchievementLayer(Fragment actor) {

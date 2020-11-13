@@ -14,7 +14,6 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -69,12 +68,13 @@ import en.munchausen.fingertipsandcompany.full.BuildConfig;
 import ua.gram.munhauzen.entity.Device;
 import ua.gram.munhauzen.interfaces.DownloadExpansionInteface;
 import ua.gram.munhauzen.interfaces.DownloadSuccessFailureListener;
+import ua.gram.munhauzen.interfaces.InternetListenterInterface;
 import ua.gram.munhauzen.interfaces.LoginInterface;
 import ua.gram.munhauzen.interfaces.LoginListener;
 import ua.gram.munhauzen.interfaces.OnExpansionDownloadComplete;
+import ua.gram.munhauzen.interfaces.OnlineOfflineListenterInterface;
 import ua.gram.munhauzen.interfaces.ReferralInterface;
 import ua.gram.munhauzen.translator.EnglishTranslator;
-import ua.gram.munhauzen.utils.JSON;
 
 import static android.content.ContentValues.TAG;
 
@@ -272,7 +272,7 @@ public class AndroidLauncher extends AndroidApplication {
                 try {
                     downloadExpansionFile(currentChapterName, downloadSuccessFailureListener);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    downloadSuccessFailureListener.onFailure();
                 }
             }
 
@@ -290,6 +290,18 @@ public class AndroidLauncher extends AndroidApplication {
             @Override
             public boolean isInternetAvailable() {
                 return AndroidLauncher.this.isInternetAvailable();
+            }
+        }, new OnlineOfflineListenterInterface() {
+            @Override
+            public void onGameModeChanged(boolean isOnline) {
+                if (!isOnline) {
+                    deletePreviousChapterExpansions();
+                }
+            }
+        }, new InternetListenterInterface() {
+            @Override
+            public boolean hasIntenet() {
+                return isInternetAvailable();
             }
         });
 
@@ -349,7 +361,7 @@ public class AndroidLauncher extends AndroidApplication {
                     try {
                         downloadExpansionFile(currentChapterName, downloadSuccessFailureListener);
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        downloadSuccessFailureListener.onFailure();
                     }
                 }
 
@@ -367,7 +379,19 @@ public class AndroidLauncher extends AndroidApplication {
                 public boolean isInternetAvailable() {
                     return AndroidLauncher.this.isInternetAvailable();
                 }
-            } );
+            }, new OnlineOfflineListenterInterface() {
+                @Override
+                public void onGameModeChanged(boolean isOnline) {
+                    if (!isOnline) {
+                        deletePreviousChapterExpansions();
+                    }
+                }
+            }, new InternetListenterInterface() {
+                @Override
+                public boolean hasIntenet() {
+                    return isInternetAvailable();
+                }
+            });
 
             initialize(game, config);
 
@@ -1428,7 +1452,6 @@ public class AndroidLauncher extends AndroidApplication {
 
                     imageDownloadCount++;
                     System.out.println("Success downloading from cloud :)");
-                    System.out.println("Success downloading from cloud :)");
 
                     System.out.println("AudioDownloadCount--->"+ audioDownloadCount);
                     System.out.println("ImageDownloadCount--->"+ imageDownloadCount);
@@ -1531,7 +1554,7 @@ public class AndroidLauncher extends AndroidApplication {
                 JSONObject jsonObject = scenarios.getJSONObject(i);
 
                 try{
-                    if(jsonObject.get("chapter").equals(chapterName)){
+                    if(jsonObject.has("chapter") && jsonObject.get("chapter").equals(chapterName)){
 
                         JSONArray audioArray = jsonObject.getJSONArray("audio");
 
@@ -1617,7 +1640,7 @@ public class AndroidLauncher extends AndroidApplication {
                 JSONObject jsonObject = scenarios.getJSONObject(i);
 
                 try{
-                    if(jsonObject.get("chapter").equals(chapterName)){
+                    if(jsonObject.has("chapter") && jsonObject.get("chapter").equals(chapterName)){
 
 
                        JSONArray imageArray = jsonObject.getJSONArray("images");
@@ -1660,13 +1683,21 @@ public class AndroidLauncher extends AndroidApplication {
             for (File file : directoryListing) {
 
                 String fileName = "audio/" + file.getName();
-                if(!audiosCurrentChapter.contains(fileName) && audiosPrevChapter.contains(fileName) && !audiosNextChapter.contains(fileName)){
+                if (audiosCurrentChapter != null && audiosPrevChapter != null && audiosNextChapter != null) {
+                    if (!audiosCurrentChapter.contains(fileName) && audiosPrevChapter.contains(fileName) && !audiosNextChapter.contains(fileName)) {
+                        file.delete();
+                    }
+                } else if (file.exists()) {
                     file.delete();
                 }
 
                 //for deleting all other files(making sure only chapters x-1, x and x+1 comes into play)
+                if (audiosCurrentChapter != null && audiosPrevChapter != null && audiosNextChapter != null) {
 
-                if(!audiosCurrentChapter.contains(fileName) && !audiosPrevChapter.contains(fileName) && !audiosNextChapter.contains(fileName)){
+                    if (!audiosCurrentChapter.contains(fileName) && !audiosPrevChapter.contains(fileName) && !audiosNextChapter.contains(fileName)) {
+                        file.delete();
+                    }
+                } else if (file.exists()) {
                     file.delete();
                 }
             }
@@ -1686,18 +1717,27 @@ public class AndroidLauncher extends AndroidApplication {
 
                 int iend = file.getName().indexOf(".");
 
-                String fileName ="";
+                String fileName = "";
 
-                if(iend !=1){
+                if (iend != 1) {
                     fileName = file.getName().substring(0, iend);
                 }
-                if(!imagesCurrentChapter.contains(fileName) && imagesPrevChapter.contains(fileName) && !imagesNextChapter.contains(fileName)){
+
+                if (imagesCurrentChapter != null && imagesPrevChapter != null && imagesNextChapter != null) {
+                    if (!imagesCurrentChapter.contains(fileName) && imagesPrevChapter.contains(fileName) && !imagesNextChapter.contains(fileName)) {
+                        file.delete();
+                    }
+                } else if (file.exists()) {
                     file.delete();
                 }
 
                 //for deleting all other files(making sure only chapters x-1, x and x+1 comes into play)
 
-                if(!imagesCurrentChapter.contains(fileName) && !imagesPrevChapter.contains(fileName) && !imagesNextChapter.contains(fileName)){
+                if (imagesCurrentChapter != null && imagesPrevChapter != null && imagesNextChapter != null) {
+                    if (!imagesCurrentChapter.contains(fileName) && !imagesPrevChapter.contains(fileName) && !imagesNextChapter.contains(fileName)) {
+                        file.delete();
+                    }
+                } else if (file.exists()) {
                     file.delete();
                 }
             }
