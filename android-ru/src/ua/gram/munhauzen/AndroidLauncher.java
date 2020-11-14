@@ -1614,60 +1614,63 @@ public class AndroidLauncher extends AndroidApplication {
 
         //check if audio files already present and delete
 
-        File audioDirectory = new File(Environment.getExternalStorageDirectory() + "/.Munchausen/ru.munchausen.fingertipsandcompany.any/expansion/audio");
+        try {
+            File audioDirectory = new File(Environment.getExternalStorageDirectory() + "/.Munchausen/ru.munchausen.fingertipsandcompany.any/expansion/audio");
 
-        File[] directoryListing = audioDirectory.listFiles();
+            File[] directoryListing = audioDirectory.listFiles();
 
-        if(directoryListing != null) {
-            for (File file : directoryListing) {
+            if (directoryListing != null) {
+                for (File file : directoryListing) {
 
-                String fileName = "audio/" + file.getName();
-                if(!audiosCurrentChapter.contains(fileName) && audiosPrevChapter.contains(fileName) && !audiosNextChapter.contains(fileName)){
-                    file.delete();
-                }
+                    String fileName = "audio/" + file.getName();
+                    if (!audiosCurrentChapter.contains(fileName) && audiosPrevChapter.contains(fileName) && !audiosNextChapter.contains(fileName)) {
+                        file.delete();
+                    }
 
-                //for deleting all other files(making sure only chapters x-1, x and x+1 comes into play)
+                    //for deleting all other files(making sure only chapters x-1, x and x+1 comes into play)
 
-                if(!audiosCurrentChapter.contains(fileName) && !audiosPrevChapter.contains(fileName) && !audiosNextChapter.contains(fileName)){
-                    file.delete();
-                }
-            }
-        }
-
-        //*check if audio files already present and delete ends
-
-
-        //check if image files already present and delete
-
-        File imageDirectory = new File(Environment.getExternalStorageDirectory() + "/.Munchausen/ru.munchausen.fingertipsandcompany.any/expansion/images");
-
-        File[] imgdirectoryListing = imageDirectory.listFiles();
-
-        if(imgdirectoryListing != null) {
-            for (File file : imgdirectoryListing) {
-
-                int iend = file.getName().indexOf(".");
-
-                String fileName ="";
-
-                if(iend !=1){
-                    fileName = file.getName().substring(0, iend);
-                }
-                if(!imagesCurrentChapter.contains(fileName) && imagesPrevChapter.contains(fileName) && !imagesNextChapter.contains(fileName)){
-                    file.delete();
-                }
-
-                //for deleting all other files(making sure only chapters x-1, x and x+1 comes into play)
-
-                if(!imagesCurrentChapter.contains(fileName) && !imagesPrevChapter.contains(fileName) && !imagesNextChapter.contains(fileName)){
-                    file.delete();
+                    if(!audiosCurrentChapter.contains(fileName) && !audiosPrevChapter.contains(fileName) && !audiosNextChapter.contains(fileName)){
+                        file.delete();
+                    }
                 }
             }
+
+            //*check if audio files already present and delete ends
+
+
+            //check if image files already present and delete
+
+            File imageDirectory = new File(Environment.getExternalStorageDirectory() + "/.Munchausen/ru.munchausen.fingertipsandcompany.any/expansion/images");
+
+            File[] imgdirectoryListing = imageDirectory.listFiles();
+
+            if(imgdirectoryListing != null) {
+                for (File file : imgdirectoryListing) {
+
+                    int iend = file.getName().indexOf(".");
+
+                    String fileName ="";
+
+                    if(iend !=1){
+                        fileName = file.getName().substring(0, iend);
+                    }
+                    if(!imagesCurrentChapter.contains(fileName) && imagesPrevChapter.contains(fileName) && !imagesNextChapter.contains(fileName)){
+                        file.delete();
+                    }
+
+                    //for deleting all other files(making sure only chapters x-1, x and x+1 comes into play)
+
+                    if (!imagesCurrentChapter.contains(fileName) && !imagesPrevChapter.contains(fileName) && !imagesNextChapter.contains(fileName)) {
+                        file.delete();
+                    }
+                }
+            }
+
+            //*check if image files already present and delete ends
+
+        } catch (Throwable e) {
+            e.printStackTrace();
         }
-
-        //*check if image files already present and delete ends
-
-
     }
 
 

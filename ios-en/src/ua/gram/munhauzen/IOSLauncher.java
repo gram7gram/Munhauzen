@@ -1645,6 +1645,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
     public void deletePreviousChapterExpansions(){
 
         //check if audio files already present and delete
+        try {
         NSURL dir = NSFileManager.getDefaultManager().getURLsForDirectory(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask).first();
         File audioDirectory = new File(dir.getPath() + "/.Munchausen/en.munchausen.fingertipsandcompany.any/expansion/audio");
 
@@ -1717,7 +1718,9 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
         //*check if image files already present and delete ends
 
-
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
     }
 
 

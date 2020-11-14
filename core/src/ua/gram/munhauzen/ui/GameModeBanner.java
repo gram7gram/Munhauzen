@@ -109,14 +109,22 @@ public class GameModeBanner extends Banner<MunhauzenScreen> {
                             Timer.instance().scheduleTask(new Timer.Task() {
                                 @Override
                                 public void run() {
-                                    game.setGameMode(true);
+                                    try {
+                                        game.setGameMode(true);
 
-                                    fragment.fadeOut(action);
+                                        fragment.fadeOut(action);
+                                    } catch (Throwable e) {
+                                        Log.e(tag, e);
+
+                                        screen.onCriticalError(e);
+                                    }
                                 }
                             }, audio.duration / 1000f);
 
                         } catch (Throwable e) {
                             Log.e(tag, e);
+
+                            screen.onCriticalError(e);
                         }
                     }
                 });
@@ -148,15 +156,23 @@ public class GameModeBanner extends Banner<MunhauzenScreen> {
                             Timer.instance().scheduleTask(new Timer.Task() {
                                 @Override
                                 public void run() {
-                                    game.setGameMode(false);
+                                    try {
+                                        game.setGameMode(false);
 
-                                    fragment.fadeOut(action);
+                                        fragment.fadeOut(action);
+                                    } catch (Throwable e) {
+                                        Log.e(tag, e);
+
+                                        screen.onCriticalError(e);
+                                    }
 
                                 }
                             }, audio.duration / 1000f);
 
                         } catch (Throwable e) {
                             Log.e(tag, e);
+
+                            screen.onCriticalError(e);
                         }
                     }
                 });

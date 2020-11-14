@@ -392,18 +392,22 @@ public class MunhauzenGame extends Game {
     }
 
     public void stopCurrentSfx() {
-        if (sfxService != null) {
+        try {
+            if (sfxService != null) {
 
-            if (currentSfx != null) {
-                sfxService.dispose(currentSfx);
-                currentSfx = null;
+                if (currentSfx != null) {
+                    sfxService.dispose(currentSfx);
+                    currentSfx = null;
+                }
+
+                sfxService.stop();
             }
 
-            sfxService.stop();
-        }
+            if (backgroundSfxService != null) {
+                backgroundSfxService.stop();
+            }
+        } catch (Throwable ignore) {
 
-        if (backgroundSfxService != null) {
-            backgroundSfxService.stop();
         }
     }
 
