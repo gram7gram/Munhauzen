@@ -131,8 +131,13 @@ public class PurchaseManager {
             gameState.purchaseState = new PurchaseState();
         }
 
+        gameState.purchaseState.maxChapter = maxChapter;
+        gameState.purchaseState.currentExpansionVersion = "Part_2";
+
         gameState.purchaseState.setPro(game.params);
         gameState.purchaseState.isVersionSelected = true;
+
+        Log.i(tag, "availableChapter=" + gameState.purchaseState.maxChapter + " " + gameState.purchaseState.currentExpansionVersion);
     }
 
     private void countInAppPurchases() {

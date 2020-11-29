@@ -438,13 +438,15 @@ public class GameScreen extends MunhauzenScreen {
                             @Override
                             public void onFailure() {
                                 Log.e(tag, "Chapter " + chapter.name + " is not downloaded! => openNoInternetBanner");
-                                openNoInternetBanner(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        destroyBanners();
-                                        navigateTo(new GameScreen(game));
-                                    }
-                                });
+                                if (noInternetFragment == null) {
+                                    openNoInternetBanner(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            destroyBanners();
+                                            navigateTo(new GameScreen(game));
+                                        }
+                                    });
+                                }
                             }
                         });
                     } else {
