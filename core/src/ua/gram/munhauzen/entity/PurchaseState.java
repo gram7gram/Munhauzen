@@ -44,6 +44,7 @@ public class PurchaseState implements JsonEntry {
     public void setPro(PlatformParams params) {
         isPro = false;
 
+        // In-app purchases
         if (purchases != null) {
 
             boolean hasFull = false, hasPart1 = false, hasPart2 = false;
@@ -72,6 +73,12 @@ public class PurchaseState implements JsonEntry {
 
         isPro = isPro || MunhauzenGame.developmentIsPro;
 
+        // Downloaded pro version
+        if (params.isStandaloneProVersion) {
+            isPro = true;
+        }
+
+        // override in dev-mode
         if (MunhauzenGame.developmentSimulatePurchase) {
             isPro = false;
         }

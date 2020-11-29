@@ -1,0 +1,187 @@
+[
+  {
+    "isBegin": true,
+    "name": "a2_2_0_interaction",
+    "action": "CLICK",
+    "audio": [
+      {
+        "audio": "s2_2_0",
+        "duration": 165860
+      }
+    ],
+    "images": [
+      {
+        "image": "images/p33_d.jpg",
+        "duration": 88000
+      },
+      {
+        "image": "generals/inter_general_1.jpg",
+        "duration": 67000
+      },
+      {
+        "image": "generals/inter_general_1.jpg",
+        "withFumes": true,
+        "duration": 10860
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "a2_2_b",
+        "order": 2
+      },
+      {
+        "scenario": "a2_2_c",
+        "order": 3
+      },
+      {
+        "scenario": "a2_2_d",
+        "order": 4
+      },
+      {
+        "scenario": "a2_2_a",
+        "order": 1
+      }
+    ],
+    "translations": []
+  },
+  {
+    "name": "a2_2_0_interaction_proxy",
+    "action": "CLICK",
+    "audio": [],
+    "images": [],
+    "decisions": [
+      {
+        "scenario": "a2_2_b",
+        "order": 2
+      },
+      {
+        "scenario": "a2_2_c",
+        "order": 3
+      },
+      {
+        "scenario": "a2_2_d",
+        "order": 4
+      },
+      {
+        "scenario": "a2_2_a",
+        "order": 1
+      }
+    ],
+    "translations": []
+  },
+  {
+    "isExit": true,
+    "name": "a2_2_a",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "s2_2_a",
+        "duration": 48227
+      }
+    ],
+    "images": [
+      {
+        "image": "generals/inter_general_1.jpg",
+        "withFumes": true,
+        "duration": 19500
+      },
+      {
+        "image": "generals/inter_general_2.jpg",
+        "withFireLeft": true,
+        "withFireRight": true,
+        "duration": 28727
+      }
+    ],
+    "decisions": [],
+    "translations": [
+      {
+        "locale": "ru",
+        "text": "Поджечь винные пары"
+      }
+    ]
+  },
+  {
+    "name": "a2_2_b",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "s2_2_b",
+        "duration": 11865
+      }
+    ],
+    "images": [
+      {
+        "image": "generals/inter_general_1.jpg",
+        "withFumes": true,
+        "duration": 11865
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "a2_2_0_interaction_proxy"
+      }
+    ],
+    "translations": [
+      {
+        "locale": "ru",
+        "text": "Сорвать фуражку"
+      }
+    ]
+  },
+  {
+    "name": "a2_2_c",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "s2_2_c",
+        "duration": 52384
+      }
+    ],
+    "images": [
+      {
+        "image": "generals/inter_general_1.jpg",
+        "withFumes": true,
+        "duration": 52384
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "a2_2_0_interaction_proxy"
+      }
+    ],
+    "translations": [
+      {
+        "locale": "ru",
+        "text": "Посадить рядом канарейку"
+      }
+    ]
+  },
+  {
+    "name": "a2_2_d",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "s2_2_d",
+        "duration": 33134
+      }
+    ],
+    "images": [
+      {
+        "image": "generals/inter_general_1.jpg",
+        "withFumes": true,
+        "duration": 33134
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "a2_2_0_interaction_proxy"
+      }
+    ],
+    "translations": [
+      {
+        "locale": "ru",
+        "text": "Стукнуть бутылкой по голове"
+      }
+    ]
+  }
+]

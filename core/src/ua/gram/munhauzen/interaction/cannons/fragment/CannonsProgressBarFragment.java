@@ -344,7 +344,7 @@ public class CannonsProgressBarFragment extends StoryProgressBar<CannonsInteract
 
         if (story == null) return;
 
-        boolean hasVisitedBefore = MunhauzenGame.developmentSkipEnable || gameScreen.game.gameState.history.visitedStories.contains(story.id);
+        boolean hasVisitedBefore = MunhauzenGame.storySkipEnable || gameScreen.game.gameState.history.visitedStories.contains(story.id);
 
         bar.setEnabled(hasVisitedBefore);
 

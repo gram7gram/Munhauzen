@@ -42,7 +42,6 @@ public class ProFragment extends MenuFragment {
 
         Container<?> c = new Container<>();
         c.setTouchable(Touchable.enabled);
-//        c.setBackground(new SpriteDrawable(new Sprite(new Texture(px))));
 
         root = new FragmentRoot();
         root.addContainer(c);

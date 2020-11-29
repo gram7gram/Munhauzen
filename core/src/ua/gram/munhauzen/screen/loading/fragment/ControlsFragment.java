@@ -224,10 +224,14 @@ public class ControlsFragment extends Fragment {
                 .width(ButtonBuilder.BTN_PRIMARY_WIDTH)
                 .height(ButtonBuilder.BTN_PRIMARY_HEIGHT)
                 .padBottom(10).row();
-        retryTable.add(purchasesBtn)
-                .width(ButtonBuilder.BTN_PRIMARY_WIDTH)
-                .height(ButtonBuilder.BTN_PRIMARY_HEIGHT)
-                .padBottom(10).row();
+
+        if (!screen.game.params.isStandaloneProVersion) {
+            retryTable.add(purchasesBtn)
+                    .width(ButtonBuilder.BTN_PRIMARY_WIDTH)
+                    .height(ButtonBuilder.BTN_PRIMARY_HEIGHT)
+                    .padBottom(10).row();
+        }
+
         retryTable.add(menuBtn)
                 .width(ButtonBuilder.BTN_PRIMARY_WIDTH)
                 .height(ButtonBuilder.BTN_PRIMARY_HEIGHT)

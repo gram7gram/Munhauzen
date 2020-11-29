@@ -1,0 +1,623 @@
+[
+  {
+    "name": "a1",
+    "__v": 0,
+    "chapterAudio": "schapter_1_1",
+    "description": "Конь на крыше",
+    "icon": "chapter/icon_a1.png",
+    "locale": "ru",
+    "number": 1
+  },
+  {
+    "name": "a10",
+    "__v": 0,
+    "chapterAudio": "schapter_1_11",
+    "description": "Слепая свинья",
+    "icon": "chapter/icon_a10.png",
+    "locale": "ru",
+    "number": 27
+  },
+  {
+    "name": "a11",
+    "__v": 0,
+    "chapterAudio": "schapter_1_12",
+    "description": "Как я поймал кабана",
+    "icon": "chapter/icon_a11.png",
+    "locale": "ru",
+    "number": 28
+  },
+  {
+    "name": "a13",
+    "__v": 0,
+    "chapterAudio": "schapter_1_13",
+    "description": "Необыкновенный олень",
+    "icon": "chapter/icon_a13.png",
+    "locale": "ru",
+    "number": 11
+  },
+  {
+    "name": "a14",
+    "__v": 0,
+    "chapterAudio": "schapter_1_14",
+    "description": "Волк на изнанку",
+    "icon": "chapter/icon_a14.png",
+    "locale": "ru",
+    "number": 22
+  },
+  {
+    "name": "a16",
+    "__v": 0,
+    "chapterAudio": "schapter_1_17",
+    "description": "Бешенная шуба",
+    "icon": "chapter/icon_a16.png",
+    "locale": "ru",
+    "number": 14
+  },
+  {
+    "name": "a18",
+    "__v": 0,
+    "chapterAudio": "schapter_1_18",
+    "description": "Восьминогий заяц",
+    "icon": "chapter/icon_a18.png",
+    "locale": "ru",
+    "number": 15
+  },
+  {
+    "name": "a19",
+    "__v": 0,
+    "chapterAudio": "schapter_1_19",
+    "description": "Волшебная куртка",
+    "icon": "chapter/icon_a19.png",
+    "locale": "ru",
+    "number": 16
+  },
+  {
+    "name": "a2",
+    "__v": 0,
+    "chapterAudio": "schapter_1_2",
+    "description": "Волк, запряжённый в сани",
+    "icon": "chapter/icon_a2.png",
+    "locale": "ru",
+    "number": 5
+  },
+  {
+    "name": "a20",
+    "__v": 0,
+    "chapterAudio": "schapter_1_20",
+    "description": "Конь на столе",
+    "icon": "chapter/icon_a20.png",
+    "locale": "ru",
+    "number": 18
+  },
+  {
+    "name": "a21",
+    "__v": 0,
+    "chapterAudio": "schapter_1_21",
+    "description": "Полконя",
+    "icon": "chapter/icon_a21.png",
+    "locale": "ru",
+    "number": 19
+  },
+  {
+    "name": "a22",
+    "__v": 0,
+    "chapterAudio": "schapter_1_22",
+    "description": "Верхом на ядре",
+    "icon": "chapter/icon_a22.png",
+    "locale": "ru",
+    "number": 20
+  },
+  {
+    "name": "a24",
+    "__v": 0,
+    "chapterAudio": "schapter_1_27",
+    "description": "За волосы",
+    "icon": "chapter/icon_a24.png",
+    "locale": "ru",
+    "number": 29
+  },
+  {
+    "name": "a25",
+    "__v": 0,
+    "chapterAudio": "schapter_1_28",
+    "description": "Пчелиный пастух и медведи",
+    "icon": "chapter/icon_a25.png",
+    "locale": "ru",
+    "number": 30
+  },
+  {
+    "name": "a26",
+    "__v": 0,
+    "chapterAudio": "schapter_1_29",
+    "description": "Первое путешествие на Луну",
+    "icon": "chapter/icon_a26.png",
+    "locale": "ru",
+    "number": 31
+  },
+  {
+    "name": "a2_2",
+    "__v": 0,
+    "chapterAudio": "schapter_1_3",
+    "description": "Генерал Кушко",
+    "icon": "chapter/icon_a2_2.png",
+    "locale": "ru",
+    "number": 17
+  },
+  {
+    "name": "a3",
+    "__v": 0,
+    "chapterAudio": "schapter_1_4",
+    "description": "Искры из глаз",
+    "icon": "chapter/icon_a3.png",
+    "locale": "ru",
+    "number": 2
+  },
+  {
+    "name": "a32",
+    "__v": 0,
+    "chapterAudio": "schapter_1_32",
+    "description": "Лошади под мышками, карета на плечах",
+    "icon": "chapter/icon_a32.png",
+    "locale": "ru",
+    "number": 34
+  },
+  {
+    "name": "a33",
+    "__v": 0,
+    "chapterAudio": "schapter_1_33",
+    "description": "Оттаявшие звуки",
+    "icon": "chapter/icon_a33.png",
+    "locale": "ru",
+    "number": 35
+  },
+  {
+    "name": "a34",
+    "__v": 0,
+    "chapterAudio": "schapter_2_1",
+    "description": "Часть вторая. Буря",
+    "icon": "chapter/icon_a34.png",
+    "locale": "ru",
+    "number": 37
+  },
+  {
+    "name": "a35_0",
+    "__v": 0,
+    "chapterAudio": "schapter_2_2",
+    "description": "Между крокодилом и львом",
+    "icon": "chapter/icon_a35_0.png",
+    "locale": "ru",
+    "number": 38
+  },
+  {
+    "name": "a38",
+    "__v": 0,
+    "chapterAudio": "schapter_2_12",
+    "description": "Встреча с китом",
+    "icon": "chapter/icon_a38.png",
+    "locale": "ru",
+    "number": 46
+  },
+  {
+    "name": "a39",
+    "__v": 0,
+    "chapterAudio": "schapter_2_13",
+    "description": "В желудке рыбы",
+    "icon": "chapter/icon_a39.png",
+    "locale": "ru",
+    "number": 47
+  },
+  {
+    "name": "a4",
+    "__v": 0,
+    "chapterAudio": "schapter_1_5",
+    "description": "Удивительная охота",
+    "icon": "chapter/icon_a4.png",
+    "locale": "ru",
+    "number": 3
+  },
+  {
+    "name": "a41",
+    "__v": 0,
+    "chapterAudio": "schapter_2_14",
+    "description": "Мои прекрасные слуги",
+    "icon": "chapter/icon_a41.png",
+    "locale": "ru",
+    "number": 48
+  },
+  {
+    "name": "a41_story",
+    "__v": 0,
+    "chapterAudio": "schapter_2_16",
+    "description": "Китайское вино",
+    "icon": "chapter/icon_a41_story.png",
+    "locale": "ru",
+    "number": 50
+  },
+  {
+    "name": "a50",
+    "__v": 0,
+    "chapterAudio": "schapter_2_17",
+    "description": "Погоня",
+    "icon": "chapter/icon_a50.png",
+    "locale": "ru",
+    "number": 51
+  },
+  {
+    "name": "a51",
+    "__v": 0,
+    "chapterAudio": "schapter_2_18",
+    "description": "Меткий выстрел",
+    "icon": "chapter/icon_a51.png",
+    "locale": "ru",
+    "number": 52
+  },
+  {
+    "name": "a53",
+    "__v": 0,
+    "chapterAudio": "schapter_2_20",
+    "description": "Один против тысячи",
+    "icon": "chapter/icon_a53.png",
+    "locale": "ru",
+    "number": 54
+  },
+  {
+    "name": "a55",
+    "__v": 0,
+    "chapterAudio": "schapter_2_22",
+    "description": "Человек-ядро",
+    "icon": "chapter/icon_a55.png",
+    "locale": "ru",
+    "number": 56
+  },
+  {
+    "name": "a56",
+    "__v": 0,
+    "chapterAudio": "schapter_2_23",
+    "description": "Среди белых медведей",
+    "icon": "chapter/icon_a56.png",
+    "locale": "ru",
+    "number": 57
+  },
+  {
+    "name": "a57",
+    "__v": 0,
+    "chapterAudio": "schapter_2_29",
+    "description": "Второе путешествие на Луну",
+    "icon": "chapter/icon_a26.png",
+    "locale": "ru",
+    "number": 63
+  },
+  {
+    "name": "a58",
+    "__v": 0,
+    "chapterAudio": "schapter_2_31",
+    "description": "Сырный остров",
+    "icon": "chapter/icon_a58.png",
+    "locale": "ru",
+    "number": 65
+  },
+  {
+    "name": "a60",
+    "__v": 0,
+    "chapterAudio": "schapter_2_32",
+    "description": "Корабли, проглоченные рыбой",
+    "icon": "chapter/icon_a60.png",
+    "locale": "ru",
+    "number": 66
+  },
+  {
+    "name": "a61",
+    "__v": 0,
+    "chapterAudio": "schapter_2_33",
+    "description": "Схватка с медведеи",
+    "icon": "chapter/icon_a61.png",
+    "locale": "ru",
+    "number": 67
+  },
+  {
+    "name": "a7",
+    "__v": 0,
+    "chapterAudio": "schapter_1_6",
+    "description": "Куропатки на шомполе",
+    "icon": "chapter/icon_a7.png",
+    "locale": "ru",
+    "number": 21
+  },
+  {
+    "name": "a7_1",
+    "__v": 0,
+    "chapterAudio": "schapter_1_7",
+    "description": "Первая встреча с медведем",
+    "icon": "chapter/icon_a7_1.png",
+    "locale": "ru",
+    "number": 7
+  },
+  {
+    "name": "a7_2",
+    "__v": 0,
+    "chapterAudio": "schapter_1_8",
+    "description": "Настоящая собака",
+    "icon": "chapter/icon_a7_2.png",
+    "locale": "ru",
+    "number": 8
+  },
+  {
+    "name": "a7_3",
+    "__v": 0,
+    "chapterAudio": "schapter_1_9",
+    "description": "Заяц",
+    "icon": "chapter/icon_a7_3.png",
+    "locale": "ru",
+    "number": 9
+  },
+  {
+    "name": "a8",
+    "__v": 0,
+    "chapterAudio": "schapter_1_10",
+    "description": "Лисица на иголке",
+    "icon": "chapter/icon_a8.png",
+    "locale": "ru",
+    "number": 6
+  },
+  {
+    "name": "aamerica",
+    "__v": 0,
+    "chapterAudio": "schapter_2_24",
+    "description": "Приключения в Америке",
+    "icon": "chapter/icon_aamerica.png",
+    "locale": "ru",
+    "number": 58
+  },
+  {
+    "name": "aballoon",
+    "__v": 0,
+    "chapterAudio": "schapter_1_30",
+    "description": "Незваный гость",
+    "icon": "chapter/icon_aballoon.png",
+    "locale": "ru",
+    "number": 32
+  },
+  {
+    "name": "abear",
+    "__v": 0,
+    "chapterAudio": "schapter_1_15",
+    "description": "Второе дело с медведем",
+    "icon": "chapter/icon_abear.png",
+    "locale": "ru",
+    "number": 12
+  },
+  {
+    "name": "aboat_ruin",
+    "__v": 0,
+    "chapterAudio": "schapter_2_27",
+    "description": "Поднятие Королевского Джорджа",
+    "icon": "chapter/icon_aboat_ruin.png",
+    "locale": "ru",
+    "number": 61
+  },
+  {
+    "name": "aboy",
+    "__v": 0,
+    "chapterAudio": "schapter_1_24",
+    "description": "Поход в горы",
+    "icon": "chapter/icon_aboy.png",
+    "locale": "ru",
+    "number": 24
+  },
+  {
+    "name": "abridge",
+    "__v": 0,
+    "chapterAudio": "schapter_2_4",
+    "description": "Мост в Африку",
+    "icon": "chapter/icon_abridge.png",
+    "locale": "ru",
+    "number": 40
+  },
+  {
+    "name": "abrougham",
+    "__v": 0,
+    "chapterAudio": "schapter_1_26",
+    "description": "В карету на вылет и неверующий Василий",
+    "icon": "chapter/icon_abrougham.png",
+    "locale": "ru",
+    "number": 26
+  },
+  {
+    "name": "acanal_1",
+    "__v": 0,
+    "chapterAudio": "schapter_2_6",
+    "description": "Как я строил каналы",
+    "icon": "chapter/icon_acanal_1.png",
+    "locale": "ru",
+    "number": 42
+  },
+  {
+    "name": "acanal_2_2",
+    "__v": 0,
+    "chapterAudio": "schapter_2_7",
+    "description": "Второй канал",
+    "icon": "chapter/icon_acanal_2_2.png",
+    "locale": "ru",
+    "number": 43
+  },
+  {
+    "name": "acannon",
+    "__v": 0,
+    "chapterAudio": "schapter_1_31",
+    "description": "Огромная пушка",
+    "icon": "chapter/icon_acannon.png",
+    "locale": "ru",
+    "number": 33
+  },
+  {
+    "name": "adog",
+    "__v": 0,
+    "chapterAudio": "schapter_2_26",
+    "description": "Чуйка псины Дианы",
+    "icon": "chapter/icon_adog.png",
+    "locale": "ru",
+    "number": 60
+  },
+  {
+    "name": "agener",
+    "__v": 0,
+    "chapterAudio": "schapter_2_25",
+    "description": "История про мишку-генерала  ",
+    "icon": "chapter/icon_agener.png",
+    "locale": "ru",
+    "number": 59
+  },
+  {
+    "name": "aisland",
+    "__v": 0,
+    "chapterAudio": "schapter_1_23",
+    "description": "На острове Тайхатлибиати",
+    "icon": "chapter/icon_aisland.png",
+    "locale": "ru",
+    "number": 23
+  },
+  {
+    "name": "alions",
+    "__v": 0,
+    "chapterAudio": "schapter_2_9",
+    "description": "Тьма львов",
+    "icon": "chapter/icon_alions.png",
+    "locale": "ru",
+    "number": 45
+  },
+  {
+    "name": "amarriage",
+    "__v": 0,
+    "chapterAudio": "schapter_1_25",
+    "description": "Свадьба в Базеле",
+    "icon": "chapter/icon_amarriage.png",
+    "locale": "ru",
+    "number": 25
+  },
+  {
+    "name": "amoon",
+    "__v": 0,
+    "chapterAudio": "schapter_2_11",
+    "description": "Чистка Луны",
+    "icon": "chapter/icon_amoon.png",
+    "locale": "ru",
+    "number": 10
+  },
+  {
+    "name": "anephew",
+    "__v": 0,
+    "chapterAudio": "schapter_2_21",
+    "description": "Чудесная встреча с племянником",
+    "icon": "chapter/icon_anephew.png",
+    "locale": "ru",
+    "number": 55
+  },
+  {
+    "name": "anile",
+    "__v": 0,
+    "chapterAudio": "schapter_2_15",
+    "description": "На реке Нил",
+    "icon": "chapter/icon_anile.png",
+    "locale": "ru",
+    "number": 49
+  },
+  {
+    "name": "aprisoners",
+    "__v": 0,
+    "chapterAudio": "schapter_2_19",
+    "description": "Ядро на столе",
+    "icon": "chapter/icon_aprisoners.png",
+    "locale": "ru",
+    "number": 53
+  },
+  {
+    "name": "asandstorm",
+    "__v": 0,
+    "chapterAudio": "schapter_2_10",
+    "description": "Буря в пустыне",
+    "icon": "chapter/icon_asandstorm.png",
+    "locale": "ru",
+    "number": 4
+  },
+  {
+    "name": "asling",
+    "__v": 0,
+    "chapterAudio": "schapter_1_16",
+    "description": "Мой пояс",
+    "icon": "chapter/icon_asling.png",
+    "locale": "ru",
+    "number": 13
+  },
+  {
+    "name": "atample",
+    "__v": 0,
+    "chapterAudio": "schapter_1_34",
+    "description": "Путешествие вокруг мира",
+    "icon": "chapter/icon_atample.png",
+    "locale": "ru",
+    "number": 36
+  },
+  {
+    "name": "athe_end",
+    "__v": 0,
+    "chapterAudio": "schapter_2_34",
+    "description": "Конец",
+    "icon": "chapter/icon_intro.png",
+    "locale": "ru",
+    "number": 68
+  },
+  {
+    "name": "atyran",
+    "__v": 0,
+    "chapterAudio": "schapter_2_8",
+    "description": "Свержение Туко",
+    "icon": "chapter/icon_atyran.png",
+    "locale": "ru",
+    "number": 44
+  },
+  {
+    "name": "avarvars",
+    "__v": 0,
+    "chapterAudio": "schapter_2_3",
+    "description": "Помощь варварам",
+    "icon": "chapter/icon_avarvars.png",
+    "locale": "ru",
+    "number": 39
+  },
+  {
+    "name": "avolcano",
+    "__v": 0,
+    "chapterAudio": "schapter_2_30",
+    "description": "Путешествие через центр Земли",
+    "icon": "chapter/icon_avolcano.png",
+    "locale": "ru",
+    "number": 64
+  },
+  {
+    "name": "awau",
+    "__v": 0,
+    "chapterAudio": "schapter_2_5",
+    "description": "Вау-Вау",
+    "icon": "chapter/icon_awau.png",
+    "locale": "ru",
+    "number": 41
+  },
+  {
+    "name": "aworm",
+    "__v": 0,
+    "chapterAudio": "schapter_2_28",
+    "description": "Нашествие железных червей",
+    "icon": "chapter/icon_aworm.png",
+    "locale": "ru",
+    "number": 62
+  },
+  {
+    "name": "intro",
+    "__v": 0,
+    "chapterAudio": "schapter_1_0",
+    "description": "Самый правдивый человек на Земле",
+    "icon": "chapter/icon_intro.png",
+    "locale": "ru",
+    "number": 0
+  }
+]

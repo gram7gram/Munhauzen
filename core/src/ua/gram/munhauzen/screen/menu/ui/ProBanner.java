@@ -84,10 +84,13 @@ public class ProBanner extends Banner<MenuScreen> {
                 .height(ButtonBuilder.BTN_PRIMARY_HEIGHT)
                 .padBottom(10)
                 .row();
-        buttons.add(getPurchasesBtn())
-                .width(ButtonBuilder.BTN_PRIMARY_WIDTH)
-                .height(ButtonBuilder.BTN_PRIMARY_HEIGHT)
-                .row();
+
+        if (!game.params.isStandaloneProVersion) {
+            buttons.add(getPurchasesBtn())
+                    .width(ButtonBuilder.BTN_PRIMARY_WIDTH)
+                    .height(ButtonBuilder.BTN_PRIMARY_HEIGHT)
+                    .row();
+        }
 
         content.add(columns).row();
         content.add(buttons).row();

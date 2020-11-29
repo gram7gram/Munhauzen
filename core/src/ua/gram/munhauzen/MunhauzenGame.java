@@ -46,7 +46,6 @@ public class MunhauzenGame extends Game {
 
     public static final boolean developmentSimulatePurchase = false;
     public static final boolean developmentIsPro = false;
-    public static final boolean developmentSkipEnable = true; //enabled by default even in production
 
     // WAUWAU GENERAL HARE PICTURE SERVANTS TIMER
     // continue HORN BALLOONS CHAPTER
@@ -54,6 +53,8 @@ public class MunhauzenGame extends Game {
     public static String developmentInteraction;
     public static String developmentScenario;
     public static boolean developmentVictory;
+
+    public static final boolean storySkipEnable = true;
 
     private final String tag = getClass().getSimpleName();
 

@@ -10,15 +10,19 @@ import ua.gram.munhauzen.utils.MemoryUsage;
 
 public class PlatformParams implements JsonEntry {
 
+
     enum Release {
         DEV, PROD, TEST
     }
 
     public Translator translator;
     public AppStore appStore;
-    public MemoryUsage memoryUsage;
-    public PurchaseManager iap;
+    // Not required
+    public MemoryUsage memoryUsage = null;
+    // Not required
+    public PurchaseManager iap = null;
 
+    public final boolean isStandaloneProVersion;
     public Release release = Release.PROD;
     public final int expansionVersion = 16;
     public int width, height;
@@ -35,6 +39,8 @@ public class PlatformParams implements JsonEntry {
     public String applicationId;
     public String storageDirectory;
     public float scaleFactor = 1;
+    public String yandexId;
+    public String facebookId;
 
     public String tutorialLink;
     public String trailerLink;
@@ -50,6 +56,14 @@ public class PlatformParams implements JsonEntry {
     public final String promocode2 = "Moustache";
 
     public int achievementPoints = 1;
+
+    public PlatformParams() {
+        this(false);
+    }
+
+    public PlatformParams(boolean isStandaloneProVersion) {
+        this.isStandaloneProVersion = isStandaloneProVersion;
+    }
 
     public boolean isProduction() {
         return release == Release.PROD;

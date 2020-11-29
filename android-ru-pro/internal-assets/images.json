@@ -1,0 +1,2027 @@
+[
+  {
+    "name": "p0",
+    "__v": 0,
+    "description": "",
+    "file": "p0.jpg",
+    "isHiddenFromGallery": true,
+    "locale": "ru",
+    "order": 0
+  },
+  {
+    "name": "p1_intro_1",
+    "__v": 0,
+    "description": "Ох уж этот Мюнхгаузен!",
+    "file": "images/p1_intro_1.jpg",
+    "locale": "ru",
+    "order": 1
+  },
+  {
+    "name": "p1_intro_2",
+    "__v": 0,
+    "description": "Да, дерево! А на дереве - вишни! Такие сочные, сладкие…",
+    "file": "images/p1_intro_2.jpg",
+    "locale": "ru",
+    "order": 2
+  },
+  {
+    "name": "p1_intro_3",
+    "__v": 0,
+    "description": "Да, внучка?",
+    "file": "images/p1_intro_3.jpg",
+    "locale": "ru",
+    "order": 3
+  },
+  {
+    "name": "p1_intro_4",
+    "__v": 0,
+    "description": "Да, господа, так оно и было!",
+    "file": "images/p1_intro_4.jpg",
+    "locale": "ru",
+    "order": 4
+  },
+  {
+    "name": "p1_0",
+    "__v": 0,
+    "description": "Только маленький столбик торчал с под снега…",
+    "file": "images/p1_0.jpg",
+    "locale": "ru",
+    "order": 5
+  },
+  {
+    "name": "p1_1",
+    "__v": 0,
+    "description": "Как он там оказался?",
+    "file": "images/p1_1.jpg",
+    "locale": "ru",
+    "order": 6
+  },
+  {
+    "name": "p1_2",
+    "__v": 0,
+    "description": "Он привязан просто к кресту!",
+    "file": "images/p1_2.jpg",
+    "locale": "ru",
+    "order": 7
+  },
+  {
+    "name": "p1_d",
+    "__v": 0,
+    "description": "Схватил пистолет и выстрелил!",
+    "file": "images/p1_d.jpg",
+    "locale": "ru",
+    "order": 8,
+    "relatedStatue": "ST_CHAPTER",
+    "type": "statue"
+  },
+  {
+    "name": "p1_d_bonus",
+    "__v": 0,
+    "description": "Выстрелил!",
+    "file": "images/p1_d_bonus.jpg",
+    "locale": "ru",
+    "order": 9,
+    "relatedScenario": "p1_d",
+    "type": "bonus"
+  },
+  {
+    "name": "p2_b",
+    "__v": 0,
+    "description": "Волк оказался запряжен в санки!",
+    "file": "images/p2_b.jpg",
+    "locale": "ru",
+    "order": 10
+  },
+  {
+    "name": "p3_0",
+    "__v": 0,
+    "description": "Люди могут усомниться  в  правдивости  рассказов  о моих действительных подвигах, что в высшей степени обидно и  оскорбительно для благородного кавалера, дорожащего своей честью",
+    "file": "images/p3_0.jpg",
+    "locale": "ru",
+    "order": 11
+  },
+  {
+    "name": "p3_1",
+    "__v": 0,
+    "description": "Как-то рано утром смотрю в окно - а там утки",
+    "file": "images/p3_1.jpg",
+    "locale": "ru",
+    "order": 12
+  },
+  {
+    "name": "p3_2",
+    "__v": 0,
+    "description": "Мигом кинулся я за утками",
+    "file": "images/p3_2.jpg",
+    "locale": "ru",
+    "order": 13
+  },
+  {
+    "name": "p3_a",
+    "__v": 0,
+    "description": "Не раздумывая, ударил себя в правое око и из него как сыпонули искры!",
+    "file": "images/p3_a.jpg",
+    "locale": "ru",
+    "order": 14
+  },
+  {
+    "name": "p3_shoot",
+    "__v": 0,
+    "description": "Палка выстрелила!",
+    "file": "images/p3_shoot.jpg",
+    "locale": "ru",
+    "order": 15,
+    "relatedStatue": "ST_LUCKY_1",
+    "type": "statue"
+  },
+  {
+    "name": "p4_1",
+    "__v": 0,
+    "description": "Целая свора уток,а порох закончился",
+    "file": "images/p4_1.jpg",
+    "locale": "ru",
+    "order": 16
+  },
+  {
+    "name": "p4_2",
+    "__v": 0,
+    "description": "Но сало то скользкое и оно, пройдя через утку, ап!, выйшло у нее позади",
+    "file": "images/p4_2.jpg",
+    "locale": "ru",
+    "order": 17
+  },
+  {
+    "name": "p6",
+    "__v": 0,
+    "description": "Мне было тяжело тащить целую свору уток домой, но тут, чудеса!, моя ноша взлетела!",
+    "file": "images/p6.jpg",
+    "locale": "ru",
+    "order": 18
+  },
+  {
+    "name": "psandstorm",
+    "__v": 0,
+    "description": "В суровой пустыне",
+    "file": "images/psandstorm.jpg",
+    "locale": "ru",
+    "order": 19
+  },
+  {
+    "name": "psandstorm_b",
+    "__v": 0,
+    "description": "Ничего не было для нас более радостного, чем увидеть зеленый лес, луга и пышные горы на горизонте",
+    "file": "images/psandstorm_b.jpg",
+    "locale": "ru",
+    "order": 20
+  },
+  {
+    "name": "p2_0",
+    "__v": 0,
+    "description": "Случилось это на просторах великой России",
+    "file": "images/p2_0.jpg",
+    "locale": "ru",
+    "order": 21
+  },
+  {
+    "name": "p2_1",
+    "__v": 0,
+    "description": "Напал на меня волк",
+    "file": "images/p2_1.jpg",
+    "locale": "ru",
+    "order": 22
+  },
+  {
+    "name": "p8",
+    "__v": 0,
+    "description": "Лиса на мушке",
+    "file": "images/p8.jpg",
+    "locale": "ru",
+    "order": 23
+  },
+  {
+    "name": "p8_d",
+    "__v": 0,
+    "description": "И лиса убежала от меня голая-преголая",
+    "file": "images/p8_d.jpg",
+    "locale": "ru",
+    "order": 24
+  },
+  {
+    "name": "p7_1",
+    "__v": 0,
+    "description": "Однажды попался мне страшенный медведь",
+    "file": "images/p7_1.jpg",
+    "locale": "ru",
+    "order": 25
+  },
+  {
+    "name": "p7_1_bonus",
+    "__v": 0,
+    "description": "Одинокий",
+    "file": "images/p7_1_bonus.jpg",
+    "locale": "ru",
+    "order": 26,
+    "relatedScenario": "p7_1",
+    "type": "bonus"
+  },
+  {
+    "name": "p7_1_d",
+    "__v": 0,
+    "description": "Я замахнулся и бросил  первый камень прямо ему в пасть",
+    "file": "images/p7_1_d.jpg",
+    "locale": "ru",
+    "order": 27
+  },
+  {
+    "name": "p7_2_0",
+    "__v": 0,
+    "description": "Отправился я со своей женой на прогулку",
+    "file": "images/p7_2_0.jpg",
+    "locale": "ru",
+    "order": 28,
+    "relatedStatue": "ST_GENTLE",
+    "type": "statue"
+  },
+  {
+    "name": "p7_2_b_1",
+    "__v": 0,
+    "description": "Моя собака замерла там же, где я ее и оставил!",
+    "file": "images/p7_2_b_1.jpg",
+    "locale": "ru",
+    "order": 29
+  },
+  {
+    "name": "p7_2_b_2",
+    "__v": 0,
+    "description": "Эх, моя собачурка",
+    "file": "images/p7_2_b_2.jpg",
+    "locale": "ru",
+    "order": 30
+  },
+  {
+    "name": "p7_3_0",
+    "__v": 0,
+    "description": "Дианка была замечательной собакой, замечательной",
+    "file": "images/p7_3_0.jpg",
+    "locale": "ru",
+    "order": 31
+  },
+  {
+    "name": "p7_3_1",
+    "__v": 0,
+    "description": "Скакал я за тем зайцем и скакал",
+    "file": "images/p7_3_1.jpg",
+    "locale": "ru",
+    "order": 32
+  },
+  {
+    "name": "pmoon",
+    "__v": 0,
+    "description": "Взгляни, ржавые пятна!",
+    "file": "images/pmoon.jpg",
+    "locale": "ru",
+    "order": 33,
+    "relatedStatue": "ST_PERSONS",
+    "type": "statue"
+  },
+  {
+    "name": "pmoon_a_win",
+    "__v": 0,
+    "description": "Мы достали месяц и отшлифовали его к прежнему блеску",
+    "file": "images/pmoon_a_win.jpg",
+    "locale": "ru",
+    "order": 34
+  },
+  {
+    "name": "p13_0",
+    "__v": 0,
+    "description": "… и вижу: прямо предо мной молодой олень",
+    "file": "images/p13_0.jpg",
+    "locale": "ru",
+    "order": 35,
+    "relatedStatue": "ST_PROBLEM",
+    "type": "statue"
+  },
+  {
+    "name": "p13_d",
+    "__v": 0,
+    "description": "… стоит смотрит, а на голове вишня!",
+    "file": "images/p13_d.jpg",
+    "locale": "ru",
+    "order": 36,
+    "type": "color"
+  },
+  {
+    "name": "pbear",
+    "__v": 0,
+    "description": "Как же заточить кремень?",
+    "file": "images/pbear.jpg",
+    "locale": "ru",
+    "order": 37
+  },
+  {
+    "name": "pbear_fin",
+    "__v": 0,
+    "description": "Да, щас медведь получит залпа сообразительности и находчивости!",
+    "file": "images/pbear_fin.jpg",
+    "locale": "ru",
+    "order": 38,
+    "relatedStatue": "ST_CUBIC",
+    "type": "statue"
+  },
+  {
+    "name": "psling_0",
+    "__v": 0,
+    "description": "Мой отец",
+    "file": "images/psling_0.jpg",
+    "locale": "ru",
+    "order": 39
+  },
+  {
+    "name": "psling_1",
+    "__v": 0,
+    "description": "Как то на моего отца напал дикий разъяренный морской конёк",
+    "file": "images/psling_1.jpg",
+    "locale": "ru",
+    "order": 40,
+    "relatedStatue": "ST_REPEAT",
+    "type": "statue"
+  },
+  {
+    "name": "psling_b",
+    "__v": 0,
+    "description": "Мой отец оседлал морского коня и отправился через море",
+    "file": "images/psling_b.jpg",
+    "locale": "ru",
+    "order": 41
+  },
+  {
+    "name": "psling_bonus",
+    "__v": 0,
+    "description": "Злой морской конёк в1",
+    "file": "images/psling_bonus.jpg",
+    "locale": "ru",
+    "order": 42,
+    "relatedScenario": "psling",
+    "type": "bonus"
+  },
+  {
+    "name": "p16_0",
+    "__v": 0,
+    "description": "Гуляя по Лондону, набросилась на меня бешеная собака",
+    "file": "images/p16_0.jpg",
+    "locale": "ru",
+    "order": 43
+  },
+  {
+    "name": "p16_0_bonus",
+    "__v": 0,
+    "description": "Злая бешеная собака",
+    "file": "images/p16_0_bonus.jpg",
+    "locale": "ru",
+    "order": 44,
+    "relatedScenario": "p16_0",
+    "type": "bonus"
+  },
+  {
+    "name": "p17",
+    "__v": 0,
+    "description": "Смотрю: взбесившаяся шуба в клочья разорвала мой парадный мундир!",
+    "file": "images/p17.jpg",
+    "locale": "ru",
+    "order": 45
+  },
+  {
+    "name": "p17_a",
+    "__v": 0,
+    "description": "Выстрелил, и шуба вмиг усмирилась и больше никого не кусала",
+    "file": "images/p17_a.jpg",
+    "locale": "ru",
+    "order": 46,
+    "type": "color"
+  },
+  {
+    "name": "p17_a_bonus",
+    "__v": 0,
+    "description": "Шуба в1",
+    "file": "images/p17_a_bonus.jpg",
+    "locale": "ru",
+    "order": 47,
+    "relatedScenario": "p17_a",
+    "type": "bonus"
+  },
+  {
+    "name": "p18_d",
+    "__v": 0,
+    "description": "У него было четыре обычные лапы и четыре лапы на спине!",
+    "file": "images/p18_d.jpg",
+    "locale": "ru",
+    "order": 48
+  },
+  {
+    "name": "p19_0",
+    "__v": 0,
+    "description": "Я чуть ли не заплакал с горя!",
+    "file": "images/p19_0.jpg",
+    "locale": "ru",
+    "order": 49
+  },
+  {
+    "name": "p19_0_bonus",
+    "__v": 0,
+    "description": "Такса Дианка",
+    "file": "images/p19_0_bonus.jpg",
+    "locale": "ru",
+    "order": 50,
+    "relatedScenario": "p19_0",
+    "type": "bonus"
+  },
+  {
+    "name": "p19_b",
+    "__v": 0,
+    "description": "Но посмотрите сюда, и вы убедитесь, что я рассказываю вам чистейшую правду: разве вы не видите своими глазами, что теперь на моей куртке осталось всего две пуговицы?",
+    "file": "images/p19_b.jpg",
+    "locale": "ru",
+    "order": 51,
+    "relatedStatue": "ST_CHAPTERSECRET",
+    "type": "statue"
+  },
+  {
+    "name": "p20_1",
+    "__v": 0,
+    "description": "Даже лучшие наездники и те не могли усмирить резвого скакуна",
+    "file": "images/p20_1.jpg",
+    "locale": "ru",
+    "order": 52
+  },
+  {
+    "name": "p20_2",
+    "__v": 0,
+    "description": "Я решил показать свое мастерство дамам",
+    "file": "images/p20_2.jpg",
+    "locale": "ru",
+    "order": 53
+  },
+  {
+    "name": "p20_a",
+    "__v": 0,
+    "description": "Запрыгнул я на своем коне прямо на чайный столик",
+    "file": "images/p20_a.jpg",
+    "locale": "ru",
+    "order": 54,
+    "type": "color"
+  },
+  {
+    "name": "p21_1",
+    "__v": 0,
+    "description": "Моё золотце, моя внучка",
+    "file": "images/p21_1.jpg",
+    "locale": "ru",
+    "order": 55
+  },
+  {
+    "name": "p21_2",
+    "__v": 0,
+    "description": "Конь пил, пил и не мог напиться",
+    "file": "images/p21_2.jpg",
+    "locale": "ru",
+    "order": 56,
+    "type": "color"
+  },
+  {
+    "name": "p21_2_a",
+    "__v": 0,
+    "description": "Я кинулся вперёд во главе своего маленького отряда",
+    "file": "images/p21_2_a.jpg",
+    "locale": "ru",
+    "order": 57
+  },
+  {
+    "name": "p21_3",
+    "__v": 0,
+    "description": "Вон она пасется на лужку",
+    "file": "images/p21_3.jpg",
+    "locale": "ru",
+    "order": 58
+  },
+  {
+    "name": "p21_4",
+    "__v": 0,
+    "description": "Под такой беседкой я совершил немало подвигов",
+    "file": "images/p21_4.jpg",
+    "locale": "ru",
+    "order": 59,
+    "type": "color"
+  },
+  {
+    "name": "p22",
+    "__v": 0,
+    "description": "Самым смелым оказался я",
+    "file": "images/p22.jpg",
+    "locale": "ru",
+    "order": 60,
+    "type": "color"
+  },
+  {
+    "name": "p22_d",
+    "__v": 0,
+    "description": "Я подождал, когда пушка выстрелит и тут же запрыгнул на ядро",
+    "file": "images/p22_d.jpg",
+    "locale": "ru",
+    "order": 61,
+    "relatedStatue": "ST_CANNONBALL",
+    "type": "statue"
+  },
+  {
+    "name": "p22_d_2",
+    "__v": 0,
+    "description": "Нет, Мюнхаузен, надо тебе возвращаться покуда не поздно!",
+    "file": "images/p22_d_2.jpg",
+    "locale": "ru",
+    "order": 62
+  },
+  {
+    "name": "p7",
+    "__v": 0,
+    "description": "Вдруг прям из-под моих ног выпурхнуло семь куропаток",
+    "file": "images/p7.jpg",
+    "locale": "ru",
+    "order": 63
+  },
+  {
+    "name": "p7_0_bonus",
+    "__v": 0,
+    "description": "Мюнхгаузены",
+    "file": "images/p7_0_bonus.jpg",
+    "locale": "ru",
+    "order": 64,
+    "relatedScenario": "p7_0",
+    "type": "bonus"
+  },
+  {
+    "name": "p7_c",
+    "__v": 0,
+    "description": "Да, все семь куропаток единым выстрелом",
+    "file": "images/p7_c.jpg",
+    "locale": "ru",
+    "order": 65
+  },
+  {
+    "name": "p14_0",
+    "__v": 0,
+    "description": "Мои дорогие друзья и товарищи, доверяйте тому, что я говорю, и воздавайте честь рассказам о Мюнхгаузене. ",
+    "file": "images/p14_0.jpg",
+    "locale": "ru",
+    "order": 66
+  },
+  {
+    "name": "p14_1",
+    "__v": 0,
+    "description": "Волк уже набросился на мою руку, но я засовывал ее все глубже и глубже",
+    "file": "images/p14_1.jpg",
+    "locale": "ru",
+    "order": 67
+  },
+  {
+    "name": "p15_smile",
+    "__v": 0,
+    "description": "С тех пор Вы можете видеть чудесную улыбку на моем лице",
+    "file": "images/p15_smile.jpg",
+    "locale": "ru",
+    "order": 68
+  },
+  {
+    "name": "p23_d",
+    "__v": 0,
+    "description": "Поднимем же наши чашки, любезные господа, друзья и товарищи, за эту супружескую пару, за наше здоровье и вместе за утехи общества и за безусловную правдивость каждого рассказчика…",
+    "file": "images/p23_d.jpg",
+    "locale": "ru",
+    "order": 69
+  },
+  {
+    "name": "pisland_1",
+    "__v": 0,
+    "description": "Пленные на Таихатлибиати",
+    "file": "images/pisland_1.jpg",
+    "locale": "ru",
+    "order": 70
+  },
+  {
+    "name": "pisland_2",
+    "__v": 0,
+    "description": "Пора бежать!",
+    "file": "images/pisland_2.jpg",
+    "locale": "ru",
+    "order": 71
+  },
+  {
+    "name": "pisland_cont",
+    "__v": 0,
+    "description": "Шары надулись и полетели!",
+    "file": "images/pisland_cont.jpg",
+    "locale": "ru",
+    "order": 72
+  },
+  {
+    "name": "pisland_game",
+    "__v": 0,
+    "description": "",
+    "file": "images/pisland_game.jpg",
+    "isHiddenFromGallery": true,
+    "locale": "ru",
+    "order": 73
+  },
+  {
+    "name": "pboy_0",
+    "__v": 0,
+    "description": "Маленький Бастиан был обузой для нас",
+    "file": "images/pboy_0.jpg",
+    "locale": "ru",
+    "order": 74
+  },
+  {
+    "name": "pboy_bonus",
+    "__v": 0,
+    "description": "Срослись",
+    "file": "images/pboy_bonus.jpg",
+    "locale": "ru",
+    "order": 75,
+    "relatedScenario": "pboy_0",
+    "type": "bonus"
+  },
+  {
+    "name": "pboy_b",
+    "__v": 0,
+    "description": "Я вогрузил Бастиана на плечи и мы весело отправились вверх",
+    "file": "images/pboy_b.jpg",
+    "locale": "ru",
+    "order": 76
+  },
+  {
+    "name": "pmarriage",
+    "__v": 0,
+    "description": "Как то раз поймал я целый ящик лудог",
+    "file": "images/pmarriage.jpg",
+    "locale": "ru",
+    "order": 77
+  },
+  {
+    "name": "pmarriage_a_a",
+    "__v": 0,
+    "description": "И передо мной предстала Джинна!",
+    "file": "images/pmarriage_a_a.jpg",
+    "locale": "ru",
+    "order": 78,
+    "relatedStatue": "ST_JINNA",
+    "type": "statue"
+  },
+  {
+    "name": "pmarriage_c",
+    "__v": 0,
+    "description": "Я запряг рыбку, сел на ящик и весело поплыл рекою",
+    "file": "images/pmarriage_c.jpg",
+    "locale": "ru",
+    "order": 79
+  },
+  {
+    "name": "pbrougham_0",
+    "__v": 0,
+    "description": "Я едва успел снять шляпу перед дамами",
+    "file": "images/pbrougham_0.jpg",
+    "locale": "ru",
+    "order": 80
+  },
+  {
+    "name": "pbrougham_1",
+    "__v": 0,
+    "description": "Мучник Василий",
+    "file": "images/pbrougham_1.jpg",
+    "locale": "ru",
+    "order": 81
+  },
+  {
+    "name": "pbrougham_a",
+    "__v": 0,
+    "description": "Я дал ему такую оплеуху, что только звон прокатил",
+    "file": "images/pbrougham_a.jpg",
+    "locale": "ru",
+    "order": 82,
+    "relatedStatue": "ST_EAR",
+    "type": "statue"
+  },
+  {
+    "name": "p10_0",
+    "__v": 0,
+    "description": "Вижу, свиня идет за поросенком, держась за кончик хвоста",
+    "file": "images/p10_0.jpg",
+    "locale": "ru",
+    "order": 83
+  },
+  {
+    "name": "p11_0",
+    "__v": 0,
+    "description": "Как-то раз встретился мне буйный кабан",
+    "file": "images/p11_0.jpg",
+    "locale": "ru",
+    "order": 84
+  },
+  {
+    "name": "p11_b",
+    "__v": 0,
+    "description": "Мигом я скрылся за большим дубом",
+    "file": "images/p11_b.jpg",
+    "locale": "ru",
+    "order": 85
+  },
+  {
+    "name": "p12_a",
+    "__v": 0,
+    "description": "Никто и не догадывался, что свирепого кабана можно было поймать, не истратив ни единого патрона",
+    "file": "images/p12_a.jpg",
+    "locale": "ru",
+    "order": 86
+  },
+  {
+    "name": "p25",
+    "__v": 0,
+    "description": "Двое медведей набросились на несчастную пчелку, желая полакомиться её медом",
+    "file": "images/p25.jpg",
+    "locale": "ru",
+    "order": 87
+  },
+  {
+    "name": "p25_d",
+    "__v": 0,
+    "description": "Где же найти такую длинную лестницу, чтобы достать до Луны?",
+    "file": "images/p25_d.jpg",
+    "locale": "ru",
+    "order": 88
+  },
+  {
+    "name": "p27_0",
+    "__v": 0,
+    "description": "Да, попробуй найти на серебрянной Луне серебряный топорик…",
+    "file": "images/p27_0.jpg",
+    "locale": "ru",
+    "order": 89
+  },
+  {
+    "name": "p27_1",
+    "__v": 0,
+    "description": "Но как же мне теперь вернуться назад? Неужели я вечно так и останусь на этой противной Луне?",
+    "file": "images/p27_1.jpg",
+    "locale": "ru",
+    "order": 90,
+    "relatedStatue": "ST_FIRST",
+    "type": "statue"
+  },
+  {
+    "name": "p27_d",
+    "__v": 0,
+    "description": "Веревка закончилась и я повис в воздухе между небом и землей",
+    "file": "images/p27_d.jpg",
+    "locale": "ru",
+    "order": 91
+  },
+  {
+    "name": "p28_a",
+    "__v": 0,
+    "description": "Как же мне выбраться?",
+    "file": "images/p28_a.jpg",
+    "locale": "ru",
+    "order": 92,
+    "relatedStatue": "ST_AXE",
+    "type": "statue"
+  },
+  {
+    "name": "p29_2",
+    "__v": 0,
+    "description": "У меня имеются к твоим услугам, да и для всех других недоверчивых людей, бесстыдно сомневающихся в правдивости моих рассказов, еще много таких же веских доказательств",
+    "file": "images/p29_2.jpg",
+    "locale": "ru",
+    "order": 93
+  },
+  {
+    "name": "pballoon",
+    "__v": 0,
+    "description": "Что за точка на горизонте?",
+    "file": "images/pballoon.jpg",
+    "locale": "ru",
+    "order": 94,
+    "type": "color"
+  },
+  {
+    "name": "pballoon_a_1",
+    "__v": 0,
+    "description": "Мисье ДеЖаВю",
+    "file": "images/pballoon_a_1.jpg",
+    "locale": "ru",
+    "order": 95,
+    "relatedStatue": "ST_BALLOON",
+    "type": "statue"
+  },
+  {
+    "name": "pballoon_a_2",
+    "__v": 0,
+    "description": "И мы поднимались выше и выше с колоссальной скоростью!",
+    "file": "images/pballoon_a_2.jpg",
+    "locale": "ru",
+    "order": 96,
+    "relatedStatue": "ST_DEJAVU",
+    "type": "statue"
+  },
+  {
+    "name": "pcannon",
+    "__v": 0,
+    "description": "Султан предложил мне сделку",
+    "file": "images/pcannon.jpg",
+    "locale": "ru",
+    "order": 97
+  },
+  {
+    "name": "pcannon_d",
+    "__v": 0,
+    "description": "Лихо швырнул я огромадную пушку",
+    "file": "images/pcannon_d.jpg",
+    "locale": "ru",
+    "order": 98
+  },
+  {
+    "name": "p32_0",
+    "__v": 0,
+    "description": "Вижу, как навстречу нам мчится черный экипаж!",
+    "file": "images/p32_0.jpg",
+    "locale": "ru",
+    "order": 99
+  },
+  {
+    "name": "pcarriage",
+    "__v": 0,
+    "description": "Бем!",
+    "file": "images/pcarriage.jpg",
+    "locale": "ru",
+    "order": 100
+  },
+  {
+    "name": "p32_a",
+    "__v": 0,
+    "description": "С легкостью я водрузил экипаж себе на плечи",
+    "file": "images/p32_a.jpg",
+    "locale": "ru",
+    "order": 101
+  },
+  {
+    "name": "p33_d",
+    "__v": 0,
+    "description": "Если кто-либо из нашей компании сомневается в моей правдивости, я скажу только, что мне жалко их нехватки доверия…",
+    "file": "images/p33_d.jpg",
+    "locale": "ru",
+    "order": 102
+  },
+  {
+    "name": "p33_b",
+    "__v": 0,
+    "description": "И конь перестал брыкаться!",
+    "file": "images/p33_b.jpg",
+    "locale": "ru",
+    "order": 103
+  },
+  {
+    "name": "p33_2",
+    "__v": 0,
+    "description": "",
+    "file": "images/p33_2.jpg",
+    "isHiddenFromGallery": true,
+    "locale": "ru",
+    "order": 104
+  },
+  {
+    "name": "ptample_0",
+    "__v": 0,
+    "description": "Я залез на вершину, чтобы насладиться прекрасным видом",
+    "file": "images/ptample_0.jpg",
+    "locale": "ru",
+    "order": 105
+  },
+  {
+    "name": "ptample_bonus",
+    "__v": 0,
+    "description": "Отверстие в башне в1",
+    "file": "images/ptample_bonus.jpg",
+    "locale": "ru",
+    "order": 106,
+    "relatedScenario": "ptample_0",
+    "type": "bonus"
+  },
+  {
+    "name": "ptample_1",
+    "__v": 0,
+    "description": "В башне было отверстие…",
+    "file": "images/ptample_1.jpg",
+    "locale": "ru",
+    "order": 107
+  },
+  {
+    "name": "ptample_2_0",
+    "__v": 0,
+    "description": "Я крепко вцепился в шею первого орла, и мы полетели",
+    "file": "images/ptample_2_0.jpg",
+    "locale": "ru",
+    "order": 108
+  },
+  {
+    "name": "ptample_2_1",
+    "__v": 0,
+    "description": "Я услышал шорох среди кустов и, подняв глаза, увидел здоровенного зверя",
+    "file": "images/ptample_2_1.jpg",
+    "locale": "ru",
+    "order": 109
+  },
+  {
+    "name": "ptample_3",
+    "__v": 0,
+    "description": "Вскоре наш полет достиг Северного круга",
+    "file": "images/ptample_3.jpg",
+    "locale": "ru",
+    "order": 110
+  },
+  {
+    "name": "ptample_5",
+    "__v": 0,
+    "description": "Я развеселился и запел песенку, которую выучил в детстве",
+    "file": "images/ptample_5.jpg",
+    "locale": "ru",
+    "order": 111,
+    "relatedStatue": "ST_SONG",
+    "type": "statue"
+  },
+  {
+    "name": "p34_0",
+    "__v": 0,
+    "description": "Впрочем, кто имеет деревянный лоб - тот и не может отличить лжи и хвастовства от высказанной напрямик правды - такого человека не исправишь… ",
+    "file": "images/p34_0.jpg",
+    "locale": "ru",
+    "order": 112
+  },
+  {
+    "name": "p34_3",
+    "__v": 0,
+    "description": "Зачем они взобрались туда? Очень просто: чтобы нарвать огурцов, так как в той местности огурцы растут на деревьях. ",
+    "file": "images/p34_3.jpg",
+    "locale": "ru",
+    "order": 113
+  },
+  {
+    "name": "p34_1",
+    "__v": 0,
+    "description": "\"О, благородный Мюнхаузен, будь нашим королём!\"",
+    "file": "images/p34_1.jpg",
+    "locale": "ru",
+    "order": 114,
+    "type": "color"
+  },
+  {
+    "name": "p34_2",
+    "__v": 0,
+    "description": "Вот корона",
+    "file": "images/p34_2.jpg",
+    "locale": "ru",
+    "order": 115,
+    "type": "color"
+  },
+  {
+    "name": "p34_a",
+    "__v": 0,
+    "description": "Что это такое?",
+    "file": "images/p34_a.jpg",
+    "locale": "ru",
+    "order": 116,
+    "relatedStatue": "ST_KING",
+    "type": "statue"
+  },
+  {
+    "name": "p35_0",
+    "__v": 0,
+    "description": "Лев набросился на меня",
+    "file": "images/p35_0.jpg",
+    "locale": "ru",
+    "order": 117
+  },
+  {
+    "name": "p35_what",
+    "__v": 0,
+    "description": "Куда бежать? Куда бежать?",
+    "file": "images/p35_what.jpg",
+    "locale": "ru",
+    "order": 118,
+    "type": "color"
+  },
+  {
+    "name": "p36_e",
+    "__v": 0,
+    "description": "Лев набросился на меня, но угодил прямо в пасть крокодилу!",
+    "file": "images/p36_e.jpg",
+    "locale": "ru",
+    "order": 119
+  },
+  {
+    "name": "pvarvars",
+    "__v": 0,
+    "description": "Я хотел помочь этим варварам оставить обычай есть сырое мясо и пить кофе",
+    "file": "images/pvarvars.jpg",
+    "locale": "ru",
+    "order": 120,
+    "relatedStatue": "ST_LETTER",
+    "type": "statue"
+  },
+  {
+    "name": "pvarvars_d_all_1",
+    "__v": 0,
+    "description": "Я говорил в безумном блаженстве пожарной нежности, и я расплакался!",
+    "file": "images/pvarvars_d_all_1.jpg",
+    "locale": "ru",
+    "order": 121
+  },
+  {
+    "name": "pvarvars_d_all_2",
+    "__v": 0,
+    "description": "\"Помадки! Помадки! Помадки!\" -звучало отовсюду",
+    "file": "images/pvarvars_d_all_2.jpg",
+    "locale": "ru",
+    "order": 122,
+    "type": "color"
+  },
+  {
+    "name": "pvarvars_d_all_3",
+    "__v": 0,
+    "description": "А, у меня есть вырезка!",
+    "file": "images/pvarvars_d_all_3.jpg",
+    "locale": "ru",
+    "order": 123
+  },
+  {
+    "name": "pbridge_0",
+    "__v": 0,
+    "description": "Новый путь из Африки в Британию был проложен",
+    "file": "images/pbridge_0.jpg",
+    "locale": "ru",
+    "order": 124,
+    "type": "color"
+  },
+  {
+    "name": "pwau",
+    "__v": 0,
+    "description": "Лови, лови Вау Вау!",
+    "file": "images/pwau.jpg",
+    "locale": "ru",
+    "order": 125
+  },
+  {
+    "name": "pwau_2",
+    "__v": 0,
+    "description": "Вау Вау рядом",
+    "file": "images/pwau_2.jpg",
+    "locale": "ru",
+    "order": 126,
+    "relatedStatue": "ST_WAUWAU",
+    "type": "statue"
+  },
+  {
+    "name": "pwau_3",
+    "__v": 0,
+    "description": "Несите угощение!",
+    "file": "images/pwau_3.jpg",
+    "locale": "ru",
+    "order": 127
+  },
+  {
+    "name": "pwau_3_c",
+    "__v": 0,
+    "description": "Я схватил его же медведя за задние лапы и замахнулся!",
+    "file": "images/pwau_3_c.jpg",
+    "locale": "ru",
+    "order": 128
+  },
+  {
+    "name": "pwau_4",
+    "__v": 0,
+    "description": "Странная кавалькада",
+    "file": "images/pwau_4.jpg",
+    "locale": "ru",
+    "order": 129
+  },
+  {
+    "name": "pwau_a",
+    "__v": 0,
+    "description": "Взял цепи и привязал остров",
+    "file": "images/pwau_a.jpg",
+    "locale": "ru",
+    "order": 130
+  },
+  {
+    "name": "pcanal_1",
+    "__v": 0,
+    "description": "Отправился я на перешеек Дариен",
+    "file": "images/pcanal_1.jpg",
+    "locale": "ru",
+    "order": 131,
+    "type": "color"
+  },
+  {
+    "name": "pcanal_1_b",
+    "__v": 0,
+    "description": "Панамский канал",
+    "file": "images/pcanal_1_b.jpg",
+    "locale": "ru",
+    "order": 132
+  },
+  {
+    "name": "pcanal_2",
+    "__v": 0,
+    "description": "Охваченный яростью проложения каналов, я решил положить еще один",
+    "file": "images/pcanal_2.jpg",
+    "locale": "ru",
+    "order": 133
+  },
+  {
+    "name": "pcanal_2_c",
+    "__v": 0,
+    "description": "Я оказался в Александрийской библиотеке!",
+    "file": "images/pcanal_2_c.jpg",
+    "locale": "ru",
+    "order": 134,
+    "type": "color"
+  },
+  {
+    "name": "pcanal_2_c_bonus",
+    "__v": 0,
+    "description": "Александрийская библиотека в1",
+    "file": "images/pcanal_2_c_bonus.jpg",
+    "locale": "ru",
+    "order": 135,
+    "relatedScenario": "pcanal_2_c",
+    "type": "bonus"
+  },
+  {
+    "name": "ptyran_1",
+    "__v": 0,
+    "description": "Туко",
+    "file": "images/ptyran_1.jpg",
+    "locale": "ru",
+    "order": 136
+  },
+  {
+    "name": "ptyran_bonus",
+    "__v": 0,
+    "description": "Кроссовер",
+    "file": "images/ptyran_bonus.jpg",
+    "locale": "ru",
+    "order": 137,
+    "relatedScenario": "ptyran_1",
+    "type": "bonus"
+  },
+  {
+    "name": "ptyran_2",
+    "__v": 0,
+    "description": "Туко вышел на меня верхом на своем слоне",
+    "file": "images/ptyran_2.jpg",
+    "locale": "ru",
+    "order": 138
+  },
+  {
+    "name": "ptyran_b",
+    "__v": 0,
+    "description": "Туко мигом разрядил свой карабин",
+    "file": "images/ptyran_b.jpg",
+    "locale": "ru",
+    "order": 139
+  },
+  {
+    "name": "plions",
+    "__v": 0,
+    "description": "Прайд львов окружил наш лагерь",
+    "file": "images/plions.jpg",
+    "locale": "ru",
+    "order": 140
+  },
+  {
+    "name": "plions_bonus",
+    "__v": 0,
+    "description": "Львы в1",
+    "file": "images/plions_bonus.jpg",
+    "locale": "ru",
+    "order": 141,
+    "relatedScenario": "plions",
+    "type": "bonus"
+  },
+  {
+    "name": "plions_a",
+    "__v": 0,
+    "description": "Я вызвал царя зверей на поединок",
+    "file": "images/plions_a.jpg",
+    "locale": "ru",
+    "order": 142
+  },
+  {
+    "name": "plions_a_win",
+    "__v": 0,
+    "description": "Зверь пал!",
+    "file": "images/plions_a_win.jpg",
+    "locale": "ru",
+    "order": 143,
+    "relatedStatue": "TRUE"
+  },
+  {
+    "name": "p38_0",
+    "__v": 0,
+    "description": "То не скала, то огромный кит!",
+    "file": "images/p38_0.jpg",
+    "locale": "ru",
+    "order": 144
+  },
+  {
+    "name": "p38_d",
+    "__v": 0,
+    "description": "Даже не снимая штанов, я закрыл пробоину своей задней частью!",
+    "file": "images/p38_d.jpg",
+    "locale": "ru",
+    "order": 145
+  },
+  {
+    "name": "p39_0",
+    "__v": 0,
+    "description": "Вдруг вижу: прям на меня плывёт  с открытым ротом здоровенная рыбина!",
+    "file": "images/p39_0.jpg",
+    "locale": "ru",
+    "order": 146
+  },
+  {
+    "name": "p39_a",
+    "__v": 0,
+    "description": "Капитан Немо",
+    "file": "images/p39_a.jpg",
+    "locale": "ru",
+    "order": 147,
+    "relatedStatue": "ST_NEMO",
+    "type": "statue"
+  },
+  {
+    "name": "p39_d",
+    "__v": 0,
+    "description": "Нырнул ей в пасть",
+    "file": "images/p39_d.jpg",
+    "locale": "ru",
+    "order": 148
+  },
+  {
+    "name": "p40",
+    "__v": 0,
+    "description": "В желудке рыбы было темно и мокро",
+    "file": "images/p40.jpg",
+    "locale": "ru",
+    "order": 149
+  },
+  {
+    "name": "p41_d",
+    "__v": 0,
+    "description": "Они еще более удивились, когда из рыбины выпрыгнул я, целый и невредимый",
+    "file": "images/p41_d.jpg",
+    "locale": "ru",
+    "order": 150,
+    "relatedStatue": "ST_VERSE",
+    "type": "statue"
+  },
+  {
+    "name": "p41_d_bonus_1",
+    "__v": 0,
+    "description": "Палуба в1",
+    "file": "images/p41_d_bonus_1.jpg",
+    "locale": "ru",
+    "order": 151,
+    "relatedScenario": "p41_d",
+    "type": "bonus"
+  },
+  {
+    "name": "p41_d_bonus_2",
+    "__v": 0,
+    "description": "Палуба в2",
+    "file": "images/p41_d_bonus_2.jpg",
+    "locale": "ru",
+    "order": 152,
+    "relatedScenario": "p41_d",
+    "type": "bonus"
+  },
+  {
+    "name": "p41_1",
+    "__v": 0,
+    "description": "О, как-то раз плыл я к султану за тайным поручением",
+    "file": "images/p41_1.jpg",
+    "locale": "ru",
+    "order": 153
+  },
+  {
+    "name": "p41_egypt",
+    "__v": 0,
+    "description": "Отправимся в Египет?",
+    "file": "images/p41_egypt.jpg",
+    "locale": "ru",
+    "order": 154
+  },
+  {
+    "name": "pnile",
+    "__v": 0,
+    "description": "Плыли мы рекой Нил за тайным поручением султана",
+    "file": "images/pnile.jpg",
+    "locale": "ru",
+    "order": 155
+  },
+  {
+    "name": "pnile_a_1",
+    "__v": 0,
+    "description": "К счастью, мы залезли на дерево",
+    "file": "images/pnile_a_1.jpg",
+    "locale": "ru",
+    "order": 156
+  },
+  {
+    "name": "pnile_a_2",
+    "__v": 0,
+    "description": "Стамбул",
+    "file": "images/pnile_a_2.jpg",
+    "locale": "ru",
+    "order": 157
+  },
+  {
+    "name": "pnile_d",
+    "__v": 0,
+    "description": "Хитрый крокодил",
+    "file": "images/pnile_d.jpg",
+    "locale": "ru",
+    "order": 158,
+    "relatedStatue": "ST_CROCODILE",
+    "type": "statue"
+  },
+  {
+    "name": "p41_story_1",
+    "__v": 0,
+    "description": "\"О, Мюнхаузен, такого вина вы еще не пробывали!\"",
+    "file": "images/p41_story_1.jpg",
+    "locale": "ru",
+    "order": 159
+  },
+  {
+    "name": "p41_story_2",
+    "__v": 0,
+    "description": "Натюрморт",
+    "file": "images/p41_story_2.jpg",
+    "locale": "ru",
+    "order": 160
+  },
+  {
+    "name": "p41_story_3",
+    "__v": 0,
+    "description": "Было уже пять минут  четвертого, как я позвал своего слугу",
+    "file": "images/p41_story_3.jpg",
+    "locale": "ru",
+    "order": 161
+  },
+  {
+    "name": "p41_story_4",
+    "__v": 0,
+    "description": "Ну что? Слышишь? Где тот разгильдяй?",
+    "file": "images/p41_story_4.jpg",
+    "locale": "ru",
+    "order": 162
+  },
+  {
+    "name": "p41_story_5",
+    "__v": 0,
+    "description": "Ну что, видишь его?",
+    "file": "images/p41_story_5.jpg",
+    "locale": "ru",
+    "order": 163
+  },
+  {
+    "name": "p41_story_6",
+    "__v": 0,
+    "description": "Ровно за тридцать секунд до четвертого вбегает мой скороход!",
+    "file": "images/p41_story_6.jpg",
+    "locale": "ru",
+    "order": 164
+  },
+  {
+    "name": "p41_story_7",
+    "__v": 0,
+    "description": "Сокровищница султана",
+    "file": "images/p41_story_7.jpg",
+    "locale": "ru",
+    "order": 165
+  },
+  {
+    "name": "p49_strong",
+    "__v": 0,
+    "description": "Скинули мы все богатства Турции великану на плечи и поспешили прочь - на корабль",
+    "file": "images/p49_strong.jpg",
+    "locale": "ru",
+    "order": 166
+  },
+  {
+    "name": "p50_0",
+    "__v": 0,
+    "description": "Но произошло то, чего я боялся",
+    "file": "images/p50_0.jpg",
+    "locale": "ru",
+    "order": 167
+  },
+  {
+    "name": "p50_0_bonus",
+    "__v": 0,
+    "description": "Погоня в1",
+    "file": "images/p50_0_bonus.jpg",
+    "locale": "ru",
+    "order": 168,
+    "relatedScenario": "p50_0",
+    "type": "bonus"
+  },
+  {
+    "name": "p50_nose",
+    "__v": 0,
+    "description": "Одну ноздрю он направил против турецкого флота, а другую - на наш парус",
+    "file": "images/p50_nose.jpg",
+    "locale": "ru",
+    "order": 169
+  },
+  {
+    "name": "p41_win",
+    "__v": 0,
+    "description": "Это была великая победа!",
+    "file": "images/p41_win.jpg",
+    "locale": "ru",
+    "order": 170,
+    "relatedStatue": "ST_DANGER",
+    "type": "statue"
+  },
+  {
+    "name": "p41_story_bonus_1",
+    "__v": 0,
+    "description": "Апартаменты 1",
+    "file": "images/p41_story_bonus_1.jpg",
+    "locale": "ru",
+    "order": 171
+  },
+  {
+    "name": "p41_story_bonus_2",
+    "__v": 0,
+    "description": "Апартаменты 2",
+    "file": "images/p41_story_bonus_2.jpg",
+    "locale": "ru",
+    "order": 172
+  },
+  {
+    "name": "p41_story_bonus_3",
+    "__v": 0,
+    "description": "Султан",
+    "file": "images/p41_story_bonus_3.jpg",
+    "locale": "ru",
+    "order": 173
+  },
+  {
+    "name": "p51_0",
+    "__v": 0,
+    "description": "Враги направили пушку прямо на место, где стояли мы",
+    "file": "images/p51_0.jpg",
+    "locale": "ru",
+    "order": 174
+  },
+  {
+    "name": "p51_0_bonus",
+    "__v": 0,
+    "description": "На стенах Гибралтара в1",
+    "file": "images/p51_0_bonus.jpg",
+    "locale": "ru",
+    "order": 175,
+    "relatedScenario": "p51_0",
+    "type": "bonus"
+  },
+  {
+    "name": "pprisoners",
+    "__v": 0,
+    "description": "Мы с генералом как раз обедали, как тут вылетело ядро и упало прямо на наш стол",
+    "file": "images/pprisoners.jpg",
+    "locale": "ru",
+    "order": 176
+  },
+  {
+    "name": "pprisoners_2",
+    "__v": 0,
+    "description": "Я смело взял ядро в руку",
+    "file": "images/pprisoners_2.jpg",
+    "locale": "ru",
+    "order": 177
+  },
+  {
+    "name": "pprisoners_exploded",
+    "__v": 0,
+    "description": "- И ядро взорвалось! - Ах ты проказница, внучка",
+    "file": "images/pprisoners_exploded.jpg",
+    "locale": "ru",
+    "order": 178
+  },
+  {
+    "name": "p53",
+    "__v": 0,
+    "description": "Ночью, переодевшись в монаха,я прокрался во вражеский лагерь",
+    "file": "images/p53.jpg",
+    "locale": "ru",
+    "order": 179
+  },
+  {
+    "name": "p53_b",
+    "__v": 0,
+    "description": "Тихонько я начал скидывать пушки в море",
+    "file": "images/p53_b.jpg",
+    "locale": "ru",
+    "order": 180
+  },
+  {
+    "name": "pnephew",
+    "__v": 0,
+    "description": "О, а вот и мой славный племянник Вольдемар!",
+    "file": "images/pnephew.jpg",
+    "locale": "ru",
+    "order": 181
+  },
+  {
+    "name": "pnephew_2",
+    "__v": 0,
+    "description": "Как вы думаете, друзья мои, куда я истратил чудодейную помадку?",
+    "file": "images/pnephew_2.jpg",
+    "locale": "ru",
+    "order": 182,
+    "relatedStatue": "ST_PONY",
+    "type": "statue"
+  },
+  {
+    "name": "pnephew_3",
+    "__v": 0,
+    "description": "Правильно! На место над верхней губой!",
+    "file": "images/pnephew_3.jpg",
+    "locale": "ru",
+    "order": 183
+  },
+  {
+    "name": "pnephew_4",
+    "__v": 0,
+    "description": "И тот же фокус я повторил с утра семнадцать раз",
+    "file": "images/pnephew_4.jpg",
+    "locale": "ru",
+    "order": 184
+  },
+  {
+    "name": "pnephew_e",
+    "__v": 0,
+    "description": "Эта история плохо — а, впрочем, пожалуй, и хорошо — отозвалась на тогдашнем моем Тобиасе - слуге",
+    "file": "images/pnephew_e.jpg",
+    "locale": "ru",
+    "order": 185
+  },
+  {
+    "name": "p55_0",
+    "__v": 0,
+    "description": "В один жаркий день искал я где бы отдохнуть",
+    "file": "images/p55_0.jpg",
+    "locale": "ru",
+    "order": 186
+  },
+  {
+    "name": "p55_a_1",
+    "__v": 0,
+    "description": "Я приземлился в огромный сноп сена",
+    "file": "images/p55_a_1.jpg",
+    "locale": "ru",
+    "order": 187
+  },
+  {
+    "name": "p55_a_2",
+    "__v": 0,
+    "description": "И через три месяца я проснулся",
+    "file": "images/p55_a_2.jpg",
+    "locale": "ru",
+    "order": 188
+  },
+  {
+    "name": "p56_0",
+    "__v": 0,
+    "description": "Я увидел двух белых медведей",
+    "file": "images/p56_0.jpg",
+    "locale": "ru",
+    "order": 189
+  },
+  {
+    "name": "pamerica_1",
+    "__v": 0,
+    "description": "Был я и в америке",
+    "file": "images/pamerica_1.jpg",
+    "locale": "ru",
+    "order": 190
+  },
+  {
+    "name": "pamerica_2",
+    "__v": 0,
+    "description": "Эх, помню я замечательные американские железные дороги",
+    "file": "images/pamerica_2.jpg",
+    "locale": "ru",
+    "order": 191
+  },
+  {
+    "name": "pamerica_5",
+    "__v": 0,
+    "description": "Принц Станции",
+    "file": "images/pamerica_5.jpg",
+    "locale": "ru",
+    "order": 192,
+    "relatedStatue": "ST_SLAP",
+    "type": "statue"
+  },
+  {
+    "name": "pamerica_3",
+    "__v": 0,
+    "description": "Я надавил рычаг - и из колодца полилось горное масло!",
+    "file": "images/pamerica_3.jpg",
+    "locale": "ru",
+    "order": 193
+  },
+  {
+    "name": "pamerica_4",
+    "__v": 0,
+    "description": "Ах да, я ведь забыл рассказать вам еще одну занимательную историю",
+    "file": "images/pamerica_4.jpg",
+    "locale": "ru",
+    "order": 194,
+    "type": "color"
+  },
+  {
+    "name": "pgener",
+    "__v": 0,
+    "description": "Медведь разлегся на телеге и начал внаглую лопать наши орехи",
+    "file": "images/pgener.jpg",
+    "locale": "ru",
+    "order": 195
+  },
+  {
+    "name": "pgener_bonus_1",
+    "__v": 0,
+    "description": "До свидания! в2",
+    "file": "images/pgener_bonus_1.jpg",
+    "locale": "ru",
+    "order": 196,
+    "relatedScenario": "pgener",
+    "type": "bonus"
+  },
+  {
+    "name": "pgener_bonus_2",
+    "__v": 0,
+    "description": "До свидания! В1",
+    "file": "images/pgener_bonus_2.jpg",
+    "locale": "ru",
+    "order": 197,
+    "relatedScenario": "pgener",
+    "type": "bonus"
+  },
+  {
+    "name": "pgener_d",
+    "__v": 0,
+    "description": "\"Генерал, да здравствует генерал Кушко!\"",
+    "file": "images/pgener_d.jpg",
+    "locale": "ru",
+    "order": 198
+  },
+  {
+    "name": "pdog",
+    "__v": 0,
+    "description": "Моя собака почуяла дичь",
+    "file": "images/pdog.jpg",
+    "locale": "ru",
+    "order": 199
+  },
+  {
+    "name": "pboat_ruin",
+    "__v": 0,
+    "description": "Да, можете мне поверить!",
+    "file": "images/pboat_ruin.jpg",
+    "locale": "ru",
+    "order": 200
+  },
+  {
+    "name": "pboat_ruin_0",
+    "__v": 0,
+    "description": "Да, вот это была незадача! ",
+    "file": "images/pboat_ruin_0.jpg",
+    "locale": "ru",
+    "order": 201,
+    "relatedStatue": "ST_PIFAGOR",
+    "type": "statue"
+  },
+  {
+    "name": "pboat_ruin_a",
+    "__v": 0,
+    "description": "И своим поступком я убедил всю Европу в возможности его оттуда вытащить",
+    "file": "images/pboat_ruin_a.jpg",
+    "locale": "ru",
+    "order": 202
+  },
+  {
+    "name": "pworm_0",
+    "__v": 0,
+    "description": "\"Это дело железного червя!\"",
+    "file": "images/pworm_0.jpg",
+    "locale": "ru",
+    "order": 203,
+    "relatedStatue": "ST_WORM",
+    "type": "statue"
+  },
+  {
+    "name": "pworm_d",
+    "__v": 0,
+    "description": "Отравить паразита!",
+    "file": "images/pworm_d.jpg",
+    "locale": "ru",
+    "order": 204
+  },
+  {
+    "name": "p57_0",
+    "__v": 0,
+    "description": "На луне",
+    "file": "images/p57_0.jpg",
+    "locale": "ru",
+    "order": 205,
+    "relatedScenario": "p57_0",
+    "relatedStatue": "TRUE",
+    "type": "color"
+  },
+  {
+    "name": "pvolcano_0",
+    "__v": 0,
+    "description": "Решил как-то я полюбоваться жерлом вулкана",
+    "file": "images/pvolcano_0.jpg",
+    "locale": "ru",
+    "order": 206
+  },
+  {
+    "name": "pvolcano_1",
+    "__v": 0,
+    "description": "Вулкан бурлил во всей своей свирепости",
+    "file": "images/pvolcano_1.jpg",
+    "locale": "ru",
+    "order": 207
+  },
+  {
+    "name": "pvolcano_b_1",
+    "__v": 0,
+    "description": "Мигом я прыгнул вниз",
+    "file": "images/pvolcano_b_1.jpg",
+    "locale": "ru",
+    "order": 208
+  },
+  {
+    "name": "pvolcano_b_2",
+    "__v": 0,
+    "description": "Я оказался в обществе Вулкана и его циклопов",
+    "file": "images/pvolcano_b_2.jpg",
+    "locale": "ru",
+    "order": 209
+  },
+  {
+    "name": "pvolcano_b_3",
+    "__v": 0,
+    "description": "\"Осторожно! Капканы и самострелы!\"",
+    "file": "images/pvolcano_b_3.jpg",
+    "locale": "ru",
+    "order": 210
+  },
+  {
+    "name": "pvolcano_b_b",
+    "__v": 0,
+    "description": "\"Неблагодарный смертный! Вернись в тот мир, откуда ты появился!\"",
+    "file": "images/pvolcano_b_b.jpg",
+    "locale": "ru",
+    "order": 211,
+    "type": "color"
+  },
+  {
+    "name": "pvolcano_b_b_2",
+    "__v": 0,
+    "description": "Лунная ночь",
+    "file": "images/pvolcano_b_b_2.jpg",
+    "locale": "ru",
+    "order": 212
+  },
+  {
+    "name": "p58_0",
+    "__v": 0,
+    "description": "Вы ведь знаете, друзья, как трудно плавать в море без компаса",
+    "file": "images/p58_0.jpg",
+    "locale": "ru",
+    "order": 213,
+    "type": "color"
+  },
+  {
+    "name": "p58_1",
+    "__v": 0,
+    "description": "Сырный остров",
+    "file": "images/p58_1.jpg",
+    "locale": "ru",
+    "order": 214
+  },
+  {
+    "name": "p60_1",
+    "__v": 0,
+    "description": "Этот монстр засосал целиком наш корабль с самими мачтами!",
+    "file": "images/p60_1.jpg",
+    "locale": "ru",
+    "order": 215
+  },
+  {
+    "name": "p60_2",
+    "__v": 0,
+    "description": "Главой совета выбрали меня",
+    "file": "images/p60_2.jpg",
+    "locale": "ru",
+    "order": 216
+  },
+  {
+    "name": "p60_a",
+    "__v": 0,
+    "description": "Когда дело было сделано, девяносто пять кораблей выплыло из рыбьей пасти\r\n",
+    "file": "images/p60_a.jpg",
+    "locale": "ru",
+    "order": 217
+  },
+  {
+    "name": "p61_0",
+    "__v": 0,
+    "description": "Как только я ступил на землю, на меня напал здоровенный медведь",
+    "file": "images/p61_0.jpg",
+    "locale": "ru",
+    "order": 218
+  },
+  {
+    "name": "p61_bonus",
+    "__v": 0,
+    "description": "И мы поженились",
+    "file": "images/p61_bonus.jpg",
+    "locale": "ru",
+    "order": 219,
+    "relatedStatue": "ST_TREE",
+    "type": "statue"
+  },
+  {
+    "name": "p61_c",
+    "__v": 0,
+    "description": "Я сжал ему лапы",
+    "file": "images/p61_c.jpg",
+    "locale": "ru",
+    "order": 220
+  },
+  {
+    "name": "p61_shoot",
+    "__v": 0,
+    "description": "Стреляйте веслом, господа",
+    "file": "images/p61_shoot.jpg",
+    "locale": "ru",
+    "order": 221,
+    "relatedStatue": "ST_LUCKY_2",
+    "type": "statue"
+  },
+  {
+    "name": "p_unknown_1",
+    "__v": 0,
+    "description": "Я и внучка",
+    "file": "images/unknown_1.jpg",
+    "locale": "ru",
+    "order": 222
+  },
+  {
+    "name": "p_unknown_2",
+    "__v": 0,
+    "description": "Возвращаясь как-то с неудачной охоты…",
+    "file": "images/unknown_2.jpg",
+    "locale": "ru",
+    "order": 223,
+    "type": "bonus"
+  },
+  {
+    "name": "p_unknown_3",
+    "__v": 0,
+    "description": "В пам'ять моей собаке!",
+    "file": "images/unknown_3.jpg",
+    "locale": "ru",
+    "order": 224,
+    "relatedScenario": "p62_fin",
+    "type": "bonus"
+  },
+  {
+    "name": "p_unknown_4",
+    "__v": 0,
+    "description": "Доця моя",
+    "file": "images/unknown_4.jpg",
+    "locale": "ru",
+    "order": 225,
+    "type": "bonus"
+  },
+  {
+    "name": "p_unknown_5",
+    "__v": 0,
+    "description": "Чорт возьми, да правда всё это, правда!",
+    "file": "images/unknown_6.jpg",
+    "locale": "ru",
+    "order": 226,
+    "type": "bonus"
+  },
+  {
+    "name": "p_unknown_6",
+    "__v": 0,
+    "description": "Если вы мне не верите, то…",
+    "file": "images/unknown_5.jpg",
+    "locale": "ru",
+    "order": 227,
+    "type": "bonus"
+  },
+  {
+    "name": "p62_fin",
+    "__v": 0,
+    "description": "Конец",
+    "file": "images/p62_fin.jpg",
+    "locale": "ru",
+    "order": 228,
+    "relatedStatue": "ST_WIN",
+    "type": "statue"
+  },
+  {
+    "name": "p62_fin_0",
+    "__v": 0,
+    "description": "Да, только ты…",
+    "file": "images/p62_fin_0.jpg",
+    "locale": "ru",
+    "order": 229
+  },
+  {
+    "name": "p62_fin_bonus_1",
+    "__v": 0,
+    "description": "Дед и внучка",
+    "file": "images/p62_fin_bonus_1.jpg",
+    "locale": "ru",
+    "order": 230,
+    "relatedScenario": "p62_fin",
+    "type": "bonus"
+  },
+  {
+    "name": "p62_fin_bonus_2",
+    "__v": 0,
+    "description": "Внучка в2",
+    "file": "images/p62_fin_bonus_2.jpg",
+    "locale": "ru",
+    "order": 231,
+    "relatedScenario": "p62_fin",
+    "type": "bonus"
+  },
+  {
+    "name": "p62_fin_bonus_3",
+    "__v": 0,
+    "description": "Внучка в1",
+    "file": "images/p62_fin_bonus_3.jpg",
+    "locale": "ru",
+    "order": 232,
+    "relatedScenario": "p62_fin",
+    "type": "bonus"
+  },
+  {
+    "name": "p62_fin_bonus_4",
+    "__v": 0,
+    "description": "Мюнхаузен в1",
+    "file": "images/p62_fin_bonus_4.jpg",
+    "locale": "ru",
+    "order": 233,
+    "relatedScenario": "p62_fin",
+    "type": "bonus"
+  },
+  {
+    "name": "p62_fin_bonus_5",
+    "__v": 0,
+    "description": "С чего все началось",
+    "file": "images/p62_fin_bonus_5.jpg",
+    "locale": "ru",
+    "order": 234,
+    "relatedScenario": "p62_fin",
+    "type": "bonus"
+  },
+  {
+    "name": "p_int_swamp_start",
+    "__v": 0,
+    "description": "",
+    "file": "images/int_swamp_start.jpg",
+    "isHiddenFromGallery": true,
+    "locale": "ru",
+    "order": 235
+  }
+]

@@ -58,6 +58,16 @@ public class ReferralService {
 
         state.referralCount = count;
 
+        if (!game.params.isStandaloneProVersion) {
+            rewardInAppPurchase();
+        }
+    }
+
+    private void rewardInAppPurchase() {
+
+        MenuState menuState = game.gameState.menuState;
+        PurchaseState state = game.gameState.purchaseState;
+
         if (state.referralCount >= REFERRAL_REWARD_2) {
             if (!state.referrals.contains(game.params.appStoreSku10Chapter)) {
 

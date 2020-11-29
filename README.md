@@ -1,27 +1,62 @@
-### Ох уж этот Мюнхгаузен!
+# Oh that Munchausen
 
-(интерактивная аудиоистория)
+Interactive audiobook
 
 https://thebaronmunchausen.com
 
-<table>
-<tr>
-<td style="text-align: center;"><img style="margin-right:20px" src="https://github.com/gram7gram/Munhauzen/blob/master/demo-2.jpg" alt="Logo" /></td>
-<td style="text-align: center;"><img src="https://github.com/gram7gram/Munhauzen/blob/master/demo-1.jpg"></td>
-</tr>
+## Pro (all content unlocked)
+
+<table style="width: 100%">
+    <tbody style="width: 100%">
+        <tr style="width: 100%">
+            <td style="width: 50%">
+                <a href="#">
+                    <img src="https://thebaronmunchausen.com/assets/Elements_web/Download_on_the_App_Store_Badge.png?v=1" alt="Logo" />
+                </a>
+            </td>
+            <td style="width: 50%">
+                <a href="#">
+                    <img src="https://thebaronmunchausen.com/assets/Elements_web/google-play-badge.png?v=1">
+                </a>
+            </td>
+        </tr>
+    </tbody>
 </table>
 
-## Вступление
+## In-app purchases (free demo)
 
-На даное время повсеместно распространены текстовые нелинейные новеллы, где читатель, принимая решения, развивает ход событий в ту или иную сторону.
-Мы же решили делать такие аудио-истории для мобильных устройств. (ИОС и АНдроид)
-Ето наше второе приложение, первое пока забросили, набив шишки-дышки и разобравшись шо к чему, подготовив и вложившись в новый более качественный проект.
+<table style="width: 100%">
+    <tbody style="width: 100%">
+        <tr style="width: 100%">
+            <td style="width: 50%">
+                <a href="https://apps.apple.com/us/app/oh-that-munchausen-tales/id1496752335?l=en&ls=1">
+                    <img src="https://thebaronmunchausen.com/assets/Elements_web/Download_on_the_App_Store_Badge.png?v=1" alt="Logo" />
+                </a>
+            </td>
+            <td style="width: 50%">
+                <a href="https://play.google.com/store/apps/details?id=en.munchausen.fingertipsandcompany.full&hl=en">
+                    <img src="https://thebaronmunchausen.com/assets/Elements_web/google-play-badge.png?v=1">
+                </a>
+            </td>
+        </tr>
+    </tbody>
+</table>
 
-## Аудио-книга-игра
+### Releases
 
-«Ох уж этот Мюнхгаузен» в целом – оригинальный линейный рассказ писателя Распре, но обыграный нами по-своему. Мюнхгаузен вновь созывает гостей и готовится перерассказывать слушателям свои невероятные приключения, и вот, он рассказывает, как вновь попал в обычную передрягу но готов выбраться необычным способом, но «…Но… не могу ума приложить, внученька, я уже не в той молодости, как же я выбрался из той передряги? Не подскажешь?» - спрашивает он, потеряв нить рассказа. И тут вступает ход слушателя (игрока). Ему дается право выбора (в основном из 4 вариантов, по-разному), где он отыгрывает роль славной внученьки, подсказывая дедушке ход истории. Правильный вариант (оригинальный) продолжает оригинальную историю, в то время, как неправильный обыгрывается, возвращая слушателя к той же проблеме (но есть несколько фишек с дополнительными (неоригинальными правильными вариантами).
+#### Release 3
 
-##
+Added standalone Pro version with all content unlocked
+
+#### Release 2
+
+Added in-app purchases as unlockable chapters
+
+#### Release 1
+
+Created audio-book in EN/RU languages and Demo/Pro versions
+
+## Scripts
 
 Build staging Android APK
 

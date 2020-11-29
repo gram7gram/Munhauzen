@@ -1,0 +1,141 @@
+[
+  {
+    "isBegin": true,
+    "name": "a18_0_interaction",
+    "action": "CLICK",
+    "audio": [
+      {
+        "audio": "s18_1"
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "a18_a",
+        "order": 1
+      },
+      {
+        "scenario": "a18_b",
+        "order": 2
+      },
+      {
+        "scenario": "a18_c",
+        "order": 3
+      },
+      {
+        "scenario": "a18_d",
+        "order": 4
+      }
+    ],
+    "translations": [
+      {
+        "locale": "ru",
+        "text": "Восьминогий заяц"
+      }
+    ]
+  },
+  {
+    "name": "a18_0_interaction_proxy",
+    "action": "CLICK",
+    "audio": [],
+    "decisions": [
+      {
+        "scenario": "a18_a",
+        "order": 1
+      },
+      {
+        "scenario": "a18_b",
+        "order": 2
+      },
+      {
+        "scenario": "a18_c",
+        "order": 3
+      },
+      {
+        "scenario": "a18_d",
+        "order": 4
+      }
+    ],
+    "translations": [
+      {
+        "locale": "ru",
+        "text": "Восьминогий заяц"
+      }
+    ]
+  },
+  {
+    "name": "a18_a",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "s18_a"
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "a18_0_interaction_proxy"
+      }
+    ],
+    "translations": [
+      {
+        "locale": "ru",
+        "text": "Оставил его а сам решил рассматривать травичку"
+      }
+    ]
+  },
+  {
+    "name": "a18_b",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "s18_b"
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "a18_0_interaction_proxy"
+      }
+    ],
+    "translations": [
+      {
+        "locale": "ru",
+        "text": "Выстрелил из кольта"
+      }
+    ]
+  },
+  {
+    "name": "a18_c",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "s18_c"
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "a18_0_interaction_proxy"
+      }
+    ],
+    "translations": [
+      {
+        "locale": "ru",
+        "text": "Катапультировал себя"
+      }
+    ]
+  },
+  {
+    "isExit": true,
+    "name": "a18_d",
+    "audio": [
+      {
+        "audio": "s18_d"
+      }
+    ],
+    "decisions": [],
+    "translations": [
+      {
+        "locale": "ru",
+        "text": "Погнался за ним"
+      }
+    ]
+  }
+]

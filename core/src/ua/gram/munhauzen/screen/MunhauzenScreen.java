@@ -66,35 +66,42 @@ public abstract class MunhauzenScreen implements Screen {
     public void destroyBanners() {
         Log.i(tag, "destroyBanners");
 
-        game.stopCurrentSfx();
+        try {
 
-        Gdx.input.setOnscreenKeyboardVisible(false);
+            game.stopCurrentSfx();
 
-        Fragment currentBanner = getLayers().getBannerLayer();
-        if (currentBanner != null) {
-            currentBanner.destroy();
-            getLayers().setBannerLayer(null);
-        }
+            Gdx.input.setOnscreenKeyboardVisible(false);
 
-        if (noMemoryFragment != null) {
-            noMemoryFragment.destroy();
-            noMemoryFragment = null;
-        }
-        if (noInternetFragment != null) {
-            noInternetFragment.destroy();
-            noInternetFragment = null;
-        }
-        if (gameModeFragment != null) {
-            gameModeFragment.destroy();
-            gameModeFragment = null;
-        }
-        if (chapterDownloadFragment != null) {
-            chapterDownloadFragment.destroy();
-            chapterDownloadFragment = null;
-        }
-        if (gift6Fragment != null) {
-            gift6Fragment.destroy();
-            gift6Fragment = null;
+            GameLayerInterface layer = getLayers();
+            if (layer != null) {
+                Fragment currentBanner = layer.getBannerLayer();
+                if (currentBanner != null) {
+                    currentBanner.destroy();
+                    layer.setBannerLayer(null);
+                }
+            }
+
+            if (noMemoryFragment != null) {
+                noMemoryFragment.destroy();
+                noMemoryFragment = null;
+            }
+            if (noInternetFragment != null) {
+                noInternetFragment.destroy();
+                noInternetFragment = null;
+            }
+            if (gameModeFragment != null) {
+                gameModeFragment.destroy();
+                gameModeFragment = null;
+            }
+            if (chapterDownloadFragment != null) {
+                chapterDownloadFragment.destroy();
+                chapterDownloadFragment = null;
+            }
+            if (gift6Fragment != null) {
+                gift6Fragment.destroy();
+                gift6Fragment = null;
+            }
+        } catch (Throwable ignore) {
         }
 
     }

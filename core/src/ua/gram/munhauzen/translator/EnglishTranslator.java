@@ -290,6 +290,7 @@ public class EnglishTranslator implements Translator {
         map.put("referral_banner_3.btn", "Super");
         map.put("referral_banner_7.title", "Congratulations!\nThe bonus for 7 friends is received!");
         map.put("referral_banner_7.btn", "Super");
+        map.put("referal_banner_pro.title", "Share the game!");
         map.put("referal_banner.title", "Share the game and get bonuses!");
         map.put("referal_banner.link", "Referral link");
         map.put("referal_banner.btn", "Share");

@@ -385,6 +385,10 @@ public class GameScreen extends MunhauzenScreen {
     public boolean isChapterPurchased() {
         try {
 
+            if (game.params.isStandaloneProVersion) {
+                return true;
+            }
+
             Story story = getStory();
 
             PurchaseState state = game.gameState.purchaseState;

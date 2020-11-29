@@ -1,0 +1,37 @@
+{
+  "part": "Part_demo",
+  "version": 16,
+  "locale": "en",
+  "dpi": "hdpi",
+  "sizeMB": 96,
+  "parts": {
+    "count": 5,
+    "items": [
+      {
+        "sizeMB": 19,
+        "part": 1,
+        "url": "1MEuD1CGkro6VSmRwx8KG6WybLgV3qPBi"
+      },
+      {
+        "sizeMB": 22,
+        "part": 2,
+        "url": "1T6eVyyl0yVlCIwZglurxLXIGLjjcrVip"
+      },
+      {
+        "sizeMB": 18,
+        "part": 3,
+        "url": "19te9smMsMbc-AFmkJjPmSxZx17FtcYHG"
+      },
+      {
+        "sizeMB": 17,
+        "part": 4,
+        "url": "19nmumAaPxQouSn4e6JcWoAEokAVLtVn0"
+      },
+      {
+        "sizeMB": 20,
+        "part": 5,
+        "url": "1MrqeJh92qnJ9UbWGL0QtxJ9Aqm-4uTKH"
+      }
+    ]
+  }
+}

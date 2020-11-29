@@ -1,0 +1,174 @@
+[
+  {
+    "isBegin": true,
+    "name": "a35_what",
+    "action": "CLICK",
+    "audio": [
+      {
+        "audio": "s35_3miss",
+        "duration": 44000
+      }
+    ],
+    "images": [
+      {
+        "image": "images/p35_0.jpg",
+        "duration": 18000
+      },
+      {
+        "image": "picture/p35_what_black.jpg",
+        "duration": 25500
+      },
+      {
+        "image": "images/p35_what.jpg",
+        "duration": 500
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "a36_a",
+        "order": 1
+      },
+      {
+        "scenario": "a36_b",
+        "order": 2
+      },
+      {
+        "scenario": "a36_c",
+        "order": 3
+      },
+      {
+        "scenario": "a36_d",
+        "order": 4
+      },
+      {
+        "scenario": "a36_e",
+        "order": 5
+      }
+    ]
+  },
+  {
+    "name": "a35_what_proxy",
+    "action": "CLICK",
+    "audio": [],
+    "images": [
+      {
+        "image": "images/p35_what.jpg",
+        "duration": 500
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "a36_a",
+        "order": 1
+      },
+      {
+        "scenario": "a36_b",
+        "order": 2
+      },
+      {
+        "scenario": "a36_c",
+        "order": 3
+      },
+      {
+        "scenario": "a36_d",
+        "order": 4
+      },
+      {
+        "scenario": "a36_e",
+        "order": 5
+      }
+    ]
+  },
+  {
+    "name": "a36_a",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "s36_a",
+        "duration": 10000
+      }
+    ],
+    "images": [
+      {
+        "image": "images/p35_what.jpg",
+        "duration": 10000
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "a35_what_proxy"
+      }
+    ]
+  },
+  {
+    "name": "a36_b",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "s36_b",
+        "duration": 12000
+      }
+    ],
+    "images": [
+      {
+        "image": "images/p35_what.jpg",
+        "duration": 12000
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "a35_what_proxy"
+      }
+    ]
+  },
+  {
+    "name": "a36_c",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "s36_c",
+        "duration": 9000
+      }
+    ],
+    "images": [
+      {
+        "image": "images/p35_what.jpg",
+        "duration": 9000
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "a35_what_proxy"
+      }
+    ]
+  },
+  {
+    "name": "a36_d",
+    "action": "GOTO",
+    "audio": [
+      {
+        "audio": "s36_d",
+        "duration": 8000
+      }
+    ],
+    "images": [
+      {
+        "image": "images/p35_what.jpg",
+        "duration": 8000
+      }
+    ],
+    "decisions": [
+      {
+        "scenario": "a35_what_proxy"
+      }
+    ]
+  },
+  {
+    "isExit": true,
+    "name": "a36_e",
+    "action": "GOTO",
+    "audio": [],
+    "images": [],
+    "decisions": []
+  }
+]

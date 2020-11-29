@@ -50,6 +50,11 @@ public class PurchaseScreen extends MunhauzenScreen {
     @Override
     public void show() {
 
+        if (game.params.isStandaloneProVersion) {
+            game.navigator.closeApp();
+            return;
+        }
+
         ui = new MunhauzenStage(game);
         observer = new IAPObserver(this);
 

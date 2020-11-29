@@ -308,7 +308,7 @@ public class GameProgressBarFragment extends StoryProgressBar<DummyInteraction> 
             hasNext = true;
         }
 
-        boolean hasVisitedBefore = MunhauzenGame.developmentSkipEnable || gameScreen.game.gameState.history.visitedStories.contains(story.id);
+        boolean hasVisitedBefore = MunhauzenGame.storySkipEnable || gameScreen.game.gameState.history.visitedStories.contains(story.id);
 
         bar.setEnabled(hasVisitedBefore);
 

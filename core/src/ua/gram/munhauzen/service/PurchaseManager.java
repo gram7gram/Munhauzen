@@ -14,6 +14,7 @@ import ua.gram.munhauzen.MunhauzenGame;
 import ua.gram.munhauzen.entity.Device;
 import ua.gram.munhauzen.entity.GameState;
 import ua.gram.munhauzen.entity.Purchase;
+import ua.gram.munhauzen.entity.PurchaseState;
 import ua.gram.munhauzen.screen.PurchaseScreen;
 import ua.gram.munhauzen.utils.Log;
 
@@ -28,7 +29,14 @@ public class PurchaseManager {
         this.game = game;
     }
 
+    /**
+     * Either there are in-app purchases, or the pro version is downloaded
+     */
     public boolean hasPurchases() {
+        if (game.params.isStandaloneProVersion) {
+            return true;
+        }
+
         return game.gameState.purchaseState.purchases != null
                 && game.gameState.purchaseState.purchases.size() > 0;
     }
@@ -106,14 +114,33 @@ public class PurchaseManager {
 
     public void updatePurchaseState() {
 
+        if (game.params.iap != null) {
+            countInAppPurchases();
+        }
+
+        if (game.params.isStandaloneProVersion) {
+            unlockAllContent();
+        }
+    }
+
+    private void unlockAllContent() {
+
+        GameState gameState = game.gameState;
+
+        if (gameState.purchaseState == null) {
+            gameState.purchaseState = new PurchaseState();
+        }
+
+        gameState.purchaseState.setPro(game.params);
+        gameState.purchaseState.isVersionSelected = true;
+    }
+
+    private void countInAppPurchases() {
+
         GameState gameState = game.gameState;
 
         int purchasedChapters = 0;
         String expansionVersion;
-
-//        gameState.purchaseState = new PurchaseState();
-//        gameState.purchaseState.referrals.add(game.params.appStoreSku10Chapter);
-//        gameState.purchaseState.isVersionSelected = true;
 
         for (String code : gameState.purchaseState.referrals) {
             if (game.params.appStoreSku3Chapter.equals(code)) {
