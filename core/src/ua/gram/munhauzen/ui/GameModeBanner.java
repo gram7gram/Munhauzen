@@ -121,9 +121,9 @@ public class GameModeBanner extends Banner<MunhauzenScreen> {
                                 }
                             };
 
-                            if (audio != null && audio.duration > 0) {
+                            try {
                                 Timer.instance().scheduleTask(task, audio.duration / 1000f);
-                            } else {
+                            } catch (Throwable ignore) {
                                 task.run();
                             }
 
@@ -178,9 +178,9 @@ public class GameModeBanner extends Banner<MunhauzenScreen> {
                                 }
                             };
 
-                            if (audio != null && audio.duration > 0) {
+                            try {
                                 Timer.instance().scheduleTask(task, audio.duration / 1000f);
-                            } else {
+                            } catch (Throwable ignore) {
                                 task.run();
                             }
 

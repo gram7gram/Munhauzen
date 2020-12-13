@@ -179,15 +179,17 @@ public class SlapImageFragment extends InteractionFragment {
                 Actions.moveTo(-beforeWidth - betweenWidth, group.getY(), animationDuration, Interpolation.fastSlow)
         );
 
-        if (winAudio == null) {
-            complete();
-        } else {
-            Timer.instance().scheduleTask(new Timer.Task() {
-                @Override
-                public void run() {
-                    complete();
-                }
-            }, Math.max(winAudio.duration / 1000f, animationDuration) + 2);
+        Timer.Task task = new Timer.Task() {
+            @Override
+            public void run() {
+                complete();
+            }
+        };
+
+        try {
+            Timer.instance().scheduleTask(task, Math.max(winAudio.duration / 1000f, animationDuration) + 2);
+        } catch (Throwable ignore) {
+            task.run();
         }
     }
 

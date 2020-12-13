@@ -302,12 +302,16 @@ public class PuzzleDecisionManager {
 
             interaction.gameScreen.audioService.prepareAndPlay(currentAudio);
 
-            destroyTask = Timer.instance().scheduleTask(new Timer.Task() {
-                @Override
-                public void run() {
-                    reset();
-                }
-            }, currentAudio.duration / 1000f);
+            try {
+                destroyTask = Timer.instance().scheduleTask(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        reset();
+                    }
+                }, currentAudio.duration / 1000f);
+            } catch (Throwable ignore) {
+                reset();
+            }
 
             Timer.instance().scheduleTask(new Timer.Task() {
                 @Override
@@ -511,7 +515,7 @@ public class PuzzleDecisionManager {
                 }
             }, 10);
 
-            rodTask2 = Timer.instance().scheduleTask(new Timer.Task() {
+            rodTask2 = new Timer.Task() {
                 @Override
                 public void run() {
                     try {
@@ -526,7 +530,13 @@ public class PuzzleDecisionManager {
                         interaction.gameScreen.onCriticalError(e);
                     }
                 }
-            }, currentAudio.duration / 1000f);
+            };
+
+            try {
+                Timer.instance().scheduleTask(rodTask2, currentAudio.duration / 1000f);
+            } catch (Throwable ignore){
+                rodTask2.run();
+            }
 
             interaction.assetManager.finishLoading();
         } catch (Throwable e) {
@@ -559,7 +569,11 @@ public class PuzzleDecisionManager {
 
             interaction.gameScreen.audioService.prepareAndPlay(currentAudio);
 
-            clockTask = Timer.instance().scheduleTask(onComplete, currentAudio.duration / 1000f);
+            try {
+                clockTask = Timer.instance().scheduleTask(onComplete, currentAudio.duration / 1000f);
+            } catch (Throwable ignore) {
+                onComplete.run();
+            }
 
         } catch (Throwable e) {
             Log.e(tag, e);
@@ -580,7 +594,11 @@ public class PuzzleDecisionManager {
 
             interaction.gameScreen.audioService.prepareAndPlay(currentAudio);
 
-            crowTask = Timer.instance().scheduleTask(onComplete, currentAudio.duration / 1000f);
+            try {
+                crowTask = Timer.instance().scheduleTask(onComplete, currentAudio.duration / 1000f);
+            } catch (Throwable ignore) {
+                onComplete.run();
+            }
 
         } catch (Throwable e) {
             Log.e(tag, e);
@@ -612,7 +630,11 @@ public class PuzzleDecisionManager {
 
             interaction.gameScreen.audioService.prepareAndPlay(currentAudio);
 
-            bombTask = Timer.instance().scheduleTask(onComplete, currentAudio.duration / 1000f);
+            try {
+                bombTask = Timer.instance().scheduleTask(onComplete, currentAudio.duration / 1000f);
+            } catch (Throwable ignore) {
+                onComplete.run();
+            }
 
         } catch (Throwable e) {
             Log.e(tag, e);

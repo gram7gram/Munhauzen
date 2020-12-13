@@ -68,7 +68,7 @@ public class DateInteraction extends AbstractInteraction {
 
             playWin();
 
-            Timer.instance().scheduleTask(new Timer.Task() {
+            Timer.Task task = new Timer.Task() {
                 @Override
                 public void run() {
                     try {
@@ -86,7 +86,13 @@ public class DateInteraction extends AbstractInteraction {
                         gameScreen.onCriticalError(e);
                     }
                 }
-            }, storyAudio.duration / 1000f);
+            };
+
+            try {
+                Timer.instance().scheduleTask(task, storyAudio.duration / 1000f);
+            } catch (Throwable ignore) {
+                task.run();
+            }
 
         } catch (Throwable e) {
             Log.e(tag, e);

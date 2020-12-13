@@ -87,7 +87,7 @@ public class ServantsFireImageFragment extends InteractionFragment {
 
                     playBack();
 
-                    Timer.instance().scheduleTask(new Timer.Task() {
+                    Timer.Task task = new Timer.Task() {
                         @Override
                         public void run() {
                             try {
@@ -99,7 +99,13 @@ public class ServantsFireImageFragment extends InteractionFragment {
                                 interaction.gameScreen.onCriticalError(e);
                             }
                         }
-                    }, backAudio.duration / 1000f);
+                    };
+
+                    try {
+                        Timer.instance().scheduleTask(task, backAudio.duration / 1000f);
+                    } catch (Throwable ignore) {
+                        task.run();
+                    }
 
                 } catch (Throwable e) {
                     Log.e(tag, e);
@@ -133,7 +139,7 @@ public class ServantsFireImageFragment extends InteractionFragment {
                         }
                     }
 
-                    Timer.instance().scheduleTask(new Timer.Task() {
+                    Timer.Task task = new Timer.Task() {
                         @Override
                         public void run() {
                             try {
@@ -146,7 +152,13 @@ public class ServantsFireImageFragment extends InteractionFragment {
                                 interaction.gameScreen.onCriticalError(e);
                             }
                         }
-                    }, discardAudio.duration / 1000f);
+                    };
+
+                    try {
+                        Timer.instance().scheduleTask(task, discardAudio.duration / 1000f);
+                    } catch (Throwable ignore) {
+                        task.run();
+                    }
 
                 } catch (Throwable e) {
                     Log.e(tag, e);

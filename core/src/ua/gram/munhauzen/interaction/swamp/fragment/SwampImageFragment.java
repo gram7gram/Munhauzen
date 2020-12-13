@@ -85,14 +85,14 @@ public class SwampImageFragment extends InteractionFragment {
 
             playBounceBeforeWin();
 
-            Timer.instance().scheduleTask(new Timer.Task() {
+            Timer.Task task = new Timer.Task() {
                 @Override
                 public void run() {
                     try {
 
                         playWin();
 
-                        Timer.instance().scheduleTask(new Timer.Task() {
+                        Timer.Task task = new Timer.Task() {
                             @Override
                             public void run() {
                                 try {
@@ -107,13 +107,24 @@ public class SwampImageFragment extends InteractionFragment {
                                     Log.e(tag, e);
                                 }
                             }
-                        }, audio.duration / 1000f);
+                        };
 
+                        try {
+                            Timer.instance().scheduleTask(task, audio.duration / 1000f);
+                        } catch (Throwable ignore) {
+                            task.run();
+                        }
                     } catch (Throwable e) {
                         Log.e(tag, e);
                     }
                 }
-            }, audio.duration / 1000f);
+            };
+
+            try {
+                Timer.instance().scheduleTask(task, audio.duration / 1000f);
+            } catch (Throwable ignore) {
+                task.run();
+            }
         } catch (Throwable e) {
             Log.e(tag, e);
         }

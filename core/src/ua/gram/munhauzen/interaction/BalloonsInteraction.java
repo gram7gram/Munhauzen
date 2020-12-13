@@ -58,12 +58,18 @@ public class BalloonsInteraction extends AbstractInteraction {
 
         playIntro();
 
-        Timer.instance().scheduleTask(new Timer.Task() {
+        Timer.Task task = new Timer.Task() {
             @Override
             public void run() {
                 imageFragment.start();
             }
-        }, introAudio.duration / 1000f);
+        };
+
+        try {
+            Timer.instance().scheduleTask(task, introAudio.duration / 1000f);
+        } catch (Throwable ignore){
+            task.run();
+        }
     }
 
     private void playIntro() {

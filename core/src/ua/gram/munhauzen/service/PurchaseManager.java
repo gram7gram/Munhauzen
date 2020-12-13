@@ -60,7 +60,7 @@ public class PurchaseManager {
             Gdx.input.setInputProcessor(null);
             GameState.clearTimer(tag);
 
-            if (game.currentSfx != null) {
+            try {
                 Timer.instance().scheduleTask(new Timer.Task() {
                     @Override
                     public void run() {
@@ -71,7 +71,7 @@ public class PurchaseManager {
                         }
                     }
                 }, game.currentSfx.duration / 1000f);
-            } else {
+            } catch (Throwable ignore) {
                 task.run();
             }
 

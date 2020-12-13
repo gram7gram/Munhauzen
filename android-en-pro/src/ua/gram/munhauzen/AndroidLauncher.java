@@ -189,7 +189,6 @@ public class AndroidLauncher extends AndroidApplication {
         params.appStoreSku10Chapter = "chapter_10_munchausen_audiobook_eng";
         params.appStoreSkuThanks = "thanks_munchausen_audiobook_eng";
         params.appStoreSkuFullThanks = "all_munchausen_audiobook_eng";
-        params.iap = new PurchaseManagerGoogleBilling(this);
         params.translator = new EnglishTranslator();
         params.memoryUsage = new AndroidMemoryUsage();
         params.appStore = new GooglePlay(params);
@@ -225,13 +224,13 @@ public class AndroidLauncher extends AndroidApplication {
 
 
         if(user == null) {
-        MunhauzenGame game = new MunhauzenGame(params, new OnExpansionDownloadComplete() {
-            @Override
-            public void setDownloadNeeded(boolean isDownloaded) {
-                needToDownload = isDownloaded;
-                needToDownloadStatic = isDownloaded;
-            }
-        }, new LoginInterface() {
+            MunhauzenGame game = new MunhauzenGame(params, new OnExpansionDownloadComplete() {
+                @Override
+                public void setDownloadNeeded(boolean isDownloaded) {
+                    needToDownload = isDownloaded;
+                    needToDownloadStatic = isDownloaded;
+                }
+            }, new LoginInterface() {
                 @Override
                 public void loginAnonymously(LoginListener loginListener) {
                     loginAnonymouslyz(loginListener);
@@ -239,77 +238,77 @@ public class AndroidLauncher extends AndroidApplication {
             }, new ReferralInterface() {
                 @Override
                 public String setReferralLink() {
-                   return setReferralzz();
+                    return setReferralzz();
                 }
 
-            @Override
-            public void sendReferralLink() {
-                AndroidLauncher.this.sendReferralLink();
-            }
+                @Override
+                public void sendReferralLink() {
+                    AndroidLauncher.this.sendReferralLink();
+                }
 
-            @Override
+                @Override
                 public void getReferral() {
 
                 }
 
-            @Override
-            public int getRefferralCount() {
+                @Override
+                public int getRefferralCount() {
                     getReferralCount();
                     return SharedPreferencesHelper.getReferralCount(getApplicationContext());
-            }
-
-            @Override
-            public void setChapter0Completed() {
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                DatabaseReference userRecord =
-                        FirebaseDatabase.getInstance().getReference()
-                                .child(USERS)
-                                .child(user.getUid());
-
-                userRecord.child("hasCompletedChap0").setValue(1);
-            }
-        }, new DownloadExpansionInteface() {
-            @Override
-            public void downloadExpansionAndDeletePrev(String currentChapterName, DownloadSuccessFailureListener downloadSuccessFailureListener) {
-                try {
-                    downloadExpansionFile(currentChapterName, downloadSuccessFailureListener);
-                } catch (IOException e) {
-                    downloadSuccessFailureListener.onFailure();
                 }
-            }
 
-            @Override
-            public boolean downloadGoof(String goofName, DownloadSuccessFailureListener downloadSuccessFailureListener1) {
+                @Override
+                public void setChapter0Completed() {
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    DatabaseReference userRecord =
+                            FirebaseDatabase.getInstance().getReference()
+                                    .child(USERS)
+                                    .child(user.getUid());
 
-                return downloadGoofAudio(goofName, downloadSuccessFailureListener1);
-            }
-
-            @Override
-            public boolean downloadGallery(String imageName, DownloadSuccessFailureListener downloadSuccessFailureListener2) {
-                return downloadGalleryImage(imageName, downloadSuccessFailureListener2);
-            }
-
-            @Override
-            public boolean isInternetAvailable() {
-                return AndroidLauncher.this.isInternetAvailable();
-            }
-        }, new OnlineOfflineListenterInterface() {
-            @Override
-            public void onGameModeChanged(boolean isOnline) {
-                if (!isOnline) {
-                    deletePreviousChapterExpansions();
+                    userRecord.child("hasCompletedChap0").setValue(1);
                 }
-            }
-        }, new InternetListenterInterface() {
-            @Override
-            public boolean hasIntenet() {
-                return isInternetAvailable();
-            }
-        });
+            }, new DownloadExpansionInteface() {
+                @Override
+                public void downloadExpansionAndDeletePrev(String currentChapterName, DownloadSuccessFailureListener downloadSuccessFailureListener) {
+                    try {
+                        downloadExpansionFile(currentChapterName, downloadSuccessFailureListener);
+                    } catch (IOException e) {
+                        downloadSuccessFailureListener.onFailure();
+                    }
+                }
+
+                @Override
+                public boolean downloadGoof(String goofName, DownloadSuccessFailureListener downloadSuccessFailureListener1) {
+
+                    return downloadGoofAudio(goofName, downloadSuccessFailureListener1);
+                }
+
+                @Override
+                public boolean downloadGallery(String imageName, DownloadSuccessFailureListener downloadSuccessFailureListener2) {
+                    return downloadGalleryImage(imageName, downloadSuccessFailureListener2);
+                }
+
+                @Override
+                public boolean isInternetAvailable() {
+                    return AndroidLauncher.this.isInternetAvailable();
+                }
+            }, new OnlineOfflineListenterInterface() {
+                @Override
+                public void onGameModeChanged(boolean isOnline) {
+                    if (!isOnline) {
+                        deletePreviousChapterExpansions();
+                    }
+                }
+            }, new InternetListenterInterface() {
+                @Override
+                public boolean hasIntenet() {
+                    return isInternetAvailable();
+                }
+            });
 
 
 
-        initialize(game, config);
+            initialize(game, config);
 
         }else {
             user = mAuth.getCurrentUser();
@@ -460,27 +459,27 @@ public class AndroidLauncher extends AndroidApplication {
                     SharedPreferencesHelper.setReferralCount(getApplicationContext(), 0);
 
                     for(DataSnapshot refferedCandidates: dataSnapshot.getChildren()){
-                       DatabaseReference hasCompletedRef =  userRef.child(refferedCandidates.getValue(String.class)).child("hasCompletedChap0");
-                       hasCompletedRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                           @Override
-                           public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                               try {
-                                   int isChap0Completed = dataSnapshot.getValue(Integer.class);
-                                   int currentCount = SharedPreferencesHelper.getReferralCount(getApplicationContext());
-                                   if(isChap0Completed == 1){
-                                       SharedPreferencesHelper.setReferralCount(getApplicationContext(), currentCount +1);
+                        DatabaseReference hasCompletedRef =  userRef.child(refferedCandidates.getValue(String.class)).child("hasCompletedChap0");
+                        hasCompletedRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                try {
+                                    int isChap0Completed = dataSnapshot.getValue(Integer.class);
+                                    int currentCount = SharedPreferencesHelper.getReferralCount(getApplicationContext());
+                                    if(isChap0Completed == 1){
+                                        SharedPreferencesHelper.setReferralCount(getApplicationContext(), currentCount +1);
 
-                                   }
-                               }catch (Exception e){
-                                   e.printStackTrace();
-                               }
-                           }
+                                    }
+                                }catch (Exception e){
+                                    e.printStackTrace();
+                                }
+                            }
 
-                           @Override
-                           public void onCancelled(@NonNull DatabaseError databaseError) {
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                           }
-                       });
+                            }
+                        });
 
                     }
 
@@ -591,25 +590,25 @@ public class AndroidLauncher extends AndroidApplication {
 
         //For download notification
 
-           //String iconPath="chapter/b_full_version_1.png";
+        //String iconPath="chapter/b_full_version_1.png";
 
-            //SharedPreferencesHelper.setLastVisitedIcon(this,iconPath);
+        //SharedPreferencesHelper.setLastVisitedIcon(this,iconPath);
 
-            if(needToDownload == true){
-                Calendar c1 = Calendar.getInstance();
-                c1.add(Calendar.SECOND, SharedPreferencesHelper.getNotification2Time(this));
+        if(needToDownload == true){
+            Calendar c1 = Calendar.getInstance();
+            c1.add(Calendar.SECOND, SharedPreferencesHelper.getNotification2Time(this));
 
-                System.out.println("SetAlarm2AfterSeconds--->" + SharedPreferencesHelper.getNotification2Time(this));
+            System.out.println("SetAlarm2AfterSeconds--->" + SharedPreferencesHelper.getNotification2Time(this));
 
 
-                AlarmManager alarmManager1 = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                Intent intent1 = new Intent(this, AlertReceiver2.class);
-                //intent1.setFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-                PendingIntent pendingIntent1 = PendingIntent.getBroadcast(this, 2, intent1, 0);
-                if (alarmManager1 != null) {
-                    alarmManager1.setExact(AlarmManager.RTC_WAKEUP, c1.getTimeInMillis(), pendingIntent1);
-                }
+            AlarmManager alarmManager1 = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            Intent intent1 = new Intent(this, AlertReceiver2.class);
+            //intent1.setFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+            PendingIntent pendingIntent1 = PendingIntent.getBroadcast(this, 2, intent1, 0);
+            if (alarmManager1 != null) {
+                alarmManager1.setExact(AlarmManager.RTC_WAKEUP, c1.getTimeInMillis(), pendingIntent1);
             }
+        }
 
         //For download notification ends
 
@@ -654,7 +653,7 @@ public class AndroidLauncher extends AndroidApplication {
 
     private String readHistoryJsonFile() {
         try {
-            String dfdlk = ".Munchausen/en.munchausen.fingertipsandcompany.any/history.json";
+            String dfdlk = ".Munchausen/en.munchausen.fingertipsandcompany.pro/history.json";
 
             System.out.println("Filedir----->" + getApplicationContext().getFilesDir());
             System.out.println("ExtFilesdir-->" + getExternalFilesDir(""));
@@ -662,7 +661,7 @@ public class AndroidLauncher extends AndroidApplication {
 
 
             //File file = new File(getExternalFilesDir("").toString(), "my.json");
-            File file = new File(Environment.getExternalStorageDirectory() + "/.Munchausen/en.munchausen.fingertipsandcompany.any", "history.json");
+            File file = new File(Environment.getExternalStorageDirectory() + "/.Munchausen/en.munchausen.fingertipsandcompany.pro", "history.json");
             FileReader fileReader = new FileReader(file);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             StringBuilder stringBuilder = new StringBuilder();
@@ -690,7 +689,7 @@ public class AndroidLauncher extends AndroidApplication {
     private String readSaveJsonFile() {
         try {
 
-            File file = new File(Environment.getExternalStorageDirectory() + "/.Munchausen/en.munchausen.fingertipsandcompany.any", "save-active.json");
+            File file = new File(Environment.getExternalStorageDirectory() + "/.Munchausen/en.munchausen.fingertipsandcompany.pro", "save-active.json");
             FileReader fileReader = new FileReader(file);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             StringBuilder stringBuilder = new StringBuilder();
@@ -717,12 +716,12 @@ public class AndroidLauncher extends AndroidApplication {
 /*    private String readExpansionJsonFile() {
         try {
             PlatformParams platformParams = new PlatformParams();
-            String dfdlk = ".Munchausen/en.munchausen.fingertipsandcompany.any/" + platformParams.expansionVersion + "-expansion.json";
+            String dfdlk = ".Munchausen/en.munchausen.fingertipsandcompany.pro/" + platformParams.expansionVersion + "-expansion.json";
 
 
 
             //File file = new File(getExternalFilesDir("").toString(), "my.json");
-            File file = new File(Environment.getExternalStorageDirectory() + "/.Munchausen/en.munchausen.fingertipsandcompany.any", platformParams.expansionVersion + "-expansion.json");
+            File file = new File(Environment.getExternalStorageDirectory() + "/.Munchausen/en.munchausen.fingertipsandcompany.pro", platformParams.expansionVersion + "-expansion.json");
             FileReader fileReader = new FileReader(file);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             StringBuilder stringBuilder = new StringBuilder();
@@ -818,7 +817,7 @@ public class AndroidLauncher extends AndroidApplication {
             if(!needToDownload == true) {
                 startAlarm();
             }else if(needToDownload) {
-                    startDownloadAlarm();
+                startDownloadAlarm();
             }
         }
         super.onStop();
@@ -878,11 +877,11 @@ public class AndroidLauncher extends AndroidApplication {
                 //.setDynamicLinkDomain("https://fingertipsandcompany.page.link")
                 .setDomainUriPrefix("https://fingertipsandcompany.page.link")
                 .setAndroidParameters(
-                        new DynamicLink.AndroidParameters.Builder("en.munchausen.fingertipsandcompany.pro")
+                        new DynamicLink.AndroidParameters.Builder("en.munchausen.fingertipsandcompany.full")
                                 .setMinimumVersion(125)
                                 .build())
                 .setIosParameters(
-                        new DynamicLink.IosParameters.Builder("en.munchausen.fingertipsandcompany.pro")
+                        new DynamicLink.IosParameters.Builder("en.munchausen.fingertipsandcompany.full")
                                 .setAppStoreId("1496752335")
                                 .setMinimumVersion("1.0.1")
                                 .build())
@@ -1318,7 +1317,7 @@ public class AndroidLauncher extends AndroidApplication {
         final StorageReference audioRef = storageRef.child("Expansion Files for online Munchausen/AUDIO_FINAL/Part_English/" + filePath);
 
         //Download to a local file
-        File storagePath = new File(Environment.getExternalStorageDirectory() + "/.Munchausen/en.munchausen.fingertipsandcompany.any/expansion/");
+        File storagePath = new File(Environment.getExternalStorageDirectory() + "/.Munchausen/en.munchausen.fingertipsandcompany.pro/expansion/");
         // Create direcorty if not exists
         if(!storagePath.exists()) {
             storagePath.mkdirs();
@@ -1337,10 +1336,10 @@ public class AndroidLauncher extends AndroidApplication {
                     System.out.println("AudioDownloadCount--->"+ audioDownloadCount);
                     System.out.println("ImageDownloadCount--->"+ imageDownloadCount);
 
-                   if(audioDownloadCount >= audiosNextChapterCount && imageDownloadCount >= imagesNextChapterCount){
-                       downloadSuccessFailureListener.onSuccess();
-                       deletePreviousChapterExpansions();
-                   }
+                    if(audioDownloadCount >= audiosNextChapterCount && imageDownloadCount >= imagesNextChapterCount){
+                        downloadSuccessFailureListener.onSuccess();
+                        deletePreviousChapterExpansions();
+                    }
 
 
 
@@ -1439,7 +1438,7 @@ public class AndroidLauncher extends AndroidApplication {
         final StorageReference imageRef = storageRef.child("Expansion Files for online Munchausen/" + PICTURES_DPI + img_without_jpg + ".jpg");
 
         //Download to a local file
-        File storagePath = new File(Environment.getExternalStorageDirectory() + "/.Munchausen/en.munchausen.fingertipsandcompany.any/expansion/images/");
+        File storagePath = new File(Environment.getExternalStorageDirectory() + "/.Munchausen/en.munchausen.fingertipsandcompany.pro/expansion/images/");
         // Create direcorty if not exists
         if(!storagePath.exists()) {
             storagePath.mkdirs();
@@ -1619,7 +1618,7 @@ public class AndroidLauncher extends AndroidApplication {
             //title audio ends
 
             return audioPaths;
-    } catch (JSONException ex) {
+        } catch (JSONException ex) {
             ex.printStackTrace();
             return null;
         }
@@ -1645,12 +1644,12 @@ public class AndroidLauncher extends AndroidApplication {
                     if(jsonObject.has("chapter") && jsonObject.get("chapter").equals(chapterName)){
 
 
-                       JSONArray imageArray = jsonObject.getJSONArray("images");
+                        JSONArray imageArray = jsonObject.getJSONArray("images");
 
                         for(int k=0; k< imageArray.length(); k++){
 
                             if(!imageArray.getJSONObject(k).getString("image").equals("Last"))
-                            images.add(imageArray.getJSONObject(k).getString("image"));
+                                images.add(imageArray.getJSONObject(k).getString("image"));
 
                         }
 
@@ -1679,7 +1678,7 @@ public class AndroidLauncher extends AndroidApplication {
 
         try {
 
-            File audioDirectory = new File(Environment.getExternalStorageDirectory() + "/.Munchausen/en.munchausen.fingertipsandcompany.any/expansion/audio");
+            File audioDirectory = new File(Environment.getExternalStorageDirectory() + "/.Munchausen/en.munchausen.fingertipsandcompany.pro/expansion/audio");
 
             File[] directoryListing = audioDirectory.listFiles();
 
@@ -1712,7 +1711,7 @@ public class AndroidLauncher extends AndroidApplication {
 
             //check if image files already present and delete
 
-            File imageDirectory = new File(Environment.getExternalStorageDirectory() + "/.Munchausen/en.munchausen.fingertipsandcompany.any/expansion/images");
+            File imageDirectory = new File(Environment.getExternalStorageDirectory() + "/.Munchausen/en.munchausen.fingertipsandcompany.pro/expansion/images");
 
             File[] imgdirectoryListing = imageDirectory.listFiles();
 
@@ -1768,7 +1767,7 @@ public class AndroidLauncher extends AndroidApplication {
         final StorageReference audioRef = storageRef.child("Expansion Files for online Munchausen/AUDIO_FINAL/Fails_Eng/" + filePath);
 
         //Download to a local file
-        File storagePath = new File(Environment.getExternalStorageDirectory() + "/.Munchausen/en.munchausen.fingertipsandcompany.any/expansion/audio/");
+        File storagePath = new File(Environment.getExternalStorageDirectory() + "/.Munchausen/en.munchausen.fingertipsandcompany.pro/expansion/audio/");
         // Create direcorty if not exists
         if(!storagePath.exists()) {
             storagePath.mkdirs();
@@ -1781,7 +1780,7 @@ public class AndroidLauncher extends AndroidApplication {
             audioRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                        downloadSuccessFailureListener.onSuccess();
+                    downloadSuccessFailureListener.onSuccess();
 
                 }
             }).addOnFailureListener(new OnFailureListener() {
@@ -1804,14 +1803,14 @@ public class AndroidLauncher extends AndroidApplication {
 
                     if(totalSpaceInLocal == totalByteCountedInCloud){
                         System.out.println("Already full file on local");
-                            downloadSuccessFailureListener.onSuccess();
+                        downloadSuccessFailureListener.onSuccess();
                     }else{
                         //download again
 
                         audioRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                             @Override
                             public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                                    downloadSuccessFailureListener.onSuccess();
+                                downloadSuccessFailureListener.onSuccess();
 
                             }
                         }).addOnFailureListener(new OnFailureListener() {
@@ -1861,7 +1860,7 @@ public class AndroidLauncher extends AndroidApplication {
             final StorageReference imageRef = storageRef.child("Expansion Files for online Munchausen/" + PICTURES_DPI + imageName + ".jpg");
 
             //Download to a local file
-            File storagePath = new File(Environment.getExternalStorageDirectory() + "/.Munchausen/en.munchausen.fingertipsandcompany.any/expansion/images/");
+            File storagePath = new File(Environment.getExternalStorageDirectory() + "/.Munchausen/en.munchausen.fingertipsandcompany.pro/expansion/images/");
             // Create direcorty if not exists
             if (!storagePath.exists()) {
                 storagePath.mkdirs();

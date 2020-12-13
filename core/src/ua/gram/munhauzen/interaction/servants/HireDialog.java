@@ -120,14 +120,20 @@ public class HireDialog extends Fragment {
 
                         triggerBackgroundUpdate();
 
-                        nextTask = Timer.instance().scheduleTask(new Timer.Task() {
+                        nextTask = new Timer.Task() {
                             @Override
                             public void run() {
                                 destroy();
 
                                 interaction.hireFragment.next();
                             }
-                        }, confirmAudio.duration / 1000f);
+                        };
+
+                        try {
+                            Timer.instance().scheduleTask(nextTask, confirmAudio.duration / 1000f);
+                        } catch (Throwable ignore) {
+                            nextTask.run();
+                        }
                     }
 
                 } catch (Throwable e) {
@@ -171,7 +177,7 @@ public class HireDialog extends Fragment {
 
                     triggerBackgroundUpdate();
 
-                    nextTask = Timer.instance().scheduleTask(new Timer.Task() {
+                    nextTask = new Timer.Task() {
                         @Override
                         public void run() {
 
@@ -179,7 +185,13 @@ public class HireDialog extends Fragment {
 
                             interaction.hireFragment.next();
                         }
-                    }, cancelAudio.duration / 1000f);
+                    };
+
+                    try {
+                        Timer.instance().scheduleTask(nextTask, cancelAudio.duration / 1000f);
+                    } catch (Throwable ignore) {
+                        nextTask.run();
+                    }
 
                 } catch (Throwable e) {
                     Log.e(tag, e);

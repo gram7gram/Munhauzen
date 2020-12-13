@@ -93,25 +93,30 @@ public class HornInteraction extends AbstractInteraction {
 
         playEnding();
 
-        if (storyAudio != null)
-            Timer.instance().scheduleTask(new Timer.Task() {
-                @Override
-                public void run() {
-                    try {
+        Timer.Task task = new Timer.Task() {
+            @Override
+            public void run() {
+                try {
 
-                        gameScreen.interactionService.complete();
+                    gameScreen.interactionService.complete();
 
-                        gameScreen.interactionService.findStoryAfterInteraction();
+                    gameScreen.interactionService.findStoryAfterInteraction();
 
-                        gameScreen.restoreProgressBarIfDestroyed();
+                    gameScreen.restoreProgressBarIfDestroyed();
 
-                    } catch (Throwable e) {
-                        Log.e(tag, e);
+                } catch (Throwable e) {
+                    Log.e(tag, e);
 
-                        gameScreen.onCriticalError(e);
-                    }
+                    gameScreen.onCriticalError(e);
                 }
-            }, storyAudio.duration / 1000f);
+            }
+        };
+
+        try {
+            Timer.instance().scheduleTask(task, storyAudio.duration / 1000f);
+        } catch (Throwable ignore) {
+            task.run();
+        }
     }
 
     @Override

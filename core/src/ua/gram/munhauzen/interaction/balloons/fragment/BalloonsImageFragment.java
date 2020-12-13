@@ -428,12 +428,18 @@ public class BalloonsImageFragment extends InteractionFragment {
             ));
             resetButton.setDisabled(true);
 
-            Timer.instance().scheduleTask(new Timer.Task() {
+            Timer.Task task = new Timer.Task() {
                 @Override
                 public void run() {
                     resetButton.setDisabled(false);
                 }
-            }, currentAudio.duration / 1000f);
+            };
+
+            try {
+                Timer.instance().scheduleTask(task, currentAudio.duration / 1000f);
+            } catch (Throwable ignore) {
+                task.run();
+            }
 
         } catch (Throwable e) {
             Log.e(tag, e);

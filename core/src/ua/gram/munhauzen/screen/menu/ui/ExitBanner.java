@@ -85,14 +85,14 @@ public class ExitBanner extends Banner<MenuScreen> {
                     screen.game.stopCurrentSfx();
                     StoryAudio audio = screen.game.currentSfx = game.sfxService.onExitYesClicked();
 
-                    if (audio != null) {
+                   try {
                         Timer.instance().scheduleTask(new Timer.Task() {
                             @Override
                             public void run() {
                                 onYesClicked();
                             }
                         }, audio.duration / 1000f);
-                    } else {
+                    } catch (Throwable ignore) {
                         onYesClicked();
                     }
 
@@ -117,14 +117,14 @@ public class ExitBanner extends Banner<MenuScreen> {
                     screen.game.stopCurrentSfx();
                     StoryAudio audio = screen.game.currentSfx = game.sfxService.onExitNoClicked();
 
-                    if (audio != null) {
+                    try {
                         Timer.instance().scheduleTask(new Timer.Task() {
                             @Override
                             public void run() {
                                 onNoClicked();
                             }
                         }, audio.duration / 1000f);
-                    } else {
+                    } catch (Throwable ignore) {
                         onNoClicked();
                     }
 

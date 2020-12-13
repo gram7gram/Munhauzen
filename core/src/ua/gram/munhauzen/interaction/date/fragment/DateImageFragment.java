@@ -288,7 +288,7 @@ public class DateImageFragment extends InteractionFragment {
                     Actions.visible(false)
             ));
 
-            failedTask = Timer.instance().scheduleTask(new Timer.Task() {
+            failedTask = new Timer.Task() {
                 @Override
                 public void run() {
 
@@ -296,7 +296,7 @@ public class DateImageFragment extends InteractionFragment {
 
                         interaction.playFailEnd();
 
-                        failedTask = Timer.instance().scheduleTask(new Timer.Task() {
+                        failedTask = new Timer.Task() {
                             @Override
                             public void run() {
 
@@ -310,12 +310,26 @@ public class DateImageFragment extends InteractionFragment {
                                     Log.e(tag, e);
                                 }
                             }
-                        }, interaction.storyAudio.duration / 1000f);
+                        };
+
+                        try {
+                            Timer.instance().scheduleTask(failedTask, interaction.storyAudio.duration / 1000f);
+                        } catch (Throwable ignore ){
+                            failedTask.run();
+                        }
+
+
                     } catch (Throwable e) {
                         Log.e(tag, e);
                     }
                 }
-            }, interaction.storyAudio.duration / 1000f);
+            };
+
+            try {
+                Timer.instance().scheduleTask(failedTask, interaction.storyAudio.duration / 1000f);
+            } catch (Throwable ignore) {
+                failedTask.run();
+            }
 
 
         } catch (Throwable e) {
