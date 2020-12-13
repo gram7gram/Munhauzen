@@ -20,11 +20,12 @@ public class AlertReceiver2 extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
 
+
         //for setting random values for notificaitons messages
 
         String notificationJson = readNotificationJsonFile();
 
-        try {
+        try{
             JSONObject notificationJsonObject = new JSONObject(notificationJson);
 
             //for download notification
@@ -34,7 +35,7 @@ public class AlertReceiver2 extends BroadcastReceiver {
 
             SharedPreferencesHelper.setKeyNotification2Message(getApplicationContext(), download_notification);
 
-        } catch (Exception e) {
+        }catch (Exception e){
             e.printStackTrace();
         }
 
@@ -43,7 +44,7 @@ public class AlertReceiver2 extends BroadcastReceiver {
         NotificationHelper.displayInternalNotification(getApplicationContext(), SharedPreferencesHelper.getKeyNotification2Title(getApplicationContext()), SharedPreferencesHelper.getKeyNotification2Message(getApplicationContext()), "chapter/b_full_version_1.png");
 
         //for rescheduling notification
-        if (AndroidLauncher.needToDownloadStatic == true) {
+        if(AndroidLauncher.needToDownloadStatic == true) {
             Calendar c1 = Calendar.getInstance();
             c1.add(Calendar.SECOND, SharedPreferencesHelper.getNotification2Time(getApplicationContext()));
 

@@ -14,9 +14,11 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
+import com.badlogic.gdx.pay.android.googlebilling.PurchaseManagerGoogleBilling;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -35,6 +37,7 @@ import com.google.firebase.dynamiclinks.DynamicLink;
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 import com.google.firebase.dynamiclinks.ShortDynamicLink;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
@@ -74,39 +77,102 @@ import static android.content.ContentValues.TAG;
 
 public class AndroidLauncher extends AndroidApplication {
 
-    public static boolean needToDownloadStatic = true;
-    public static String USERS = "ztestusers";
-    public static String NOTIFICATION = "ztest1notifications";
-    public int audioDownloadCount;
-    public int imageDownloadCount;
-    public int audiosNextChapterCount;
-    public int imagesNextChapterCount;
-    public DownloadSuccessFailureListener downloadSuccessFailureListener;
+    private boolean needToDownload;
+    public static boolean needToDownloadStatic=true;
+
+    private FirebaseDatabase database;
+
+    private FirebaseStorage storage;
+
+    private FirebaseAuth mAuth;
+    private FirebaseUser user;
+
     String link;
     String mInvitationUrl;
+
+
+    public int audioDownloadCount;
+    public int imageDownloadCount;
+
+    public int audiosNextChapterCount;
+    public int imagesNextChapterCount;
+
+    public DownloadSuccessFailureListener downloadSuccessFailureListener;
+
+    public static  String USERS = "ztestusers";
+    public static String NOTIFICATION = "ztest1notifications";
+
     List<String> audiosCurrentChapter;
     List<String> imagesCurrentChapter;
+
     List<String> audiosPrevChapter;
     List<String> imagesPrevChapter;
+
     List<String> audiosNextChapter;
     List<String> imagesNextChapter;
-    private boolean needToDownload;
-    private FirebaseDatabase database;
-    private FirebaseStorage storage;
-    private FirebaseAuth mAuth;
-    public PlatformParams params;
 
-    private void initParams() {
-        params = new ProPlatformParams();
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        PermissionManager.grant(this, PermissionManager.PERMISSIONS);
+
+
+
+        System.out.println("FCM TOKEN---->" + FirebaseInstanceId.getInstance().getToken());
+
+
+        try {
+            YandexMetrica.activate(getApplicationContext(),
+                    YandexMetricaConfig.newConfigBuilder("c1207d58-9ea9-4830-93ec-58aaa78098a1").build());
+            YandexMetrica.enableActivityAutoTracking(getApplication());
+        } catch (Throwable ignore) {
+
+        }
+
+        FirebaseMessaging.getInstance().subscribeToTopic("updates");
+        FirebaseMessaging.getInstance().subscribeToTopic("android-all");
+        FirebaseMessaging.getInstance().subscribeToTopic("android-ru");
+
+
+
+        //Firebase task 2 addition
+
+
+        mAuth = FirebaseAuth.getInstance();
+
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        //Firebase task 2 addition ends
+
+        storage = FirebaseStorage.getInstance("gs://oh-that-munchausen.appspot.com");
+
+        AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
+
+        config.useAccelerometer = false;
+        config.useCompass = false;
+        config.hideStatusBar = true;
+        config.useWakelock = true;
+
+        PlatformParams params = new ProPlatformParams();
         params.yandexId = "c1207d58-9ea9-4830-93ec-58aaa78098a1";
         params.facebookId = "2021443327991679";
         params.device.type = Device.Type.android;
         params.isTablet = isTablet(this);
-        params.storageDirectory = ".Munchausen/ru.munchausen.fingertipsandcompany.pro";
         params.applicationId = BuildConfig.APPLICATION_ID;
+        params.storageDirectory = ".Munchausen/ru.munchausen.fingertipsandcompany.pro";
         params.versionCode = BuildConfig.VERSION_CODE;
         params.versionName = BuildConfig.VERSION_NAME;
         params.locale = "ru";
+        params.appStoreSkuFull = "full_munchausen_audiobook_ru";
+        params.appStoreSkuPart1 = "part_1_munchausen_audiobook_ru";
+        params.appStoreSkuPart2 = "part_2_munchausen_audiobook_ru";
+        params.appStoreSku1Chapter = "chapter_1_munchausen_audiobook_ru";
+        params.appStoreSku3Chapter = "chapter_3_munchausen_audiobook_ru";
+        params.appStoreSku5Chapter = "chapter_5_munchausen_audiobook_ru";
+        params.appStoreSku10Chapter = "chapter_10_munchausen_audiobook_ru";
+        params.appStoreSkuThanks = "thanks_munchausen_audiobook_ru";
+        params.appStoreSkuFullThanks = "all_munchausen_audiobook_ru";
         params.translator = new RussianTranslator();
         params.memoryUsage = new AndroidMemoryUsage();
         params.appStore = new GooglePlay(params);
@@ -119,186 +185,220 @@ public class AndroidLauncher extends AndroidApplication {
         params.vkLink = "https://vk.com/wall374290107_9";
         params.statueLink = "https://youtu.be/nxOFXw5Efzo";
 
-        if (BuildConfig.BUILD_TYPE.equals("release")) {
-            params.release = PlatformParams.Release.PROD;
-        } else if (BuildConfig.BUILD_TYPE.equals("staging")) {
+        if (BuildConfig.BUILD_TYPE.equals("staging")) {
             params.release = PlatformParams.Release.TEST;
+        } else if (BuildConfig.BUILD_TYPE.equals("release")) {
+            params.release = PlatformParams.Release.PROD;
         } else {
             params.release = PlatformParams.Release.DEV;
         }
-    }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        PermissionManager.grant(this, PermissionManager.PERMISSIONS);
-
-        FirebaseMessaging.getInstance().subscribeToTopic("updates");
-        FirebaseMessaging.getInstance().subscribeToTopic("android-all");
-        FirebaseMessaging.getInstance().subscribeToTopic("android-ru-pro");
-
-        //Firebase login
-        mAuth = FirebaseAuth.getInstance();
-        mAuth.getCurrentUser();
-
-        storage = FirebaseStorage.getInstance("gs://oh-that-munchausen.appspot.com");
-
-        initParams();
-
-        if (params.release == PlatformParams.Release.PROD) {
+        if (params.release == PlatformParams.Release.PROD){
             USERS = "users";
             NOTIFICATION = "1notifications";
-        } else {
+        }else {
             USERS = "ztestusers";
             NOTIFICATION = "ztest1notifications";
         }
 
-        try {
-            YandexMetrica.activate(getApplicationContext(),
-                    YandexMetricaConfig.newConfigBuilder(params.yandexId).build());
-            YandexMetrica.enableActivityAutoTracking(getApplication());
-        } catch (Throwable ignore) {
-
-        }
+        //PermissionManager.grant(this, PermissionManager.PERMISSIONS);
 
         FirebaseAnalytics.getInstance(this);
         getReferralLink();
 
-        OnExpansionDownloadComplete onExpansionDownloadComplete = new OnExpansionDownloadComplete() {
-            @Override
-            public void setDownloadNeeded(boolean isDownloaded) {
-                needToDownload = isDownloaded;
-                needToDownloadStatic = isDownloaded;
-            }
-        };
 
-        LoginInterface loginInterface = new LoginInterface() {
-            @Override
-            public void loginAnonymously(LoginListener loginListener) {
-                try {
+        if(user == null) {
+            MunhauzenGame game = new MunhauzenGame(params, new OnExpansionDownloadComplete() {
+                @Override
+                public void setDownloadNeeded(boolean isDownloaded) {
+                    needToDownload = isDownloaded;
+                    needToDownloadStatic = isDownloaded;
+                }
+            }, new LoginInterface() {
+                @Override
+                public void loginAnonymously(LoginListener loginListener) {
+                    loginAnonymouslyz(loginListener);
+                }
+            }, new ReferralInterface() {
+                @Override
+                public String setReferralLink() {
+                    return setReferralzz();
+                }
+
+                @Override
+                public void sendReferralLink() {
+                    AndroidLauncher.this.sendReferralLink();
+                }
+
+                @Override
+                public void getReferral() {
+
+                }
+
+                @Override
+                public int getRefferralCount() {
+                    getReferralCount();
+                    return SharedPreferencesHelper.getReferralCount(getApplicationContext());
+                }
+
+                @Override
+                public void setChapter0Completed() {
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    DatabaseReference userRecord =
+                            FirebaseDatabase.getInstance().getReference()
+                                    .child(USERS)
+                                    .child(user.getUid());
+
+                    userRecord.child("hasCompletedChap0").setValue(1);
+                }
+            }, new DownloadExpansionInteface() {
+                @Override
+                public void downloadExpansionAndDeletePrev(String currentChapterName, DownloadSuccessFailureListener downloadSuccessFailureListener) {
+                    try {
+                        downloadExpansionFile(currentChapterName, downloadSuccessFailureListener);
+                    } catch (IOException e) {
+                        downloadSuccessFailureListener.onFailure();
+                    }
+                }
+
+                @Override
+                public boolean downloadGoof(String goofName, DownloadSuccessFailureListener downloadSuccessFailureListener1) {
+
+                    return downloadGoofAudio(goofName, downloadSuccessFailureListener1);
+                }
+
+                @Override
+                public boolean downloadGallery(String imageName, DownloadSuccessFailureListener downloadSuccessFailureListener2) {
+                    return downloadGalleryImage(imageName, downloadSuccessFailureListener2);
+                }
+
+                @Override
+                public boolean isInternetAvailable() {
+                    return AndroidLauncher.this.isInternetAvailable();
+                }
+            }, new OnlineOfflineListenterInterface() {
+                @Override
+                public void onGameModeChanged(boolean isOnline) {
+                    if (!isOnline) {
+                        deletePreviousChapterExpansions();
+                    }
+                }
+            }, new InternetListenterInterface() {
+                @Override
+                public boolean hasIntenet() {
+                    return isInternetAvailable();
+                }
+            });
+
+
+
+            initialize(game, config);
+
+        }else {
+            user = mAuth.getCurrentUser();
+
+            MunhauzenGame game = new MunhauzenGame(params, new OnExpansionDownloadComplete() {
+                @Override
+                public void setDownloadNeeded(boolean isDownloaded) {
+                    needToDownload = isDownloaded;
+                    needToDownloadStatic = isDownloaded;
+                }
+            }, new LoginInterface() {
+                @Override
+                public void loginAnonymously(LoginListener loginListener) {
                     setReferralzz();
-                } catch (Throwable e) {
-                    e.printStackTrace();
                 }
-            }
-        };
-
-        ReferralInterface referralInterface = new ReferralInterface() {
-            @Override
-            public String setReferralLink() {
-                return setReferralzz();
-            }
-
-            @Override
-            public void sendReferralLink() {
-                AndroidLauncher.this.sendReferralLink();
-            }
-
-            @Override
-            public void getReferral() {
-
-            }
-
-            @Override
-            public int getRefferralCount() {
-                getReferralCount();
-                return SharedPreferencesHelper.getReferralCount(getApplicationContext());
-            }
-
-            @Override
-            public void setChapter0Completed() {
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                DatabaseReference userRecord =
-                        FirebaseDatabase.getInstance().getReference()
-                                .child(USERS)
-                                .child(user.getUid());
-
-                userRecord.child("hasCompletedChap0").setValue(1);
-            }
-        };
-
-        DownloadExpansionInteface downloadExpansionInteface = new DownloadExpansionInteface() {
-            @Override
-            public void downloadExpansionAndDeletePrev(String currentChapterName, DownloadSuccessFailureListener downloadSuccessFailureListener) {
-                try {
-                    downloadExpansionFile(currentChapterName, downloadSuccessFailureListener);
-                } catch (IOException e) {
-                    downloadSuccessFailureListener.onFailure();
+            }, new ReferralInterface() {
+                @Override
+                public String setReferralLink() {
+                    return setReferralzz();
                 }
-            }
 
-            @Override
-            public boolean downloadGoof(String goofName, DownloadSuccessFailureListener downloadSuccessFailureListener1) {
-                return downloadGoofAudio(goofName, downloadSuccessFailureListener1);
-            }
-
-            @Override
-            public boolean downloadGallery(String imageName, DownloadSuccessFailureListener downloadSuccessFailureListener2) {
-                return downloadGalleryImage(imageName, downloadSuccessFailureListener2);
-            }
-
-            @Override
-            public boolean isInternetAvailable() {
-                return AndroidLauncher.this.isInternetAvailable();
-            }
-        };
-
-        OnlineOfflineListenterInterface onlineOfflineListenterInterface = new OnlineOfflineListenterInterface() {
-            @Override
-            public void onGameModeChanged(boolean isOnline) {
-                if (!isOnline) {
-                    deletePreviousChapterExpansions();
+                @Override
+                public void sendReferralLink() {
+                    AndroidLauncher.this.sendReferralLink();
                 }
-            }
-        };
 
-        InternetListenterInterface internetListenterInterface = new InternetListenterInterface() {
-            @Override
-            public boolean hasIntenet() {
-                return isInternetAvailable();
-            }
-        };
+                @Override
+                public void getReferral() {
 
-        mAuth.getCurrentUser();
+                }
 
-        AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
+                @Override
+                public int getRefferralCount() {
+                    getReferralCount();
+                    return SharedPreferencesHelper.getReferralCount(getApplicationContext());
+                }
 
-        config.useAccelerometer = false;
-        config.useCompass = false;
-        config.hideStatusBar = true;
-        config.useWakelock = true;
+                @Override
+                public void setChapter0Completed() {
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    DatabaseReference userRecord =
+                            FirebaseDatabase.getInstance().getReference()
+                                    .child(USERS)
+                                    .child(user.getUid());
 
-        MunhauzenGame game = new MunhauzenGame(
-                params,
-                onExpansionDownloadComplete,
-                loginInterface,
-                referralInterface,
-                downloadExpansionInteface,
-                onlineOfflineListenterInterface,
-                internetListenterInterface
-        );
+                    userRecord.child("hasCompletedChap0").setValue(1);
+                }
+            },  new DownloadExpansionInteface() {
+                @Override
+                public void downloadExpansionAndDeletePrev(String currentChapterName, DownloadSuccessFailureListener downloadSuccessFailureListener) {
+                    try {
+                        downloadExpansionFile(currentChapterName, downloadSuccessFailureListener);
+                    } catch (IOException e) {
+                        downloadSuccessFailureListener.onFailure();
+                    }
+                }
 
-        // Start the game!
-        initialize(game, config);
+                @Override
+                public boolean downloadGoof(String goofName, DownloadSuccessFailureListener downloadSuccessFailureListener1) {
+                    return downloadGoofAudio(goofName, downloadSuccessFailureListener1);
+                }
 
-        runFirebaseChecks();
-    }
+                @Override
+                public boolean downloadGallery(String imageName, DownloadSuccessFailureListener downloadSuccessFailureListener2) {
+                    return downloadGalleryImage(imageName, downloadSuccessFailureListener2);
+                }
 
-    private void runFirebaseChecks() {
+                @Override
+                public boolean isInternetAvailable() {
+                    return AndroidLauncher.this.isInternetAvailable();
+                }
+            }, new OnlineOfflineListenterInterface() {
+                @Override
+                public void onGameModeChanged(boolean isOnline) {
+                    if (!isOnline) {
+                        deletePreviousChapterExpansions();
+                    }
+                }
+            }, new InternetListenterInterface() {
+                @Override
+                public boolean hasIntenet() {
+                    return isInternetAvailable();
+                }
+            });
+
+            initialize(game, config);
+
+        }
+
         //for checking should download or not
+
+
         database = FirebaseDatabase.getInstance();
 
         getNotificationsInfoFromFirebaseDatabase();
 
         //for referral count
         getReferralCount();
+        //referral count ends
+
 
         //for setting random values for notificaitons messages
 
         String notificationJson = readNotificationJsonFile();
 
-        try {
+        try{
             JSONObject notificationJsonObject = new JSONObject(notificationJson);
 
             //for Continue notification
@@ -316,7 +416,7 @@ public class AndroidLauncher extends AndroidApplication {
 
             SharedPreferencesHelper.setKeyNotification2Message(getApplicationContext(), download_notification);
 
-        } catch (Exception e) {
+        }catch (Exception e){
             e.printStackTrace();
         }
 
@@ -324,7 +424,8 @@ public class AndroidLauncher extends AndroidApplication {
 
     }
 
-    private void getReferralCount() {
+
+    private void getReferralCount(){
 
         //for referral count
 
@@ -343,19 +444,19 @@ public class AndroidLauncher extends AndroidApplication {
 
                     SharedPreferencesHelper.setReferralCount(getApplicationContext(), 0);
 
-                    for (DataSnapshot refferedCandidates : dataSnapshot.getChildren()) {
-                        DatabaseReference hasCompletedRef = userRef.child(refferedCandidates.getValue(String.class)).child("hasCompletedChap0");
+                    for(DataSnapshot refferedCandidates: dataSnapshot.getChildren()){
+                        DatabaseReference hasCompletedRef =  userRef.child(refferedCandidates.getValue(String.class)).child("hasCompletedChap0");
                         hasCompletedRef.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 try {
                                     int isChap0Completed = dataSnapshot.getValue(Integer.class);
                                     int currentCount = SharedPreferencesHelper.getReferralCount(getApplicationContext());
-                                    if (isChap0Completed == 1) {
-                                        SharedPreferencesHelper.setReferralCount(getApplicationContext(), currentCount + 1);
+                                    if(isChap0Completed == 1){
+                                        SharedPreferencesHelper.setReferralCount(getApplicationContext(), currentCount +1);
 
                                     }
-                                } catch (Exception e) {
+                                }catch (Exception e){
                                     e.printStackTrace();
                                 }
                             }
@@ -377,7 +478,7 @@ public class AndroidLauncher extends AndroidApplication {
 
                 }
             });
-        } catch (Exception ex) {
+        }catch (Exception ex){
             ex.printStackTrace();
         }
         //referral count ends
@@ -387,6 +488,7 @@ public class AndroidLauncher extends AndroidApplication {
 
         try {
 
+            String historyJson = readHistoryJsonFile();
             String saveJson = readSaveJsonFile();
 
             String chapterJson = readChapterJsonFile();
@@ -450,19 +552,18 @@ public class AndroidLauncher extends AndroidApplication {
             if (alarmManager != null) {
                 alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
             }
-        } catch (Throwable ignore) {
-        }
+        } catch (Throwable ignore) {}
     }
 
-    private void startDownloadAlarm() {
+    private void startDownloadAlarm(){
 
         //For download notification
 
-        String iconPath = "chapter/b_full_version_1.png";
+        String iconPath="chapter/b_full_version_1.png";
 
         //SharedPreferencesHelper.setLastVisitedIcon(this,iconPath);
 
-        if (needToDownload == true) {
+        if(needToDownload == true){
             Calendar c1 = Calendar.getInstance();
             c1.add(Calendar.SECOND, SharedPreferencesHelper.getNotification2Time(this));
 
@@ -517,10 +618,47 @@ public class AndroidLauncher extends AndroidApplication {
 
     }
 
+
+
+    private String readHistoryJsonFile() {
+        try {
+            String dfdlk = ".Munchausen/ru.munchausen.fingertipsandcompany.pro/history.json";
+
+            System.out.println("Filedir----->" + getApplicationContext().getFilesDir());
+            System.out.println("ExtFilesdir-->" + getExternalFilesDir(""));
+            System.out.println("ExternalStorageDirectory--->" + Environment.getExternalStorageDirectory());
+
+
+            //File file = new File(getExternalFilesDir("").toString(), "my.json");
+            File file = new File(Environment.getExternalStorageDirectory() + "/.Munchausen/ru.munchausen.fingertipsandcompany.pro", "history.json");
+            FileReader fileReader = new FileReader(file);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            StringBuilder stringBuilder = new StringBuilder();
+            String line = bufferedReader.readLine();
+            while (line != null) {
+                stringBuilder.append(line).append("\n");
+                line = bufferedReader.readLine();
+            }
+            bufferedReader.close();
+// This responce will have Json Format String
+            String responce = stringBuilder.toString();
+            System.out.println("Readed Json--->" + responce);
+            return responce;
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        //System.out.println("filepath--->" + getApplicationContext().getFilesDir());
+        return null;
+
+    }
+
+
     private String readSaveJsonFile() {
         try {
 
-            File file = new File(Environment.getExternalStorageDirectory() + "/" + params.storageDirectory, "save-active.json");
+            File file = new File(Environment.getExternalStorageDirectory() + "/.Munchausen/ru.munchausen.fingertipsandcompany.pro", "save-active.json");
             FileReader fileReader = new FileReader(file);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             StringBuilder stringBuilder = new StringBuilder();
@@ -599,10 +737,10 @@ public class AndroidLauncher extends AndroidApplication {
 
     @Override
     protected void onDestroy() {
-        if (ContextCompat.checkSelfPermission(AndroidLauncher.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            if (!needToDownload == true) {
+        if (ContextCompat.checkSelfPermission(AndroidLauncher.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+            if(!needToDownload == true) {
                 startAlarm();
-            } else if (needToDownload) {
+            }else if(needToDownload) {
                 startDownloadAlarm();
             }
         }
@@ -612,30 +750,76 @@ public class AndroidLauncher extends AndroidApplication {
 
     @Override
     protected void onStop() {
-        if (ContextCompat.checkSelfPermission(AndroidLauncher.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            if (!needToDownload == true) {
+        if (ContextCompat.checkSelfPermission(AndroidLauncher.this,Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+            if(!needToDownload == true) {
                 startAlarm();
-            } else if (needToDownload) {
+            }else if(needToDownload) {
                 startDownloadAlarm();
             }
         }
         super.onStop();
     }
 
-    public String setReferralzz() {
+
+    public void loginAnonymouslyz(final LoginListener loginListener){
+        mAuth.signInAnonymously()
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInAnonymously:success");
+                            user = mAuth.getCurrentUser();
+                            //updateUI(user);
+                            //initGame();
+                            loginListener.isLoggedIn(true);
+                            //setReferral();
+
+                            //add to database
+
+                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                            DatabaseReference userRecord =
+                                    FirebaseDatabase.getInstance().getReference()
+                                            .child(USERS)
+                                            .child(user.getUid());
+
+                            userRecord.child("last_login_time").setValue(ServerValue.TIMESTAMP);
+                            userRecord.child("hasCompletedChap0").setValue(0);
+                            System.out.println("Anonymous Account created with Refferrer info");
+
+                            //ends
+
+
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "signInAnonymously:failure", task.getException());
+                            Toast.makeText(AndroidLauncher.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                            //updateUI(null);
+                            loginListener.isLoggedIn(false);
+                        }
+
+                        // ...
+                    }
+                });
+    }
+
+
+    public String setReferralzz(){
 
         String uid = mAuth.getCurrentUser().getUid();
-        link = "https://thebaronmunchausen.com/ru/?invitedby=" + uid;
+        link = "https://thebaronmunchausen.com/?invitedby=" + uid;
 
         FirebaseDynamicLinks.getInstance().createDynamicLink()
                 .setLink(Uri.parse(link))
+                //.setDynamicLinkDomain("https://fingertipsandcompany.page.link")
                 .setDomainUriPrefix("https://fingertipsandcompany.page.link")
                 .setAndroidParameters(
-                        new DynamicLink.AndroidParameters.Builder(BuildConfig.APPLICATION_ID)
+                        new DynamicLink.AndroidParameters.Builder("ru.munchausen.fingertipsandcompany.full")
                                 .setMinimumVersion(125)
                                 .build())
                 .setIosParameters(
-                        new DynamicLink.IosParameters.Builder(BuildConfig.APPLICATION_ID)
+                        new DynamicLink.IosParameters.Builder("ru.munchausen.fingertipsandcompany.full")
                                 .setAppStoreId("1498389554")
                                 .setMinimumVersion("1.0.1")
                                 .build())
@@ -648,23 +832,24 @@ public class AndroidLauncher extends AndroidApplication {
 
                             System.out.println("ShortDynamicLink---->" + task.getResult().getShortLink());
                             //sendReferralLink();
-                        } else {
+                        }
+                        else{
                             System.out.println("OnFailure---->Message--->" + task.getException().getMessage());
                             System.out.println("OnFailure---->Cause-->" + task.getException().getCause());
                         }
                     }
                 });
 
-        return mInvitationUrl;
+        return  mInvitationUrl;
     }
 
 
-    public void sendReferralLink() {
+    public void sendReferralLink(){
         try {
-            mAuth.getCurrentUser();
-
+            String referrerName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+            String invitationLink = mInvitationUrl.toString();
             String msg = "Давай слушать и играть в Мюнхгаузена вместе! Скачивай по моей рефферальной ссылке: "
-                    + mInvitationUrl;
+                    + invitationLink;
 
             Intent shareIntent = new Intent();
             shareIntent.setAction(Intent.ACTION_SEND);
@@ -673,12 +858,11 @@ public class AndroidLauncher extends AndroidApplication {
                     msg);
 
             startActivity(Intent.createChooser(shareIntent, "Поделиться"));
-        } catch (Throwable ignore) {
-        }
+        } catch (Throwable ignore) {}
     }
 
 
-    public void getReferralLink() {
+    public void getReferralLink(){
         FirebaseDynamicLinks.getInstance()
                 .getDynamicLink(getIntent())
                 .addOnSuccessListener(this, new OnSuccessListener<PendingDynamicLinkData>() {
@@ -727,14 +911,15 @@ public class AndroidLauncher extends AndroidApplication {
                                 .child(USERS).child(referrerUid);
 
 
+
                         ValueEventListener valueEventListener = new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 int index = 0;
 
-                                if (dataSnapshot.exists()) {
-                                    index = (int) dataSnapshot.getChildrenCount();
-                                } else {
+                                if(dataSnapshot.exists()){
+                                    index = (int) dataSnapshot.getChildrenCount() ;
+                                }else{
                                     index = 0;
                                 }
 
@@ -750,11 +935,12 @@ public class AndroidLauncher extends AndroidApplication {
                         referrer.child("referred_candidates").addListenerForSingleValueEvent(valueEventListener);
 
 
+
                     }
                 });
     }
 
-    private void getNotificationsInfoFromFirebaseDatabase() {
+    private void getNotificationsInfoFromFirebaseDatabase(){
 
 
         DatabaseReference notificationsRef = database.getReference(NOTIFICATION);
@@ -778,8 +964,8 @@ public class AndroidLauncher extends AndroidApplication {
                     Log.d(TAG, "Value is: " + value);
                     System.out.println("Value---->" + value);
                     SharedPreferencesHelper.setNotification1Time(getApplicationContext(), value);
-                    System.out.println("NotificationValue--->" + SharedPreferencesHelper.getNotification1Time(getApplicationContext()));
-                } catch (Exception ex) {
+                    System.out.println("NotificationValue--->"+ SharedPreferencesHelper.getNotification1Time(getApplicationContext()) );
+                }catch (Exception ex){
                     ex.printStackTrace();
                 }
             }
@@ -807,8 +993,8 @@ public class AndroidLauncher extends AndroidApplication {
                     Log.d(TAG, "Value is: " + value);
                     System.out.println("Value---->" + value);
                     SharedPreferencesHelper.setKeyNotification1Title(getApplicationContext(), value);
-                    System.out.println("NotificationTitle--->" + SharedPreferencesHelper.getKeyNotification1Title(getApplicationContext()));
-                } catch (Exception ex) {
+                    System.out.println("NotificationTitle--->"+ SharedPreferencesHelper.getKeyNotification1Title(getApplicationContext()) );
+                }catch (Exception ex){
                     ex.printStackTrace();
                 }
             }
@@ -836,8 +1022,8 @@ public class AndroidLauncher extends AndroidApplication {
                     Log.d(TAG, "Value is: " + value);
                     System.out.println("Value---->" + value);
                     //SharedPreferencesHelper.setKeyNotification1Message(getApplicationContext(), value);
-                    System.out.println("NotificationMessage--->" + SharedPreferencesHelper.getKeyNotification1Message(getApplicationContext()));
-                } catch (Exception ex) {
+                    System.out.println("NotificationMessage--->"+ SharedPreferencesHelper.getKeyNotification1Message(getApplicationContext()) );
+                }catch (Exception ex){
                     ex.printStackTrace();
                 }
             }
@@ -867,8 +1053,8 @@ public class AndroidLauncher extends AndroidApplication {
                     Log.d(TAG, "Value is: " + value);
                     System.out.println("Value---->" + value);
                     SharedPreferencesHelper.setNotification2Time(getApplicationContext(), value);
-                    System.out.println("NotificationValue--->" + SharedPreferencesHelper.getNotification2Time(getApplicationContext()));
-                } catch (Exception ex) {
+                    System.out.println("NotificationValue--->"+ SharedPreferencesHelper.getNotification2Time(getApplicationContext()) );
+                }catch (Exception ex){
                     ex.printStackTrace();
                 }
             }
@@ -896,8 +1082,8 @@ public class AndroidLauncher extends AndroidApplication {
                     Log.d(TAG, "Value is: " + value);
                     System.out.println("Value---->" + value);
                     SharedPreferencesHelper.setKeyNotification2Title(getApplicationContext(), value);
-                    System.out.println("NotificationTitle--->" + SharedPreferencesHelper.getKeyNotification2Title(getApplicationContext()));
-                } catch (Exception ex) {
+                    System.out.println("NotificationTitle--->"+ SharedPreferencesHelper.getKeyNotification2Title(getApplicationContext()) );
+                }catch (Exception ex){
                     ex.printStackTrace();
                 }
             }
@@ -925,8 +1111,8 @@ public class AndroidLauncher extends AndroidApplication {
                     Log.d(TAG, "Value is: " + value);
                     System.out.println("Value---->" + value);
                     //SharedPreferencesHelper.setKeyNotification2Message(getApplicationContext(), value);
-                    System.out.println("NotificationMessage--->" + SharedPreferencesHelper.getKeyNotification2Message(getApplicationContext()));
-                } catch (Exception ex) {
+                    System.out.println("NotificationMessage--->"+ SharedPreferencesHelper.getKeyNotification2Message(getApplicationContext()) );
+                }catch (Exception ex){
                     ex.printStackTrace();
                 }
             }
@@ -948,7 +1134,7 @@ public class AndroidLauncher extends AndroidApplication {
         try {
             InetAddress ipAddr = InetAddress.getByName("google.com");
             //You can replace it with your name
-            return !(ipAddr + "").equals("");
+            return !ipAddr.equals("");
 
         } catch (Exception e) {
             return false;
@@ -958,9 +1144,9 @@ public class AndroidLauncher extends AndroidApplication {
     private void downloadExpansionFile(String currentChapterName, DownloadSuccessFailureListener downloadSuccessFailureListener) throws IOException {
 
         this.downloadSuccessFailureListener = downloadSuccessFailureListener;
-        if (isInternetAvailable()) {
+        if(isInternetAvailable()) {
             extractInfoFromScenarioJsonAndPerformDeleteDownload(currentChapterName);
-        } else {
+        }else{
             downloadSuccessFailureListener.onFailure();
         }
 
@@ -968,7 +1154,7 @@ public class AndroidLauncher extends AndroidApplication {
     }
 
 
-    public void extractInfoFromScenarioJsonAndPerformDeleteDownload(String currentChapterName) {
+    public void extractInfoFromScenarioJsonAndPerformDeleteDownload(String currentChapterName){
 
 
         audioDownloadCount = 0;
@@ -984,28 +1170,28 @@ public class AndroidLauncher extends AndroidApplication {
         imagesNextChapter = new ArrayList<>();
 
         //get previous and next chapter
-        String previousChapter = "";
+        String previousChapter= "";
         String nextChapter = "";
         try {
 
             String chapterJson = readChapterJsonFile();
             JSONArray chapters = new JSONArray(chapterJson);
 
-            for (int m = 0; m < chapters.length(); m++) {
+            for(int m=0; m< chapters.length(); m++){
 
                 JSONObject jsonObject = chapters.getJSONObject(m);
-                if (currentChapterName.equals(jsonObject.getString("name"))) {
+                if(currentChapterName.equals(jsonObject.getString("name"))){
                     int currentChapNumber = jsonObject.getInt("number");
 
-                    for (int n = 0; n < chapters.length(); n++) {
+                    for(int n=0; n< chapters.length(); n++){
                         JSONObject jsonObject1 = chapters.getJSONObject(n);
 
-                        if (jsonObject1.getInt("number") == currentChapNumber - 1) {
+                        if(jsonObject1.getInt("number") == currentChapNumber - 1){
                             previousChapter = jsonObject1.getString("name");
                             System.out.println("Prevchap--->" + previousChapter);
-                        } else if (jsonObject1.getInt("number") == currentChapNumber + 1) {
+                        }else if(jsonObject1.getInt("number") == currentChapNumber + 1){
                             nextChapter = jsonObject1.getString("name");
-                            System.out.println("NextChap---श>" + nextChapter);
+                            System.out.println("NextChap---श>"+ nextChapter);
                         }
 
                     }
@@ -1029,6 +1215,7 @@ public class AndroidLauncher extends AndroidApplication {
             System.out.println("ddf");
 
 
+
             System.out.println("Intermission");
 
         } catch (JSONException e) {
@@ -1036,30 +1223,30 @@ public class AndroidLauncher extends AndroidApplication {
         }
 
 
-        try {
+        try{
             //download audioFilesForAChapter
 
             audiosNextChapterCount = audiosNextChapter.size();
-            for (String audioPath : audiosNextChapter) {
+            for(String audioPath: audiosNextChapter){
                 downloadChapterAudioFileFromCloud(audioPath);
             }
 
 
             //download imageFilesForAChapter
             imagesNextChapterCount = imagesNextChapter.size();
-            for (String imagePath : imagesNextChapter) {
+            for(String imagePath: imagesNextChapter){
                 downloadChapterImageFileFromCloud(imagePath);
             }
 
 
-        } catch (Exception e) {
+        }catch (Exception e){
             e.printStackTrace();
         }
 
 
     }
 
-    public void downloadChapterAudioFileFromCloud(String filePath) {
+    public void downloadChapterAudioFileFromCloud(String filePath){
 
 
         StorageReference storageRef = storage.getReference();
@@ -1069,15 +1256,15 @@ public class AndroidLauncher extends AndroidApplication {
         final StorageReference audioRef = storageRef.child("Expansion Files for online Munchausen/AUDIO_FINAL/Part_Russian/" + filePath);
 
         //Download to a local file
-        File storagePath = new File(Environment.getExternalStorageDirectory() + "/" + params.storageDirectory + "/expansion/");
+        File storagePath = new File(Environment.getExternalStorageDirectory() + "/.Munchausen/ru.munchausen.fingertipsandcompany.pro/expansion/");
         // Create direcorty if not exists
-        if (!storagePath.exists()) {
+        if(!storagePath.exists()) {
             storagePath.mkdirs();
         }
 
         final File localFile = new File(storagePath, filePath);
 
-        if (!localFile.exists()) {
+        if(!localFile.exists()) {
 
             audioRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
@@ -1085,13 +1272,14 @@ public class AndroidLauncher extends AndroidApplication {
 
                     audioDownloadCount++;
                     System.out.println("Success downloading from cloud :)");
-                    System.out.println("AudioDownloadCount--->" + audioDownloadCount);
-                    System.out.println("ImageDownloadCount--->" + imageDownloadCount);
+                    System.out.println("AudioDownloadCount--->"+ audioDownloadCount);
+                    System.out.println("ImageDownloadCount--->"+ imageDownloadCount);
 
-                    if (audioDownloadCount >= audiosNextChapterCount && imageDownloadCount >= imagesNextChapterCount) {
+                    if(audioDownloadCount >= audiosNextChapterCount && imageDownloadCount >= imagesNextChapterCount){
                         downloadSuccessFailureListener.onSuccess();
                         deletePreviousChapterExpansions();
                     }
+
 
 
                 }
@@ -1099,13 +1287,13 @@ public class AndroidLauncher extends AndroidApplication {
                 @Override
                 public void onFailure(@NonNull Exception e) {
 
-                    System.out.println("AudioDownloadCount--->" + audioDownloadCount);
-                    System.out.println("ImageDownloadCount--->" + imageDownloadCount);
+                    System.out.println("AudioDownloadCount--->"+ audioDownloadCount);
+                    System.out.println("ImageDownloadCount--->"+ imageDownloadCount);
                     downloadSuccessFailureListener.onFailure();
                     System.out.println("FAILURe downloading from cloud");
                 }
             });
-        } else {
+        }else{
 
             final long totalSpaceInLocal = localFile.length();
 
@@ -1116,16 +1304,16 @@ public class AndroidLauncher extends AndroidApplication {
 
                     System.out.println("totalByteCounted");
 
-                    if (totalSpaceInLocal == totalByteCountedInCloud) {
+                    if(totalSpaceInLocal == totalByteCountedInCloud){
                         System.out.println("Already full file on local");
                         audioDownloadCount++;
-                        if (audioDownloadCount >= audiosNextChapterCount && imageDownloadCount >= imagesNextChapterCount) {
-                            System.out.println("AudioDownloadCount--->" + audioDownloadCount);
-                            System.out.println("ImageDownloadCount--->" + imageDownloadCount);
+                        if(audioDownloadCount >= audiosNextChapterCount && imageDownloadCount >= imagesNextChapterCount){
+                            System.out.println("AudioDownloadCount--->"+ audioDownloadCount);
+                            System.out.println("ImageDownloadCount--->"+ imageDownloadCount);
                             downloadSuccessFailureListener.onSuccess();
                             deletePreviousChapterExpansions();
                         }
-                    } else {
+                    }else{
                         //download again
 
                         audioRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
@@ -1134,9 +1322,9 @@ public class AndroidLauncher extends AndroidApplication {
 
                                 audioDownloadCount++;
                                 System.out.println("Success downloading from cloud :)");
-                                if (audioDownloadCount >= audiosNextChapterCount && imageDownloadCount >= imagesNextChapterCount) {
-                                    System.out.println("AudioDownloadCount--->" + audioDownloadCount);
-                                    System.out.println("ImageDownloadCount--->" + imageDownloadCount);
+                                if(audioDownloadCount >= audiosNextChapterCount && imageDownloadCount >= imagesNextChapterCount){
+                                    System.out.println("AudioDownloadCount--->"+ audioDownloadCount);
+                                    System.out.println("ImageDownloadCount--->"+ imageDownloadCount);
                                     downloadSuccessFailureListener.onSuccess();
                                     deletePreviousChapterExpansions();
                                 }
@@ -1145,8 +1333,8 @@ public class AndroidLauncher extends AndroidApplication {
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                System.out.println("AudioDownloadCount--->" + audioDownloadCount);
-                                System.out.println("ImageDownloadCount--->" + imageDownloadCount);
+                                System.out.println("AudioDownloadCount--->"+ audioDownloadCount);
+                                System.out.println("ImageDownloadCount--->"+ imageDownloadCount);
                                 downloadSuccessFailureListener.onFailure();
                                 System.out.println("FAILURe downloading from cloud");
                             }
@@ -1167,7 +1355,7 @@ public class AndroidLauncher extends AndroidApplication {
     }
 
 
-    public void downloadChapterImageFileFromCloud(String img_without_jpg) {
+    public void downloadChapterImageFileFromCloud(String img_without_jpg){
 
 
         float dpi = getResources().getDisplayMetrics().densityDpi;
@@ -1175,9 +1363,9 @@ public class AndroidLauncher extends AndroidApplication {
 
         String PICTURES_DPI;
 
-        if (dpi < 420) {
+        if(dpi < 420){
             PICTURES_DPI = "Pictures_Mdpi/";
-        } else {
+        }else{
             PICTURES_DPI = "Pictures_Hdpi/";
         }
 
@@ -1189,15 +1377,15 @@ public class AndroidLauncher extends AndroidApplication {
         final StorageReference imageRef = storageRef.child("Expansion Files for online Munchausen/" + PICTURES_DPI + img_without_jpg + ".jpg");
 
         //Download to a local file
-        File storagePath = new File(Environment.getExternalStorageDirectory() + "/" + params.storageDirectory + "/expansion/images/");
+        File storagePath = new File(Environment.getExternalStorageDirectory() + "/.Munchausen/ru.munchausen.fingertipsandcompany.pro/expansion/images/");
         // Create direcorty if not exists
-        if (!storagePath.exists()) {
+        if(!storagePath.exists()) {
             storagePath.mkdirs();
         }
 
         final File localFile = new File(storagePath, img_without_jpg + ".jpg");
 
-        if (!localFile.exists()) {
+        if(!localFile.exists()) {
             imageRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
@@ -1206,10 +1394,10 @@ public class AndroidLauncher extends AndroidApplication {
                     System.out.println("Success downloading from cloud :)");
                     System.out.println("Success downloading from cloud :)");
 
-                    System.out.println("AudioDownloadCount--->" + audioDownloadCount);
-                    System.out.println("ImageDownloadCount--->" + imageDownloadCount);
+                    System.out.println("AudioDownloadCount--->"+ audioDownloadCount);
+                    System.out.println("ImageDownloadCount--->"+ imageDownloadCount);
 
-                    if (audioDownloadCount >= audiosNextChapterCount && imageDownloadCount >= imagesNextChapterCount) {
+                    if(audioDownloadCount >= audiosNextChapterCount && imageDownloadCount >= imagesNextChapterCount){
                         downloadSuccessFailureListener.onSuccess();
                         deletePreviousChapterExpansions();
                     }
@@ -1218,13 +1406,13 @@ public class AndroidLauncher extends AndroidApplication {
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    System.out.println("AudioDownloadCount--->" + audioDownloadCount);
-                    System.out.println("ImageDownloadCount--->" + imageDownloadCount);
+                    System.out.println("AudioDownloadCount--->"+ audioDownloadCount);
+                    System.out.println("ImageDownloadCount--->"+ imageDownloadCount);
                     downloadSuccessFailureListener.onFailure();
                     System.out.println("FAILURe downloading from cloud");
                 }
             });
-        } else {
+        }else{
 
             final long totalSpaceInLocal = localFile.length();
 
@@ -1235,17 +1423,17 @@ public class AndroidLauncher extends AndroidApplication {
 
                     System.out.println("totalByteCounted");
 
-                    if (totalSpaceInLocal == totalByteCountedInCloud) {
+                    if(totalSpaceInLocal == totalByteCountedInCloud){
                         System.out.println("Already full Image file on local");
                         imageDownloadCount++;
-                        System.out.println("AudioDownloadCount--->" + audioDownloadCount);
-                        System.out.println("ImageDownloadCount--->" + imageDownloadCount);
-                        if (audioDownloadCount >= audiosNextChapterCount && imageDownloadCount >= imagesNextChapterCount) {
+                        System.out.println("AudioDownloadCount--->"+ audioDownloadCount);
+                        System.out.println("ImageDownloadCount--->"+ imageDownloadCount);
+                        if(audioDownloadCount >= audiosNextChapterCount && imageDownloadCount >= imagesNextChapterCount){
                             downloadSuccessFailureListener.onSuccess();
                             deletePreviousChapterExpansions();
                         }
 
-                    } else {
+                    }else{
                         //download again
 
                         imageRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
@@ -1253,9 +1441,9 @@ public class AndroidLauncher extends AndroidApplication {
                             public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
 
                                 imageDownloadCount++;
-                                System.out.println("AudioDownloadCount--->" + audioDownloadCount);
-                                System.out.println("ImageDownloadCount--->" + imageDownloadCount);
-                                if (audioDownloadCount >= audiosNextChapterCount && imageDownloadCount >= imagesNextChapterCount) {
+                                System.out.println("AudioDownloadCount--->"+ audioDownloadCount);
+                                System.out.println("ImageDownloadCount--->"+ imageDownloadCount);
+                                if(audioDownloadCount >= audiosNextChapterCount && imageDownloadCount >= imagesNextChapterCount){
                                     downloadSuccessFailureListener.onSuccess();
                                     deletePreviousChapterExpansions();
                                 }
@@ -1266,8 +1454,8 @@ public class AndroidLauncher extends AndroidApplication {
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                System.out.println("AudioDownloadCount--->" + audioDownloadCount);
-                                System.out.println("ImageDownloadCount--->" + imageDownloadCount);
+                                System.out.println("AudioDownloadCount--->"+ audioDownloadCount);
+                                System.out.println("ImageDownloadCount--->"+ imageDownloadCount);
                                 System.out.println("FAILURe downloading from cloud");
                                 downloadSuccessFailureListener.onFailure();
 
@@ -1289,10 +1477,10 @@ public class AndroidLauncher extends AndroidApplication {
 
     }
 
-    public List<String> getAudioFilesFromChapter(String chapterName) {
+    public List<String> getAudioFilesFromChapter(String chapterName){
 
 
-        try {
+        try{
 
             String scenarioJson = readScenarioJsonFile();
 
@@ -1301,23 +1489,23 @@ public class AndroidLauncher extends AndroidApplication {
             List<String> audios = new ArrayList<>();
             //List<String> images = new ArrayList<>();
 
-            for (int i = 0; i < scenarios.length(); i++) {
+            for(int i = 0; i< scenarios.length(); i++){
 
                 JSONObject jsonObject = scenarios.getJSONObject(i);
 
-                try {
-                    if (jsonObject.has("chapter") && jsonObject.get("chapter").equals(chapterName)) {
+                try{
+                    if(jsonObject.has("chapter") && jsonObject.get("chapter").equals(chapterName)){
 
                         JSONArray audioArray = jsonObject.getJSONArray("audio");
 
-                        for (int j = 0; j < audioArray.length(); j++) {
+                        for(int j=0; j< audioArray.length(); j++){
 
                             audios.add(audioArray.getJSONObject(j).getString("audio"));
 
                         }
 
                     }
-                } catch (Exception e) {
+                }catch (Exception e){
                     e.printStackTrace();
                     System.out.println("Maybe no value for chapter ");
                 }
@@ -1336,12 +1524,12 @@ public class AndroidLauncher extends AndroidApplication {
 
             List<String> audioPaths = new ArrayList<>();
 
-            for (String audio : audios) {
+            for(String audio: audios){
 
-                for (int j = 0; j < audioArray.length(); j++) {
+                for(int j=0; j< audioArray.length(); j++){
 
                     //audios.add(audioArray.getJSONObject(j).getString("audio"));
-                    if (audio.equals(audioArray.getJSONObject(j).getString("name"))) {
+                    if(audio.equals(audioArray.getJSONObject(j).getString("name"))){
 
                         audioPaths.add(audioArray.getJSONObject(j).getString("file"));
                         break;
@@ -1357,10 +1545,10 @@ public class AndroidLauncher extends AndroidApplication {
 
             JSONArray chapters = new JSONArray(chapterJson);
 
-            for (int i = 0; i < chapters.length(); i++) {
+            for(int i=0; i< chapters.length(); i++){
 
                 JSONObject jsonObject = chapters.getJSONObject(i);
-                if (chapterName.equals(jsonObject.getString("name"))) {
+                if(chapterName.equals(jsonObject.getString("name"))){
                     audioPaths.add("audio/" + jsonObject.getString("chapterAudio") + ".aac");
                 }
 
@@ -1376,9 +1564,9 @@ public class AndroidLauncher extends AndroidApplication {
 
     }
 
-    public List<String> getImageFilesFromChapter(String chapterName) {
+    public List<String> getImageFilesFromChapter(String chapterName){
 
-        try {
+        try{
 
             String scenarioJson = readScenarioJsonFile();
 
@@ -1386,26 +1574,26 @@ public class AndroidLauncher extends AndroidApplication {
 
             List<String> images = new ArrayList<>();
 
-            for (int i = 0; i < scenarios.length(); i++) {
+            for(int i = 0; i< scenarios.length(); i++){
 
                 JSONObject jsonObject = scenarios.getJSONObject(i);
 
-                try {
-                    if (jsonObject.has("chapter") && jsonObject.get("chapter").equals(chapterName)) {
+                try{
+                    if(jsonObject.has("chapter") && jsonObject.get("chapter").equals(chapterName)){
 
 
                         JSONArray imageArray = jsonObject.getJSONArray("images");
 
-                        for (int k = 0; k < imageArray.length(); k++) {
+                        for(int k=0; k< imageArray.length(); k++){
 
-                            if (!imageArray.getJSONObject(k).getString("image").equals("Last"))
+                            if(!imageArray.getJSONObject(k).getString("image").equals("Last"))
                                 images.add(imageArray.getJSONObject(k).getString("image"));
 
                         }
 
 
                     }
-                } catch (Exception e) {
+                }catch (Exception e){
                     e.printStackTrace();
                     System.out.println("Maybe no value for chapter ");
                 }
@@ -1423,12 +1611,12 @@ public class AndroidLauncher extends AndroidApplication {
     }
 
 
-    public void deletePreviousChapterExpansions() {
+    public void deletePreviousChapterExpansions(){
 
         //check if audio files already present and delete
 
         try {
-            File audioDirectory = new File(Environment.getExternalStorageDirectory() + "/" + params.storageDirectory + "/expansion/audio");
+            File audioDirectory = new File(Environment.getExternalStorageDirectory() + "/.Munchausen/ru.munchausen.fingertipsandcompany.pro/expansion/audio");
 
             File[] directoryListing = audioDirectory.listFiles();
 
@@ -1442,7 +1630,7 @@ public class AndroidLauncher extends AndroidApplication {
 
                     //for deleting all other files(making sure only chapters x-1, x and x+1 comes into play)
 
-                    if (!audiosCurrentChapter.contains(fileName) && !audiosPrevChapter.contains(fileName) && !audiosNextChapter.contains(fileName)) {
+                    if(!audiosCurrentChapter.contains(fileName) && !audiosPrevChapter.contains(fileName) && !audiosNextChapter.contains(fileName)){
                         file.delete();
                     }
                 }
@@ -1453,21 +1641,21 @@ public class AndroidLauncher extends AndroidApplication {
 
             //check if image files already present and delete
 
-            File imageDirectory = new File(Environment.getExternalStorageDirectory() + "/" + params.storageDirectory + "/expansion/images");
+            File imageDirectory = new File(Environment.getExternalStorageDirectory() + "/.Munchausen/ru.munchausen.fingertipsandcompany.pro/expansion/images");
 
             File[] imgdirectoryListing = imageDirectory.listFiles();
 
-            if (imgdirectoryListing != null) {
+            if(imgdirectoryListing != null) {
                 for (File file : imgdirectoryListing) {
 
                     int iend = file.getName().indexOf(".");
 
-                    String fileName = "";
+                    String fileName ="";
 
-                    if (iend != 1) {
+                    if(iend !=1){
                         fileName = file.getName().substring(0, iend);
                     }
-                    if (!imagesCurrentChapter.contains(fileName) && imagesPrevChapter.contains(fileName) && !imagesNextChapter.contains(fileName)) {
+                    if(!imagesCurrentChapter.contains(fileName) && imagesPrevChapter.contains(fileName) && !imagesNextChapter.contains(fileName)){
                         file.delete();
                     }
 
@@ -1487,7 +1675,7 @@ public class AndroidLauncher extends AndroidApplication {
     }
 
 
-    public boolean downloadGoofAudio(String goofName, DownloadSuccessFailureListener downloadSuccessFailureListener1) {
+    public boolean downloadGoofAudio(String goofName, DownloadSuccessFailureListener downloadSuccessFailureListener1){
 
         downloadSuccessFailureListener = downloadSuccessFailureListener1;
 
@@ -1500,15 +1688,15 @@ public class AndroidLauncher extends AndroidApplication {
         final StorageReference audioRef = storageRef.child("Expansion Files for online Munchausen/AUDIO_FINAL/Fails_Ru/" + filePath);
 
         //Download to a local file
-        File storagePath = new File(Environment.getExternalStorageDirectory() + "/" + params.storageDirectory + "/expansion/audio/");
+        File storagePath = new File(Environment.getExternalStorageDirectory() + "/.Munchausen/ru.munchausen.fingertipsandcompany.pro/expansion/audio/");
         // Create direcorty if not exists
-        if (!storagePath.exists()) {
+        if(!storagePath.exists()) {
             storagePath.mkdirs();
         }
 
         final File localFile = new File(storagePath, filePath);
 
-        if (!localFile.exists()) {
+        if(!localFile.exists()) {
 
             audioRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
@@ -1523,7 +1711,7 @@ public class AndroidLauncher extends AndroidApplication {
                     downloadSuccessFailureListener.onFailure();
                 }
             });
-        } else {
+        }else{
 
             final long totalSpaceInLocal = localFile.length();
 
@@ -1534,10 +1722,10 @@ public class AndroidLauncher extends AndroidApplication {
 
                     System.out.println("totalByteCounted");
 
-                    if (totalSpaceInLocal == totalByteCountedInCloud) {
+                    if(totalSpaceInLocal == totalByteCountedInCloud){
                         System.out.println("Already full file on local");
                         downloadSuccessFailureListener.onSuccess();
-                    } else {
+                    }else{
                         //download again
 
                         audioRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
@@ -1570,7 +1758,7 @@ public class AndroidLauncher extends AndroidApplication {
     }
 
 
-    public boolean downloadGalleryImage(String imageName, DownloadSuccessFailureListener downloadSuccessFailureListener2) {
+    public boolean downloadGalleryImage(String imageName, DownloadSuccessFailureListener downloadSuccessFailureListener2){
 
         downloadSuccessFailureListener = downloadSuccessFailureListener2;
 
@@ -1579,14 +1767,14 @@ public class AndroidLauncher extends AndroidApplication {
 
         String PICTURES_DPI;
 
-        if (dpi < 420) {
+        if(dpi < 420){
             PICTURES_DPI = "Pictures_Mdpi/";
-        } else {
+        }else{
             PICTURES_DPI = "Pictures_Hdpi/";
         }
 
 
-        if (isInternetAvailable()) {
+        if(isInternetAvailable()) {
             StorageReference storageRef = storage.getReference();
 
             storageRef.getStorage().setMaxDownloadRetryTimeMillis(1000);
@@ -1594,7 +1782,7 @@ public class AndroidLauncher extends AndroidApplication {
             final StorageReference imageRef = storageRef.child("Expansion Files for online Munchausen/" + PICTURES_DPI + imageName + ".jpg");
 
             //Download to a local file
-            File storagePath = new File(Environment.getExternalStorageDirectory() + "/" + params.storageDirectory + "/expansion/images/");
+            File storagePath = new File(Environment.getExternalStorageDirectory() + "/.Munchausen/ru.munchausen.fingertipsandcompany.pro/expansion/images/");
             // Create direcorty if not exists
             if (!storagePath.exists()) {
                 storagePath.mkdirs();
@@ -1664,7 +1852,7 @@ public class AndroidLauncher extends AndroidApplication {
                 });
 
             }
-        } else {
+        }else{
             downloadSuccessFailureListener.onFailure();
         }
 

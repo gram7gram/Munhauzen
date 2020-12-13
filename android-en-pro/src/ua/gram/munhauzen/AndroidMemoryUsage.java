@@ -18,12 +18,13 @@ public class AndroidMemoryUsage implements MemoryUsage {
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
             bytesAvailable = stat.getBlockSizeLong() * stat.getAvailableBlocksLong();
-            System.out.println("BytesAvailable---->" + bytesAvailable);
-            System.out.println("isRemovable---->" + Environment.isExternalStorageEmulated());
-        } else {
+            System.out.println("BytesAvailable---->"+ bytesAvailable);
+            System.out.println("isRemovable---->"+ Environment.isExternalStorageEmulated());
+        }
+        else {
             bytesAvailable = (long) stat.getBlockSize() * (long) stat.getAvailableBlocks();
-            System.out.println("BytesAvailableElse---->" + bytesAvailable);
-            System.out.println("isRemovable---->" + Environment.isExternalStorageEmulated());
+            System.out.println("BytesAvailableElse---->"+ bytesAvailable);
+            System.out.println("isRemovable---->"+ Environment.isExternalStorageEmulated());
         }
         return bytesAvailable / (1024.f * 1024.f);
 

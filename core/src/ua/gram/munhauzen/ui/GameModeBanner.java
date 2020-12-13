@@ -88,43 +88,49 @@ public class GameModeBanner extends Banner<MunhauzenScreen> {
                         super.clicked(event, x, y);
 
                         try {
-
-
-                            btnOffline.setDisabled(true);
+                            btnOnline.setDisabled(true);
 
                             screen.game.stopCurrentSfx();
 
-                            StoryAudio audio;
-
-                            if (!game.gameState.preferences.isGameModeSelected) {
-                                audio = screen.game.sfxService.onGameModeSwitch();
-                            } else {
-                                if (!game.isOnlineMode()) {
+                            StoryAudio audio = null;
+                            try {
+                                if (!game.gameState.preferences.isGameModeSelected) {
                                     audio = screen.game.sfxService.onGameModeSwitch();
                                 } else {
-                                    audio = screen.game.sfxService.onGameModeLeave();
+                                    if (!game.isOnlineMode()) {
+                                        audio = screen.game.sfxService.onGameModeSwitch();
+                                    } else {
+                                        audio = screen.game.sfxService.onGameModeLeave();
+                                    }
                                 }
+                            } catch (Throwable ignore) {
                             }
 
-                            Timer.instance().scheduleTask(new Timer.Task() {
+                            game.setGameMode(true);
+
+                            Timer.Task task = new Timer.Task() {
                                 @Override
                                 public void run() {
                                     try {
-                                        game.setGameMode(true);
-
                                         fragment.fadeOut(action);
                                     } catch (Throwable e) {
                                         Log.e(tag, e);
 
-                                        screen.onCriticalError(e);
+                                        screen.destroyBanners();
                                     }
                                 }
-                            }, audio.duration / 1000f);
+                            };
+
+                            if (audio != null && audio.duration > 0) {
+                                Timer.instance().scheduleTask(task, audio.duration / 1000f);
+                            } else {
+                                task.run();
+                            }
 
                         } catch (Throwable e) {
                             Log.e(tag, e);
 
-                            screen.onCriticalError(e);
+                            screen.destroyBanners();
                         }
                     }
                 });
@@ -142,37 +148,46 @@ public class GameModeBanner extends Banner<MunhauzenScreen> {
 
                             screen.game.stopCurrentSfx();
 
-                            StoryAudio audio;
-                            if (!game.gameState.preferences.isGameModeSelected) {
-                                audio = screen.game.sfxService.onGameModeSwitch();
-                            } else {
-                                if (game.isOnlineMode()) {
+                            StoryAudio audio = null;
+                            try {
+                                if (!game.gameState.preferences.isGameModeSelected) {
                                     audio = screen.game.sfxService.onGameModeSwitch();
                                 } else {
-                                    audio = screen.game.sfxService.onGameModeLeave();
+                                    if (game.isOnlineMode()) {
+                                        audio = screen.game.sfxService.onGameModeSwitch();
+                                    } else {
+                                        audio = screen.game.sfxService.onGameModeLeave();
+                                    }
                                 }
+                            } catch (Throwable ignore) {
                             }
 
-                            Timer.instance().scheduleTask(new Timer.Task() {
+                            game.setGameMode(false);
+
+                            Timer.Task task = new Timer.Task() {
                                 @Override
                                 public void run() {
                                     try {
-                                        game.setGameMode(false);
-
                                         fragment.fadeOut(action);
                                     } catch (Throwable e) {
                                         Log.e(tag, e);
 
-                                        screen.onCriticalError(e);
+                                        screen.destroyBanners();
                                     }
 
                                 }
-                            }, audio.duration / 1000f);
+                            };
+
+                            if (audio != null && audio.duration > 0) {
+                                Timer.instance().scheduleTask(task, audio.duration / 1000f);
+                            } else {
+                                task.run();
+                            }
 
                         } catch (Throwable e) {
                             Log.e(tag, e);
 
-                            screen.onCriticalError(e);
+                            screen.destroyBanners();
                         }
                     }
                 });

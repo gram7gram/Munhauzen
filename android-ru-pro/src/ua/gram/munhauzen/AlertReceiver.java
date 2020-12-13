@@ -23,7 +23,7 @@ public class AlertReceiver extends BroadcastReceiver {
 
         String notificationJson = readNotificationJsonFile();
 
-        try {
+        try{
             JSONObject notificationJsonObject = new JSONObject(notificationJson);
 
             //for Continue notification
@@ -33,13 +33,13 @@ public class AlertReceiver extends BroadcastReceiver {
 
             SharedPreferencesHelper.setKeyNotification1Message(getApplicationContext(), continue_notification);
 
-        } catch (Exception e) {
+        }catch (Exception e){
             e.printStackTrace();
         }
 
         //for setting random values for notificaitons messages ends
 
-        NotificationHelper.displayInternalNotification(getApplicationContext(), SharedPreferencesHelper.getKeyNotification1Title(getApplicationContext()), SharedPreferencesHelper.getKeyNotification1Message(getApplicationContext()) + SharedPreferencesHelper.getLastVisitedDescription(getApplicationContext()), SharedPreferencesHelper.getLastVisitedIcon(getApplicationContext()));
+        NotificationHelper.displayInternalNotification(getApplicationContext(), SharedPreferencesHelper.getKeyNotification1Title(getApplicationContext()),SharedPreferencesHelper.getKeyNotification1Message(getApplicationContext())+ SharedPreferencesHelper.getLastVisitedDescription(getApplicationContext()), SharedPreferencesHelper.getLastVisitedIcon(getApplicationContext()));
 
 
         //for rescheduling alarm

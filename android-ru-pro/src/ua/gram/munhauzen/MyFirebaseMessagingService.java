@@ -32,7 +32,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             if (icon == null)
                 NotificationHelper.displayNotification(getApplicationContext(), title, message);
             else
-                NotificationHelper.displayInternalNotification(getApplicationContext(), title, message, icon);
+                NotificationHelper.displayInternalNotification(getApplicationContext(), title, message,icon);
         }
     }
 }

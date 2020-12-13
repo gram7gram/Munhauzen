@@ -115,8 +115,8 @@ public class NoInternetBanner extends Banner<MunhauzenScreen> {
         Table buttons = new Table();
 
         buttons.add(btnRetry)
-                .width(ButtonBuilder.BTN_PRIMARY_SM_WIDTH)
-                .height(ButtonBuilder.BTN_PRIMARY_SM_HEIGHT)
+                .width(ButtonBuilder.BTN_PRIMARY_WIDTH)
+                .height(ButtonBuilder.BTN_PRIMARY_HEIGHT)
                 .padBottom(10).row();
 
         content.add(columns).row();

@@ -24,126 +24,126 @@ public class SharedPreferencesHelper {
     private static final String KEY_REFERRAL_COUNT = "key_referral_count";
 
 
-    private static SharedPreferences sharedPreferences;
+    private  static SharedPreferences sharedPreferences;
 
-    public static void setTime(Context context, String token) {
+    public static void setTime(Context context, String token){
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         sharedPreferences.edit().putString(KEY_TIME, token).apply();
     }
 
-    public static String getTime(Context context) {
+    public static String getTime(Context context){
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         return sharedPreferences.getString(KEY_TIME, "");
     }
 
-    public static void setIcon(Context context, String icon) {
+    public static void setIcon(Context context, String icon){
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         sharedPreferences.edit().putString("CHAPTER_ICON_VALUE", icon).apply();
     }
 
-    public static String getIcon(Context context) {
+    public static String getIcon(Context context){
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         return sharedPreferences.getString("CHAPTER_ICON_VALUE", "");
     }
 
-    public static void setDescription(Context context, String icon) {
+    public static void setDescription(Context context, String icon){
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         sharedPreferences.edit().putString("CHAPTER_DESCRIPTION_VALUE", icon).apply();
     }
 
-    public static String getDescription(Context context) {
+    public static String getDescription(Context context){
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         return sharedPreferences.getString("CHAPTER_DESCRIPTION_VALUE", "");
     }
 
-    public static void setLastVisitedIcon(Context context, String icon) {
+    public static void setLastVisitedIcon(Context context, String icon){
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         sharedPreferences.edit().putString(KEY_SAVE_ICON, icon).apply();
     }
 
-    public static String getLastVisitedIcon(Context context) {
+    public static String getLastVisitedIcon(Context context){
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         return sharedPreferences.getString(KEY_SAVE_ICON, "");
     }
 
-    public static void setLastVisitedDescription(Context context, String icon) {
+    public static void setLastVisitedDescription(Context context, String icon){
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         sharedPreferences.edit().putString(KEY_SAVE_DESCRIPTION, icon).apply();
     }
 
-    public static String getLastVisitedDescription(Context context) {
+    public static String getLastVisitedDescription(Context context){
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         return sharedPreferences.getString(KEY_SAVE_DESCRIPTION, "");
     }
 
-    public static void setNotification1Time(Context context, Integer time) {
+    public static void setNotification1Time(Context context, Integer time){
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         sharedPreferences.edit().putInt(KEY_NOTIFICATION1_AFTER, time).apply();
     }
 
-    public static Integer getNotification1Time(Context context) {
+    public static Integer getNotification1Time(Context context){
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         return sharedPreferences.getInt(KEY_NOTIFICATION1_AFTER, 24000);
     }
 
-    public static void setKeyNotification1Title(Context context, String title) {
+    public static void setKeyNotification1Title(Context context, String title){
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         sharedPreferences.edit().putString(KEY_NOTIFICATION1_TITLE, title).apply();
     }
 
-    public static String getKeyNotification1Title(Context context) {
+    public static String getKeyNotification1Title(Context context){
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         return sharedPreferences.getString(KEY_NOTIFICATION1_TITLE, "Возвращайся к Мюнхгаузену!");
     }
 
-    public static void setKeyNotification1Message(Context context, String message) {
+    public static void setKeyNotification1Message(Context context, String message){
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         sharedPreferences.edit().putString(KEY_NOTIFICATION1_MESSAGE, message).apply();
     }
 
-    public static String getKeyNotification1Message(Context context) {
+    public static String getKeyNotification1Message(Context context){
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         return sharedPreferences.getString(KEY_NOTIFICATION1_MESSAGE, "Ты остановился на ");
     }
 
-    public static void setNotification2Time(Context context, Integer time) {
+    public static void setNotification2Time(Context context, Integer time){
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         sharedPreferences.edit().putInt(KEY_NOTIFICATION2_AFTER, time).apply();
     }
 
-    public static Integer getNotification2Time(Context context) {
+    public static Integer getNotification2Time(Context context){
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         return sharedPreferences.getInt(KEY_NOTIFICATION2_AFTER, 24000);
     }
 
-    public static void setKeyNotification2Title(Context context, String title) {
+    public static void setKeyNotification2Title(Context context, String title){
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         sharedPreferences.edit().putString(KEY_NOTIFICATION2_TITLE, title).apply();
     }
 
-    public static String getKeyNotification2Title(Context context) {
+    public static String getKeyNotification2Title(Context context){
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         return sharedPreferences.getString(KEY_NOTIFICATION2_TITLE, "Скачать главы");
     }
 
-    public static void setKeyNotification2Message(Context context, String message) {
+    public static void setKeyNotification2Message(Context context, String message){
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         sharedPreferences.edit().putString(KEY_NOTIFICATION2_MESSAGE, message).apply();
     }
 
-    public static String getKeyNotification2Message(Context context) {
+    public static String getKeyNotification2Message(Context context){
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         return sharedPreferences.getString(KEY_NOTIFICATION2_MESSAGE, "Загрузите главы и начните свое приключение.");
     }
 
 
     //for Referrals
-    public static void setReferralCount(Context context, Integer referralCount) {
+    public static void setReferralCount(Context context, Integer referralCount){
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         sharedPreferences.edit().putInt(KEY_REFERRAL_COUNT, referralCount).apply();
     }
 
-    public static Integer getReferralCount(Context context) {
+    public static Integer getReferralCount(Context context){
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         return sharedPreferences.getInt(KEY_REFERRAL_COUNT, 0);
     }

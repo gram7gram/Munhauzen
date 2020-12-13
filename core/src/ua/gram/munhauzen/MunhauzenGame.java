@@ -129,10 +129,14 @@ public class MunhauzenGame extends Game {
     public void setGameMode(boolean isOnline) {
         Log.e(tag, "Change game mode to: " + (isOnline ? "online" : "offline"));
 
-        gameState.setGameMode(isOnline);
-        syncState();
+        try {
+            gameState.setGameMode(isOnline);
+            syncState();
 
-        gameModeListener.onGameModeChanged(isOnlineMode());
+            gameModeListener.onGameModeChanged(isOnlineMode());
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
     }
 
     public boolean canUseIntenetForChapter(String name) {

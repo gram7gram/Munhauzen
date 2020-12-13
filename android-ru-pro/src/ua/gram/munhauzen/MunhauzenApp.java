@@ -16,7 +16,7 @@ public class MunhauzenApp extends Application {
 
 
     private void createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             NotificationChannel serviceChannel = new NotificationChannel(
                     CHANNEL_ID,
                     "Munhauzen Notification Service",

@@ -161,19 +161,18 @@ public class GameScreen extends MunhauzenScreen {
                         game.databaseManager.persistSync(game.gameState);
                     }
 
-                } catch (Throwable e) {
-                    Log.e(tag, e);
-                    cancel();
+                } catch (Throwable ignore) {
                 }
             }
         };
+
         internetTask = new Timer.Task() {
             @Override
             public void run() {
                 try {
                     Story story = getStory();
 
-                    if (story != null && story.currentInteraction == null) {
+                    if (story != null && story.currentScenario != null && story.currentInteraction == null) {
                         if (game.isOnlineMode()) {
                             Chapter chapter = ChapterRepository.find(game.gameState, story.currentScenario.scenario.chapter);
 
@@ -194,8 +193,7 @@ public class GameScreen extends MunhauzenScreen {
                             }
                         }
                     }
-                } catch (Throwable e) {
-                    Log.e(tag, e);
+                } catch (Throwable ignore) {
                 }
             }
         };

@@ -20,17 +20,18 @@ import ru.munchausen.fingertipsandcompany.pro.R;
 public class NotificationHelper {
 
 
-    public static void displayNotification(Context context, String title, String body) {
+    public static void displayNotification(Context context, String title, String body){
 
-        sendNotification(context, title, body);
+        sendNotification(context,title,body);
+
+    }
+
+    public static void displayInternalNotification(Context context, String title, String body, String icon){
+
+        sendInternalNotification(context,title,body, icon);
 
     }
 
-    public static void displayInternalNotification(Context context, String title, String body, String icon) {
-
-        sendInternalNotification(context, title, body, icon);
-
-    }
 
 
     /**
@@ -59,13 +60,14 @@ public class NotificationHelper {
                 .setContentIntent(pendingIntent);
 
 
+
         NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
 
         // Since android Oreo notification channel is needed.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(channelId, "Munhauzen Notifications",
+            NotificationChannel channel = new NotificationChannel( channelId, "Munhauzen Notifications",
                     NotificationManager.IMPORTANCE_DEFAULT
             );
             notificationManager.createNotificationChannel(channel);
@@ -85,6 +87,8 @@ public class NotificationHelper {
         );
 
         String channelId = MunhauzenApp.CHANNEL_ID;
+
+
 
 
         //for image
@@ -112,13 +116,14 @@ public class NotificationHelper {
                 .setContentIntent(pendingIntent);
 
 
+
         NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
 
         // Since android Oreo notification channel is needed.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(channelId, "Munhauzen Notifications",
+            NotificationChannel channel = new NotificationChannel( channelId, "Munhauzen Notifications",
                     NotificationManager.IMPORTANCE_DEFAULT
             );
             notificationManager.createNotificationChannel(channel);

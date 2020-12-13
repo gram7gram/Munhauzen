@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 
+import ua.gram.munhauzen.screen.LoadingScreen;
 import ua.gram.munhauzen.screen.MenuScreen;
 import ua.gram.munhauzen.utils.Log;
 
@@ -34,7 +35,11 @@ public class GameModeSideButton extends Image {
                     screen.openGameModeBanner(new Runnable() {
                         @Override
                         public void run() {
-                            screen.destroyBanners();
+                            if (!screen.game.isOnlineMode()) {
+                                screen.navigateTo(new LoadingScreen(screen.game));
+                            } else {
+                                screen.destroyBanners();
+                            }
                         }
                     }, new Runnable() {
                         @Override
