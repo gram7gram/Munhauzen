@@ -3460,7 +3460,7 @@
   {
     "name": "sfx_button_arrow",
     "__v": 0,
-    "duration": 800,
+    "duration": 900,
     "file": "audio/sfx_button_arrow.aac",
     "locale": "en"
   },
@@ -3474,7 +3474,7 @@
   {
     "name": "sfx_button_list",
     "__v": 0,
-    "duration": 1692,
+    "duration": 1776,
     "file": "audio/sfx_button_list.aac",
     "locale": "en"
   },
@@ -3663,7 +3663,7 @@
   {
     "name": "sfx_inter_puzzle_three_1",
     "__v": 0,
-    "duration": 1986,
+    "duration": 2064,
     "file": "audio/sfx_inter_puzzle_three_1.aac",
     "locale": "en"
   },
@@ -3684,14 +3684,14 @@
   {
     "name": "sfx_inter_puzzle_two_1",
     "__v": 0,
-    "duration": 862,
+    "duration": 888,
     "file": "audio/sfx_inter_puzzle_two_1.aac",
     "locale": "en"
   },
   {
     "name": "sfx_inter_puzzle_two_2",
     "__v": 0,
-    "duration": 760,
+    "duration": 836,
     "file": "audio/sfx_inter_puzzle_two_2.aac",
     "locale": "en"
   },

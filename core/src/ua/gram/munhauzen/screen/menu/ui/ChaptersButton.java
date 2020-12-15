@@ -19,8 +19,7 @@ public class ChaptersButton extends MenuButton {
                 super.clicked(event, x, y);
 
                 screen.game.stopCurrentSfx();
-
-                screen.game.currentSfx = screen.game.sfxService.onMenuSaveClicked();
+                screen.game.sfxService.onMenuSaveClicked();
 
                 screen.navigateTo(new ChaptersScreen(screen.game));
             }

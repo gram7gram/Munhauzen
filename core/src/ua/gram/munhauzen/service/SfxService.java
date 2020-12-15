@@ -19,10 +19,12 @@ public class SfxService {
     final String tag = getClass().getSimpleName();
     final MunhauzenGame game;
     final InternalAssetManager internalAssetManager;
+    final InternalAssetManager independantAssetManager;
 
     public SfxService(MunhauzenGame game) {
         this.game = game;
         internalAssetManager = new InternalAssetManager();
+        independantAssetManager = new InternalAssetManager();
     }
 
     public void load() {
@@ -207,20 +209,20 @@ public class SfxService {
         }));
     }
 
-    public StoryAudio onMenuContinueClicked() {
-        return prepareAndPlay(MathUtils.random(new String[]{
+    public void onMenuContinueClicked() {
+        prepareAndPlayIndependant(MathUtils.random(new String[]{
                 "sfx_menu_continue_1",
                 "sfx_menu_continue_2",
                 "sfx_menu_continue_3",
                 "sfx_menu_continue_4"
-        }));
+        }), true, false);
     }
 
-    public StoryAudio onMenuStartClicked() {
-        return prepareAndPlay(MathUtils.random(new String[]{
+    public void onMenuStartClicked() {
+        prepareAndPlayIndependant(MathUtils.random(new String[]{
                 "sfx_menu_new_1", "sfx_menu_new_2",
                 "sfx_menu_new_3", "sfx_menu_new_4"
-        }));
+        }), true, false);
     }
 
     public StoryAudio onExitClicked() {
@@ -243,29 +245,29 @@ public class SfxService {
         return prepareAndPlay("sfx_menu_save_no");
     }
 
-    public StoryAudio onMenuGalleryClicked() {
-        return prepareAndPlay(MathUtils.random(new String[]{
+    public void onMenuGalleryClicked() {
+        prepareAndPlayIndependant(MathUtils.random(new String[]{
                 "sfx_menu_gallery_1", "sfx_menu_gallery_1"
-        }));
+        }), true, false);
     }
 
-    public StoryAudio onMenuGoofsClicked() {
-        return prepareAndPlay(MathUtils.random(new String[]{
+    public void onMenuGoofsClicked() {
+        prepareAndPlayIndependant(MathUtils.random(new String[]{
                 "sfx_menu_goofs_1", "sfx_menu_goofs_2",
                 "sfx_menu_goofs_3", "sfx_menu_goofs_4",
                 "sfx_menu_goofs_5"
-        }));
+        }), true, false);
     }
 
-    public StoryAudio onMenuSaveClicked() {
-        return prepareAndPlay(MathUtils.random(new String[]{
+    public void onMenuSaveClicked() {
+        prepareAndPlayIndependant(MathUtils.random(new String[]{
                 "sfx_menu_save_1", "sfx_menu_save_2",
                 "sfx_menu_save_3"
-        }));
+        }), true, false);
     }
 
-    public StoryAudio onMenuAuthorsClicked() {
-        return prepareAndPlay("sfx_menu_credits");
+    public void onMenuAuthorsClicked() {
+        prepareAndPlayIndependant("sfx_menu_credits", true, false);
     }
 
     public void onBackToMenuClicked() {
@@ -323,12 +325,22 @@ public class SfxService {
                 public void run() {
 
                     try {
-                        internalAssetManager.load(audio.file, Music.class);
+                        independantAssetManager.load(audio.file, Music.class);
 
-                        internalAssetManager.finishLoading();
+                        independantAssetManager.finishLoading();
 
-                        Music sound = internalAssetManager.get(audio.file, Music.class);
+                        final Music sound = independantAssetManager.get(audio.file, Music.class);
                         sound.setLooping(loop);
+
+                        sound.setOnCompletionListener(new Music.OnCompletionListener() {
+                            @Override
+                            public void onCompletion(Music music) {
+                                try {
+                                    independantAssetManager.unload(audio.file);
+                                } catch (Throwable ignore) {
+                                }
+                            }
+                        });
 
                         sound.play();
 
@@ -473,6 +485,37 @@ public class SfxService {
         }
 
         try {
+            independantAssetManager.update();
+        } catch (Throwable ignore) {
+        }
+
+        updateVolume();
+    }
+
+    public void updateVolume() {
+        try {
+
+            Array<Music> audio1 = new Array<>();
+            internalAssetManager.getAll(Music.class, audio1);
+
+            for (Music item : audio1) {
+                item.setVolume(GameState.isMute ? 0 : 1);
+            }
+
+            Array<Sound> audio2 = new Array<>();
+            internalAssetManager.getAll(Sound.class, audio2);
+
+            for (Sound item : audio2) {
+                try {
+                    item.setVolume(0, GameState.isMute ? 0 : 1);
+                } catch (Throwable ignore) {
+                }
+            }
+        } catch (Throwable e) {
+            Log.e(tag, e);
+        }
+
+        try {
             if (game.currentSfx != null) {
                 if (game.currentSfx.player != null) {
                     game.currentSfx.player.setVolume(GameState.isMute ? 0 : 1);
@@ -511,6 +554,7 @@ public class SfxService {
             stop();
 
             internalAssetManager.dispose();
+            independantAssetManager.dispose();
 
         } catch (Throwable ignore) {
         }

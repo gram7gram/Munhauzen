@@ -19,8 +19,7 @@ public class AuthorsButton extends MenuButton {
                 super.clicked(event, x, y);
 
                 screen.game.stopCurrentSfx();
-
-                screen.game.currentSfx = screen.game.sfxService.onMenuAuthorsClicked();
+                screen.game.sfxService.onMenuAuthorsClicked();
 
                 screen.navigateTo(new AuthorsScreen(screen.game));
             }

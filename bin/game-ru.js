@@ -3,6 +3,12 @@ const path = require('path');
 const musicData = require('music-metadata');
 
 const jsons = [
+    '../android-ru-pro/internal-assets/chapters.json',
+    '../android-ru-pro/internal-assets/scenario.json',
+    '../android-ru-pro/internal-assets/images.json',
+    '../android-ru-pro/internal-assets/inventory.json',
+    '../android-ru-pro/internal-assets/audio.json',
+    '../android-ru-pro/internal-assets/audio-fails.json',
     '../android-ru/internal-assets/chapters.json',
     '../android-ru/internal-assets/scenario.json',
     '../android-ru/internal-assets/images.json',

@@ -641,7 +641,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
                 }
             }, new InternetListenterInterface() {
                 @Override
-                public boolean hasIntenet() {
+                public boolean hasInternet() {
                     return isInternetAvailable();
                 }
             }

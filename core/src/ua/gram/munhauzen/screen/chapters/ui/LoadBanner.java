@@ -1,6 +1,5 @@
 package ua.gram.munhauzen.screen.chapters.ui;
 
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -21,7 +20,6 @@ import ua.gram.munhauzen.interaction.InteractionFactory;
 import ua.gram.munhauzen.interfaces.DownloadSuccessFailureListener;
 import ua.gram.munhauzen.screen.ChaptersScreen;
 import ua.gram.munhauzen.screen.GameScreen;
-import ua.gram.munhauzen.screen.MenuScreen;
 import ua.gram.munhauzen.service.StoryManager;
 import ua.gram.munhauzen.ui.Banner;
 import ua.gram.munhauzen.ui.PrimaryButton;
@@ -113,244 +111,98 @@ public class LoadBanner extends Banner<ChaptersScreen> {
 
                     screen.game.syncState();
 
+                    final Runnable task = new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                String previousChapterName = GameScreen.getPreviousChapterName(chapter.name);
 
-                    if (game.isOnlineMode()) {
-
-                        if (Gdx.app.getType() == Application.ApplicationType.Android) {
-
-
-                            screen.banner.fadeOut(new Runnable() {
-                                @Override
-                                public void run() {
-                                    //screen.destroyBanners();
-
-
-                                    screen.openChapterDownloadBanner(new Runnable() {
+                                if (!previousChapterName.equals("")) {
+                                    MunhauzenGame.downloadExpansionInteface.downloadExpansionAndDeletePrev(previousChapterName, new DownloadSuccessFailureListener() {
                                         @Override
-                                        public void run() {
-                                            screen.destroyBanners();
-                                        }
-                                    });
-
-
-                                    //memory check
-                                    float memory;
-                                    if (Gdx.app.getType() == Application.ApplicationType.Android) {
-                                        memory = game.params.memoryUsage.megabytesAvailable();
-                                    } else {
-                                        memory = 10;
-                                    }
-
-                                    if (5 > memory) {
-                                        screen.destroyBanners();
-                                        long time = System.currentTimeMillis();
-                                        while (System.currentTimeMillis() < time + 1000) {
-                                        }
-                                        screen.openNoMemoryBanner(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                screen.destroyBanners();
-                                            }
-                                        });
-
-                                    } else {
-
-                                        //memory check ends
-
-                                        new Thread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                long time = System.currentTimeMillis();
-                                                while (System.currentTimeMillis() < time + 1000) {
+                                        public void onSuccess() {
+                                            Gdx.app.postRunnable(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    screen.navigateTo(new GameScreen(screen.game));
                                                 }
-                                                Gdx.app.postRunnable(new Runnable() {
-                                                    @Override
-                                                    public void run() {
+                                            });
+                                        }
 
-                                                        System.out.println("");
-
-                                                        String previousChapterName = GameScreen.getPreviousChapterName(chapter.name);
-
-                                                        if (!previousChapterName.equals("")) {
-                                                            final boolean[] isSuccess = {false, false};
-                                                            int i = 1;
-
-                                                            //isSuccess[1] = false;
-
-                                                            while (isSuccess[0] != true && isSuccess[1] == false) {
-
-                                                                if (i == 1) {
-                                                                    MunhauzenGame.downloadExpansionInteface.downloadExpansionAndDeletePrev(previousChapterName, new DownloadSuccessFailureListener() {
-                                                                        @Override
-                                                                        public void onSuccess() {
-                                                                            isSuccess[0] = true;
-                                                                            //screen.navigateTo(new GameScreen(screen.game));
-                                                                        }
-
-                                                                        @Override
-                                                                        public void onFailure() {
-                                                                            isSuccess[1] = true;
-                                                                            screen.openNoInternetBanner(new Runnable() {
-                                                                                @Override
-                                                                                public void run() {
-                                                                                    screen.destroyBanners();
-                                                                                }
-                                                                            });
-                                                                        }
-                                                                    });
-                                                                }
-
-                                                                i++;
-
-
-                                                            }
-
-
-                                                            if (isSuccess[0]) {
-                                                                screen.navigateTo(new GameScreen(screen.game));
-                                                            }
-                                                        } else {
-                                                            screen.navigateTo(new GameScreen(screen.game));
-                                                        }
-
-                                                    }
-                                                });
-                                            }
-                                        }).start();
-                                    }
-
-                                }
-                            });
-                        } else {
-                            //for ios
-
-                            screen.banner.fadeOut(new Runnable() {
-                                @Override
-                                public void run() {
-                                    //screen.destroyBanners();
-
-
-                                    screen.openChapterDownloadBanner(new Runnable() {
                                         @Override
-                                        public void run() {
-                                            screen.destroyBanners();
-                                        }
-                                    });
-
-
-                                    //memory check
-                                    float memory;
-                                    if (Gdx.app.getType() == Application.ApplicationType.Android) {
-                                        memory = game.params.memoryUsage.megabytesAvailable();
-                                    } else {
-                                        memory = 10;
-                                    }
-
-                                    if (5 > memory) {
-                                        screen.destroyBanners();
-                                        long time = System.currentTimeMillis();
-                                        while (System.currentTimeMillis() < time + 1000) {
-                                        }
-                                        screen.openNoMemoryBanner(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                screen.destroyBanners();
-                                            }
-                                        });
-
-                                    } else {
-
-                                        //memory check ends
-
-                                        new Thread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                long time = System.currentTimeMillis();
-                                                while (System.currentTimeMillis() < time + 1000) {
-                                                }
-//                                                Gdx.app.postRunnable(new Runnable() {
-//                                                    @Override
-//                                                    public void run() {
-
-                                                System.out.println("");
-
-                                                String previousChapterName = GameScreen.getPreviousChapterName(chapter.name);
-
-                                                if (!previousChapterName.equals("")) {
-                                                    final boolean[] isSuccess = {false, false};
-                                                    int i = 1;
-
-                                                    //isSuccess[1] = false;
-
-                                                    while (isSuccess[0] != true && isSuccess[1] == false) {
-
-                                                        if (i == 1) {
-                                                            MunhauzenGame.downloadExpansionInteface.downloadExpansionAndDeletePrev(previousChapterName, new DownloadSuccessFailureListener() {
-                                                                @Override
-                                                                public void onSuccess() {
-                                                                    isSuccess[0] = true;
-                                                                    //screen.navigateTo(new GameScreen(screen.game));
-                                                                }
-
-                                                                @Override
-                                                                public void onFailure() {
-                                                                    isSuccess[1] = true;
-                                                                    screen.openNoInternetBanner(new Runnable() {
-                                                                        @Override
-                                                                        public void run() {
-                                                                            screen.navigateTo(new MenuScreen(screen.game));
-                                                                        }
-                                                                    });
-                                                                }
-                                                            });
-                                                        }
-
-                                                        i++;
-
-
-                                                    }
-
-
-                                                    if (isSuccess[0]) {
-                                                        Gdx.app.postRunnable(new Runnable() {
-                                                            @Override
-                                                            public void run() {
-                                                                screen.navigateTo(new GameScreen(screen.game));
-                                                            }
-                                                        });
-
-                                                    }
-                                                } else {
-                                                    Gdx.app.postRunnable(new Runnable() {
+                                        public void onFailure() {
+                                            Gdx.app.postRunnable(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    screen.openNoInternetBanner(new Runnable() {
                                                         @Override
                                                         public void run() {
-                                                            screen.navigateTo(new GameScreen(screen.game));
+                                                            screen.destroyBanners();
                                                         }
                                                     });
-
                                                 }
+                                            });
 
-//                                                    }
-//                                                });
-                                            }
-                                        }).start();
-                                    }
+                                        }
+                                    });
 
+                                } else {
+                                    Gdx.app.postRunnable(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            screen.navigateTo(new GameScreen(screen.game));
+                                        }
+                                    });
                                 }
-                            });
-
+                            } catch (Throwable e) {
+                                Log.e(tag, e);
+                            }
 
                         }
+                    };
 
-
-                    } else {
-
+                    if (game.isOnlineMode()) {
 
                         screen.banner.fadeOut(new Runnable() {
                             @Override
                             public void run() {
-                                screen.navigateTo(new GameScreen(screen.game));
+                                try {
+                                    screen.openChapterDownloadBanner(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            screen.destroyBanners();
+                                        }
+                                    });
 
+                                    //memory check
+                                    float memory = 10;
+                                    if (game.params.memoryUsage != null) {
+                                        memory = game.params.memoryUsage.megabytesAvailable();
+                                    }
+
+                                    if (memory < 5) {
+                                        screen.openNoMemoryBanner(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                screen.destroyBanners();
+                                            }
+                                        });
+                                        return;
+                                    }
+
+                                    new Thread(task).start();
+                                } catch (Throwable e) {
+                                    Log.e(tag, e);
+                                }
+
+                            }
+                        });
+
+                    } else {
+                        screen.banner.fadeOut(new Runnable() {
+                            @Override
+                            public void run() {
+                                screen.navigateTo(new GameScreen(screen.game));
                             }
                         });
                     }

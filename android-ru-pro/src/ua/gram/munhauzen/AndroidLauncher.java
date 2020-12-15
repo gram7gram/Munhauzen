@@ -285,7 +285,7 @@ public class AndroidLauncher extends AndroidApplication {
                 }
             }, new InternetListenterInterface() {
                 @Override
-                public boolean hasIntenet() {
+                public boolean hasInternet() {
                     return isInternetAvailable();
                 }
             });
@@ -373,7 +373,7 @@ public class AndroidLauncher extends AndroidApplication {
                 }
             }, new InternetListenterInterface() {
                 @Override
-                public boolean hasIntenet() {
+                public boolean hasInternet() {
                     return isInternetAvailable();
                 }
             });
@@ -492,9 +492,6 @@ public class AndroidLauncher extends AndroidApplication {
             String saveJson = readSaveJsonFile();
 
             String chapterJson = readChapterJsonFile();
-
-
-            System.out.println("CHapetr---Jston---->" + chapterJson);
 
 
             try {
