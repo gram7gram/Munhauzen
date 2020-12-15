@@ -32,7 +32,7 @@ public class ExpansionImageService extends ImageService {
         if (ImageRepository.LAST.equals(item.image) && image == null) return null;
 
         if (!gameScreen.game.canUseIntenetForChapter(item.chapter)) {
-            return Files.getIntroImage(image).path();
+            return Files.getInternalAssetImage(image).path();
         }
 
         FileHandle file = ExternalFiles.getExpansionImage(gameScreen.game.params, image);

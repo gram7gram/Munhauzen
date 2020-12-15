@@ -17,6 +17,10 @@ public class HornInteraction extends AbstractInteraction {
     public HornImageFragment imageFragment;
     StoryAudio storyAudio;
 
+    public final static String[] externalAudio = {
+            "s33_fin",
+    };
+
     public HornInteraction(GameScreen gameScreen) {
         super(gameScreen);
     }
@@ -64,7 +68,7 @@ public class HornInteraction extends AbstractInteraction {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            gameScreen.onCriticalError(e);
+//            gameScreen.onCriticalError(e);
         }
     }
 
@@ -84,7 +88,7 @@ public class HornInteraction extends AbstractInteraction {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            gameScreen.onCriticalError(e);
+//            gameScreen.onCriticalError(e);
         }
     }
 

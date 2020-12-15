@@ -21,6 +21,7 @@ import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.screen.game.transition.FadeTransition;
 import ua.gram.munhauzen.screen.game.transition.NormalTransition;
 import ua.gram.munhauzen.screen.game.transition.Transition;
+import ua.gram.munhauzen.utils.Files;
 import ua.gram.munhauzen.utils.InternalAssetManager;
 import ua.gram.munhauzen.utils.Log;
 
@@ -42,6 +43,13 @@ public abstract class ImageService implements Disposable {
 
     public abstract String getResource(StoryImage item);
 
+    public String getInternalResource(StoryImage item) {
+        if (ImageRepository.LAST.equals(item.image)) {
+            return null;
+        }
+        return Files.getInternalAsset(item.image).path();
+    }
+
     public void prepareAndDisplay(StoryImage item) {
 
         try {
@@ -51,7 +59,10 @@ public abstract class ImageService implements Disposable {
             }
 
             String resource = getResource(item);
-            if (resource == null) return;
+            if (resource == null) {
+                prepareAndDisplayInternal(item);
+                return;
+            }
 
             item.resource = resource;
 
@@ -85,7 +96,12 @@ public abstract class ImageService implements Disposable {
         try {
 
             String resource = getResource(item);
-            if (resource == null) return;
+            if (resource == null) {
+                resource = getInternalResource(item);
+                if (resource == null) {
+                    return;
+                }
+            }
 
             item.resource = resource;
 

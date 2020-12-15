@@ -125,17 +125,31 @@ public abstract class MunhauzenScreen implements Screen {
         }
     }
 
-    public void openNoInternetBanner(Runnable action) {
+    public void openNoInternetBanner(final Runnable action) {
         try {
+
+            if (noInternetFragment != null) return;
 
             destroyBanners();
 
-            noInternetFragment = new NoInternetFragment(this);
-            noInternetFragment.create(action);
+            Gdx.app.postRunnable(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        noInternetFragment = new NoInternetFragment(MunhauzenScreen.this);
+                        noInternetFragment.create(action);
 
-            getLayers().setBannerLayer(noInternetFragment);
+                        getLayers().setBannerLayer(noInternetFragment);
 
-            noInternetFragment.fadeIn();
+                        noInternetFragment.fadeIn();
+
+                    } catch (Throwable e) {
+                        Log.e(tag, e);
+
+                        onCriticalError(e);
+                    }
+                }
+            });
 
         } catch (Throwable e) {
             Log.e(tag, e);
@@ -144,17 +158,31 @@ public abstract class MunhauzenScreen implements Screen {
         }
     }
 
-    public void openChapterDownloadBanner(Runnable action) {
+    public void openChapterDownloadBanner(final Runnable action) {
         try {
+
+            if (chapterDownloadFragment != null) return;
 
             destroyBanners();
 
-            chapterDownloadFragment = new ChapterDownloadFragment(this);
-            chapterDownloadFragment.create(action);
+            Gdx.app.postRunnable(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        chapterDownloadFragment = new ChapterDownloadFragment(MunhauzenScreen.this);
+                        chapterDownloadFragment.create(action);
 
-            getLayers().setBannerLayer(chapterDownloadFragment);
+                        getLayers().setBannerLayer(chapterDownloadFragment);
 
-            chapterDownloadFragment.fadeIn();
+                        chapterDownloadFragment.fadeIn();
+
+                    } catch (Throwable e) {
+                        Log.e(tag, e);
+
+                        onCriticalError(e);
+                    }
+                }
+            });
 
         } catch (Throwable e) {
             Log.e(tag, e);

@@ -18,6 +18,14 @@ public class DateInteraction extends AbstractInteraction {
     public DateImageFragment imageFragment;
     public StoryAudio storyAudio;
 
+    public final static String[] externalAudio = {
+            "smoon_date_a",
+            "smoon_date_b",
+            "smoon_date_c",
+            "smoon_date_d",
+            "smoon_incorrect",
+    };
+
     public DateInteraction(GameScreen gameScreen) {
         super(gameScreen);
     }
@@ -156,7 +164,7 @@ public class DateInteraction extends AbstractInteraction {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            gameScreen.onCriticalError(e);
+//            gameScreen.onCriticalError(e);
         }
     }
 
@@ -171,7 +179,7 @@ public class DateInteraction extends AbstractInteraction {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            gameScreen.onCriticalError(e);
+//            gameScreen.onCriticalError(e);
         }
     }
 
@@ -186,7 +194,7 @@ public class DateInteraction extends AbstractInteraction {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            gameScreen.onCriticalError(e);
+//            gameScreen.onCriticalError(e);
         }
     }
 
@@ -201,7 +209,7 @@ public class DateInteraction extends AbstractInteraction {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            gameScreen.onCriticalError(e);
+//            gameScreen.onCriticalError(e);
         }
     }
 
@@ -216,7 +224,7 @@ public class DateInteraction extends AbstractInteraction {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            gameScreen.onCriticalError(e);
+//            gameScreen.onCriticalError(e);
         }
     }
 

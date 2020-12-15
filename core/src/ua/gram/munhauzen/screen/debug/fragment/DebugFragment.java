@@ -33,7 +33,6 @@ import ua.gram.munhauzen.entity.Purchase;
 import ua.gram.munhauzen.entity.PurchaseState;
 import ua.gram.munhauzen.entity.Save;
 import ua.gram.munhauzen.entity.Scenario;
-import ua.gram.munhauzen.interaction.InteractionFactory;
 import ua.gram.munhauzen.interaction.cannons.CannonsScenario;
 import ua.gram.munhauzen.interaction.generals.GeneralsScenario;
 import ua.gram.munhauzen.interaction.hare.HareScenario;
@@ -67,7 +66,7 @@ public class DebugFragment extends Fragment {
     ScrollPane scroll;
     TextButton startButton;
     Label upButton;
-    Table inventoryContainer, scenarioContainer, interactionContainer, endingsContainer, purchaseContainer;
+    Table inventoryContainer, scenarioContainer, endingsContainer, purchaseContainer;
     VerticalGroup group;
     String currentSource = "scenario_1";
 
@@ -416,9 +415,6 @@ public class DebugFragment extends Fragment {
         endingsContainer = new Table();
         endingsContainer.padBottom(80);
 
-        interactionContainer = new Table();
-        interactionContainer.padBottom(80);
-
         scenarioContainer = new Table();
         scenarioContainer.padBottom(80);
 
@@ -428,8 +424,6 @@ public class DebugFragment extends Fragment {
         createInventoryTable();
 
         createScenarioTable();
-
-        createInteractionTable();
 
         createEndingsTable();
 
@@ -441,7 +435,6 @@ public class DebugFragment extends Fragment {
 
         Table container3 = new Table();
         container3.add(endingsContainer).pad(10).top().expandX();
-        container3.add(interactionContainer).pad(10).top().expandX();
 
         Table upContainer = new Table();
         upContainer.add(upButton).pad(10).align(Align.bottomRight).expand();
@@ -688,72 +681,6 @@ public class DebugFragment extends Fragment {
         endingsContainer.add(label).left().expandX().padBottom(5).row();
     }
 
-    public void createInteractionTable() {
-
-        interactionContainer.clearChildren();
-
-        Label header = new Label(game.t("debug_screen.interaction"), new Label.LabelStyle(
-                game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
-                Color.RED
-        ));
-        interactionContainer.add(header).expandX().row();
-
-        String[] interactions = {
-                InteractionFactory.BALLOONS,
-                InteractionFactory.CANNONS,
-                InteractionFactory.CONTINUE,
-                InteractionFactory.DATE,
-                InteractionFactory.GENERAL,
-                InteractionFactory.HARE,
-                InteractionFactory.HORN,
-                InteractionFactory.LIONS,
-                InteractionFactory.PICTURE,
-                InteractionFactory.PUZZLE,
-                InteractionFactory.RANDOM,
-                InteractionFactory.SERVANTS,
-                InteractionFactory.SLAP,
-                InteractionFactory.SWAMP,
-                "TIMER(ACARRIAGE,20)",
-                "TIMER_2(APRISONERS_EXPLODED,20)",
-                InteractionFactory.WAUWAU,
-        };
-
-        for (final String name : interactions) {
-
-            String text;
-
-            if (name.equals(MunhauzenGame.developmentInteraction)) {
-                text = "[+] " + name;
-            } else {
-                text = "[-] " + name;
-            }
-
-            Label label = new Label(text, new Label.LabelStyle(
-                    game.fontProvider.getFont(FontProvider.DroidSansMono, FontProvider.p),
-                    Color.BLACK
-            ));
-
-            label.addListener(new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    super.clicked(event, x, y);
-
-                    MunhauzenGame.developmentScenario = null;
-
-                    if (name.equals(MunhauzenGame.developmentInteraction)) {
-                        MunhauzenGame.developmentInteraction = null;
-                    } else {
-                        MunhauzenGame.developmentInteraction = name;
-                    }
-
-                    createInteractionTable();
-                }
-            });
-
-            interactionContainer.add(label).left().expandX().padBottom(5).row();
-        }
-    }
-
     public void createInventoryTable() {
 
         inventoryContainer.clearChildren();
@@ -847,7 +774,7 @@ public class DebugFragment extends Fragment {
 
         for (final Scenario scenario : filtered) {
 
-            String name = scenario.name;
+            String name = scenario.name + (scenario.interaction != null ? " " + scenario.interaction : "");
 
             if (scenario.name.equals(MunhauzenGame.developmentScenario)) {
                 name = "[+] " + name;
@@ -864,8 +791,6 @@ public class DebugFragment extends Fragment {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     super.clicked(event, x, y);
-
-                    MunhauzenGame.developmentInteraction = null;
 
                     game.gameState.activeSave.story = null;
 

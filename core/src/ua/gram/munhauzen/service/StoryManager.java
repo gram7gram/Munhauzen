@@ -93,7 +93,7 @@ public class StoryManager {
                 MunhauzenGame.downloadExpansionInteface.downloadExpansionAndDeletePrev(chapter.name, new DownloadSuccessFailureListener() {
                     @Override
                     public void onSuccess() {
-                        //
+
                     }
 
                     @Override
@@ -305,16 +305,7 @@ public class StoryManager {
 
             }
 
-            String interaction;
-
-            if (MunhauzenGame.developmentInteraction != null) {
-
-                interaction = MunhauzenGame.developmentInteraction + "";
-
-                MunhauzenGame.developmentInteraction = null;
-            } else {
-                interaction = story.currentScenario.scenario.interaction;
-            }
+            String interaction = story.currentScenario.scenario.interaction;
 
             if (interaction != null) {
                 gameScreen.interactionService.create(interaction);

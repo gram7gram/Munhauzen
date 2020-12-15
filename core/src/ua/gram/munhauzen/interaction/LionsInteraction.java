@@ -13,6 +13,11 @@ public class LionsInteraction extends AbstractInteraction {
     boolean isLoaded;
     public LionsImageFragment imageFragment;
 
+    public final static String[] externalAudio = {
+            "slions_attack_freeze",
+            "slions_attack_lion",
+    };
+
     public LionsInteraction(GameScreen gameScreen) {
         super(gameScreen);
     }

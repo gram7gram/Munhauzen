@@ -87,7 +87,7 @@ public class BalloonsInteraction extends AbstractInteraction {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            gameScreen.onCriticalError(e);
+//            gameScreen.onCriticalError(e);
         }
     }
 

@@ -397,7 +397,7 @@ public class DatabaseManager {
             ua.gram.munhauzen.utils.JSON.stringify(file.file(), story);
     }
 
-    private synchronized History loadHistory() {
+    public synchronized History loadHistory() {
         FileHandle file = ExternalFiles.getHistoryFile(game.params);
 
         History state = null;
@@ -419,7 +419,7 @@ public class DatabaseManager {
         return state;
     }
 
-    private synchronized void loadActiveSave(GameState state) {
+    public synchronized void loadActiveSave(GameState state) {
         Save save = null;
 
         FileHandle file = ExternalFiles.getActiveSaveFile(game.params);
@@ -443,7 +443,7 @@ public class DatabaseManager {
         loadActiveStory(save);
     }
 
-    private synchronized void loadActiveStory(Save save) {
+    public synchronized void loadActiveStory(Save save) {
         Story story = null;
 
         FileHandle file = ExternalFiles.getStoryFile(game.params);
@@ -460,7 +460,7 @@ public class DatabaseManager {
         save.story = story;
     }
 
-    private synchronized MenuState loadMenuState() {
+    public synchronized MenuState loadMenuState() {
 
         FileHandle file = ExternalFiles.getMenuStateFile(game.params);
 
@@ -481,7 +481,7 @@ public class DatabaseManager {
         return state;
     }
 
-    private synchronized FailsState loadFailsState() {
+    public synchronized FailsState loadFailsState() {
 
         FileHandle file = ExternalFiles.getFailsStateFile(game.params);
 
@@ -502,7 +502,7 @@ public class DatabaseManager {
         return state;
     }
 
-    private synchronized AchievementState loadAchievementState() {
+    public synchronized AchievementState loadAchievementState() {
 
         FileHandle file = ExternalFiles.getAchievementStateFile(game.params);
 
@@ -523,7 +523,7 @@ public class DatabaseManager {
         return state;
     }
 
-    private synchronized GalleryState loadGalleryState() {
+    public synchronized GalleryState loadGalleryState() {
 
         FileHandle file = ExternalFiles.getGalleryStateFile(game.params);
 
@@ -544,7 +544,7 @@ public class DatabaseManager {
         return state;
     }
 
-    private synchronized PurchaseState loadPurchaseState() {
+    public synchronized PurchaseState loadPurchaseState() {
 
         FileHandle file = ExternalFiles.getPurchaseStateFile(game.params);
 
@@ -565,7 +565,7 @@ public class DatabaseManager {
         return state;
     }
 
-    private synchronized GamePreferences loadPreferences() {
+    public synchronized GamePreferences loadPreferences() {
 
         FileHandle file = ExternalFiles.getGamePreferencesFile(game.params);
 
@@ -732,7 +732,7 @@ public class DatabaseManager {
     }
 
     @SuppressWarnings("unchecked")
-    private synchronized ArrayList<Scenario> loadExternalScenario() {
+    public synchronized ArrayList<Scenario> loadExternalScenario() {
 
         FileHandle file = Files.getScenarioFile();
         if (!file.exists()) return null;
@@ -747,7 +747,7 @@ public class DatabaseManager {
     }
 
     @SuppressWarnings("unchecked")
-    private synchronized ArrayList<Chapter> loadExternalChapters() {
+    public synchronized ArrayList<Chapter> loadExternalChapters() {
 
         FileHandle file = Files.getChaptersFile();
         if (!file.exists()) return null;
@@ -759,7 +759,7 @@ public class DatabaseManager {
     }
 
     @SuppressWarnings("unchecked")
-    private synchronized ArrayList<Image> loadExternalImages() {
+    public synchronized ArrayList<Image> loadExternalImages() {
 
         FileHandle file = Files.getImagesFile();
         if (!file.exists()) return null;
@@ -771,7 +771,7 @@ public class DatabaseManager {
     }
 
     @SuppressWarnings("unchecked")
-    private synchronized ArrayList<Audio> loadExternalAudio() {
+    public synchronized ArrayList<Audio> loadExternalAudio() {
 
         FileHandle file = Files.getAudioFile();
         if (!file.exists()) return null;
@@ -783,7 +783,7 @@ public class DatabaseManager {
     }
 
     @SuppressWarnings("unchecked")
-    private synchronized ArrayList<AudioFail> loadExternalAudioFails() {
+    public synchronized ArrayList<AudioFail> loadExternalAudioFails() {
 
         FileHandle file = Files.getAudioFailsFile();
         if (!file.exists()) return null;
@@ -795,7 +795,7 @@ public class DatabaseManager {
     }
 
     @SuppressWarnings("unchecked")
-    private synchronized ArrayList<Inventory> loadExternalInventory() {
+    public synchronized ArrayList<Inventory> loadExternalInventory() {
 
         FileHandle file = Files.getInventoryFile();
         if (!file.exists()) return null;

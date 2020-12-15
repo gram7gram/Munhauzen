@@ -13,6 +13,10 @@ public class SwampInteraction extends AbstractInteraction {
     public SwampImageFragment imageFragment;
     boolean isLoaded;
 
+    public final static String[] externalAudio = {
+            "s24_a",
+    };
+
     public SwampInteraction(GameScreen gameScreen) {
         super(gameScreen);
     }

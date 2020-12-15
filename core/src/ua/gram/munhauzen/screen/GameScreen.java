@@ -178,7 +178,7 @@ public class GameScreen extends MunhauzenScreen {
 
                             if (game.canUseIntenetForChapter(chapter.name)) {
 
-                                if (!MunhauzenGame.internetListenter.hasIntenet()) {
+                                if (!MunhauzenGame.internetListenter.hasInternet()) {
                                     if (noInternetFragment == null) {
                                         Log.i(tag, "No internet checker => openNoInternetBanner");
                                         openNoInternetBanner(new Runnable() {
@@ -337,7 +337,7 @@ public class GameScreen extends MunhauzenScreen {
                                     if (game.achievementService != null)
                                         game.achievementService.onScenarioVisited(story.currentScenario.scenario);
 
-                                    if (story.isCompleted || MunhauzenGame.developmentInteraction != null) {
+                                    if (story.isCompleted) {
 
                                         storyManager.onCompleted();
 

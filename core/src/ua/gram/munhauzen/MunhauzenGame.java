@@ -47,10 +47,6 @@ public class MunhauzenGame extends Game {
     public static final boolean developmentSimulatePurchase = false;
     public static final boolean developmentIsPro = false;
 
-    // WAUWAU GENERAL HARE PICTURE SERVANTS TIMER
-    // continue HORN BALLOONS CHAPTER
-    // DATE LIONS SLAP PUZZLE SWAMP
-    public static String developmentInteraction;
     public static String developmentScenario;
     public static boolean developmentVictory;
 
@@ -75,6 +71,7 @@ public class MunhauzenGame extends Game {
     public BackgroundSfxService backgroundSfxService;
     public StoryAudio currentSfx;
     public Navigator navigator;
+    public FirebaseManager firebaseManager;
     public static ReferralService referralService;
 
     public static AlarmInterface alarmInterface;
@@ -189,6 +186,7 @@ public class MunhauzenGame extends Game {
             achievementService = new AchievementService(this);
             purchaseManager = new PurchaseManager(this);
             referralService = new ReferralService(this);
+            firebaseManager = new FirebaseManager(this);
 
             loadGameState();
             loadGlobalAssets();
@@ -250,12 +248,6 @@ public class MunhauzenGame extends Game {
 
             navigator.onCriticalError(e);
         }
-
-        // This is just an example but you
-        // can now send notifications in your project
-//        if(Gdx.input.justTouched())
-
-
     }
 
     @Override
@@ -311,6 +303,7 @@ public class MunhauzenGame extends Game {
             inventoryService = null;
             purchaseManager = null;
             referralService = null;
+            firebaseManager = null;
 
             gameState = null;
 

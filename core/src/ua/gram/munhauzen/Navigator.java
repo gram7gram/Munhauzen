@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.Timer;
 
 import ua.gram.munhauzen.entity.GameState;
+import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.screen.LegalScreen;
 import ua.gram.munhauzen.screen.LoadingScreen;
 import ua.gram.munhauzen.screen.LogoScreen;
@@ -26,6 +27,7 @@ public class Navigator {
 
     public void openCurrentScreen() {
         game.setScreen(new LogoScreen(game));
+//        game.setScreen(new GameScreen(game));
     }
 
     public void onCriticalError(Throwable e) {

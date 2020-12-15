@@ -72,12 +72,16 @@ public class Files {
         return getInternal("scenario.json");
     }
 
-    public static FileHandle getIntroAudio(Audio item) {
+    public static FileHandle getInternalAssetAudio(Audio item) {
         return getInternal(item.file);
     }
 
-    public static FileHandle getIntroImage(Image item) {
+    public static FileHandle getInternalAssetImage(Image item) {
         return getInternal(item.file);
+    }
+
+    public static FileHandle getInternalAsset(String name) {
+        return getInternal(name);
     }
 
     public static FileHandle getExpansionConfigFile(PlatformParams params, String part) {

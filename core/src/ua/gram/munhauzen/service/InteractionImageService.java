@@ -2,7 +2,6 @@ package ua.gram.munhauzen.service;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import ua.gram.munhauzen.entity.Image;
 import ua.gram.munhauzen.entity.StoryImage;
@@ -10,6 +9,7 @@ import ua.gram.munhauzen.repository.ImageRepository;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.utils.ExpansionAssetManager;
 import ua.gram.munhauzen.utils.ExternalFiles;
+import ua.gram.munhauzen.utils.Files;
 
 /**
  * @author Gram <gram7gram@gmail.com>
@@ -42,7 +42,7 @@ public class InteractionImageService extends ImageService {
         }
 
         if (!file.exists()) {
-            throw new GdxRuntimeException("Image file does not exist " + item.image + " at " + file.path());
+            return null;
         }
 
         return file.path();

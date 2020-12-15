@@ -1,9 +1,13 @@
 package ua.gram.munhauzen.service;
 
+import ua.gram.munhauzen.MunhauzenGame;
+import ua.gram.munhauzen.entity.Chapter;
 import ua.gram.munhauzen.entity.Scenario;
 import ua.gram.munhauzen.entity.Story;
 import ua.gram.munhauzen.entity.StoryInteraction;
 import ua.gram.munhauzen.interaction.InteractionFactory;
+import ua.gram.munhauzen.interfaces.DownloadSuccessFailureListener;
+import ua.gram.munhauzen.repository.ChapterRepository;
 import ua.gram.munhauzen.screen.GameScreen;
 import ua.gram.munhauzen.utils.Log;
 
@@ -90,6 +94,26 @@ public class InteractionService {
                 newStory.progress = newStory.totalDuration;
             }
 
+            //Download next chapter
+            try {
+                if (gameScreen.game.isOnlineMode()) {
+                    Chapter chapter = ChapterRepository.find(gameScreen.game.gameState, newStory.currentScenario.scenario.chapter);
+
+                    MunhauzenGame.downloadExpansionInteface.downloadExpansionAndDeletePrev(chapter.name, new DownloadSuccessFailureListener() {
+                        @Override
+                        public void onSuccess() {
+
+                        }
+
+                        @Override
+                        public void onFailure() {
+
+                        }
+                    });
+                }
+            } catch (Throwable ignore) {
+            }
+
         } catch (Throwable e) {
             Log.e(tag, e);
 
@@ -131,19 +155,21 @@ public class InteractionService {
                 story.currentInteraction = null;
             }
 
-            if (gameScreen.gameLayers.interactionLayer != null) {
-                gameScreen.gameLayers.interactionLayer.destroy();
-                gameScreen.gameLayers.interactionLayer = null;
-            }
+            if (gameScreen.gameLayers != null) {
+                if (gameScreen.gameLayers.interactionLayer != null) {
+                    gameScreen.gameLayers.interactionLayer.destroy();
+                    gameScreen.gameLayers.interactionLayer = null;
+                }
 
-            if (gameScreen.gameLayers.storyDecisionsLayer != null) {
-                gameScreen.gameLayers.storyDecisionsLayer.destroy();
-                gameScreen.gameLayers.storyDecisionsLayer = null;
-            }
+                if (gameScreen.gameLayers.storyDecisionsLayer != null) {
+                    gameScreen.gameLayers.storyDecisionsLayer.destroy();
+                    gameScreen.gameLayers.storyDecisionsLayer = null;
+                }
 
-            if (gameScreen.gameLayers.interactionProgressBarLayer != null) {
-                gameScreen.gameLayers.interactionProgressBarLayer.destroy();
-                gameScreen.gameLayers.interactionProgressBarLayer = null;
+                if (gameScreen.gameLayers.interactionProgressBarLayer != null) {
+                    gameScreen.gameLayers.interactionProgressBarLayer.destroy();
+                    gameScreen.gameLayers.interactionProgressBarLayer = null;
+                }
             }
         } catch (Throwable e) {
             Log.e(tag, e);

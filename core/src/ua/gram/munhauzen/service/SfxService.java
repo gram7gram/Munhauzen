@@ -483,7 +483,7 @@ public class SfxService {
     }
 
     public void stop() {
-        Log.e(tag, "stop");
+        Log.i(tag, "stop");
 
         try {
 

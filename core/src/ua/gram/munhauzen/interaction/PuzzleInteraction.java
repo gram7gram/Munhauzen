@@ -18,6 +18,17 @@ public class PuzzleInteraction extends AbstractInteraction {
     public PuzzleDecisionManager decisionManager;
     StoryAudio introAudio;
 
+    public final static String[] externalAudio = {
+            "s15_1_a",
+            "s15_1_a_crow",
+            "s15_1_b",
+            "s15_1_d",
+            "s15_1_c",
+            "s15_1_c_crow",
+            "s15broken_1", "s15broken_2", "s15broken_3", "s15broken_4", "s15broken_5",
+            "s15crow_1", "s15crow_2", "s15crow_3", "s15crow_4", "s15crow_5"
+    };
+
     public PuzzleInteraction(GameScreen gameScreen) {
         super(gameScreen);
     }
@@ -74,7 +85,7 @@ public class PuzzleInteraction extends AbstractInteraction {
         } catch (Throwable e) {
             Log.e(tag, e);
 
-            gameScreen.onCriticalError(e);
+//            gameScreen.onCriticalError(e);
         }
     }
 

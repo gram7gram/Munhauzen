@@ -24,7 +24,6 @@ public class StartButton extends MenuButton {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                MunhauzenGame.developmentInteraction = null;
                 MunhauzenGame.developmentScenario = null;
 
                 Timer.Task task = new Timer.Task() {
