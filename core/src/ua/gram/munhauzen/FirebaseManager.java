@@ -75,6 +75,7 @@ public class FirebaseManager {
                         for (StoryAudio a : item.audio) {
                             resources.add(a.audio
                                     .replace("audio/", "")
+                                    .replace(".aac", "")
                                     .replace(".mp3", "")
                                     .replace(".ogg", "")
                                     .replace(".wav", ""));
@@ -91,6 +92,7 @@ public class FirebaseManager {
                         for (StoryAudio a : item.audio) {
                             resources.add(a.audio
                                     .replace("audio/", "")
+                                    .replace(".aac", "")
                                     .replace(".mp3", "")
                                     .replace(".ogg", "")
                                     .replace(".wav", ""));
@@ -108,6 +110,7 @@ public class FirebaseManager {
                         for (StoryAudio a : item.audio) {
                             resources.add(a.audio
                                     .replace("audio/", "")
+                                    .replace(".aac", "")
                                     .replace(".mp3", "")
                                     .replace(".ogg", "")
                                     .replace(".wav", ""));
@@ -125,6 +128,7 @@ public class FirebaseManager {
                         for (StoryAudio a : item.audio) {
                             resources.add(a.audio
                                     .replace("audio/", "")
+                                    .replace(".aac", "")
                                     .replace(".mp3", "")
                                     .replace(".ogg", "")
                                     .replace(".wav", ""));
@@ -142,6 +146,7 @@ public class FirebaseManager {
                         for (StoryAudio a : item.audio) {
                             resources.add(a.audio
                                     .replace("audio/", "")
+                                    .replace(".aac", "")
                                     .replace(".mp3", "")
                                     .replace(".ogg", "")
                                     .replace(".wav", ""));
@@ -159,6 +164,7 @@ public class FirebaseManager {
                         for (StoryAudio a : item.audio) {
                             resources.add(a.audio
                                     .replace("audio/", "")
+                                    .replace(".aac", "")
                                     .replace(".mp3", "")
                                     .replace(".ogg", "")
                                     .replace(".wav", ""));
@@ -178,6 +184,7 @@ public class FirebaseManager {
                     for (StoryAudio a : item.audio) {
                         resources.add(a.audio
                                 .replace("audio/", "")
+                                .replace(".aac", "")
                                 .replace(".mp3", "")
                                 .replace(".ogg", "")
                                 .replace(".wav", ""));
@@ -195,6 +202,7 @@ public class FirebaseManager {
                     for (StoryAudio a : item.audio) {
                         resources.add(a.audio
                                 .replace("audio/", "")
+                                .replace(".aac", "")
                                 .replace(".mp3", "")
                                 .replace(".ogg", "")
                                 .replace(".wav", ""));

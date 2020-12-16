@@ -145,16 +145,12 @@ public abstract class MunhauzenScreen implements Screen {
 
                     } catch (Throwable e) {
                         Log.e(tag, e);
-
-                        onCriticalError(e);
                     }
                 }
             });
 
         } catch (Throwable e) {
             Log.e(tag, e);
-
-            onCriticalError(e);
         }
     }
 
@@ -178,16 +174,12 @@ public abstract class MunhauzenScreen implements Screen {
 
                     } catch (Throwable e) {
                         Log.e(tag, e);
-
-                        onCriticalError(e);
                     }
                 }
             });
 
         } catch (Throwable e) {
             Log.e(tag, e);
-
-            onCriticalError(e);
         }
     }
 

@@ -83,7 +83,7 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
 
     private boolean needToDownload;
 
-    public static boolean needToDownloadStatic=true;
+    public static boolean needToDownloadStatic = true;
 
     private FirebaseDatabase database;
 
@@ -103,8 +103,8 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
 
     public DownloadSuccessFailureListener downloadSuccessFailureListener;
 
-    public static  String USERS = "ztestusers";
-    public static  String NOTIFICATION = "ztest1notifications";
+    public static String USERS = "ztestusers";
+    public static String NOTIFICATION = "ztest1notifications";
 
     List<String> audiosCurrentChapter;
     List<String> imagesCurrentChapter;
@@ -117,13 +117,13 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
 
     protected MunhauzenGame game;
 
-    public class FIREBASE_PATHS{
+    public class FIREBASE_PATHS {
         //        public static final  String USERS = "users";
 //        public static final  String NOTIFICATION = "1notifications";
-        public static final  String LAST_LOGIN_TIME = "last_login_time";
-        public static final  String HAS_COMPLETED_CHAP_0 = "hasCompletedChap0";
-        public static final  String REFERRED_CANDIDATES = "referred_candidates";
-        public static final  String REFERRED_BY = "referred_by";
+        public static final String LAST_LOGIN_TIME = "last_login_time";
+        public static final String HAS_COMPLETED_CHAP_0 = "hasCompletedChap0";
+        public static final String REFERRED_CANDIDATES = "referred_candidates";
+        public static final String REFERRED_BY = "referred_by";
     }
 
 
@@ -135,15 +135,12 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
         PermissionManager.grant(this, PermissionManager.PERMISSIONS);
 
 
-
         System.out.println("FCM TOKEN---->" + FirebaseInstanceId.getInstance().getToken());
-
 
 
         FirebaseMessaging.getInstance().subscribeToTopic("updates");
         FirebaseMessaging.getInstance().subscribeToTopic("android-all");
         FirebaseMessaging.getInstance().subscribeToTopic("android-en");
-
 
 
         //Firebase task 2 addition
@@ -210,10 +207,10 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
         } catch (Throwable ignore) {
         }
 
-        if (params.release == PlatformParams.Release.PROD){
+        if (params.release == PlatformParams.Release.PROD) {
             USERS = "users";
             NOTIFICATION = "1notifications";
-        }else {
+        } else {
             USERS = "ztestusers";
             NOTIFICATION = "ztest1notifications";
         }
@@ -222,8 +219,7 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
         getReferralLink();
 
 
-
-        if(user == null) {
+        if (user == null) {
             game = new MunhauzenGame(params, new OnExpansionDownloadComplete() {
                 @Override
                 public void setDownloadNeeded(boolean isDownloaded) {
@@ -307,10 +303,9 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
             });
 
 
-
             initialize(game, config);
 
-        }else {
+        } else {
             user = mAuth.getCurrentUser();
 
             game = new MunhauzenGame(params, new OnExpansionDownloadComplete() {
@@ -413,7 +408,7 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
 
         String notificationJson = readNotificationJsonFile();
 
-        try{
+        try {
             JSONObject notificationJsonObject = new JSONObject(notificationJson);
 
             //for Continue notification
@@ -431,7 +426,7 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
 
             SharedPreferencesHelper.setKeyNotification2Message(getApplicationContext(), download_notification);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -439,7 +434,7 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
 
     }
 
-    private void getReferralCount(){
+    private void getReferralCount() {
 
         //for referral count
 
@@ -458,19 +453,19 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
 
                     SharedPreferencesHelper.setReferralCount(getApplicationContext(), 0);
 
-                    for(DataSnapshot refferedCandidates: dataSnapshot.getChildren()){
-                        DatabaseReference hasCompletedRef =  userRef.child(refferedCandidates.getValue(String.class)).child("hasCompletedChap0");
+                    for (DataSnapshot refferedCandidates : dataSnapshot.getChildren()) {
+                        DatabaseReference hasCompletedRef = userRef.child(refferedCandidates.getValue(String.class)).child("hasCompletedChap0");
                         hasCompletedRef.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 try {
                                     int isChap0Completed = dataSnapshot.getValue(Integer.class);
                                     int currentCount = SharedPreferencesHelper.getReferralCount(getApplicationContext());
-                                    if(isChap0Completed == 1){
-                                        SharedPreferencesHelper.setReferralCount(getApplicationContext(), currentCount +1);
+                                    if (isChap0Completed == 1) {
+                                        SharedPreferencesHelper.setReferralCount(getApplicationContext(), currentCount + 1);
 
                                     }
-                                }catch (Exception e){
+                                } catch (Exception e) {
                                     e.printStackTrace();
                                 }
                             }
@@ -492,7 +487,7 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
 
                 }
             });
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         //referral count ends
@@ -578,12 +573,13 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
             }
 
 
-        } catch (Throwable ignore) {}
+        } catch (Throwable ignore) {
+        }
 
     }
 
 
-    private void startDownloadAlarm(){
+    private void startDownloadAlarm() {
 
         //For download notification
 
@@ -591,7 +587,7 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
 
         //SharedPreferencesHelper.setLastVisitedIcon(this,iconPath);
 
-        if(needToDownload == true){
+        if (needToDownload == true) {
             Calendar c1 = Calendar.getInstance();
             c1.add(Calendar.SECOND, SharedPreferencesHelper.getNotification2Time(this));
 
@@ -647,10 +643,9 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
     }
 
 
-
     private String readHistoryJsonFile() {
         try {
-            String dfdlk = ""+game.params.storageDirectory+"/history.json";
+            String dfdlk = "" + game.params.storageDirectory + "/history.json";
 
             System.out.println("Filedir----->" + getApplicationContext().getFilesDir());
             System.out.println("ExtFilesdir-->" + getExternalFilesDir(""));
@@ -658,7 +653,7 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
 
 
             //File file = new File(getExternalFilesDir("").toString(), "my.json");
-            File file = new File(Environment.getExternalStorageDirectory() + "/"+game.params.storageDirectory+"", "history.json");
+            File file = new File(Environment.getExternalStorageDirectory() + "/" + game.params.storageDirectory + "", "history.json");
             FileReader fileReader = new FileReader(file);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             StringBuilder stringBuilder = new StringBuilder();
@@ -686,7 +681,7 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
     private String readSaveJsonFile() {
         try {
 
-            File file = new File(Environment.getExternalStorageDirectory() + "/"+game.params.storageDirectory+"", "save-active.json");
+            File file = new File(Environment.getExternalStorageDirectory() + "/" + game.params.storageDirectory + "", "save-active.json");
             FileReader fileReader = new FileReader(file);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             StringBuilder stringBuilder = new StringBuilder();
@@ -797,10 +792,10 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
 
     @Override
     protected void onDestroy() {
-        if (ContextCompat.checkSelfPermission(AndroidLauncher.this,Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
-            if(!needToDownload == true) {
+        if (ContextCompat.checkSelfPermission(AndroidLauncher.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            if (!needToDownload == true) {
                 startAlarm();
-            }else if(needToDownload) {
+            } else if (needToDownload) {
                 startDownloadAlarm();
             }
         }
@@ -810,10 +805,10 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
 
     @Override
     protected void onStop() {
-        if (ContextCompat.checkSelfPermission(AndroidLauncher.this,Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
-            if(!needToDownload == true) {
+        if (ContextCompat.checkSelfPermission(AndroidLauncher.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            if (!needToDownload == true) {
                 startAlarm();
-            }else if(needToDownload) {
+            } else if (needToDownload) {
                 startDownloadAlarm();
             }
         }
@@ -821,7 +816,7 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
     }
 
 
-    public void loginAnonymouslyz(final LoginListener loginListener){
+    public void loginAnonymouslyz(final LoginListener loginListener) {
         mAuth.signInAnonymously()
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -864,7 +859,7 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
                 });
     }
 
-    public String setReferralzz(){
+    public String setReferralzz() {
 
         String uid = mAuth.getCurrentUser().getUid();
         link = "https://thebaronmunchausen.com/?invitedby=" + uid;
@@ -891,18 +886,17 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
 
                             System.out.println("ShortDynamicLink---->" + task.getResult().getShortLink());
                             //sendReferralLink();
-                        }
-                        else{
+                        } else {
                             System.out.println("OnFailure---->Message--->" + task.getException().getMessage());
                             System.out.println("OnFailure---->Cause-->" + task.getException().getCause());
                         }
                     }
                 });
 
-        return  mInvitationUrl;
+        return mInvitationUrl;
     }
 
-    public void sendReferralLink(){
+    public void sendReferralLink() {
         try {
             String referrerName = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
             String invitationLink = mInvitationUrl.toString();
@@ -917,10 +911,11 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
                     msg);
 
             startActivity(Intent.createChooser(shareIntent, "Share"));
-        } catch (Throwable ignore) {}
+        } catch (Throwable ignore) {
+        }
     }
 
-    public void getReferralLink(){
+    public void getReferralLink() {
         FirebaseDynamicLinks.getInstance()
                 .getDynamicLink(getIntent())
                 .addOnSuccessListener(this, new OnSuccessListener<PendingDynamicLinkData>() {
@@ -969,15 +964,14 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
                                 .child(USERS).child(referrerUid);
 
 
-
                         ValueEventListener valueEventListener = new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 int index = 0;
 
-                                if(dataSnapshot.exists()){
-                                    index = (int) dataSnapshot.getChildrenCount() ;
-                                }else{
+                                if (dataSnapshot.exists()) {
+                                    index = (int) dataSnapshot.getChildrenCount();
+                                } else {
                                     index = 0;
                                 }
 
@@ -993,12 +987,11 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
                         referrer.child("referred_candidates").addListenerForSingleValueEvent(valueEventListener);
 
 
-
                     }
                 });
     }
 
-    private void getNotificationsInfoFromFirebaseDatabase(){
+    private void getNotificationsInfoFromFirebaseDatabase() {
 
         DatabaseReference notificationsRef = database.getReference(NOTIFICATION);
 
@@ -1021,8 +1014,8 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
                     Log.d(TAG, "Value is: " + value);
                     System.out.println("Value---->" + value);
                     SharedPreferencesHelper.setNotification1Time(getApplicationContext(), value);
-                    System.out.println("NotificationValue--->"+ SharedPreferencesHelper.getNotification1Time(getApplicationContext()) );
-                }catch (Exception ex){
+                    System.out.println("NotificationValue--->" + SharedPreferencesHelper.getNotification1Time(getApplicationContext()));
+                } catch (Exception ex) {
                     ex.printStackTrace();
                 }
             }
@@ -1050,8 +1043,8 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
                     Log.d(TAG, "Value is: " + value);
                     System.out.println("Value---->" + value);
                     SharedPreferencesHelper.setKeyNotification1Title(getApplicationContext(), value);
-                    System.out.println("NotificationTitle--->"+ SharedPreferencesHelper.getKeyNotification1Title(getApplicationContext()) );
-                }catch (Exception ex){
+                    System.out.println("NotificationTitle--->" + SharedPreferencesHelper.getKeyNotification1Title(getApplicationContext()));
+                } catch (Exception ex) {
                     ex.printStackTrace();
                 }
             }
@@ -1079,8 +1072,8 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
                     Log.d(TAG, "Value is: " + value);
                     System.out.println("Value---->" + value);
                     //SharedPreferencesHelper.setKeyNotification1Message(getApplicationContext(), value);
-                    System.out.println("NotificationMessage--->"+ SharedPreferencesHelper.getKeyNotification1Message(getApplicationContext()) );
-                }catch (Exception ex){
+                    System.out.println("NotificationMessage--->" + SharedPreferencesHelper.getKeyNotification1Message(getApplicationContext()));
+                } catch (Exception ex) {
                     ex.printStackTrace();
                 }
             }
@@ -1110,8 +1103,8 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
                     Log.d(TAG, "Value is: " + value);
                     System.out.println("Value---->" + value);
                     SharedPreferencesHelper.setNotification2Time(getApplicationContext(), value);
-                    System.out.println("NotificationValue--->"+ SharedPreferencesHelper.getNotification2Time(getApplicationContext()) );
-                }catch (Exception ex){
+                    System.out.println("NotificationValue--->" + SharedPreferencesHelper.getNotification2Time(getApplicationContext()));
+                } catch (Exception ex) {
                     ex.printStackTrace();
                 }
             }
@@ -1139,8 +1132,8 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
                     Log.d(TAG, "Value is: " + value);
                     System.out.println("Value---->" + value);
                     SharedPreferencesHelper.setKeyNotification2Title(getApplicationContext(), value);
-                    System.out.println("NotificationTitle--->"+ SharedPreferencesHelper.getKeyNotification2Title(getApplicationContext()) );
-                }catch (Exception ex){
+                    System.out.println("NotificationTitle--->" + SharedPreferencesHelper.getKeyNotification2Title(getApplicationContext()));
+                } catch (Exception ex) {
                     ex.printStackTrace();
                 }
             }
@@ -1168,8 +1161,8 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
                     Log.d(TAG, "Value is: " + value);
                     System.out.println("Value---->" + value);
                     //SharedPreferencesHelper.setKeyNotification2Message(getApplicationContext(), value);
-                    System.out.println("NotificationMessage--->"+ SharedPreferencesHelper.getKeyNotification2Message(getApplicationContext()) );
-                }catch (Exception ex){
+                    System.out.println("NotificationMessage--->" + SharedPreferencesHelper.getKeyNotification2Message(getApplicationContext()));
+                } catch (Exception ex) {
                     ex.printStackTrace();
                 }
             }
@@ -1202,16 +1195,16 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
     private void downloadExpansionFile(String currentChapterName, DownloadSuccessFailureListener downloadSuccessFailureListener) throws IOException {
 
         this.downloadSuccessFailureListener = downloadSuccessFailureListener;
-        if(isInternetAvailable()) {
+        if (isInternetAvailable()) {
             extractInfoFromScenarioJsonAndPerformDeleteDownload(currentChapterName);
-        }else{
+        } else {
             downloadSuccessFailureListener.onFailure();
         }
 
 
     }
 
-    public void extractInfoFromScenarioJsonAndPerformDeleteDownload(String currentChapterName){
+    public void extractInfoFromScenarioJsonAndPerformDeleteDownload(String currentChapterName) {
 
 
         audioDownloadCount = 0;
@@ -1227,28 +1220,28 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
         imagesNextChapter = new ArrayList<>();
 
         //get previous and next chapter
-        String previousChapter= "";
+        String previousChapter = "";
         String nextChapter = "";
         try {
 
             String chapterJson = readChapterJsonFile();
             JSONArray chapters = new JSONArray(chapterJson);
 
-            for(int m=0; m< chapters.length(); m++){
+            for (int m = 0; m < chapters.length(); m++) {
 
                 JSONObject jsonObject = chapters.getJSONObject(m);
-                if(currentChapterName.equals(jsonObject.getString("name"))){
+                if (currentChapterName.equals(jsonObject.getString("name"))) {
                     int currentChapNumber = jsonObject.getInt("number");
 
-                    for(int n=0; n< chapters.length(); n++){
+                    for (int n = 0; n < chapters.length(); n++) {
                         JSONObject jsonObject1 = chapters.getJSONObject(n);
 
-                        if(jsonObject1.getInt("number") == currentChapNumber - 1){
+                        if (jsonObject1.getInt("number") == currentChapNumber - 1) {
                             previousChapter = jsonObject1.getString("name");
                             System.out.println("Prevchap--->" + previousChapter);
-                        }else if(jsonObject1.getInt("number") == currentChapNumber + 1){
+                        } else if (jsonObject1.getInt("number") == currentChapNumber + 1) {
                             nextChapter = jsonObject1.getString("name");
-                            System.out.println("NextChap---श>"+ nextChapter);
+                            System.out.println("NextChap---श>" + nextChapter);
                         }
 
                     }
@@ -1272,7 +1265,6 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
             System.out.println("ddf");
 
 
-
             System.out.println("Intermission");
 
         } catch (JSONException e) {
@@ -1280,25 +1272,25 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
         }
 
 
-        try{
+        try {
             //download audioFilesForAChapter
 
             audiosNextChapterCount = audiosNextChapter.size();
-            for(String audioPath: audiosNextChapter){
+            for (String audioPath : audiosNextChapter) {
                 downloadChapterAudioFileFromCloud(audioPath);
             }
 
 
             //download imageFilesForAChapter
             imagesNextChapterCount = imagesNextChapter.size();
-            for(String imagePath: imagesNextChapter){
+            for (String imagePath : imagesNextChapter) {
                 downloadChapterImageFileFromCloud(imagePath);
             }
 
             game.firebaseManager.downloadInteraction(currentChapterName, this);
 
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -1318,7 +1310,7 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
         final StorageReference audioRef = storageRef.child("Expansion Files for online Munchausen/AUDIO_FINAL/Part_English/" + filePath);
 
         //Download to a local file
-        File storagePath = new File(Environment.getExternalStorageDirectory() + "/"+game.params.storageDirectory+"/expansion/");
+        File storagePath = new File(Environment.getExternalStorageDirectory() + "/" + game.params.storageDirectory + "/expansion/");
         // Create direcorty if not exists
         if (!storagePath.exists()) {
             storagePath.mkdirs();
@@ -1425,7 +1417,7 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
         final StorageReference imageRef = storageRef.child(remoteImage);
 
         //Download to a local file
-        File storagePath = new File(Environment.getExternalStorageDirectory() + "/"+game.params.storageDirectory+"/expansion/images/");
+        File storagePath = new File(Environment.getExternalStorageDirectory() + "/" + game.params.storageDirectory + "/expansion/images/");
         // Create direcorty if not exists
         if (!storagePath.exists()) {
             storagePath.mkdirs();
@@ -1505,10 +1497,10 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
         }
     }
 
-    public List<String> getAudioFilesFromChapter(String chapterName){
+    public List<String> getAudioFilesFromChapter(String chapterName) {
 
 
-        try{
+        try {
 
             String scenarioJson = readScenarioJsonFile();
 
@@ -1517,23 +1509,23 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
             List<String> audios = new ArrayList<>();
             //List<String> images = new ArrayList<>();
 
-            for(int i = 0; i< scenarios.length(); i++){
+            for (int i = 0; i < scenarios.length(); i++) {
 
                 JSONObject jsonObject = scenarios.getJSONObject(i);
 
-                try{
-                    if(jsonObject.has("chapter") && jsonObject.get("chapter").equals(chapterName)){
+                try {
+                    if (jsonObject.has("chapter") && jsonObject.get("chapter").equals(chapterName)) {
 
                         JSONArray audioArray = jsonObject.getJSONArray("audio");
 
-                        for(int j=0; j< audioArray.length(); j++){
+                        for (int j = 0; j < audioArray.length(); j++) {
 
                             audios.add(audioArray.getJSONObject(j).getString("audio"));
 
                         }
 
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                     System.out.println("Maybe no value for chapter ");
                 }
@@ -1552,12 +1544,12 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
 
             List<String> audioPaths = new ArrayList<>();
 
-            for(String audio: audios){
+            for (String audio : audios) {
 
-                for(int j=0; j< audioArray.length(); j++){
+                for (int j = 0; j < audioArray.length(); j++) {
 
                     //audios.add(audioArray.getJSONObject(j).getString("audio"));
-                    if(audio.equals(audioArray.getJSONObject(j).getString("name"))){
+                    if (audio.equals(audioArray.getJSONObject(j).getString("name"))) {
 
                         audioPaths.add(audioArray.getJSONObject(j).getString("file"));
                         break;
@@ -1573,10 +1565,10 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
 
             JSONArray chapters = new JSONArray(chapterJson);
 
-            for(int i=0; i< chapters.length(); i++){
+            for (int i = 0; i < chapters.length(); i++) {
 
                 JSONObject jsonObject = chapters.getJSONObject(i);
-                if(chapterName.equals(jsonObject.getString("name"))){
+                if (chapterName.equals(jsonObject.getString("name"))) {
                     audioPaths.add("audio/" + jsonObject.getString("chapterAudio") + ".aac");
                 }
 
@@ -1593,9 +1585,9 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
     }
 
 
-    public List<String> getImageFilesFromChapter(String chapterName){
+    public List<String> getImageFilesFromChapter(String chapterName) {
 
-        try{
+        try {
 
             String scenarioJson = readScenarioJsonFile();
 
@@ -1603,26 +1595,26 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
 
             List<String> images = new ArrayList<>();
 
-            for(int i = 0; i< scenarios.length(); i++){
+            for (int i = 0; i < scenarios.length(); i++) {
 
                 JSONObject jsonObject = scenarios.getJSONObject(i);
 
-                try{
-                    if(jsonObject.has("chapter") && jsonObject.get("chapter").equals(chapterName)){
+                try {
+                    if (jsonObject.has("chapter") && jsonObject.get("chapter").equals(chapterName)) {
 
 
                         JSONArray imageArray = jsonObject.getJSONArray("images");
 
-                        for(int k=0; k< imageArray.length(); k++){
+                        for (int k = 0; k < imageArray.length(); k++) {
 
-                            if(!imageArray.getJSONObject(k).getString("image").equals("Last"))
+                            if (!imageArray.getJSONObject(k).getString("image").equals("Last"))
                                 images.add(imageArray.getJSONObject(k).getString("image"));
 
                         }
 
 
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                     System.out.println("Maybe no value for chapter ");
                 }
@@ -1639,14 +1631,14 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
 
     }
 
-    public void deletePreviousChapterExpansions(){
+    public void deletePreviousChapterExpansions() {
         System.err.println("deletePreviousChapterExpansions");
 
         //check if audio files already present and delete
 
         try {
 
-            File audioDirectory = new File(Environment.getExternalStorageDirectory() + "/"+game.params.storageDirectory+"/expansion/audio");
+            File audioDirectory = new File(Environment.getExternalStorageDirectory() + "/" + game.params.storageDirectory + "/expansion/audio");
 
             File[] directoryListing = audioDirectory.listFiles();
 
@@ -1679,7 +1671,7 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
 
             //check if image files already present and delete
 
-            File imageDirectory = new File(Environment.getExternalStorageDirectory() + "/"+game.params.storageDirectory+"/expansion/images");
+            File imageDirectory = new File(Environment.getExternalStorageDirectory() + "/" + game.params.storageDirectory + "/expansion/images");
 
             File[] imgdirectoryListing = imageDirectory.listFiles();
 
@@ -1722,7 +1714,7 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
     }
 
 
-    public boolean downloadGoofAudio(String goofName, DownloadSuccessFailureListener downloadSuccessFailureListener1){
+    public boolean downloadGoofAudio(String goofName, DownloadSuccessFailureListener downloadSuccessFailureListener1) {
 
         downloadSuccessFailureListener = downloadSuccessFailureListener1;
 
@@ -1735,15 +1727,15 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
         final StorageReference audioRef = storageRef.child("Expansion Files for online Munchausen/AUDIO_FINAL/Fails_Eng/" + filePath);
 
         //Download to a local file
-        File storagePath = new File(Environment.getExternalStorageDirectory() + "/"+game.params.storageDirectory+"/expansion/audio/");
+        File storagePath = new File(Environment.getExternalStorageDirectory() + "/" + game.params.storageDirectory + "/expansion/audio/");
         // Create direcorty if not exists
-        if(!storagePath.exists()) {
+        if (!storagePath.exists()) {
             storagePath.mkdirs();
         }
 
         final File localFile = new File(storagePath, filePath);
 
-        if(!localFile.exists()) {
+        if (!localFile.exists()) {
 
             audioRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
@@ -1758,7 +1750,7 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
                     downloadSuccessFailureListener.onFailure();
                 }
             });
-        }else{
+        } else {
 
             final long totalSpaceInLocal = localFile.length();
 
@@ -1769,10 +1761,10 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
 
                     System.out.println("totalByteCounted");
 
-                    if(totalSpaceInLocal == totalByteCountedInCloud){
+                    if (totalSpaceInLocal == totalByteCountedInCloud) {
                         System.out.println("Already full file on local");
                         downloadSuccessFailureListener.onSuccess();
-                    }else{
+                    } else {
                         //download again
 
                         audioRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
@@ -1804,7 +1796,7 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
 
     }
 
-    public boolean downloadGalleryImage(String imageName, DownloadSuccessFailureListener downloadSuccessFailureListener2){
+    public boolean downloadGalleryImage(String imageName, DownloadSuccessFailureListener downloadSuccessFailureListener2) {
 
         downloadSuccessFailureListener = downloadSuccessFailureListener2;
 
@@ -1813,14 +1805,14 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
 
         String PICTURES_DPI;
 
-        if(dpi < 420){
+        if (dpi < 420) {
             PICTURES_DPI = "Pictures_Mdpi/";
-        }else{
+        } else {
             PICTURES_DPI = "Pictures_Hdpi/";
         }
 
 
-        if(isInternetAvailable()) {
+        if (isInternetAvailable()) {
             StorageReference storageRef = storage.getReference();
 
             storageRef.getStorage().setMaxDownloadRetryTimeMillis(1000);
@@ -1828,7 +1820,7 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
             final StorageReference imageRef = storageRef.child("Expansion Files for online Munchausen/" + PICTURES_DPI + imageName + ".jpg");
 
             //Download to a local file
-            File storagePath = new File(Environment.getExternalStorageDirectory() + "/"+game.params.storageDirectory+"/expansion/images/");
+            File storagePath = new File(Environment.getExternalStorageDirectory() + "/" + game.params.storageDirectory + "/expansion/images/");
             // Create direcorty if not exists
             if (!storagePath.exists()) {
                 storagePath.mkdirs();
@@ -1898,7 +1890,7 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
                 });
 
             }
-        }else{
+        } else {
             downloadSuccessFailureListener.onFailure();
         }
 
