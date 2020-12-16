@@ -40,7 +40,7 @@ public class PlatformParams implements JsonEntry {
     public float scaleFactor = 1;
     public String yandexId;
     public String facebookId;
-    public String googleStoreId;
+    public String appStoreId;
 
     public String tutorialLink;
     public String trailerLink;
