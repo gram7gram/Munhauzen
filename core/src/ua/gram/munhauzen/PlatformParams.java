@@ -10,7 +10,6 @@ import ua.gram.munhauzen.utils.MemoryUsage;
 
 public class PlatformParams implements JsonEntry {
 
-
     enum Release {
         DEV, PROD, TEST
     }
@@ -41,6 +40,7 @@ public class PlatformParams implements JsonEntry {
     public float scaleFactor = 1;
     public String yandexId;
     public String facebookId;
+    public String googleStoreId;
 
     public String tutorialLink;
     public String trailerLink;

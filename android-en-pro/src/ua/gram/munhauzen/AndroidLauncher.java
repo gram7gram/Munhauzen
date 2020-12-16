@@ -79,10 +79,7 @@ import static android.content.ContentValues.TAG;
 
 public class AndroidLauncher extends AndroidApplication implements FirebaseDownloader {
 
-    private static final int READ_EXTERNAL_STORAGE = 0X01;
-
     private boolean needToDownload;
-
     public static boolean needToDownloadStatic = true;
 
     private FirebaseDatabase database;
@@ -116,16 +113,6 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
     List<String> imagesNextChapter;
 
     protected MunhauzenGame game;
-
-    public class FIREBASE_PATHS {
-        //        public static final  String USERS = "users";
-//        public static final  String NOTIFICATION = "1notifications";
-        public static final String LAST_LOGIN_TIME = "last_login_time";
-        public static final String HAS_COMPLETED_CHAP_0 = "hasCompletedChap0";
-        public static final String REFERRED_CANDIDATES = "referred_candidates";
-        public static final String REFERRED_BY = "referred_by";
-    }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -162,6 +149,7 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
         config.useWakelock = true;
 
         PlatformParams params = new ProPlatformParams();
+        params.googleStoreId = "1496752335";
         params.yandexId = "10512574-c690-41a5-9aaa-ab1bb81e3677";
         params.facebookId = "3619285098163843";
         params.device.type = Device.Type.android;
@@ -705,38 +693,6 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
 
     }
 
-/*    private String readExpansionJsonFile() {
-        try {
-            PlatformParams platformParams = new PlatformParams();
-            String dfdlk = ""+game.params.storageDirectory+"/" + platformParams.expansionVersion + "-expansion.json";
-
-
-
-            //File file = new File(getExternalFilesDir("").toString(), "my.json");
-            File file = new File(Environment.getExternalStorageDirectory() + "/"+game.params.storageDirectory+"", platformParams.expansionVersion + "-expansion.json");
-            FileReader fileReader = new FileReader(file);
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-            StringBuilder stringBuilder = new StringBuilder();
-            String line = bufferedReader.readLine();
-            while (line != null) {
-                stringBuilder.append(line).append("\n");
-                line = bufferedReader.readLine();
-            }
-            bufferedReader.close();
-// This responce will have Json Format String
-            String responce = stringBuilder.toString();
-            System.out.println("Readed Expansion Json--->" + responce);
-            return responce;
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
-        //System.out.println("filepath--->" + getApplicationContext().getFilesDir());
-        return null;
-
-    }*/
-
     private String readScenarioJsonFile() {
         String json = null;
         try {
@@ -874,7 +830,7 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
                                 .build())
                 .setIosParameters(
                         new DynamicLink.IosParameters.Builder("en.munchausen.fingertipsandcompany.full")
-                                .setAppStoreId("1496752335")
+                                .setAppStoreId(game.params.googleStoreId)
                                 .setMinimumVersion("1.0.1")
                                 .build())
                 .buildShortDynamicLink()
@@ -1260,12 +1216,6 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
 
             audiosNextChapter = getAudioFilesFromChapter(nextChapter);
             imagesNextChapter = getImageFilesFromChapter(nextChapter);
-
-
-            System.out.println("ddf");
-
-
-            System.out.println("Intermission");
 
         } catch (JSONException e) {
             e.printStackTrace();
