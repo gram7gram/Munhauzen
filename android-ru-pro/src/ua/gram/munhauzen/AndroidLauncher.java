@@ -145,7 +145,6 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
         config.useWakelock = true;
 
         PlatformParams params = new ProPlatformParams();
-        params.appStoreId = "1498389554";
         params.yandexId = "c1207d58-9ea9-4830-93ec-58aaa78098a1";
         params.facebookId = "2021443327991679";
         params.device.type = Device.Type.android;
@@ -812,11 +811,6 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
                 .setAndroidParameters(
                         new DynamicLink.AndroidParameters.Builder("ru.munchausen.fingertipsandcompany.full")
                                 .setMinimumVersion(125)
-                                .build())
-                .setIosParameters(
-                        new DynamicLink.IosParameters.Builder("ru.munchausen.fingertipsandcompany.full")
-                                .setAppStoreId(game.params.appStoreId)
-                                .setMinimumVersion("1.0.1")
                                 .build())
                 .buildShortDynamicLink()
                 .addOnCompleteListener(new OnCompleteListener<ShortDynamicLink>() {
