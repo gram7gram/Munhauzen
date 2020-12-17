@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
+import com.badlogic.gdx.pay.android.googlebilling.PurchaseManagerGoogleBilling;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -168,6 +169,7 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
         params.appStoreSku10Chapter = "chapter_10_munchausen_audiobook_eng";
         params.appStoreSkuThanks = "thanks_munchausen_audiobook_eng";
         params.appStoreSkuFullThanks = "all_munchausen_audiobook_eng";
+        params.iap = new PurchaseManagerGoogleBilling(this);
         params.translator = new EnglishTranslator();
         params.memoryUsage = new AndroidMemoryUsage();
         params.appStore = new GooglePlay(params);
