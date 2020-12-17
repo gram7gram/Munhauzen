@@ -16,7 +16,6 @@ import org.robovm.apple.foundation.NSData;
 import org.robovm.apple.foundation.NSDate;
 import org.robovm.apple.foundation.NSDictionary;
 import org.robovm.apple.foundation.NSError;
-import org.robovm.apple.foundation.NSErrorException;
 import org.robovm.apple.foundation.NSFileManager;
 import org.robovm.apple.foundation.NSMutableArray;
 import org.robovm.apple.foundation.NSNumber;
@@ -96,7 +95,7 @@ import ua.gram.munhauzen.translator.RussianTranslator;
 import ua.gram.munhauzen.utils.AlarmInterface;
 import ua.gram.munhauzen.utils.Log;
 
-public class IOSLauncher extends IOSApplication.Delegate implements FIRMessagingDelegate, UNUserNotificationCenterDelegate, UIApplicationDelegate {
+public class IOSLauncher extends IOSApplication.Delegate implements FIRMessagingDelegate, UNUserNotificationCenterDelegate, UIApplicationDelegate, FirebaseDownloader {
 
     public static final String TAG = "IOSLauncher";
     public static final String KEY_TIME = "key_time";
@@ -110,8 +109,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
     public static final String KEY_NOTIFICATION2_MESSAGE = "key_notification2_message";
     public static final String KEY_DEVICE_TOKEN = "key_device_token";
     public static final String KEY_REFERRAL_COUNT = "key_referral_count";
-    public static final String MUNHAUSEN_URL = "https://thebaronmunchausen.com";
-    //    public static final String MUNHAUSEN_URL = "https://fingertipsandcompany.page.link/?invitedby=";
+    public static final String MUNHAUSEN_URL = "https://thebaronmunchausen.com/ru";
     public static final String INVITE_LINK = MUNHAUSEN_URL + "/?invitedby=";
     public static final String BUNDLE_ID = "ru.munchausen.fingertipsandcompany.full";
     public static final int CHAPTER0_COMPLETED = 1;
@@ -121,11 +119,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
     public static String USERS = "ztestusers";
     public static String NOTIFICATION = "ztest1notifications";
 
-    public class FIREBASE_PATHS {
-        //        public static fina
-        //        l  String USERS = "users";
-//        public static final  String NOTIFICATION = "1notifications";
-
+    public static class FIREBASE_PATHS {
         public static final String LAST_LOGIN_TIME = "last_login_time";
         public static final String HAS_COMPLETED_CHAP_0 = "hasCompletedChap0";
         public static final String REFERRED_CANDIDATES = "referred_candidates";
@@ -160,6 +154,113 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
     List<String> audiosNextChapter;
     List<String> imagesNextChapter;
+
+    MunhauzenGame game;
+
+    @Override
+    protected IOSApplication createApplication() {
+        config = new IOSApplicationConfiguration();
+        config.orientationPortrait = true;
+        config.orientationLandscape = false;
+        config.useAccelerometer = false;
+        config.useCompass = false;
+
+        PlatformParams params = new PlatformParams();
+        params.appStoreId = "1498389554";
+        params.device.type = isIpad() ? Device.Type.ipad : Device.Type.ios;
+        params.isTablet = params.device.type == Device.Type.ipad;
+        params.scaleFactor = getDeviceScaleFactor();
+        params.storageDirectory = ".Munchausen/ru.munchausen.fingertipsandcompany.any";
+        params.locale = "ru";
+        params.appStoreSkuFull = "full_munchausen_audiobook_ru";
+        params.appStoreSkuPart1 = "part_1_munchausen_audiobook_ru";
+        params.appStoreSkuPart2 = "part_2_munchausen_audiobook_ru";
+        params.appStoreSku1Chapter = "chapter_1_munchausen_audiobook_ru";
+        params.appStoreSku3Chapter = "chapter_3_munchausen_audiobook_ru";
+        params.appStoreSku5Chapter = "chapter_5_munchausen_audiobook_ru";
+        params.appStoreSku10Chapter = "chapter_10_munchausen_audiobook_ru";
+        params.appStoreSkuThanks = "thanks_munchausen_audiobook_ru";
+        params.appStoreSkuFullThanks = "all_munchausen_audiobook_ru";
+        params.iap = new PurchaseManageriOSApple();
+        params.translator = new RussianTranslator();
+        params.appStore = new AppleStore(params);
+        params.release = PlatformParams.Release.PROD;
+
+        params.trailerLink = "https://www.youtube.com/watch?v=eCAohaztPlQ&t";
+        params.tutorialLink = "https://youtu.be/6K__lu7QuLk";
+        params.fbLink = "https://www.facebook.com/thebaronmunchausen/photos/a.120269342878170/159930395578731/?type=3&xts%5B0%5D=68.ARDwKU7TTxCgmsz5T6W9Eu2xtm-Hv7chauuJWy_S5CIe9J7J3Rsl8CVsg1jHTERjW2pp3rM-6a5Iup5zR2SmytSr8v5lpnpl3RkXyxE1C6w-x79XqWzx4TRvwZtE_zhEJeIj7lIsceHQe-kBM88Dzz1Z8eLC-r7Z7NbVx7fZdizOFiEobj-hUDluar480Bim6q9hZi3gKs3ul4QUx8vVHZ2IKCoGc_5Vs6qucx07PsvoxnL67qDzxvMjdD7WyCKQaTHwxmrY6delninvJXNdG1lYpE9dP_YrVWO8ES7ZKMo5itape1BZGdURY8ha5jULztsps6zPpMF9725fXyq20AU&tn=-R";
+        params.instaLink = "https://www.instagram.com/p/CBdHK7BnYHK/?utm_source=ig_web_copy_link";
+        params.twLink = "https://twitter.com/Finger_Tips_C/status/1272495967951097856?s=20";
+        params.vkLink = "https://vk.com/wall374290107_9";
+        params.statueLink = "https://youtu.be/nxOFXw5Efzo";
+
+        final NSDictionary<NSString, ?> infoDictionary = NSBundle.getMainBundle().getInfoDictionary();
+        final Set<NSString> keys = infoDictionary.keySet();
+
+        for (final NSString key : keys) {
+
+            if (key.toString().equals("CFBundleVersion")) {
+                final NSObject value = infoDictionary.get(key);
+                params.versionCode = Integer.parseInt(value.toString());
+            }
+            if (key.toString().equals("CFBundleShortVersionString")) {
+                final NSObject value = infoDictionary.get(key);
+                params.versionName = value.toString();
+            }
+            if (key.toString().equals("CFBundleIdentifier")) {
+                final NSObject value = infoDictionary.get(key);
+                params.applicationId = value.toString();
+            }
+        }
+
+        if (params.release == PlatformParams.Release.PROD) {
+            USERS = "users";
+            NOTIFICATION = "1notifications";
+        } else {
+            USERS = "ztestusers";
+            NOTIFICATION = "ztest1notifications";
+        }
+
+        readNotificationJson();
+
+        mAuth = FIRAuth.auth();
+        FIRUser user = mAuth.getCurrentUser();
+
+        LoginInterface loginInterface;
+
+        if (user == null) {
+            loginInterface = mLoginInterface;
+        } else {
+            System.out.println("UserID------------------------------>" + mAuth.getCurrentUser().getUid());
+            setReferralzz();
+            getReferralCount();
+            loginInterface = mSetReferalInterface;
+        }
+
+
+        MunhauzenGame game = new MunhauzenGame(params,
+                mAlarmInterface,
+                mExpansionDownloadInterface,
+                loginInterface,
+                mReferalInterface,
+                mDownloadExpansionInterface,
+                new OnlineOfflineListenterInterface() {
+                    @Override
+                    public void onGameModeChanged(boolean isOnline) {
+                        if (!isOnline) {
+                            deletePreviousChapterExpansions();
+                        }
+                    }
+                }, new InternetListenterInterface() {
+            @Override
+            public boolean hasInternet() {
+                return isInternetAvailable();
+            }
+        });
+        return new IOSApplication(game, config);
+
+    }
+
     @Override
     public boolean didFinishLaunching(UIApplication application, UIApplicationLaunchOptions launchOptions) {
         System.out.println("createApplication: ");
@@ -172,7 +273,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
             storage = FIRStorage.storage().referenceForURL("gs://oh-that-munchausen.appspot.com");
 
             System.out.println("didFinishLaunching: Firebase configured");
-            NSUserDefaults.getStandardUserDefaults().put(KEY_REFERRAL_COUNT,0);
+            NSUserDefaults.getStandardUserDefaults().put(KEY_REFERRAL_COUNT, 0);
             if (Foundation.getMajorSystemVersion() >= 10) {
                 notificationCenter = UNUserNotificationCenter.currentNotificationCenter();
                 UNUserNotificationCenter.currentNotificationCenter().setDelegate(this);
@@ -243,8 +344,8 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
         public void startAlarm() {
             try {
                 showNotificaiton();
-            }catch (Exception e){
-                System.out.println("Applicatio Exception---------------->"+e);
+            } catch (Exception e) {
+                System.out.println("Applicatio Exception---------------->" + e);
             }
         }
     };
@@ -262,7 +363,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
      *
      * @param loginListener login interface from core
      */
-    private void loginAnonymouslyz(final LoginListener loginListener){
+    private void loginAnonymouslyz(final LoginListener loginListener) {
         mAuth.signInAnonymously(new VoidBlock2<FIRAuthDataResult, NSError>() {
             @Override
             public void invoke(FIRAuthDataResult firAuthDataResult, NSError nsError) {
@@ -280,7 +381,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
                     userRecord.child(FIREBASE_PATHS.LAST_LOGIN_TIME).setValue(FIRServerValue.timestamp());
                     userRecord.child(FIREBASE_PATHS.HAS_COMPLETED_CHAP_0).setValue(NSNumber.valueOf(CHAPTER0_INCOMPLETE));
                     setReferralzz();
-                }else{
+                } else {
                     Log.e(TAG, nsError.getLocalizedFailureReason());
                 }
             }
@@ -291,16 +392,17 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
     /**
      * Generates a short referal Link
+     *
      * @return referal link
      */
-    private String setReferralzz(){
+    private String setReferralzz() {
         String uid = mAuth.getCurrentUser().getUid();
-        String link = INVITE_LINK+uid;
-        FIRDynamicLinkComponents referalLink = new FIRDynamicLinkComponents(new NSURL(link) ,"https://fingertipsandcompany.page.link");
+        String link = INVITE_LINK + uid;
+        FIRDynamicLinkComponents referalLink = new FIRDynamicLinkComponents(new NSURL(link), "https://fingertipsandcompany.page.link");
 
         FIRDynamicLinkIOSParameters iOSParameters = new FIRDynamicLinkIOSParameters(BUNDLE_ID);
         iOSParameters.setMinimumAppVersion("1.0.1");
-        iOSParameters.setAppStoreID("1498389554");
+        iOSParameters.setAppStoreID(game.params.appStoreId);
         referalLink.setIOSParameters(iOSParameters);
 
         FIRDynamicLinkAndroidParameters androidParameters = new FIRDynamicLinkAndroidParameters(BUNDLE_ID);
@@ -311,8 +413,8 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
         referalLink.shorten(new VoidBlock3<NSURL, NSArray<NSString>, NSError>() {
             @Override
             public void invoke(NSURL shortURL, NSArray<NSString> nsStrings, NSError nsError) {
-                if (nsError != null){
-                    System.out.println("Referal Link Shorter Error-------------------->"+nsError);
+                if (nsError != null) {
+                    System.out.println("Referal Link Shorter Error-------------------->" + nsError);
                     return;
                 }
                 mInvitationURL = shortURL.getAbsoluteString();
@@ -328,7 +430,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
     /**
      * Sends invitation link through mail
      */
-    private void sendInvitationLink(){
+    private void sendInvitationLink() {
         String invitationLink = mInvitationURL;
         String msg = "Let's play Munchausen together! Use my referrer link: "
                 + invitationLink;
@@ -338,17 +440,17 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
         NSMutableArray<NSString> array = new NSMutableArray<NSString>();
         array.add(msg);
 
-        UIActivityViewController activityViewController = new UIActivityViewController(array,null);
+        UIActivityViewController activityViewController = new UIActivityViewController(array, null);
         UIViewController currentViewController = UIApplication.getSharedApplication().getKeyWindow().getRootViewController();
 
         if (isIpad()) {
             UIPopoverPresentationController popoverController = activityViewController.getPopoverPresentationController();
-            popoverController.setSourceRect(new CGRect(UIScreen.getMainScreen().getBounds().getWidth()/2, UIScreen.getMainScreen().getBounds().getHeight()/2,0,0));
+            popoverController.setSourceRect(new CGRect(UIScreen.getMainScreen().getBounds().getWidth() / 2, UIScreen.getMainScreen().getBounds().getHeight() / 2, 0, 0));
             popoverController.setSourceView(activityViewController.getView());
             popoverController.setPermittedArrowDirections(new UIPopoverArrowDirection(0));
         }
 
-        currentViewController.presentViewController(activityViewController,true,null);
+        currentViewController.presentViewController(activityViewController, true, null);
 
 //        let activityViewController = UIActivityViewController(activityItems: textToShare, applicationActivities: nil)
 //        activityViewController.excludedActivityTypes = [.airDrop]
@@ -447,7 +549,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
     private LoginInterface mSetReferalInterface = new LoginInterface() {
         @Override
         public void loginAnonymously(LoginListener loginListener) {
-           setReferralzz();
+            setReferralzz();
         }
     };
 
@@ -503,7 +605,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
         NSArray<NSURLQueryItem> filteredList = new NSArray<NSURLQueryItem>();
 
-        for (NSURLQueryItem item :  queryItems) {
+        for (NSURLQueryItem item : queryItems) {
             if (item.getName().equals("invitedby")) {
                 filteredList.add(item);
             }
@@ -513,7 +615,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
         final FIRUser user = FIRAuth.auth().getCurrentUser();
 
-        if (user == null && invitedBy !=null) {
+        if (user == null && invitedBy != null) {
             FIRAuth.auth().signInAnonymously(new VoidBlock2<FIRAuthDataResult, NSError>() {
                 @Override
                 public void invoke(FIRAuthDataResult firAuthDataResult, NSError nsError) {
@@ -562,113 +664,6 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
         return false;
     }
 
-    @Override
-    protected IOSApplication createApplication() {
-        config = new IOSApplicationConfiguration();
-        config.orientationPortrait = true;
-        config.orientationLandscape = false;
-        config.useAccelerometer = false;
-        config.useCompass = false;
-
-        PlatformParams params = new PlatformParams();
-        params.device.type = isIpad() ? Device.Type.ipad : Device.Type.ios;
-        params.isTablet = params.device.type == Device.Type.ipad;
-        params.scaleFactor = getDeviceScaleFactor();
-        params.storageDirectory = ".Munchausen/ru.munchausen.fingertipsandcompany.any";
-        params.locale = "ru";
-        params.appStoreSkuFull = "full_munchausen_audiobook_ru";
-        params.appStoreSkuPart1 = "part_1_munchausen_audiobook_ru";
-        params.appStoreSkuPart2 = "part_2_munchausen_audiobook_ru";
-        params.appStoreSku1Chapter = "chapter_1_munchausen_audiobook_ru";
-        params.appStoreSku3Chapter = "chapter_3_munchausen_audiobook_ru";
-        params.appStoreSku5Chapter = "chapter_5_munchausen_audiobook_ru";
-        params.appStoreSku10Chapter = "chapter_10_munchausen_audiobook_ru";
-        params.appStoreSkuThanks = "thanks_munchausen_audiobook_ru";
-        params.appStoreSkuFullThanks = "all_munchausen_audiobook_ru";
-        params.iap = new PurchaseManageriOSApple();
-        params.translator = new RussianTranslator();
-        params.appStore = new AppleStore(params);
-        params.release = PlatformParams.Release.PROD;
-
-        params.trailerLink = "https://www.youtube.com/watch?v=eCAohaztPlQ&t";
-        params.tutorialLink = "https://youtu.be/6K__lu7QuLk";
-        params.fbLink = "https://www.facebook.com/thebaronmunchausen/photos/a.120269342878170/159930395578731/?type=3&xts%5B0%5D=68.ARDwKU7TTxCgmsz5T6W9Eu2xtm-Hv7chauuJWy_S5CIe9J7J3Rsl8CVsg1jHTERjW2pp3rM-6a5Iup5zR2SmytSr8v5lpnpl3RkXyxE1C6w-x79XqWzx4TRvwZtE_zhEJeIj7lIsceHQe-kBM88Dzz1Z8eLC-r7Z7NbVx7fZdizOFiEobj-hUDluar480Bim6q9hZi3gKs3ul4QUx8vVHZ2IKCoGc_5Vs6qucx07PsvoxnL67qDzxvMjdD7WyCKQaTHwxmrY6delninvJXNdG1lYpE9dP_YrVWO8ES7ZKMo5itape1BZGdURY8ha5jULztsps6zPpMF9725fXyq20AU&tn=-R";
-        params.instaLink = "https://www.instagram.com/p/CBdHK7BnYHK/?utm_source=ig_web_copy_link";
-        params.twLink = "https://twitter.com/Finger_Tips_C/status/1272495967951097856?s=20";
-        params.vkLink = "https://vk.com/wall374290107_9";
-        params.statueLink = "https://youtu.be/nxOFXw5Efzo";
-
-        final NSDictionary<NSString, ?> infoDictionary = NSBundle.getMainBundle().getInfoDictionary();
-        final Set<NSString> keys = infoDictionary.keySet();
-
-        for (final NSString key : keys) {
-
-            if (key.toString().equals("CFBundleVersion")) {
-                final NSObject value = infoDictionary.get(key);
-                params.versionCode = Integer.parseInt(value.toString());
-            }
-            if (key.toString().equals("CFBundleShortVersionString")) {
-                final NSObject value = infoDictionary.get(key);
-                params.versionName = value.toString();
-            }
-            if (key.toString().equals("CFBundleIdentifier")) {
-                final NSObject value = infoDictionary.get(key);
-                params.applicationId = value.toString();
-            }
-        }
-
-
-        if (params.release == PlatformParams.Release.PROD) {
-            USERS = "users";
-            NOTIFICATION = "1notifications";
-        } else {
-            USERS = "ztestusers";
-            NOTIFICATION = "ztest1notifications";
-        }
-
-        readNotificationJson();
-
-        mAuth = FIRAuth.auth();
-        FIRUser user = mAuth.getCurrentUser();
-
-        LoginInterface loginInterface;
-
-        if (user == null) {
-            loginInterface = mLoginInterface;
-        } else {
-            System.out.println("UserID------------------------------>" + mAuth.getCurrentUser().getUid());
-            setReferralzz();
-            getReferralCount();
-            loginInterface = mSetReferalInterface;
-        }
-
-
-        MunhauzenGame game = new MunhauzenGame(params,
-                mAlarmInterface,
-                mExpansionDownloadInterface,
-                loginInterface,
-                mReferalInterface,
-                mDownloadExpansionInterface,
-                new OnlineOfflineListenterInterface() {
-                    @Override
-                    public void onGameModeChanged(boolean isOnline) {
-                        if (!isOnline) {
-                            deletePreviousChapterExpansions();
-                        }
-                    }
-                }, new InternetListenterInterface() {
-                    @Override
-                    public boolean hasInternet() {
-                        return isInternetAvailable();
-                    }
-                });
-        return new IOSApplication(game, config);
-
-    }
-
-
-
-
     private DownloadExpansionInteface mDownloadExpansionInterface = new DownloadExpansionInteface() {
         @Override
         public void downloadExpansionAndDeletePrev(String currentChapterName, DownloadSuccessFailureListener downloadSuccessFailureListener) {
@@ -716,10 +711,9 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
         return 1;
     }
 
-
     private String readScenarioJsonFile() {
         String scenarioPath = NSBundle.getMainBundle().findResourcePath("scenario", "json");
-         return readJsonFile(scenarioPath);
+        return readJsonFile(scenarioPath);
 
     }
 
@@ -743,7 +737,6 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
         pool.close();
     }
 
-
     @Override
     public void didReceiveRegistrationToken(FIRMessaging messaging, String fcmToken) {
         System.out.println("didReceiveRegistrationToken: " + fcmToken);
@@ -754,15 +747,10 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
         System.out.println("didReceiveMessage: " + messaging);
         try {
             showNotificaiton();
-        } catch (NSErrorException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         }
-
     }
-
-
 
     @Override
     public void didRegisterForRemoteNotifications(UIApplication application, NSData deviceToken) {
@@ -772,7 +760,6 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
         FIRMessaging.messaging().setAPNSToken(deviceToken);
 
     }
-
 
     @Override
     public void didFailToRegisterForRemoteNotifications(UIApplication application, NSError error) {
@@ -798,13 +785,11 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
         completionHandler.invoke(UNNotificationPresentationOptions.with(UNNotificationPresentationOptions.Alert, UNNotificationPresentationOptions.Sound));
 
         try {
-
             showNotificaiton();
-        } catch (NSErrorException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         }
+
     }
 
     @Override
@@ -820,9 +805,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
         try {
             showNotificaiton();
-        } catch (NSErrorException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         }
 
@@ -833,7 +816,6 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
     public void openSettings(UNUserNotificationCenter unUserNotificationCenter, UNNotification unNotification) {
 
     }
-
 
     String gcmMessageIDKey = "gcm.message_id";
 
@@ -847,11 +829,10 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
         try {
             showNotificaiton();
-        } catch (NSErrorException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         }
+
     }
 
     @Override
@@ -864,16 +845,14 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
         try {
             showNotificaiton();
-        } catch (NSErrorException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         }
 
         completionHandler.invoke(UIBackgroundFetchResult.NewData);
     }
 
-    private void showNotificaiton() throws NSErrorException {
+    private void showNotificaiton() {
         if (Foundation.getMajorSystemVersion() >= 10) {
             try {
                 NotificationDelegate delegate = new NotificationDelegate();
@@ -881,14 +860,14 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
                 delegate.userRequest();
                 notificationCenter.removeAllPendingNotificationRequests();
                 readNotificationJson();
-                if (needToDownload){
+                if (needToDownload) {
                     delegate.scheduleDownloadNotification();
-                }else {
+                } else {
                     getLastChapter();
                     delegate.scheduleNotification();
                 }
-            }catch (Exception e){
-                System.out.println("Show Notificaiton Error ----------------->"+e);
+            } catch (Exception e) {
+                System.out.println("Show Notificaiton Error ----------------->" + e);
             }
         } else {
             String msg = NSUserDefaults.getStandardUserDefaults().getString(IOSLauncher.KEY_NOTIFICATION2_MESSAGE);
@@ -902,19 +881,16 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
             UIApplication.getSharedApplication().scheduleLocalNotification(notification);
 
 
-
         }
 
     }
-
-
 
     private void getLastChapter() {
         //Saved
 
         try {
             NSURL dir = NSFileManager.getDefaultManager().getURLsForDirectory(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask).first();
-            java.lang.String savedAction = dir.getPath() + "/.Munchausen/ru.munchausen.fingertipsandcompany.any/save-active.json";
+            java.lang.String savedAction = dir.getPath() + "/" + game.params.storageDirectory + "/save-active.json";
             String saveJson = readJsonFile(savedAction);
 
 
@@ -966,13 +942,12 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
         } catch (JSONException e) {
             e.printStackTrace();
             System.out.println("StartAlarmError: " + e);
-        } catch (Exception e){
-            System.out.println("StartAlarmError generalized exception -----------------------------> "+e);
+        } catch (Exception e) {
+            System.out.println("StartAlarmError generalized exception -----------------------------> " + e);
         }
 
 
     }
-
 
     public static void readNotificationJson() {
 
@@ -1007,7 +982,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
         } catch (JSONException e) {
             e.printStackTrace();
             System.out.println("StartAlarmError: " + e);
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -1061,23 +1036,23 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
         notificationContinueRef.child("4ru_hours_notification").observeEvent(FIRDataEventType.Value,
                 new VoidBlock1<FIRDataSnapshot>() {
-            @Override
-            public void invoke(FIRDataSnapshot firDataSnapshot) {
-                try {
-                    NSNumber value = (NSNumber) firDataSnapshot.getValue();
-                    NSUserDefaults.getStandardUserDefaults().put(KEY_NOTIFICATION1_AFTER, value);
-                    System.out.println("Continue Hrs------------------------------>"+value);
-                } catch (Exception e) {
-                    System.out.println("Continue Hrs Error------------------------>"+e);
-                }
+                    @Override
+                    public void invoke(FIRDataSnapshot firDataSnapshot) {
+                        try {
+                            NSNumber value = (NSNumber) firDataSnapshot.getValue();
+                            NSUserDefaults.getStandardUserDefaults().put(KEY_NOTIFICATION1_AFTER, value);
+                            System.out.println("Continue Hrs------------------------------>" + value);
+                        } catch (Exception e) {
+                            System.out.println("Continue Hrs Error------------------------>" + e);
+                        }
 
-            }
-        });
+                    }
+                });
 
 
         notificationContinueRef.child("5ru_title_notification").observeEvent(FIRDataEventType.Value,
                 new VoidBlock1<FIRDataSnapshot>() {
-            @Override
+                    @Override
                     public void invoke(FIRDataSnapshot firDataSnapshot) {
                         try {
                             NSString value = (NSString) firDataSnapshot.getValue();
@@ -1153,26 +1128,15 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
     }
 
-//    @Override
-//    public void willResignActive(UIApplication application) {
-//        startAlarm();
-//        try {
-//            showNotificaiton();
-//        } catch (NSErrorException e) {
-//            e.printStackTrace();
-//        }
-//        System.out.println("Resign");
-//        super.willResignActive(application);
-//    }
-
     @Override
     public void willTerminate(UIApplication application) {
 
         try {
             showNotificaiton();
-        } catch (NSErrorException e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         }
+
         System.out.println("Terminated");
         super.willTerminate(application);
     }
@@ -1188,33 +1152,31 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
         }
     }
 
-
     @Override
     public void didEnterBackground(UIApplication application) {
-
         try {
             showNotificaiton();
-        } catch (NSErrorException e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         }
+
         System.out.println("Background Entered");
         super.didEnterBackground(application);
     }
 
-
     private void downloadExpansionFile(String currentChapterName, DownloadSuccessFailureListener downloadSuccessFailureListener) throws IOException {
 
         this.downloadSuccessFailureListener = downloadSuccessFailureListener;
-        if(isInternetAvailable()) {
+        if (isInternetAvailable()) {
             extractInfoFromScenarioJsonAndPerformDeleteDownload(currentChapterName);
-        }else{
+        } else {
             downloadSuccessFailureListener.onFailure();
         }
 
 
     }
 
-    public void extractInfoFromScenarioJsonAndPerformDeleteDownload(String currentChapterName){
+    public void extractInfoFromScenarioJsonAndPerformDeleteDownload(String currentChapterName) {
 
 
         audioDownloadCount = 0;
@@ -1230,7 +1192,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
         imagesNextChapter = new ArrayList<>();
 
         //get previous and next chapter
-        String previousChapter= "";
+        String previousChapter = "";
         String nextChapter = "";
         try {
 
@@ -1240,21 +1202,21 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
             JSONArray chapters = new JSONArray(chapterJson);
 
-            for(int m=0; m< chapters.length(); m++){
+            for (int m = 0; m < chapters.length(); m++) {
 
                 JSONObject jsonObject = chapters.getJSONObject(m);
-                if(currentChapterName.equals(jsonObject.getString("name"))){
+                if (currentChapterName.equals(jsonObject.getString("name"))) {
                     int currentChapNumber = jsonObject.getInt("number");
 
-                    for(int n=0; n< chapters.length(); n++){
+                    for (int n = 0; n < chapters.length(); n++) {
                         JSONObject jsonObject1 = chapters.getJSONObject(n);
 
-                        if(jsonObject1.getInt("number") == currentChapNumber - 1){
+                        if (jsonObject1.getInt("number") == currentChapNumber - 1) {
                             previousChapter = jsonObject1.getString("name");
                             System.out.println("Prevchap--->" + previousChapter);
-                        }else if(jsonObject1.getInt("number") == currentChapNumber + 1){
+                        } else if (jsonObject1.getInt("number") == currentChapNumber + 1) {
                             nextChapter = jsonObject1.getString("name");
-                            System.out.println("NextChap---श>"+ nextChapter);
+                            System.out.println("NextChap---श>" + nextChapter);
                         }
 
                     }
@@ -1278,7 +1240,6 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
             System.out.println("ddf");
 
 
-
             System.out.println("Intermission");
 
         } catch (JSONException e) {
@@ -1286,73 +1247,97 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
         }
 
 
-        try{
+        try {
             //download audioFilesForAChapter
 
             audiosNextChapterCount = audiosNextChapter.size();
-            for(String audioPath: audiosNextChapter){
+            for (String audioPath : audiosNextChapter) {
                 downloadChapterAudioFileFromCloud(audioPath);
             }
 
 
             //download imageFilesForAChapter
             imagesNextChapterCount = imagesNextChapter.size();
-            for(String imagePath: imagesNextChapter){
+            for (String imagePath : imagesNextChapter) {
                 downloadChapterImageFileFromCloud(imagePath);
             }
 
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
 
     }
 
-
     public void downloadChapterAudioFileFromCloud(String filePath) {
+        downloadChapterAudioFileFromCloud(filePath, true);
+    }
 
-
+    @Override
+    public void downloadChapterAudioFileFromCloud(final String filePath, final boolean cleanup) {
         FIRStorageReference storageRef = storage;
 
         storageRef.getStorage().setMaxDownloadRetryTime(1000);
 
-        final FIRStorageReference audioRef = storageRef.child("Expansion Files for online Munchausen/AUDIO_FINAL/Part_Russian/" + filePath);
+        final FIRStorageReference audioRef = storageRef.child("Expansion Files for online Munchausen/AUDIO_FINAL/Part_English/" + filePath);
 
         //Download to a local file
 
         NSURL dir = NSFileManager.getDefaultManager().getURLsForDirectory(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask).first();
-        File storagePath = new File(dir.getPath() + "/.Munchausen/ru.munchausen.fingertipsandcompany.any/expansion/");
+        File storagePath = new File(dir.getPath() + "/" + game.params.storageDirectory + "/expansion/");
 
         // Create direcorty if not exists
         if (!storagePath.exists()) {
             storagePath.mkdirs();
         }
 
-        final File localFile = new File(storagePath, filePath);
+        final File localFile = new File(storagePath, filePath + ".tmp");
+        final File finalFile = new File(storagePath, filePath);
 
         final NSURL localURL = new NSURL(localFile);
 
-        if (!localFile.exists()) {
+        final Runnable onSuccess = new Runnable() {
+            @Override
+            public void run() {
+                audioDownloadCount++;
+                System.out.println("Success downloading from cloud: " + filePath + (cleanup ? ". Cleanup!" : ""));
+                System.out.println("AudioDownloadCount--->" + audioDownloadCount + "/" + audiosNextChapterCount);
+                System.out.println("ImageDownloadCount--->" + imageDownloadCount + "/" + imagesNextChapterCount);
 
+                try {
+                    localFile.renameTo(finalFile);
+                } catch (Throwable e) {
+                    e.printStackTrace();
+                }
+
+                if (cleanup) {
+                    if (audioDownloadCount >= audiosNextChapterCount && imageDownloadCount >= imagesNextChapterCount) {
+                        downloadSuccessFailureListener.onSuccess();
+                        deletePreviousChapterExpansions();
+                    }
+                }
+            }
+        };
+
+        final Runnable onFailure = new Runnable() {
+            @Override
+            public void run() {
+                System.err.println("FAILURe downloading from cloud: " + filePath);
+                System.out.println("AudioDownloadCount--->" + audioDownloadCount + "/" + audiosNextChapterCount);
+                System.out.println("ImageDownloadCount--->" + imageDownloadCount + "/" + imagesNextChapterCount);
+                downloadSuccessFailureListener.onFailure();
+            }
+        };
+
+        if (!finalFile.exists()) {
             audioRef.writeToFile(localURL, new VoidBlock2<NSURL, NSError>() {
                 @Override
                 public void invoke(NSURL nsurl, NSError nsError) {
                     if (nsError == null) {
-                        audioDownloadCount++;
-                        System.out.println("Success downloading from cloud :)");
-                        System.out.println("AudioDownloadCount--->" + audioDownloadCount);
-                        System.out.println("ImageDownloadCount--->" + imageDownloadCount);
-
-                        if (audioDownloadCount >= audiosNextChapterCount && imageDownloadCount >= imagesNextChapterCount) {
-                            downloadSuccessFailureListener.onSuccess();
-                            deletePreviousChapterExpansions();
-                        }
+                        onSuccess.run();
                     } else {
-                        System.out.println("AudioDownloadCount--->" + audioDownloadCount);
-                        System.out.println("ImageDownloadCount--->" + imageDownloadCount);
-                        downloadSuccessFailureListener.onFailure();
-                        System.out.println("FAILURe downloading from cloud");
+                        onFailure.run();
                     }
                 }
             });
@@ -1371,13 +1356,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
                         if (totalSpaceInLocal == totalByteCountedInCloud) {
                             System.out.println("Already full file on local");
-                            audioDownloadCount++;
-                            if (audioDownloadCount >= audiosNextChapterCount && imageDownloadCount >= imagesNextChapterCount) {
-                                System.out.println("AudioDownloadCount--->" + audioDownloadCount);
-                                System.out.println("ImageDownloadCount--->" + imageDownloadCount);
-                                downloadSuccessFailureListener.onSuccess();
-                                deletePreviousChapterExpansions();
-                            }
+                            onSuccess.run();
                         } else {
                             //download again
 
@@ -1385,20 +1364,10 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
                                 @Override
                                 public void invoke(NSURL nsurl, NSError nsError) {
                                     if (nsError == null) {
-                                        audioDownloadCount++;
-                                        System.out.println("Success downloading from cloud :)");
-                                        if (audioDownloadCount >= audiosNextChapterCount && imageDownloadCount >= imagesNextChapterCount) {
-                                            System.out.println("AudioDownloadCount--->" + audioDownloadCount);
-                                            System.out.println("ImageDownloadCount--->" + imageDownloadCount);
-                                            downloadSuccessFailureListener.onSuccess();
-                                            deletePreviousChapterExpansions();
-                                        }
+                                        onSuccess.run();
 
                                     } else {
-                                        System.out.println("AudioDownloadCount--->" + audioDownloadCount);
-                                        System.out.println("ImageDownloadCount--->" + imageDownloadCount);
-                                        downloadSuccessFailureListener.onFailure();
-                                        System.out.println("FAILURe downloading from cloud");
+                                        onFailure.run();
                                     }
 
                                 }
@@ -1416,105 +1385,107 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
         }
     }
 
+    public void downloadChapterImageFileFromCloud(String filePath) {
+        downloadChapterImageFileFromCloud(filePath, true);
+    }
 
-    public void downloadChapterImageFileFromCloud(String img_without_jpg){
-
+    @Override
+    public void downloadChapterImageFileFromCloud(final String filePath, final boolean cleanup) {
         String PICTURES_DPI = "Pictures_Hdpi/";
 
         FIRStorageReference storageRef = storage;
 
         storageRef.getStorage().setMaxDownloadRetryTime(1000);
 
-        final FIRStorageReference imageRef = storageRef.child("Expansion Files for online Munchausen/" + PICTURES_DPI + img_without_jpg + ".jpg");
+        final FIRStorageReference imageRef = storageRef.child("Expansion Files for online Munchausen/" + PICTURES_DPI + filePath + ".jpg");
 
         //Download to a local file
         NSURL dir = NSFileManager.getDefaultManager().getURLsForDirectory(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask).first();
-        File storagePath = new File(dir.getPath() + "/.Munchausen/ru.munchausen.fingertipsandcompany.any/expansion/images/");
+        File storagePath = new File(dir.getPath() + "/" + game.params.storageDirectory + "/expansion/images/");
         // Create direcorty if not exists
-        if(!storagePath.exists()) {
+        if (!storagePath.exists()) {
             storagePath.mkdirs();
         }
 
-        final File localFile = new File(storagePath, img_without_jpg + ".jpg");
+        // Save to tmp file and mv to final file on complete
+        final File localFile = new File(storagePath, filePath + ".jpg.tmp");
+        final File finalFile = new File(storagePath, filePath + ".jpg");
 
         final NSURL localURL = new NSURL(localFile);
 
-        if(!localFile.exists()) {
+        final Runnable onSuccess = new Runnable() {
+            @Override
+            public void run() {
+                imageDownloadCount++;
+                System.out.println("Success downloading from cloud: " + filePath + (cleanup ? ". Cleanup!" : ""));
+                System.out.println("AudioDownloadCount--->" + audioDownloadCount + "/" + audiosNextChapterCount);
+                System.out.println("ImageDownloadCount--->" + imageDownloadCount + "/" + imagesNextChapterCount);
+
+                try {
+                    localFile.renameTo(finalFile);
+                } catch (Throwable e) {
+                    e.printStackTrace();
+                }
+
+                if (cleanup) {
+                    if (audioDownloadCount >= audiosNextChapterCount && imageDownloadCount >= imagesNextChapterCount) {
+                        downloadSuccessFailureListener.onSuccess();
+                        deletePreviousChapterExpansions();
+                    }
+                }
+            }
+        };
+
+        final Runnable onFailure = new Runnable() {
+            @Override
+            public void run() {
+                System.err.println("FAILURe downloading from cloud: " + filePath);
+                System.out.println("AudioDownloadCount--->" + audioDownloadCount + "/" + audiosNextChapterCount);
+                System.out.println("ImageDownloadCount--->" + imageDownloadCount + "/" + imagesNextChapterCount);
+                downloadSuccessFailureListener.onFailure();
+            }
+        };
+
+        if (!localFile.exists()) {
 
             imageRef.writeToFile(localURL, new VoidBlock2<NSURL, NSError>() {
                 @Override
                 public void invoke(NSURL nsurl, NSError nsError) {
-                    if (nsError == null){
-                        imageDownloadCount++;
-                        System.out.println("Success downloading from cloud :)");
-                        System.out.println("Success downloading from cloud :)");
+                    if (nsError == null) {
+                        onSuccess.run();
 
-                        System.out.println("AudioDownloadCount--->"+ audioDownloadCount);
-                        System.out.println("ImageDownloadCount--->"+ imageDownloadCount);
-
-                        if(audioDownloadCount >= audiosNextChapterCount && imageDownloadCount >= imagesNextChapterCount){
-                            downloadSuccessFailureListener.onSuccess();
-                            deletePreviousChapterExpansions();
-                        }
-
-                    }else {
-                        System.out.println("AudioDownloadCount--->"+ audioDownloadCount);
-                        System.out.println("ImageDownloadCount--->"+ imageDownloadCount);
-                        downloadSuccessFailureListener.onFailure();
-                        System.out.println("FAILURe downloading from cloud");
+                    } else {
+                        onFailure.run();
                     }
                 }
             });
 
-        }else{
+        } else {
 
             final long totalSpaceInLocal = localFile.length();
 
             imageRef.metadata(new VoidBlock2<FIRStorageMetadata, NSError>() {
                 @Override
                 public void invoke(FIRStorageMetadata storageMetadata, NSError nsError) {
-                    if (nsError == null){
+                    if (nsError == null) {
                         long totalByteCountedInCloud = storageMetadata.getSize();
 
-                        System.out.println("totalByteCounted");
+                        if (totalSpaceInLocal == totalByteCountedInCloud) {
+                            onSuccess.run();
 
-                        if(totalSpaceInLocal == totalByteCountedInCloud){
-                            System.out.println("Already full Image file on local");
-                            imageDownloadCount++;
-                            System.out.println("AudioDownloadCount--->"+ audioDownloadCount);
-                            System.out.println("ImageDownloadCount--->"+ imageDownloadCount);
-                            if(audioDownloadCount >= audiosNextChapterCount && imageDownloadCount >= imagesNextChapterCount){
-                                downloadSuccessFailureListener.onSuccess();
-                                deletePreviousChapterExpansions();
-                            }
-
-                        }else{
-                            //download again
-
+                        } else {
                             imageRef.writeToFile(localURL, new VoidBlock2<NSURL, NSError>() {
                                 @Override
                                 public void invoke(NSURL nsurl, NSError nsError) {
-                                    if (nsError == null){
-                                        imageDownloadCount++;
-                                        System.out.println("AudioDownloadCount--->"+ audioDownloadCount);
-                                        System.out.println("ImageDownloadCount--->"+ imageDownloadCount);
-                                        if(audioDownloadCount >= audiosNextChapterCount && imageDownloadCount >= imagesNextChapterCount){
-                                            downloadSuccessFailureListener.onSuccess();
-                                            deletePreviousChapterExpansions();
-                                        }
-
-                                        System.out.println("Success downloading from cloud :)");
-                                    }else{
-                                        System.out.println("AudioDownloadCount--->"+ audioDownloadCount);
-                                        System.out.println("ImageDownloadCount--->"+ imageDownloadCount);
-                                        System.out.println("FAILURe downloading from cloud");
-                                        downloadSuccessFailureListener.onFailure();
+                                    if (nsError == null) {
+                                        onSuccess.run();
+                                    } else {
+                                        onFailure.run();
                                     }
                                 }
                             });
-                            //download again ends
                         }
-                    }else {
+                    } else {
                         downloadSuccessFailureListener.onFailure();
                     }
                 }
@@ -1524,10 +1495,10 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
     }
 
-    public List<String> getAudioFilesFromChapter(String chapterName){
+    public List<String> getAudioFilesFromChapter(String chapterName) {
 
 
-        try{
+        try {
 
             String scenarioJson = readScenarioJsonFile();
 
@@ -1536,23 +1507,23 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
             List<String> audios = new ArrayList<>();
             //List<String> images = new ArrayList<>();
 
-            for(int i = 0; i< scenarios.length(); i++){
+            for (int i = 0; i < scenarios.length(); i++) {
 
                 JSONObject jsonObject = scenarios.getJSONObject(i);
 
-                try{
-                    if(jsonObject.has("chapter") && jsonObject.get("chapter").equals(chapterName)){
+                try {
+                    if (jsonObject.has("chapter") && jsonObject.get("chapter").equals(chapterName)) {
 
                         JSONArray audioArray = jsonObject.getJSONArray("audio");
 
-                        for(int j=0; j< audioArray.length(); j++){
+                        for (int j = 0; j < audioArray.length(); j++) {
 
                             audios.add(audioArray.getJSONObject(j).getString("audio"));
 
                         }
 
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                     System.out.println("Maybe no value for chapter ");
                 }
@@ -1571,12 +1542,12 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
             List<String> audioPaths = new ArrayList<>();
 
-            for(String audio: audios){
+            for (String audio : audios) {
 
-                for(int j=0; j< audioArray.length(); j++){
+                for (int j = 0; j < audioArray.length(); j++) {
 
                     //audios.add(audioArray.getJSONObject(j).getString("audio"));
-                    if(audio.equals(audioArray.getJSONObject(j).getString("name"))){
+                    if (audio.equals(audioArray.getJSONObject(j).getString("name"))) {
 
                         audioPaths.add(audioArray.getJSONObject(j).getString("file"));
                         break;
@@ -1593,10 +1564,10 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
             JSONArray chapters = new JSONArray(chapterJson);
 
-            for(int i=0; i< chapters.length(); i++){
+            for (int i = 0; i < chapters.length(); i++) {
 
                 JSONObject jsonObject = chapters.getJSONObject(i);
-                if(chapterName.equals(jsonObject.getString("name"))){
+                if (chapterName.equals(jsonObject.getString("name"))) {
                     audioPaths.add("audio/" + jsonObject.getString("chapterAudio") + ".aac");
                 }
 
@@ -1612,9 +1583,9 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
     }
 
-    public List<String> getImageFilesFromChapter(String chapterName){
+    public List<String> getImageFilesFromChapter(String chapterName) {
 
-        try{
+        try {
 
             String scenarioJson = readScenarioJsonFile();
 
@@ -1622,26 +1593,26 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
             List<String> images = new ArrayList<>();
 
-            for(int i = 0; i< scenarios.length(); i++){
+            for (int i = 0; i < scenarios.length(); i++) {
 
                 JSONObject jsonObject = scenarios.getJSONObject(i);
 
-                try{
-                    if(jsonObject.has("chapter") && jsonObject.get("chapter").equals(chapterName)){
+                try {
+                    if (jsonObject.has("chapter") && jsonObject.get("chapter").equals(chapterName)) {
 
 
                         JSONArray imageArray = jsonObject.getJSONArray("images");
 
-                        for(int k=0; k< imageArray.length(); k++){
+                        for (int k = 0; k < imageArray.length(); k++) {
 
-                            if(!imageArray.getJSONObject(k).getString("image").equals("Last"))
+                            if (!imageArray.getJSONObject(k).getString("image").equals("Last"))
                                 images.add(imageArray.getJSONObject(k).getString("image"));
 
                         }
 
 
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                     System.out.println("Maybe no value for chapter ");
                 }
@@ -1658,85 +1629,84 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
     }
 
-    public void deletePreviousChapterExpansions(){
+    public void deletePreviousChapterExpansions() {
 
         //check if audio files already present and delete
         try {
-        NSURL dir = NSFileManager.getDefaultManager().getURLsForDirectory(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask).first();
-        File audioDirectory = new File(dir.getPath() + "/.Munchausen/ru.munchausen.fingertipsandcompany.any/expansion/audio");
+            NSURL dir = NSFileManager.getDefaultManager().getURLsForDirectory(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask).first();
+            File audioDirectory = new File(dir.getPath() + "/" + game.params.storageDirectory + "/expansion/audio");
 
-        File[] directoryListing = audioDirectory.listFiles();
+            File[] directoryListing = audioDirectory.listFiles();
 
-        if(directoryListing != null) {
-            for (File file : directoryListing) {
+            if (directoryListing != null) {
+                for (File file : directoryListing) {
 
-                String fileName = "audio/" + file.getName();
+                    String fileName = "audio/" + file.getName();
 
-                if (audiosCurrentChapter != null && audiosPrevChapter != null && audiosNextChapter != null) {
-                    if (!audiosCurrentChapter.contains(fileName) && audiosPrevChapter.contains(fileName) && !audiosNextChapter.contains(fileName)) {
+                    if (audiosCurrentChapter != null && audiosPrevChapter != null && audiosNextChapter != null) {
+                        if (!audiosCurrentChapter.contains(fileName) && audiosPrevChapter.contains(fileName) && !audiosNextChapter.contains(fileName)) {
+                            file.delete();
+                        }
+                    } else if (file.exists()) {
                         file.delete();
                     }
-                } else if (file.exists()) {
-                    file.delete();
-                }
 
-                //for deleting all other files(making sure only chapters x-1, x and x+1 comes into play)
-                if (audiosCurrentChapter != null && audiosPrevChapter != null && audiosNextChapter != null) {
-                    if (!audiosCurrentChapter.contains(fileName) && !audiosPrevChapter.contains(fileName) && !audiosNextChapter.contains(fileName)) {
+                    //for deleting all other files(making sure only chapters x-1, x and x+1 comes into play)
+                    if (audiosCurrentChapter != null && audiosPrevChapter != null && audiosNextChapter != null) {
+                        if (!audiosCurrentChapter.contains(fileName) && !audiosPrevChapter.contains(fileName) && !audiosNextChapter.contains(fileName)) {
+                            file.delete();
+                        }
+                    } else if (file.exists()) {
                         file.delete();
                     }
-                } else if (file.exists()) {
-                    file.delete();
                 }
             }
-        }
 
-        //*check if audio files already present and delete ends
+            //*check if audio files already present and delete ends
 
 
-        //check if image files already present and delete
-        File imageDirectory = new File(dir.getPath() + "/.Munchausen/ru.munchausen.fingertipsandcompany.any/expansion/images");
+            //check if image files already present and delete
+            File imageDirectory = new File(dir.getPath() + "/" + game.params.storageDirectory + "/expansion/images");
 
-        File[] imgdirectoryListing = imageDirectory.listFiles();
+            File[] imgdirectoryListing = imageDirectory.listFiles();
 
-        if(imgdirectoryListing != null) {
-            for (File file : imgdirectoryListing) {
+            if (imgdirectoryListing != null) {
+                for (File file : imgdirectoryListing) {
 
-                int iend = file.getName().indexOf(".");
+                    int iend = file.getName().indexOf(".");
 
-                String fileName = "";
+                    String fileName = "";
 
-                if (iend != 1) {
-                    fileName = file.getName().substring(0, iend);
-                }
-                if (imagesCurrentChapter != null && imagesPrevChapter != null && imagesNextChapter != null) {
-                    if (!imagesCurrentChapter.contains(fileName) && imagesPrevChapter.contains(fileName) && !imagesNextChapter.contains(fileName)) {
+                    if (iend != 1) {
+                        fileName = file.getName().substring(0, iend);
+                    }
+                    if (imagesCurrentChapter != null && imagesPrevChapter != null && imagesNextChapter != null) {
+                        if (!imagesCurrentChapter.contains(fileName) && imagesPrevChapter.contains(fileName) && !imagesNextChapter.contains(fileName)) {
+                            file.delete();
+                        }
+                    } else if (file.exists()) {
                         file.delete();
                     }
-                } else if (file.exists()) {
-                    file.delete();
-                }
 
-                //for deleting all other files(making sure only chapters x-1, x and x+1 comes into play)
-                if (imagesCurrentChapter != null && imagesPrevChapter != null && imagesNextChapter != null) {
-                    if (!imagesCurrentChapter.contains(fileName) && !imagesPrevChapter.contains(fileName) && !imagesNextChapter.contains(fileName)) {
+                    //for deleting all other files(making sure only chapters x-1, x and x+1 comes into play)
+                    if (imagesCurrentChapter != null && imagesPrevChapter != null && imagesNextChapter != null) {
+                        if (!imagesCurrentChapter.contains(fileName) && !imagesPrevChapter.contains(fileName) && !imagesNextChapter.contains(fileName)) {
+                            file.delete();
+                        }
+                    } else if (file.exists()) {
                         file.delete();
                     }
-                } else if (file.exists()) {
-                    file.delete();
                 }
             }
-        }
 
-        //*check if image files already present and delete ends
+            //*check if image files already present and delete ends
         } catch (Throwable e) {
             e.printStackTrace();
         }
 
     }
 
-
-    public boolean downloadGoofAudio(String goofName, DownloadSuccessFailureListener downloadSuccessFailureListener1){
+    public boolean downloadGoofAudio(String goofName, DownloadSuccessFailureListener downloadSuccessFailureListener1) {
 
         downloadSuccessFailureListener = downloadSuccessFailureListener1;
 
@@ -1750,12 +1720,12 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
         //Download to a local file
         NSURL dir = NSFileManager.getDefaultManager().getURLsForDirectory(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask).first();
-        File storagePath = new File(dir.getPath() + "/.Munchausen/ru.munchausen.fingertipsandcompany.any/expansion/audio/");
+        File storagePath = new File(dir.getPath() + "/" + game.params.storageDirectory + "/expansion/audio/");
 
-        System.out.println("ABS Path-------------->"+dir.getAbsoluteString());
+        System.out.println("ABS Path-------------->" + dir.getAbsoluteString());
 
         // Create direcorty if not exists
-        if(!storagePath.exists()) {
+        if (!storagePath.exists()) {
             storagePath.mkdirs();
         }
 
@@ -1763,50 +1733,50 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
         final NSURL localURL = new NSURL(localFile);
 
-        if(!localFile.exists()) {
+        if (!localFile.exists()) {
 
             audioRef.writeToFile(localURL, new VoidBlock2<NSURL, NSError>() {
                 @Override
                 public void invoke(NSURL nsurl, NSError nsError) {
-                    if (nsError == null){
+                    if (nsError == null) {
                         downloadSuccessFailureListener.onSuccess();
-                    }else {
+                    } else {
                         downloadSuccessFailureListener.onFailure();
                     }
                 }
             });
 
-        }else{
+        } else {
 
             final long totalSpaceInLocal = localFile.length();
 
             audioRef.metadata(new VoidBlock2<FIRStorageMetadata, NSError>() {
                 @Override
                 public void invoke(FIRStorageMetadata storageMetadata, NSError nsError) {
-                    if (nsError == null ){
+                    if (nsError == null) {
                         long totalByteCountedInCloud = storageMetadata.getSize();
 
                         System.out.println("totalByteCounted");
 
-                        if(totalSpaceInLocal == totalByteCountedInCloud){
+                        if (totalSpaceInLocal == totalByteCountedInCloud) {
                             System.out.println("Already full file on local");
                             downloadSuccessFailureListener.onSuccess();
-                        }else{
+                        } else {
                             //download again
 
                             audioRef.writeToFile(localURL, new VoidBlock2<NSURL, NSError>() {
                                 @Override
                                 public void invoke(NSURL nsurl, NSError nsError) {
-                                    if (nsError == null){
+                                    if (nsError == null) {
                                         downloadSuccessFailureListener.onSuccess();
-                                    }else {
+                                    } else {
                                         downloadSuccessFailureListener.onFailure();
                                     }
                                 }
                             });
                             //download again ends
                         }
-                    }else {
+                    } else {
                         downloadSuccessFailureListener.onFailure();
                     }
                 }
@@ -1818,14 +1788,13 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
     }
 
-
-    public boolean downloadGalleryImage(String imageName, DownloadSuccessFailureListener downloadSuccessFailureListener2){
+    public boolean downloadGalleryImage(String imageName, DownloadSuccessFailureListener downloadSuccessFailureListener2) {
 
         downloadSuccessFailureListener = downloadSuccessFailureListener2;
 
         String PICTURES_DPI = "Pictures_Hdpi/";
 
-        if(isInternetAvailable()) {
+        if (isInternetAvailable()) {
             FIRStorageReference storageRef = storage;
 
             storageRef.getStorage().setMaxDownloadRetryTime(1000);
@@ -1834,7 +1803,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
 
             //Download to a local file
             NSURL dir = NSFileManager.getDefaultManager().getURLsForDirectory(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask).first();
-            File storagePath = new File(dir.getPath() + "/.Munchausen/ru.munchausen.fingertipsandcompany.any/expansion/images/");
+            File storagePath = new File(dir.getPath() + "/" + game.params.storageDirectory + "/expansion/images/");
             // Create direcorty if not exists
             if (!storagePath.exists()) {
                 storagePath.mkdirs();
@@ -1854,9 +1823,9 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
                 imageRef.writeToFile(localURL, new VoidBlock2<NSURL, NSError>() {
                     @Override
                     public void invoke(NSURL nsurl, NSError nsError) {
-                        if (nsError==null){
+                        if (nsError == null) {
                             downloadSuccessFailureListener.onSuccess();
-                        }else {
+                        } else {
                             downloadSuccessFailureListener.onFailure();
                         }
                     }
@@ -1882,9 +1851,9 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
                             imageRef.writeToFile(localURL, new VoidBlock2<NSURL, NSError>() {
                                 @Override
                                 public void invoke(NSURL nsurl, NSError nsError) {
-                                    if (nsError==null){
+                                    if (nsError == null) {
                                         downloadSuccessFailureListener.onSuccess();
-                                    }else {
+                                    } else {
                                         downloadSuccessFailureListener.onFailure();
                                     }
                                 }
@@ -1896,15 +1865,13 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
                 });
 
             }
-        }else{
+        } else {
             downloadSuccessFailureListener.onFailure();
         }
 
         return true;
 
     }
-
-
 }
 
 
