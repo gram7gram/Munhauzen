@@ -238,7 +238,7 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
         }
 
 
-        MunhauzenGame game = new MunhauzenGame(params,
+        game = new MunhauzenGame(params,
                 mAlarmInterface,
                 mExpansionDownloadInterface,
                 loginInterface,

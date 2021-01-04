@@ -1,5 +1,5 @@
 V=$1
-OUT=~/Desktop/$V.zip
+OUT=~/Desktop/$V-test.zip
 
 cp ./android-en-pro/build/outputs/apk/staging/android-en-pro-universal-staging.apk ~/Desktop/android-en-pro-staging.apk
 cp ./android-ru-pro/build/outputs/apk/staging/android-ru-pro-universal-staging.apk ~/Desktop/android-ru-pro-staging.apk

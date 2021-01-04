@@ -208,7 +208,7 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
 
 
         if (user == null) {
-            MunhauzenGame game = new MunhauzenGame(params, new OnExpansionDownloadComplete() {
+            game = new MunhauzenGame(params, new OnExpansionDownloadComplete() {
                 @Override
                 public void setDownloadNeeded(boolean isDownloaded) {
                     needToDownload = isDownloaded;
@@ -296,7 +296,7 @@ public class AndroidLauncher extends AndroidApplication implements FirebaseDownl
         } else {
             user = mAuth.getCurrentUser();
 
-            MunhauzenGame game = new MunhauzenGame(params, new OnExpansionDownloadComplete() {
+            game = new MunhauzenGame(params, new OnExpansionDownloadComplete() {
                 @Override
                 public void setDownloadNeeded(boolean isDownloaded) {
                     needToDownload = isDownloaded;
