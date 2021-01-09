@@ -116,8 +116,8 @@ public class IOSLauncher extends IOSApplication.Delegate implements FIRMessaging
     public static final int CHAPTER0_INCOMPLETE = 0;
 
 
-    public static String USERS = "ztestusers";
-    public static String NOTIFICATION = "ztest1notifications";
+    public static String USERS = "users";
+    public static String NOTIFICATION = "1notifications";
 
     public static class FIREBASE_PATHS {
         public static final String LAST_LOGIN_TIME = "last_login_time";
